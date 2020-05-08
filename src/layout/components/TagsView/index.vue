@@ -1,6 +1,6 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
+    <scroll-pane ref="scrollPane" class="tags-view-wrapper">
       <router-link
         v-for="tag in visitedViews"
         ref="tag"
@@ -162,12 +162,7 @@ export default {
       } else {
         // now the default is to redirect to the home page if there is no tags-view,
         // you can adjust it according to your needs.
-        if (view.name === 'Dashboard') {
-          // to reload home page
-          this.$router.replace({ path: '/redirect' + view.fullPath })
-        } else {
-          this.$router.push('/')
-        }
+        this.$router.replace({ path: '/redirect' + view.fullPath })
       }
     },
     openMenu(tag, e) {
@@ -189,9 +184,6 @@ export default {
     },
     closeMenu() {
       this.visible = false
-    },
-    handleScroll() {
-      this.closeMenu()
     }
   }
 }
@@ -225,9 +217,9 @@ export default {
         margin-right: 15px;
       }
       &.active {
-        background-color: #42b983;
+        background-color: #4D7CFE;
         color: #fff;
-        border-color: #42b983;
+        border-color: #4D7CFE;
         &::before {
           content: '';
           background: #fff;
