@@ -75,18 +75,6 @@ export const constantRoutes = [
             meta: { title: '首页', affix: true }
         }]
     },
-    {
-        path: '/index',
-        component: Layout,
-        redirect: '/index/index',
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/index/index'),
-            name: 'Dashboard',
-            meta: { title: '首页', }
-        }]
-    },
 ]
 
 /**
@@ -94,6 +82,57 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  {
+    path: '/role',
+    component: Layout,
+    redirect: '/role/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'Dashboard',
+    meta: {
+      title: 'WEB账号管理',
+    },
+    children: [{
+      path: '/role/index',
+      component: () =>
+        import ('@/views/Systemmanagement/role/index'),
+      name: 'Dashboard',
+      meta: {
+        keepAlive: true,
+        title: '角色管理'
+      }
+    },
+      {
+        path: '/nav/index',
+        component: () =>
+          import ('@/views/Systemmanagement/nav/index'),
+        name: 'Dashboard',
+        meta: {
+          keepAlive: true,
+          title: '菜单管理'
+        }
+      }, {
+        path: '/user/index',
+        component: () =>
+          import ('@/views/Systemmanagement/user/index'),
+        name: 'Dashboard',
+        meta: {
+          keepAlive: true,
+          title: '运营账号'
+        }
+      }, {
+        path: '/company/index',
+        component: () =>
+          import ('@/views/Systemmanagement/company/index'),
+        name: 'Dashboard',
+        meta: {
+          keepAlive: true,
+          title: '商户管理'
+        }
+      }
+
+    ]
+  },
     // 404 page must be placed at the end !!!
     { path: '*', redirect: '/404', hidden: true }
 ]

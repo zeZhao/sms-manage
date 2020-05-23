@@ -43,16 +43,16 @@ export function filterAsyncRoutes(routes, roles) {
 export function generaMenu(routes, data) {
   data.forEach(item => {
     const menu = {
-      path: item.funcUrl === '#' ? item.funcId + 'list' : item.funcUrl,
-      component: item.funcUrl === '#' ? Layout : () => import(`@/views${item.funcUrl}`),
-      alwaysShow:item.funcUrl === '#' ? true :false  ,
+      path: item.linkUrl === '#' ? item.menuId + 'list' : item.linkUrl,
+      component: item.linkUrl === '#' ? Layout : () => import(`@/views${item.linkUrl}`),
+      alwaysShow:item.linkUrl === '#' ? true :false  ,
       // component: () => import('@/views/outList'),
       children: [],
       name: 'Dashboard',
-      meta: { title: item.funcName, id: item.funcId,keepAlive:true,}
+      meta: { title: item.name, id: item.menuId,keepAlive:true,}
     }
-    if (item.list) {
-      generaMenu(menu.children, item.list)
+    if (item.childMenu) {
+      generaMenu(menu.children, item.childMenu)
     }
     routes.push(menu)
   })
@@ -84,7 +84,8 @@ const actions = {
             type: 0
           })
         } else {
-          data = response.result.menuList
+          console.log( response.data)
+          data = response.data
           Object.assign(loadMenuData, data)
           generaMenu(asyncRoutes, loadMenuData)
           let accessedRoutes

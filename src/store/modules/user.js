@@ -50,10 +50,10 @@ const actions = {
       // 请求后台登陆
       loginByUsername(userInfo).then(data => {
         // 设置 token，作为用户已登陆的前端标识，存在 cookie 中
-        setToken(data.result.token)
-        commit('SET_TOKEN', data.result.token)
-        localStorage.userId = data.result.userId;
-        localStorage.token = data.result.token;
+        setToken(data.result)
+        commit('SET_TOKEN', data.data)
+        // localStorage.userId = data.result.userId;
+        localStorage.token = data.data;
         resolve()
       }).catch(error => {
         reject(error)

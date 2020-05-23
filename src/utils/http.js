@@ -47,7 +47,7 @@ axios.interceptors.response.use(
 
 export function fetch(url,params={}){
   return new Promise((resolve,reject) => {
-    axios.get(url,{
+    axios.get('/api'+url,{
       params:params
     })
       .then(response => {
@@ -69,7 +69,7 @@ export function fetch(url,params={}){
 
 export function post(url,data = {}){
   return new Promise((resolve,reject) => {
-    axios.post(url,data)
+    axios.post('/api'+url,data)
       .then(response => {
         resolve(response.data);
       },err => {
@@ -87,7 +87,7 @@ export function post(url,data = {}){
 
 export function patch(url,data = {}){
   return new Promise((resolve,reject) => {
-    axios.patch(url,data)
+    axios.patch('/api'+url,data)
       .then(response => {
         resolve(response.data);
       },err => {
@@ -105,7 +105,7 @@ export function patch(url,data = {}){
 
 export function put(url,data = {}){
   return new Promise((resolve,reject) => {
-    axios.put(url,data)
+    axios.put('/api'+url,data)
       .then(response => {
         resolve(response.data);
       },err => {
@@ -123,7 +123,7 @@ export function put(url,data = {}){
 
 export function del(url,params = {}){
   return new Promise((resolve,reject) => {
-    axios.delete(url,{data: params})
+    axios.delete('/api'+url,{data: params})
       .then(response => {
         resolve(response.data);
       })

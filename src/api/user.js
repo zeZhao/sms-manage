@@ -25,7 +25,7 @@ export function logout() {
 
 export function loginByUsername(data) {
   return request({
-    url: '/api/sys/login',
+    url: '/api/sysLogin/login',
     method: 'post',
     data
   })
@@ -33,8 +33,11 @@ export function loginByUsername(data) {
 
 export function getAuthMenu(token) {
   return request({
-    url: '/api/sys/func/nav',
+    url: '/api/sysMenu/selectSysMenus',
     method: 'get',
     params: { token }
   })
 }
+
+
+
