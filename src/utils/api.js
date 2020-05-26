@@ -91,5 +91,15 @@ export default {
     delete(params) {
       return fetch("/sysMenu/delete", params);
     },
+  },
+  corp:{
+    // 企业列表
+    queryByPage(params) {
+      return post("/corp/queryByPage", params);
+    },
+    // 企业状态
+    updateStatus(params) {
+      return post("/corp/updateStatus", params);
+    },
   }
 }

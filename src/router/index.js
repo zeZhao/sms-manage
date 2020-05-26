@@ -133,6 +133,28 @@ export const asyncRoutes = [
 
     ]
   },
+  {
+    path: '/enterprise',
+    component: Layout,
+    redirect: '/enterprise/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'Dashboard',
+    meta: {
+      title: '用户管理',
+    },
+    children: [{
+      path: '/enterprise/index',
+      component: () =>
+        import ('@/views/Usermanagement/enterprise/index'),
+      name: 'Dashboard',
+      meta: {
+        keepAlive: true,
+        title: '企业信息'
+      }
+    },
+    ]
+  },
     // 404 page must be placed at the end !!!
     { path: '*', redirect: '/404', hidden: true }
 ]
