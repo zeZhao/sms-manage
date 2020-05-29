@@ -25,7 +25,7 @@
                     <el-button type="primary" @click="queryOrderList">查询</el-button>
                 </el-form-item>
                 <el-form-item style="float: right">
-                    <el-button type="primary"   @click="customerAddInfo = true;deleteCustomer()">新增企业信息</el-button>
+                    <el-button type="primary" @click="customerAddInfo = true">新增企业信息</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -53,16 +53,13 @@
                     <span>{{ scope.row.reductModel == '0'?'删除':( scope.row.reductModel == '1'?'初始':( scope.row.reductModel == '2'?'正常':'禁用'))}}</span>
                 </template>
             </el-table-column>
-            <el-table-column
-                    fixed="right"
-                    label="操作"
-                    width="200">
+            <el-table-column fixed="right" label="操作" width="200">
                 <template slot-scope="scope">
                     <!--修改 初始 禁用 启用-->
                     <el-button  @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
-                    <el-button v-if="scope.row.reductModel == 1" @click="setType(scope.row)" type="text" size="small">初始</el-button>
-                    <el-button v-if="scope.row.reductModel == 2" @click="setType(scope.row)" style="color: #ec5858" type="text" size="small">禁用</el-button>
-                    <el-button v-if="scope.row.reductModel == 3" @click="setType(scope.row)" type="text" size="small">启用</el-button>
+                    <el-button v-if="scope.row.reductModel == 1" @click="setType(scope.row,'init')" type="text" size="small">初始</el-button>
+                    <el-button v-if="scope.row.reductModel == 2" @click="setType(scope.row,'disable')" style="color: #ec5858" type="text" size="small">禁用</el-button>
+                    <el-button v-if="scope.row.reductModel == 3" @click="setType(scope.row,'enabled')" type="text" size="small">启用</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -81,73 +78,82 @@
         </el-col>
 
         <el-dialog title="新增企业信息" :visible.sync="customerAddInfo" :close-on-click-modal="false" style="margin: 0 auto">
-            <el-form  ref="addForm" label-width="100px" :model="addInfo" :rules="updateFormRules" class="demo-ruleForm">
-                <el-form-item label="账号">
-                    <el-input maxlength="15" show-word-limit v-model="addInfo.account" clearable placeholder="账号" />
+            <el-form  ref="addForm" label-width="120px" :model="addInfo" :rules="updateFormRules" class="demo-ruleForm">
+                <el-form-item label="企业ID" prop="corpId">
+                    <el-input v-model="addInfo.corpId" clearable placeholder="企业ID" />
                 </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model="addInfo.pwd" type="password" clearable placeholder="密码" />
+                <el-form-item label="企业名" prop="corpName">
+                  <el-input maxlength="30" show-word-limit v-model="addInfo.corpName" clearable placeholder="请输入企业名称" />
                 </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input maxlength="15" show-word-limit v-model="addInfo.name" clearable placeholder="姓名" />
+                <el-form-item label="密码" prop="pwd">
+                    <el-input v-model="addInfo.pwd" type="password" clearable placeholder="请输入8-16位密码" />
                 </el-form-item>
-                <el-form-item label="手机号">
-                    <el-input v-model="addInfo.mobile" type="phone"  clearable placeholder="手机号" />
+                <el-form-item label="特服号">
+                    <el-input v-model="addInfo.code" maxlength="21" show-word-limit clearable placeholder="请输入特服号" />
                 </el-form-item>
-                <el-form-item label="选择角色">
-                    <el-select style="width: 100%" v-model="addInfo.roleId" placeholder="选择角色" popper-class="select-option">
-                        <el-option v-for="item in navList" :key="item.roleName"  :label="item.roleName" :value="item.roleId"></el-option>
-                    </el-select>
+                <el-form-item label="可扩展位数">
+                    <el-input maxlength="21" show-word-limit v-model="addInfo.sublong" clearable placeholder="请输入可扩展位数" />
                 </el-form-item>
-                <el-form-item label="状态">
-                    <el-select style="width: 100%" v-model="addInfo.state" placeholder="状态" clearable>
-                        <el-option value="1" label="正常" />
-                        <el-option value="2" label="停用" />
-                    </el-select>
+              <el-form-item label="计费方式" prop="reductModel">
+                <el-select style="width: 100%" v-model="addInfo.reductModel" placeholder="请选择计费方式" popper-class="select-option">
+                  <el-option v-for="item in navList" :key="item.roleName"  :label="item.roleName" :value="item.roleId"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="是否为直客">
+                <el-select style="width: 100%" v-model="addInfo.isDirectUser" placeholder="请选择" popper-class="select-option">
+                  <el-option v-for="item in navList" :key="item.roleName"  :label="item.roleName" :value="item.roleId"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="是否为商用">
+                <el-select style="width: 100%" v-model="addInfo.isBusiness" placeholder="请选择" popper-class="select-option">
+                  <el-option v-for="item in navList" :key="item.roleName"  :label="item.roleName" :value="item.roleId"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="短信的单价" prop="cardUnit">
+                <el-input maxlength="10" show-word-limit v-model="addInfo.cardUnit" clearable placeholder="以分为单位" />
+              </el-form-item>
+                <el-form-item label="客户联系人" prop="contact">
+                    <el-input maxlength="30" show-word-limit v-model="addInfo.contact" type="phone"  clearable placeholder="请输入客户联系人" />
                 </el-form-item>
+              <el-form-item label="客户联系人电话" prop="mobile">
+                <el-input v-model="addInfo.mobile" type="phone" clearable placeholder="请输入客户联系人电话" />
+              </el-form-item>
+              <el-form-item label="开户行信息">
+                <el-input maxlength="300" show-word-limit v-model="addInfo.bankAccount" type="textarea"  clearable placeholder="请输入备注开户行信息" />
+              </el-form-item>
+              <el-form-item label="开户行信息">
+                <el-input maxlength="300" show-word-limit v-model="addInfo.bankAccount" type="textarea"  clearable placeholder="请输入备注开户行信息" />
+              </el-form-item>
+              <el-form-item label="父企业ID">
+                <el-button @click="">请选择父企业</el-button>
+              </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="addCustomerInfo('addForm')">新增</el-button>
                 <el-button @click.native="customerAddInfo = false">取消</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="企业信息修改" :visible.sync="customerInfo" :close-on-click-modal="false" style="margin: 0 auto">
-            <el-form  ref="updateCustomForm" label-width="120px" :model="setInfo" :rules="updateFormRules" class="demo-ruleForm">
-                <el-form-item label="账号">
-                    <el-input maxlength="15" show-word-limit v-model="setInfo.account" clearable placeholder="账号" />
-                </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model="setInfo.number" type="password" clearable placeholder="密码" />
-                </el-form-item>
-                <el-form-item label="姓名">
-                    <el-input maxlength="15" show-word-limit v-model="setInfo.name" clearable placeholder="姓名" />
-                </el-form-item>
-                <el-form-item label="手机号">
-                    <el-input v-model="setInfo.mobile" type="phone"  clearable placeholder="手机号" />
-                </el-form-item>
-                <el-form-item label="选择角色">
-                    <el-select style="width: 100%" v-model="setInfo.roleId" placeholder="选择角色" popper-class="select-option">
-                        <el-option v-for="item in navList" :key="item.roleName"  :label="item.roleName" :value="item.roleId"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="状态">
-                    <el-select style="width: 100%" v-model="setInfo.state" placeholder="状态" clearable>
-                        <el-option value="1" label="正常" />
-                        <el-option value="2" label="停用" />
-                    </el-select>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="setCustomerInfo('updateCustomForm')">保存</el-button>
-                <el-button @click.native="customerInfo = false">取消</el-button>
-            </div>
+        <el-dialog
+          :title="dialogTit"
+          :visible.sync="dialogVisible"
+          :close-on-click-modal="false"
+          width="30%">
+          <span>{{information}}</span>
+          <p v-show=" dialogTit === '禁用' " style="color: #EC5858">禁用后将无法使用，请谨慎操作！</p>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="updateStatus">确 定</el-button>
+          </span>
         </el-dialog>
+        <ChooseEnterprise :isEnterprise="isEnterprise"></ChooseEnterprise>
     </section>
 </template>
 <script>
   import checkPermission from '@/utils/permission'
   import Util from '@/utils/reg'
+  import ChooseEnterprise from "@/components/ChooseEnterprise"
   export default {
+    components:{ChooseEnterprise},
     data() {
       var validatePhone = (rule, value, callback) => {
         if (value && (!(/^(?:(?:\+|00)86)?1[3-9]\d{9}$/).test(value) || value.length !== 11)) {
@@ -162,26 +168,10 @@
         pageNum: 10, // 默认每页显示1条数据
         totalCount: 1, // 默认总条数为一条
         show: true,
-        orderMoney: '0',
         count: '',
-        totalAmount: '',
-        allOrderStatusInfo: false, // 推送界面是否显示
-        orderStatusInfo: false, // 推送界面是否显示
-        shopInfo: false,		// 状态界面是否显示
-        cityList: [],
         dataList: [],
-        productId: '',
-        contactMobile: '',
-        contactName: '',
-        supplierId: '',
-        supplierName: '',
         customerAddInfo:false,
         customerInfo: false,
-        setRoleMenu: false,
-        defaultProps: {
-          children: 'childMenu',
-          label: 'name'
-        },
         search:{
           corpId:'',
           corpName:'',
@@ -190,68 +180,61 @@
         },
         navList: [],
         navListId: [],
-        setInfo:{
-
-        },
+        setInfo:{},
+        // 新增企业
         addInfo:{
+          corpId:'',
+          corpName:'',
           pwd: '',
-          account: '',
-          number: '',
-          name: '',
-          mobile: '',
-          state: '',
-          roleId: '',
+          code:'',
+          sublong:'',
+          reductModel:'',
+          isDirectUser:'',
+          isBusiness:'',
+          cardUnit:'',
+          contact:'',
+          mobile:'',
+          bankAccount:'',
         },
+        //新增企业验证
         updateFormRules: {
-          contactMobile: [
-            { validator: validatePhone, trigger: 'blur' }
+          corpId: [
+            { required: true, message: '不能为空', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ],
+          corpName: [
+            { required: true, message: '请输入企业名称', trigger: 'blur' },
+          ],
+          pwd: [
+            { required: true, message: '请输入8-16位密码', trigger: 'blur' },
+          ],
+          reductModel: [
+            { required: true, message: '请至少选择一个计费方式', trigger: 'change' }
+          ],
+          cardUnit: [
+            { required: true, message: '请输入短信单价', trigger: 'blur' },
+          ],
+          contact: [
+            { required: true, message: '请输入联系人', trigger: 'blur' },
+          ],
+          mobile: [
+            { required: true, message: '请输入联系电话', trigger: 'blur'},
+            { validator:validatePhone, trigger: "blur"}
+
           ],
         },
-        companyOptions: [], // 企业全称下拉项
-        pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近一个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
-            }
-          }, {
-            text: '最近三个月',
-            onClick(picker) {
-              const end = new Date()
-              const start = new Date()
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
-            }
-          }]
-        }
+        // 初始/禁用/启用 公共弹窗
+        dialogVisible:false,
+        dialogTit:"",
+        information:"",
+        dialogType:"disable",
+        currentRowData:{},
+        //选择企业
+        isEnterprise:false
       }
     },
     mounted() {
       this.orderList()
-    },
-    filters: {
-      formatDate: function (value) {
-        // var val = JSON.parse(value)
-        var date = new Date(value);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-        var Y = date.getFullYear() + '-';
-        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-        var D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())+' ';
-        var h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':';
-        var m = (date.getMinutes()< 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':';
-        var s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds());
-        return Y+M+D+h+m+s;
-      }
     },
     methods: {
       checkPermission,
@@ -268,10 +251,6 @@
       handleCurrentChange(val) {
         this.cur_page = val
         this.orderList()// 确定当前页面后刷新页面
-      },
-      // 条件批量推送
-      allPushrderList: function() {
-        this.allOrderStatusInfo = true
       },
       // 列表
       orderList: function() {
@@ -315,47 +294,56 @@
           }
         })
       },
-      addCustomerInfo(){
-        let params = {
-          account: this.addInfo.account,
-          pwd: this.addInfo.pwd,
-          name: this.addInfo.name,
-          state: parseInt(this.addInfo.state),
-          mobile: this.addInfo.mobile,
-        };
-        if(this.addInfo.account == ''){
-          return this.$message.error('请填写账号');
-        }else if(this.addInfo.pwd == ''){
-          return this.$message.error('请填写密码');
-        }else if(this.addInfo.name == ''){
-          return this.$message.error('请填写姓名');
-        }else if(this.addInfo.state == ''){
-          return this.$message.error('请选择状态');
-        }else if(this.addInfo.roleId == ''){
-          return this.$message.error('请选择角色');
-        }else if(this.addInfo.mobile == ''){
-          return this.$message.error('请填写手机号');
-        }else if(!Util.isPoneAvailable(this.addInfo.mobile)){
-          this.$message.error('手机号码规则错误')
-          return false
-        }
-        this.$http.user.addOrUpdate(params).then(res => {
-          if (res.code == '200') {
-            // this.$message({
-            //   showClose: true,
-            //   message: '新增成功',
-            //   type: 'success'
-            // });
-            this.addInfo.account = '';
-            this.addInfo.pwd = '';
-            this.addInfo.state = '';
-            this.addInfo.name = '';
-            this.addInfo.mobile = '';
-            this.setNavuserList(res.data,this.addInfo.roleId)
+      //新增企业
+      addCustomerInfo(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
           } else {
-            this.$message.error(res.msg)
+            console.log('error submit!!');
+            return false;
           }
-        })
+        });
+        // let params = {
+        //   account: this.addInfo.account,
+        //   pwd: this.addInfo.pwd,
+        //   name: this.addInfo.name,
+        //   state: parseInt(this.addInfo.state),
+        //   mobile: this.addInfo.mobile,
+        // };
+        // if(this.addInfo.account == ''){
+        //   return this.$message.error('请填写账号');
+        // }else if(this.addInfo.pwd == ''){
+        //   return this.$message.error('请填写密码');
+        // }else if(this.addInfo.name == ''){
+        //   return this.$message.error('请填写姓名');
+        // }else if(this.addInfo.state == ''){
+        //   return this.$message.error('请选择状态');
+        // }else if(this.addInfo.roleId == ''){
+        //   return this.$message.error('请选择角色');
+        // }else if(this.addInfo.mobile == ''){
+        //   return this.$message.error('请填写手机号');
+        // }else if(!Util.isPoneAvailable(this.addInfo.mobile)){
+        //   this.$message.error('手机号码规则错误')
+        //   return false
+        // }
+        // this.$http.user.addOrUpdate(params).then(res => {
+        //   if (res.code == '200') {
+        //     // this.$message({
+        //     //   showClose: true,
+        //     //   message: '新增成功',
+        //     //   type: 'success'
+        //     // });
+        //     this.addInfo.account = '';
+        //     this.addInfo.pwd = '';
+        //     this.addInfo.state = '';
+        //     this.addInfo.name = '';
+        //     this.addInfo.mobile = '';
+        //     this.setNavuserList(res.data,this.addInfo.roleId)
+        //   } else {
+        //     this.$message.error(res.msg)
+        //   }
+        // })
       },
       infoShow(row){
         console.log(row)
@@ -365,8 +353,11 @@
         this.setInfo.state = row.state.toString();
         this.setInfo.pwd = '';
       },
-      setType(row){
-        console.log(row)
+      //修改状态
+      setType(row,type){
+        this.dialogTitle(type)
+        this.currentRowData = row
+        this.dialogVisible = true
         // "corpId":"7080", "status":"3"
       },
       delUser(row){
@@ -468,6 +459,37 @@
           }
         })
       },
+      dialogTitle(type){
+        let str = {}
+        switch (type) {
+          case "disable":
+            str.title = "禁用"
+            str.information = "您确定要禁用企业吗？"
+            break
+          case "init":
+            str.title = "初始"
+            str.information = "初始后，企业将正常使用，您确认要初始吗？"
+            break
+          case "enabled":
+            str.title = "启用"
+            str.information = "启用后企业将正常使用，您确定要启用企业吗？"
+            break
+        }
+        this.dialogTit = str.title
+        this.information = str.information
+      },
+      updateStatus(){
+        const { corpId, status } = this.currentRowData
+        this.$http.corp.updateStatus({corpId,status}).then(res=>{
+          const {code,msg} = res
+          if(code === 200){
+            this.$message.success(msg)
+            this.orderList()
+          }
+        })
+        this.dialogVisible = false
+      }
+
     }
   }
 
