@@ -36,45 +36,45 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-    {
-        path: '/login',
-        component: () =>
-            import ('@/views/login/index'),
-        hidden: true,
-        meta: {
-            title: '短信平台-登录'
-        }
-    },
-    {
-        path: '/auth-redirect',
-        component: () =>
-            import ('@/views/login/auth-redirect'),
-        hidden: true
-    },
-    {
-        path: '/404',
-        component: () =>
-            import ('@/views/error-page/404'),
-        hidden: true
-    },
-    {
-        path: '/401',
-        component: () =>
-            import ('@/views/error-page/401'),
-        hidden: true
-    },
-    {
-        path: '/',
-        component: Layout,
-        redirect: '/index/index',
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/index/index'),
-            name: 'Dashboard',
-            meta: { title: '首页', affix: true }
-        }]
-    },
+  {
+    path: '/login',
+    component: () =>
+      import ('@/views/login/index'),
+    hidden: true,
+    meta: {
+      title: '短信平台-登录'
+    }
+  },
+  {
+    path: '/auth-redirect',
+    component: () =>
+      import ('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () =>
+      import ('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () =>
+      import ('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/index/index',
+    children: [{
+      path: '',
+      component: () =>
+        import ('@/views/index/index'),
+      name: 'index',
+      meta: {title: '首页', affix: true}
+    }]
+  },
 ]
 
 /**
@@ -88,7 +88,7 @@ export const asyncRoutes = [
     redirect: '/role/index',
     hidden: true,
     alwaysShow: true,
-    name: 'Dashboard',
+    name: '',
     meta: {
       title: 'WEB账号管理',
     },
@@ -96,7 +96,7 @@ export const asyncRoutes = [
       path: '/role/index',
       component: () =>
         import ('@/views/Systemmanagement/role/index'),
-      name: 'Dashboard',
+      name: 'role',
       meta: {
         keepAlive: true,
         title: '角色管理'
@@ -106,7 +106,7 @@ export const asyncRoutes = [
         path: '/nav/index',
         component: () =>
           import ('@/views/Systemmanagement/nav/index'),
-        name: 'Dashboard',
+        name: 'nav',
         meta: {
           keepAlive: true,
           title: '菜单管理'
@@ -115,7 +115,7 @@ export const asyncRoutes = [
         path: '/user/index',
         component: () =>
           import ('@/views/Systemmanagement/user/index'),
-        name: 'Dashboard',
+        name: 'user',
         meta: {
           keepAlive: true,
           title: '运营账号'
@@ -124,7 +124,7 @@ export const asyncRoutes = [
         path: '/company/index',
         component: () =>
           import ('@/views/Systemmanagement/company/index'),
-        name: 'Dashboard',
+        name: 'company',
         meta: {
           keepAlive: true,
           title: '商户管理'
@@ -139,38 +139,82 @@ export const asyncRoutes = [
     redirect: '/enterprise/index',
     hidden: true,
     alwaysShow: true,
-    name: 'Dashboard',
+    name: '',
     meta: {
       title: '用户管理',
     },
-    children: [{
-      path: '/enterprise/index',
-      component: () =>
-        import ('@/views/Usermanagement/enterprise/index'),
-      name: 'Dashboard',
-      meta: {
-        keepAlive: true,
-        title: '企业信息'
+    children: [
+      {
+        path: '/enterprise/index',
+        component: () =>
+          import ('@/views/Usermanagement/enterprise/index'),
+        name: 'enterprise',
+        meta: {
+          keepAlive: true,
+          title: '企业信息'
+        }
+      },
+      {
+        path: '/userManagement/index',
+        component: () =>
+          import ('@/views/Usermanagement/userManagement/index'),
+        name: 'userManagement',
+        meta: {
+          keepAlive: true,
+          title: '用户信息'
+        }
       }
-    },
     ]
   },
-    // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '/ConfigManagement',
+    component: Layout,
+    redirect: '/ConfigManagement/index',
+    hidden: true,
+    alwaysShow: true,
+    name: '',
+    meta: {
+      title: '配置管理',
+    },
+    children: [
+      {
+        path: '/sysResendConfig/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysResendConfig/index'),
+        name: 'sysResendConfig',
+        meta: {
+          keepAlive: true,
+          title: '重发通道配置'
+        }
+      },
+      {
+        path: '/sysSignRoute/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysSignRoute/index'),
+        name: 'sysSignRoute',
+        meta: {
+          keepAlive: true,
+          title: '签名路由管理'
+        }
+      }
+    ]
+  },
+  // 404 page must be placed at the end !!!
+  {path: '*', redirect: '/404', hidden: true}
 ]
 
 const createRouter = () => new Router({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({y: 0}),
+  routes: constantRoutes
 })
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher // reset router
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
 }
 
 export default router

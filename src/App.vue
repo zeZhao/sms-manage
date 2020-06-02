@@ -35,5 +35,8 @@
     word-break:break-all;
     overflow: hidden;
   }
+  .el-dialog{
+    padding-bottom: 30px;
+  }
 </style>
 

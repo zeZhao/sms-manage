@@ -1,6 +1,6 @@
 <template>
-  <div class="index">
-    <el-col :span="24" class="toolbar">
+  <div class="page">
+    <el-col :span="24">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -50,8 +50,8 @@
   }
 </script>
 
-<style lang="stylus" scoped>
-  .index {
-
+<style scoped>
+  .page {
+    margin-top: 20px;
   }
 </style>

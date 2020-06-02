@@ -101,5 +101,68 @@ export default {
     updateStatus(params) {
       return post("/corp/updateStatus", params);
     },
+    // 新增企业
+    addOrUpdate(params) {
+      return post("/corp/addOrUpdate", params);
+    },
+  },
+  //企业用户
+  corpUser:{
+    // 企业用户列表
+    queryByPage(params) {
+      return post("/corpUser/queryByPage", params);
+    },
+    // 新增企业用户
+    addOrUpdate(params) {
+      return post("/corpUser/addOrUpdate", params);
+    },
+    // 修改企业用户状态
+    updateStatus(params) {
+      return post("/corpUser/updateStatus", params);
+    },
+  },
+  //通道重发配置
+  sysResendConfig:{
+    // 配置列表
+    listResendConfigByPage(params) {
+      return post("/sysResendConfig/listResendConfigByPage", params);
+    },
+    // 删除
+    deleteResendConfig(params) {
+      return post("/sysResendConfig/deleteResendConfig", params);
+    },
+    // 修改
+    updateResendConfig(params) {
+      return post("/sysResendConfig/updateResendConfig", params);
+    },
+    // 添加
+    addResendConfig(params) {
+      return post("/sysResendConfig/addResendConfig", params);
+    },
+  },
+  // 签名路由配置
+  sysSignRoute:{
+    // 配置列表
+    listSignRouteByPage(params) {
+      return post("/sysSignRoute/listSignRouteByPage", params);
+    },
+    // 删除
+    deleteSignRoute(params) {
+      return post("/sysSignRoute/deleteSignRoute", params);
+    },
+    // 修改
+    updateSignRoute(params) {
+      return post("/sysSignRoute/updateSignRoute", params);
+    },
+    // 添加
+    addSignRoute(params) {
+      return post("/sysSignRoute/addSignRoute", params);
+    },
+  },
+  sysSaleman:{
+    // 销售人员
+    queryAvailableSaleman(params) {
+      return fetch("sysSaleman/queryAvailableSaleman", params);
+    },
   }
 }

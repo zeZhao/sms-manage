@@ -22,6 +22,7 @@ import ThemePicker from '@/components/ThemePicker'
 import * as filters from './filters' // global filters
 
 import common from '../commonFunction/common.js'; //自定义公共方法
+import managePlugin from "@/utils/managePlugin"
 
 import {post,fetch,patch,put,del} from './utils/http'
 import axios from 'axios'
@@ -38,9 +39,6 @@ Vue.prototype.$httpPost=post;
 Vue.prototype.$httpGet=fetch;
 Vue.prototype.$httpDel=del;
 Vue.prototype.$httpPut=put;
-// 数据接口
-import Api from "./utils/api.js";
-Vue.prototype.$http = Api;
 
 /**
  * If you don't want to use mock-server
@@ -55,6 +53,7 @@ Vue.prototype.common = common
 // if (process.env.NODE_ENV === 'production') {
 //   mockXHR()
 // }
+Vue.use(managePlugin)
 Vue.use(echarts)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
@@ -73,23 +72,4 @@ new Vue({
   store,
   render: h => h(App)
 })
-
-Date.prototype.format = function(fmt)
-{ //author: meizz
-  var o = {
-    "M+" : this.getMonth()+1,                 //月份
-    "d+" : this.getDate(),                    //日
-    "h+" : this.getHours(),                   //小时
-    "m+" : this.getMinutes(),                 //分
-    "s+" : this.getSeconds(),                 //秒
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度
-    "S"  : this.getMilliseconds()             //毫秒
-  };
-  if(/(y+)/.test(fmt))
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-  for(var k in o)
-    if(new RegExp("("+ k +")").test(fmt))
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-  return fmt;
-}
 

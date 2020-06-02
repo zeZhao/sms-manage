@@ -48,7 +48,7 @@ export function generaMenu(routes, data) {
       alwaysShow:item.linkUrl === '#' ? true :false  ,
       // component: () => import('@/views/outList'),
       children: [],
-      name: 'Dashboard',
+      name: '',
       meta: { title: item.name, id: item.menuId,keepAlive:true,}
     }
     if (item.childMenu) {
