@@ -169,6 +169,7 @@
             }
           }
         })
+        console.log(this.formConfig,'----formConfig------')
         this.addChannel = true
       },
       cancel(){

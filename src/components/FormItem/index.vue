@@ -74,10 +74,9 @@
       onSubmit(formName){
         this.$refs[formName].validate((valid) => {
           if(valid){
-            console.log(this.formData,'formData-----')
             this.$emit('submit',this.formData)
           }else{
-            this.$message.error("请输入必填项")
+            // this.$message.error("请输入必填项")
             return false;
           }
         })
@@ -97,11 +96,9 @@
       },
       //重置表单
       resetForm() {
-        for (const key in this.formData) {
-          this.$nextTick(()=>{
-            this.formData[key] = null;
-          })
-        }
+        this.formConfig.forEach(item=>{
+          item.defaultValue = null
+        })
         this.$refs.form.resetFields();
       }
     },
