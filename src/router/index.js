@@ -196,7 +196,37 @@ export const asyncRoutes = [
           keepAlive: true,
           title: '签名路由管理'
         }
-      }
+      },
+      {
+        path: '/sysWhitelist/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysWhitelist/index'),
+        name: 'sysWhitelist',
+        meta: {
+          keepAlive: true,
+          title: '白名单管理'
+        }
+      },
+      {
+        path: '/sysSendLimit/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysSendLimit/index'),
+        name: 'sysSendLimit',
+        meta: {
+          keepAlive: true,
+          title: '发送上限'
+        }
+      },
+      {
+        path: '/sysGatewayGroup/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysGatewayGroup/index'),
+        name: 'sysGatewayGroup',
+        meta: {
+          keepAlive: true,
+          title: '通道组配置'
+        }
+      },
     ]
   },
   // 404 page must be placed at the end !!!

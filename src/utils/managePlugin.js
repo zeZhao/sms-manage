@@ -1,4 +1,6 @@
 import Page from "@/components/Page"
+import Search from "@/components/searchPanel"
+import FormItem from "@/components/FormItem"
 import Api from "@/utils/api.js";
 import Vue from "vue";
 
@@ -139,7 +141,7 @@ class managePlugin {
      */
     {
       window.resOk = function (res = {}) {
-        if (res.code === '200' || res.code === 200) {
+        if (res.code === '200' || res.code === 200 || res.data) {
           return true;
         } else {
           return false;
@@ -152,6 +154,8 @@ class managePlugin {
   /*------------------添加vue组件------------------*/
   static installComponent(Vue) {
     Vue.component("Page", Page);
+    Vue.component("Search", Search);
+    Vue.component("FormItem", FormItem);
   }
 
   /*------------------添加vue过滤器------------------*/

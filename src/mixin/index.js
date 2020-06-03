@@ -1,5 +1,5 @@
-import formMixin from "@/mixin/formMixin";
-import listMixin from "@/mixin/listMixin";
+import formMixin from "./formMixin";
+import listMixin from "./listMixin";
 
 export default {
   formMixin,

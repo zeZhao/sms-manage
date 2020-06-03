@@ -22,7 +22,7 @@ import ThemePicker from '@/components/ThemePicker'
 import * as filters from './filters' // global filters
 
 import common from '../commonFunction/common.js'; //自定义公共方法
-import managePlugin from "@/utils/managePlugin"
+import managePlugin from "./utils/managePlugin"
 
 import {post,fetch,patch,put,del} from './utils/http'
 import axios from 'axios'

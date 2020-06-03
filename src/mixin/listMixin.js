@@ -3,11 +3,36 @@ function isEmpty(value) {
   return value === undefined || value === null || value === '';
 }
 
+/**
+ * 节流阀
+ * 判断接口请求频率是否超出设定的限制
+ */
+function throttle() {
+  const lastRequestTimeStamp = this.lastRequestTimeStamp;
+  const requestFrequency = this.requestFrequency;
+  const nowTimeStamp = new Date().getTime();
+  this.lastRequestTimeStamp = nowTimeStamp;
+  const timeDifference = nowTimeStamp - lastRequestTimeStamp;
+
+  //时间差小于限定值
+  if(timeDifference < requestFrequency){
+    if(this.queryTask != null){
+      clearTimeout(this.queryTask)
+    }
+  }
+
+  this.loading = true;
+  this.queryTask = setTimeout(queryData.bind(this), requestFrequency);
+}
+
+
 function DynamicKey(key,val) {
   let params = {
-    data:{},
-    pageIndex: this.pageObj.currentPage,
-    pageSize: this.pageObj.pageSize,
+    data:{
+      pageIndex: this.pageObj.currentPage,
+      pageNumber: this.pageObj.currentPage,
+      pageSize: this.pageObj.pageSize,
+    },
   }
   params.data[key] = {...val}
 
@@ -24,14 +49,6 @@ function queryData() {
 
   let searchParam = Object.assign({}, this.searchParam);
   for (const key in searchParam){
-    //1.传递查询参数时清除空条件
-    //2.将无用字段移除不参与请求(无用字段以“_”开头和结束)
-    // const reg = /^_[\S]*_$/;
-    //
-    // if (isEmpty(searchParam[key]) || reg.test(key)) {
-    //   delete searchParam[key];
-    //   continue;
-    // }
 
     //将时间对象转为时间戳
     if(searchParam[key] instanceof Date){
@@ -42,9 +59,23 @@ function queryData() {
   //手动调整一次提交的数据
   searchParam = this._formatRequestData(searchParam);
 
-  const {namespace,list} = this.searchAPI
 
-  const params = DynamicKey(this.namespace,searchParam)
+
+  let params = {}
+  //提交参数做兼容处理
+  if(this.namespace){
+    let newF = DynamicKey.bind(this,this.namespace,searchParam)
+    params = newF()
+  }else{
+    params = {
+      ...searchParam,
+      pageIndex: this.pageObj.currentPage,
+      pageNumber: this.pageObj.currentPage,
+      pageSize: this.pageObj.pageSize,
+    }
+  }
+
+  const {namespace,list} = this.searchAPI //动态接口路径
 
   this.$http[namespace][list](params).then(res => {
     this.loading = false;
@@ -53,17 +84,13 @@ function queryData() {
     //     this.listData = [];
     //     this.$Message.error(res.message || res.msg);
     // }
+
     if (resOk(res)){
       let list = [];
       //兼容性处理
       if(res.data.list){
         list = res.data.list;
         this.pageObj.total = res.data.total;
-      }else {
-        list = res.data;
-        if (res.totalCount !== undefined) {
-          this.pageObj.total = res.totalCount;
-        }
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);
@@ -89,15 +116,23 @@ export default {
 
       searchAPI: {
         namespace:"",
-        list:""
+        list:"",
+        detele:""
       },
       namespace:'',
       delAPI: '',
+      //增加请求接口节流阀
+      //节流阀-最后一次请求的时间戳
+      lastRequestTimeStamp: 0,
+      //节流阀-接口请求频率限制(ms)
+      requestFrequency: 300,
+      //节流阀-查询接口任务
+      queryTask: null,
     }
   },
 
   created(){
-
+    console.log(111)
   },
 
   mounted(){
@@ -110,7 +145,7 @@ export default {
      * @private
      */
     _mxGetList() {
-      queryData.call(this)
+      throttle.call(this)
     },
 
     /***
@@ -139,20 +174,46 @@ export default {
     _mxDoSearch(param = this.searchParam) {
       //调用查询时默认跳转到第一页
       this.pageObj.currentPage = 1;
+      this.searchParam = {
+        ...param
+      };
       this._mxGetList();
     },
-
 
     /**
      * 删除列表中项目
      * @param id
-     * @param text
-     * @param formUrl
      * @private
      */
-    _mxDeleteItem(id, text = '确定删除吗？', formUrl = (url, id)=>{return `${url}/${id}`}) {
-      this.$confirmDialog(() => this._mxDoDelete(id, formUrl(this.delAPI, id)), text);
+    _mxDeleteItem(key,id){
+      const h = this.$createElement;
+      this.$msgbox({
+        title: '删除',
+        message: h('div', null, [
+          h('p', null, '您确定要删除此项吗？'),
+          h('p', { style: 'color: red' }, '删除后，将不再执行重发，请谨慎操作')
+        ]),
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(action => {
+        const params = {
+          data:{},
+        }
+        params.data[key] = id.toString()
+        const {namespace,detele} = this.searchAPI
+        this.$http[namespace][detele](params).then(res=>{
+          const {code, msg} = res
+          if(resOk(res)){
+            this.$message.info('删除成功！');
+            this._mxGetList();
+          }else{
+            this.$message.info('删除失败！');
+          }
+        })
+      });
     },
+
 
     /**
      * 确认删除项目操作

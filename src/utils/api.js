@@ -164,5 +164,47 @@ export default {
     queryAvailableSaleman(params) {
       return fetch("sysSaleman/queryAvailableSaleman", params);
     },
-  }
+  },
+  //发送上限
+  sysSendLimit:{
+    // 发送上限列表
+    listSendLimitByPage(params) {
+      return post("/sysSendLimit/listSendLimitByPage", params);
+    },
+    // 删除
+    deleteSendLimit(params) {
+      return post("/sysSendLimit/deleteSendLimit", params);
+    },
+    // 修改
+    updateSendLimit(params) {
+      return post("/sysSendLimit/updateSendLimit", params);
+    },
+    // 修改
+    addSendLimit(params) {
+      return post("/sysSendLimit/addSendLimit", params);
+    },
+  },
+  //通道组配置
+  sysGatewayGroup:{
+    // 列表
+    listGatewayGroupByPage(params) {
+      return post("/sysGatewayGroup/listGatewayGroupByPage", params);
+    },
+    // 删除
+    deleteGatewayGroup(params) {
+      return post("/sysGatewayGroup/deleteGatewayGroup", params);
+    },
+    // 修改
+    updateGatewayGroup(params) {
+      return post("/sysGatewayGroup/updateGatewayGroup", params);
+    },
+    // 添加
+    addGatewayGroup(params) {
+      return post("/sysGatewayGroup/addGatewayGroup", params);
+    },
+    // 查询通道组
+    selectGatewayGroup(params) {
+      return post("/sysGatewayGroup/selectGatewayGroup", params);
+    },
+  },
 }

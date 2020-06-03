@@ -41,7 +41,6 @@ export default {
      * @returns {*}
      * @private
      */
-      @overwrite("调整表单初始化数据")
     _mxArrangeFormInfo(data){
       return data;
     },
@@ -50,7 +49,6 @@ export default {
      * 表单数据加载完成
      * @private
      */
-      @overwrite("表单数据加载完成")
     _mxFormLoaded(){
 
     },
@@ -59,7 +57,6 @@ export default {
      * 初始化下拉菜单数据
      * @private
      */
-      @overwrite('初始化下拉菜单数据')
     _mxInitOpinion() {
 
     },
@@ -69,7 +66,6 @@ export default {
      * @param formData
      * @private
      */
-      @overwrite("提交表单前调整表单内数据")
     _mxArrangeSubmitData(formData) {
       return formData;
     },

@@ -482,7 +482,7 @@
     },
     mounted() {
       this.orderList()
-      this.getsysSalemanList()
+      // this.getsysSalemanList()
     },
     methods: {
       getsysSalemanList(){
@@ -641,29 +641,24 @@
         const h = this.$createElement;
         this.$msgbox({
           title: '信息',
-          message: this.createElement(h,row)
-        }).then(action => {
-          this.$message({
-            type: 'info',
-            message: 'action: ' + action
-          });
-        });
+          message: this.createElement(h,row),
+          showConfirmButton:false
+        })
       },
 
       createElement(h,row){
-        console.log(row.proType,'--------123--')
-        // switch (row.proType) {
-        //   case 1:
-        //     return row.proType = "web前端"
-        //     break
-        //   case 2:
-        //     return row.proType = "http接口"
-        //     break
-        //   case 3:
-        //     return row.proType = "cmpp接口"
-        //     break
-        // }
-        if (row.proType === 1){
+        switch (row.proType) {
+          case 1:
+            row.proType = "web前端"
+            break
+          case 2:
+            row.proType = "http接口"
+            break
+          case 3:
+            row.proType = "cmpp接口"
+            break
+        }
+        if (row.proType === "web前端"){
           return h("div",null,[
             h('p',null,[
               h('span', null, '产品类型: '),
@@ -687,7 +682,7 @@
             ]),
           ])
         }
-        if (row.proType === 2){
+        if (row.proType === "http接口"){
           return h("div",null,[
             h('p',null,[
               h('span', null, '产品类型: '),
@@ -714,10 +709,52 @@
             ]),
           ])
         }
-        if (row.proType === 3){
-          return  h('p',null,[
-            h('span', null, '接口地址: '),
-            h('span', null, `${row.mmsAuditCallBack}`)
+        if (row.proType === "cmpp接口"){
+          return  h("div",null,[
+            h('p',null,[
+              h('span', null, '产品类型: '),
+              h('span', null, `${row.proType}`)
+            ]),
+            h('p',null,[
+              h('span', null, '企业名称: '),
+              h('span', null, `${row.userName}`)
+            ]),
+            h('p',null,[
+              h('span', null, '登录账号: '),
+              h('span', null, `${row.loginName}`)
+            ]),
+            h('p',null,[
+              h('span', null, '密码: '),
+              h('span', null, `${row.password}`)
+            ]),
+            h('p',null,[
+              h('span', null, '接口地址: '),
+              h('span', null, ``)
+            ]),
+            h('p',null,[
+              h('span', null, '端口: '),
+              h('span', null, `${row.directPort}`)
+            ]),
+            h('p',null,[
+              h('span', null, '协议: '),
+              h('span', null, `${row.password}`)
+            ]),
+            h('p',null,[
+              h('span', null, '通道接入码: '),
+              h('span', null, ``)
+            ]),
+            h('p',null,[
+              h('span', null, '客户端IP: '),
+              h('span', null, `${row.userIp}`)
+            ]),
+            h('p',null,[
+              h('span', null, '链接路数: '),
+              h('span', null, `${row.maxSession}`)
+            ]),
+            h('p',null,[
+              h('span', null, '通道速率: '),
+              h('span', null, `${row.alertBalance}`)
+            ]),
           ])
         }
       }
