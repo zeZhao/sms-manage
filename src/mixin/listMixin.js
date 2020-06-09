@@ -25,7 +25,11 @@ function throttle() {
   this.queryTask = setTimeout(queryData.bind(this), requestFrequency);
 }
 
-
+/**
+ * 处理参数格式
+ * @param key
+ * @param val
+ */
 function DynamicKey(key,val) {
   let params = {
     data:{
@@ -48,13 +52,13 @@ function queryData() {
   this.loading = true;
 
   let searchParam = Object.assign({}, this.searchParam);
-  for (const key in searchParam){
-
-    //将时间对象转为时间戳
-    if(searchParam[key] instanceof Date){
-      searchParam[key] = new Date(searchParam[key]).getTime();
-    }
-  }
+  // for (const key in searchParam){
+  //
+  //   //将时间对象转为时间戳
+  //   if(searchParam[key] instanceof Date){
+  //     searchParam[key] = new Date(searchParam[key]).getTime();
+  //   }
+  // }
 
   //手动调整一次提交的数据
   searchParam = this._formatRequestData(searchParam);
@@ -68,10 +72,12 @@ function queryData() {
     params = newF()
   }else{
     params = {
-      ...searchParam,
-      pageIndex: this.pageObj.currentPage,
-      pageNumber: this.pageObj.currentPage,
-      pageSize: this.pageObj.pageSize,
+      data:{
+        ...searchParam,
+        pageIndex: this.pageObj.currentPage,
+        pageNumber: this.pageObj.currentPage,
+        pageSize: this.pageObj.pageSize,
+      }
     }
   }
 
@@ -91,6 +97,9 @@ function queryData() {
       if(res.data.list){
         list = res.data.list;
         this.pageObj.total = res.data.total;
+      }else if(res.data.pageInfo){
+        list = res.data.pageInfo.list;
+        this.pageObj.total = res.data.pageInfo.total;
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);
@@ -131,9 +140,7 @@ export default {
     }
   },
 
-  created(){
-    console.log(111)
-  },
+  created(){},
 
   mounted(){
     this._mxGetList();
@@ -262,6 +269,31 @@ export default {
     _mxBeforeGetList() {
 
     },
+
+    /**
+     * 设置默认选择项
+     * @param list 选择项
+     * @param data 获取的数据
+     * @param key 选择项key值
+     * @param optionKey 设置key的值
+     * @param optionVal 设置value的值
+     * @private
+     */
+    _setDefaultValue(list, data, key, optionKey, optionVal) {
+      list.forEach(item=>{
+        if(item.key === key){
+          data.forEach(t=>{
+            let obj = {
+              key: t[optionKey],
+              value: t[optionVal]
+            }
+            item.optionData.push(obj)
+          })
+
+        }
+      })
+
+    }
 
   }
 }

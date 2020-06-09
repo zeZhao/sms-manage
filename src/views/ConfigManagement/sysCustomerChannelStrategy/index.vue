@@ -1,31 +1,27 @@
 <template>
-  <!--签名路由管理-->
-  <div class="mmsUserGateway">
+  <!--客户通道策略-->
+  <div class="sysCustomerChannelStrategy">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
     <el-table
-            :data="listData"
-            highlight-current-row
-            height="750"
-            style="width: 100%;"
+      :data="listData"
+      highlight-current-row
+      height="750"
+      style="width: 100%;"
     >
-      <el-table-column prop="corporateId" label="企业ID"/>
+      <el-table-column prop="strategyLevel" label="策略类型"/>
+      <el-table-column prop="corpId" label="企业ID"/>
       <el-table-column prop="userId" label="用户ID"/>
       <el-table-column prop="userName" label="用户名称"/>
       <el-table-column prop="code" label="特服号"/>
-      <el-table-column prop="type" label="类型">
-        <template slot-scope="scope">
-          <span> {{ scope.row.type === 1 ? '特服号':(scope.row.type === 2 ? '用户ID':'企业ID') }} </span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="sign" label="签名" show-overflow-tooltip/>
-      <el-table-column prop="cm" label="移动通道"/>
-      <el-table-column prop="cu" label="联通通道"/>
-      <el-table-column prop="ct" label="电信通道"/>
-      <el-table-column prop="updateTime" label="修改时间"/>
+      <el-table-column prop="cmPassagewayId" label="移动网关"/>
+      <el-table-column prop="cuPassagewayId" label="联通网关"/>
+      <el-table-column prop="ctPassagewayId" label="电信网关"/>
+      <el-table-column prop="modifier" label="修改人"/>
+      <el-table-column prop="modifyTime" label="修改时间"/>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('routeId',scope.row.routeId)" type="text" size="small">删除</el-button>
+          <el-button @click="_mxDeleteItem('strategyId',scope.row.strategyId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -47,21 +43,33 @@
         addChannel: false,
         //接口地址
         searchAPI: {
-          namespace: "sysSignRoute",
-          list: "listSignRouteByPage",
-          detele: "deleteSignRoute"
+          namespace: "sysCustomerChannelStrategy",
+          list: "listStrategyByPage",
+          detele: "deleteStrategy"
+        },
+        //搜索框数据
+        searchParam: {
+          strategyLevel:"",
+          userId:"",
+          userName:"",
+          cmPassageway:"",
+          cuPassageway:"",
         },
         // 列表参数
-        namespace: "signRoute",
-        //搜索框数据
-        searchParam: {},
+        namespace: "",
         //搜索框配置
         searchFormConfig: [
           {
-            type: "input",
-            label: "企业ID",
-            key: "corporateId",
-            placeholder: "请输入企业ID"
+            type: "select",
+            label: "策略类型",
+            key: "strategyLevel",
+            placeholder: "请选择类型",
+            optionData: [
+              {key: "1", value: "系统级"},
+              {key: "2", value: "特服号级"},
+              {key: "3", value: "客户级"},
+              {key: "4", value: "企业级"},
+            ]
           },
           {
             type: "input",
@@ -77,53 +85,15 @@
           },
           {
             type: "input",
-            label: "签名",
-            key: "sign",
-            placeholder: "请输入签名"
+            label: "移动通道编号",
+            key: "cmPassageway",
+            placeholder: "请输入移动通道编号"
           },
           {
             type: "input",
-            label: "用户特服号",
-            key: "code",
-            placeholder: "请输入用户特服号"
-          },
-          {
-            type: "select",
-            label: "类型",
-            key: "type",
-            optionData:[
-              {
-                key:1,
-                value:"特服号"
-              },
-              {
-                key:2,
-                value:"用户ID"
-              },
-              {
-                key:3,
-                value:"企业ID"
-              }
-            ],
-            placeholder: "请选择类型"
-          },
-          {
-            type: "input",
-            label: "电信网关通道",
-            key: "ct",
-            placeholder: "请输入电信网关通道"
-          },
-          {
-            type: "input",
-            label: "联通网关通道",
-            key: "cu",
-            placeholder: "请输入联通网关通道"
-          },
-          {
-            type: "input",
-            label: "移动网关通道",
-            key: "cm",
-            placeholder: "请输入移动网关通道"
+            label: "联通通道编号",
+            key: "cuPassageway",
+            placeholder: "请输入联通通道编号"
           },
         ],
         // 表单配置
@@ -159,31 +129,23 @@
             ]
           },
           {
-            type: "textarea",
-            label: "商户签名",
-            key: "sign",
+            type: "select",
+            label: "类型",
+            key: "type",
+            optionData: [
+              {key: 1, value: "特服号"},
+              {key: 2, value: "客户ID"},
+              {key: 3, value: "企业ID"},
+            ],
             rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
             ]
           },
           {
             type: "select",
-            label: "类型",
-            key: "type",
-            optionData: [
-              {
-                key:1,
-                value:"特服号"
-              },
-              {
-                key:2,
-                value:"用户ID"
-              },
-              {
-                key:3,
-                value:"企业ID"
-              }
-            ],
+            label: "省份",
+            key: "province",
+            optionData: [],
             rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
             ]
@@ -213,13 +175,20 @@
               {required: true, message: '请输入必填项', trigger: 'blur'},
             ]
           },
+          {
+            type: "textarea",
+            label: "备注信息",
+            key: "remark"
+          },
         ],
         routeId: "",
+        ProvinceList: [], //省列表
         GatewayList: [] //通道列表
       }
     },
     mounted() {
       this.gateway()
+      this.listSysProvince()
       this.queryMainInfo()
     },
     computed: {},
@@ -262,6 +231,34 @@
               t.optionData = res.data
             }
           })
+          console.log(res)
+        })
+      },
+      /*
+      * 获取省份列表
+      * */
+      listSysProvince() {
+        const params = {
+          data: {
+            provinceName: ""
+          }
+        }
+        this.$http.listSysProvince(params).then(res => {
+          this.ProvinceList = res.data
+          this.formConfig.forEach(item => {
+            const {key} = item
+            if (key === "province") {
+              res.data.forEach(t => {
+                let obj = {
+                  key: t.provinceId,
+                  value: t.provinceName
+                }
+                item.optionData.push(obj)
+              })
+
+            }
+          })
+
         })
       },
       /*
@@ -280,7 +277,7 @@
           this.GatewayList = res.data
           this.formConfig.forEach(item => {
             const {key} = item
-            if (key === "cm" || key === "cu" || key === "ct") {
+            if (key === "cu" || key === "cm" || key === "ct") {
               res.data.forEach(t => {
                 let obj = {
                   key: t.gatewayId,
@@ -302,7 +299,7 @@
               ...form
             }
           }
-          this.$http.sysSignRoute.addSignRoute(params).then(res => {
+          this.$http.sysCustomerChannelStrategy.addProvinceRoute(params).then(res => {
             if (resOk(res)) {
               this.$message.success(res.msg || res.data)
               this._mxGetList();
@@ -318,7 +315,7 @@
               ...form,
             }
           }
-          this.$http.sysSignRoute.updateSignRoute(params).then(res => {
+          this.$http.sysCustomerChannelStrategy.updateProvinceRoute(params).then(res => {
             if (resOk(res)) {
               this.$message.success(res.msg || res.data)
               this._mxGetList();
@@ -353,13 +350,38 @@
       cancel() {
         this.addChannel = false
       },
+      /*
+      * 表格数据处理
+      * */
+      _mxFormListData(list) {
+        list.forEach(item => {
+          item.province && this.ProvinceList.forEach(t => {
+            if (item.province == t.provinceId) {
+              item.province = t.provinceName
+            }
+          })
+          this.GatewayList.forEach(t => {
+            const {gatewayId, gatewayName} = t
+            if (item.cu == gatewayId) {
+              item.cu = gatewayName
+            }
+            if (item.cm == gatewayId) {
+              item.cm = gatewayName
+            }
+            if (item.ct == gatewayId) {
+              item.ct = gatewayName
+            }
+          })
+        })
+        return list
+      }
     },
     watch: {},
   }
 </script>
 
 <style lang="scss" scoped>
-  .mmsUserGateway {
+  .sysCustomerChannelStrategy {
 
   }
 </style>

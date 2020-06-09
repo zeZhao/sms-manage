@@ -482,11 +482,11 @@
     },
     mounted() {
       this.orderList()
-      // this.getsysSalemanList()
+      this.getsysSalemanList()
     },
     methods: {
       getsysSalemanList(){
-        this.$http.sysSaleman.queryAvailableSaleman().then(res=>{
+        this.$http.sysSales.queryByPage().then(res=>{
           console.log(res,'销售')
         })
       },
@@ -537,7 +537,10 @@
         this.customerAddInfo = true
         this.formBtn = "新增"
         this.formTit = "新增企业用户"
-        this.$refs.addForm.resetFields()
+        setTimeout(()=>{
+          this.$refs.addForm.resetFields()
+        },0)
+
       },
       //新增企业
       addCustomerInfo(formName) {

@@ -227,6 +227,197 @@ export const asyncRoutes = [
           title: '通道组配置'
         }
       },
+      {
+        path: '/sysProvinceRoute/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysProvinceRoute/index'),
+        name: 'sysProvinceRoute',
+        meta: {
+          keepAlive: true,
+          title: '分省路由'
+        }
+      },
+      {
+        path: '/sysCustomerChannelStrategy/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysCustomerChannelStrategy/index'),
+        name: 'sysCustomerChannelStrategy',
+        meta: {
+          keepAlive: true,
+          title: '客户通道策略'
+        }
+      },{
+        path: '/mmsUserGateway/index',
+        component: () =>
+          import ('@/views/ConfigManagement/mmsUserGateway/index'),
+        name: 'mmsUserGateway',
+        meta: {
+          keepAlive: true,
+          title: '彩信用户通道配置'
+        }
+      },{
+        path: '/sysSignCheck/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysSignCheck/index'),
+        name: 'sysSignCheck',
+        meta: {
+          keepAlive: true,
+          title: '签名管理'
+        }
+      },{
+        path: '/sysSensitiveWord/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysSensitiveWord/index'),
+        name: 'sysSensitiveWord',
+        meta: {
+          keepAlive: true,
+          title: '敏感词'
+        }
+      },{
+        path: '/sysSensitiveWordGroup/index',
+        component: () =>
+          import ('@/views/ConfigManagement/sysSensitiveWordGroup/index'),
+        name: 'sysSensitiveWordGroup',
+        meta: {
+          keepAlive: true,
+          title: '敏感词类别'
+        }
+      },
+    ]
+  },
+  {
+    path: '/FinanceManagement',
+    component: Layout,
+    redirect: '/corpUserBalance/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'FinanceManagement',
+    meta: {
+      title: '配置管理',
+    },
+    children: [
+      {
+        path: '/corpUserBalance/index',
+        component: () =>
+          import ('@/views/FinanceManagement/corpUserBalance/index'),
+        name: 'corpUserBalance',
+        meta: {
+          keepAlive: true,
+          title: '用户余额'
+        }
+      },
+      {
+        path: '/smsBalanceopt/index',
+        component: () =>
+          import ('@/views/FinanceManagement/smsBalanceopt/index'),
+        name: 'smsBalanceopt',
+        meta: {
+          keepAlive: true,
+          title: '余额调整记录'
+        }
+      },
+      {
+        path: '/sysCompanyIncome/index',
+        component: () =>
+          import ('@/views/FinanceManagement/sysCompanyIncome/index'),
+        name: 'sysCompanyIncome',
+        meta: {
+          keepAlive: true,
+          title: '收入信息'
+        }
+      },
+    ]
+  },
+  {
+    path: '/Alertmanagement',
+    component: Layout,
+    redirect: '/sysAlarmMessage/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'Alertmanagement',
+    meta: {
+      title: '警报管理',
+    },
+    children: [
+      {
+        path: '/sysAlarmMessage/index',
+        component: () =>
+          import ('@/views/Alertmanagement/sysAlarmMessage/index'),
+        name: 'sysAlarmMessage',
+        meta: {
+          keepAlive: true,
+          title: '报警信息'
+        }
+      },{
+        path: '/sysGatewayAlarm/index',
+        component: () =>
+          import ('@/views/Alertmanagement/sysGatewayAlarm/index'),
+        name: 'sysGatewayAlarm',
+        meta: {
+          keepAlive: true,
+          title: '通道警报'
+        }
+      },{
+        path: '/sysUserAlarm/index',
+        component: () =>
+          import ('@/views/Alertmanagement/sysUserAlarm/index'),
+        name: 'sysUserAlarm',
+        meta: {
+          keepAlive: true,
+          title: '用户警报'
+        }
+      },{
+        path: '/sysAlarmType/index',
+        component: () =>
+          import ('@/views/Alertmanagement/sysAlarmType/index'),
+        name: 'sysAlarmType',
+        meta: {
+          keepAlive: true,
+          title: '报警类别'
+        }
+      },{
+        path: '/sysAlarmMessageStatistics/index',
+        component: () =>
+          import ('@/views/Alertmanagement/sysAlarmMessageStatistics/index'),
+        name: 'sysAlarmMessageStatistics',
+        meta: {
+          keepAlive: true,
+          title: '报警信息统计表'
+        }
+      },
+    ]
+  },
+  {
+    path: '/SalesManagement',
+    component: Layout,
+    redirect: '/sysSalesGroup/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'SalesManagement',
+    meta: {
+      title: '销售管理',
+    },
+    children: [
+      {
+        path: '/sysSalesGroup/index',
+        component: () =>
+          import ('@/views/SalesManagement/sysSalesGroup/index'),
+        name: 'sysSalesGroup',
+        meta: {
+          keepAlive: true,
+          title: '销售组管理'
+        }
+      },
+      {
+        path: '/sysSales/index',
+        component: () =>
+          import ('@/views/SalesManagement/sysSales/index'),
+        name: 'sysSales',
+        meta: {
+          keepAlive: true,
+          title: '销售员'
+        }
+      },
     ]
   },
   // 404 page must be placed at the end !!!

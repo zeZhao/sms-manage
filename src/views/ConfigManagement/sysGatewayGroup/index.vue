@@ -1,6 +1,6 @@
 <template>
+  <!--通道组配置-->
   <div class="sysGatewayGroup">
-    <!--      <h1>白名单 接口与原型不符</h1>-->
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
     <el-table
       :data="listData"
@@ -21,159 +21,190 @@
     </el-table>
     <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
     <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" style="margin: 0 auto">
-      <FormItem ref="form" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"></FormItem>
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel">
+        <div slot="sysGatewayGroup">
+          <el-button @click="addGatewayGroup">添加通道</el-button>
+          <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
+            <el-table-column prop="gateway" label="通道组ID">
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.gateway"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="ratio" label="分配比例">
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.ratio"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column fixed="right" label="操作" width="200">
+              <template slot-scope="scope">
+                <el-button @click="deleteItem(scope)" type="text" size="small">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </FormItem>
     </el-dialog>
   </div>
 </template>
 
 <script>
   import listMixin from "@/mixin/listMixin"
+
   export default {
-    mixins: [ listMixin ],
+    mixins: [listMixin],
     data() {
       return {
-        formTit:"新增",
-        addChannel:false,
+        formTit: "新增",
+        addChannel: false,
         //接口地址
-        searchAPI:{
-          namespace:"sysGatewayGroup",
-          list:"listGatewayGroupByPage",
-          detele:"deleteGatewayGroup"
+        searchAPI: {
+          namespace: "sysGatewayGroup",
+          list: "listGatewayGroupByPage",
+          detele: "deleteGatewayGroup"
         },
         // 列表参数
-        namespace:"gatewayGroup",
+        namespace: "gatewayGroup",
         //搜索框数据
         searchParam: {
-          userId:"",
+          groupId: "",
+          groupName: "",
         },
         //搜索框配置
-        searchFormConfig:[
+        searchFormConfig: [
           {
-            type:"input",
-            label:"通道组id",
-            key:"groupId",
-            placeholder:"请输入通道组id"
+            type: "input",
+            label: "通道组id",
+            key: "groupId",
+            placeholder: "请输入通道组id"
           },
           {
-            type:"input",
-            label:"通道组名称",
-            key:"groupName",
-            placeholder:"请输入通道组名称"
+            type: "input",
+            label: "通道组名称",
+            key: "groupName",
+            placeholder: "请输入通道组名称"
           },
         ],
         // 表单配置
-        formConfig:[
+        formConfig: [
           {
-            type:"input",
+            type: "input",
+            label: "通道组ID",
+            key: "groupId",
+            rules: [
+              {required: true, message: '请输入必填项', trigger: 'blur'},
+            ]
+          },
+          {
+            type: "input",
             label: "通道组名称",
-            key:"groupName",
-            rules:[
+            key: "groupName",
+            rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
             ]
           },
           {
-            type:"input",
+            type: "input",
             label: "发送对象",
-            key:"sendTo",
-            rules:[
+            key: "sendTo",
+            rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
             ]
           },
           {
-            type:"input",
+            type: "input",
             label: "备注",
-            key:"notes",
-            rules:[
-              // {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
+            key: "notes"
           },
         ],
-        limitId:""
+        id: "",
+        gatewayGroupList: [],
       }
     },
     mounted() {
-      this.getUserList()
     },
     computed: {},
     methods: {
-      getUserList(){
-        const params = {
-          data: {
-            corpUser: {},
-            pageNumber: 1,
-            pageSize: 99999,
-          }
-        }
-        this.$http.corpUser.queryByPage(params).then(res=>{
-          this.formConfig.forEach(item=>{
-            if(item.key === 'userId'){
-              res.data.list.forEach(t=>{
-                let obj = {
-                  key:t.userId,
-                  value:t.userName
-                }
-                item.optionData.push(obj)
-              })
-            }
-          })
-        })
-      },
-      submit(form){
+      submit(form) {
         let params = {}
-        if(this.formTit == "新增"){
+        if (this.formTit == "新增") {
           params = {
-            data:{
-              ...form
+            data: {
+              ...form,
+              sysGatewayDistributionList: [...this.gatewayGroupList]
             }
           }
-          this.$http.sysSendLimit.addSendLimit(params).then(res=>{
-            if(resOk(res)){
+          this.$http.sysGatewayGroup.addGatewayGroup(params).then(res => {
+            if (resOk(res)) {
               this.$message.success(res.msg || res.data)
               this._mxGetList();
+              this.addChannel = false
+            } else {
+              this.$message.error(res.msg || res.data)
             }
           })
-        }else{
+        } else {
           params = {
-            data:{
-              limitId:this.limitId,
-              ...form
+            data: {
+              id: this.id,
+              ...form,
+              sysGatewayDistributionList: [...this.gatewayGroupList]
             }
           }
-          this.$http.sysSendLimit.updateSendLimit(params).then(res=>{
-            if(resOk(res)){
+          this.$http.sysGatewayGroup.updateGatewayGroup(params).then(res => {
+            if (resOk(res)) {
               this.$message.success(res.msg || res.data)
               this._mxGetList();
+              this.addChannel = false
+            } else {
+              this.$message.error(res.msg || res.data)
             }
           })
         }
 
-
-        this.addChannel = false
       },
-      create(){
+      create() {
         this.addChannel = true
         this.formTit = "新增"
-        // await
-        setTimeout(()=>{
-          this.$refs.form.resetForm()
+        this.gatewayGroupList = []
+        this.formConfig.forEach(item => {
+          if (item.key == "groupId") {
+            this.$set(item, 'disabled', false)
+          }
         })
+        setTimeout(() => {
+          this.$refs.formItem.resetForm()
+        }, 0)
 
       },
-      edit(row){
-        this.limitId = row.limitId
+      edit(row) {
+        const {id, groupId} = row
+        this.id = id
         this.formTit = "修改"
-        this.formConfig.forEach(item=>{
-          for (let key in row){
-            if(item.key == key){
-              this.$set(item,'defaultValue',row[key])
+        this.formConfig.forEach(item => {
+          if (item.key == "groupId") {
+            this.$set(item, 'disabled', true)
+          }
+          for (let key in row) {
+            if (item.key === key) {
+              this.$set(item, 'defaultValue', row[key])
             }
           }
         })
-        console.log(this.formConfig,'----formConfig------')
+        this.$http.sysGatewayGroup.selectGatewayGroup({data: {groupId: groupId.toString()}}).then(res => {
+          this.gatewayGroupList = res.data
+        })
         this.addChannel = true
       },
-      cancel(){
+      cancel() {
         this.addChannel = false
+      },
+      addGatewayGroup() {
+        this.$nextTick(() => {
+          this.gatewayGroupList.push({gateway: "", ratio: ""})
+        })
+      },
+      deleteItem(scope) {
+        this.gatewayGroupList.splice(scope.$index, 1)
       }
     },
     watch: {},

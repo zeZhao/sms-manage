@@ -1,31 +1,25 @@
 <template>
-  <!--签名路由管理-->
+  <!--彩信用户通道配置-->
   <div class="mmsUserGateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
     <el-table
-            :data="listData"
-            highlight-current-row
-            height="750"
-            style="width: 100%;"
+      :data="listData"
+      highlight-current-row
+      height="750"
+      style="width: 100%;"
     >
       <el-table-column prop="corporateId" label="企业ID"/>
       <el-table-column prop="userId" label="用户ID"/>
       <el-table-column prop="userName" label="用户名称"/>
       <el-table-column prop="code" label="特服号"/>
-      <el-table-column prop="type" label="类型">
-        <template slot-scope="scope">
-          <span> {{ scope.row.type === 1 ? '特服号':(scope.row.type === 2 ? '用户ID':'企业ID') }} </span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="sign" label="签名" show-overflow-tooltip/>
-      <el-table-column prop="cm" label="移动通道"/>
-      <el-table-column prop="cu" label="联通通道"/>
-      <el-table-column prop="ct" label="电信通道"/>
+      <el-table-column prop="cmGatewayId" label="移动通道"/>
+      <el-table-column prop="cuGatewayId" label="联通通道"/>
+      <el-table-column prop="ctGatewayId" label="电信通道"/>
       <el-table-column prop="updateTime" label="修改时间"/>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('routeId',scope.row.routeId)" type="text" size="small">删除</el-button>
+          <el-button @click="_mxDeleteItem('ugId',scope.row.ugId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -47,12 +41,12 @@
         addChannel: false,
         //接口地址
         searchAPI: {
-          namespace: "sysSignRoute",
-          list: "listSignRouteByPage",
-          detele: "deleteSignRoute"
+          namespace: "mmsUserGateway",
+          list: "listMmsUserGatewayByPage",
+          detele: "deleteMmsUserGateway"
         },
         // 列表参数
-        namespace: "signRoute",
+        namespace: "mmsUserGateway",
         //搜索框数据
         searchParam: {},
         //搜索框配置
@@ -77,52 +71,26 @@
           },
           {
             type: "input",
-            label: "签名",
-            key: "sign",
-            placeholder: "请输入签名"
-          },
-          {
-            type: "input",
             label: "用户特服号",
             key: "code",
             placeholder: "请输入用户特服号"
           },
           {
-            type: "select",
-            label: "类型",
-            key: "type",
-            optionData:[
-              {
-                key:1,
-                value:"特服号"
-              },
-              {
-                key:2,
-                value:"用户ID"
-              },
-              {
-                key:3,
-                value:"企业ID"
-              }
-            ],
-            placeholder: "请选择类型"
-          },
-          {
             type: "input",
             label: "电信网关通道",
-            key: "ct",
+            key: "ctGatewayId",
             placeholder: "请输入电信网关通道"
           },
           {
             type: "input",
             label: "联通网关通道",
-            key: "cu",
+            key: "cuGatewayId",
             placeholder: "请输入联通网关通道"
           },
           {
             type: "input",
             label: "移动网关通道",
-            key: "cm",
+            key: "cmGatewayId",
             placeholder: "请输入移动网关通道"
           },
         ],
@@ -159,39 +127,9 @@
             ]
           },
           {
-            type: "textarea",
-            label: "商户签名",
-            key: "sign",
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
-            type: "select",
-            label: "类型",
-            key: "type",
-            optionData: [
-              {
-                key:1,
-                value:"特服号"
-              },
-              {
-                key:2,
-                value:"用户ID"
-              },
-              {
-                key:3,
-                value:"企业ID"
-              }
-            ],
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
             type: "select",
             label: "移动通道",
-            key: "cm",
+            key: "cmGatewayId",
             optionData: [],
             rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
@@ -199,7 +137,7 @@
           }, {
             type: "select",
             label: "联通通道",
-            key: "cu",
+            key: "cuGatewayId",
             optionData: [],
             rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
@@ -208,13 +146,18 @@
             type: "select",
             label: "电信通道",
             optionData: [],
-            key: "ct",
+            key: "ctGatewayId",
             rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
             ]
           },
+          {
+            type: "textarea",
+            label: "备注信息",
+            key: "remark"
+          },
         ],
-        routeId: "",
+        ugId: "",
         GatewayList: [] //通道列表
       }
     },
@@ -280,7 +223,7 @@
           this.GatewayList = res.data
           this.formConfig.forEach(item => {
             const {key} = item
-            if (key === "cm" || key === "cu" || key === "ct") {
+            if (key === "cmGatewayId" || key === "cuGatewayId" || key === "ctGatewayId") {
               res.data.forEach(t => {
                 let obj = {
                   key: t.gatewayId,
@@ -302,7 +245,7 @@
               ...form
             }
           }
-          this.$http.sysSignRoute.addSignRoute(params).then(res => {
+          this.$http.mmsUserGateway.addMmsUserGateway(params).then(res => {
             if (resOk(res)) {
               this.$message.success(res.msg || res.data)
               this._mxGetList();
@@ -314,11 +257,11 @@
         } else {
           params = {
             data: {
-              routeId: this.routeId,
+              ugId: this.ugId,
               ...form,
             }
           }
-          this.$http.sysSignRoute.updateSignRoute(params).then(res => {
+          this.$http.mmsUserGateway.updateMmsUserGateway(params).then(res => {
             if (resOk(res)) {
               this.$message.success(res.msg || res.data)
               this._mxGetList();
@@ -339,7 +282,7 @@
 
       },
       edit(row) {
-        this.routeId = row.routeId
+        this.ugId = row.ugId
         this.formTit = "修改"
         this.formConfig.forEach(item => {
           for (let key in row) {

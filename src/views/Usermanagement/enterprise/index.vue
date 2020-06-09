@@ -295,7 +295,9 @@
         this.customerAddInfo = true
         this.formBtn = "新增"
         this.formTit = "新增企业"
-        this.$refs.addForm.resetFields()
+        setTimeout(()=>{
+          this.$refs.addForm.resetFields()
+        },0)
       },
       //新增企业
       addCustomerInfo(formName) {

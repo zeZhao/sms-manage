@@ -1,6 +1,5 @@
 <template>
   <div class="sysSendLimit">
-    <!--      <h1>白名单 接口与原型不符</h1>-->
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
     <el-table
       :data="listData"
@@ -172,7 +171,7 @@
         // await
         setTimeout(()=>{
           this.$refs.form.resetForm()
-        })
+        },0)
 
       },
       edit(row){
@@ -180,7 +179,7 @@
         this.formTit = "修改"
         this.formConfig.forEach(item=>{
           for (let key in row){
-            if(item.key == key){
+            if(item.key === key){
               this.$set(item,'defaultValue',row[key])
             }
           }
