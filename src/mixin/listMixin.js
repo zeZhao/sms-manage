@@ -100,6 +100,8 @@ function queryData() {
       }else if(res.data.pageInfo){
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;
+      }else if(res.data){
+        list = res.data;
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);

@@ -17,7 +17,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+   <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
     <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" style="margin: 0 auto">
       <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"></FormItem>
     </el-dialog>
@@ -62,7 +62,7 @@
           {
             type: "input",
             label: "敏感词组",
-            key: "groupId",
+            key: "groupName",
             defaultValue:'',
             rules: [
               {required: true, message: '请输入必填项', trigger: 'blur'},
