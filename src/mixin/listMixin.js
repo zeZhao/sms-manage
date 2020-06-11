@@ -1,4 +1,3 @@
-
 function isEmpty(value) {
   return value === undefined || value === null || value === '';
 }
@@ -15,8 +14,8 @@ function throttle() {
   const timeDifference = nowTimeStamp - lastRequestTimeStamp;
 
   //时间差小于限定值
-  if(timeDifference < requestFrequency){
-    if(this.queryTask != null){
+  if (timeDifference < requestFrequency) {
+    if (this.queryTask != null) {
       clearTimeout(this.queryTask)
     }
   }
@@ -30,15 +29,17 @@ function throttle() {
  * @param key
  * @param val
  */
-function DynamicKey(key,val) {
+function DynamicKey(key, val) {
   let params = {
-    data:{
+    data: {
       pageIndex: this.pageObj.currentPage,
       pageNumber: this.pageObj.currentPage,
       pageSize: this.pageObj.pageSize,
     },
   }
-  params.data[key] = {...val}
+  params.data[key] = {
+    ...val
+  }
 
   return params
 }
@@ -67,12 +68,12 @@ function queryData() {
 
   let params = {}
   //提交参数做兼容处理
-  if(this.namespace){
-    let newF = DynamicKey.bind(this,this.namespace,searchParam)
+  if (this.namespace) {
+    let newF = DynamicKey.bind(this, this.namespace, searchParam)
     params = newF()
-  }else{
+  } else {
     params = {
-      data:{
+      data: {
         ...searchParam,
         pageIndex: this.pageObj.currentPage,
         pageNumber: this.pageObj.currentPage,
@@ -81,7 +82,10 @@ function queryData() {
     }
   }
 
-  const {namespace,list} = this.searchAPI //动态接口路径
+  const {
+    namespace,
+    list
+  } = this.searchAPI //动态接口路径
 
   this.$http[namespace][list](params).then(res => {
     this.loading = false;
@@ -91,21 +95,19 @@ function queryData() {
     //     this.$Message.error(res.message || res.msg);
     // }
 
-    if (resOk(res)){
+    if (resOk(res)) {
       let list = [];
       //兼容性处理
-      if(res.data.list){
+      if (res.data.list) {
         list = res.data.list;
         this.pageObj.total = res.data.total;
-      }else if(res.data.pageInfo){
+      } else if (res.data.pageInfo) {
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;
-      }else if(res.data){
-        list = res.data;
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);
-    }else{
+    } else {
       this.$message.error(res.msg || "获取数据失败")
     }
   })
@@ -126,11 +128,11 @@ export default {
       loading: false,
 
       searchAPI: {
-        namespace:"",
-        list:"",
-        detele:""
+        namespace: "",
+        list: "",
+        detele: ""
       },
-      namespace:'',
+      namespace: '',
       delAPI: '',
       //增加请求接口节流阀
       //节流阀-最后一次请求的时间戳
@@ -142,9 +144,9 @@ export default {
     }
   },
 
-  created(){},
+  created() {},
 
-  mounted(){
+  mounted() {
     this._mxGetList();
   },
 
@@ -194,29 +196,37 @@ export default {
      * @param id
      * @private
      */
-    _mxDeleteItem(key,id){
+    _mxDeleteItem(key, id) {
       const h = this.$createElement;
       this.$msgbox({
         title: '删除',
         message: h('div', null, [
           h('p', null, '您确定要删除此项吗？'),
-          h('p', { style: 'color: red' }, '删除后，将不再执行重发，请谨慎操作')
+          h('p', {
+            style: 'color: red'
+          }, '删除后，将不再执行重发，请谨慎操作')
         ]),
         showCancelButton: true,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       }).then(action => {
         const params = {
-          data:{},
+          data: {},
         }
         params.data[key] = id.toString()
-        const {namespace,detele} = this.searchAPI
-        this.$http[namespace][detele](params).then(res=>{
-          const {code, msg} = res
-          if(resOk(res)){
+        const {
+          namespace,
+          detele
+        } = this.searchAPI
+        this.$http[namespace][detele](params).then(res => {
+          const {
+            code,
+            msg
+          } = res
+          if (resOk(res)) {
             this.$message.info('删除成功！');
             this._mxGetList();
-          }else{
+          } else {
             this.$message.info('删除失败！');
           }
         })
@@ -230,7 +240,7 @@ export default {
      * @param url
      * @private
      */
-    _mxDoDelete(id, url){
+    _mxDoDelete(id, url) {
       this.$delete.call(this, url).then(res => {
         if (resOk(res)) {
           this.$Message.info('删除成功！');
@@ -247,7 +257,7 @@ export default {
      * @returns {*}
      * @private
      */
-    _mxFormListData(rows){
+    _mxFormListData(rows) {
       return rows;
     },
 
@@ -282,9 +292,9 @@ export default {
      * @private
      */
     _setDefaultValue(list, data, key, optionKey, optionVal) {
-      list.forEach(item=>{
-        if(item.key === key){
-          data.forEach(t=>{
+      list.forEach(item => {
+        if (item.key === key) {
+          data.forEach(t => {
             let obj = {
               key: t[optionKey],
               value: t[optionVal]
@@ -294,7 +304,21 @@ export default {
 
         }
       })
+    },
 
+    /**
+     * 设置表单项显示隐藏
+     * @param list 选择项
+     * @param key 选择项key值
+     * @private
+     */
+    _setDisplayShow(list, key, show) {
+      list.forEach(item => {
+        if (item.key === key) {
+          this.$set(item, 'isShow', show)
+          // item.isShow = true
+        }
+      })
     }
 
   }

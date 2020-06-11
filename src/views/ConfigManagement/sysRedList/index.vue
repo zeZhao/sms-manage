@@ -1,6 +1,6 @@
 <template>
-  <!--白名单管理-->
-  <div class="sysWhitelist">
+  <!--红名单管理-->
+  <div class="sysRedList">
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
@@ -12,16 +12,15 @@
       height="750"
       style="width: 100%;"
     >
-      <el-table-column prop="type" label="类型">
+      <el-table-column prop="code" label="特服号/用户ID" />
+      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="gateway" label="通道编号" />
+      <el-table-column prop="codeType" label="账号类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
+          <span>{{ scope.row.codeType === 1 ? "用户" : "特服号" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="code" label="修改人" />
-      <el-table-column prop="cmGatewayId" label="修改时间" />
-      <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
@@ -29,7 +28,7 @@
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('whiteId', scope.row.whiteId)"
+            @click="_mxDeleteItem('redId', scope.row.redId)"
             type="text"
             size="small"
             >删除</el-button
@@ -54,6 +53,7 @@
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
+        @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
   </div>
@@ -70,9 +70,9 @@ export default {
       addChannel: false,
       //接口地址
       searchAPI: {
-        namespace: "sysWhitelist",
-        list: "listWhitelistByPage",
-        detele: "deleteSysWhiteList"
+        namespace: "sysRedList",
+        list: "listRedListByPage",
+        detele: "deleteSysRedList"
       },
       // 列表参数
       namespace: "",
@@ -82,40 +82,35 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "用户id/通道id",
-          key: "userId",
-          placeholder: "请输入用户id/通道id"
+          label: "红名单号码",
+          key: "mobile",
+          placeholder: "请输入红名单号码"
         },
         {
           type: "input",
-          label: "手机号码",
-          key: "mobile",
-          placeholder: "请输入手机号码"
+          label: "网关编号",
+          key: "gateway",
+          placeholder: "请输入网关编号"
         },
         {
-          type: "select",
-          label: "类型",
-          key: "type",
-          placeholder: "请选择类型",
-          optionData: [
-            {
-              key: "1",
-              value: "用户"
-            },
-            {
-              key: "2",
-              value: "通道"
-            }
-          ]
+          type: "input",
+          label: "特服号/用户id",
+          key: "code",
+          placeholder: "请输入特服号/用户id"
+        },
+        {
+          type: "input",
+          label: "用户名称",
+          key: "userName",
+          placeholder: "请输入用户名称"
         }
       ],
       // 表单配置
       formConfig: [
         {
           type: "select",
-          label: "类型",
-          key: "type",
-          defaultValue: 1,
+          label: "账号类型",
+          key: "codeType",
           optionData: [
             {
               key: 1,
@@ -123,29 +118,65 @@ export default {
             },
             {
               key: 2,
-              value: "通道"
+              value: "特服号"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
-          label: "用户ID/通道ID",
+          label: "用户ID",
           key: "userId",
           defaultValue: "",
-          // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "手机号码",
+          label: "企业ID",
+          key: "corporateId",
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "特服号",
+          disabled: true,
+          key: "code",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "手机号",
           key: "mobile",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "优化类型",
+          key: "type",
+          optionData: [
+            {
+              key: 1,
+              value: "不优化"
+            },
+            {
+              key: 2,
+              value: "特定网关"
+            }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "通道编号",
+          key: "gateway",
+          defaultValue: "0"
         }
       ],
-      whiteId: "",
-      GatewayList: [] //通道列表
+      redId: ""
     };
   },
   mounted() {
@@ -153,6 +184,29 @@ export default {
   },
   computed: {},
   methods: {
+    selectChange(data) {
+      const { val, item } = data;
+      let obj = {};
+      if (item.key === "userId") {
+        item.optionData.map(t => {
+          if (t.userId == val) {
+            obj = t;
+          }
+        });
+        this.formConfig.map(t => {
+          const { key } = t;
+          if (key === "userId") {
+            t.defaultValue = obj.userId;
+          }
+          if (key === "corporateId") {
+            t.defaultValue = obj.corpId;
+          }
+          if (key === "code") {
+            t.defaultValue = obj.code;
+          }
+        });
+      }
+    },
     /*
      * 获取用户企业列表
      * */
@@ -170,6 +224,7 @@ export default {
         });
       });
     },
+
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
@@ -178,7 +233,7 @@ export default {
             ...form
           }
         };
-        this.$http.sysWhitelist.addSysWhiteList(params).then(res => {
+        this.$http.sysRedList.addSysRedList(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -190,11 +245,11 @@ export default {
       } else {
         params = {
           data: {
-            whiteId: this.whiteId,
+            redId: this.redId,
             ...form
           }
         };
-        this.$http.sysWhitelist.updateSysWhiteList(params).then(res => {
+        this.$http.sysRedList.updateSysRedList(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -213,7 +268,7 @@ export default {
       }, 0);
     },
     edit(row) {
-      this.whiteId = row.whiteId;
+      this.redId = row.redId;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
@@ -244,6 +299,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sysWhitelist {
+.sysRedList {
 }
 </style>

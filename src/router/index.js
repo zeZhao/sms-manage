@@ -35,11 +35,10 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-  {
+export const constantRoutes = [{
     path: '/login',
     component: () =>
-      import ('@/views/login/index'),
+      import('@/views/login/index'),
     hidden: true,
     meta: {
       title: '短信平台-登录'
@@ -48,19 +47,19 @@ export const constantRoutes = [
   {
     path: '/auth-redirect',
     component: () =>
-      import ('@/views/login/auth-redirect'),
+      import('@/views/login/auth-redirect'),
     hidden: true
   },
   {
     path: '/404',
     component: () =>
-      import ('@/views/error-page/404'),
+      import('@/views/error-page/404'),
     hidden: true
   },
   {
     path: '/401',
     component: () =>
-      import ('@/views/error-page/401'),
+      import('@/views/error-page/401'),
     hidden: true
   },
   {
@@ -70,9 +69,12 @@ export const constantRoutes = [
     children: [{
       path: '',
       component: () =>
-        import ('@/views/index/index'),
+        import('@/views/index/index'),
       name: 'index',
-      meta: {title: '首页', affix: true}
+      meta: {
+        title: '首页',
+        affix: true
+      }
     }]
   },
 ]
@@ -81,8 +83,7 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-  {
+export const asyncRoutes = [{
     path: '/role',
     component: Layout,
     redirect: '/role/index',
@@ -93,19 +94,19 @@ export const asyncRoutes = [
       title: 'WEB账号管理',
     },
     children: [{
-      path: '/role/index',
-      component: () =>
-        import ('@/views/Systemmanagement/role/index'),
-      name: 'role',
-      meta: {
-        keepAlive: true,
-        title: '角色管理'
-      }
-    },
+        path: '/role/index',
+        component: () =>
+          import('@/views/Systemmanagement/role/index'),
+        name: 'role',
+        meta: {
+          keepAlive: true,
+          title: '角色管理'
+        }
+      },
       {
         path: '/nav/index',
         component: () =>
-          import ('@/views/Systemmanagement/nav/index'),
+          import('@/views/Systemmanagement/nav/index'),
         name: 'nav',
         meta: {
           keepAlive: true,
@@ -114,7 +115,7 @@ export const asyncRoutes = [
       }, {
         path: '/user/index',
         component: () =>
-          import ('@/views/Systemmanagement/user/index'),
+          import('@/views/Systemmanagement/user/index'),
         name: 'user',
         meta: {
           keepAlive: true,
@@ -123,7 +124,7 @@ export const asyncRoutes = [
       }, {
         path: '/company/index',
         component: () =>
-          import ('@/views/Systemmanagement/company/index'),
+          import('@/views/Systemmanagement/company/index'),
         name: 'company',
         meta: {
           keepAlive: true,
@@ -143,11 +144,10 @@ export const asyncRoutes = [
     meta: {
       title: '用户管理',
     },
-    children: [
-      {
+    children: [{
         path: '/enterprise/index',
         component: () =>
-          import ('@/views/Usermanagement/enterprise/index'),
+          import('@/views/Usermanagement/enterprise/index'),
         name: 'enterprise',
         meta: {
           keepAlive: true,
@@ -157,7 +157,7 @@ export const asyncRoutes = [
       {
         path: '/userManagement/index',
         component: () =>
-          import ('@/views/Usermanagement/userManagement/index'),
+          import('@/views/Usermanagement/userManagement/index'),
         name: 'userManagement',
         meta: {
           keepAlive: true,
@@ -176,11 +176,10 @@ export const asyncRoutes = [
     meta: {
       title: '配置管理',
     },
-    children: [
-      {
+    children: [{
         path: '/sysResendConfig/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysResendConfig/index'),
+          import('@/views/ConfigManagement/sysResendConfig/index'),
         name: 'sysResendConfig',
         meta: {
           keepAlive: true,
@@ -190,7 +189,7 @@ export const asyncRoutes = [
       {
         path: '/sysSignRoute/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysSignRoute/index'),
+          import('@/views/ConfigManagement/sysSignRoute/index'),
         name: 'sysSignRoute',
         meta: {
           keepAlive: true,
@@ -198,19 +197,9 @@ export const asyncRoutes = [
         }
       },
       {
-        path: '/sysWhitelist/index',
-        component: () =>
-          import ('@/views/ConfigManagement/sysWhitelist/index'),
-        name: 'sysWhitelist',
-        meta: {
-          keepAlive: true,
-          title: '白名单管理'
-        }
-      },
-      {
         path: '/sysSendLimit/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysSendLimit/index'),
+          import('@/views/ConfigManagement/sysSendLimit/index'),
         name: 'sysSendLimit',
         meta: {
           keepAlive: true,
@@ -220,7 +209,7 @@ export const asyncRoutes = [
       {
         path: '/sysGatewayGroup/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysGatewayGroup/index'),
+          import('@/views/ConfigManagement/sysGatewayGroup/index'),
         name: 'sysGatewayGroup',
         meta: {
           keepAlive: true,
@@ -230,7 +219,7 @@ export const asyncRoutes = [
       {
         path: '/sysProvinceRoute/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysProvinceRoute/index'),
+          import('@/views/ConfigManagement/sysProvinceRoute/index'),
         name: 'sysProvinceRoute',
         meta: {
           keepAlive: true,
@@ -240,47 +229,87 @@ export const asyncRoutes = [
       {
         path: '/sysCustomerChannelStrategy/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysCustomerChannelStrategy/index'),
+          import('@/views/ConfigManagement/sysCustomerChannelStrategy/index'),
         name: 'sysCustomerChannelStrategy',
         meta: {
           keepAlive: true,
           title: '客户通道策略'
         }
-      },{
+      }, {
         path: '/mmsUserGateway/index',
         component: () =>
-          import ('@/views/ConfigManagement/mmsUserGateway/index'),
+          import('@/views/ConfigManagement/mmsUserGateway/index'),
         name: 'mmsUserGateway',
         meta: {
           keepAlive: true,
           title: '彩信用户通道配置'
         }
-      },{
+      }, {
         path: '/sysSignCheck/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysSignCheck/index'),
+          import('@/views/ConfigManagement/sysSignCheck/index'),
         name: 'sysSignCheck',
         meta: {
           keepAlive: true,
           title: '签名管理'
         }
-      },{
+      }, {
         path: '/sysSensitiveWord/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysSensitiveWord/index'),
+          import('@/views/ConfigManagement/sysSensitiveWord/index'),
         name: 'sysSensitiveWord',
         meta: {
           keepAlive: true,
           title: '敏感词'
         }
-      },{
+      }, {
         path: '/sysSensitiveWordGroup/index',
         component: () =>
-          import ('@/views/ConfigManagement/sysSensitiveWordGroup/index'),
+          import('@/views/ConfigManagement/sysSensitiveWordGroup/index'),
         name: 'sysSensitiveWordGroup',
         meta: {
           keepAlive: true,
           title: '敏感词类别'
+        }
+      },
+      {
+        path: '/sysWhitelist/index',
+        component: () =>
+          import('@/views/ConfigManagement/sysWhitelist/index'),
+        name: 'sysWhitelist',
+        meta: {
+          keepAlive: true,
+          title: '白名单管理'
+        }
+      },
+      {
+        path: '/sysBlacklist/index',
+        component: () =>
+          import('@/views/ConfigManagement/sysBlacklist/index'),
+        name: 'sysBlacklist',
+        meta: {
+          keepAlive: true,
+          title: '黑名单管理'
+        }
+      },
+      {
+        path: '/sysRedList/index',
+        component: () =>
+          import('@/views/ConfigManagement/sysRedList/index'),
+        name: 'sysRedList',
+        meta: {
+          keepAlive: true,
+          title: '红名单管理'
+        }
+      },
+      {
+        path: '/sysSecondaryRoute/index',
+        component: () =>
+          import('@/views/ConfigManagement/sysSecondaryRoute/index'),
+        name: 'sysSecondaryRoute',
+        meta: {
+          keepAlive: true,
+          title: '二次路由'
         }
       },
     ]
@@ -295,11 +324,10 @@ export const asyncRoutes = [
     meta: {
       title: '配置管理',
     },
-    children: [
-      {
+    children: [{
         path: '/corpUserBalance/index',
         component: () =>
-          import ('@/views/FinanceManagement/corpUserBalance/index'),
+          import('@/views/FinanceManagement/corpUserBalance/index'),
         name: 'corpUserBalance',
         meta: {
           keepAlive: true,
@@ -309,7 +337,7 @@ export const asyncRoutes = [
       {
         path: '/smsBalanceopt/index',
         component: () =>
-          import ('@/views/FinanceManagement/smsBalanceopt/index'),
+          import('@/views/FinanceManagement/smsBalanceopt/index'),
         name: 'smsBalanceopt',
         meta: {
           keepAlive: true,
@@ -319,7 +347,7 @@ export const asyncRoutes = [
       {
         path: '/sysCompanyIncome/index',
         component: () =>
-          import ('@/views/FinanceManagement/sysCompanyIncome/index'),
+          import('@/views/FinanceManagement/sysCompanyIncome/index'),
         name: 'sysCompanyIncome',
         meta: {
           keepAlive: true,
@@ -338,54 +366,52 @@ export const asyncRoutes = [
     meta: {
       title: '警报管理',
     },
-    children: [
-      {
-        path: '/sysAlarmMessage/index',
-        component: () =>
-          import ('@/views/Alertmanagement/sysAlarmMessage/index'),
-        name: 'sysAlarmMessage',
-        meta: {
-          keepAlive: true,
-          title: '报警信息'
-        }
-      },{
-        path: '/sysGatewayAlarm/index',
-        component: () =>
-          import ('@/views/Alertmanagement/sysGatewayAlarm/index'),
-        name: 'sysGatewayAlarm',
-        meta: {
-          keepAlive: true,
-          title: '通道警报'
-        }
-      },{
-        path: '/sysUserAlarm/index',
-        component: () =>
-          import ('@/views/Alertmanagement/sysUserAlarm/index'),
-        name: 'sysUserAlarm',
-        meta: {
-          keepAlive: true,
-          title: '用户警报'
-        }
-      },{
-        path: '/sysAlarmType/index',
-        component: () =>
-          import ('@/views/Alertmanagement/sysAlarmType/index'),
-        name: 'sysAlarmType',
-        meta: {
-          keepAlive: true,
-          title: '报警类别'
-        }
-      },{
-        path: '/sysAlarmMessageStatistics/index',
-        component: () =>
-          import ('@/views/Alertmanagement/sysAlarmMessageStatistics/index'),
-        name: 'sysAlarmMessageStatistics',
-        meta: {
-          keepAlive: true,
-          title: '报警信息统计表'
-        }
-      },
-    ]
+    children: [{
+      path: '/sysAlarmMessage/index',
+      component: () =>
+        import('@/views/Alertmanagement/sysAlarmMessage/index'),
+      name: 'sysAlarmMessage',
+      meta: {
+        keepAlive: true,
+        title: '报警信息'
+      }
+    }, {
+      path: '/sysGatewayAlarm/index',
+      component: () =>
+        import('@/views/Alertmanagement/sysGatewayAlarm/index'),
+      name: 'sysGatewayAlarm',
+      meta: {
+        keepAlive: true,
+        title: '通道警报'
+      }
+    }, {
+      path: '/sysUserAlarm/index',
+      component: () =>
+        import('@/views/Alertmanagement/sysUserAlarm/index'),
+      name: 'sysUserAlarm',
+      meta: {
+        keepAlive: true,
+        title: '用户警报'
+      }
+    }, {
+      path: '/sysAlarmType/index',
+      component: () =>
+        import('@/views/Alertmanagement/sysAlarmType/index'),
+      name: 'sysAlarmType',
+      meta: {
+        keepAlive: true,
+        title: '报警类别'
+      }
+    }, {
+      path: '/sysAlarmMessageStatistics/index',
+      component: () =>
+        import('@/views/Alertmanagement/sysAlarmMessageStatistics/index'),
+      name: 'sysAlarmMessageStatistics',
+      meta: {
+        keepAlive: true,
+        title: '报警信息统计表'
+      }
+    }, ]
   },
   {
     path: '/SalesManagement',
@@ -397,11 +423,10 @@ export const asyncRoutes = [
     meta: {
       title: '销售管理',
     },
-    children: [
-      {
+    children: [{
         path: '/sysSalesGroup/index',
         component: () =>
-          import ('@/views/SalesManagement/sysSalesGroup/index'),
+          import('@/views/SalesManagement/sysSalesGroup/index'),
         name: 'sysSalesGroup',
         meta: {
           keepAlive: true,
@@ -411,7 +436,7 @@ export const asyncRoutes = [
       {
         path: '/sysSales/index',
         component: () =>
-          import ('@/views/SalesManagement/sysSales/index'),
+          import('@/views/SalesManagement/sysSales/index'),
         name: 'sysSales',
         meta: {
           keepAlive: true,
@@ -421,12 +446,18 @@ export const asyncRoutes = [
     ]
   },
   // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRoutes
 })
 

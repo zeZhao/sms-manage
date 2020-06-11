@@ -1,4 +1,10 @@
-import {post, fetch, patch, put, del} from './http'
+import {
+  post,
+  fetch,
+  patch,
+  put,
+  del
+} from './http'
 
 /**
  * params 类型为Object
@@ -315,14 +321,14 @@ export default {
     },
   },
   //用户余额
-  corpUserBalance:{
+  corpUserBalance: {
     // 分页查询列表
     queryByPage(params) {
       return post("/corpUserBalance/queryByPage", params);
     },
   },
   //余额调整记录
-  smsBalanceopt:{
+  smsBalanceopt: {
     // 分页查询列表
     queryByPage(params) {
       return post("/smsBalanceopt/queryByPage", params);
@@ -333,7 +339,7 @@ export default {
     },
   },
   //余额调整记录
-  sysCompanyIncome:{
+  sysCompanyIncome: {
     // 分页查询列表
     listCompanyIncomeByPage(params) {
       return post("/sysCompanyIncome/listCompanyIncomeByPage", params);
@@ -352,8 +358,8 @@ export default {
     },
   },
   //报警信息
-  sysAlarmMessage:{
-// 分页查询列表
+  sysAlarmMessage: {
+    // 分页查询列表
     listAlarmMessageByPage(params) {
       return post("/sysAlarmMessage/listAlarmMessageByPage", params);
     },
@@ -364,7 +370,7 @@ export default {
 
   },
   //通道报警
-  sysGatewayAlarm:{
+  sysGatewayAlarm: {
     // 分页查询列表
     listGatewayAlarmByPage(params) {
       return post("/sysGatewayAlarm/listGatewayAlarmByPage", params);
@@ -383,7 +389,7 @@ export default {
     },
   },
   //用户报警
-  sysUserAlarm:{
+  sysUserAlarm: {
     // 分页查询列表
     listUserAlarmByPage(params) {
       return post("/sysUserAlarm/listUserAlarmByPage", params);
@@ -402,7 +408,7 @@ export default {
     },
   },
   //用户报警
-  sysAlarmType:{
+  sysAlarmType: {
     // 分页查询列表
     listAlarmTypeByPage(params) {
       return post("/sysAlarmType/listAlarmTypeByPage", params);
@@ -421,7 +427,7 @@ export default {
     },
   },
   //销售组管理
-  sysSalesGroup:{
+  sysSalesGroup: {
     // 分页查询列表
     queryByPage(params) {
       return post("/sysSalesGroup/queryByPage", params);
@@ -436,7 +442,7 @@ export default {
     },
   },
   //销售组管理
-  sysSales:{
+  sysSales: {
     // 分页查询列表
     queryByPage(params) {
       return post("/sysSales/queryByPage", params);
@@ -459,7 +465,7 @@ export default {
     },
   },
   //敏感词
-  sysSensitiveWord:{
+  sysSensitiveWord: {
     // 分页查询列表
     listSensitiveWordByPage(params) {
       return post("/sysSensitiveWord/listSensitiveWordByPage", params);
@@ -478,10 +484,14 @@ export default {
     },
   },
   // 敏感词组
-  sysSensitiveWordGroup:{
-    // 分页查询列表
+  sysSensitiveWordGroup: {
+    // 查询列表
     listSensitiveWordGroup(params) {
       return post("/sysSensitiveWordGroup/listSensitiveWordGroup", params);
+    },
+    // 分页查询列表
+    listKeyWordGroupByPage(params) {
+      return post("/sysSensitiveWordGroup/listKeyWordGroupByPage", params);
     },
     // 新增
     addSensitiveWordGroup(params) {
@@ -495,6 +505,82 @@ export default {
     deleteSensitiveWordGroup(params) {
       return post("/sysSensitiveWordGroup/deleteSensitiveWordGroup", params);
     },
-  }
+  },
+  // 黑名单管理
+  sysBlacklist: {
+    // 查询列表
+    listBlacklistByPage(params) {
+      return post("/sysBlacklist/listBlacklistByPage", params);
+    },
+    // 新增
+    addSysBlackList(params) {
+      return post("/sysBlacklist/addSysBlackList", params);
+    },
+    // 修改
+    updateSysBlackList(params) {
+      return post("/sysBlacklist/updateSysBlackList", params);
+    },
+    //  删除
+    deleteSysBlackList(params) {
+      return post("/sysBlacklist/deleteSysBlackList", params);
+    },
+  },
+  // 红名单管理
+  sysRedList: {
+    // 查询列表
+    listRedListByPage(params) {
+      return post("/sysRedList/listRedListByPage", params);
+    },
+    // 新增
+    addSysRedList(params) {
+      return post("/sysRedList/addSysRedList", params);
+    },
+    // 修改
+    updateSysRedList(params) {
+      return post("/sysRedList/updateSysRedList", params);
+    },
+    //  删除
+    deleteSysRedList(params) {
+      return post("/sysRedList/deleteSysRedList", params);
+    },
+  },
+  // 白名单管理
+  sysWhitelist: {
+    // 查询列表
+    listWhitelistByPage(params) {
+      return post("/sysWhitelist/listWhitelistByPage", params);
+    },
+    // 新增
+    addSysWhiteList(params) {
+      return post("/sysWhitelist/addSysWhiteList", params);
+    },
+    // 修改
+    updateSysWhiteList(params) {
+      return post("/sysWhitelist/updateSysWhiteList", params);
+    },
+    //  删除
+    deleteSysWhiteList(params) {
+      return post("/sysWhitelist/deleteSysWhiteList", params);
+    },
+  },
+  // 二次路由
+  sysSecondaryRoute: {
+    // 查询列表
+    listSecondaryRouteByPage(params) {
+      return post("/sysSecondaryRoute/listSecondaryRouteByPage", params);
+    },
+    // 新增
+    addSecondaryRoute(params) {
+      return post("/sysSecondaryRoute/addSecondaryRoute", params);
+    },
+    // 修改
+    updateSecondaryRoute(params) {
+      return post("/sysSecondaryRoute/updateSecondaryRoute", params);
+    },
+    //  删除
+    deleteInterfaceSign(params) { 
+      return post("/sysSecondaryRoute/deleteInterfaceSign", params);
+    },
+  },
 
 }

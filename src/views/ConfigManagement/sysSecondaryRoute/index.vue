@@ -1,6 +1,6 @@
 <template>
-  <!--客户通道策略-->
-  <div class="sysCustomerChannelStrategy">
+  <!--彩信用户通道配置-->
+  <div class="sysSecondaryRoute">
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
@@ -12,23 +12,25 @@
       height="750"
       style="width: 100%;"
     >
-      <el-table-column prop="strategyLevel" label="策略类型" />
+      <el-table-column type="selection" width="55" />
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
-      <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="cmPassagewayId" label="移动网关" />
-      <el-table-column prop="cuPassagewayId" label="联通网关" />
-      <el-table-column prop="ctPassagewayId" label="电信网关" />
-      <el-table-column prop="modifier" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间" />
+      <el-table-column prop="code" label="客户特服号" />
+      <el-table-column prop="gatewayCode" label="网关特服号" />
+      <el-table-column prop="passagewayId" label="网关编号" />
+      <el-table-column prop="userName" label="客户名称" />
+      <el-table-column prop="sign" label="客户签名" />
+      <el-table-column prop="updateTime" label="备注信息" />
+      <el-table-column prop="createBy" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('strategyId', scope.row.strategyId)"
+            @click="_mxDeleteItem('routeId', scope.row.routeId)"
             type="text"
             size="small"
             >删除</el-button
@@ -70,33 +72,21 @@ export default {
       addChannel: false,
       //接口地址
       searchAPI: {
-        namespace: "sysCustomerChannelStrategy",
-        list: "listStrategyByPage",
-        detele: "deleteStrategy"
-      },
-      //搜索框数据
-      searchParam: {
-        strategyLevel: "",
-        userId: "",
-        userName: "",
-        cmPassageway: "",
-        cuPassageway: ""
+        namespace: "sysSecondaryRoute",
+        list: "listSecondaryRouteByPage",
+        detele: "deleteInterfaceSign"
       },
       // 列表参数
       namespace: "",
+      //搜索框数据
+      searchParam: {},
       //搜索框配置
       searchFormConfig: [
         {
-          type: "select",
-          label: "策略类型",
-          key: "strategyLevel",
-          placeholder: "请选择类型",
-          optionData: [
-            { key: "1", value: "系统级" },
-            { key: "2", value: "特服号级" },
-            { key: "3", value: "客户级" },
-            { key: "4", value: "企业级" }
-          ]
+          type: "input",
+          label: "企业ID",
+          key: "corpId",
+          placeholder: "请输入企业ID"
         },
         {
           type: "input",
@@ -112,15 +102,27 @@ export default {
         },
         {
           type: "input",
-          label: "移动通道编号",
-          key: "cmPassageway",
-          placeholder: "请输入移动通道编号"
+          label: "网关编号",
+          key: "passagewayId",
+          placeholder: "请输入网关编号"
         },
         {
           type: "input",
-          label: "联通通道编号",
-          key: "cuPassageway",
-          placeholder: "请输入联通通道编号"
+          label: "用户签名",
+          key: "sign",
+          placeholder: "请输入用户签名"
+        },
+        {
+          type: "input",
+          label: "客户特服号",
+          key: "code",
+          placeholder: "请输入客户特服号"
+        },
+        {
+          type: "input",
+          label: "网关特服号",
+          key: "gatewayCode",
+          placeholder: "请输入网关特服号"
         }
       ],
       // 表单配置
@@ -136,7 +138,7 @@ export default {
         {
           type: "input",
           label: "企业ID",
-          key: "corporateId",
+          key: "corpId",
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -150,42 +152,32 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "类型",
-          key: "type",
-          optionData: [
-            { key: 1, value: "特服号" },
-            { key: 2, value: "客户ID" },
-            { key: 3, value: "企业ID" }
-          ],
+          type: "input",
+          label: "客户名称",
+          disabled: true,
+          key: "userName",
+          defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "省份",
-          key: "province",
-          optionData: [],
+          type: "input",
+          label: "网关编号",
+          key: "userName",
+          defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "移动通道",
-          key: "cm",
-          optionData: [],
+          type: "input",
+          label: "网关特服号",
+          key: "userName",
+          defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "联通通道",
-          key: "cu",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "电信通道",
-          optionData: [],
-          key: "ct",
+          type: "input",
+          label: "客户签名",
+          key: "userName",
+          defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -194,14 +186,10 @@ export default {
           key: "remark"
         }
       ],
-      routeId: "",
-      ProvinceList: [], //省列表
-      GatewayList: [] //通道列表
+      routeId: ""
     };
   },
   mounted() {
-    this.gateway();
-    this.listSysProvince();
     this.queryMainInfo();
   },
   computed: {},
@@ -220,11 +208,14 @@ export default {
           if (key === "userId") {
             t.defaultValue = obj.userId;
           }
-          if (key === "corporateId") {
+          if (key === "corpId") {
             t.defaultValue = obj.corpId;
           }
           if (key === "code") {
             t.defaultValue = obj.code;
+          }
+          if (key === "userName") {
+            t.defaultValue = obj.userName;
           }
         });
       }
@@ -244,60 +235,6 @@ export default {
             t.optionData = res.data;
           }
         });
-        console.log(res);
-      });
-    },
-    /*
-     * 获取省份列表
-     * */
-    listSysProvince() {
-      const params = {
-        data: {
-          provinceName: ""
-        }
-      };
-      this.$http.listSysProvince(params).then(res => {
-        this.ProvinceList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
-      });
-    },
-    /*
-     * 获取通道列表
-     * */
-    gateway() {
-      const params = {
-        data: {
-          gatewayName: "",
-          isCu: "",
-          isCt: "",
-          isCm: ""
-        }
-      };
-      this.$http.gateway.listGateway(params).then(res => {
-        this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "cu" || key === "cm" || key === "ct") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.gatewayId,
-                value: t.gatewayName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
       });
     },
     submit(form) {
@@ -308,7 +245,7 @@ export default {
             ...form
           }
         };
-        this.$http.sysCustomerChannelStrategy.addStrategy(params).then(res => {
+        this.$http.sysSecondaryRoute.addSecondaryRoute(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -324,17 +261,15 @@ export default {
             ...form
           }
         };
-        this.$http.sysCustomerChannelStrategy
-          .updateStrategy(params)
-          .then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data);
-              this._mxGetList();
-              this.addChannel = false;
-            } else {
-              this.$message.error(res.msg || res.data);
-            }
-          });
+        this.$http.sysSecondaryRoute.updateSecondaryRoute(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
       }
     },
     create() {
@@ -359,38 +294,20 @@ export default {
     cancel() {
       this.addChannel = false;
     },
-    /*
-     * 表格数据处理
-     * */
-    _mxFormListData(list) {
-      list.forEach(item => {
-        item.province &&
-          this.ProvinceList.forEach(t => {
-            if (item.province == t.provinceId) {
-              item.province = t.provinceName;
-            }
-          });
-        this.GatewayList.forEach(t => {
-          const { gatewayId, gatewayName } = t;
-          if (item.cu == gatewayId) {
-            item.cu = gatewayName;
-          }
-          if (item.cm == gatewayId) {
-            item.cm = gatewayName;
-          }
-          if (item.ct == gatewayId) {
-            item.ct = gatewayName;
-          }
-        });
+    //修改表格数据
+    _mxFormListData(data) {
+      data.forEach(item => {
+        if (item.createTime) {
+          item.createTime = new Date(item.createTime).Format(
+            "yyyy-MM-dd hh:mm:ss"
+          );
+        }
       });
-      return list;
+      return data;
     }
   },
   watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-.sysCustomerChannelStrategy {
-}
-</style>
+<style lang="scss" scoped></style>

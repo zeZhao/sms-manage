@@ -1,0 +1,331 @@
+<template>
+  <!--黑名单管理-->
+  <div class="sysBlacklist">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table
+      :data="listData"
+      highlight-current-row
+      height="750"
+      style="width: 100%;"
+    >
+      <el-table-column prop="mobile" label="手机号码" />
+      <el-table-column prop="blackType" label="黑名单类型">
+        <template slot-scope="scope">
+          <span>{{
+            scope.row.blackType === "0"
+              ? "系统级"
+              : scope.row.blackType === "1"
+              ? "网关级"
+              : scope.row.blackType === "2"
+              ? "用户级"
+              : scope.row.blackType === "3"
+              ? "营销级"
+              : "BSATS级"
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="modifyTime" label="修改日期" />
+      <el-table-column prop="remark" label="描述" />
+      <el-table-column prop="status" label="状态" />
+      <el-table-column fixed="right" label="操作" width="200">
+        <template slot-scope="scope">
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('blackId', scope.row.blackId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      style="margin: 0 auto"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="submit"
+        @cancel="cancel"
+        @selectChange="selectChange"
+      ></FormItem>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import listMixin from "@/mixin/listMixin";
+
+export default {
+  mixins: [listMixin],
+  data() {
+    return {
+      formTit: "新增",
+      addChannel: false,
+      //接口地址
+      searchAPI: {
+        namespace: "sysBlacklist",
+        list: "listBlacklistByPage",
+        detele: "deleteSysBlackList"
+      },
+      // 列表参数
+      namespace: "",
+      //搜索框数据
+      searchParam: {},
+      //搜索框配置
+      searchFormConfig: [
+        {
+          type: "input",
+          label: "黑名单号码",
+          key: "mobile",
+          placeholder: "请输入黑名单号码"
+        },
+        {
+          type: "select",
+          label: "黑名单类型",
+          key: "blackType",
+          placeholder: "请选择黑名单类型",
+          optionData: [
+            {
+              key: "0",
+              value: "系统级"
+            },
+            {
+              key: "1",
+              value: "网关级"
+            },
+            {
+              key: "2",
+              value: "用户级"
+            },
+            {
+              key: "3",
+              value: "营销级"
+            },
+            {
+              key: "4",
+              value: "BSATS级"
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "用户ID",
+          key: "userId",
+          placeholder: "请输入用户ID"
+        },
+        {
+          type: "input",
+          label: "用户名称",
+          key: "userName",
+          placeholder: "请输入用户名称"
+        }
+      ],
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "手机号",
+          key: "mobile",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "黑名单类型",
+          key: "blackType",
+          defaultValue: "",
+          optionData: [
+            {
+              key: "0",
+              value: "系统级"
+            },
+            {
+              key: "1",
+              value: "网关级"
+            },
+            {
+              key: "2",
+              value: "用户级"
+            },
+            {
+              key: "3",
+              value: "营销级"
+            },
+            {
+              key: "4",
+              value: "BSATS级"
+            }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "通道编号",
+          key: "gateway",
+          isShow: true,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "用户ID",
+          key: "userId",
+          isShow: true,
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "textarea",
+          label: "描述",
+          key: "remark"
+        }
+      ],
+      blackId: ""
+    };
+  },
+  mounted() {
+    this.queryMainInfo();
+  },
+  computed: {},
+  methods: {
+    selectChange(data) {
+      const { val, item } = data;
+      if (item.key === "blackType") {
+        item.defaultValue = val;
+        if (val === "1") {
+          this._setDisplayShow(this.formConfig, "gateway", false);
+          this._setDisplayShow(this.formConfig, "userId", true);
+        } else if (val === "2") {
+          this._setDisplayShow(this.formConfig, "userId", false);
+          this._setDisplayShow(this.formConfig, "gateway", true);
+        } else {
+          this._setDisplayShow(this.formConfig, "gateway", true);
+          this._setDisplayShow(this.formConfig, "userId", true);
+        }
+      }
+    },
+    /*
+     * 获取用户企业列表
+     * */
+    queryMainInfo() {
+      this.$http.queryMainInfo().then(res => {
+        res.data.map(item => {
+          this.$set(item, "key", item.userId);
+          this.$set(item, "value", item.userName);
+        });
+        this.formConfig.map(t => {
+          const { key } = t;
+          if (key === "userId") {
+            t.optionData = res.data;
+          }
+        });
+      });
+    },
+    submit(form) {
+      let params = {};
+      if (this.formTit == "新增") {
+        params = {
+          data: {
+            ...form
+          }
+        };
+        this.$http.sysBlacklist.addSysBlackList(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
+      } else {
+        params = {
+          data: {
+            blackId: this.blackId,
+            ...form
+          }
+        };
+        this.$http.sysBlacklist.updateSysBlackList(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
+      }
+    },
+    create() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      this._setDisplayShow(this.formConfig, "gateway", true);
+      this._setDisplayShow(this.formConfig, "userId", true);
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
+    edit(row) {
+      const { blackId, blackType } = row;
+      this.blackId = blackId;
+      if (blackType === "1") {
+        this._setDisplayShow(this.formConfig, "gateway", false);
+        this._setDisplayShow(this.formConfig, "userId", true);
+      } else if (blackType === "2") {
+        this._setDisplayShow(this.formConfig, "gateway", true);
+        this._setDisplayShow(this.formConfig, "userId", false);
+      } else {
+        this._setDisplayShow(this.formConfig, "gateway", true);
+        this._setDisplayShow(this.formConfig, "userId", true);
+      }
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+      });
+      this.addChannel = true;
+    },
+    cancel() {
+      this.addChannel = false;
+    },
+    //修改表格数据
+    _mxFormListData(data) {
+      data.forEach(item => {
+        if (item.modifyTime) {
+          item.modifyTime = new Date(item.modifyTime).Format(
+            "yyyy-MM-dd hh:mm:ss"
+          );
+        }
+      });
+      return data;
+    }
+  },
+  watch: {}
+};
+</script>
+
+<style lang="scss" scoped>
+.sysBlacklist {
+}
+</style>
