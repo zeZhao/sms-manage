@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/api/sys/login',
+    url: '/sys/login',
     method: 'post',
     data
   })
@@ -12,20 +12,22 @@ export function getInfo(token) {
   return request({
     url: '/user/info',
     method: 'get',
-    params: { token }
+    params: {
+      token
+    }
   })
 }
 
 export function logout() {
   return request({
-    url: '/api/sys/logout',
+    url: '/sys/logout',
     method: 'post'
   })
 }
 
 export function loginByUsername(data) {
   return request({
-    url: '/api/sysLogin/login',
+    url: '/sysLogin/login',
     method: 'post',
     data
   })
@@ -33,11 +35,10 @@ export function loginByUsername(data) {
 
 export function getAuthMenu(token) {
   return request({
-    url: '/api/sysMenu/selectSysMenus',
+    url: 'sysMenu/selectSysMenus',
     method: 'get',
-    params: { token }
+    params: {
+      token
+    }
   })
 }
-
-
-

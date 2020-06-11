@@ -1,61 +1,81 @@
 <template>
   <div class="login-container">
     <div class="login_box" style="display: block">
-      <img class="loginImg" src="../../../src/image/login_bg.png" alt="">
+      <img class="loginImg" src="../../../src/image/login_bg.png" alt="" />
       <div style="display: inline-block;vertical-align: top;width: 45%">
         <div class="login_name">
           <p><span>|</span>短信系统</p>
         </div>
-        <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
+        <el-form
+          ref="loginForm"
+          :model="loginForm"
+          :rules="loginRules"
+          class="login-form"
+          autocomplete="on"
+          label-position="left"
+        >
           <el-form-item prop="username">
             <el-input
-                    ref="username"
-                    v-model="loginForm.username"
-                    placeholder="用户名"
-                    name="username"
-                    type="text"
-                    tabindex="1"
+              ref="username"
+              v-model="loginForm.username"
+              placeholder="用户名"
+              name="username"
+              type="text"
+              tabindex="1"
             />
           </el-form-item>
 
-          <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+          <el-tooltip
+            v-model="capsTooltip"
+            content="Caps lock is On"
+            placement="right"
+            manual
+          >
             <el-form-item prop="password">
               <el-input
-                      :key="passwordType"
-                      ref="password"
-                      v-model="loginForm.password"
-                      :type="passwordType"
-                      placeholder="密码"
-                      name="password"
-                      tabindex="2"
-                      autocomplete="on"
-                      @keyup.native="checkCapslock"
-                      @blur="capsTooltip = false"
-                      @keyup.enter.native="handleLogin"
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
+                placeholder="密码"
+                name="password"
+                tabindex="2"
+                autocomplete="on"
+                @keyup.native="checkCapslock"
+                @blur="capsTooltip = false"
+                @keyup.enter.native="handleLogin"
               />
               <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
+                <svg-icon
+                  :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+                />
+              </span>
             </el-form-item>
           </el-tooltip>
 
           <el-form-item prop="verifyCode" style="overflow: hidden">
             <el-input
-                    v-model="loginForm.verifyCode"
-                    placeholder="验证码"
-                    prefix-icon="lj-icon-yanzhengma"
-                    autocomplete="off"
-                    autocapitalize="off"
-                    spellcheck="false"
-                    maxlength="6"
-                    @keyup.enter.native="handleLogin"
-                    style="float: left;width: 50% "
+              v-model="loginForm.verifyCode"
+              placeholder="验证码"
+              prefix-icon="lj-icon-yanzhengma"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              maxlength="6"
+              @keyup.enter.native="handleLogin"
+              style="float: left;width: 50% "
             ></el-input>
             <div class="captcha_code">
-              <img :src=captcha ref="code" @click="getCaptcha" >
+              <img :src="captcha" ref="code" @click="getCaptcha" />
             </div>
           </el-form-item>
-          <el-button :loading="loading" type="primary" class="loginBut" @click.native.prevent="handleLogin">登录</el-button>
+          <el-button
+            :loading="loading"
+            type="primary"
+            class="loginBut"
+            @click.native.prevent="handleLogin"
+            >登录</el-button
+          >
         </el-form>
       </div>
     </div>
@@ -63,55 +83,59 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import SocialSign from './components/SocialSignin'
+import { validUsername } from "@/utils/validate";
+import SocialSign from "./components/SocialSignin";
 export default {
-  name: 'Login',
+  name: "Login",
   components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!value) {
-        console.log('value',value)
-        callback(new Error('用户名不能为空'))
+        console.log("value", value);
+        callback(new Error("用户名不能为空"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
+        callback(new Error("密码不能少于6位"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
-      captcha:'',
+      captcha: "",
       loginForm: {
-        username: '',
-        password: '',
-        verifyCode: '',
+        username: "",
+        password: "",
+        verifyCode: "",
         uuid: this.common.randomNum(),
-        time: this.common.getTime(),
+        time: this.common.getTime()
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword }
+        ]
       },
-      passwordType: 'password',
+      passwordType: "password",
       capsTooltip: false,
       loading: false,
       showDialog: false,
       redirect: undefined,
       otherQuery: {}
-    }
+    };
   },
   watch: {
     $route: {
       handler: function(route) {
-        const query = route.query
+        const query = route.query;
         if (query) {
-          this.redirect = query.redirect
-          this.otherQuery = this.getOtherQuery(query)
+          this.redirect = query.redirect;
+          this.otherQuery = this.getOtherQuery(query);
         }
       },
       immediate: true
@@ -121,9 +145,9 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    this.getCaptcha()
-    localStorage.uuid = this.common.randomNum()
-    localStorage.time = this.common.getTime()
+    this.getCaptcha();
+    localStorage.uuid = this.common.randomNum();
+    localStorage.time = this.common.getTime();
     // window.localStorage.getItem('uuid')
   },
   destroyed() {
@@ -132,73 +156,90 @@ export default {
   methods: {
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
-        if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
-          this.capsTooltip = true
+        if (
+          (shiftKey && (key >= "a" && key <= "z")) ||
+          (!shiftKey && (key >= "A" && key <= "Z"))
+        ) {
+          this.capsTooltip = true;
         } else {
-          this.capsTooltip = false
+          this.capsTooltip = false;
         }
       }
-      if (key === 'CapsLock' && this.capsTooltip === true) {
-        this.capsTooltip = false
+      if (key === "CapsLock" && this.capsTooltip === true) {
+        this.capsTooltip = false;
       }
     },
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
-    getCaptcha(){
-      var num=Math.ceil(Math.random()*10);//生成一个随机数（防止缓存）
-      this.captcha = '/api/sysLogin/captcha?uuId='+this.loginForm.uuid+'&num='+num;
+    getCaptcha() {
+      var num = Math.ceil(Math.random() * 10); //生成一个随机数（防止缓存）
+      this.captcha =
+        process.env.VUE_APP_BASE_API +
+        "/sysLogin/captcha?uuId=" +
+        this.loginForm.uuid +
+        "&num=" +
+        num;
     },
     handleLogin() {
-      console.log('username', this.loginForm.username)
+      console.log("username", this.loginForm.username);
       if (this.loginForm.username.length === 0) {
-        alert('请输入用户名')
-        return
+        alert("请输入用户名");
+        return;
       }
       if (this.loginForm.password.length === 0) {
-        alert('请输入密码')
-        return
+        alert("请输入密码");
+        return;
       }
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
+          this.loading = true;
           // 代码调到了src/store下的user.js,调用了里面的LoginByUsername方法
           let formDtat = {
             account: this.loginForm.username,
             pwd: this.loginForm.password,
             verifyCode: this.loginForm.verifyCode,
-            uuId: this.loginForm.uuid,
-          }
-          this.$store.dispatch('user/LoginByUsername',formDtat).then(() => {
-            localStorage.userName = this.loginForm.username
-              this.$router.push({ path: this.redirect || '/inedx', query: this.otherQuery })
-              this.loading = false
-            }).catch(() => {
-            localStorage.userName = this.loginForm.username
-              this.$router.push({ path: this.redirect || '/index', query: this.otherQuery })
-              this.getCaptcha();
-              this.loading = false
+            uuId: this.loginForm.uuid
+          };
+          this.$store
+            .dispatch("user/LoginByUsername", formDtat)
+            .then(() => {
+              localStorage.userName = this.loginForm.username;
+              this.$router.push({
+                path: this.redirect || "/inedx",
+                query: this.otherQuery
+              });
+              this.loading = false;
             })
+            .catch(() => {
+              localStorage.userName = this.loginForm.username;
+              this.$router.push({
+                path: this.redirect || "/index",
+                query: this.otherQuery
+              });
+              this.getCaptcha();
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== 'redirect') {
-          acc[cur] = query[cur]
+        if (cur !== "redirect") {
+          acc[cur] = query[cur];
         }
-        return acc
-      }, {})
+        return acc;
+      }, {});
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
@@ -219,15 +260,15 @@ export default {
     //   }
     // }
   }
-}
+};
 </script>
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
-$light_gray:#000;
+$bg: #283443;
+$light_gray: #000;
 $cursor: #333;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -238,7 +279,7 @@ $cursor: #333;
 
 /* reset element-ui css */
 .login-container {
-  .el-form-item{
+  .el-form-item {
     border: 1px solid #999;
     border-radius: 5px;
     color: #454545;
@@ -270,11 +311,13 @@ $cursor: #333;
 </style>
 
 <style lang="scss" scoped>
-$bg:#f8ffff;
-$dark_gray:#889aa4;
-$light_gray:#eee;
-.el-form-item__content{background-color: #fff}
-.login_name{
+$bg: #f8ffff;
+$dark_gray: #889aa4;
+$light_gray: #eee;
+.el-form-item__content {
+  background-color: #fff;
+}
+.login_name {
   width: 100%;
   float: left;
   text-align: left;
@@ -351,10 +394,21 @@ $light_gray:#eee;
     right: 0;
     bottom: 6px;
   }
-  .captcha_code{width: 50%;display: inline-block;text-align: right;height: 47px}
-  .captcha_code img{display: inline-block;height: 100%;vertical-align: -webkit-baseline-middle;}
-  .loginImg{width: 50%}
-  .login_box{
+  .captcha_code {
+    width: 50%;
+    display: inline-block;
+    text-align: right;
+    height: 47px;
+  }
+  .captcha_code img {
+    display: inline-block;
+    height: 100%;
+    vertical-align: -webkit-baseline-middle;
+  }
+  .loginImg {
+    width: 50%;
+  }
+  .login_box {
     width: 1000px;
     display: block;
     margin: 0 auto;
@@ -369,7 +423,7 @@ $light_gray:#eee;
       display: none;
     }
   }
-  .loginBut{
+  .loginBut {
     display: inline-block;
     vertical-align: middle;
     padding: 12px 24px;

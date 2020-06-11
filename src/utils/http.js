@@ -2,7 +2,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie'
 
 axios.defaults.timeout = 50000;
-axios.defaults.baseURL = '';
+// axios.defaults.baseURL = '';
+if (process.env.ENV === "production") {
+  axios.defaults.baseURL = process.env.VUE_APP_BASE_API
+} else {
+  axios.defaults.baseURL = '/api'
+}
 
 //http request 拦截器
 axios.interceptors.request.use(
@@ -47,7 +52,7 @@ axios.interceptors.response.use(
 
 export function fetch(url, params = {}) {
   return new Promise((resolve, reject) => {
-    axios.get('/api' + url, {
+    axios.get(url, {
         params: params
       })
       .then(response => {
@@ -69,7 +74,7 @@ export function fetch(url, params = {}) {
 
 export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
-    axios.post('/api' + url, data)
+    axios.post(url, data)
       .then(response => {
         resolve(response.data);
       }, err => {
@@ -87,7 +92,7 @@ export function post(url, data = {}) {
 
 export function patch(url, data = {}) {
   return new Promise((resolve, reject) => {
-    axios.patch('/api' + url, data)
+    axios.patch(url, data)
       .then(response => {
         resolve(response.data);
       }, err => {
@@ -105,7 +110,7 @@ export function patch(url, data = {}) {
 
 export function put(url, data = {}) {
   return new Promise((resolve, reject) => {
-    axios.put('/api' + url, data)
+    axios.put(url, data)
       .then(response => {
         resolve(response.data);
       }, err => {
@@ -123,7 +128,7 @@ export function put(url, data = {}) {
 
 export function del(url, params = {}) {
   return new Promise((resolve, reject) => {
-    axios.delete('/api' + url, {
+    axios.delete(url, {
         data: params
       })
       .then(response => {
