@@ -24,7 +24,13 @@ import * as filters from './filters' // global filters
 import common from '../commonFunction/common.js'; //自定义公共方法
 import managePlugin from "./utils/managePlugin"
 
-import {post,fetch,patch,put,del} from './utils/http'
+import {
+  post,
+  fetch,
+  patch,
+  put,
+  del
+} from './utils/http'
 import axios from 'axios'
 import qs from 'qs'
 import excelexport from './utils/excelexport'
@@ -32,13 +38,13 @@ Vue.prototype.$ExportExcel = excelexport
 Vue.prototype.$Cookies = Cookies
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs;
-axios.defaults.baseURL = ''
+
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 //定义全局变量
-Vue.prototype.$httpPost=post;
-Vue.prototype.$httpGet=fetch;
-Vue.prototype.$httpDel=del;
-Vue.prototype.$httpPut=put;
+Vue.prototype.$httpPost = post;
+Vue.prototype.$httpGet = fetch;
+Vue.prototype.$httpDel = del;
+Vue.prototype.$httpPut = put;
 
 /**
  * If you don't want to use mock-server
@@ -72,4 +78,3 @@ new Vue({
   store,
   render: h => h(App)
 })
-
