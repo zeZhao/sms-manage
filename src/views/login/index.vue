@@ -183,7 +183,7 @@ export default {
       var num = Math.ceil(Math.random() * 10); //生成一个随机数（防止缓存）
       this.captcha =
         process.env.VUE_APP_BASE_API +
-        "api/sysLogin/captcha?uuId=" +
+        "/sysLogin/captcha?uuId=" +
         this.loginForm.uuid +
         "&num=" +
         num;
