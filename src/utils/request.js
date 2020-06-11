@@ -11,9 +11,21 @@ import {
 let service = null
 
 if (process.env.NODE_ENV === "production") {
+  let baseUrl = ''
+  switch (process.env.VUE_APP_TITLE) {
+    case "development":
+      baseUrl = process.env.VUE_APP_BASE_API
+      break
+    case "production":
+      baseUrl = process.env.VUE_APP_BASE_API
+      break
+    case "test":
+      baseUrl = process.env.VUE_APP_BASE_API
+      break
+  }
   console.log('11111111111111111111')
   service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API,
+    baseURL: baseUrl,
     timeout: 5000
   })
 } else {
