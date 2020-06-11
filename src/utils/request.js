@@ -11,12 +11,14 @@ import {
 let service = null
 
 
-if (process.env.ENV === "production" || process.env.ENV === "development") {
+if (process.env.ENV === "production") {
+  console.log('11111111111111111111')
   service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
     timeout: 5000
   })
 } else {
+  console.log('222222222222222222222222')
   service = axios.create({
     baseURL: '/api',
     timeout: 5000

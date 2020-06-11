@@ -3,9 +3,11 @@ import Cookies from 'js-cookie'
 
 axios.defaults.timeout = 50000;
 // axios.defaults.baseURL = '';
-if (process.env.ENV === "production" || process.env.ENV === "development") {
+if (process.env.ENV === "production") {
+  console.log('process.env.VUE_APP_BASE_API')
   axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 } else {
+  console.log('axios.defaults.baseURL------api')
   axios.defaults.baseURL = '/api'
 }
 
