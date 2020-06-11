@@ -10,8 +10,7 @@ import {
 
 let service = null
 
-
-if (process.env.ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   console.log('11111111111111111111')
   service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
