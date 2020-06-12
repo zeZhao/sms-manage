@@ -1,8 +1,17 @@
 <template>
   <!--通道月账单-->
   <div class="sysGatewayBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table
+      :data="listData"
+      highlight-current-row
+      height="750"
+      style="width: 100%;"
+    >
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="gatewayType" label="类型">
@@ -17,8 +26,15 @@
       <el-table-column prop="countMonth" label="统计时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('bId', scope.row.bId)" type="text" size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('bId', scope.row.bId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -54,7 +70,7 @@ export default {
     return {
       formTit: "新增",
       addChannel: false,
-      //接口地址
+      // 接口地址
       searchAPI: {
         namespace: "smsGatewayBill",
         list: "listGatewayBillByPage",
@@ -62,9 +78,9 @@ export default {
       },
       // 列表参数
       namespace: "gatewayBill",
-      //搜索框数据
+      // 搜索框数据
       searchParam: {},
-      //搜索框配置
+      // 搜索框配置
       searchFormConfig: [
         {
           type: "input",
@@ -220,8 +236,8 @@ export default {
         }
       ],
       bId: "",
-      GatewayList: [], //通道列表
-      ProvinceList: [] //通道列表
+      GatewayList: [], // 通道列表
+      ProvinceList: [] // 通道列表
     };
   },
   mounted() {
@@ -240,7 +256,7 @@ export default {
             obj = t;
           }
         });
-        console.log(obj, "11111111231211111");
+        console.log(obj, "113423422");
         this.formConfig.map(t => {
           const { key } = t;
           if (key === "gatewayName") {
@@ -295,11 +311,13 @@ export default {
           const { key } = item;
           if (key === "gateway") {
             res.data.forEach(t => {
-              let obj = {
-                key: t.gatewayId,
-                value: t.gatewayName
-              };
-              item.optionData.push(obj);
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gatewayId);
+              // let obj = {
+              //   key: t.gatewayId,
+              //   value: t.gatewayName
+              // };
+              item.optionData.push(t);
             });
           }
         });

@@ -1,5 +1,5 @@
 module.exports = {
-  title: '短信管理平台',
+  title: 'Vue Element Admin',
 
   /**
    * @type {boolean} true | false
