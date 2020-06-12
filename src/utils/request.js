@@ -19,9 +19,6 @@ if (process.env.NODE_ENV === "production") {
     case "production":
       baseUrl = process.env.VUE_APP_BASE_API
       break
-    case "test":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
   }
   console.log('11111111111111111111')
   service = axios.create({

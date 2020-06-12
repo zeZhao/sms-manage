@@ -256,7 +256,7 @@ export default {
             obj = t;
           }
         });
-        console.log(obj, "113423422");
+        console.log(obj, "113阿斯顿3422");
         this.formConfig.map(t => {
           const { key } = t;
           if (key === "gatewayName") {

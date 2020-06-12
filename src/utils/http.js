@@ -12,9 +12,6 @@ if (process.env.NODE_ENV === "production") {
     case "production":
       baseUrl = process.env.VUE_APP_BASE_API
       break
-    case "test":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
   }
   console.log('process.env.VUE_APP_BASE_API')
   axios.defaults.baseURL = baseUrl
