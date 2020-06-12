@@ -354,6 +354,36 @@ export const asyncRoutes = [{
           title: '收入信息'
         }
       },
+      {
+        path: '/userBalanceDaily/index',
+        component: () =>
+          import('@/views/FinanceManagement/userBalanceDaily/index'),
+        name: 'userBalanceDaily',
+        meta: {
+          keepAlive: true,
+          title: '零点余额'
+        }
+      },
+      {
+        path: '/sysPrepaidCard/index',
+        component: () =>
+          import('@/views/FinanceManagement/sysPrepaidCard/index'),
+        name: 'sysPrepaidCard',
+        meta: {
+          keepAlive: true,
+          title: '企业月账单'
+        }
+      },
+      {
+        path: '/sysGatewayBill/index',
+        component: () =>
+          import('@/views/FinanceManagement/sysGatewayBill/index'),
+        name: 'sysGatewayBill',
+        meta: {
+          keepAlive: true,
+          title: '通道月账单	'
+        }
+      },
     ]
   },
   {

@@ -8,7 +8,11 @@
       class="demo-ruleForm"
     >
       <el-row>
-        <el-col :span="24" v-for="(item, index) in formConfig" :key="index">
+        <el-col
+          :span="colSpan"
+          v-for="(item, index) in formConfig"
+          :key="index"
+        >
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
@@ -68,6 +72,28 @@
                 >
               </el-checkbox-group>
             </template>
+
+            <!--单个日期-->
+            <template v-if="item.type === 'date'">
+              <el-date-picker
+                type="date"
+                :placeholder="item.placeholder || '选择日期'"
+                clearable
+                v-model="formData[item.key]"
+              >
+              </el-date-picker>
+            </template>
+
+            <!--单个月份-->
+            <template v-if="item.type === 'month'">
+              <el-date-picker
+                type="month"
+                :placeholder="item.placeholder || '选择日期'"
+                clearable
+                v-model="formData[item.key]"
+              >
+              </el-date-picker>
+            </template>
           </el-form-item>
         </el-col>
         <slot name="sysGatewayGroup"></slot>
@@ -95,6 +121,12 @@ export default {
       type: String,
       default() {
         return "新增";
+      }
+    },
+    colSpan: {
+      type: [String, Number],
+      default() {
+        return "24";
       }
     }
   },

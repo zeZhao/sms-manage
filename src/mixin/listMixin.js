@@ -104,6 +104,7 @@ function queryData() {
       } else if (res.data.pageInfo) {
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;
+        this.statistics = res.data.statistics
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);
@@ -125,6 +126,8 @@ export default {
       searchParam: {},
 
       listData: [],
+      //统计
+      statistics: {},
       loading: false,
 
       searchAPI: {
@@ -305,6 +308,46 @@ export default {
         }
       })
     },
+
+    /**
+     * 选择依赖项
+     * @param list 选择项
+     * @param data 获取的数据
+     * @param key 选择项key值
+     * @param optionKey 设置key的值
+     * @param optionVal 设置value的值
+     * @private
+     */
+
+    _changeDepend(data, itemKey) {
+      const {
+        val,
+        item
+      } = data;
+      let obj = {};
+      if (item.key === itemKey) {
+        item.optionData.map(t => {
+          if (t.userId == val) {
+            obj = t;
+          }
+        });
+        this.formConfig.map(t => {
+          const {
+            key
+          } = t;
+          if (key === "userId") {
+            t.defaultValue = obj.userId;
+          }
+          if (key === "corporateId") {
+            t.defaultValue = obj.corpId;
+          }
+          if (key === "code") {
+            t.defaultValue = obj.code;
+          }
+        });
+      }
+    },
+
 
     /**
      * 设置表单项显示隐藏

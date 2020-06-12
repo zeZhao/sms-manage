@@ -357,6 +357,37 @@ export default {
       return post("/sysCompanyIncome/deleteCompanyIncome", params);
     },
   },
+  //零点余额
+  userBalanceDaily: {
+    listBalanceDailyByPage(params) {
+      return post("/userBalanceDaily/listBalanceDailyByPage", params)
+    }
+  },
+  //企业月账单
+  sysPrepaidCard: {
+    listCorporateBillByPage(params) {
+      return post("/sysPrepaidCard/listCorporateBillByPage", params)
+    }
+  },
+  //通道月账单
+  smsGatewayBill: {
+    // 列表
+    listGatewayBillByPage(params) {
+      return post("/smsGatewayBill/listGatewayBillByPage", params)
+    },
+    // 新增
+    addGatewayBill(params) {
+      return post("/smsGatewayBill/addGatewayBill", params)
+    },
+    // 修改
+    updateGatewayBill(params) {
+      return post("/smsGatewayBill/updateGatewayBill", params)
+    },
+    // 删除
+    deleteGatewayBill(params) {
+      return post("/smsGatewayBill/deleteGatewayBill", params)
+    }
+  },
   //报警信息
   sysAlarmMessage: {
     // 分页查询列表
@@ -578,7 +609,7 @@ export default {
       return post("/sysSecondaryRoute/updateSecondaryRoute", params);
     },
     //  删除
-    deleteInterfaceSign(params) { 
+    deleteInterfaceSign(params) {
       return post("/sysSecondaryRoute/deleteInterfaceSign", params);
     },
   },

@@ -1,5 +1,10 @@
-import { asyncRoutes, constantRoutes } from '@/router'
-import { getAuthMenu } from '@/api/user'
+import {
+  asyncRoutes,
+  constantRoutes
+} from '@/router'
+import {
+  getAuthMenu
+} from '@/api/user'
 import Layout from '@/layout'
 
 /**
@@ -24,7 +29,9 @@ export function filterAsyncRoutes(routes, roles) {
   const res = []
 
   routes.forEach(route => {
-    const tmp = { ...route }
+    const tmp = {
+      ...route
+    }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -45,11 +52,15 @@ export function generaMenu(routes, data) {
     const menu = {
       path: item.linkUrl === '#' ? item.menuId + 'list' : item.linkUrl,
       component: item.linkUrl === '#' ? Layout : () => import(`@/views${item.linkUrl}`),
-      alwaysShow:item.linkUrl === '#' ? true :false  ,
+      alwaysShow: item.linkUrl === '#' ? true : false,
       // component: () => import('@/views/outList'),
       children: [],
-      name: '',
-      meta: { title: item.name, id: item.menuId,keepAlive:true,}
+      name: item.name,
+      meta: {
+        title: item.name,
+        id: item.menuId,
+        keepAlive: true,
+      }
     }
     if (item.childMenu) {
       generaMenu(menu.children, item.childMenu)
@@ -72,7 +83,9 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({
+    commit
+  }, roles) {
     return new Promise(resolve => {
       const loadMenuData = [];
       // 先查询后台并返回左侧菜单数据并把数据添加到路由
@@ -84,7 +97,7 @@ const actions = {
             type: 0
           })
         } else {
-          console.log( response.data)
+          console.log(response.data)
           data = response.data
           Object.assign(loadMenuData, data)
           generaMenu(asyncRoutes, loadMenuData)
