@@ -13,8 +13,8 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="corpId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corporate_id" label="企业ID" />
+      <el-table-column prop="user_id" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="客户特服号" />
       <el-table-column prop="gatewayCode" label="网关特服号" />

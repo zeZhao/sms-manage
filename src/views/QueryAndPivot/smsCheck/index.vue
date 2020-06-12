@@ -1,0 +1,143 @@
+<template>
+  <!--审核查询-->
+  <div class="smsCheck">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table
+      :data="listData"
+      highlight-current-row
+      height="750"
+      style="width: 100%;"
+    >
+      <el-table-column prop="corpId" label="企业ID" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="counter" label="手机个数" />
+      <el-table-column prop="cmCount" label="移动" />
+      <el-table-column prop="cuCount" label="联通" />
+      <el-table-column prop="ctCount" label="电信" />
+      <el-table-column prop="checkStatus" label="审核状态">
+        <template slot-scope="scope">
+          <span>{{
+            scope.row.type === 0
+              ? "待审"
+              : scope.row.type === 1
+              ? "正在审核"
+              : scope.row.type === 2
+              ? "审核通过"
+              : "拒绝"
+          }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="checker" label="审核根源" />
+      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="combined" label="是否处理" />
+      <el-table-column prop="checker" label="审核人" />
+      <el-table-column prop="submitTime" label="提交时间" />
+      <el-table-column prop="checkDate" label="审核时间" />
+    </el-table>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+  </div>
+</template>
+
+<script>
+import listMixin from "@/mixin/listMixin";
+
+export default {
+  mixins: [listMixin],
+  data() {
+    return {
+      //接口地址
+      searchAPI: {
+        namespace: "smsCheck",
+        list: "queryByPage"
+      },
+      // 列表参数
+      namespace: "smsCheck",
+      //搜索框数据
+      searchParam: {},
+      //搜索框配置
+      searchFormConfig: [
+        {
+          type: "select",
+          label: "审核状态",
+          key: "checkStatus",
+          optionData: [
+            {
+              key: "0",
+              value: "待审"
+            },
+            {
+              key: "1",
+              value: "正在审核"
+            },
+            {
+              key: "2",
+              value: "审核通过"
+            },
+            {
+              key: "3",
+              value: "拒绝"
+            }
+          ],
+          placeholder: "审核状态"
+        },
+        {
+          type: "input",
+          label: "用户ID",
+          key: "userId",
+          placeholder: "请输入用户ID"
+        },
+        {
+          type: "input",
+          label: "内容",
+          key: "content",
+          placeholder: "请输入内容"
+        },
+        {
+          type: "input",
+          label: "CID",
+          key: "cId",
+          placeholder: "请输入CID"
+        },
+        {
+          type: "input",
+          label: "手机号",
+          key: "mobile",
+          placeholder: "请输入手机号"
+        },
+        {
+          type: "date",
+          label: "审核日期",
+          key: "checkDate",
+          placeholder: "审核日期"
+        },
+        {
+          type: "daterange",
+          label: "提交日期",
+          key: ["", "startTime", "endTime"],
+          placeholder: "请选择提交日期"
+        }
+      ]
+    };
+  },
+  mounted() {},
+  computed: {},
+  methods: {},
+  watch: {}
+};
+</script>
+
+<style lang="scss" scoped>
+.smsCheck {
+}
+</style>

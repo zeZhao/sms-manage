@@ -475,6 +475,79 @@ export const asyncRoutes = [{
       },
     ]
   },
+  {
+    path: '/QueryAndPivot',
+    component: Layout,
+    redirect: '/smsCheckMobile/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'QueryAndPivot',
+    meta: {
+      title: '销售管理',
+    },
+    children: [{
+        path: '/smsCheckMobile/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsCheckMobile/index'),
+        name: 'smsCheckMobile',
+        meta: {
+          keepAlive: true,
+          title: '审核号码'
+        }
+      },
+      {
+        path: '/smsShortUrl/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsShortUrl/index'),
+        name: 'smsShortUrl',
+        meta: {
+          keepAlive: true,
+          title: '短连接查询'
+        }
+      },
+      {
+        path: '/smsMoQueue/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsMoQueue/index'),
+        name: 'smsMoQueue',
+        meta: {
+          keepAlive: true,
+          title: '上行信息'
+        }
+      },
+      {
+        path: '/smsCheck/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsCheck/index'),
+        name: 'smsCheck',
+        meta: {
+          keepAlive: true,
+          title: '审核查询'
+        }
+      },
+      {
+        path: '/sysTimeTasklist/index',
+        component: () =>
+          import('@/views/QueryAndPivot/sysTimeTasklist/index'),
+        name: 'sysTimeTasklist',
+        meta: {
+          keepAlive: true,
+          title: '定时'
+        }
+      },
+      {
+        path: '/smsSendTask/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsSendTask/index'),
+        name: 'smsSendTask',
+        meta: {
+          keepAlive: true,
+          title: '待发'
+        }
+      },
+
+    ]
+  },
   // 404 page must be placed at the end !!!
   {
     path: '*',

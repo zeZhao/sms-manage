@@ -4,7 +4,7 @@
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
-      @create="create"
+      @create="_mxCreate"
     ></Search>
     <el-table
       :data="listData"
@@ -26,7 +26,7 @@
       <el-table-column prop="countMonth" label="统计时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
+          <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small"
             >修改</el-button
           >
           <el-button
@@ -53,8 +53,8 @@
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
         @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
@@ -74,7 +74,9 @@ export default {
       searchAPI: {
         namespace: "smsGatewayBill",
         list: "listGatewayBillByPage",
-        detele: "deleteGatewayBill"
+        detele: "deleteGatewayBill",
+        add: "addGatewayBill",
+        edit: "updateGatewayBill"
       },
       // 列表参数
       namespace: "gatewayBill",
@@ -123,16 +125,16 @@ export default {
       formConfig: [
         {
           type: "select",
-          label: "通道编号",
-          key: "gateway",
+          label: "通道名称",
+          key: "gatewayName",
           defaultValue: "",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "通道名称",
-          key: "gatewayName",
+          label: "通道编号",
+          key: "gateway",
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -208,7 +210,7 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "month",
+          type: "input",
           label: "联系人",
           key: "linkMan",
           defaultValue: "",
@@ -249,14 +251,12 @@ export default {
     selectChange(data) {
       const { val, item } = data;
       let obj = {};
-      if (item.key === "gateway") {
+      if (item.key === "gatewayName") {
         item.optionData.map(t => {
-          console.log(t);
           if (t.key == val) {
             obj = t;
           }
         });
-        console.log(obj, "113阿斯顿3422");
         this.formConfig.map(t => {
           const { key } = t;
           if (key === "gatewayName") {
@@ -309,10 +309,10 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (key === "gateway") {
+          if (key === "gatewayName") {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gatewayId);
+              this.$set(t, "key", t.gateway);
+              this.$set(t, "value", t.gatewayName);
               // let obj = {
               //   key: t.gatewayId,
               //   value: t.gatewayName
@@ -323,62 +323,12 @@ export default {
         });
       });
     },
-    submit(form) {
-      let params = {};
-      if (this.formTit == "新增") {
-        params = {
-          data: {
-            ...form
-          }
-        };
-        this.$http.sysGatewayBill.addGatewayBill(params).then(res => {
-          if (resOk(res)) {
-            this.$message.success(res.msg || res.data);
-            this._mxGetList();
-            this.addChannel = false;
-          } else {
-            this.$message.error(res.msg || res.data);
-          }
-        });
-      } else {
-        params = {
-          data: {
-            bId: this.bId,
-            ...form
-          }
-        };
-        this.$http.sysGatewayBill.updateGatewayBill(params).then(res => {
-          if (resOk(res)) {
-            this.$message.success(res.msg || res.data);
-            this._mxGetList();
-            this.addChannel = false;
-          } else {
-            this.$message.error(res.msg || res.data);
-          }
-        });
+    //countMonth
+    _mxArrangeSubmitData(formData) {
+      if (formData.countMonth) {
+        formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
       }
-    },
-    create() {
-      this.addChannel = true;
-      this.formTit = "新增";
-      setTimeout(() => {
-        this.$refs.formItem.resetForm();
-      }, 0);
-    },
-    edit(row) {
-      this.bId = row.bId;
-      this.formTit = "修改";
-      this.formConfig.forEach(item => {
-        for (let key in row) {
-          if (item.key === key) {
-            this.$set(item, "defaultValue", row[key]);
-          }
-        }
-      });
-      this.addChannel = true;
-    },
-    cancel() {
-      this.addChannel = false;
+      return formData;
     }
   },
   watch: {}

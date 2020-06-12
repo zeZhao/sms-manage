@@ -613,5 +613,47 @@ export default {
       return post("/sysSecondaryRoute/deleteInterfaceSign", params);
     },
   },
+  // 审核号码
+  smsCheckMobile: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsCheckMobile/queryByPage", params);
+    }
+  },
+  // 短连接查询
+  smsShortUrl: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsShortUrl/queryByPage", params);
+    }
+  },
+  // 上行信息
+  smsMoQueue: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsMoQueue/queryByPage", params);
+    }
+  },
+  // 审核查询
+  smsCheck: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsCheck/queryByPage", params);
+    }
+  },
+  // 定时
+  sysTimeTasklist: {
+    // 查询列表
+    listTimeTasklistByPage(params) {
+      return post("/sysTimeTasklist/listTimeTasklistByPage", params);
+    }
+  },
+  // 待发
+  smsSendTask: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsSendTask/queryByPage", params);
+    }
+  },
 
 }

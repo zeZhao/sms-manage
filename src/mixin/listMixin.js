@@ -1,3 +1,7 @@
+import {
+  toThousandFilter
+} from "../filters";
+
 function isEmpty(value) {
   return value === undefined || value === null || value === '';
 }
@@ -133,10 +137,14 @@ export default {
       searchAPI: {
         namespace: "",
         list: "",
-        detele: ""
+        detele: "",
+        add: "",
+        edit: ""
       },
       namespace: '',
       delAPI: '',
+      id: '',
+      editId: '',
       //增加请求接口节流阀
       //节流阀-最后一次请求的时间戳
       lastRequestTimeStamp: 0,
@@ -236,24 +244,6 @@ export default {
       });
     },
 
-
-    /**
-     * 确认删除项目操作
-     * @param id
-     * @param url
-     * @private
-     */
-    _mxDoDelete(id, url) {
-      this.$delete.call(this, url).then(res => {
-        if (resOk(res)) {
-          this.$Message.info('删除成功！');
-          this._mxGetList();
-        } else {
-          this.$Message.info('删除失败！');
-        }
-      });
-    },
-
     /**
      * 对表格数据进行自定义调整
      * @param rows
@@ -283,6 +273,105 @@ export default {
      */
     _mxBeforeGetList() {
 
+    },
+
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
+
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+
+      this.id = row[ID];
+      this.editId = ID
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+      });
+      this.addChannel = true;
+    },
+    /**
+     * 关闭弹窗
+     */
+    _mxCancel() {
+      this.addChannel = false;
+    },
+
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      return formData;
+    },
+
+    /**
+     * 提交表单操作
+     * @param form    表单数据
+     * @param editId        编辑修改id
+     * @private
+     */
+    _mxHandleSubmit(form = {}, editId = this.editId) {
+      this._mxArrangeSubmitData(form)
+      const {
+        namespace,
+        add,
+        edit
+      } = this.searchAPI
+      let params = {
+        data: {
+          ...form
+        }
+      };
+      if (this.formTit == "新增") {
+        this.$http[namespace][add](params).then(res => {
+          this._mxSuccess(res)
+        });
+      } else {
+        params.data = Object.assign(params.data, {
+          [editId]: this.id
+        })
+        // params.data[editId] = this.id
+        // this.$set(params.data, editId, this.id)
+        this.$http[namespace][edit](params).then(res => {
+          this._mxSuccess(res)
+        });
+      }
+    },
+    /**
+     * 提交成功后执行
+     * @param res
+     */
+    _mxSuccess(res) {
+      if (resOk(res)) {
+        this.$message.success(res.msg || res.data);
+        this._mxGetList();
+        this.addChannel = false;
+      } else {
+        this.$message.error(res.msg || res.data);
+      }
     },
 
     /**

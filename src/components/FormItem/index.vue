@@ -126,7 +126,7 @@ export default {
     colSpan: {
       type: [String, Number],
       default() {
-        return "24";
+        return 24;
       }
     }
   },
