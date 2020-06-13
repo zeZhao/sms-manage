@@ -369,6 +369,12 @@ export default {
       return post("/sysPrepaidCard/listCorporateBillByPage", params)
     }
   },
+  //用户月账单
+  sysUserPrepaidCard: {
+    listPrepaidCardByPage(params) {
+      return post("/sysPrepaidCard/listPrepaidCardByPage", params)
+    }
+  },
   //通道月账单
   smsGatewayBill: {
     // 列表
@@ -654,6 +660,59 @@ export default {
     queryByPage(params) {
       return post("/smsSendTask/queryByPage", params);
     }
+  },
+  // 网关错误
+  sysSendError: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/sysSendError/queryByPage", params);
+    },
+    // 修改网关
+    editGateWay(params) {
+      return post("/sysSendError/editGateWay", params);
+    },
+    // 修改内容
+    editContent(params) {
+      return post("/sysSendError/editContent", params);
+    },
+  },
+  // 失败原因
+  sysRouteReturnError: {
+    // 查询列表
+    listRouteReturnErrorByPage(params) {
+      return post("/sysRouteReturnError/listRouteReturnErrorByPage", params);
+    },
+    // 新增
+    addRouteReturnError(params) {
+      return post("/sysRouteReturnError/addRouteReturnError", params);
+    },
+    // 修改
+    updateRouteReturnError(params) {
+      return post("/sysRouteReturnError/updateRouteReturnError", params);
+    },
+    //  删除
+    deleteRouteReturnError(params) {
+      return post("/sysRouteReturnError/deleteRouteReturnError", params);
+    },
+  },
+  // 接口加强签名
+  sysInterfaceSign: {
+    // 查询列表
+    listInterfaceSignByPage(params) {
+      return post("/sysInterfaceSign/listInterfaceSignByPage", params);
+    },
+    // 新增
+    addInterfaceSign(params) {
+      return post("/sysInterfaceSign/addInterfaceSign", params);
+    },
+    // 修改
+    updateInterfaceSign(params) {
+      return post("/sysInterfaceSign/updateInterfaceSign", params);
+    },
+    //  删除
+    deleteInterfaceSign(params) {
+      return post("/sysInterfaceSign/deleteInterfaceSign", params);
+    },
   },
 
 }

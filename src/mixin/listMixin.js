@@ -298,7 +298,7 @@ export default {
      */
 
     _mxEdit(row, ID) {
-
+      row = this._mxArrangeEditData(row)
       this.id = row[ID];
       this.editId = ID
       this.formTit = "修改";
@@ -319,6 +319,14 @@ export default {
     },
 
     /**
+     * 编辑表单前调整表单内数据
+     * @param row
+     * @private
+     */
+    _mxArrangeEditData(row) {
+      return row;
+    },
+    /**
      * 提交表单前调整表单内数据
      * @param formData
      * @private
@@ -334,7 +342,7 @@ export default {
      * @private
      */
     _mxHandleSubmit(form = {}, editId = this.editId) {
-      this._mxArrangeSubmitData(form)
+      form = this._mxArrangeSubmitData(form)
       const {
         namespace,
         add,

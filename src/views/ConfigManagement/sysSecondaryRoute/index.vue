@@ -1,5 +1,5 @@
 <template>
-  <!--彩信用户通道配置-->
+  <!--二次路由-->
   <div class="sysSecondaryRoute">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -13,16 +13,16 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="corporate_id" label="企业ID" />
-      <el-table-column prop="user_id" label="用户ID" />
+      <el-table-column prop="corporateId" label="企业ID" />
+      <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="客户特服号" />
-      <el-table-column prop="gatewayCode" label="网关特服号" />
-      <el-table-column prop="passagewayId" label="网关编号" />
+      <el-table-column prop="gwcode" label="网关特服号" />
+      <el-table-column prop="gateway" label="网关编号" />
       <el-table-column prop="userName" label="客户名称" />
       <el-table-column prop="sign" label="客户签名" />
-      <el-table-column prop="updateTime" label="备注信息" />
-      <el-table-column prop="createBy" label="创建人" />
+      <el-table-column prop="remark" label="备注信息" />
+      <el-table-column prop="create" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
@@ -85,7 +85,7 @@ export default {
         {
           type: "input",
           label: "企业ID",
-          key: "corpId",
+          key: "corporateId",
           placeholder: "请输入企业ID"
         },
         {
@@ -103,7 +103,7 @@ export default {
         {
           type: "input",
           label: "网关编号",
-          key: "passagewayId",
+          key: "gateway",
           placeholder: "请输入网关编号"
         },
         {
@@ -121,7 +121,7 @@ export default {
         {
           type: "input",
           label: "网关特服号",
-          key: "gatewayCode",
+          key: "gwcode",
           placeholder: "请输入网关特服号"
         }
       ],
@@ -138,45 +138,44 @@ export default {
         {
           type: "input",
           label: "企业ID",
-          key: "corpId",
+          key: "corporateId",
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "特服号",
+          label: "客户特服号",
           disabled: true,
           key: "code",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "客户名称",
-          disabled: true,
-          key: "userName",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+
         {
           type: "input",
           label: "网关编号",
-          key: "userName",
+          key: "gateway",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "网关特服号",
-          key: "userName",
+          key: "gwcode",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "客户签名",
+          label: "客户名称",
           key: "userName",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "客户签名",
+          key: "sign",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -208,7 +207,7 @@ export default {
           if (key === "userId") {
             t.defaultValue = obj.userId;
           }
-          if (key === "corpId") {
+          if (key === "corporateId") {
             t.defaultValue = obj.corpId;
           }
           if (key === "code") {

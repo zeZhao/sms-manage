@@ -312,6 +312,16 @@ export const asyncRoutes = [{
           title: '二次路由'
         }
       },
+      {
+        path: '/sysInterfaceSign/index',
+        component: () =>
+          import('@/views/ConfigManagement/sysInterfaceSign/index'),
+        name: 'sysInterfaceSign',
+        meta: {
+          keepAlive: true,
+          title: '接口加强签名'
+        }
+      },
     ]
   },
   {
@@ -382,6 +392,16 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: true,
           title: '通道月账单	'
+        }
+      },
+      {
+        path: '/sysPrepaidCard/index',
+        component: () =>
+          import('@/views/FinanceManagement/sysPrepaidCard/index'),
+        name: 'sysPrepaidCard',
+        meta: {
+          keepAlive: true,
+          title: '用户月账单	'
         }
       },
     ]
@@ -543,6 +563,26 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: true,
           title: '待发'
+        }
+      },
+      {
+        path: '/sysSendError/index',
+        component: () =>
+          import('@/views/QueryAndPivot/sysSendError/index'),
+        name: 'sysSendError',
+        meta: {
+          keepAlive: true,
+          title: '网关错误'
+        }
+      },
+      {
+        path: '/sysRouteReturnError/index',
+        component: () =>
+          import('@/views/QueryAndPivot/sysRouteReturnError/index'),
+        name: 'sysRouteReturnError',
+        meta: {
+          keepAlive: true,
+          title: '失败原因'
         }
       },
 
