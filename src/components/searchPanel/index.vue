@@ -2,20 +2,9 @@
 
 <template>
   <div>
-    <el-form
-      ref="form"
-      :model="form"
-      label-width="120px"
-      v-if="searchFormConfig.length"
-    >
+    <el-form ref="form" :model="form" label-width="120px" v-if="searchFormConfig.length">
       <el-row>
-        <el-col
-          :sm="24"
-          :md="12"
-          :lg="8"
-          v-for="(item, index) in searchFormConfig"
-          :key="index"
-        >
+        <el-col :sm="24" :md="12" :lg="8" v-for="(item, index) in searchFormConfig" :key="index">
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :class="item.label ? `` : `empty-label-item`"
@@ -56,8 +45,7 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
                 @change="_mxHandleSubmit()"
-              ></el-date-picker>
-              -
+              ></el-date-picker>-
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择日期'"
@@ -75,8 +63,7 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
                 @change="_mxHandleSubmit()"
-              >
-              </el-date-picker>
+              ></el-date-picker>
             </template>
             <!--单个月份-->
             <template v-if="item.type === 'month'">
@@ -86,25 +73,15 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
                 @change="_mxHandleSubmit()"
-              >
-              </el-date-picker>
+              ></el-date-picker>
             </template>
           </el-form-item>
         </el-col>
         <slot name="Btn">
-          <el-button
-            type="primary"
-            @click="_mxHandleSubmit()"
-            style="margin-left: 15px"
-            >查询</el-button
-          >
-          <el-button
-            type="primary"
-            v-if="add && searchFormConfig.length"
-            @click="create"
-            >新建</el-button
-          >
+          <el-button type="primary" @click="_mxHandleSubmit()" style="margin-left: 15px">查询</el-button>
+          <el-button type="primary" v-if="add && searchFormConfig.length" @click="create">新建</el-button>
         </slot>
+        <slot name="Other"></slot>
       </el-row>
     </el-form>
   </div>

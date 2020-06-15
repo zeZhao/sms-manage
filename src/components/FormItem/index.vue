@@ -8,11 +8,7 @@
       class="demo-ruleForm"
     >
       <el-row>
-        <el-col
-          :span="colSpan"
-          v-for="(item, index) in formConfig"
-          :key="index"
-        >
+        <el-col :span="colSpan" v-for="(item, index) in formConfig" :key="index">
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
@@ -68,8 +64,7 @@
                   v-for="option in item.optionData"
                   :key="option"
                   :label="option"
-                  >{{ option }}</el-checkbox
-                >
+                >{{ option }}</el-checkbox>
               </el-checkbox-group>
             </template>
 
@@ -80,8 +75,7 @@
                 :placeholder="item.placeholder || '选择日期'"
                 clearable
                 v-model="formData[item.key]"
-              >
-              </el-date-picker>
+              ></el-date-picker>
             </template>
 
             <!--单个月份-->
@@ -91,16 +85,17 @@
                 :placeholder="item.placeholder || '选择日期'"
                 clearable
                 v-model="formData[item.key]"
-              >
-              </el-date-picker>
+              ></el-date-picker>
             </template>
           </el-form-item>
         </el-col>
         <slot name="sysGatewayGroup"></slot>
         <slot name="Btn">
-          <el-button type="primary" @click="onSubmit('form')">{{
+          <el-button type="primary" @click="onSubmit('form')">
+            {{
             btnTxt
-          }}</el-button>
+            }}
+          </el-button>
           <el-button @click="cancel">取消</el-button>
         </slot>
       </el-row>
@@ -157,14 +152,15 @@ export default {
      * 回显数据
      */
     initComponent() {
-      const form = {};
+      // const form = {};
       this.formConfig.forEach(item => {
         const { key, defaultValue } = item;
         if (defaultValue) {
-          form[key] = item.defaultValue;
+          this.formData[key] = item.defaultValue;
         }
       });
-      this.formData = form;
+      // console.log(this.formData, "----------123");
+      // this.formData = form;
     },
     /**
      * 重置表单

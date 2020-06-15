@@ -1,24 +1,17 @@
 <template>
   <!--网关错误-->
   <div class="sysSendError">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="_mxCreate"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false">
+      <template slot="Btn">
+        <el-button type="primary" @click="_mxHandleSubmit()" style="margin-left: 15px">查询</el-button>
+        <!-- <el-button type="primary">修改内容</el-button> -->
+        <!-- <el-button type="primary">修改网关</el-button> -->
+      </template>
+    </Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="code" label="特服号">
-        <template slot-scope="scope">
-          <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="code" label="特服号" />
       <el-table-column prop="loginName" label="用户名" />
       <el-table-column prop="content" label="内容" />
       <el-table-column prop="mobile" label="手机号" />
@@ -335,11 +328,15 @@ export default {
       });
     },
     //countMonth
-    _mxArrangeSubmitData(formData) {
-      if (formData.countMonth) {
-        formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
-      }
-      return formData;
+    _mxFormListData(rows) {
+      rows.forEach(item => {
+        if (item.submitTime) {
+          item.submitTime = new Date(item.submitTime).Format(
+            "yyyy-MM-dd hh:mm:ss"
+          );
+        }
+      });
+      return rows;
     }
   },
   watch: {}

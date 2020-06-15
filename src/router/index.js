@@ -395,13 +395,33 @@ export const asyncRoutes = [{
         }
       },
       {
-        path: '/sysPrepaidCard/index',
+        path: '/sysUserPrepaidCard/index',
         component: () =>
-          import('@/views/FinanceManagement/sysPrepaidCard/index'),
-        name: 'sysPrepaidCard',
+          import('@/views/FinanceManagement/sysUserPrepaidCard/index'),
+        name: 'sysUserPrepaidCard',
         meta: {
           keepAlive: true,
           title: '用户月账单	'
+        }
+      },
+      {
+        path: '/sysRecharge/index',
+        component: () =>
+          import('@/views/FinanceManagement/sysRecharge/index'),
+        name: 'sysRecharge',
+        meta: {
+          keepAlive: true,
+          title: '充值'
+        }
+      },
+      {
+        path: '/sysFinancialControl/index',
+        component: () =>
+          import('@/views/FinanceManagement/sysFinancialControl/index'),
+        name: 'sysFinancialControl',
+        meta: {
+          keepAlive: true,
+          title: '财务审核'
         }
       },
     ]

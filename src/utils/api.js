@@ -394,6 +394,35 @@ export default {
       return post("/smsGatewayBill/deleteGatewayBill", params)
     }
   },
+  sysFinancialControl: {
+    //编辑【审核接口】
+    useCard(params) {
+      return post('/sysPrepaidCard/useCard', params)
+    },
+    //驳回
+    stopPrepaidCard(params) {
+      return post('/sysPrepaidCard/stopPrepaidCard', params)
+    },
+  },
+  //财务管理充值
+  sysRecharge: {
+    // 列表
+    listPrepaidCardByPage(params) {
+      return post("/sysPrepaidCard/listPrepaidCardByPage", params)
+    },
+    // 新增
+    addPrepaidCard(params) {
+      return post("/sysPrepaidCard/addPrepaidCard", params)
+    },
+    // 修改
+    updatePrepaidCard(params) {
+      return post("/sysPrepaidCard/updatePrepaidCard", params)
+    },
+    // 账号互转
+    refundPrepaidCard(params) {
+      return post("/sysPrepaidCard/refundPrepaidCard", params)
+    }
+  },
   //报警信息
   sysAlarmMessage: {
     // 分页查询列表
