@@ -22,6 +22,9 @@
                 clearable
                 :disabled="item.disabled"
                 :placeholder="item.placeholder"
+                @input="val => {
+                    onChange(val, item);
+                  }"
               />
             </template>
 
@@ -33,6 +36,9 @@
                 clearable
                 :disabled="item.disabled"
                 :placeholder="item.placeholder"
+                @input="val => {
+                    onChange(val, item);
+                  }"
               />
             </template>
 
@@ -59,7 +65,12 @@
 
             <!--多选框-->
             <template v-if="item.type === 'checkbox'">
-              <el-checkbox-group v-model="formData[item.key]">
+              <el-checkbox-group
+                v-model="formData[item.key]"
+                @change="val => {
+                    onChange(val, item);
+                  }"
+              >
                 <el-checkbox
                   v-for="option in item.optionData"
                   :key="option"
@@ -75,6 +86,9 @@
                 :placeholder="item.placeholder || '选择日期'"
                 clearable
                 v-model="formData[item.key]"
+                @change="val => {
+                    onChange(val, item);
+                  }"
               ></el-date-picker>
             </template>
 
@@ -85,6 +99,9 @@
                 :placeholder="item.placeholder || '选择日期'"
                 clearable
                 v-model="formData[item.key]"
+                @change="val => {
+                    onChange(val, item);
+                  }"
               ></el-date-picker>
             </template>
           </el-form-item>
@@ -135,6 +152,13 @@ export default {
   },
   computed: {},
   methods: {
+    onChange(val, item) {
+      if (item.hasOwnProperty("defaultValue")) {
+        item.defaultValue = val;
+      } else {
+        this.$set(item, "defaultValue", val);
+      }
+    },
     /**
      * 提交验证
      */
@@ -152,15 +176,15 @@ export default {
      * 回显数据
      */
     initComponent() {
-      // const form = {};
+      const form = {};
       this.formConfig.forEach(item => {
         const { key, defaultValue } = item;
         if (defaultValue) {
-          this.formData[key] = item.defaultValue;
+          form[key] = item.defaultValue;
         }
       });
       // console.log(this.formData, "----------123");
-      // this.formData = form;
+      this.formData = form;
     },
     /**
      * 重置表单

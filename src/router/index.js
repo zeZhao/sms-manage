@@ -424,6 +424,16 @@ export const asyncRoutes = [{
           title: '财务审核'
         }
       },
+      {
+        path: '/sysExpensesInfo/index',
+        component: () =>
+          import('@/views/FinanceManagement/sysExpensesInfo/index'),
+        name: 'sysExpensesInfo',
+        meta: {
+          keepAlive: true,
+          title: '支出信息'
+        }
+      },
     ]
   },
   {

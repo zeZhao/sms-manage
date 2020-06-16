@@ -394,6 +394,7 @@ export default {
       return post("/smsGatewayBill/deleteGatewayBill", params)
     }
   },
+  //财务审核
   sysFinancialControl: {
     //编辑【审核接口】
     useCard(params) {
@@ -421,6 +422,25 @@ export default {
     // 账号互转
     refundPrepaidCard(params) {
       return post("/sysPrepaidCard/refundPrepaidCard", params)
+    }
+  },
+  //支出信息
+  sysExpensesInfo: {
+    // 列表
+    listExpensesInfoByPage(params) {
+      return post("/sysExpensesInfo/listExpensesInfoByPage", params)
+    },
+    // 新增
+    addExpensesInfo(params) {
+      return post("/sysExpensesInfo/addExpensesInfo", params)
+    },
+    // 修改
+    updateExpensesInfo(params) {
+      return post("/sysExpensesInfo/updateExpensesInfo", params)
+    },
+    // 删除
+    deleteExpensesInfo(params) {
+      return post("/sysExpensesInfo/deleteExpensesInfo", params)
     }
   },
   //报警信息
