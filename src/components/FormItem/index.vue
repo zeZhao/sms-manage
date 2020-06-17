@@ -73,9 +73,9 @@
               >
                 <el-checkbox
                   v-for="option in item.optionData"
-                  :key="option"
-                  :label="option"
-                >{{ option }}</el-checkbox>
+                  :key="option.key"
+                  :label="option.key"
+                >{{ option.value }}</el-checkbox>
               </el-checkbox-group>
             </template>
 
@@ -106,15 +106,17 @@
             </template>
           </el-form-item>
         </el-col>
-        <slot name="sysGatewayGroup"></slot>
-        <slot name="Btn">
-          <el-button type="primary" @click="onSubmit('form')">
-            {{
-            btnTxt
-            }}
-          </el-button>
-          <el-button @click="cancel">取消</el-button>
-        </slot>
+        <div>
+          <slot name="sysGatewayGroup"></slot>
+          <slot name="Btn">
+            <el-button type="primary" @click="onSubmit('form')">
+              {{
+              btnTxt
+              }}
+            </el-button>
+            <el-button @click="cancel">取消</el-button>
+          </slot>
+        </div>
       </el-row>
     </el-form>
   </div>

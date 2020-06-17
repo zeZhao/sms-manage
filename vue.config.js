@@ -30,6 +30,7 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: true,
   devServer: {
+    host: 'localhost',
     port: port,
     open: false,
     overlay: {
@@ -55,6 +56,8 @@ module.exports = {
         }
       }
     },
+    // sockHost: 'http://localhost:9527',
+    // disableHostCheck: true,
     // after: require('./mock/mock-server.js')
   },
   configureWebpack: {

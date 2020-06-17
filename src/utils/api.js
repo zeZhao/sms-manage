@@ -239,31 +239,7 @@ export default {
       return post("/sysProvinceRoute/addProvinceRoute", params);
     },
   },
-  //短信通道
-  gateway: {
-    // 下拉查询列表
-    listGateway(params) {
-      return post("/gateway/listGateway", params);
-    },
-    // 分页查询列表
-    listGatewayByPage(params) {
-      return post("/gateway/listGatewayByPage", params);
-    },
-    // 删除
-    deleteGateway(params) {
-      return post("/gateway/deleteGateway", params);
-    },
-    // 修改
-    updateGateway(params) {
-      return post("/gateway/updateGateway", params);
-    },
-    // 添加
-    addGateway(params) {
-      return post("/gateway/addGateway", params);
-    },
-  },
   //客户通道策略
-  //短信通道
   sysCustomerChannelStrategy: {
     // 下拉查询列表
     // listGateway(params) {
@@ -761,6 +737,111 @@ export default {
     //  删除
     deleteInterfaceSign(params) {
       return post("/sysInterfaceSign/deleteInterfaceSign", params);
+    },
+  },
+  // 免审管理
+  sysExemptReviewManage: {
+    // 查询列表
+    listExemptReviewManageByPage(params) {
+      return post("/sysExemptReviewManage/listExemptReviewManageByPage", params);
+    },
+    // 新增
+    addExemptReviewManage(params) {
+      return post("/sysExemptReviewManage/addExemptReviewManage", params);
+    },
+    // 修改
+    updateExemptReviewManage(params) {
+      return post("/sysExemptReviewManage/updateExemptReviewManage", params);
+    },
+    //  删除
+    deleteExemptReviewManage(params) {
+      return post("/sysExemptReviewManage/deleteInterfaceSign", params);
+    },
+  },
+  // 审核管理-待审
+  smsCheckWait: {
+    // 查询列表
+    listCheckWaitByPage(params) {
+      return post("/smsCheckWait/listCheckWaitByPage", params);
+    },
+    // 添加分配
+    addCheck(params) {
+      return post("/smsCheckWait/addCheck", params);
+    },
+    // 停止分配
+    updateInterfaceSign(params) {
+      return post("/smsCheckWait/stopCheck", params);
+    },
+    //  超审
+    deleteInterfaceSign(params) {
+      return post("/smsCheckWait/supperCheck", params);
+    },
+  },
+  // 审核管理-待审模板
+  smsCheckTemplate: {
+    // 查询列表
+    listCheckTemplateByPage(params) {
+      return post("/smsCheckTemplate/listCheckTemplateByPage", params);
+    },
+    // 修改
+    updateCheckTemplate(params) {
+      return post("/smsCheckTemplate/updateCheckTemplate", params);
+    },
+  },
+  // 用户利润查询
+  smsProfit: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsProfit/queryByPage", params);
+    },
+  },
+  // 定时统计
+  sysTimeTasklistStatistics: {
+    // 查询列表
+    queryTimeTaskByPage(params) {
+      return post("/sysTimeTasklist/queryTimeTaskByPage", params);
+    },
+  },
+  //短信通道
+  gateway: {
+    // 下拉查询列表
+    listGateway(params) {
+      return post("/gateway/listGateway", params);
+    },
+    // 分页查询列表
+    listGatewayByPage(params) {
+      return post("/gateway/listGatewayByPage", params);
+    },
+    // 删除
+    deleteGateway(params) {
+      return post("/gateway/deleteGateway", params);
+    },
+    // 修改
+    updateGateway(params) {
+      return post("/gateway/updateGateway", params);
+    },
+    // 添加
+    addGateway(params) {
+      return post("/gateway/addGateway", params);
+    },
+  },
+  //彩信通道
+  mmsGateway: {
+    // 分页查询列表
+    listMmsGatewayByPage(params) {
+      return post("/mmsGateway/listMmsGatewayByPage", params);
+    },
+    // 删除
+    deleteMmsGateway(params) {
+      return post("/mmsGateway/deleteMmsGateway", params);
+    },
+    // 修改
+    updateMmsGateway(params) {
+      return post("/mmsGateway/updateMmsGateway", params);
+    },
+    // 添加
+    addMmsGateway(params) {
+      return post("/mmsGateway/addMmsGateway", params);
     },
   },
 

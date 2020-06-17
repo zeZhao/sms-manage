@@ -322,6 +322,16 @@ export const asyncRoutes = [{
           title: '接口加强签名'
         }
       },
+      {
+        path: '/sysExemptReviewManage/index',
+        component: () =>
+          import('@/views/ConfigManagement/sysExemptReviewManage/index'),
+        name: 'sysExemptReviewManage',
+        meta: {
+          keepAlive: true,
+          title: '免审管理'
+        }
+      },
     ]
   },
   {
@@ -533,7 +543,7 @@ export const asyncRoutes = [{
     alwaysShow: true,
     name: 'QueryAndPivot',
     meta: {
-      title: '销售管理',
+      title: '数据查询',
     },
     children: [{
         path: '/smsCheckMobile/index',
@@ -612,10 +622,105 @@ export const asyncRoutes = [{
         name: 'sysRouteReturnError',
         meta: {
           keepAlive: true,
-          title: '失败原因'
+          title: '失败原因数据统计'
+        }
+      },
+      {
+        path: '/smsProfit/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsProfit/index'),
+        name: 'smsProfit',
+        meta: {
+          keepAlive: true,
+          title: '用户利润查询'
         }
       },
 
+    ]
+  },
+  {
+    path: '/AuditsManagement',
+    component: Layout,
+    redirect: '/smsCheckWait/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'AuditsManagement',
+    meta: {
+      title: '审核管理',
+    },
+    children: [{
+        path: '/smsCheckWait/index',
+        component: () =>
+          import('@/views/AuditsManagement/smsCheckWait/index'),
+        name: 'smsCheckWait',
+        meta: {
+          keepAlive: true,
+          title: '待审'
+        }
+      },
+      {
+        path: '/smsCheckTemplate/index',
+        component: () =>
+          import('@/views/AuditsManagement/smsCheckTemplate/index'),
+        name: 'smsCheckTemplate',
+        meta: {
+          keepAlive: true,
+          title: '待审模板'
+        },
+      },
+    ]
+  },
+  {
+    path: '/DataStatistics',
+    component: Layout,
+    redirect: '/sysTimeTasklistStatistics/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'DataStatistics',
+    meta: {
+      title: '数据统计',
+    },
+    children: [{
+      path: '/sysTimeTasklistStatistics/index',
+      component: () =>
+        import('@/views/DataStatistics/sysTimeTasklistStatistics/index'),
+      name: 'sysTimeTasklistStatistics',
+      meta: {
+        keepAlive: true,
+        title: '定时统计'
+      }
+    }, ]
+  },
+  {
+    path: '/ChannelManagement',
+    component: Layout,
+    redirect: '/gateway/index',
+    hidden: true,
+    alwaysShow: true,
+    name: 'ChannelManagement',
+    meta: {
+      title: '通道管理',
+    },
+    children: [{
+        path: '/gateway/index',
+        component: () =>
+          import('@/views/ChannelManagement/gateway/index'),
+        name: 'gateway',
+        meta: {
+          keepAlive: true,
+          title: '短信通道'
+        }
+      },
+      {
+        path: '/mmsGateway/index',
+        component: () =>
+          import('@/views/ChannelManagement/mmsGateway/index'),
+        name: 'mmsGateway',
+        meta: {
+          keepAlive: true,
+          title: '彩信通道'
+        }
+      },
     ]
   },
   // 404 page must be placed at the end !!!

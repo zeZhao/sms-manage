@@ -176,7 +176,7 @@ export default {
      */
     handleCurrentChange(currentPage) {
       this.pageObj.currentPage = currentPage;
-      this._mxGetList();
+      this._mxGetList(); 
     },
 
     /***
@@ -408,15 +408,14 @@ export default {
 
     /**
      * 选择依赖项
-     * @param list 选择项
-     * @param data 获取的数据
-     * @param key 选择项key值
-     * @param optionKey 设置key的值
-     * @param optionVal 设置value的值
+     * @param data 选择项
+     * @param itemKey 获取的数据
+     * @param selectKey 选择项key值
+     * @param Keys 设置key的值
      * @private
      */
 
-    _changeDepend(data, itemKey) {
+    _changeDepend(data, itemKey, selectKey, Keys) {
       const {
         val,
         item
@@ -424,25 +423,26 @@ export default {
       let obj = {};
       if (item.key === itemKey) {
         item.optionData.map(t => {
-          if (t.userId == val) {
+          if (t[selectKey] == val) {
             obj = t;
           }
         });
-        this.formConfig.map(t => {
-          const {
-            key
-          } = t;
-          if (key === "userId") {
-            t.defaultValue = obj.userId;
-          }
-          if (key === "corporateId") {
-            t.defaultValue = obj.corpId;
-          }
-          if (key === "code") {
-            t.defaultValue = obj.code;
-          }
-        });
+        this._setDefaultValueKeys(Keys, obj)
       }
+    },
+
+
+    _setDefaultValueKeys(Keys, obj) {
+      this.formConfig.map(t => {
+        const {
+          key
+        } = t;
+        Keys.forEach(item => {
+          if (key === item) {
+            t.defaultValue = obj[item]
+          }
+        })
+      });
     },
 
 
