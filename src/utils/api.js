@@ -295,6 +295,10 @@ export default {
     updateSignCheck(params) {
       return post("/sysSignCheck/updateSignCheck", params);
     },
+    // 审核
+    checkSignCheck(params) {
+      return post("/sysSignCheck/checkSignCheck", params);
+    },
   },
   //用户余额
   corpUserBalance: {

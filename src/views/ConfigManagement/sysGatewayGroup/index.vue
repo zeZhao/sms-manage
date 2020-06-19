@@ -2,16 +2,11 @@
   <!--通道组配置-->
   <div class="sysGatewayGroup">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
-      <el-table-column prop="groupId" label="通道组ID"/>
-      <el-table-column prop="groupName" label="通道组名称"/>
-      <el-table-column prop="sendTo" label="发送对象"/>
-      <el-table-column prop="notes" label="备注"/>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+      <el-table-column prop="groupId" label="通道组ID" />
+      <el-table-column prop="groupName" label="通道组名称" />
+      <el-table-column prop="sendTo" label="发送对象" />
+      <el-table-column prop="notes" label="备注" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
@@ -19,10 +14,25 @@
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" style="margin: 0 auto">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel">
-        <div slot="sysGatewayGroup">
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      style="margin: 0 auto"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="submit"
+        @cancel="cancel"
+      >
+        <div slot="Other">
           <el-button @click="addGatewayGroup">添加通道</el-button>
           <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
             <el-table-column prop="gateway" label="通道组ID">
@@ -48,171 +58,163 @@
 </template>
 
 <script>
-  import listMixin from "@/mixin/listMixin"
+import listMixin from "@/mixin/listMixin";
 
-  export default {
-    mixins: [listMixin],
-    data() {
-      return {
-        formTit: "新增",
-        addChannel: false,
-        //接口地址
-        searchAPI: {
-          namespace: "sysGatewayGroup",
-          list: "listGatewayGroupByPage",
-          detele: "deleteGatewayGroup"
+export default {
+  mixins: [listMixin],
+  data() {
+    return {
+      formTit: "新增",
+      addChannel: false,
+      //接口地址
+      searchAPI: {
+        namespace: "sysGatewayGroup",
+        list: "listGatewayGroupByPage",
+        detele: "deleteGatewayGroup"
+      },
+      // 列表参数
+      namespace: "gatewayGroup",
+      //搜索框数据
+      searchParam: {
+        groupId: "",
+        groupName: ""
+      },
+      //搜索框配置
+      searchFormConfig: [
+        {
+          type: "input",
+          label: "通道组id",
+          key: "groupId",
+          placeholder: "请输入通道组id"
         },
-        // 列表参数
-        namespace: "gatewayGroup",
-        //搜索框数据
-        searchParam: {
-          groupId: "",
-          groupName: "",
-        },
-        //搜索框配置
-        searchFormConfig: [
-          {
-            type: "input",
-            label: "通道组id",
-            key: "groupId",
-            placeholder: "请输入通道组id"
-          },
-          {
-            type: "input",
-            label: "通道组名称",
-            key: "groupName",
-            placeholder: "请输入通道组名称"
-          },
-        ],
-        // 表单配置
-        formConfig: [
-          {
-            type: "input",
-            label: "通道组ID",
-            key: "groupId",
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
-            type: "input",
-            label: "通道组名称",
-            key: "groupName",
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
-            type: "input",
-            label: "发送对象",
-            key: "sendTo",
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
-            type: "input",
-            label: "备注",
-            key: "notes"
-          },
-        ],
-        id: "",
-        gatewayGroupList: [],
-      }
-    },
-    mounted() {
-    },
-    computed: {},
-    methods: {
-      submit(form) {
-        let params = {}
-        if (this.formTit == "新增") {
-          params = {
-            data: {
-              ...form,
-              sysGatewayDistributionList: [...this.gatewayGroupList]
-            }
-          }
-          this.$http.sysGatewayGroup.addGatewayGroup(params).then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data)
-              this._mxGetList();
-              this.addChannel = false
-            } else {
-              this.$message.error(res.msg || res.data)
-            }
-          })
-        } else {
-          params = {
-            data: {
-              id: this.id,
-              ...form,
-              sysGatewayDistributionList: [...this.gatewayGroupList]
-            }
-          }
-          this.$http.sysGatewayGroup.updateGatewayGroup(params).then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data)
-              this._mxGetList();
-              this.addChannel = false
-            } else {
-              this.$message.error(res.msg || res.data)
-            }
-          })
+        {
+          type: "input",
+          label: "通道组名称",
+          key: "groupName",
+          placeholder: "请输入通道组名称"
         }
-
-      },
-      create() {
-        this.addChannel = true
-        this.formTit = "新增"
-        this.gatewayGroupList = []
-        this.formConfig.forEach(item => {
-          if (item.key == "groupId") {
-            this.$set(item, 'disabled', false)
+      ],
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "通道组ID",
+          key: "groupId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "通道组名称",
+          key: "groupName",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "发送对象",
+          key: "sendTo",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "备注",
+          key: "notes"
+        }
+      ],
+      id: "",
+      gatewayGroupList: []
+    };
+  },
+  mounted() {},
+  computed: {},
+  methods: {
+    submit(form) {
+      let params = {};
+      if (this.formTit == "新增") {
+        params = {
+          data: {
+            ...form,
+            sysGatewayDistributionList: [...this.gatewayGroupList]
           }
-        })
-        setTimeout(() => {
-          this.$refs.formItem.resetForm()
-        }, 0)
-
-      },
-      edit(row) {
-        const {id, groupId} = row
-        this.id = id
-        this.formTit = "修改"
-        this.formConfig.forEach(item => {
-          if (item.key == "groupId") {
-            this.$set(item, 'disabled', true)
+        };
+        this.$http.sysGatewayGroup.addGatewayGroup(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
           }
-          for (let key in row) {
-            if (item.key === key) {
-              this.$set(item, 'defaultValue', row[key])
-            }
+        });
+      } else {
+        params = {
+          data: {
+            id: this.id,
+            ...form,
+            sysGatewayDistributionList: [...this.gatewayGroupList]
           }
-        })
-        this.$http.sysGatewayGroup.selectGatewayGroup({data: {groupId: groupId.toString()}}).then(res => {
-          this.gatewayGroupList = res.data
-        })
-        this.addChannel = true
-      },
-      cancel() {
-        this.addChannel = false
-      },
-      addGatewayGroup() {
-        this.$nextTick(() => {
-          this.gatewayGroupList.push({gateway: "", ratio: ""})
-        })
-      },
-      deleteItem(scope) {
-        this.gatewayGroupList.splice(scope.$index, 1)
+        };
+        this.$http.sysGatewayGroup.updateGatewayGroup(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
       }
     },
-    watch: {},
-  }
+    create() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.gatewayGroupList = [];
+      this.formConfig.forEach(item => {
+        if (item.key == "groupId") {
+          this.$set(item, "disabled", false);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
+    edit(row) {
+      const { id, groupId } = row;
+      this.id = id;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        if (item.key == "groupId") {
+          this.$set(item, "disabled", true);
+        }
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+      });
+      this.$http.sysGatewayGroup
+        .selectGatewayGroup({ data: { groupId: groupId.toString() } })
+        .then(res => {
+          this.gatewayGroupList = res.data;
+        });
+      this.addChannel = true;
+    },
+    cancel() {
+      this.addChannel = false;
+    },
+    addGatewayGroup() {
+      this.$nextTick(() => {
+        this.gatewayGroupList.push({ gateway: "", ratio: "" });
+      });
+    },
+    deleteItem(scope) {
+      this.gatewayGroupList.splice(scope.$index, 1);
+    }
+  },
+  watch: {}
+};
 </script>
 
 <style lang="scss" scoped>
-  .sysGatewayGroup {
-
-  }
+.sysGatewayGroup {
+}
 </style>

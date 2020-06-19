@@ -79,6 +79,22 @@
               </el-checkbox-group>
             </template>
 
+            <!--单选框-->
+            <template v-if="item.type === 'radio'">
+              <el-radio-group
+                v-model="formData[item.key]"
+                @change="val => {
+                    onChange(val, item);
+                  }"
+              >
+                <el-radio
+                  v-for="option in item.optionData"
+                  :key="option.key"
+                  :label="option.key"
+                >{{ option.value }}</el-radio>
+              </el-radio-group>
+            </template>
+
             <!--单个日期-->
             <template v-if="item.type === 'date'">
               <el-date-picker
@@ -107,7 +123,7 @@
           </el-form-item>
         </el-col>
         <div>
-          <slot name="sysGatewayGroup"></slot>
+          <slot name="Other"></slot>
           <slot name="Btn">
             <el-button type="primary" @click="onSubmit('form')">
               {{

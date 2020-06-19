@@ -668,6 +668,16 @@ export const asyncRoutes = [{
           title: '待审模板'
         },
       },
+      {
+        path: '/smsCheckSign/index',
+        component: () =>
+          import('@/views/AuditsManagement/smsCheckSign/index'),
+        name: 'smsCheckSign',
+        meta: {
+          keepAlive: true,
+          title: '待审签名'
+        },
+      },
     ]
   },
   {
