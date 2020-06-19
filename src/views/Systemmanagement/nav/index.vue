@@ -13,9 +13,7 @@
         <!--<el-button type="primary" @click="queryOrderList">查询</el-button>-->
         <!--</el-form-item>-->
         <el-form-item style="float: right">
-          <el-button type="primary" @click="customerAddInfo = true"
-            >新增目录</el-button
-          >
+          <el-button type="primary" @click="customerAddInfo = true">新增目录</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -26,7 +24,7 @@
       border
       :tree-props="{ children: 'childMenu', hasChildren: 'hasChildren' }"
     >
-      <el-table-column prop="name" label="菜单名称"> </el-table-column>
+      <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type == "1" ? "前端" : "后端" }}</span>
@@ -51,8 +49,7 @@
             :active-value="1"
             :inactive-value="2"
             @change="changSwitch($event, scope.row.menuId)"
-          >
-          </el-switch>
+          ></el-switch>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
@@ -62,14 +59,9 @@
             @click="AddShow(scope.row)"
             type="text"
             size="small"
-            >新增</el-button
-          >
-          <el-button @click="infoShow(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button @click="deleteCustomer(scope.row)" type="text" size="small"
-            >删除</el-button
-          >
+          >新增</el-button>
+          <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="deleteCustomer(scope.row)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,43 +71,23 @@
       :close-on-click-modal="false"
       style="margin: 0 auto"
     >
-      <el-form
-        ref="addForm"
-        label-width="120px"
-        :model="addInfo"
-        class="demo-ruleForm"
-      >
+      <el-form ref="addForm" label-width="120px" :model="addInfo" class="demo-ruleForm">
         <el-form-item label="目录名称">
-          <el-input
-            v-model="addInfo.funcName"
-            clearable
-            placeholder="目录名称"
-          />
+          <el-input v-model="addInfo.funcName" clearable placeholder="目录名称" />
         </el-form-item>
         <el-form-item label="目录路径">
-          <el-input
-            v-model="addInfo.funcUrl"
-            clearable
-            placeholder="目录路径"
-          />
+          <el-input v-model="addInfo.funcUrl" clearable placeholder="目录路径" />
         </el-form-item>
         <el-form-item label="请选择目录类型">
           <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number
-            v-model="addInfo.seqNum"
-            :min="1"
-            :max="10"
-            label="排序"
-          ></el-input-number>
+          <el-input-number v-model="addInfo.seqNum" :min="1" :max="10" label="排序"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addNavInfo('addForm', 'catalog')"
-          >新增</el-button
-        >
+        <el-button type="primary" @click="addNavInfo('addForm', 'catalog')">新增</el-button>
         <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -126,51 +98,26 @@
       :close-on-click-modal="false"
       style="margin: 0 auto"
     >
-      <el-form
-        ref="addForm"
-        label-width="120px"
-        :model="addInfo"
-        class="demo-ruleForm"
-      >
+      <el-form ref="addForm" label-width="120px" :model="addInfo" class="demo-ruleForm">
         <el-form-item label="目录名称">
-          <el-input
-            v-model="addInfo.funcName"
-            disabled
-            clearable
-            placeholder="目录名称"
-          />
+          <el-input v-model="addInfo.funcName" disabled clearable placeholder="目录名称" />
         </el-form-item>
         <el-form-item label="菜单名称">
-          <el-input
-            v-model="addInfo.funcChName"
-            clearable
-            placeholder="菜单名称"
-          />
+          <el-input v-model="addInfo.funcChName" clearable placeholder="菜单名称" />
         </el-form-item>
         <el-form-item label="目录路径">
-          <el-input
-            v-model="addInfo.funcUrl"
-            clearable
-            placeholder="目录路径"
-          />
+          <el-input v-model="addInfo.funcUrl" clearable placeholder="目录路径" />
         </el-form-item>
         <el-form-item label="请选择目录类型">
           <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number
-            v-model="addInfo.seqNum"
-            :min="1"
-            :max="10"
-            label="排序"
-          ></el-input-number>
+          <el-input-number v-model="addInfo.seqNum" :min="1" :max="10" label="排序"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addNavInfo('addForm', 'menu')"
-          >新增</el-button
-        >
+        <el-button type="primary" @click="addNavInfo('addForm', 'menu')">新增</el-button>
         <el-button @click.native="addNavList = false">取消</el-button>
       </div>
     </el-dialog>
@@ -181,12 +128,7 @@
       :close-on-click-modal="false"
       style="margin: 0 auto"
     >
-      <el-form
-        ref="updateCustomForm"
-        label-width="120px"
-        :model="setInfo"
-        class="demo-ruleForm"
-      >
+      <el-form ref="updateCustomForm" label-width="120px" :model="setInfo" class="demo-ruleForm">
         <!--<el-form-item label="目录名称">-->
         <!--<el-input v-model="setInfo.funcName" disabled clearable placeholder="目录名称" />-->
         <!--</el-form-item>-->
@@ -194,29 +136,18 @@
           <el-input v-model="setInfo.name" clearable placeholder="菜单名称" />
         </el-form-item>
         <el-form-item label="目录路径">
-          <el-input
-            v-model="setInfo.linkUrl"
-            clearable
-            placeholder="目录路径"
-          />
+          <el-input v-model="setInfo.linkUrl" clearable placeholder="目录路径" />
         </el-form-item>
         <el-form-item label="请选择目录类型">
-          <el-radio v-model="setInfo.type" label="1">前端</el-radio>
-          <el-radio v-model="setInfo.type" label="2">后端</el-radio>
+          <el-radio v-model="setInfo.type" :label="1">前端</el-radio>
+          <el-radio v-model="setInfo.type" :label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number
-            v-model="setInfo.sort"
-            :min="1"
-            :max="10"
-            label="排序"
-          ></el-input-number>
+          <el-input-number v-model="setInfo.sort" :min="1" :max="10" label="排序"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')"
-          >保存</el-button
-        >
+        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')">保存</el-button>
         <el-button @click.native="customerInfo = false">取消</el-button>
       </div>
     </el-dialog>

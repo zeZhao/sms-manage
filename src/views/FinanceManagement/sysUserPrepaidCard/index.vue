@@ -1,37 +1,28 @@
 <template>
   <!--用户月账单-->
   <div class="sysUserPrepaidCard">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="cardNum" label="卡号" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>
-            {{ scope.row.reductType === 1 ? "为用户id计费" : "企业id计费" }}
-          </span>
+          <span>{{ scope.row.reductType === 1 ? "为用户id计费" : "企业id计费" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.reductModel == "1"
-              ? "预付提交计费"
-              : scope.row.reductModel == "2"
-              ? "预付成功计费"
-              : scope.row.reductModel == "3"
-              ? "后付提交计费"
-              : "后付成功计费"
-          }}</span>
+            ? "预付提交计费"
+            : scope.row.reductModel == "2"
+            ? "预付成功计费"
+            : scope.row.reductModel == "3"
+            ? "后付提交计费"
+            : "后付成功计费"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="cardCount" label="条数" />
@@ -39,27 +30,29 @@
       <el-table-column prop="factcardMoney" label="实际收款金额" />
       <el-table-column prop="paidWay" label="付款状态">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.paidWay == 0
-              ? "已付款"
-              : scope.row.paidWay == 1
-              ? "欠款"
-              : scope.row.paidWay == 2
-              ? "扣款"
-              : "还款"
-          }}</span>
+            ? "已付款"
+            : scope.row.paidWay == 1
+            ? "欠款"
+            : scope.row.paidWay == 2
+            ? "扣款"
+            : "还款"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
-          <span> {{ scope.row.chargeType === 1 ? "短信" : "彩信" }} </span>
+          <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column fixed="right" label="操作" width="200">
-        <template slot-scope="">
-          <el-button type="text" size="small">明细</el-button>
+        <template slot-scope>
+          <el-button type="text" size="small" @click="detail">明细</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,6 +61,33 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
+    <el-dialog
+      title="明细"
+      :visible.sync="isDetail"
+      :close-on-click-modal="false"
+      style="margin: 0 auto"
+    >
+      <div>
+        <ul>
+          <li>
+            <span>移动金额：</span>
+            <span>{{detailList.cm}}</span>
+          </li>
+          <li>
+            <span>联通金额：</span>
+            <span>{{detailList.cm}}</span>
+          </li>
+          <li>
+            <span>电信金额：</span>
+            <span>{{detailList.cm}}</span>
+          </li>
+          <li>
+            <span>未知号码金额：</span>
+            <span>{{detailList.cm}}</span>
+          </li>
+        </ul>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,6 +98,8 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      isDetail: false,
+      detailList: {},
       //接口地址
       searchAPI: {
         namespace: "sysUserPrepaidCard",
@@ -145,7 +167,9 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    detail() {}
+  },
   watch: {}
 };
 </script>

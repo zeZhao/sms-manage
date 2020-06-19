@@ -1,38 +1,30 @@
 <template>
   <!--客户通道策略-->
   <div class="sysCustomerChannelStrategy">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
-      <el-table-column prop="strategyLevel" label="策略类型" />
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+      <el-table-column prop="strategyLevel" label="策略类型">
+        <template slot-scope="scope">
+          <span>{{scope.row.strategyLevel === 1 ? '系统级':(scope.row.strategyLevel === 2 ? '特服号级':(scope.row.strategyLevel === 3 ? '客户级':'企业级'))}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="cmPassagewayId" label="移动网关" />
-      <el-table-column prop="cuPassagewayId" label="联通网关" />
-      <el-table-column prop="ctPassagewayId" label="电信网关" />
+      <el-table-column prop="cmPassageway" label="移动网关" />
+      <el-table-column prop="cuPassageway" label="联通网关" />
+      <el-table-column prop="ctPassageway" label="电信网关" />
       <el-table-column prop="modifier" label="修改人" />
       <el-table-column prop="modifyTime" label="修改时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
             @click="_mxDeleteItem('strategyId', scope.row.strategyId)"
             type="text"
             size="small"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -127,6 +119,18 @@ export default {
       formConfig: [
         {
           type: "select",
+          label: "通道策略",
+          key: "strategyLevel",
+          optionData: [
+            { key: 1, value: "系统级" },
+            { key: 2, value: "特服号级" },
+            { key: 3, value: "客户级" },
+            { key: 4, value: "企业级" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
           label: "用户ID",
           key: "userId",
           defaultValue: "",
@@ -136,7 +140,7 @@ export default {
         {
           type: "input",
           label: "企业ID",
-          key: "corporateId",
+          key: "corpId",
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -145,63 +149,58 @@ export default {
           type: "input",
           label: "特服号",
           disabled: true,
-          key: "code",
+          key: "specialNum",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
-          label: "类型",
-          key: "type",
-          optionData: [
-            { key: 1, value: "特服号" },
-            { key: 2, value: "客户ID" },
-            { key: 3, value: "企业ID" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "省份",
-          key: "province",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
           label: "移动通道",
-          key: "cm",
+          key: "cmPassagewayId",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "最大单批数",
+          key: "cmMaxBatchNum"
         },
         {
           type: "select",
           label: "联通通道",
-          key: "cu",
+          key: "cuPassagewayId",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "最大单批数",
+          key: "cuMaxBatchNum"
         },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
-          key: "ct",
+          key: "ctPassagewayId",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "最大单批数",
+          key: "ctMaxBatchNum"
         },
         {
           type: "textarea",
           label: "备注信息",
-          key: "remark"
+          key: "remarks"
         }
       ],
-      routeId: "",
-      ProvinceList: [], //省列表
+      strategyId: "",
       GatewayList: [] //通道列表
     };
   },
   mounted() {
     this.gateway();
-    this.listSysProvince();
     this.queryMainInfo();
   },
   computed: {},
@@ -220,10 +219,10 @@ export default {
           if (key === "userId") {
             t.defaultValue = obj.userId;
           }
-          if (key === "corporateId") {
+          if (key === "corpId") {
             t.defaultValue = obj.corpId;
           }
-          if (key === "code") {
+          if (key === "specialNum") {
             t.defaultValue = obj.code;
           }
         });
@@ -248,31 +247,6 @@ export default {
       });
     },
     /*
-     * 获取省份列表
-     * */
-    listSysProvince() {
-      const params = {
-        data: {
-          provinceName: ""
-        }
-      };
-      this.$http.listSysProvince(params).then(res => {
-        this.ProvinceList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
-      });
-    },
-    /*
      * 获取通道列表
      * */
     gateway() {
@@ -288,7 +262,11 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (key === "cu" || key === "cm" || key === "ct") {
+          if (
+            key === "cmPassagewayId" ||
+            key === "cuPassagewayId" ||
+            key === "ctPassagewayId"
+          ) {
             res.data.forEach(t => {
               let obj = {
                 key: t.gatewayId,
@@ -320,7 +298,7 @@ export default {
       } else {
         params = {
           data: {
-            routeId: this.routeId,
+            strategyId: this.strategyId,
             ...form
           }
         };
@@ -345,7 +323,7 @@ export default {
       }, 0);
     },
     edit(row) {
-      this.routeId = row.routeId;
+      this.strategyId = row.strategyId;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {

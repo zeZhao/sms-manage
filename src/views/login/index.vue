@@ -1,10 +1,16 @@
 <template>
   <div class="login-container">
+    <div class="head-logo">
+      <img :src="logo" alt />
+    </div>
     <div class="login_box" style="display: block">
-      <img class="loginImg" src="../../../src/image/login_bg.png" alt="" />
-      <div style="display: inline-block;vertical-align: top;width: 45%">
+      <!-- <img class="loginImg" src="../../../src/image/login_bg.png" alt /> -->
+      <div class="loginFormStyle">
         <div class="login_name">
-          <p><span>|</span>短信系统</p>
+          <h1>短信管理平台</h1>
+          <p>
+            <!-- <span>|</span>短信系统 -->
+          </p>
         </div>
         <el-form
           ref="loginForm"
@@ -25,12 +31,7 @@
             />
           </el-form-item>
 
-          <el-tooltip
-            v-model="capsTooltip"
-            content="Caps lock is On"
-            placement="right"
-            manual
-          >
+          <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
             <el-form-item prop="password">
               <el-input
                 :key="passwordType"
@@ -46,9 +47,7 @@
                 @keyup.enter.native="handleLogin"
               />
               <span class="show-pwd" @click="showPwd">
-                <svg-icon
-                  :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-                />
+                <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
               </span>
             </el-form-item>
           </el-tooltip>
@@ -74,8 +73,7 @@
             type="primary"
             class="loginBut"
             @click.native.prevent="handleLogin"
-            >登录</el-button
-          >
+          >登录</el-button>
         </el-form>
       </div>
     </div>
@@ -85,6 +83,7 @@
 <script>
 import { validUsername } from "@/utils/validate";
 import SocialSign from "./components/SocialSignin";
+import logo from "@/assets/images/logo.png";
 export default {
   name: "Login",
   components: { SocialSign },
@@ -105,6 +104,7 @@ export default {
       }
     };
     return {
+      logo: logo,
       captcha: "",
       loginForm: {
         username: "",
@@ -157,8 +157,8 @@ export default {
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
         if (
-          (shiftKey && (key >= "a" && key <= "z")) ||
-          (!shiftKey && (key >= "A" && key <= "Z"))
+          (shiftKey && key >= "a" && key <= "z") ||
+          (!shiftKey && key >= "A" && key <= "Z")
         ) {
           this.capsTooltip = true;
         } else {
@@ -317,6 +317,17 @@ $light_gray: #eee;
 .el-form-item__content {
   background-color: #fff;
 }
+.loginFormStyle {
+  height: 500px;
+  border: 1px solid #cccccc;
+  vertical-align: top;
+  width: 45%;
+  margin: 0 auto;
+  background: #fff;
+  &:hover {
+    box-shadow: 0 5px 10px 0 rgba(51, 51, 51, 0.3);
+  }
+}
 .login_name {
   width: 100%;
   float: left;
@@ -328,13 +339,28 @@ $light_gray: #eee;
 .login_name span {
   margin-right: 10px;
   font-weight: 700;
-  color: #69bebf;
+  color: #1890ff;
 }
 .login-container {
   min-height: 100%;
   width: 100%;
+
   background-color: $bg;
+  background: url("../../assets/images/login-bg.png") no-repeat;
   overflow: hidden;
+  .head-logo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 32px;
+    box-sizing: border-box;
+    img {
+      width: 91px;
+      height: 41px;
+      object-fit: fill;
+      cursor: pointer;
+    }
+  }
 
   .login-form {
     position: relative;
@@ -412,7 +438,6 @@ $light_gray: #eee;
     width: 1000px;
     display: block;
     margin: 0 auto;
-    background-color: #fff;
     vertical-align: middle;
     position: relative;
     top: 50%; /*偏移*/
@@ -435,7 +460,7 @@ $light_gray: #eee;
     vertical-align: middle;
     cursor: pointer;
     color: #ffffff;
-    background-color: #69bebf;
+    // background-color: #69bebf;
     border-radius: 3px;
     border: none;
     -webkit-appearance: none;
