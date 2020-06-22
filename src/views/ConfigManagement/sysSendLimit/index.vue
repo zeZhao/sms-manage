@@ -18,7 +18,7 @@
       <el-table-column prop="createTime" label="创建时间"/>
       <el-table-column prop="modifyName" label="修改人"/>
       <el-table-column prop="modifyTime" label="修改时间"/>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button @click="_mxDeleteItem('limitId',scope.row.limitId)" type="text" size="small">删除</el-button>

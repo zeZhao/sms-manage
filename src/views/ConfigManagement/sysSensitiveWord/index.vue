@@ -2,179 +2,193 @@
   <!--敏感词-->
   <div class="sysSensitiveWord">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
-      <el-table-column prop="wordName" label="敏感词"/>
-      <el-table-column prop="groupId" label="级别"/>
-      <el-table-column prop="groupName" label="敏感词组"/>
-      <el-table-column prop="remark" label="备注"/>
-      <el-table-column fixed="right" label="操作" width="200">
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+      <el-table-column prop="wordName" label="敏感词" />
+      <el-table-column prop="groupId" label="级别" />
+      <el-table-column prop="groupName" label="敏感词组" />
+      <el-table-column prop="remark" label="备注" />
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button @click="_mxDeleteItem('wordId',scope.row.wordId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" style="margin: 0 auto">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"></FormItem>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      style="margin: 0 auto"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="submit"
+        @cancel="cancel"
+      ></FormItem>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import listMixin from "@/mixin/listMixin"
+import listMixin from "@/mixin/listMixin";
 
-  export default {
-    mixins: [listMixin],
-    data() {
-      return {
-        formTit: "新增",
-        addChannel: false,
-        //接口地址
-        searchAPI: {
-          namespace: "sysSensitiveWord",
-          list: "listSensitiveWordByPage",
-          detele: "deleteSensitiveWord"
+export default {
+  mixins: [listMixin],
+  data() {
+    return {
+      formTit: "新增",
+      addChannel: false,
+      //接口地址
+      searchAPI: {
+        namespace: "sysSensitiveWord",
+        list: "listSensitiveWordByPage",
+        detele: "deleteSensitiveWord"
+      },
+      // 列表参数
+      namespace: "sensitiveWord",
+      //搜索框数据
+      searchParam: {},
+      //搜索框配置
+      searchFormConfig: [
+        {
+          type: "input",
+          label: "敏感词",
+          key: "wordName",
+          placeholder: "请输入敏感词"
         },
-        // 列表参数
-        namespace: "sensitiveWord",
-        //搜索框数据
-        searchParam: {},
-        //搜索框配置
-        searchFormConfig: [
-          {
-            type: "input",
-            label: "敏感词",
-            key: "wordName",
-            placeholder: "请输入敏感词"
-          },
-          {
-            type: "select",
-            label: "敏感词组",
-            key: "groupId",
-            placeholder: "请选择敏感词组",
-            optionData:[]
+        {
+          type: "select",
+          label: "敏感词组",
+          key: "groupId",
+          placeholder: "请选择敏感词组",
+          optionData: []
+        }
+      ],
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "敏感词",
+          key: "wordName",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "敏感词组",
+          key: "groupId",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "textarea",
+          label: "备注信息",
+          key: "remark"
+        }
+      ],
+      wordId: "",
+      sysSensitiveWordGroup: []
+    };
+  },
+  created() {
+    this.listSensitiveWordGroup();
+  },
+  mounted() {},
+  computed: {},
+  methods: {
+    //敏感词组
+    async listSensitiveWordGroup() {
+      await this.$http.sysSensitiveWordGroup
+        .listSensitiveWordGroup({})
+        .then(res => {
+          const { code, data, msg } = res;
+          this.sysSensitiveWordGroup = data;
+          this._setDefaultValue(
+            this.formConfig,
+            data,
+            "groupId",
+            "groupId",
+            "groupName"
+          );
+          this._setDefaultValue(
+            this.searchFormConfig,
+            data,
+            "groupId",
+            "groupId",
+            "groupName"
+          );
+        });
+    },
+    submit(form) {
+      let params = {};
+      if (this.formTit == "新增") {
+        params = {
+          data: {
+            ...form
           }
-        ],
-        // 表单配置
-        formConfig: [
-          {
-            type: "input",
-            label: "敏感词",
-            key: "wordName",
-            defaultValue:'',
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
-            type: "select",
-            label: "敏感词组",
-            key: "groupId",
-            optionData: [],
-            rules: [
-              {required: true, message: '请输入必填项', trigger: 'blur'},
-            ]
-          },
-          {
-            type: "textarea",
-            label: "备注信息",
-            key: "remark"
-          },
-        ],
-        wordId: "",
-        sysSensitiveWordGroup:[]
+        };
+        this.$http.sysSensitiveWord.addSensitiveWord(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
+      } else {
+        params = {
+          data: {
+            wordId: this.wordId,
+            ...form
+          }
+        };
+        this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
       }
     },
-    created() {
-      this.listSensitiveWordGroup()
-
+    create() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
-    mounted() {
-
-    },
-    computed: {},
-    methods: {
-      //敏感词组
-      async listSensitiveWordGroup(){
-        await this.$http.sysSensitiveWordGroup.listSensitiveWordGroup({}).then(res=>{
-          const { code, data, msg} = res
-          this.sysSensitiveWordGroup = data
-          this._setDefaultValue(this.formConfig,data,'groupId','groupId','groupName')
-          this._setDefaultValue(this.searchFormConfig,data,'groupId','groupId','groupName')
-        })
-      },
-      submit(form) {
-        let params = {}
-        if (this.formTit == "新增") {
-          params = {
-            data: {
-              ...form
-            }
+    edit(row) {
+      this.wordId = row.wordId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
           }
-          this.$http.sysSensitiveWord.addSensitiveWord(params).then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data)
-              this._mxGetList();
-              this.addChannel = false
-            } else {
-              this.$message.error(res.msg || res.data)
-            }
-          })
-        } else {
-          params = {
-            data: {
-              wordId: this.wordId,
-              ...form,
-            }
-          }
-          this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data)
-              this._mxGetList();
-              this.addChannel = false
-            } else {
-              this.$message.error(res.msg || res.data)
-            }
-          })
         }
-
-      },
-      create() {
-        this.addChannel = true
-        this.formTit = "新增"
-        setTimeout(() => {
-          this.$refs.formItem.resetForm()
-        }, 0)
-
-      },
-      edit(row) {
-        this.wordId = row.wordId
-        this.formTit = "修改"
-        this.formConfig.forEach(item => {
-          for (let key in row) {
-            if (item.key === key) {
-              this.$set(item, 'defaultValue', row[key])
-            }
-          }
-        })
-        this.addChannel = true
-      },
-      cancel() {
-        this.addChannel = false
-      },
+      });
+      this.addChannel = true;
     },
-    watch: {},
-  }
+    cancel() {
+      this.addChannel = false;
+    }
+  },
+  watch: {}
+};
 </script>
 
 <style lang="scss" scoped>
-  .sysSensitiveWord {
-
-  }
+.sysSensitiveWord {
+}
 </style>

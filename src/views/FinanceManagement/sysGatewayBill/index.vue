@@ -1,17 +1,8 @@
 <template>
   <!--通道月账单-->
   <div class="sysGatewayBill">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="_mxCreate"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="gatewayType" label="类型">
@@ -24,17 +15,10 @@
       <el-table-column prop="succRatio" label="成功率" />
       <el-table-column prop="linkMan" label="负责人" />
       <el-table-column prop="countMonth" label="统计时间" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('bId', scope.row.bId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
+          <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxDeleteItem('bId', scope.row.bId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

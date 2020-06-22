@@ -112,6 +112,10 @@ export default {
     },
   },
   corp: {
+    // 下拉企业列表
+    queryAllCorp(params) {
+      return fetch("/corp/queryAllCorp", params);
+    },
     // 企业列表
     queryByPage(params) {
       return post("/corp/queryByPage", params);

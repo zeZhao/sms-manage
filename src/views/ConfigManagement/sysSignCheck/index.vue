@@ -23,7 +23,7 @@
           <span>{{ scope.row.status === 1?'待审核':(scope.row.status === 2?'审核处理中':(scope.row.status === 4 ?'审核通过':'审核拒绝')) }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button

@@ -1,30 +1,18 @@
 <template>
   <!--敏感词组-->
   <div class="sysSensitiveWordGroup">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="groupId" label="编号" />
       <el-table-column prop="groupName" label="敏感词名" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
             @click="_mxDeleteItem('groupId', scope.row.groupId)"
             type="text"
             size="small"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

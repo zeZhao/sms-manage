@@ -24,7 +24,7 @@
           <span>{{scope.row.status === 1 ? '正常' : '停用'}}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button @click="updateStatus(scope.row,'2')" type="text" size="small" v-if="scope.row.status === 1" style="color: red">停用</el-button>

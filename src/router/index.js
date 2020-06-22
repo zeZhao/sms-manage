@@ -157,7 +157,7 @@ export const asyncRoutes = [{
       {
         path: '/userManagement/index',
         component: () =>
-          import('@/views/Usermanagement/userManagement/index'),
+          import('@/views/Usermanagement/userManagement/index1'),
         name: 'userManagement',
         meta: {
           keepAlive: true,

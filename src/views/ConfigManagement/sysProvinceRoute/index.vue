@@ -1,30 +1,23 @@
 <template>
   <!--分省路由-->
   <div class="sysProvinceRoute">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.type == 1
-              ? "特服号"
-              : scope.row.type == 2
-              ? "客户ID"
-              : "企业ID"
-          }}</span>
+            ? "特服号"
+            : scope.row.type == 2
+            ? "客户ID"
+            : "企业ID"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="province" label="省份" />
@@ -33,17 +26,14 @@
       <el-table-column prop="ct" label="电信通道" />
       <el-table-column prop="modifyTime" label="修改时间" />
       <el-table-column prop="modifier" label="修改人" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
             @click="_mxDeleteItem('routeId', scope.row.routeId)"
             type="text"
             size="small"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

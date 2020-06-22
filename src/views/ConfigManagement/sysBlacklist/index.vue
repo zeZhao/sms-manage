@@ -1,31 +1,24 @@
 <template>
   <!--黑名单管理-->
   <div class="sysBlacklist">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="blackType" label="黑名单类型">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.blackType === "0"
-              ? "系统级"
-              : scope.row.blackType === "1"
-              ? "网关级"
-              : scope.row.blackType === "2"
-              ? "用户级"
-              : scope.row.blackType === "3"
-              ? "营销级"
-              : "BSATS级"
-          }}</span>
+            ? "系统级"
+            : scope.row.blackType === "1"
+            ? "网关级"
+            : scope.row.blackType === "2"
+            ? "用户级"
+            : scope.row.blackType === "3"
+            ? "营销级"
+            : "BSATS级"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="gateway" label="网关" />
@@ -34,17 +27,14 @@
       <el-table-column prop="modifyTime" label="修改日期" />
       <el-table-column prop="remark" label="描述" />
       <el-table-column prop="status" label="状态" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
             @click="_mxDeleteItem('blackId', scope.row.blackId)"
             type="text"
             size="small"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

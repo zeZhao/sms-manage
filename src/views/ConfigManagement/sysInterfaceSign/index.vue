@@ -27,7 +27,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="sign" label="签名" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'signId')"

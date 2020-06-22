@@ -2,7 +2,7 @@
   <div class="FormItem">
     <el-form
       ref="form"
-      label-width="150px"
+      :label-width="`${labelWidth}px`"
       :model="formData"
       v-if="formConfig.length"
       class="demo-ruleForm"
@@ -21,7 +21,7 @@
                 v-model="formData[item.key]"
                 clearable
                 :disabled="item.disabled"
-                :placeholder="item.placeholder"
+                :placeholder="item.placeholder || `请输入${item.label}`"
                 @input="val => {
                     onChange(val, item);
                   }"
@@ -34,8 +34,9 @@
                 v-model="formData[item.key]"
                 type="textarea"
                 clearable
+                show-word-limit
                 :disabled="item.disabled"
-                :placeholder="item.placeholder"
+                :placeholder="item.placeholder || `请输入${item.label}`"
                 @input="val => {
                     onChange(val, item);
                   }"
@@ -45,9 +46,11 @@
             <!--下拉列表-->
             <template v-if="item.type === 'select'">
               <el-select
+                style="width:100%"
                 v-model="formData[item.key]"
                 filterable
                 clearable
+                :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
                   val => {
                     selectChange(val, item);
@@ -99,7 +102,7 @@
             <template v-if="item.type === 'date'">
               <el-date-picker
                 type="date"
-                :placeholder="item.placeholder || '选择日期'"
+                :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
                 v-model="formData[item.key]"
                 @change="val => {
@@ -112,7 +115,7 @@
             <template v-if="item.type === 'month'">
               <el-date-picker
                 type="month"
-                :placeholder="item.placeholder || '选择日期'"
+                :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
                 v-model="formData[item.key]"
                 @change="val => {
@@ -124,14 +127,16 @@
         </el-col>
         <div>
           <slot name="Other"></slot>
-          <slot name="Btn">
-            <el-button type="primary" @click="onSubmit('form')">
-              {{
-              btnTxt
-              }}
-            </el-button>
-            <el-button @click="cancel">取消</el-button>
-          </slot>
+          <div class="submitBtn">
+            <slot name="Btn">
+              <el-button type="primary" @click="onSubmit('form')">
+                {{
+                btnTxt
+                }}
+              </el-button>
+              <el-button @click="cancel">取消</el-button>
+            </slot>
+          </div>
         </div>
       </el-row>
     </el-form>
@@ -151,6 +156,12 @@ export default {
       type: String,
       default() {
         return "新增";
+      }
+    },
+    labelWidth: {
+      type: [String, Number],
+      default() {
+        return 150;
       }
     },
     colSpan: {
@@ -250,5 +261,12 @@ export default {
 
 <style lang="scss" scoped>
 .FormItem {
+  // position: relative;
+  .submitBtn {
+    float: right;
+    // position: absolute;
+    // right: 20px;
+    // bottom: 20px;
+  }
 }
 </style>

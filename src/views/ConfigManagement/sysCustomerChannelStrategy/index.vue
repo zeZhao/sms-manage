@@ -17,7 +17,7 @@
       <el-table-column prop="ctPassageway" label="电信网关" />
       <el-table-column prop="modifier" label="修改人" />
       <el-table-column prop="modifyTime" label="修改时间" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
@@ -156,7 +156,7 @@ export default {
         {
           type: "select",
           label: "移动通道",
-          key: "cmPassagewayId",
+          key: "cmPassageway",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -168,7 +168,7 @@ export default {
         {
           type: "select",
           label: "联通通道",
-          key: "cuPassagewayId",
+          key: "cuPassageway",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -181,7 +181,7 @@ export default {
           type: "select",
           label: "电信通道",
           optionData: [],
-          key: "ctPassagewayId",
+          key: "ctPassageway",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -263,9 +263,9 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (
-            key === "cmPassagewayId" ||
-            key === "cuPassagewayId" ||
-            key === "ctPassagewayId"
+            key === "cmPassageway" ||
+            key === "cuPassageway" ||
+            key === "ctPassageway"
           ) {
             res.data.forEach(t => {
               let obj = {

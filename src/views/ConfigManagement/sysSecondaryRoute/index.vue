@@ -1,17 +1,8 @@
 <template>
   <!--二次路由-->
   <div class="sysSecondaryRoute">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
@@ -24,17 +15,14 @@
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="create" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
             @click="_mxDeleteItem('routeId', scope.row.routeId)"
             type="text"
             size="small"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

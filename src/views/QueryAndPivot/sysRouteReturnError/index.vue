@@ -1,17 +1,8 @@
 <template>
   <!--失败原因-->
   <div class="sysRouteReturnError">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="_mxCreate"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="routeId" label="网关编号" />
       <el-table-column prop="result" label="网关返回值" />
       <el-table-column prop="type" label="类型">
@@ -22,28 +13,23 @@
       <el-table-column prop="dwStatus" label="返回错误说明" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.operaId === 0
-              ? "不限"
-              : scope.row.operaId === 1
-              ? "移动"
-              : scope.row.operaId === 2
-              ? "联通"
-              : "电信"
-          }}</span>
+            ? "不限"
+            : scope.row.operaId === 1
+            ? "移动"
+            : scope.row.operaId === 2
+            ? "联通"
+            : "电信"
+            }}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('id', scope.row.id)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
+          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxDeleteItem('id', scope.row.id)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

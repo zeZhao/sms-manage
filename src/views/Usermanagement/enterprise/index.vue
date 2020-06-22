@@ -48,7 +48,7 @@
           <span>{{ scope.row.status == 0?'删除':( scope.row.status == 1?'初始':( scope.row.status == 2?'正常':'禁用'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <!--修改 初始 禁用 启用-->
           <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>

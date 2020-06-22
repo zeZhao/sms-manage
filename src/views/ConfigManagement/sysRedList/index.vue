@@ -22,7 +22,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button

@@ -1,17 +1,8 @@
 <template>
   <!--白名单管理-->
   <div class="sysWhitelist">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
@@ -23,17 +14,14 @@
       <el-table-column prop="cmGatewayId" label="修改时间" />
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
           <el-button
             @click="_mxDeleteItem('whiteId', scope.row.whiteId)"
             type="text"
             size="small"
-            >删除</el-button
-          >
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>

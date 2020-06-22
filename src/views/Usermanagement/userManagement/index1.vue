@@ -3,32 +3,56 @@
   <div class="corpUser">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
     <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
-      <el-table-column prop="gateway" label="企业/代理ID" />
-      <el-table-column prop="gatewayName" label="用户ID" />
-      <el-table-column prop="gatewayName" label="用户名" />
-      <el-table-column prop="gatewayName" label="用户登录名" />
-      <el-table-column prop="gatewayName" label="密码" />
-      <el-table-column prop="gatewayName" label="业务类型" />
-      <el-table-column prop="gatewayName" label="特服号" />
-      <el-table-column prop="gatewayName" label="扩展长度" />
-      <el-table-column prop="gatewayName" label="长号码" />
-      <el-table-column prop="gatewayName" label="产品" />
-      <el-table-column prop="gatewayName" label="产品类型" />
-      <el-table-column prop="gatewayName" label="发送运营商" />
-      <el-table-column prop="gatewayName" label="计费方式" />
-      <el-table-column prop="gatewayName" label="计费类型" />
-      <el-table-column prop="gatewayName" label="短信余额" />
-      <el-table-column prop="gatewayName" label="借款" />
-      <el-table-column prop="gatewayName" label="单价（分）" />
-      <el-table-column prop="gatewayName" label="状态" />
-      <!-- <el-table-column prop="gatewayType" label="类型">
+      <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <el-table-column prop="corpId" label="企业/代理ID" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="loginName" label="用户登录名" />
+      <el-table-column prop="password" label="密码" />
+      <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
+          <span>{{ scope.row.accountType == '1'?'行业':( scope.row.accountType == '2'?'营销':"vip")}}</span>
         </template>
-      </el-table-column>-->
+      </el-table-column>
+      <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="sublong" label="扩展长度" />
+      <el-table-column prop="longCode" label="长号码" />
+      <el-table-column prop="productType" label="产品">
+        <template slot-scope="scope">
+          <span>{{ scope.row.productType == '1'?'短信':( scope.row.productType == '2'?'彩信':( scope.row.productType == '3'?'屏信':'语音'))}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="proType" label="产品类型">
+        <template slot-scope="scope">
+          <span>{{ scope.row.proType == '1'?'web前端':( scope.row.proType == '2'?'http接口':( scope.row.proType == '3'?'cmpp接口':'音频接口'))}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="sendType" label="发送运营商">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sendType == '1'?'移动':( scope.row.reductModel == '2'?'联通 ':( scope.row.reductModel == '3'?'电信': (scope.row.reductModel == "4" ? '三网':(scope.row.reductModel == "5" ? '移动联通' : (scope.row.reductModel == "6"?'移动电信':'联通电信')))))}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="reductModel" label="计费方式">
+        <template slot-scope="scope">
+          <span>{{ scope.row.reductModel == '1'?'预付提交计费':( scope.row.reductModel == '2'?'预付成功计费':( scope.row.reductModel == '3'?'后付提交计费':'后付成功计费'))}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="reductType" label="计费类型">
+        <template slot-scope="scope">
+          <span>{{ scope.row.reductType == '1'?'为用户id计费':'为企业id计费'}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="smsBalance" label="短信余额" />
+      <el-table-column prop="debt" label="借款" />
+      <el-table-column prop="cardUnit" label="单价（分）"></el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template slot-scope="scope">
+          <span>{{ scope.row.status == '0'?'删除':( scope.row.status == '1'?'待审核':( scope.row.status == '2'?'正常':'停用'))}}</span>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small">信息</el-button>
+          <el-button @click="messageShow(scope.row)" type="text" size="small">信息</el-button>
           <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small">修改</el-button>
           <el-button
             :disabled="scope.row.status == '2'||scope.row.status == '3'"
@@ -62,8 +86,11 @@
       :visible.sync="addChannel"
       :close-on-click-modal="false"
       style="margin: 0 auto"
+      width="80%"
     >
       <FormItem
+        :colSpan="8"
+        :labelWidth="150"
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
@@ -110,7 +137,7 @@ export default {
         edit: "updateStatus"
       },
       // 列表参数
-      namespace: "gatewayBill",
+      namespace: "corpUser",
       // 搜索框数据
       searchParam: {},
       // 搜索框配置
@@ -223,31 +250,40 @@ export default {
       // 表单配置
       formConfig: [
         {
+          type: "select",
+          label: "企业名称",
+          key: "corpId",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
           type: "input",
-          label: "用户名",
-          key: "gateway",
-          defaultValue: "",
+          label: "用户名称",
+          key: "userName",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "用户登录名",
-          key: "gateway",
-          defaultValue: "",
+          key: "loginName",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "密码",
-          key: "gateway",
-          defaultValue: "",
+          key: "password",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "用户特服号",
-          key: "gateway",
-          defaultValue: "",
+          key: "code",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "可扩展的位数",
+          key: "sublong",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -255,8 +291,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: "1", value: "为用户id计费" },
-            { key: "2", value: "为企业id计费" }
+            { key: 1, value: "为用户id计费" },
+            { key: 2, value: "为企业id计费" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -265,10 +301,22 @@ export default {
           label: "计费方式",
           key: "reductModel",
           optionData: [
-            { key: "1", value: "预付提交计费" },
-            { key: "2", value: "预付成功计费" },
-            { key: "3", value: "后付提交计费" },
-            { key: "4", value: "后付成功计费" }
+            { key: 1, value: "预付提交计费" },
+            { key: 2, value: "预付成功计费" },
+            { key: 3, value: "后付提交计费" },
+            { key: 4, value: "后付成功计费" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "返还类型",
+          key: "returnBalance",
+          isShow: true,
+          optionData: [
+            { key: 0, value: "不返还" },
+            { key: 1, value: "返失败" },
+            { key: 2, value: "返失败和未知" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -277,18 +325,23 @@ export default {
           label: "产品",
           key: "productType",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
-            { key: "3", value: "屏信" },
-            { key: "4", value: "语音" }
+            { key: 1, value: "短信" },
+            { key: 2, value: "彩信" },
+            { key: 3, value: "屏信" },
+            { key: 4, value: "语音" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "单价",
-          key: "gateway",
-          defaultValue: "",
+          label: "短信单价",
+          key: "cardUnit",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "彩信单价",
+          key: "mmsCardUnit",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -296,75 +349,75 @@ export default {
           label: "产品类型",
           key: "proType",
           optionData: [
-            { key: "1", value: "web端" },
-            { key: "2", value: "http接口" },
-            { key: "3", value: "cmpp接口" },
-            { key: "7", value: "音频接口" }
+            { key: 1, value: "web端" },
+            { key: 2, value: "http接口" },
+            { key: 3, value: "cmpp接口" },
+            { key: 7, value: "音频接口" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "协议端口",
-          key: "proType"
+          key: "directPort"
         },
         {
           type: "select",
           label: "状态报告类型",
-          key: "proType",
+          key: "reportType",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" },
-            { key: "3", value: "自取(单条)" }
+            { key: 1, value: "推送" },
+            { key: 2, value: "自取(批量)" },
+            { key: 3, value: "自取(单条)" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "上行类型",
-          key: "proType",
+          key: "moType",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" }
+            { key: 1, value: "推送" },
+            { key: 2, value: "自取(批量)" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "推动报告地址",
-          key: "gateway",
+          key: "reportUrl",
           defaultValue: ""
         },
         {
           type: "input",
           label: "推送上行地址",
-          key: "gateway",
+          key: "moUrl",
           defaultValue: ""
         },
         {
           type: "input",
           label: "客户IP地址",
-          key: "gateway",
+          key: "userIp",
           defaultValue: ""
         },
         {
           type: "input",
           label: "备份IP",
-          key: "gateway",
+          key: "userIpBak",
           defaultValue: ""
         },
         {
           type: "input",
           label: "客户联系人",
-          key: "gateway",
+          key: "contact",
           defaultValue: ""
         },
         {
           type: "input",
           label: "客户联系人电话",
-          key: "gateway",
+          key: "mobile",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -373,95 +426,145 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: "1", value: "行业" },
-            { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
-          ]
+            { key: 1, value: "行业" },
+            { key: 2, value: "营销" },
+            { key: 3, value: "VIP" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "是否是直客",
           key: "isDirectUser",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "代理商" }
-          ]
+            { key: 1, value: "短信" },
+            { key: 2, value: "代理商" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "checkbox",
           label: "黑名单类型",
-          key: "isDirectUser",
+          defaultValue: ["系统级", "客户级"],
+          key: "blackLevel",
           optionData: [
             { key: "系统级", value: "系统级" },
-            { key: "营销级", value: "营销级" }
+            { key: "营销级", value: "营销级" },
+            { key: "客户级", value: "客户级" },
+            { key: "BSATS级", value: "BSATS级" }
           ]
         },
 
         {
           type: "select",
-          label: "上行类型",
-          key: "proType",
+          label: "请求api黑名单接口",
+          key: "isPostApi",
           optionData: [
-            { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" }
-          ],
+            { key: "0", value: "否" },
+            { key: 1, value: "是" }
+          ]
+        },
+        {
+          type: "select",
+          label: "销售员",
+          key: "saleMan",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
-          label: "上行类型",
-          key: "proType",
+          label: "优化类型",
+          key: "deductType",
           optionData: [
-            { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" }
+            { key: 1, value: "正常" },
+            { key: 2, value: "对比库" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "上行类型",
-          key: "proType",
-          optionData: [
-            { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "上行类型",
-          key: "proType",
-          optionData: [
-            { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "上行类型",
-          key: "proType",
-          optionData: [
-            { key: "0", value: "无权限" },
-            { key: "1", value: "推送" },
-            { key: "2", value: "自取(批量)" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          type: "textarea",
+          label: "备注",
+          key: "remark"
         }
       ],
       currentRowData: {}
     };
   },
   mounted() {
-    this.gateway();
-    this.listSysProvince();
+    this.getAllCorp();
+    this.getSaleman();
   },
   computed: {},
   methods: {
+    //提交表单前调整表单内数据
+    _mxArrangeSubmitData(formData) {
+      for (let key in formData) {
+        if (key === "blackLevel") {
+          formData[key] = formData[key].join(",");
+        }
+      }
+      return formData;
+    },
+    //信息弹框
+    messageShow(row) {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "信息",
+        message: this.createElement(h, row),
+        showConfirmButton: false
+      });
+    },
+    //编辑表单前调整表单内数据
+    _mxArrangeEditData(row) {
+      for (let key in row) {
+        if (row[key] === 0) {
+          row[key] = "0";
+        }
+        if (key === "blackLevel") {
+          if (row[key]) {
+            row[key] = row[key].split(",");
+          } else {
+            row[key] = [];
+          }
+        }
+      }
+      return row;
+    },
+    //获取所有企业
+    getAllCorp() {
+      this.$http.corp.queryAllCorp().then(res => {
+        if (resOk(res)) {
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "corpId",
+            "corpId",
+            "corpName"
+          );
+        }
+      });
+    },
+    //获取销售员
+    getSaleman() {
+      this.$http.sysSales.queryAvailableSaleman().then(res => {
+        if (resOk(res)) {
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "saleMan",
+            "id",
+            "userName"
+          );
+          this._setDefaultValue(
+            this.searchFormConfig,
+            res.data,
+            "saleMan",
+            "id",
+            "userName"
+          );
+        }
+      });
+    },
     //修改状态
     setType(row, type, status) {
       this.dialogTitle(type);
@@ -505,84 +608,129 @@ export default {
     selectChange(data) {
       const { val, item } = data;
       let obj = {};
-      if (item.key === "gatewayName") {
-        item.optionData.map(t => {
-          if (t.key == val) {
-            obj = t;
-          }
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "gatewayName") {
-            t.defaultValue = obj.gatewayName;
-          }
-          if (key === "gateway") {
-            t.defaultValue = obj.gateway;
-          }
-        });
+      if (item.key === "reductModel") {
+        //计费方式切换为：预付成功计费时，返还类型显示
+        if (val === 2) {
+          this._setDisplayShow(this.formConfig, "returnBalance", false);
+        } else {
+          this._setDisplayShow(this.formConfig, "returnBalance", true);
+        }
       }
     },
-    /*
-     * 获取省份列表
-     * */
-    listSysProvince() {
-      const params = {
-        data: {
-          provinceName: ""
-        }
-      };
-      this.$http.listSysProvince(params).then(res => {
-        this.ProvinceList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
-      });
-    },
-    /*
-     * 获取通道列表
-     * */
-    gateway() {
-      const params = {
-        data: {
-          gatewayName: "",
-          isCu: "",
-          isCt: "",
-          isCm: ""
-        }
-      };
-      this.$http.gateway.listGateway(params).then(res => {
-        this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "gatewayName") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gateway);
-              this.$set(t, "value", t.gatewayName);
-              // let obj = {
-              //   key: t.gatewayId,
-              //   value: t.gatewayName
-              // };
-              item.optionData.push(t);
-            });
-          }
-        });
-      });
-    },
+
     //countMonth
-    _mxArrangeSubmitData(formData) {
-      if (formData.countMonth) {
-        formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
+    // _mxArrangeSubmitData(formData) {
+    //   if (formData.countMonth) {
+    //     formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
+    //   }
+    //   return formData;
+    // },
+    createElement(h, row) {
+      switch (row.proType) {
+        case 1:
+          row.proType = "web前端";
+          break;
+        case 2:
+          row.proType = "http接口";
+          break;
+        case 3:
+          row.proType = "cmpp接口";
+          break;
       }
-      return formData;
+      if (row.proType === "web前端") {
+        return h("div", null, [
+          h("p", null, [
+            h("span", null, "产品类型: "),
+            h("span", null, `${row.proType}`)
+          ]),
+          h("p", null, [
+            h("span", null, "企业名称: "),
+            h("span", null, `${row.userName}`)
+          ]),
+          h("p", null, [
+            h("span", null, "登录账号: "),
+            h("span", null, `${row.loginName}`)
+          ]),
+          h("p", null, [
+            h("span", null, "密码: "),
+            h("span", null, `${row.password}`)
+          ]),
+          h("p", null, [
+            h("span", null, "网址: "),
+            h("span", null, `${row.mmsAuditCallBack}`)
+          ])
+        ]);
+      }
+      if (row.proType === "http接口") {
+        return h("div", null, [
+          h("p", null, [
+            h("span", null, "产品类型: "),
+            h("span", null, `${row.proType}`)
+          ]),
+          h("p", null, [
+            h("span", null, "企业名称: "),
+            h("span", null, `${row.userName}`)
+          ]),
+          h("p", null, [
+            h("span", null, "登录账号: "),
+            h("span", null, `${row.loginName}`)
+          ]),
+          h("p", null, [
+            h("span", null, "密码: "),
+            h("span", null, `${row.password}`)
+          ]),
+          h("p", null, [
+            h("span", null, "客户端IP: "),
+            h("span", null, `${row.userIp}`)
+          ]),
+          h("p", null, [
+            h("span", null, "接口地址: "),
+            h("span", null, `${row.mmsAuditCallBack}`)
+          ])
+        ]);
+      }
+      if (row.proType === "cmpp接口") {
+        return h("div", null, [
+          h("p", null, [
+            h("span", null, "产品类型: "),
+            h("span", null, `${row.proType}`)
+          ]),
+          h("p", null, [
+            h("span", null, "企业名称: "),
+            h("span", null, `${row.userName}`)
+          ]),
+          h("p", null, [
+            h("span", null, "登录账号: "),
+            h("span", null, `${row.loginName}`)
+          ]),
+          h("p", null, [
+            h("span", null, "密码: "),
+            h("span", null, `${row.password}`)
+          ]),
+          h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
+          h("p", null, [
+            h("span", null, "端口: "),
+            h("span", null, `${row.directPort}`)
+          ]),
+          h("p", null, [
+            h("span", null, "协议: "),
+            h("span", null, `${row.password}`)
+          ]),
+          h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
+          h("p", null, [
+            h("span", null, "客户端IP: "),
+            h("span", null, `${row.userIp}`)
+          ]),
+          h("p", null, [
+            h("span", null, "链接路数: "),
+            h("span", null, `${row.maxSession}`)
+          ]),
+          h("p", null, [
+            h("span", null, "通道速率: "),
+            h("span", null, `${row.alertBalance}`)
+          ])
+        ]);
+      }
     }
   },
   watch: {}
