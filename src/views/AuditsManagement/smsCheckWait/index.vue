@@ -187,7 +187,7 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
+        { 
           type: "input",
           label: "成功率",
           key: "succRatio",

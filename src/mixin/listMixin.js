@@ -176,7 +176,7 @@ export default {
      */
     handleCurrentChange(currentPage) {
       this.pageObj.currentPage = currentPage;
-      this._mxGetList(); 
+      this._mxGetList();
     },
 
     /***
@@ -432,16 +432,14 @@ export default {
     },
 
 
-    _setDefaultValueKeys(Keys, obj) {
+    _setDefaultValueKeys(defaultKey, val) {
       this.formConfig.map(t => {
         const {
           key
         } = t;
-        Keys.forEach(item => {
-          if (key === item) {
-            t.defaultValue = obj[item]
-          }
-        })
+        if (key === defaultKey) {
+          t.defaultValue = val
+        }
       });
     },
 

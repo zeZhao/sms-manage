@@ -556,7 +556,8 @@ export default {
       for (let key in row) {
         if (row[key] === true) {
           row[key] = "1";
-        } else {
+        } 
+        if(row[key] === false) {
           row[key] = "0";
         }
       }

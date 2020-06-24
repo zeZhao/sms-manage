@@ -264,8 +264,24 @@ export default {
         },
         {
           type: "select",
+          label: "备选移动通道",
+          multiple: true,
+          key: "spareCmPassagewayId",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
           label: "联通通道",
           key: "cuPassagewayId",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "备选联通通道",
+          multiple: true,
+          key: "spareCuPassagewayId",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -274,6 +290,14 @@ export default {
           label: "电信通道",
           optionData: [],
           key: "ctPassagewayId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "备选电信通道",
+          multiple: true,
+          key: "spareCtPassagewayId",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -459,7 +483,10 @@ export default {
           if (
             key == "cmPassagewayId" ||
             key == "cuPassagewayId" ||
-            key == "ctPassagewayId"
+            key == "ctPassagewayId" ||
+            key == "spareCmPassagewayId" ||
+            key == "spareCuPassagewayId" ||
+            key == "spareCyPassagewayId"
           ) {
             res.data.forEach(t => {
               this.$set(t, "key", t.gateway);

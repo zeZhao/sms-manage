@@ -322,6 +322,21 @@ export default {
         },
         {
           type: "select",
+          label: "运营商类型",
+          key: "sendType",
+          optionData: [
+            { key: 1, value: "移动" },
+            { key: 2, value: "联通" },
+            { key: 3, value: "电信" },
+            { key: 4, value: "三网" },
+            { key: 5, value: "移动联通" },
+            { key: 6, value: "移动电信" },
+            { key: 7, value: "联通电信" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
           label: "产品",
           key: "productType",
           optionData: [
@@ -359,7 +374,9 @@ export default {
         {
           type: "input",
           label: "协议端口",
-          key: "directPort"
+          key: "directPort",
+          defaultValue: "",
+          disabled: true
         },
         {
           type: "select",
@@ -496,6 +513,33 @@ export default {
   },
   computed: {},
   methods: {
+    /**
+     * 提交表单操作
+     * @param form    表单数据
+     * @param editId        编辑修改id
+     * @private
+     */
+    _mxHandleSubmit(form = {}, editId = this.editId) {
+      form = this._mxArrangeSubmitData(form);
+      const { namespace, add, edit } = this.searchAPI;
+      let params = {
+        ...form
+      };
+      if (this.formTit == "新增") {
+        this.$http[namespace][add](params).then(res => {
+          this._mxSuccess(res);
+        });
+      } else {
+        params = Object.assign(params.data, {
+          [editId]: this.id
+        });
+        // params.data[editId] = this.id
+        // this.$set(params.data, editId, this.id)
+        this.$http[namespace][edit](params).then(res => {
+          this._mxSuccess(res);
+        });
+      }
+    },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
@@ -614,6 +658,17 @@ export default {
           this._setDisplayShow(this.formConfig, "returnBalance", false);
         } else {
           this._setDisplayShow(this.formConfig, "returnBalance", true);
+        }
+      }
+      if (item.key === "proType") {
+        if (val === 1) {
+          this._setDefaultValueKeys("directPort", "无");
+        } else if (val === 2) {
+          this._setDefaultValueKeys("directPort", "8090");
+        } else if (val === 3) {
+          this._setDefaultValueKeys("directPort", "7890");
+        } else {
+          this._setDefaultValueKeys("directPort", "");
         }
       }
     },
