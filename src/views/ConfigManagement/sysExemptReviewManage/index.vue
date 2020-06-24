@@ -241,15 +241,15 @@ export default {
           defaultValue: "",
           optionData: [
             {
-              key: "1",
+              key: 1,
               value: "特服号"
             },
             {
-              key: "2",
+              key: 2,
               value: "客户ID"
             },
             {
-              key: "3",
+              key: 3,
               value: "企业ID"
             }
           ],
@@ -258,48 +258,48 @@ export default {
         {
           type: "select",
           label: "移动通道",
-          key: "cmPassagewayId",
+          key: "cmPassageway",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "备选移动通道",
-          multiple: true,
-          key: "spareCmPassagewayId",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "备选移动通道",
+        //   multiple: true,
+        //   key: "spareCmPassagewayId",
+        //   optionData: [],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "联通通道",
-          key: "cuPassagewayId",
+          key: "cuPassageway",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "备选联通通道",
-          multiple: true,
-          key: "spareCuPassagewayId",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "备选联通通道",
+        //   multiple: true,
+        //   key: "spareCuPassagewayId",
+        //   optionData: [],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
-          key: "ctPassagewayId",
+          key: "ctPassageway",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "备选电信通道",
-          multiple: true,
-          key: "spareCtPassagewayId",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "备选电信通道",
+        //   multiple: true,
+        //   key: "spareCtPassagewayId",
+        //   optionData: [],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "checkbox",
           label: "关键字类别",
@@ -323,7 +323,7 @@ export default {
               value: "需要"
             },
             {
-              key: "2",
+              key: "0",
               value: "不需要"
             }
           ],
@@ -338,7 +338,7 @@ export default {
               value: "是"
             },
             {
-              key: "2",
+              key: "0",
               value: "否"
             }
           ],
@@ -354,7 +354,7 @@ export default {
               value: "是"
             },
             {
-              key: "2",
+              key: "0",
               value: "否"
             }
           ],
@@ -481,9 +481,9 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (
-            key == "cmPassagewayId" ||
-            key == "cuPassagewayId" ||
-            key == "ctPassagewayId" ||
+            key == "cmPassageway" ||
+            key == "cuPassageway" ||
+            key == "ctPassageway" ||
             key == "spareCmPassagewayId" ||
             key == "spareCuPassagewayId" ||
             key == "spareCyPassagewayId"
@@ -507,11 +507,24 @@ export default {
           if (row[key]) {
             row[key] = "1";
           } else {
-            row[key] = "2";
+            row[key] = "0";
           }
         }
       }
       return row;
+    },
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      for (let key in formData) {
+        if (key === "sensitiveWord") {
+          formData[key] = formData[key].join(",");
+        }
+      }
+      return formData;
     }
   },
   watch: {}
