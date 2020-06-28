@@ -130,7 +130,7 @@
           <slot name="Other"></slot>
           <div class="submitBtn">
             <slot name="Btn">
-              <el-button type="primary" @click="onSubmit('form')">
+              <el-button type="primary" @click="onSubmit('form')" v-throttle="3000">
                 {{
                 btnTxt
                 }}

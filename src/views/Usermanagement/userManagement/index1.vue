@@ -134,7 +134,7 @@ export default {
         list: "queryByPage",
         detele: "",
         add: "addOrUpdate",
-        edit: "updateStatus",
+        edit: "addOrUpdate",
         check: "check"
       },
       // 列表参数

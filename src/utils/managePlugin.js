@@ -270,7 +270,18 @@ class managePlugin {
 
   /*------------------安装指令方法------------------*/
   installDirective(Vue) {
-
+    Vue.directive('throttle', {
+      inserted(el, binding) {
+        el.addEventListener('click', () => {
+          el.style.pointerEvents = 'none';
+          if (!el.disabled) {
+            setTimeout(() => {
+              el.style.pointerEvents = 'auto';
+            }, binding.value || 2000);
+          }
+        });
+      }
+    });
 
   }
 
