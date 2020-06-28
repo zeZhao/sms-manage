@@ -53,10 +53,10 @@
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="messageShow(scope.row)" type="text" size="small">信息</el-button>
-          <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxEdit(scope.row, 'userId')" type="text" size="small">修改</el-button>
           <el-button
             :disabled="scope.row.status == '2'||scope.row.status == '3'"
-            @click="setType(scope.row,'init','2')"
+            @click="_mxCheck(scope.row, 'userId')"
             type="text"
             size="small"
           >审核</el-button>
@@ -134,7 +134,8 @@ export default {
         list: "queryByPage",
         detele: "",
         add: "addOrUpdate",
-        edit: "updateStatus"
+        edit: "updateStatus",
+        check: "check"
       },
       // 列表参数
       namespace: "corpUser",
@@ -469,7 +470,8 @@ export default {
             { key: "营销级", value: "营销级" },
             { key: "客户级", value: "客户级" },
             { key: "BSATS级", value: "BSATS级" }
-          ]
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -513,6 +515,21 @@ export default {
   },
   computed: {},
   methods: {
+    // 审核
+    _mxCheck(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "审核";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+      });
+      this.addChannel = true;
+    },
     /**
      * 提交表单操作
      * @param form    表单数据
@@ -529,13 +546,22 @@ export default {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res);
         });
-      } else {
-        params = Object.assign(params.data, {
+      } else if (this.formTit == "修改") {
+        params = Object.assign(params, {
           [editId]: this.id
         });
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
         this.$http[namespace][edit](params).then(res => {
+          this._mxSuccess(res);
+        });
+      } else if (this.formTit == "审核") {
+        params = Object.assign(params, {
+          [editId]: this.id
+        });
+        // params.data[editId] = this.id
+        // this.$set(params.data, editId, this.id)
+        this.$http[namespace][check](params).then(res => {
           this._mxSuccess(res);
         });
       }
@@ -565,7 +591,7 @@ export default {
           row[key] = "0";
         }
         if (key === "blackLevel") {
-          if (row[key]) {
+          if (row[key] && row[key] instanceof String) {
             row[key] = row[key].split(",");
           } else {
             row[key] = [];

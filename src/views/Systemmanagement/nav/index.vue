@@ -143,7 +143,7 @@
           <el-radio v-model="setInfo.type" :label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number v-model="setInfo.sort" :min="1" :max="10" label="排序"></el-input-number>
+          <el-input-number v-model="setInfo.sort" :min="1" label="排序"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

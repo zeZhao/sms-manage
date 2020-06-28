@@ -143,6 +143,10 @@ export default {
     updateStatus(params) {
       return post("/corpUser/updateStatus", params);
     },
+    // 审核
+    check(params) {
+      return post("/corpUser/check", params);
+    },
   },
   //通道重发配置
   sysResendConfig: {
