@@ -118,6 +118,7 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
+        @inpChange="inpChange"
       ></FormItem>
     </el-dialog>
     <el-dialog
@@ -259,7 +260,6 @@ export default {
           label: "用户ID",
           key: "userId",
           defaultValue: "",
-          // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -445,6 +445,25 @@ export default {
       }
       return row;
     },
+    // input输入事件
+    inpChange(data) {
+      const { val, item } = data;
+      if (item.key === "cardMoney" || item.key === "cardUnit") {
+        let cardMoney = "";
+        let cardUnit = "";
+        this.formConfig.forEach(item => {
+          if (item.key === "cardUnit") {
+            cardUnit = item.defaultValue;
+          } else if (item.key === "cardMoney") {
+            cardMoney = item.defaultValue;
+          }
+          if (item.key === "cardCount") {
+            item.defaultValue = parseInt((cardMoney * 100) / cardUnit);
+          }
+        });
+      }
+    },
+    // 下拉框事件
     selectChange(data) {
       const { val, item } = data;
       let obj = {};

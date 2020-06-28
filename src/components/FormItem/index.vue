@@ -23,7 +23,7 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 @input="val => {
-                    onChange(val, item);
+                    onInputChange(val, item);
                   }"
               />
             </template>
@@ -182,6 +182,14 @@ export default {
   },
   computed: {},
   methods: {
+    onInputChange(val, item) {
+      if (item.hasOwnProperty("defaultValue")) {
+        item.defaultValue = val;
+      } else {
+        this.$set(item, "defaultValue", val);
+      }
+      this.$emit("inpChange", { val, item });
+    },
     onChange(val, item) {
       if (item.hasOwnProperty("defaultValue")) {
         item.defaultValue = val;
