@@ -463,13 +463,13 @@ export default {
         {
           type: "checkbox",
           label: "黑名单类型",
-          defaultValue: ["系统级", "客户级"],
+          defaultValue: ["1", "3"],
           key: "blackLevel",
           optionData: [
-            { key: "系统级", value: "系统级" },
-            { key: "营销级", value: "营销级" },
-            { key: "客户级", value: "客户级" },
-            { key: "BSATS级", value: "BSATS级" }
+            { key: "1", value: "系统级" },
+            { key: "2", value: "营销级" },
+            { key: "3", value: "客户级" },
+            { key: "4", value: "BSATS级" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -622,7 +622,7 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "id",
+            "userName",
             "userName"
           );
           this._setDefaultValue(
