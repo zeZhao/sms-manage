@@ -30,9 +30,9 @@
           <span>
             {{
             scope.row.paidWay == 0
-            ? "已付款"
+            ? "充值"
             : scope.row.paidWay == 1
-            ? "欠款"
+            ? "借款"
             : scope.row.paidWay == 2
             ? "扣款"
             : "还款"
@@ -170,9 +170,9 @@ export default {
         },
         {
           type: "input",
-          label: "账号ID",
+          label: "用户ID",
           key: "userId",
-          placeholder: "请输入账号ID"
+          placeholder: "请输入用户ID"
         },
         {
           type: "select",
@@ -302,7 +302,7 @@ export default {
           label: "操作类型",
           key: "paidWay",
           optionData: [
-            { key: 0, value: "充值" },
+            { key: "0", value: "充值" },
             { key: 1, value: "借款" },
             { key: 2, value: "扣款" },
             { key: 3, value: "还款" }
@@ -432,6 +432,19 @@ export default {
   },
   computed: {},
   methods: {
+    /**
+     * 编辑表单前调整表单内数据
+     * @param row
+     * @private
+     */
+    _mxArrangeEditData(row) {
+      for (let key in row) {
+        if (row[key] === 0) {
+          row[key] = "0";
+        }
+      }
+      return row;
+    },
     selectChange(data) {
       const { val, item } = data;
       let obj = {};

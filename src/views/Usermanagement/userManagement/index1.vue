@@ -430,7 +430,8 @@ export default {
           type: "input",
           label: "客户联系人",
           key: "contact",
-          defaultValue: ""
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -591,7 +592,7 @@ export default {
           row[key] = "0";
         }
         if (key === "blackLevel") {
-          if (row[key] && row[key] instanceof String) {
+          if (row[key] && typeof row[key] == "string") {
             row[key] = row[key].split(",");
           } else {
             row[key] = [];
