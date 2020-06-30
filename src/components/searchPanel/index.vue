@@ -1,10 +1,14 @@
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-form-item {
+  margin-bottom: 5px;
+}
+</style>
 
 <template>
   <div>
     <el-form ref="form" :model="form" label-width="120px" v-if="searchFormConfig.length">
-      <el-row>
-        <el-col :sm="24" :md="12" :lg="8" v-for="(item, index) in searchFormConfig" :key="index">
+      <el-row style="margin-bottom: 10px;">
+        <el-col :sm="12" :md="8" :lg="6" v-for="(item, index) in searchFormConfig" :key="index">
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :class="item.label ? `` : `empty-label-item`"
@@ -22,6 +26,7 @@
             <!--下拉列表-->
             <template v-if="item.type === 'select'">
               <el-select
+                style="width:100%"
                 v-model="form[item.key]"
                 filterable
                 :clearable="isClearAble(item)"
@@ -40,7 +45,7 @@
             <template v-if="item.type === 'daterange'">
               <el-date-picker
                 type="date"
-                :placeholder="item.placeholder || '选择日期'"
+                :placeholder="item.placeholder || '选择开始日期'"
                 style="width: 40%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
@@ -48,7 +53,7 @@
               ></el-date-picker>-
               <el-date-picker
                 type="date"
-                :placeholder="item.placeholder || '选择日期'"
+                :placeholder="item.placeholder || '选择结束日期'"
                 style="width: 40%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[2]]"
@@ -58,6 +63,7 @@
             <!--单个日期-->
             <template v-if="item.type === 'date'">
               <el-date-picker
+                style="width:100%"
                 type="date"
                 :placeholder="item.placeholder || '选择日期'"
                 :clearable="isClearAble(item)"
@@ -68,6 +74,7 @@
             <!--单个月份-->
             <template v-if="item.type === 'month'">
               <el-date-picker
+                style="width:100%"
                 type="month"
                 :placeholder="item.placeholder || '选择日期'"
                 :clearable="isClearAble(item)"
