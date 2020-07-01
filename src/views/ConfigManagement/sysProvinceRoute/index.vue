@@ -215,7 +215,9 @@ export default {
     };
   },
   mounted() {
-    this.gateway();
+    this.gateway("cu", "1", "", "");
+    this.gateway("ct", "", "1", "");
+    this.gateway("cm", "", "", "1");
     this.listSysProvince();
     this.queryMainInfo();
   },
@@ -293,26 +295,24 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway() {
+    gateway(keys, isCu, isCt, isCm) {
       const params = {
         data: {
           gatewayName: "",
-          isCu: "",
-          isCt: "",
-          isCm: ""
+          isCu: isCu,
+          isCt: isCt,
+          isCm: isCm
         }
       };
       this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (key === "cu" || key === "cm" || key === "ct") {
+          if (key == keys) {
             res.data.forEach(t => {
-              let obj = {
-                key: t.gatewayId,
-                value: t.gatewayName
-              };
-              item.optionData.push(obj);
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", `${t.gateway}_${t.gatewayName}`);
+              item.optionData.push(t);
             });
           }
         });

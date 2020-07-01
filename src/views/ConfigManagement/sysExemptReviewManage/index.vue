@@ -9,7 +9,7 @@
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.exemptReviewType === '1' ? "特服号" : (scope.row.exemptReviewType === '2' ? "客户ID" :'企业ID') }}</span>
+          <span>{{ scope.row.exemptReviewType === 1 ? "特服号" : (scope.row.exemptReviewType === 2 ? "客户ID" :'企业ID') }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="cmPassageway" label="移动通道" />
@@ -18,7 +18,7 @@
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span>{{ scope.row.isTemplate===true ? "需要" :(scope.row.isTemplate===false?'不需要':'') }}</span>
+          <span>{{ scope.row.isTemplate===true ? "需要" :'不需要' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="isParallelDetection" label="是否并行检测">
@@ -237,7 +237,8 @@ export default {
           type: "select",
           label: "类型",
           key: "exemptReviewType",
-          defaultValue: "",
+          initDefaultValue: 2,
+          defaultValue: 2,
           optionData: [
             {
               key: 1,
@@ -394,7 +395,9 @@ export default {
   },
   mounted() {
     this.queryMainInfo();
-    this.gateway();
+    this.gateway("cuPassageway", "1", "", "");
+    this.gateway("ctPassageway", "", "1", "");
+    this.gateway("cmPassageway", "", "", "1");
     this.getSensitiveWordGroup();
   },
   computed: {},
@@ -469,34 +472,23 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway() {
+    gateway(keys, isCu, isCt, isCm) {
       const params = {
         data: {
           gatewayName: "",
-          isCu: "1",
-          isCt: "",
-          isCm: ""
+          isCu: isCu,
+          isCt: isCt,
+          isCm: isCm
         }
       };
       this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (
-            key == "cmPassageway" ||
-            key == "cuPassageway" ||
-            key == "ctPassageway" ||
-            key == "spareCmPassagewayId" ||
-            key == "spareCuPassagewayId" ||
-            key == "spareCyPassagewayId"
-          ) {
+          if (key == keys) {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gateway);
-              this.$set(t, "value", t.gatewayName);
-              // let obj = {
-              //   key: t.gatewayId,
-              //   value: t.gatewayName
-              // };
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", `${t.gateway}_${t.gatewayName}`);
               item.optionData.push(t);
             });
           }

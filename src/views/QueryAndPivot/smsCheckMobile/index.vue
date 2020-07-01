@@ -1,30 +1,23 @@
 <template>
   <!--审核号码-->
   <div class="mmsUserGateway">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="cid" label="批次ID" />
       <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="type" label="号码类型">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.type === 1
-              ? "移动"
-              : scope.row.type === 2
-              ? "联通"
-              : scope.row.type === 3
-              ? "电信"
-              : "其他"
-          }}</span>
+            ? "移动"
+            : scope.row.type === 2
+            ? "联通"
+            : scope.row.type === 3
+            ? "电信"
+            : "其他"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="count" label="手机号的个数" />
@@ -34,6 +27,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="unitPrice" label="分区字段" />
+      <el-table-column prop="createTime" label="提交日期" />
     </el-table>
     <Page
       :pageObj="pageObj"
