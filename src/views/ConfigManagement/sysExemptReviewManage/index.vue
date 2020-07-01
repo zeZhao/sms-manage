@@ -16,10 +16,9 @@
       <el-table-column prop="cuPassageway" label="联通通道" />
       <el-table-column prop="ctPassageway" label="电信通道" />
       <el-table-column prop="exemptReviewNum" label="免审数量" />
-      <el-table-column prop="type" label="免审类型" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span>{{ scope.row.isTemplate===true ? "需要" :(scope.row.isTemplate===false?'不需要':'')  }}</span>
+          <span>{{ scope.row.isTemplate===true ? "需要" :(scope.row.isTemplate===false?'不需要':'') }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="isParallelDetection" label="是否并行检测">
@@ -230,7 +229,7 @@ export default {
           type: "input",
           label: "特服号",
           disabled: true,
-          key: "specialNum",
+          key: "code",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -417,7 +416,7 @@ export default {
           if (key === "corpId") {
             t.defaultValue = obj.corpId;
           }
-          if (key === "specialNum") {
+          if (key === "code") {
             t.defaultValue = obj.code;
           }
         });
@@ -474,7 +473,7 @@ export default {
       const params = {
         data: {
           gatewayName: "",
-          isCu: "",
+          isCu: "1",
           isCt: "",
           isCm: ""
         }

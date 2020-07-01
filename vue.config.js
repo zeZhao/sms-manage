@@ -49,10 +49,10 @@ module.exports = {
       // }
       '/api': {
         // target: process.env.VUE_APP_HOST_URL+'/api',
-        target: 'http://10.10.0.5:9091',
+        target: 'http://10.10.0.4:82',
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         pathRewrite: {
-          '^/api': 'http://10.10.0.5:9091' //重写接口访问
+          '^/api': 'http://10.10.0.4:82' //重写接口访问
         }
       }
     },

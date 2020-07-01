@@ -13,11 +13,9 @@ if (process.env.NODE_ENV === "production") {
       baseUrl = process.env.VUE_APP_BASE_API
       break
   }
-  console.log('process.env.VUE_APP_BASE_API')
   axios.defaults.baseURL = baseUrl
 } else {
-  console.log('axios.defaults.baseURL------api')
-  axios.defaults.baseURL = '/api'
+  axios.defaults.baseURL = '/api/api'
 }
 
 //http request 拦截器

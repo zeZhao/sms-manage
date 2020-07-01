@@ -767,7 +767,7 @@ export default {
     },
     //  删除
     deleteExemptReviewManage(params) {
-      return post("/sysExemptReviewManage/deleteInterfaceSign", params);
+      return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
     },
   },
   // 审核管理-待审

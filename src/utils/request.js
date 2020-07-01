@@ -20,15 +20,13 @@ if (process.env.NODE_ENV === "production") {
       baseUrl = process.env.VUE_APP_BASE_API
       break
   }
-  console.log('11111111111111111111')
   service = axios.create({
     baseURL: baseUrl,
     timeout: 5000
   })
 } else {
-  console.log('222222222222222222222222')
   service = axios.create({
-    baseURL: '/api',
+    baseURL: '/api/api',
     timeout: 5000
   })
 }

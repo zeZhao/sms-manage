@@ -194,7 +194,7 @@ export default {
   computed: {},
   methods: {
     audit(row) {
-      const { userName, cardId } = row;
+      const { corpName, cardId } = row;
       const h = this.$createElement;
       this.$msgbox({
         title: "审核",
@@ -211,7 +211,7 @@ export default {
             h("span", null, "付款公司名称"),
             h("el-input", {
               props: {
-                value: userName
+                value: corpName
               }
             })
           ])
@@ -222,7 +222,7 @@ export default {
       }).then(action => {
         const params = {
           data: {
-            paymentCompany: userName,
+            paymentCompany: corpName,
             cardId
           }
         };
@@ -235,7 +235,7 @@ export default {
       });
     },
     reject(row) {
-      const { userName, cardId } = row;
+      const { corpName, cardId } = row;
       const h = this.$createElement;
       this.$msgbox({
         title: "驳回",
@@ -252,7 +252,7 @@ export default {
             h("span", null, "付款公司名称"),
             h("el-input", {
               props: {
-                value: userName
+                value: corpName
               }
             })
           ])
@@ -262,7 +262,7 @@ export default {
         cancelButtonText: "取消"
       }).then(action => {
         this.$http.sysFinancialControl
-          .stopPrepaidCard({ data: { cardId, paymentCompany: userName } })
+          .stopPrepaidCard({ data: { cardId, paymentCompany: corpName } })
           .then(res => {
             if (resOk(res)) {
               this.$message.success("操作成功");
