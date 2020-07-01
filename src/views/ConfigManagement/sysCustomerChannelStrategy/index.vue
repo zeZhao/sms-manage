@@ -163,7 +163,8 @@ export default {
         {
           type: "input",
           label: "最大单批数",
-          key: "cmMaxBatchNum"
+          key: "cmMaxBatchNum",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -175,7 +176,8 @@ export default {
         {
           type: "input",
           label: "最大单批数",
-          key: "cuMaxBatchNum"
+          key: "cuMaxBatchNum",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -187,7 +189,8 @@ export default {
         {
           type: "input",
           label: "最大单批数",
-          key: "ctMaxBatchNum"
+          key: "ctMaxBatchNum",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",

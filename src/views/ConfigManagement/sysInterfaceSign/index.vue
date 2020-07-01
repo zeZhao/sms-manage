@@ -1,46 +1,29 @@
 <template>
   <!--接口加强签名-->
   <div class="sysInterfaceSign">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="_mxCreate"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="businessType" label="类型">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.businessType == 1
-              ? "特服号"
-              : scope.row.businessType == 2
-              ? "客户ID"
-              : "企业ID"
-          }}</span>
+            ? "特服号"
+            : scope.row.businessType == 2
+            ? "客户ID"
+            : "企业ID"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="sign" label="签名" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button
-            @click="_mxEdit(scope.row, 'signId')"
-            type="text"
-            size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('signId', scope.row.signId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
+          <el-button @click="_mxEdit(scope.row, 'signId')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxDeleteItem('signId', scope.row.signId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -166,7 +149,8 @@ export default {
         {
           type: "textarea",
           label: "签名",
-          key: "sign"
+          key: "sign",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ]
     };

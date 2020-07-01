@@ -19,7 +19,7 @@
       <el-table-column prop="type" label="免审类型" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span>{{ scope.row.isTemplate ? "需要" : '不需要' }}</span>
+          <span>{{ scope.row.isTemplate===true ? "需要" :(scope.row.isTemplate===false?'不需要':'')  }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="isParallelDetection" label="是否并行检测">
@@ -305,8 +305,7 @@ export default {
           label: "关键字类别",
           defaultValue: [],
           optionData: [],
-          key: "sensitiveWord",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "sensitiveWord"
         },
         {
           type: "input",
@@ -332,6 +331,8 @@ export default {
         {
           type: "select",
           label: "是否检测并行",
+          initDefaultValue: "0",
+          defaultValue: "0",
           optionData: [
             {
               key: "1",
@@ -348,6 +349,8 @@ export default {
         {
           type: "select",
           label: "是否组合长信息",
+          initDefaultValue: "0",
+          defaultValue: "0",
           optionData: [
             {
               key: "1",

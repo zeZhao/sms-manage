@@ -189,22 +189,19 @@ export default {
           type: "select",
           label: "移动通道",
           key: "cm",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          optionData: []
         },
         {
           type: "select",
           label: "联通通道",
           key: "cu",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          optionData: []
         },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
-          key: "ct",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "ct"
         },
         {
           type: "textarea",

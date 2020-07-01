@@ -166,13 +166,14 @@ export default {
         {
           type: "textarea",
           label: "商户签名",
-          key: "sign",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "sign"
         },
         {
           type: "select",
           label: "类型",
           key: "type",
+          initDefaultValue: 2,
+          defaultValue: 2,
           optionData: [
             {
               key: 1,
@@ -186,8 +187,7 @@ export default {
               key: 3,
               value: "企业ID"
             }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          ]
         },
         {
           type: "select",

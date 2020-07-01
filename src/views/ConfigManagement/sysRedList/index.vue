@@ -1,17 +1,8 @@
 <template>
   <!--红名单管理-->
   <div class="sysRedList">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="code" label="特服号/用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="mobile" label="手机号" />
@@ -24,15 +15,8 @@
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('redId', scope.row.redId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
+          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="_mxDeleteItem('redId', scope.row.redId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -173,7 +157,8 @@ export default {
           type: "input",
           label: "通道编号",
           key: "gateway",
-          defaultValue: "0"
+          defaultValue: "0",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
       redId: ""

@@ -539,7 +539,7 @@ export default {
      */
     _mxHandleSubmit(form = {}, editId = this.editId) {
       form = this._mxArrangeSubmitData(form);
-      const { namespace, add, edit } = this.searchAPI;
+      const { namespace, add, edit, check } = this.searchAPI;
       let params = {
         ...form
       };
@@ -558,7 +558,8 @@ export default {
         });
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
-          [editId]: this.id
+          [editId]: this.id,
+          status: "2"
         });
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)

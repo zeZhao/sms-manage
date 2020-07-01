@@ -234,6 +234,12 @@ export default {
           if (type === "checkbox") {
             item.defaultValue = [];
             this.formData[key] = [];
+          } else if (type === "select") {
+            if (item.initDefaultValue) {
+              this.$set(item, "defaultValue", item.initDefaultValue);
+            } else {
+              item.defaultValue = null;
+            }
           } else {
             item.defaultValue = null;
             this.formData[key] = null;
