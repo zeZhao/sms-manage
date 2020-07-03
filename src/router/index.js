@@ -73,7 +73,8 @@ export const constantRoutes = [{
       name: 'index',
       meta: {
         title: '首页',
-        affix: true
+        affix: true,
+        breadcrumb: false
       }
     }]
   },
