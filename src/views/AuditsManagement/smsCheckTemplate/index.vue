@@ -40,7 +40,7 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancel"></ChooseUser>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -186,14 +186,6 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    //显示选择用户弹窗
-    choose() {
-      this.isChooseUser = true;
-    },
-    //关闭选择用户弹窗
-    cancel(val) {
-      this.isChooseUser = val;
-    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map(t => {

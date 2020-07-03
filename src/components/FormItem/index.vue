@@ -27,7 +27,7 @@
                     onInputChange(val, item);
                   }"
               />
-              <el-button v-if="item.btnTxt" @click="choose(item)">{{item.btnTxt}}</el-button>
+              <el-button v-if="item.btnTxt" @click="chooses(item)">{{item.btnTxt}}</el-button>
             </template>
 
             <!--多文本输入框-->
@@ -211,7 +211,7 @@ export default {
         this.$set(item, "defaultValue", val);
       }
     },
-    choose(item) {
+    chooses(item) {
       this.$emit("choose", item);
     },
     /**
@@ -238,7 +238,6 @@ export default {
           form[key] = item.defaultValue;
         }
       });
-      // console.log(this.formData, "----------123");
       this.formData = form;
     },
     /**

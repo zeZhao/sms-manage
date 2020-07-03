@@ -20,7 +20,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="province" label="省份" />
+      <el-table-column prop="provinceName" label="省份" />
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
@@ -42,21 +42,17 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
-        @selectChange="selectChange"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -144,9 +140,11 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
           defaultValue: "",
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -211,7 +209,8 @@ export default {
       ],
       routeId: "",
       ProvinceList: [], //省列表
-      GatewayList: [] //通道列表
+      GatewayList: [], //通道列表
+      isChooseUser: false
     };
   },
   mounted() {
@@ -219,49 +218,22 @@ export default {
     this.gateway("ct", "", "1", "");
     this.gateway("cm", "", "", "1");
     this.listSysProvince();
-    this.queryMainInfo();
   },
   computed: {},
   methods: {
-    selectChange(data) {
-      const { val, item } = data;
-      let obj = {};
-      if (item.key === "userId") {
-        item.optionData.map(t => {
-          if (t.userId == val) {
-            obj = t;
-          }
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.defaultValue = obj.userId;
-          }
-          if (key === "corporateId") {
-            t.defaultValue = obj.corpId;
-          }
-          if (key === "code") {
-            t.defaultValue = obj.code;
-          }
-        });
-      }
-    },
-    /*
-     * 获取用户企业列表
-     * */
-    queryMainInfo() {
-      this.$http.queryMainInfo().then(res => {
-        res.data.map(item => {
-          this.$set(item, "key", item.userId);
-          this.$set(item, "value", item.userName);
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.optionData = res.data;
-          }
-        });
-        console.log(res);
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+        if (key === "corporateId") {
+          t.defaultValue = data.corpId;
+        }
+        if (key === "code") {
+          t.defaultValue = data.code;
+        }
       });
     },
     /*
@@ -369,6 +341,9 @@ export default {
             this.$set(item, "defaultValue", row[key]);
           }
         }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
       });
       this.addChannel = true;
     },
@@ -383,21 +358,10 @@ export default {
         item.province &&
           this.ProvinceList.forEach(t => {
             if (item.province == t.provinceId) {
-              item.province = t.provinceName;
+              this.$set(item, "provinceName", t.provinceName);
+              // item.province = t.provinceName;
             }
           });
-        this.GatewayList.forEach(t => {
-          const { gatewayId, gatewayName } = t;
-          if (item.cu == gatewayId) {
-            item.cu = gatewayName;
-          }
-          if (item.cm == gatewayId) {
-            item.cm = gatewayName;
-          }
-          if (item.ct == gatewayId) {
-            item.ct = gatewayName;
-          }
-        });
       });
       return list;
     }

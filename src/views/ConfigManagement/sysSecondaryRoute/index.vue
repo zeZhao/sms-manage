@@ -31,21 +31,17 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
-        @selectChange="selectChange"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -116,9 +112,11 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
           defaultValue: "",
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -173,57 +171,32 @@ export default {
           key: "remark"
         }
       ],
-      routeId: ""
+      routeId: "",
+      isChooseUser: false
     };
   },
-  mounted() {
-    this.queryMainInfo();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    selectChange(data) {
-      const { val, item } = data;
-      let obj = {};
-      if (item.key === "userId") {
-        item.optionData.map(t => {
-          if (t.userId == val) {
-            obj = t;
-          }
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.defaultValue = obj.userId;
-          }
-          if (key === "corporateId") {
-            t.defaultValue = obj.corpId;
-          }
-          if (key === "code") {
-            t.defaultValue = obj.code;
-          }
-          if (key === "userName") {
-            t.defaultValue = obj.userName;
-          }
-        });
-      }
-    },
-    /*
-     * 获取用户企业列表
-     * */
-    queryMainInfo() {
-      this.$http.queryMainInfo().then(res => {
-        res.data.map(item => {
-          this.$set(item, "key", item.userId);
-          this.$set(item, "value", item.userName);
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.optionData = res.data;
-          }
-        });
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+        if (key === "corporateId") {
+          t.defaultValue = data.corpId;
+        }
+        if (key === "code") {
+          t.defaultValue = data.code;
+        }
+        if (key === "userName") {
+          t.defaultValue = data.userName;
+        }
       });
     },
+
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
@@ -274,6 +247,9 @@ export default {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
           }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
         }
       });
       this.addChannel = true;

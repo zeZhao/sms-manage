@@ -152,7 +152,7 @@ export default {
       requestFrequency: 300,
       //节流阀-查询接口任务
       queryTask: null,
-      
+
     }
   },
 
@@ -201,6 +201,15 @@ export default {
         ...param
       };
       this._mxGetList();
+    },
+
+    //显示选择用户弹窗
+    choose() {
+      this.isChooseUser = true;
+    },
+    //关闭选择用户弹窗
+    cancelUser(val) {
+      this.isChooseUser = val;
     },
 
     /**
@@ -309,6 +318,9 @@ export default {
             this.$set(item, "defaultValue", row[key]);
           }
         }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
       });
       this.addChannel = true;
     },
@@ -359,6 +371,7 @@ export default {
           this._mxSuccess(res)
         });
       } else {
+        console.log(this.id, '-----------id')
         params.data = Object.assign(params.data, {
           [editId]: this.id
         })

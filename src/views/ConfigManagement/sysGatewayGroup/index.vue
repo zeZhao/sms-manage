@@ -190,6 +190,9 @@ export default {
             this.$set(item, "defaultValue", row[key]);
           }
         }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
       });
       this.$http.sysGatewayGroup
         .selectGatewayGroup({ data: { groupId: groupId.toString() } })

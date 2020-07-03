@@ -2,7 +2,7 @@
   <!--接口加强签名-->
   <div class="sysInterfaceSign">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="code" label="特服号" />
@@ -32,21 +32,17 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
-        @selectChange="selectChange"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -112,11 +108,12 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
           defaultValue: "",
-          // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -152,52 +149,26 @@ export default {
           key: "sign",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
-      ]
+      ],
+      isChooseUser: false
     };
   },
-  mounted() {
-    this.queryMainInfo();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    selectChange(data) {
-      const { val, item } = data;
-      let obj = {};
-      if (item.key === "userId") {
-        item.optionData.map(t => {
-          if (t.userId == val) {
-            obj = t;
-          }
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.defaultValue = obj.userId;
-          }
-          if (key === "corpId") {
-            t.defaultValue = obj.corpId;
-          }
-          if (key === "code") {
-            t.defaultValue = obj.code;
-          }
-        });
-      }
-    },
-    /*
-     * 获取用户企业列表
-     * */
-    queryMainInfo() {
-      this.$http.queryMainInfo().then(res => {
-        res.data.map(item => {
-          this.$set(item, "key", item.userId);
-          this.$set(item, "value", item.userName);
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.optionData = res.data;
-          }
-        });
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+        if (key === "corpId") {
+          t.defaultValue = data.corpId;
+        }
+        if (key === "code") {
+          t.defaultValue = data.code;
+        }
       });
     }
   },
@@ -206,6 +177,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mmsUserGateway {
-}
 </style>

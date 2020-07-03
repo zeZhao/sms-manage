@@ -43,12 +43,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -56,8 +51,10 @@
         @submit="submit"
         @cancel="cancel"
         @selectChange="selectChange"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -175,9 +172,11 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
           isShow: true,
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -188,14 +187,22 @@ export default {
           key: "remark"
         }
       ],
-      blackId: ""
+      blackId: "",
+      isChooseUser: false
     };
   },
-  mounted() {
-    this.queryMainInfo();
-  },
+  mounted() {},
   computed: {},
   methods: {
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+      });
+    },
     selectChange(data) {
       const { val, item } = data;
       if (item.key === "blackType") {
@@ -212,23 +219,7 @@ export default {
         }
       }
     },
-    /*
-     * 获取用户企业列表
-     * */
-    queryMainInfo() {
-      this.$http.queryMainInfo().then(res => {
-        res.data.map(item => {
-          this.$set(item, "key", item.userId);
-          this.$set(item, "value", item.userName);
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.optionData = res.data;
-          }
-        });
-      });
-    },
+
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
@@ -288,6 +279,9 @@ export default {
       }
       this.formTit = "修改";
       this.formConfig.forEach(item => {
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);

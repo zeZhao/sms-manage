@@ -1,17 +1,8 @@
 <template>
   <!--收入信息-->
   <div class="sysCompanyIncome">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="650"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <el-table :data="listData" highlight-current-row height="650" style="width: 100%;">
       <el-table-column type="index" label="序号" />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="companyName" label="公司名称" />
@@ -23,7 +14,7 @@
     </el-table>
     <p style="color:red" v-if="this.statistics">
       提交数:{{ this.statistics.count }} &nbsp;&nbsp;应收款:{{
-        this.statistics.receivable_moeny
+      this.statistics.receivable_moeny
       }}&nbsp;&nbsp; 实收款:{{ this.statistics.fact_money }}&nbsp;&nbsp;
       欠收款:{{ this.statistics.poor_moeny }}
     </p>
@@ -32,12 +23,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :colSpan="12"
@@ -45,9 +31,10 @@
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
-        @selectChange="selectChange"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -184,9 +171,11 @@ export default {
           ]
         },
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
@@ -364,49 +353,23 @@ export default {
           key: "remark"
         }
       ],
-      income_id: ""
+      income_id: "",
+      isChooseUser: false
     };
   },
-  mounted() {
-    this.queryMainInfo();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    selectChange(data) {
-      const { val, item } = data;
-      let obj = {};
-      if (item.key === "userId") {
-        item.optionData.map(t => {
-          if (t.userId == val) {
-            obj = t;
-          }
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.defaultValue = obj.userId;
-          }
-          if (key === "corporateId") {
-            t.defaultValue = obj.corpId;
-          }
-        });
-      }
-    },
-    /*
-     * 获取用户企业列表
-     * */
-    queryMainInfo() {
-      this.$http.queryMainInfo().then(res => {
-        res.data.map(item => {
-          this.$set(item, "key", item.userId);
-          this.$set(item, "value", item.userName);
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "userId") {
-            t.optionData = res.data;
-          }
-        });
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+        if (key === "corporateId") {
+          t.defaultValue = data.corpId;
+        }
       });
     },
     submit(form) {
@@ -462,6 +425,9 @@ export default {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
           }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
         }
       });
       this.addChannel = true;
