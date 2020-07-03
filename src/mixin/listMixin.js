@@ -152,6 +152,7 @@ export default {
       requestFrequency: 300,
       //节流阀-查询接口任务
       queryTask: null,
+      
     }
   },
 
@@ -378,7 +379,7 @@ export default {
         this._mxGetList();
         this.addChannel = false;
       } else {
-        this.$message.error(res.msg || res.data);
+        this.$message.error(res.data || res.msg);
       }
     },
 

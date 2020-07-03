@@ -139,7 +139,7 @@
           <el-input v-model="setInfo.linkUrl" clearable placeholder="目录路径" />
         </el-form-item>
         <el-form-item label="请选择目录类型">
-          <el-radio v-model="setInfo.type" :label="1">前端</el-radio>
+          <el-radio v-model="setInfo.type" :label="1" :disabled="setInfo.type === 2">前端</el-radio>
           <el-radio v-model="setInfo.type" :label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">

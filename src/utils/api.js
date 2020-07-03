@@ -10,6 +10,11 @@ import {
  * params 类型为Object
  */
 export default {
+  sysLogin: {
+    captcha(params) {
+      return fetch("/sysLogin/captcha", params);
+    }
+  },
   // 省份列表
   listSysProvince(params) {
     return post("/sysProvince/listSysProvince", params);
@@ -696,6 +701,14 @@ export default {
     // 查询列表
     queryByPage(params) {
       return post("/smsSendTask/queryByPage", params);
+    },
+    // 批量修改网关
+    batchModify(params) {
+      return post("/smsSendTask/batchModify", params);
+    },
+    //查看汇总 
+    queryGatewayStockNum(params) {
+      return post("/smsSendTask/queryGatewayStockNum", params);
     }
   },
   // 网关错误

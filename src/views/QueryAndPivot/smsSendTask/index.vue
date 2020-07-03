@@ -1,17 +1,13 @@
 <template>
   <!--待发-->
   <div class="smsSendTask">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false">
+      <template slot="Other">
+        <el-button type="primary" @click="edit">批量修改网关</el-button>
+        <el-button type="primary" @click="ViewTheSummary = true">查看汇总</el-button>
+      </template>
+    </Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="loginName" label="用户名" />
@@ -33,6 +29,26 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
+    <el-dialog title="查看汇总" :visible.sync="ViewTheSummary" width="50%">
+      <el-table :data="SummaryData" highlight-current-row>  
+        <el-table-column prop="gateway" label="网关" />
+        <el-table-column prop="stockNum" label="积压批次数量" />
+        <el-table-column prop="counter" label="积压条数" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="ViewTheSummary = false">取 消</el-button>
+        <el-button type="primary" @click="ViewTheSummary = false">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="批量修改网关" :visible.sync="editGateway" width="50%">
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        btnTxt="修改"
+        @submit="submitGateway"
+        @cancel="_mxCancel"
+      ></FormItem>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,6 +59,9 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      editGateway: false,
+      ViewTheSummary: false,
+      SummaryData: [],
       //接口地址
       searchAPI: {
         namespace: "smsSendTask",
@@ -108,12 +127,147 @@ export default {
           key: ["", "startTime", "endTime"],
           placeholder: "请选择提交时间"
         }
+      ],
+      formConfig: [
+        {
+          type: "input",
+          label: "用户ID",
+          key: "userId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "内容",
+          key: "content",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "处理条数",
+          key: "batchCount",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "CID",
+          key: "cid",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "原网关",
+          key: "gateway",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "目标网关",
+          key: "newGateway",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "date",
+          label: "日期",
+          key: "submitDate",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "time",
+          label: "开始时间",
+          key: "startTime",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "time",
+          label: "结束时间",
+          key: "endTime",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "是否处理长短信",
+          initDefaultValue: "1",
+          defaultValue: "1",
+          optionData: [
+            {
+              key: "1",
+              value: "是"
+            },
+            {
+              key: "0",
+              value: "否"
+            }
+          ],
+          key: "udhi",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code"
+        }
       ]
     };
   },
-  mounted() {},
+  mounted() {
+    this.queryGatewayStockNum();
+  },
   computed: {},
-  methods: {},
+  methods: {
+    // 批量修改网关
+    edit() {
+      this.editGateway = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
+    queryGatewayStockNum() {
+      this.$http.smsSendTask.queryGatewayStockNum().then(res => {
+        this.SummaryData = res.data;
+      });
+    },
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      if (formData.submitDate) {
+        formData.submitDate = new Date(formData.submitDate).Format(
+          "yyyy-MM-dd"
+        );
+      }
+      if (formData.startTime) {
+        formData.startTime = new Date(formData.startTime).Format("hh:mm:ss");
+      }
+      if (formData.endTime) {
+        formData.endTime = new Date(formData.endTime).Format("hh:mm:ss");
+      }
+      return formData;
+    },
+    submitGateway(form) {
+      form = this._mxArrangeSubmitData(form);
+      const params = {
+        data: {
+          sendTask: {
+            ...form
+          }
+        }
+      };
+      this.$http.smsSendTask.batchModify(params).then(res => {
+        if (resOk(res)) {
+          this.$message.success(res.msg || res.data);
+          this._mxGetList();
+          this.editGateway = false;
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
+      });
+    },
+    _mxCancel() {
+      this.editGateway = false;
+    }
+  },
   watch: {}
 };
 </script>

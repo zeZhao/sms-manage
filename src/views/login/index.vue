@@ -181,12 +181,20 @@ export default {
     },
     getCaptcha() {
       var num = Math.ceil(Math.random() * 10); //生成一个随机数（防止缓存）
+
+      // this.$http.sysLogin
+      //   .captcha({ uuId: this.loginForm.uuid, num: num })
+      //   .then(res => {
+      //     this.captcha = res;
+      //     console.log(res, "-----------");
+      //   });
       this.captcha =
         process.env.VUE_APP_BASE_API +
         "/sysLogin/captcha?uuId=" +
         this.loginForm.uuid +
         "&num=" +
         num;
+      console.log(this.captcha, "captcha----------");
     },
     handleLogin() {
       console.log("username", this.loginForm.username);

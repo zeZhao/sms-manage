@@ -91,7 +91,7 @@
       :title="formTit"
       :visible.sync="customerAddInfo"
       :close-on-click-modal="false"
-      style="margin: 0 auto"
+      top="45px"
     >
       <el-form
         ref="addForm"

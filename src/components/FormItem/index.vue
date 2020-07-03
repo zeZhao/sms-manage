@@ -18,6 +18,7 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
+                :class="{inputWid:item.btnTxt}"
                 v-model="formData[item.key]"
                 clearable
                 :disabled="item.disabled"
@@ -26,6 +27,7 @@
                     onInputChange(val, item);
                   }"
               />
+              <el-button v-if="item.btnTxt" @click="choose(item)">{{item.btnTxt}}</el-button>
             </template>
 
             <!--多文本输入框-->
@@ -124,6 +126,18 @@
                   }"
               ></el-date-picker>
             </template>
+
+            <!--时间-->
+            <template v-if="item.type === 'time'">
+              <el-time-picker
+                clearable
+                v-model="formData[item.key]"
+                :placeholder="item.placeholder || `请选择${item.label}`"
+                @change="val => {
+                    onChange(val, item);
+                  }"
+              ></el-time-picker>
+            </template>
           </el-form-item>
         </el-col>
         <div>
@@ -196,6 +210,9 @@ export default {
       } else {
         this.$set(item, "defaultValue", val);
       }
+    },
+    choose(item) {
+      this.$emit("choose", item);
     },
     /**
      * 提交验证
@@ -282,6 +299,9 @@ export default {
     // position: absolute;
     // right: 20px;
     // bottom: 20px;
+  }
+  .inputWid {
+    width: 78%;
   }
 }
 </style>

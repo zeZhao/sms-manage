@@ -1,6 +1,7 @@
 import Page from "@/components/Page"
 import Search from "@/components/searchPanel"
 import FormItem from "@/components/FormItem"
+import ChooseUser from "@/components/ChooseUser"
 import Api from "@/utils/api.js";
 import Vue from "vue";
 
@@ -140,7 +141,13 @@ class managePlugin {
      */
     {
       window.resOk = function (res = {}) {
-        if (res.code === '200' || res.code === 200 || res.data) {
+        const {
+          code
+        } = res
+        if (code === '200' || code === 200 || res.data) {
+          if (code === 500 || code === '500') {
+            return false
+          }
           return true;
         } else {
           return false;
@@ -155,6 +162,7 @@ class managePlugin {
     Vue.component("Page", Page);
     Vue.component("Search", Search);
     Vue.component("FormItem", FormItem);
+    Vue.component("ChooseUser", ChooseUser);
   }
 
   /*------------------添加vue过滤器------------------*/
@@ -270,6 +278,7 @@ class managePlugin {
 
   /*------------------安装指令方法------------------*/
   installDirective(Vue) {
+    // 点击间隔
     Vue.directive('throttle', {
       inserted(el, binding) {
         el.addEventListener('click', () => {

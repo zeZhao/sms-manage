@@ -29,7 +29,7 @@
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
-      style="margin: 0 auto"
+      top="45px"
     >
       <FormItem
         ref="formItem"

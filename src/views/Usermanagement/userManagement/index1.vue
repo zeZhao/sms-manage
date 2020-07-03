@@ -85,7 +85,7 @@
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
-      style="margin: 0 auto"
+      top="45px"
       width="80%"
     >
       <FormItem
@@ -242,7 +242,7 @@ export default {
           placeholder: "请选择销售人员"
         },
         {
-          type: "month",
+          type: "daterange",
           label: "创建时间",
           key: ["", "startDate", "endDate"],
           placeholder: "请选择创建时间"
@@ -420,12 +420,12 @@ export default {
           key: "userIp",
           defaultValue: ""
         },
-        {
-          type: "input",
-          label: "备份IP",
-          key: "userIpBak",
-          defaultValue: ""
-        },
+        // {
+        //   type: "input",
+        //   label: "备份IP",
+        //   key: "userIpBak",
+        //   defaultValue: ""
+        // },
         {
           type: "input",
           label: "客户联系人",
