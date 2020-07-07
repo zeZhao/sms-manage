@@ -239,11 +239,20 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+
         {
           type: "input",
           label: "特服号",
           disabled: true,
           key: "code",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "单价",
+          disabled: true,
+          key: "cardUnit",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -436,6 +445,9 @@ export default {
         }
         if (key === "code") {
           t.defaultValue = data.code;
+        }
+        if (key === "cardUnit") {
+          t.defaultValue = data.cardUnit;
         }
       });
     },
