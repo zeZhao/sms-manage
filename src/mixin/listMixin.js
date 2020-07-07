@@ -113,7 +113,7 @@ function queryData() {
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);
     } else {
-      this.$message.error(res.msg || "获取数据失败")
+      this.$message.error(res.data || "获取数据失败")
     }
   })
 }

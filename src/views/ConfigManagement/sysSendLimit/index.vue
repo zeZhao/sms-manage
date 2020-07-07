@@ -25,20 +25,17 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="form"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -74,10 +71,12 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
-          optionData: [],
+          btnTxt: "选择用户",
+          disabled: true,
+          defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
           ]
@@ -110,34 +109,20 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
-      limitId: ""
+      limitId: "",
+      isChooseUser: false
     };
   },
-  mounted() {
-    this.getUserList();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    getUserList() {
-      const params = {
-        data: {
-          corpUser: {},
-          pageNumber: 1,
-          pageSize: 99999
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
         }
-      };
-      this.$http.corpUser.queryByPage(params).then(res => {
-        this.formConfig.forEach(item => {
-          if (item.key === "userId") {
-            res.data.list.forEach(t => {
-              let obj = {
-                key: t.userId,
-                value: t.userName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
       });
     },
     submit(form) {

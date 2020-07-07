@@ -17,7 +17,6 @@ import echarts from 'echarts'
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
-import ThemePicker from '@/components/ThemePicker'
 
 import * as filters from './filters' // global filters
 
