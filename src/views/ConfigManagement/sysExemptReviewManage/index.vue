@@ -26,6 +26,11 @@
           <span>{{ scope.row.isParallelDetection ? "是" : '否' }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="isLoss" label="是否亏损">
+        <template slot-scope="scope">
+          <span>{{ scope.row.isLoss ? "是" : '否' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="updateBy" label="修改人" />
       <el-table-column prop="updateTime" label="修改时间" />
       <el-table-column fixed="right" label="操作" width="200">
@@ -170,6 +175,21 @@ export default {
             }
           ],
           placeholder: "请选择是否并行检测"
+        },
+        {
+          type: "select",
+          label: "是否亏损",
+          key: "isLoss",
+          optionData: [
+            {
+              key: "0",
+              value: "否"
+            },
+            {
+              key: "1",
+              value: "是"
+            }
+          ]
         },
         {
           type: "select",
@@ -465,7 +485,11 @@ export default {
           if (key == keys) {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", `${t.gateway}_${t.gatewayName}`);
+              this.$set(
+                t,
+                "value",
+                `${t.unitPrice}_${t.gatewayId}_${t.gatewayName}`
+              );
               item.optionData.push(t);
             });
           }

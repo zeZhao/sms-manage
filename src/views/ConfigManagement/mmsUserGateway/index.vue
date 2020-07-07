@@ -210,7 +210,11 @@ export default {
           if (key == keys) {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", `${t.gateway}_${t.gatewayName}`);
+              this.$set(
+                t,
+                "value",
+                `${t.unitPrice}_${t.gatewayId}_${t.gatewayName}`
+              );
               item.optionData.push(t);
             });
           }
