@@ -64,7 +64,7 @@ export default {
         edit: "updateInterfaceSign"
       },
       // 列表参数
-      namespace: "sysInterfaceSign",
+      namespace: "",
       //搜索框数据
       searchParam: {},
       //搜索框配置
