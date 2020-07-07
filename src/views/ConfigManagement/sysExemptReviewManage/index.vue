@@ -133,10 +133,6 @@ export default {
             {
               key: "1",
               value: "短信"
-            },
-            {
-              key: "2",
-              value: "彩信"
             }
           ],
           placeholder: "请选择免审类型"
@@ -165,11 +161,11 @@ export default {
           key: "isSarallelDetection",
           optionData: [
             {
-              key: "1",
+              key: "0",
               value: "否"
             },
             {
-              key: "2",
+              key: "1",
               value: "是"
             }
           ],
