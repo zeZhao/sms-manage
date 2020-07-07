@@ -75,7 +75,7 @@ export default {
         {
           type: "input",
           label: "特服号/用户id",
-          key: "code",
+          key: "userId",
           placeholder: "请输入特服号/用户id"
         },
         {

@@ -1,17 +1,8 @@
 <template>
   <!--审核查询-->
   <div class="smsCheck">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -22,15 +13,17 @@
       <el-table-column prop="ctCount" label="电信" />
       <el-table-column prop="checkStatus" label="审核状态">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.type === 0
-              ? "待审"
-              : scope.row.type === 1
-              ? "正在审核"
-              : scope.row.type === 2
-              ? "审核通过"
-              : "拒绝"
-          }}</span>
+            ? "待审"
+            : scope.row.type === 1
+            ? "正在审核"
+            : scope.row.type === 2
+            ? "审核通过"
+            : "拒绝"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="checker" label="审核根源" />
@@ -132,7 +125,24 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      if (data.startTime) {
+        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:01");
+      }
+      if (data.endTime) {
+        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
+      }
+      return data;
+    }
+  },
   watch: {}
 };
 </script>
