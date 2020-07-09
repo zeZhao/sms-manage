@@ -732,6 +732,16 @@ export const asyncRoutes = [{
           title: '彩信通道'
         }
       },
+      {
+        path: '/smsTestSendTask/index',
+        component: () =>
+          import('@/views/ChannelManagement/smsTestSendTask/index'),
+        name: 'smsTestSendTask',
+        meta: {
+          keepAlive: true,
+          title: '测试发送接口'
+        }
+      },
     ]
   },
   // 404 page must be placed at the end !!!

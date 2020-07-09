@@ -869,5 +869,12 @@ export default {
       return post("/mmsGateway/addMmsGateway", params);
     },
   },
+  //测试发送接口
+  smsTestSendTask: {
+    // 分页查询列表
+    send(params) {
+      return post("/smsSendTask/send", params);
+    },
+  },
 
 }
