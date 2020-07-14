@@ -28,7 +28,9 @@
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="submitTime" label="提交时间" />
+      <el-table-column prop="submitTime" label="提交时间" >
+        <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

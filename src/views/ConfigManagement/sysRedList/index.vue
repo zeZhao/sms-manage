@@ -12,7 +12,9 @@
           <span>{{ scope.row.codeType === 1 ? "用户" : "特服号" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间" >
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row, 'redId')" type="text" size="small">修改</el-button>

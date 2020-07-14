@@ -78,7 +78,9 @@
 
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="modifier" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间">
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核">
         <template slot-scope="scope">
           <span>
@@ -236,10 +238,7 @@ export default {
           type: "select",
           label: "产品类型",
           key: "chargeType",
-          optionData: [
-            { key: 1, value: "短信" },
-            { key: 2, value: "彩信" }
-          ],
+          optionData: [{ key: 1, value: "短信" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {

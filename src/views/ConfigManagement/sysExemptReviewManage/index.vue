@@ -32,7 +32,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="updateBy" label="修改人" />
-      <el-table-column prop="updateTime" label="修改时间" />
+      <el-table-column prop="updateTime" label="修改时间" >
+        <template slot-scope="scope">{{scope.row.updateTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'exemptId')" type="text" size="small">修改</el-button>

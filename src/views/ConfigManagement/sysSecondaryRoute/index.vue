@@ -14,7 +14,9 @@
       <el-table-column prop="sign" label="客户签名" />
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间" >
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>

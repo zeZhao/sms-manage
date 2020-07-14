@@ -1,17 +1,8 @@
 <template>
   <!--上行信息-->
   <div class="smsMoQueue">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="code" label="特服号" />
@@ -20,18 +11,22 @@
       <el-table-column prop="city" label="城市" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{
+          <span>
+            {{
             scope.row.type === 1
-              ? "移动 "
-              : scope.row.type === 2
-              ? "联通 "
-              : "电信"
-          }}</span>
+            ? "移动 "
+            : scope.row.type === 2
+            ? "联通 "
+            : "电信"
+            }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column prop="content" label="内容" />
       <el-table-column prop="gateway" label="上行网关" />
-      <el-table-column prop="createTime" label="上行时间" />
+      <el-table-column prop="createTime" label="上行时间">
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{ scope.row.type === 0 ? "初始 " : "已处理" }}</span>

@@ -167,6 +167,11 @@ class managePlugin {
 
   /*------------------添加vue过滤器------------------*/
   installFilter(Vue) {
+    Vue.filter('timeFormat', function (time) {
+      if (time) {
+        return new Date(time).Format('yyyy-MM-dd hh:mm:ss')
+      }
+    })
 
   }
 

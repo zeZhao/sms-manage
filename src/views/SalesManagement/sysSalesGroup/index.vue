@@ -6,7 +6,9 @@
       <el-table-column prop="sid" label="ID" />
       <el-table-column prop="groupName" label="组名称" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="modifyTime" label="修改时间" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">{{scope.row.modifyTime | modifyTime}}</template>
+      </el-table-column>
       <el-table-column prop="modifyer" label="修改人" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">

@@ -37,8 +37,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="definiteTime" label="定时时间" />
-      <el-table-column prop="submitTime" label="提交时间" />
+      <el-table-column prop="definiteTime" label="定时时间" >
+        <template slot-scope="scope">{{scope.row.definiteTime | timeFormat}}</template>
+      </el-table-column>
+      <el-table-column prop="submitTime" label="提交时间" >
+        <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

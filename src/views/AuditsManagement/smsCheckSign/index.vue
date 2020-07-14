@@ -15,7 +15,9 @@
           <a style="color:#1890ff" :href="`http://10.10.0.5:9091${scope.row.cardUrl}`">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column prop="creatrTime" label="申请时间" />
+      <el-table-column prop="creatrTime" label="申请时间" >
+        <template slot-scope="scope">{{scope.row.creatrTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{ scope.row.status === 1?'待审核':(scope.row.status === 2?'审核处理中':(scope.row.status === 4 ?'审核通过':'审核拒绝')) }}</span>

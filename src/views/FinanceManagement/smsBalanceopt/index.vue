@@ -26,7 +26,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="createTime" label="操作时间" />
+      <el-table-column prop="createTime" label="操作时间" >
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

@@ -19,7 +19,9 @@
       <el-table-column prop="errCode" label="错误码" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="err" label="错误描述" />
-      <el-table-column prop="submitTime" label="提交时间" />
+      <el-table-column prop="submitTime" label="提交时间" >
+        <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

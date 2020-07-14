@@ -10,7 +10,9 @@
       <el-table-column prop="cmGatewayId" label="移动通道" />
       <el-table-column prop="cuGatewayId" label="联通通道" />
       <el-table-column prop="ctGatewayId" label="电信通道" />
-      <el-table-column prop="updateTime" label="修改时间" />
+      <el-table-column prop="updateTime" label="修改时间" >
+        <template slot-scope="scope">{{scope.row.updateTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>

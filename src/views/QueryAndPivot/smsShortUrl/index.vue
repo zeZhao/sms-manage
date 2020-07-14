@@ -14,8 +14,12 @@
     >
       <el-table-column prop="userId" label="客户ID" />
       <el-table-column prop="activityName" label="活动名称" />
-      <el-table-column prop="count" label="提交时间" />
-      <el-table-column prop="defineTime" label="定时时间" />
+      <el-table-column prop="count" label="提交时间" >
+        <template slot-scope="scope">{{scope.row.count | timeFormat}}</template>
+      </el-table-column>
+      <el-table-column prop="defineTime" label="定时时间" >
+        <template slot-scope="scope">{{scope.row.defineTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column prop="content" label="短信内容" />
       <el-table-column prop="activityUrl" label="活动链接" />
       <el-table-column prop="messageNum" label="短信条数" />

@@ -27,7 +27,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="unitPrice" label="分区字段" />
-      <el-table-column prop="createTime" label="提交日期" />
+      <el-table-column prop="createTime" label="提交日期">
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

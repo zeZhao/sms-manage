@@ -31,8 +31,12 @@
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="combined" label="是否处理" />
       <el-table-column prop="checker" label="审核人" />
-      <el-table-column prop="submitTime" label="提交时间" />
-      <el-table-column prop="checkDate" label="审核时间" />
+      <el-table-column prop="submitTime" label="提交时间" >
+        <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
+      </el-table-column>
+      <el-table-column prop="checkDate" label="审核时间" >
+        <template slot-scope="scope">{{scope.row.checkDate | timeFormat}}</template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

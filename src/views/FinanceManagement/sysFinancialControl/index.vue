@@ -39,17 +39,7 @@
       </el-table-column>
       <el-table-column prop="reductModel" label="计费类型">
         <template slot-scope="scope">
-          <span>
-            {{
-            scope.row.reductModel == 1
-            ? "预付提交计费"
-            : scope.row.reductModel == 2
-            ? "预付成功计费"
-            : scope.row.reductModel == 3
-            ? "后付提交计费"
-            : "后付成功计费"
-            }}
-          </span>
+          <span>{{scope.row.reductModel == 1? "用户计费": "企业计费"}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="操作类型" />
@@ -74,7 +64,9 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="modifier" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间">
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column prop="paymentCompany" label="打款公司名称" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">

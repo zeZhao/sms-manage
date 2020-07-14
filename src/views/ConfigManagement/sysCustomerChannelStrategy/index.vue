@@ -16,7 +16,9 @@
       <el-table-column prop="cuPassageway" label="联通网关" />
       <el-table-column prop="ctPassageway" label="电信网关" />
       <el-table-column prop="modifier" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间" />
+      <el-table-column prop="modifyTime" label="修改时间" >
+        <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
