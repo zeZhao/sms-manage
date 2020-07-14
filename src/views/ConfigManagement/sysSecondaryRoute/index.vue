@@ -2,7 +2,7 @@
   <!--二次路由-->
   <div class="sysSecondaryRoute">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
@@ -14,7 +14,7 @@
       <el-table-column prop="sign" label="客户签名" />
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" >
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">

@@ -2,7 +2,7 @@
   <!--红名单管理-->
   <div class="sysRedList">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="code" label="特服号/用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="mobile" label="手机号" />
@@ -12,7 +12,7 @@
           <span>{{ scope.row.codeType === 1 ? "用户" : "特服号" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" >
+      <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="200">

@@ -2,7 +2,7 @@
   <!--收入信息-->
   <div class="sysCompanyIncome">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="650" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column type="index" label="序号" />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="companyName" label="公司名称" />

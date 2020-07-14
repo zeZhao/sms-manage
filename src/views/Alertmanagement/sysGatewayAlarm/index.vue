@@ -2,7 +2,7 @@
   <!--通道警报-->
   <div class="mmsUserGateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="gateway" label="网关编号" />
       <el-table-column prop="submitFail" label="是否提交失败报警">
         <template slot-scope="scope">
@@ -25,11 +25,11 @@
       <el-table-column prop="complaintRate" label="投诉率报警" />
       <el-table-column prop="daySendAlarm" label="日成功量提醒" />
       <el-table-column prop="createUser" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" >
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="modifyUser" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间" >
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">

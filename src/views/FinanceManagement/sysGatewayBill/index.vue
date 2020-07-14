@@ -2,7 +2,7 @@
   <!--通道月账单-->
   <div class="sysGatewayBill">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="gatewayType" label="类型">
@@ -27,12 +27,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"

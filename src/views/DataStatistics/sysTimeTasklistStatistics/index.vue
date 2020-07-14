@@ -2,7 +2,7 @@
   <!--定时统计-->
   <div class="sysTimeTasklistStatistics">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />

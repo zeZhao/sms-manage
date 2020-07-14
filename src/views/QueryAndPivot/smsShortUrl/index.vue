@@ -1,29 +1,20 @@
 <template>
   <!--短连接查询-->
   <div class="smsShortUrl">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="客户ID" />
       <el-table-column prop="activityName" label="活动名称" />
-      <el-table-column prop="count" label="提交时间" >
-        <template slot-scope="scope">{{scope.row.count | timeFormat}}</template>
-      </el-table-column>
-      <el-table-column prop="defineTime" label="定时时间" >
-        <template slot-scope="scope">{{scope.row.defineTime | timeFormat}}</template>
-      </el-table-column>
-      <el-table-column prop="content" label="短信内容" />
-      <el-table-column prop="activityUrl" label="活动链接" />
+      <el-table-column prop="content" label="短信内容" show-overflow-tooltip />
+      <el-table-column prop="activityUrl" label="活动链接" show-overflow-tooltip />
       <el-table-column prop="messageNum" label="短信条数" />
       <el-table-column prop="clickTimes" label="活动访问次数" />
+      <el-table-column prop="count" label="提交时间" width="150">
+        <template slot-scope="scope">{{scope.row.count | timeFormat}}</template>
+      </el-table-column>
+      <el-table-column prop="defineTime" label="定时时间" width="150">
+        <template slot-scope="scope">{{scope.row.defineTime | timeFormat}}</template>
+      </el-table-column>
       <el-table-column label="操作" />
     </el-table>
     <Page

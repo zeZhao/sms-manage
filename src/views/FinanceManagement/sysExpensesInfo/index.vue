@@ -2,18 +2,18 @@
   <!--支出信息-->
   <div class="sysExpensesInfo">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column type="index" label="序号" />
-      <el-table-column prop="no" label="下单编号" />
+      <el-table-column prop="no" label="下单编号" show-overflow-tooltip />
       <el-table-column prop="corporateName" label="所属公司" />
-      <el-table-column prop="orderMonth" label="下单月" />
-      <el-table-column prop="theMonth" label="所属月" />
-      <el-table-column prop="dates" label="日期" />
-      <el-table-column prop="summary" label="摘要" />
-      <el-table-column prop="collectionCompany" label="收款单位" />
+      <el-table-column prop="orderMonth" label="下单月" width="95" />
+      <el-table-column prop="theMonth" label="所属月" width="95" />
+      <el-table-column prop="dates" label="日期" width="95" />
+      <el-table-column prop="summary" label="摘要" show-overflow-tooltip />
+      <el-table-column prop="collectionCompany" label="收款单位" show-overflow-tooltip />
       <el-table-column prop="lender" label="付款金额" />
       <el-table-column prop="ticketsPlusNotes" label="是否回票" />
-      <el-table-column prop="ticketNumber" label="票号" />
+      <el-table-column prop="ticketNumber" label="票号" show-overflow-tooltip />
       <el-table-column prop="billingType" label="开票类型" />
       <el-table-column prop="isPay" label="是否已付款">
         <template slot-scope="scope">
@@ -37,12 +37,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -287,6 +282,7 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    // 表格列表数据
     _mxFormListData(data) {
       data.forEach(item => {
         if (item.orderMonth) {
@@ -299,6 +295,17 @@ export default {
           item.dates = new Date(item.dates).Format("yyyy-MM-dd");
         }
       });
+      return data;
+    },
+    // 修改搜索参数
+    _formatRequestData(data) {
+      const { theMonthS, orderMonthS } = data;
+      if (theMonthS) {
+        data.theMonthS = new Date(theMonthS).Format("yyyy-MM");
+      }
+      if (orderMonthS) {
+        data.orderMonthS = new Date(orderMonthS).Format("yyyy-MM");
+      }
       return data;
     }
     //countMonth

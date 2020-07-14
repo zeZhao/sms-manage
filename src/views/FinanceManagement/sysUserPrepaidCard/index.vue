@@ -2,15 +2,15 @@
   <!--用户月账单-->
   <div class="sysUserPrepaidCard">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
-      <el-table-column prop="cardNum" label="卡号" />
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
+      <el-table-column prop="cardNum" label="卡号" show-overflow-tooltip />
       <el-table-column prop="userId" label="账号ID" />
-      <el-table-column prop="reductType" label="计费类型">
+      <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType === 1 ? "为用户id计费" : "企业id计费" }}</span>
+          <span>{{ scope.row.reductType === 1 ? "用户id计费" : "企业id计费" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="计费方式">
+      <el-table-column prop="reductModel" label="计费方式" width="110">
         <template slot-scope="scope">
           <span>
             {{
@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="200">
@@ -170,7 +170,15 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    detail() {}
+    detail() {},
+    // 修改搜索参数
+    _formatRequestData(data) {
+      const { queryMonth } = data;
+      if (queryMonth) {
+        data.queryMonth = new Date(queryMonth).Format("yyyy-MM");
+      }
+      return data;
+    }
   },
   watch: {}
 };

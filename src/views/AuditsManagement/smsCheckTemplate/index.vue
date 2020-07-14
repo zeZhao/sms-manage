@@ -2,7 +2,7 @@
   <!--待审模板-->
   <div class="smsCheckTemplate">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -12,8 +12,8 @@
           <span>{{ scope.row.type === '1' ? "特服号" : (scope.row.type === '2' ? "客户ID" :'企业ID') }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="template" label="模板信息" />
-      <el-table-column prop="createdAt" label="创建时间" >
+      <el-table-column prop="template" label="模板信息" show-overflow-tooltip />
+      <el-table-column prop="createdAt" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createdAt | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">

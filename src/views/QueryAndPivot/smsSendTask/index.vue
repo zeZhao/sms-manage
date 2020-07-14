@@ -7,12 +7,12 @@
         <el-button type="primary" @click="ViewTheSummary = true">查看汇总</el-button>
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="loginName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="cid" label="CID" />
@@ -21,10 +21,10 @@
           <span>{{ scope.row.hasSend === 0 ? "未发" : "已发送" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间">
+      <el-table-column prop="definiteTime" label="定时时间" width="150">
         <template slot-scope="scope">{{scope.row.definiteTime | timeFormat}}</template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间">
+      <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
       </el-table-column>
     </el-table>

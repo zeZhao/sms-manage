@@ -5,7 +5,7 @@
     <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
@@ -21,7 +21,7 @@
           <span>{{ scope.row.isTemplate===true ? "需要" :'不需要' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="isParallelDetection" label="是否并行检测">
+      <el-table-column prop="isParallelDetection" label="是否并行检测" width="110">
         <template slot-scope="scope">
           <span>{{ scope.row.isParallelDetection ? "是" : '否' }}</span>
         </template>
@@ -31,9 +31,9 @@
           <span>{{ scope.row.isLoss ? "是" : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="updateBy" label="修改人" />
-      <el-table-column prop="updateTime" label="修改时间" >
-        <template slot-scope="scope">{{scope.row.updateTime | timeFormat}}</template>
+      <el-table-column prop="update_by" label="修改人" />
+      <el-table-column prop="update_time" label="修改时间" width="150">
+        <template slot-scope="scope">{{scope.row.update_time | timeFormat}}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">

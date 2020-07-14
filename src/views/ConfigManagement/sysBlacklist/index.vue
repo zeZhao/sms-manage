@@ -2,7 +2,7 @@
   <!--黑名单管理-->
   <div class="sysBlacklist">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="blackType" label="黑名单类型">
         <template slot-scope="scope">

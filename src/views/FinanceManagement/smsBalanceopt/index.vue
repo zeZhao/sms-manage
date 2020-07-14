@@ -2,7 +2,7 @@
   <!--余额调整记录-->
   <div class="mmsUserGateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -10,7 +10,7 @@
       <el-table-column prop="afterBalance" label="操作后的余额" />
       <el-table-column prop="optType" label="操作类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.optType === "1" ? '充值': (scope.row.optType === "2" ? '补款':(scope.row.optType === "3" ? '扣款':(scope.row.optType === "4" ? '失败退款':'授信'))) }}</span>
+          <span>{{ scope.row.optType === "1" ? '充值': (scope.row.optType === "2" ? '还款':(scope.row.optType === "3" ? '扣款':'借款')) }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="optBalance" label="当前操作条数" />
@@ -25,8 +25,8 @@
           <span>{{ scope.row.chargeType === 1 ? '短信':'彩信' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="createTime" label="操作时间" >
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip/>
+      <el-table-column prop="createTime" label="操作时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
     </el-table>
@@ -87,26 +87,10 @@ export default {
           key: "optType",
           placeholder: "请选择操作类型",
           optionData: [
-            {
-              key: 1,
-              value: "充值"
-            },
-            {
-              key: 2,
-              value: "补款"
-            },
-            {
-              key: 3,
-              value: "扣款"
-            },
-            {
-              key: 4,
-              value: "失败退款"
-            },
-            {
-              key: 5,
-              value: "授信"
-            }
+            { key: 1, value: "充值" },
+            { key: 5, value: "借款" },
+            { key: 3, value: "扣款" },
+            { key: 2, value: "还款" }
           ]
         },
         {
@@ -210,26 +194,10 @@ export default {
           label: "操作类型",
           key: "optType",
           optionData: [
-            {
-              key: "1",
-              value: "充值"
-            },
-            {
-              key: "2",
-              value: "补款"
-            },
-            {
-              key: "3",
-              value: "扣款"
-            },
-            {
-              key: "4",
-              value: "失败退款"
-            },
-            {
-              key: "5",
-              value: "授信"
-            }
+            { key: 1, value: "充值" },
+            { key: 5, value: "借款" },
+            { key: 3, value: "扣款" },
+            { key: 2, value: "还款" }
           ],
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }

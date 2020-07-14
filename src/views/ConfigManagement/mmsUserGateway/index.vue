@@ -2,7 +2,7 @@
   <!--彩信用户通道配置-->
   <div class="mmsUserGateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
@@ -10,7 +10,7 @@
       <el-table-column prop="cmGatewayId" label="移动通道" />
       <el-table-column prop="cuGatewayId" label="联通通道" />
       <el-table-column prop="ctGatewayId" label="电信通道" />
-      <el-table-column prop="updateTime" label="修改时间" >
+      <el-table-column prop="updateTime" label="修改时间">
         <template slot-scope="scope">{{scope.row.updateTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">

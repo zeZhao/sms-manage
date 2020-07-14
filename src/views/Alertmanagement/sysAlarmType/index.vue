@@ -2,11 +2,11 @@
   <!--报警类别-->
   <div class="sysAlarmType">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="errNum" label="错误码" />
       <el-table-column prop="useModule" label="应用模块" />
-      <el-table-column prop="alerType" label="报警类型" />
-      <el-table-column prop="mobile" label="手机号码" width="115" />
+      <el-table-column prop="alerType" label="报警类型" width="120" />
+      <el-table-column prop="mobile" label="手机号码" width="115" show-overflow-tooltip />
       <el-table-column prop="adminUser" label="预警用户" />
       <el-table-column prop="alarmLevel" label="报警级别">
         <template slot-scope="scope">

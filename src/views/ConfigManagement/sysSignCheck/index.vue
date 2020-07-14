@@ -2,7 +2,7 @@
   <!--签名管理-->
   <div class="sysSignCheck">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="code" label="签名特服号" />
@@ -16,10 +16,10 @@
           <a style="color:#1890ff" :href="`http://10.10.0.5:9091${scope.row.cardUrl}`">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column prop="creatrTime" label="申请时间" >
+      <el-table-column prop="creatrTime" label="申请时间" width="150">
         <template slot-scope="scope">{{scope.row.creatrTime | timeFormat}}</template>
       </el-table-column>
-      <el-table-column prop="checkTime" label="审核时间" >
+      <el-table-column prop="checkTime" label="审核时间" width="150">
         <template slot-scope="scope">{{scope.row.checkTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">

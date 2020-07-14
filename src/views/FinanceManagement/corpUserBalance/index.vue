@@ -2,9 +2,9 @@
   <!--用户余额-->
   <div class="mmsUserGateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="企业/用户ID" />
-      <el-table-column prop="userName" label="企业/用户名称" />
+      <el-table-column prop="userName" label="企业/用户名称" show-overflow-tooltip />
       <el-table-column prop="smsBalance" label="短信余额" />
       <el-table-column prop="mmsBalance" label="彩信余额" />
       <el-table-column prop="debt" label="借款" />
@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="oper" label="操作人" />
-      <el-table-column prop="operDate" label="操作时间">
+      <el-table-column prop="operDate" label="操作时间" width="150">
         <template slot-scope="scope">{{scope.row.operDate | timeFormat}}</template>
       </el-table-column>
     </el-table>

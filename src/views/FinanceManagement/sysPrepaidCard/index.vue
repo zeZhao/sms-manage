@@ -1,17 +1,8 @@
 <template>
   <!--企业月账单-->
   <div class="sysPrepaidCard">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      :add="false"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      height="750"
-      style="width: 100%;"
-    >
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="corporateName" label="企业名称" />
       <el-table-column prop="cardCount" label="条数" />
@@ -22,12 +13,12 @@
       <el-table-column prop="cardMoney" label="总金额(元)" />
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
-          <span> {{ scope.row.chargeType === 1 ? "短信" : "彩信" }} </span>
+          <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column label="操作" width="200">
-        <template slot-scope="">
+        <template slot-scope>
           <el-button type="text" size="small">导出平台账单</el-button>
           <el-button type="text" size="small">导出直连账单</el-button>
         </template>
@@ -100,7 +91,16 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    // 修改搜索参数
+    _formatRequestData(data) {
+      const { remark } = data;
+      if (remark) {
+        data.remark = new Date(remark).Format("yyyy-MM");
+      }
+      return data;
+    }
+  },
   watch: {}
 };
 </script>

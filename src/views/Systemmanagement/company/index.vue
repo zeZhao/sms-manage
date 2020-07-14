@@ -20,7 +20,7 @@
         <!--</el-form-item>-->
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="dataList" highlight-current-row height="680" style="width: 100%;">
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="userName" label="企业名" />
       <el-table-column prop="userId" label="用户ID" />

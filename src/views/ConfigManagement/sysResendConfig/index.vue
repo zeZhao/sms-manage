@@ -2,13 +2,13 @@
   <!--通道重发配置-->
   <div class="sysSendLimit">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="status" label="不重发状态" />
       <el-table-column prop="destGateway" label="重发目标通道" />
-      <el-table-column prop="modifyTime" label="修改时间" >
+      <el-table-column prop="modifyTime" label="修改时间">
         <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">
@@ -27,12 +27,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="form"
         :formConfig="formConfig"

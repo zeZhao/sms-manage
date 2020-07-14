@@ -2,7 +2,7 @@
   <!--敏感词组-->
   <div class="sysSensitiveWordGroup">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="groupId" label="编号" />
       <el-table-column prop="groupName" label="敏感词名" />
       <el-table-column label="操作" width="200">

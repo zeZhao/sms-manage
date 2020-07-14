@@ -2,7 +2,7 @@
   <!--通道组配置-->
   <div class="sysGatewayGroup">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="groupId" label="通道组ID" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />
@@ -19,12 +19,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"

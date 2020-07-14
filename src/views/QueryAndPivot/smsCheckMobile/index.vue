@@ -2,7 +2,7 @@
   <!--审核号码-->
   <div class="mmsUserGateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="cid" label="批次ID" />
       <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="type" label="号码类型">

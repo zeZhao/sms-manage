@@ -2,13 +2,13 @@
   <!--企业用户-->
   <div class="corpUser">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;" stripe>
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业/代理ID" />
+      <el-table-column prop="corpId" label="企业/代理ID" width="100" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="loginName" label="用户登录名" />
-      <el-table-column prop="password" label="密码" />
+      <el-table-column prop="loginName" label="用户登录名" width="100" />
+      <el-table-column prop="password" label="密码" width="100" show-overflow-tooltip />
       <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
           <span>{{ scope.row.accountType == '1'?'行业':( scope.row.accountType == '2'?'营销':"vip")}}</span>
@@ -27,24 +27,24 @@
           <span>{{ scope.row.proType == '1'?'web前端':( scope.row.proType == '2'?'http接口':( scope.row.proType == '3'?'cmpp接口':'音频接口'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendType" label="发送运营商">
+      <el-table-column prop="sendType" label="发送运营商" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.sendType == '1'?'移动':( scope.row.reductModel == '2'?'联通 ':( scope.row.reductModel == '3'?'电信': (scope.row.reductModel == "4" ? '三网':(scope.row.reductModel == "5" ? '移动联通' : (scope.row.reductModel == "6"?'移动电信':'联通电信')))))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="计费方式">
+      <el-table-column prop="reductModel" label="计费方式" width="110">
         <template slot-scope="scope">
           <span>{{ scope.row.reductModel == '1'?'预付提交计费':( scope.row.reductModel == '2'?'预付成功计费':( scope.row.reductModel == '3'?'后付提交计费':'后付成功计费'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductType" label="计费类型">
+      <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
           <span>{{ scope.row.reductType == '1'?'用户id计费':'企业id计费'}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsBalance" label="短信余额" />
       <el-table-column prop="debt" label="借款" />
-      <el-table-column prop="cardUnit" label="单价（分）"></el-table-column>
+      <el-table-column prop="cardUnit" label="单价（分）" width="100"></el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{ scope.row.status == '0'?'删除':( scope.row.status == '1'?'待审核':( scope.row.status == '2'?'正常':'停用'))}}</span>

@@ -2,7 +2,7 @@
   <!--白名单管理-->
   <div class="sysWhitelist">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>

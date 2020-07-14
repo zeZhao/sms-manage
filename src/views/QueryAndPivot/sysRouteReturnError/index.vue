@@ -2,7 +2,7 @@
   <!--失败原因-->
   <div class="sysRouteReturnError">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="routeId" label="网关编号" />
       <el-table-column prop="result" label="网关返回值" />
       <el-table-column prop="type" label="类型">
@@ -38,12 +38,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"

@@ -2,7 +2,7 @@
   <!--客户通道策略-->
   <div class="sysCustomerChannelStrategy">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="strategyLevel" label="策略类型">
         <template slot-scope="scope">
           <span>{{scope.row.strategyLevel === 1 ? '系统级':(scope.row.strategyLevel === 2 ? '特服号级':(scope.row.strategyLevel === 3 ? '客户级':'企业级'))}}</span>
@@ -16,7 +16,7 @@
       <el-table-column prop="cuPassageway" label="联通网关" />
       <el-table-column prop="ctPassageway" label="电信网关" />
       <el-table-column prop="modifier" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间" >
+      <el-table-column prop="modifyTime" label="修改时间">
         <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">

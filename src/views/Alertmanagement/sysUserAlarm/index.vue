@@ -2,12 +2,12 @@
   <!--用户报警-->
   <div class="sysUserAlarm">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="notSubmitMin" label="未提交报警时间间隔(分)" />
       <el-table-column prop="sucCrate" label="低于设定成功率报警" />
       <el-table-column prop="returnRate" label="低于设定返回率报警" />
-      <el-table-column prop="mobile" label="手机号码" width="115" />
+      <el-table-column prop="mobile" label="手机号码" width="115" show-overflow-tooltip />
       <el-table-column prop="adminUser" label="预警用户" />
       <el-table-column prop="cmppDisCount" label="cmpp断链次数" />
       <el-table-column prop="isSubmit" label="有提交短信报警">
@@ -16,11 +16,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="createUser" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" >
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="modifyUser" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间" >
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">
@@ -35,12 +35,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"

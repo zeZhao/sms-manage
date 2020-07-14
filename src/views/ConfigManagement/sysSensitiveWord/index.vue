@@ -2,7 +2,7 @@
   <!--敏感词-->
   <div class="sysSensitiveWord">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="wordName" label="敏感词" />
       <el-table-column prop="groupId" label="级别" />
       <el-table-column prop="groupName" label="敏感词组" />
@@ -19,12 +19,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -77,7 +72,7 @@ export default {
           type: "input",
           label: "敏感词",
           key: "wordName",
-          maxlength:50,
+          maxlength: 50,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

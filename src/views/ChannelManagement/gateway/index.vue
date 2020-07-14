@@ -2,18 +2,18 @@
   <!--短信通道-->
   <div class="gateway">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="gateway" label="编号" />
-      <el-table-column prop="gatewayName" label="网关名称" />
+      <el-table-column prop="gatewayName" label="网关名称" show-overflow-tooltip />
       <!-- <el-table-column prop="gatewayType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="longCode" label="网关长号码" />
+      <el-table-column prop="longCode" label="网关长号码" width="90" />
       <el-table-column prop="provinceName" label="省份" />
       <el-table-column prop="sendTo" label="发送对象" />
-      <el-table-column prop="unitPrice" label="通道价格(分)" />
+      <el-table-column prop="unitPrice" label="通道价格(分)" width="100" />
       <el-table-column prop="conRequirements" label="发送内容" />
       <el-table-column prop="sendSpeed" label="速度" />
       <el-table-column prop="isSub" label="扩展">
@@ -37,7 +37,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="otherGateway" label="备用网关" />
-      <el-table-column prop="charger" label="通道负责人" />
+      <el-table-column prop="charger" label="通道负责人" width="90" />
       <el-table-column prop="priority" label="优先级" />
       <el-table-column prop="remark" label="备注" />
       <el-table-column fixed="right" label="操作" width="200">

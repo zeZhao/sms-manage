@@ -2,7 +2,7 @@
   <!--待审签名-->
   <div class="sysSignCheck">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">
@@ -15,8 +15,8 @@
           <a style="color:#1890ff" :href="`http://10.10.0.5:9091${scope.row.cardUrl}`">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column prop="creatrTime" label="申请时间" >
-        <template slot-scope="scope">{{scope.row.creatrTime | timeFormat}}</template>
+      <el-table-column prop="createTime" label="申请时间">
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
@@ -34,12 +34,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"

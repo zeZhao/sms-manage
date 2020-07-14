@@ -77,7 +77,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="dataList" highlight-current-row height="680" style="width: 100%;">
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="企业/代理ID" />
       <el-table-column prop="userId" label="用户ID" />

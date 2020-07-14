@@ -2,7 +2,7 @@
   <!--财务审核-->
   <div class="sysRecharge">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="chargeType" label="产品">
@@ -64,10 +64,10 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="modifier" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="paymentCompany" label="打款公司名称" width="110"/>
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
-      <el-table-column prop="paymentCompany" label="打款公司名称" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button

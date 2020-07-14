@@ -2,7 +2,7 @@
   <!--上行信息-->
   <div class="smsMoQueue">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="code" label="特服号" />
@@ -22,9 +22,9 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="gateway" label="上行网关" />
-      <el-table-column prop="createTime" label="上行时间">
+      <el-table-column prop="createTime" label="上行时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">

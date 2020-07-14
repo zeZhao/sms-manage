@@ -8,7 +8,7 @@
         <el-button type="primary">停止分配</el-button>
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
@@ -28,7 +28,7 @@
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="submitTime" label="提交时间" >
+      <el-table-column prop="submitTime" label="提交时间">
         <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
       </el-table-column>
     </el-table>

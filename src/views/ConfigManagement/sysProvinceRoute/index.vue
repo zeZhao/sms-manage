@@ -2,9 +2,9 @@
   <!--分省路由-->
   <div class="sysProvinceRoute">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="用户名称" show-overflow-tooltip />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
@@ -24,7 +24,7 @@
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="modifyTime" label="修改时间" >
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="modifier" label="修改人" />

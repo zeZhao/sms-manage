@@ -2,10 +2,10 @@
   <!--销售组管理-->
   <div class="sysSalesGroup">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="sid" label="ID" />
-      <el-table-column prop="groupName" label="组名称" />
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="groupName" label="组名称" show-overflow-tooltip />
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifyTime" label="修改时间">
         <template slot-scope="scope">{{scope.row.modifyTime | modifyTime}}</template>
       </el-table-column>

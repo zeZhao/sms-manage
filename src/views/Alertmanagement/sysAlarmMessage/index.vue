@@ -2,7 +2,7 @@
   <!--报警信息-->
   <div class="sysAlarmMessage">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row height="650" style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="errNum" label="错误码" />
       <el-table-column prop="num" label="编号" />
       <el-table-column prop="serverNum" label="服务器编号	" />
@@ -15,10 +15,10 @@
           <span>{{ scope.row.alarmLevel === 0 ?'提醒': (scope.row.alarmLevel === 1 ?'一般':(scope.row.alarmLevel === 2 ?'重要':'严重')) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="occurTime" label="发生时间">
+      <el-table-column prop="occurTime" label="发生时间" width="150">
         <template slot-scope="scope">{{scope.row.occurTime | timeFormat}}</template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
     </el-table>
