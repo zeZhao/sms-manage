@@ -35,12 +35,7 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -187,7 +182,7 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        { 
+        {
           type: "input",
           label: "成功率",
           key: "succRatio",
@@ -254,6 +249,7 @@ export default {
   },
   mounted() {
     this.gateway();
+    this.listSysProvince();
   },
   computed: {},
   methods: {
@@ -307,6 +303,31 @@ export default {
         });
       });
     },
+    /*
+     * 获取省份列表
+     * */
+    listSysProvince() {
+      const params = {
+        data: {
+          provinceName: ""
+        }
+      };
+      this.$http.listSysProvince(params).then(res => {
+        this.ProvinceList = res.data;
+        this.formConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            res.data.forEach(t => {
+              let obj = {
+                key: t.provinceId,
+                value: t.provinceName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      });
+    }
     //countMonth
     // _mxArrangeSubmitData(formData) {
     //   if (formData.countMonth) {

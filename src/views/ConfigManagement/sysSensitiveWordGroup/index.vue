@@ -58,6 +58,7 @@ export default {
           type: "input",
           label: "敏感词组编号",
           key: "groupId",
+
           placeholder: "请输入类别编号"
         },
         {
@@ -72,6 +73,7 @@ export default {
         {
           type: "input",
           label: "敏感词组",
+          maxlength: 50,
           key: "groupName",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

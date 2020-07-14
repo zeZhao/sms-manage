@@ -23,11 +23,17 @@
                 clearable
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
+                show-word-limit
                 @input="val => {
                     onInputChange(val, item);
                   }"
               />
-              <el-button v-if="item.btnTxt" @click="chooses(item)">{{item.btnTxt}}</el-button>
+              <el-button
+                v-if="item.btnTxt"
+                :disabled="item.btnDisabled"
+                @click="chooses(item)"
+              >{{item.btnTxt}}</el-button>
             </template>
 
             <!--多文本输入框-->
@@ -39,6 +45,7 @@
                 show-word-limit
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
                 @input="val => {
                     onChange(val, item);
                   }"
@@ -52,6 +59,7 @@
                 v-model="formData[item.key]"
                 filterable
                 clearable
+                :disabled="item.disabled"
                 :multiple="item.multiple"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
@@ -196,6 +204,7 @@ export default {
   },
   computed: {},
   methods: {
+    //input Change事件
     onInputChange(val, item) {
       if (item.hasOwnProperty("defaultValue")) {
         item.defaultValue = val;
@@ -204,6 +213,7 @@ export default {
       }
       this.$emit("inpChange", { val, item });
     },
+    //  select 事件
     onChange(val, item) {
       if (item.hasOwnProperty("defaultValue")) {
         item.defaultValue = val;
@@ -211,6 +221,7 @@ export default {
         this.$set(item, "defaultValue", val);
       }
     },
+    // 选择组件
     chooses(item) {
       this.$emit("choose", item);
     },
@@ -248,8 +259,12 @@ export default {
         const { defaultValue, key, type } = item;
         if (defaultValue || this.formData[key]) {
           if (type === "checkbox") {
-            item.defaultValue = [];
-            this.formData[key] = [];
+            if (item.initDefaultValue) {
+              this.$set(item, "defaultValue", item.initDefaultValue);
+            } else {
+              item.defaultValue = [];
+              this.formData[key] = [];
+            }
           } else if (type === "select") {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);

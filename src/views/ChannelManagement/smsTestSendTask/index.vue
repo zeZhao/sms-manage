@@ -114,27 +114,19 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, isCu, isCt, isCm) {
+    gateway(keys, status) {
       const params = {
         data: {
-          gatewayName: "",
-          isCu: isCu,
-          isCt: isCt,
-          isCm: isCm
+          status: status
         }
       };
-      this.$http.gateway.listGateway(params).then(res => {
-        this.GatewayList = res.data;
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(
-                t,
-                "value",
-                `${t.unitPrice}_${t.gatewayId}_${t.gatewayName}`
-              );
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.name);
               item.optionData.push(t);
             });
           }
@@ -162,9 +154,9 @@ export default {
   },
   created() {},
   mounted() {
-    this.gateway("gatewayCu", "1", "", "");
-    this.gateway("gatewayCt", "", "1", "");
-    this.gateway("gatewayCm", "", "", "1");
+    this.gateway("gatewayCu", "2");
+    this.gateway("gatewayCt", "3");
+    this.gateway("gatewayCm", "1");
   }
 };
 </script>
@@ -172,6 +164,6 @@ export default {
 .smsTestSendTask {
   width: 650px;
   margin: 0 auto;
-  //   backgroundf9;
+  //   backgroundf;
 }
 </style>

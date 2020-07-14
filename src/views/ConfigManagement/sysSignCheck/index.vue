@@ -80,7 +80,7 @@ export default {
         },
         {
           type: "select",
-          label: "用户名称",
+          label: "状态",
           key: "status",
           optionData: [
             { key: 1, value: "待审核" },

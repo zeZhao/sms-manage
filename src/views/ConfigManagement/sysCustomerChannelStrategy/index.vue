@@ -53,6 +53,19 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    //validatorMaxBatchNum
+    const validatorMaxBatchNum = (rule, value, callback) => {
+      let regex = new RegExp("^[1-9]d*$");
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("请输入正整数"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -130,6 +143,7 @@ export default {
           label: "用户ID",
           key: "userId",
           btnTxt: "选择用户",
+          btnDisabled: false,
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
@@ -162,7 +176,10 @@ export default {
           type: "input",
           label: "最大单批数",
           key: "cmMaxBatchNum",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { validator: validatorMaxBatchNum, trigger: "change" }
+          ]
         },
         {
           type: "select",
@@ -175,7 +192,10 @@ export default {
           type: "input",
           label: "最大单批数",
           key: "cuMaxBatchNum",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { validator: validatorMaxBatchNum, trigger: "change" }
+          ]
         },
         {
           type: "select",
@@ -188,7 +208,10 @@ export default {
           type: "input",
           label: "最大单批数",
           key: "ctMaxBatchNum",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { validator: validatorMaxBatchNum, trigger: "change" }
+          ]
         },
         {
           type: "textarea",
@@ -202,9 +225,9 @@ export default {
     };
   },
   mounted() {
-    this.gateway("cuPassageway", "1", "", "");
-    this.gateway("ctPassageway", "", "1", "");
-    this.gateway("cmPassageway", "", "", "1");
+    this.gateway("cuPassageway", "2");
+    this.gateway("ctPassageway", "3");
+    this.gateway("cmPassageway", "1");
   },
   computed: {},
   methods: {
@@ -226,27 +249,20 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, isCu, isCt, isCm) {
+    gateway(keys, status) {
       const params = {
         data: {
-          gatewayName: "",
-          isCu: isCu,
-          isCt: isCt,
-          isCm: isCm
+          status: status
         }
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(
-                t,
-                "value",
-                `${t.unitPrice}_${t.gatewayId}_${t.gatewayName}`
-              );
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.name);
               item.optionData.push(t);
             });
           }
@@ -296,6 +312,11 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+      });
     },
     edit(row) {
       this.strategyId = row.strategyId;
@@ -308,6 +329,9 @@ export default {
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
         }
       });
       this.addChannel = true;

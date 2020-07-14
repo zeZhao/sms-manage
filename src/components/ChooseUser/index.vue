@@ -6,7 +6,7 @@
       :visible.sync="isChooseUser"
       top="45px"
       width="65%"
-      @close="cancel"
+      @:before-close="cancel"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
     >

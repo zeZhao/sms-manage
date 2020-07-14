@@ -57,6 +57,7 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @choose="choose"
+        @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
     <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancel"></ChooseUser>
@@ -65,6 +66,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { string } from "jszip/lib/support";
 
 export default {
   mixins: [listMixin],
@@ -182,6 +184,10 @@ export default {
           key: "isLoss",
           optionData: [
             {
+              key: "",
+              value: "全部"
+            },
+            {
               key: "0",
               value: "否"
             },
@@ -227,6 +233,7 @@ export default {
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
+          btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -324,8 +331,26 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
+          type: "select",
+          label: "是否包含通道组",
+          key: "isGatewayGroup",
+          disabled: true,
+          optionData: [
+            {
+              key: "0",
+              value: "否"
+            },
+            {
+              key: "1",
+              value: "是"
+            }
+          ]
+          // isShow: true
+        },
+        {
           type: "checkbox",
           label: "关键字类别",
+          initDefaultValue: [],
           defaultValue: [],
           optionData: [],
           key: "sensitiveWord"
@@ -414,17 +439,46 @@ export default {
         }
       ],
       GatewayList: [], // 通道列表
-      isChooseUser: false //选择用户
+      isChooseUser: false, //选择用户
+      isGatewayGroup: "0" // 是否包含通道组
     };
   },
   mounted() {
-    this.gateway("cuPassageway", "1", "", "");
-    this.gateway("ctPassageway", "", "1", "");
-    this.gateway("cmPassageway", "", "", "1");
+    this.gateway("cuPassageway", "2");
+    this.gateway("ctPassageway", "3");
+    this.gateway("cmPassageway", "1");
     this.getSensitiveWordGroup();
   },
   computed: {},
   methods: {
+    selectChange({ val, item }) {
+      const { key, optionData } = item;
+      if (
+        key === "cuPassageway" ||
+        key === "ctPassageway" ||
+        key === "cmPassageway"
+      ) {
+        optionData.forEach(t => {
+          if (t.key === val) {
+            if (t.status === "1") {
+              this.formConfig.forEach(item => {
+                if (item.key === "isGatewayGroup") {
+                  item.defaultValue = "0";
+                }
+              });
+              this.isGatewayGroup = "0";
+            } else {
+              this.formConfig.forEach(item => {
+                if (item.key === "isGatewayGroup") {
+                  item.defaultValue = "1";
+                }
+              });
+              this.isGatewayGroup = "1";
+            }
+          }
+        });
+      }
+    },
     //显示选择用户弹窗
     choose() {
       this.isChooseUser = true;
@@ -468,6 +522,18 @@ export default {
           "groupId",
           "groupName"
         );
+        this.$nextTick(() => {
+          this.formConfig.forEach(item => {
+            if (item.key === "sensitiveWord") {
+              res.data.forEach(t => {
+                item.initDefaultValue.push(t.groupId);
+                // item.defaultValue.push(t.groupId);
+              });
+              //initDefaultValue
+            }
+          });
+        });
+
         // this.formConfig.map(item => {
         //   if (item.key === "sensitiveWord") {
         //     res.data.forEach(t => {
@@ -481,45 +547,101 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, isCu, isCt, isCm) {
+    gateway(keys, status) {
       const params = {
         data: {
-          gatewayName: "",
-          isCu: isCu,
-          isCt: isCt,
-          isCm: isCm
+          status: status
         }
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(
-                t,
-                "value",
-                `${t.unitPrice}_${t.gatewayId}_${t.gatewayName}`
-              );
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.name);
               item.optionData.push(t);
             });
           }
-          //20000
         });
       });
     },
     _mxArrangeEditData(row) {
       for (let key in row) {
-        if (key === "isParallelDetection" || key === "isTemplate") {
+        if (
+          key === "isParallelDetection" ||
+          key === "isTemplate" ||
+          key === "isCombination" ||
+          key === "isGatewayGroup"
+        ) {
           if (row[key]) {
             row[key] = "1";
           } else {
             row[key] = "0";
           }
         }
+        if (key === "sensitiveWord") {
+          if (typeof row[key] === "string") {
+            let arr = row[key].split(",");
+            row[key] = arr.map(item => {
+              return Number(item);
+            });
+          }
+        }
       }
       return row;
+    },
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig[0].btnDisabled = false;
+    },
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
+      });
+      // for (let key in row) {
+      //   if (
+      //     key === "cuPassageway" ||
+      //     key === "ctPassageway" ||
+      //     key === "cmPassageway"
+      //   ) {
+      //     this.$set(item, "defaultValue", row[key]);
+      //   }
+      // }
+      this.addChannel = true;
     },
     /**
      * 提交表单前调整表单内数据
@@ -532,6 +654,7 @@ export default {
           formData[key] = formData[key].join(",");
         }
       }
+      this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
     }
   },

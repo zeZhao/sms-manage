@@ -77,6 +77,7 @@ export default {
           type: "input",
           label: "敏感词",
           key: "wordName",
+          maxlength:50,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

@@ -52,6 +52,20 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorSign = (rule, value, callback) => {
+      let regex = new RegExp(
+        "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,8}$"
+      );
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入2-8位，只能输入中文、英文、数字"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -147,7 +161,14 @@ export default {
           type: "textarea",
           label: "签名",
           key: "sign",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: "blur"
+            },
+            { trigger: "change", validator: validatorSign }
+          ]
         }
       ],
       isChooseUser: false

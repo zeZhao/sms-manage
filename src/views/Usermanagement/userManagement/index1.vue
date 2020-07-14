@@ -39,7 +39,7 @@
       </el-table-column>
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == '1'?'为用户id计费':'为企业id计费'}}</span>
+          <span>{{ scope.row.reductType == '1'?'用户id计费':'企业id计费'}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsBalance" label="短信余额" />
@@ -229,8 +229,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: "1", value: "为用户id计费" },
-            { key: "2", value: "为企业id计费" }
+            { key: "1", value: "用户id计费" },
+            { key: "2", value: "企业id计费" }
           ],
           placeholder: "请选择计费类型"
         },
@@ -292,8 +292,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: 1, value: "为用户id计费" },
-            { key: 2, value: "为企业id计费" }
+            { key: 1, value: "用户id计费" },
+            { key: 2, value: "企业id计费" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

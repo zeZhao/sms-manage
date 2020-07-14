@@ -90,6 +90,8 @@ export default {
         {
           type: "select",
           label: "账号类型",
+          initDefaultValue: 1,
+          defaultValue: 1,
           key: "codeType",
           optionData: [
             {
@@ -108,6 +110,7 @@ export default {
           label: "用户ID",
           key: "userId",
           btnTxt: "选择用户",
+          btnDisabled: false,
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -138,6 +141,8 @@ export default {
         {
           type: "select",
           label: "优化类型",
+          initDefaultValue: 1,
+          defaultValue: 1,
           key: "type",
           optionData: [
             {
@@ -193,6 +198,9 @@ export default {
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
       });
       this.addChannel = true;
     },
@@ -238,6 +246,11 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+      });
     },
     cancel() {
       this.addChannel = false;

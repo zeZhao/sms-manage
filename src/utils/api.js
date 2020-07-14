@@ -232,6 +232,10 @@ export default {
     selectGatewayGroup(params) {
       return post("/sysGatewayGroup/selectGatewayGroup", params);
     },
+    // 查询通道组
+    listGatewayAndGroup(params) {
+      return post("/sysGatewayGroup/listGatewayAndGroup", params);
+    },
   },
   //分省路由
   sysProvinceRoute: {

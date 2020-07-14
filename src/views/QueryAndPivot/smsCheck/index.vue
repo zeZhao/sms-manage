@@ -5,8 +5,8 @@
     <el-table :data="listData" highlight-current-row height="750" style="width: 100%;">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="loginName" label="用户名" />
+      <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cmCount" label="移动" />
       <el-table-column prop="cuCount" label="联通" />

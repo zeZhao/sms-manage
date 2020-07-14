@@ -10,8 +10,16 @@
       </el-table-column>
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="code" label="修改人" />
-      <el-table-column prop="cmGatewayId" label="修改时间" />
+      <el-table-column prop="code" label="修改人">
+        <template slot-scope="scope">
+          <span>{{ scope.row.code ? scope.row.code : scope.row.createUser }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createTime" label="修改时间" />
+      <!-- <template slot-scope="scope">
+          <span>{{ scope.row.code  ? scope.row.code  : scope.row.createUser }}</span>
+        </template>
+      </el-table-column>-->
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column label="操作" width="100">

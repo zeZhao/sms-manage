@@ -162,9 +162,9 @@ export default {
     };
   },
   mounted() {
-    this.gateway("cuGatewayId", "1", "", "");
-    this.gateway("ctGatewayId", "", "1", "");
-    this.gateway("cmGatewayId", "", "", "1");
+    this.gateway("cuGatewayId", "2");
+    this.gateway("ctGatewayId", "3");
+    this.gateway("cmGatewayId", "1");
   },
   computed: {},
   methods: {
@@ -194,27 +194,20 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, isCu, isCt, isCm) {
+    gateway(keys, status) {
       const params = {
         data: {
-          gatewayName: "",
-          isCu: isCu,
-          isCt: isCt,
-          isCm: isCm
+          status: status
         }
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(
-                t,
-                "value",
-                `${t.unitPrice}_${t.gatewayId}_${t.gatewayName}`
-              );
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.name);
               item.optionData.push(t);
             });
           }

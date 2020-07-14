@@ -11,19 +11,31 @@
         </template>
       </el-table-column>-->
       <el-table-column prop="longCode" label="网关长号码" />
-      <el-table-column prop="province" label="省份" />
+      <el-table-column prop="provinceName" label="省份" />
       <el-table-column prop="sendTo" label="发送对象" />
       <el-table-column prop="unitPrice" label="通道价格(分)" />
       <el-table-column prop="conRequirements" label="发送内容" />
       <el-table-column prop="sendSpeed" label="速度" />
-      <el-table-column prop="isSub" label="扩展" />
+      <el-table-column prop="isSub" label="扩展">
+        <template slot-scope="scope">
+          <span>{{ scope.row.isSub ? "是" : "否" }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="operateStatus" label="运营状态">
         <template slot-scope="scope">
           <span>{{ scope.row.operateStatus === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="isDerect" label="直连" />
-      <el-table-column prop="status" label="可用" />
+      <el-table-column prop="isDerect" label="直连">
+        <template slot-scope="scope">
+          <span>{{ scope.row.isDerect === 1 ? "直连" : "非直连" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="可用">
+        <template slot-scope="scope">
+          <span>{{ scope.row.status ? "是" : "否" }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="otherGateway" label="备用网关" />
       <el-table-column prop="charger" label="通道负责人" />
       <el-table-column prop="priority" label="优先级" />
@@ -49,9 +61,11 @@
       :visible.sync="addChannel"
       :close-on-click-modal="false"
       top="45px"
+      width="80%"
     >
       <FormItem
-        :colSpan="12"
+        :colSpan="8"
+        :labelWidth="170"
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
@@ -404,7 +418,7 @@ export default {
         {
           type: "select",
           label: "是否支持扩展",
-          key: "is_sub",
+          key: "isSub",
           defaultValue: "",
           optionData: [
             { key: "0", value: "否" },
@@ -460,6 +474,52 @@ export default {
             { key: "1", value: "取" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "服务端ip",
+          key: "serverIp",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "服务端端口",
+          key: "serverPort",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "滑动窗口",
+          key: "slideWindow",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "账号",
+          key: "clientId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "密码",
+          key: "sharedSecret",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "通道端口号",
+          key: "srcId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "业务代码",
+          key: "serviceId"
+        },
+        {
+          type: "input",
+          label: "企业代码",
+          key: "msgSrc"
         },
         {
           type: "input",
@@ -556,8 +616,8 @@ export default {
       for (let key in row) {
         if (row[key] === true) {
           row[key] = "1";
-        } 
-        if(row[key] === false) {
+        }
+        if (row[key] === false) {
           row[key] = "0";
         }
       }
@@ -570,6 +630,24 @@ export default {
         formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
       }
       return formData;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param rows
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(list) {
+      list.forEach(item => {
+        item.province &&
+          this.ProvinceList.forEach(t => {
+            if (item.province == t.provinceId) {
+              this.$set(item, "provinceName", t.provinceName);
+              // item.province = t.provinceName;
+            }
+          });
+      });
+      return list;
     }
   },
   watch: {}
