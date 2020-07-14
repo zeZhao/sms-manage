@@ -12,8 +12,8 @@
           <span>{{scope.row.type === 1 ? '主管' : (scope.row.type === 2 ? '组长' : (scope.row.type === 3 ? '组员':'介绍人'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间">
-        <template slot-scope="scope">{{scope.row.submitTime | modifyTime}}</template>
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
+        <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="modifier" label="修改人" />
       <el-table-column prop="status" label="状态">
