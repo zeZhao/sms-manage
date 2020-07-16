@@ -127,7 +127,7 @@ export default {
             this._mxGetList();
             this.addChannel = false;
           } else {
-            this.$message.error(res.msg || res.data);
+            this.$message.error(res.data || res.msg);
           }
         });
       } else {
@@ -141,7 +141,7 @@ export default {
             this._mxGetList();
             this.addChannel = false;
           } else {
-            this.$message.error(res.msg || res.data);
+            this.$message.error(res.data || res.msg);
           }
         });
       }
