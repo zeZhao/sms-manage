@@ -6,10 +6,19 @@
       :visible.sync="isChooseUser"
       top="45px"
       width="65%"
-      @:before-close="cancel"
+      :show-close="false"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
     >
+      <span slot="title">
+        <p style="float:left;font-size: 16px;">选择用户</p>
+        <i
+          style="float:right;margin-top: 16px;cursor: pointer;"
+          class="el-icon-close"
+          @click="cancel"
+        ></i>
+        <div style="clear:both"></div>
+      </span>
       <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
       <el-table :data="listData" highlight-current-row style="width: 100%;">
         <el-table-column prop="corpId" label="企业ID" />
@@ -102,4 +111,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.ChooseUser {
+  >>> .el-dialog__body {
+    padding: 5px 20px;
+  }
+}
 </style>

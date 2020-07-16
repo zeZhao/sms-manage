@@ -6,11 +6,11 @@
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="corporateName" label="企业名称" />
       <el-table-column prop="cardCount" label="条数" />
-      <el-table-column prop="debt" label="金额(元)" />
+      <el-table-column prop="cardMoney" label="金额(元)" />
       <el-table-column prop="succCount" label="直连条数" />
       <el-table-column prop="foreignPrice" label="直连金额(元)" />
-      <el-table-column prop="reductType" label="总条数" />
-      <el-table-column prop="cardMoney" label="总金额(元)" />
+      <el-table-column prop="sumReductType" label="总条数" />
+      <el-table-column prop="sumCardMoney" label="总金额(元)" />
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
@@ -99,6 +99,28 @@ export default {
         data.remark = new Date(remark).Format("yyyy-MM");
       }
       return data;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param rows
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(rows) {
+      rows.forEach(item => {
+        const { cardCount, cardMoney, succCount, foreignPrice } = item;
+        if (!succCount) {
+          item.succCount = 0;
+        }
+        if (!foreignPrice) {
+          item.foreignPrice = 0;
+        }
+        this.$set(item, "sumReductType", cardCount + succCount);
+        this.$set(item, "sumCardMoney", cardMoney + foreignPrice);
+      });
+
+      // if()
+      return rows;
     }
   },
   watch: {}

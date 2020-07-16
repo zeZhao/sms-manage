@@ -360,8 +360,7 @@ export default {
         }
       });
     },
-    // 状态
-    changSwitch(e, id) {
+    updateStatus(e, id) {
       let params = {
         suId: id,
         state: e
@@ -378,6 +377,41 @@ export default {
           this.$message.error(res.msg);
         }
       });
+    },
+    // 状态
+    changSwitch(e, id) {
+      console.log(e);
+      let statu = 0;
+      let tit = "";
+      let txt = "";
+      const h = this.$createElement;
+
+      if (e === 2) {
+        statu = 1;
+        tit = "禁用";
+        txt = "禁用后将无法登录，确定要禁用吗？";
+      } else {
+        statu = 2;
+        tit = "提示";
+        txt = "开启后将继续使用，确定要开启吗？";
+      }
+      this.$msgbox({
+        title: tit,
+        message: h("div", null, [h("p", null, txt)]),
+        showCancelButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+      })
+        .then(action => {
+          this.updateStatus(e, id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消修改"
+          });
+          this.orderList();
+        });
     },
     addCustomerInfo() {
       let params = {

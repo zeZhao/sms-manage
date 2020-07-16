@@ -94,7 +94,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" align="center" width="70">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'cardId')" type="text" size="small">修改</el-button>
           <!-- <el-button @click="_mxDeleteItem('signId', scope.row.signId)" type="text" size="small">删除</el-button> -->
@@ -106,7 +106,13 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+      width="80%"
+    >
       <FormItem
         :colSpan="12"
         ref="formItem"
@@ -262,7 +268,7 @@ export default {
         },
         {
           type: "input",
-          label: "当前卡对应的用户名",
+          label: "当前卡对应用户名",
           key: "userName",
           disabled: true,
           defaultValue: "",
@@ -324,9 +330,10 @@ export default {
           key: "remark"
         },
         {
-          type: "input",
+          type: "select",
           label: "销售员的名字",
-          key: "saleMan"
+          key: "saleMan",
+          optionData: []
         },
         {
           type: "input",
@@ -422,17 +429,41 @@ export default {
           key: "remark"
         },
         {
-          type: "input",
+          type: "select",
           label: "销售员的名字",
-          key: "saleMan"
+          key: "saleMan",
+          optionData: []
         }
       ],
       isChooseUser: false
     };
   },
-  mounted() {},
+  mounted() {
+    this.getSaleman();
+  },
   computed: {},
   methods: {
+    //获取销售员
+    getSaleman() {
+      this.$http.sysSales.queryAvailableSaleman().then(res => {
+        if (resOk(res)) {
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "saleMan",
+            "userName",
+            "userName"
+          );
+          this._setDefaultValue(
+            this.formConfigTransfers,
+            res.data,
+            "saleMan",
+            "userName",
+            "userName"
+          );
+        }
+      });
+    },
     /**
      * 编辑表单前调整表单内数据
      * @param row

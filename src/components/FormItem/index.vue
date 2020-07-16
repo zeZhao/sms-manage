@@ -30,6 +30,7 @@
                   }"
               />
               <el-button
+                style="border-color:#1890ff"
                 v-if="item.btnTxt"
                 :disabled="item.btnDisabled"
                 @click="chooses(item)"
@@ -315,7 +316,7 @@ export default {
     // bottom: 20px;
   }
   .inputWid {
-    width: 78%;
+    width: 70%;
   }
 }
 </style>

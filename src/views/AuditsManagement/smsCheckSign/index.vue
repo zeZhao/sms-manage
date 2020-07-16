@@ -7,12 +7,12 @@
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">
         <template slot-scope="scope">
-          <a style="color:#1890ff" :href="`http://10.10.0.5:9091${scope.row.licenceUrl}`">点击查看</a>
+          <a style="color:#1890ff" :href="`http://10.10.0.4:82${scope.row.licenceUrl}`">点击查看</a>
         </template>
       </el-table-column>
       <el-table-column prop="cardUrl" label="法人身份证">
         <template slot-scope="scope">
-          <a style="color:#1890ff" :href="`http://10.10.0.5:9091${scope.row.cardUrl}`">点击查看</a>
+          <a style="color:#1890ff" :href="`http://10.10.0.4:82${scope.row.cardUrl}`">点击查看</a>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="申请时间">
@@ -94,8 +94,7 @@ export default {
           type: "input",
           label: "签名特服号",
           key: "code",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          defaultValue: ""
         },
         {
           type: "radio",

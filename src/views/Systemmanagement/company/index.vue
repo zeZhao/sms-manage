@@ -272,6 +272,7 @@ export default {
             message: "绑定成功",
             type: "success"
           });
+          this.setRoleMenu = false;
           this.orderList();
         } else {
           console.log(res);
