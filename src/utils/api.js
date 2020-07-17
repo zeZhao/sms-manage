@@ -565,6 +565,10 @@ export default {
     deleteSensitiveWord(params) {
       return post("/sysSensitiveWord/deleteSensitiveWord", params);
     },
+    // 检测是否存在
+    checkSensitiveWord(params) {
+      return post("sysSensitiveWord/checkSensitiveWord", params);
+    },
   },
   // 敏感词组
   sysSensitiveWordGroup: {
@@ -587,6 +591,10 @@ export default {
     //  删除
     deleteSensitiveWordGroup(params) {
       return post("/sysSensitiveWordGroup/deleteSensitiveWordGroup", params);
+    },
+    //  检测是否存在
+    checkSensitiveWordGroup(params) {
+      return post("/sysSensitiveWordGroup/checkSensitiveWordGroup", params);
     },
   },
   // 黑名单管理

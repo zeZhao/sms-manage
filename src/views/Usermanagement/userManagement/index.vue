@@ -31,7 +31,7 @@
         <el-form-item label="产品">
           <el-select v-model="search.productType" placeholder="计费模式" clearable>
             <el-option value="1" label="短信" />
-            <el-option value="2" label="彩信" />
+            <!-- <el-option value="2" label="彩信" /> -->
             <el-option value="3" label="屏信" />
             <el-option value="4" label="语音" />
           </el-select>
@@ -267,7 +267,7 @@
             popper-class="select-option"
           >
             <el-option value="1" label="短信" />
-            <el-option value="2" label="彩信" />
+            <!-- <el-option value="2" label="彩信" /> -->
             <el-option value="3" label="屏信" />
             <el-option value="4" label="语音" />
           </el-select>
@@ -281,7 +281,7 @@
             placeholder="请输入单价"
           />
         </el-form-item>
-        <el-form-item label="彩信的单价" prop="mmsCardUnit">
+        <!-- <el-form-item label="彩信的单价" prop="mmsCardUnit">
           <el-input
             maxlength="10"
             show-word-limit
@@ -289,7 +289,7 @@
             clearable
             placeholder="请输入单价"
           />
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="产品类型" prop="proType">
           <el-select
             style="width: 100%"

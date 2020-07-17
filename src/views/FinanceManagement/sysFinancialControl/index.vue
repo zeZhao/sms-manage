@@ -64,7 +64,7 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="modifier" label="操作账号" />
-      <el-table-column prop="paymentCompany" label="打款公司名称" width="110"/>
+      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" />
       <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
@@ -139,8 +139,8 @@ export default {
           label: "产品",
           key: "chargeType",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" }
+            { key: "1", value: "短信" }
+            // { key: "2", value: "彩信" }
           ],
           placeholder: "类型"
         },

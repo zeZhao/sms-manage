@@ -170,11 +170,11 @@ export default {
           key: "price",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "彩信发送url",
-          key: "url"
-        },
+        // {
+        //   type: "input",
+        //   label: "彩信发送url",
+        //   key: "url"
+        // },
         {
           type: "input",
           label: "网关用户名",

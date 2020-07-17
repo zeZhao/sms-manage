@@ -124,38 +124,50 @@ export default {
     },
     submit(form) {
       let params = {};
-      if (this.formTit == "新增") {
-        params = {
-          data: {
-            ...form
-          }
-        };
-        this.$http.sysSensitiveWord.addSensitiveWord(params).then(res => {
-          if (resOk(res)) {
-            this.$message.success(res.msg || res.data);
-            this._mxGetList();
-            this.addChannel = false;
+      const { wordName, groupId } = form;
+      this.$http.sysSensitiveWord
+        .checkSensitiveWord({ data: { wordName, groupId } })
+        .then(res => {
+          //判断敏感词是否存在
+          if (res.data === 1) {
+            this.$message.error("敏感词存在！");
           } else {
-            this.$message.error(res.data || res.msg);
+            if (this.formTit == "新增") {
+              params = {
+                data: {
+                  ...form
+                }
+              };
+              this.$http.sysSensitiveWord.addSensitiveWord(params).then(res => {
+                if (resOk(res)) {
+                  this.$message.success(res.msg || res.data);
+                  this._mxGetList();
+                  this.addChannel = false;
+                } else {
+                  this.$message.error(res.data || res.msg);
+                }
+              });
+            } else {
+              params = {
+                data: {
+                  wordId: this.wordId,
+                  ...form
+                }
+              };
+              this.$http.sysSensitiveWord
+                .updateSensitiveWord(params)
+                .then(res => {
+                  if (resOk(res)) {
+                    this.$message.success(res.msg || res.data);
+                    this._mxGetList();
+                    this.addChannel = false;
+                  } else {
+                    this.$message.error(res.data || res.msg);
+                  }
+                });
+            }
           }
         });
-      } else {
-        params = {
-          data: {
-            wordId: this.wordId,
-            ...form
-          }
-        };
-        this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
-          if (resOk(res)) {
-            this.$message.success(res.msg || res.data);
-            this._mxGetList();
-            this.addChannel = false;
-          } else {
-            this.$message.error(res.data || res.msg);
-          }
-        });
-      }
     },
     create() {
       this.addChannel = true;

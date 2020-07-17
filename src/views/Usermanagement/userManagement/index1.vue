@@ -194,7 +194,7 @@ export default {
           key: "productType",
           optionData: [
             { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
+            // { key: "2", value: "彩信" },
             { key: "3", value: "屏信" },
             { key: "4", value: "语音" }
           ],
@@ -342,7 +342,7 @@ export default {
           key: "productType",
           optionData: [
             { key: 1, value: "短信" },
-            { key: 2, value: "彩信" },
+            // { key: 2, value: "彩信" },
             { key: 3, value: "屏信" },
             { key: 4, value: "语音" }
           ],
@@ -354,12 +354,12 @@ export default {
           key: "cardUnit",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "彩信单价",
-          key: "mmsCardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "input",
+        //   label: "彩信单价",
+        //   key: "mmsCardUnit",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "产品类型",

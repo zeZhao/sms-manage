@@ -252,6 +252,10 @@ export default {
       });
       this.formData = form;
     },
+    /* 清除表单验证信息 */
+    clearValidate() {
+      this.$refs.form.clearValidate();
+    },
     /**
      * 重置表单
      */
@@ -278,6 +282,7 @@ export default {
           }
         }
       });
+      this.clearValidate();
       // this.$refs.form.resetFields();
     },
     cancel() {

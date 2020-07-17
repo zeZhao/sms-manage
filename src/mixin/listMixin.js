@@ -240,10 +240,6 @@ export default {
           detele
         } = this.searchAPI
         this.$http[namespace][detele](params).then(res => {
-          const {
-            code,
-            msg
-          } = res
           if (resOk(res)) {
             this.$message.info('删除成功！');
             this._mxGetList();
@@ -322,7 +318,11 @@ export default {
           this.$set(item, "defaultValue", "");
         }
       });
-      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+        this.addChannel = true;
+      }, 0);
+
     },
     /**
      * 关闭弹窗
@@ -371,7 +371,6 @@ export default {
           this._mxSuccess(res)
         });
       } else {
-        console.log(this.id, '-----------id')
         params.data = Object.assign(params.data, {
           [editId]: this.id
         })

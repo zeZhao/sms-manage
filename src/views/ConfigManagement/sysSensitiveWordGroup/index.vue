@@ -87,42 +87,51 @@ export default {
   methods: {
     submit(form) {
       let params = {};
-      if (this.formTit == "新增") {
-        params = {
-          data: {
-            ...form
-          }
-        };
-        this.$http.sysSensitiveWordGroup
-          .addSensitiveWordGroup(params)
-          .then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data);
-              this._mxGetList();
-              this.addChannel = false;
+      const { groupName } = form;
+      this.$http.sysSensitiveWordGroup
+        .checkSensitiveWordGroup({ data: { groupName } })
+        .then(res => {
+          if (res.data === 1) {
+            this.$message.error("敏感词类别存在！");
+          } else {
+            if (this.formTit == "新增") {
+              params = {
+                data: {
+                  ...form
+                }
+              };
+              this.$http.sysSensitiveWordGroup
+                .addSensitiveWordGroup(params)
+                .then(res => {
+                  if (resOk(res)) {
+                    this.$message.success(res.msg || res.data);
+                    this._mxGetList();
+                    this.addChannel = false;
+                  } else {
+                    this.$message.error(res.msg || res.data);
+                  }
+                });
             } else {
-              this.$message.error(res.msg || res.data);
+              params = {
+                data: {
+                  groupId: this.groupId,
+                  ...form
+                }
+              };
+              this.$http.sysSensitiveWordGroup
+                .updateSensitiveWordGroup(params)
+                .then(res => {
+                  if (resOk(res)) {
+                    this.$message.success(res.msg || res.data);
+                    this._mxGetList();
+                    this.addChannel = false;
+                  } else {
+                    this.$message.error(res.msg || res.data);
+                  }
+                });
             }
-          });
-      } else {
-        params = {
-          data: {
-            groupId: this.groupId,
-            ...form
           }
-        };
-        this.$http.sysSensitiveWordGroup
-          .updateSensitiveWordGroup(params)
-          .then(res => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data);
-              this._mxGetList();
-              this.addChannel = false;
-            } else {
-              this.$message.error(res.msg || res.data);
-            }
-          });
-      }
+        });
     },
     create() {
       this.addChannel = true;

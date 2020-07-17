@@ -120,10 +120,10 @@ export default {
               key: 1,
               value: "短信"
             },
-            {
-              key: 2,
-              value: "彩信"
-            }
+            // {
+            //   key: 2,
+            //   value: "彩信"
+            // }
           ]
         },
         {
@@ -180,10 +180,10 @@ export default {
               key: "1",
               value: "短信"
             },
-            {
-              key: "2",
-              value: "彩信"
-            }
+            // {
+            //   key: "2",
+            //   value: "彩信"
+            // }
           ],
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
