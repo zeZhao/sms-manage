@@ -320,9 +320,8 @@ export default {
       });
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
-        this.addChannel = true;
       }, 0);
-
+      this.addChannel = true;
     },
     /**
      * 关闭弹窗

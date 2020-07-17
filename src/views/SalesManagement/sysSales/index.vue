@@ -269,6 +269,9 @@ export default {
           this.$set(item, "defaultValue", "");
         }
       });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
       this.addChannel = true;
     },
     cancel() {

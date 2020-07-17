@@ -204,6 +204,9 @@ export default {
           item.btnDisabled = true;
         }
       });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
       this.addChannel = true;
     },
 

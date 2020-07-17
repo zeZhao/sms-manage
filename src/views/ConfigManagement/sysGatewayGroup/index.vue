@@ -194,6 +194,9 @@ export default {
         .then(res => {
           this.gatewayGroupList = res.data;
         });
+        setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
       this.addChannel = true;
     },
     cancel() {
