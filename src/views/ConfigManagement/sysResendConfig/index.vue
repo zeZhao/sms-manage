@@ -93,10 +93,9 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "select",
+          type: "input",
           label: "用户ID",
           key: "userId",
-          optionData: [],
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
           ]
@@ -141,33 +140,9 @@ export default {
       resendId: ""
     };
   },
-  mounted() {
-    this.getUserList();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    getUserList() {
-      const params = {
-        data: {
-          corpUser: {},
-          pageNumber: 1,
-          pageSize: 99999
-        }
-      };
-      this.$http.corpUser.queryByPage(params).then(res => {
-        this.formConfig.forEach(item => {
-          if (item.key === "userId") {
-            res.data.list.forEach(t => {
-              let obj = {
-                key: t.userId,
-                value: t.userName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
-      });
-    },
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
