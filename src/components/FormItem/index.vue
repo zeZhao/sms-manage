@@ -207,20 +207,12 @@ export default {
   methods: {
     //input Change事件
     onInputChange(val, item) {
-      if (item.hasOwnProperty("defaultValue")) {
-        item.defaultValue = val;
-      } else {
-        this.$set(item, "defaultValue", val);
-      }
+      this._setDefaultVal(val, item);
       this.$emit("inpChange", { val, item });
     },
     //  select 事件
     onChange(val, item) {
-      if (item.hasOwnProperty("defaultValue")) {
-        item.defaultValue = val;
-      } else {
-        this.$set(item, "defaultValue", val);
-      }
+      this._setDefaultVal(val, item);
     },
     // 选择组件
     chooses(item) {
@@ -296,7 +288,16 @@ export default {
     },
     selectChange(val, item) {
       this.$emit("selectChange", { val, item });
-      item.defaultValue = val;
+      this._setDefaultVal(val, item);
+    },
+
+    //设置默认值
+    _setDefaultVal(val, item) {
+      if (item.hasOwnProperty("defaultValue")) {
+        item.defaultValue = val;
+      } else {
+        this.$set(item, "defaultValue", val);
+      }
     }
   },
   watch: {

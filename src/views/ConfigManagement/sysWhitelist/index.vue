@@ -10,13 +10,15 @@
       </el-table-column>
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="code" label="修改人">
+      <el-table-column prop="modifyUser" label="修改人">
         <template slot-scope="scope">
-          <span>{{ scope.row.code ? scope.row.code : scope.row.createUser }}</span>
+          <span>{{ scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="修改时间">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template
+          slot-scope="scope"
+        >{{scope.row.modifyTime ? scope.row.modifyTime : scope.row.createTime}}</template>
       </el-table-column>
       <!-- <template slot-scope="scope">
           <span>{{ scope.row.code  ? scope.row.code  : scope.row.createUser }}</span>
@@ -228,6 +230,11 @@ export default {
       data.forEach(item => {
         if (item.createTime) {
           item.createTime = new Date(item.createTime).Format(
+            "yyyy-MM-dd hh:mm:ss"
+          );
+        }
+        if (item.modifyTime) {
+          item.modifyTime = new Date(item.modifyTime).Format(
             "yyyy-MM-dd hh:mm:ss"
           );
         }

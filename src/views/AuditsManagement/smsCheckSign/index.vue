@@ -125,6 +125,9 @@ export default {
           }
         }
       });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
       this.addChannel = true;
     },
     //调整提交的参数

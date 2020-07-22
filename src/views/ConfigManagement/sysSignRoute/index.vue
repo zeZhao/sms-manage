@@ -51,6 +51,20 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorSign = (rule, value, callback) => {
+      let regex = new RegExp(
+        "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,8}$"
+      );
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入2-8位，只能输入中文、英文、数字"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -143,6 +157,7 @@ export default {
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
+          btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -166,7 +181,8 @@ export default {
         {
           type: "textarea",
           label: "商户签名",
-          key: "sign"
+          key: "sign",
+          rules: [{ trigger: "change", validator: validatorSign }]
         },
         {
           type: "select",
@@ -302,6 +318,11 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+      });
     },
     edit(row) {
       this.routeId = row.routeId;
@@ -314,6 +335,9 @@ export default {
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
         }
       });
       setTimeout(() => {

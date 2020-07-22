@@ -10,7 +10,7 @@
           <el-input v-model="searchForm.userId" clearable placeholder="用户ID" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="searchForm.corpId" clearable placeholder="用户名称" />
+          <el-input v-model="searchForm.corpId" clearable placeholder="企业ID" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="queryOrderList">查询</el-button>
@@ -222,8 +222,8 @@ export default {
         data: {
           webUser: {
             roleName: roleName,
-            roleId: userId,
-            loginName: corpId
+            userId: userId,
+            corpId: corpId
           },
           pageNumber: this.cur_page,
           pageSize: this.pageNum
