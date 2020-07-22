@@ -16,8 +16,8 @@
           <a style="color:#1890ff" :href="`http://10.10.0.5:9091${scope.row.cardUrl}`">点击查看</a>
         </template>
       </el-table-column>
-      <el-table-column prop="creatrTime" label="申请时间" width="150">
-        <template slot-scope="scope">{{scope.row.creatrTime | timeFormat}}</template>
+      <el-table-column prop="createTime" label="申请时间" width="150">
+        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
       <el-table-column prop="checkTime" label="审核时间" width="150">
         <template slot-scope="scope">{{scope.row.checkTime | timeFormat}}</template>

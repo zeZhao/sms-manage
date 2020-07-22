@@ -636,6 +636,16 @@ export const asyncRoutes = [{
           title: '用户利润查询'
         }
       },
+      {
+        path: '/sendLogFegin/index',
+        component: () =>
+          import('@/views/QueryAndPivot/sendLogFegin/index'),
+        name: 'sendLogFegin',
+        meta: {
+          keepAlive: true,
+          title: '提交记录'
+        }
+      },
 
     ]
   },

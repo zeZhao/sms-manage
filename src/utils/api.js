@@ -701,6 +701,13 @@ export default {
       return post("/smsCheck/queryByPage", params);
     }
   },
+  // 审核查询
+  sendLogFegin: {
+    // 查询列表
+    selectSendLogByPage(params) {
+      return post("/sendLogFegin/selectSendLogByPage", params);
+    }
+  },
   // 定时
   sysTimeTasklist: {
     // 查询列表
