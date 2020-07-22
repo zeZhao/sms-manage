@@ -23,6 +23,7 @@
       row-key="menuId"
       border
       :tree-props="{ children: 'childMenu', hasChildren: 'hasChildren' }"
+      @cell-dblclick="dblclick"
     >
       <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
@@ -35,9 +36,18 @@
           <span>{{ scope.row.linkUrl ? scope.row.linkUrl : "---" }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="排序">
+      <el-table-column label="排序" width="250">
         <template slot-scope="scope">
-          <span>{{ scope.row.sort ? scope.row.sort : "---" }}</span>
+          <span v-if="!scope.row.sortState">{{ scope.row.sort ? scope.row.sort : "---" }}</span>
+          <el-input-number
+            style="width:130px"
+            v-if="scope.row.sortState"
+            v-model="scope.row.sort"
+            :min="1"
+            :max="99"
+            label="排序位置"
+          ></el-input-number>
+          <el-button size="small" @click="editSort(scope.row)" v-if="scope.row.sortState">修改</el-button>
         </template>
       </el-table-column>
       <el-table-column label="启用">
@@ -198,6 +208,30 @@ export default {
     this.getNavList();
   },
   methods: {
+    dblclick(row, column, cell, event) {
+      if (column.label === "排序") {
+        row.sortState = true;
+      }
+    },
+    //修改排序确定提交
+    editSort(row) {
+      let params = {
+        ...row
+      };
+      this.$http.nav.addOrUpdate(params).then(res => {
+        if (res.code == "200") {
+          this.$message({
+            showClose: true,
+            message: "修改成功",
+            type: "success"
+          });
+          this.getNavList();
+          row.sortState = false;
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
+    },
     getNavList() {
       let params = {
         status: "",
@@ -206,10 +240,20 @@ export default {
       this.$http.nav.selectMenuList(params).then(res => {
         if (res.code == "200") {
           this.navList = res.data;
+          this.setSortState(this.navList);
           // this.$refs.tree.setCheckedKeys(this.navListId);
         } else {
           this.$message.error(res.msg);
         }
+      });
+    },
+    // 设置修改排序状态字段
+    setSortState(list) {
+      list.forEach(item => {
+        if (item.childMenu && item.childMenu.length > 0) {
+          this.setSortState(item.childMenu);
+        }
+        this.$set(item, "sortState", false);
       });
     },
     // 状态
@@ -378,7 +422,7 @@ export default {
           temp[data[k][pid]]["children"].push(data[k]);
         } else {
           res.push(data[k]);
-        }
+        } 
       }
       this.navList = res;
       console.log(this.navList);
