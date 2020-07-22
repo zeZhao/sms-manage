@@ -21,12 +21,12 @@
       </span>
       <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
       <el-table :data="listData" highlight-current-row style="width: 100%;">
-        <el-table-column prop="corpId" label="企业ID" />
-        <el-table-column prop="corpName" label="企业名" />
-        <el-table-column prop="userId" label="用户ID" />
-        <el-table-column prop="userName" label="用户名" />
-        <el-table-column prop="code" label="特服号" />
-        <el-table-column fixed="right" label="操作">
+        <el-table-column align="center" prop="corpId" label="企业ID" />
+        <el-table-column align="center" prop="corpName" show-overflow-tooltip label="企业名" />
+        <el-table-column align="center" prop="userId" label="用户ID" />
+        <el-table-column align="center" prop="userName" label="用户名" />
+        <el-table-column align="center" prop="code" label="特服号" />
+        <el-table-column align="center" fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="selected(scope.row)" type="text" size="small">选中</el-button>
           </template>
@@ -114,6 +114,9 @@ export default {
 .ChooseUser {
   >>> .el-dialog__body {
     padding: 5px 20px;
+  }
+  >>> .page {
+    padding-bottom: 20px;
   }
 }
 </style>
