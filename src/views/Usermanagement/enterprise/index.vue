@@ -22,6 +22,14 @@
           </el-select>
         </el-form-item>
         <el-form-item>
+          <el-select v-model="search.status" placeholder="状态" clearable>
+            <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
+            <el-option value="1" label="初始" />
+            <el-option value="2" label="正常" />
+            <el-option value="3" label="禁用" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
@@ -48,7 +56,7 @@
           <span>{{ scope.row.status == 0?'删除':( scope.row.status == 1?'初始':( scope.row.status == 2?'正常':'禁用'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <!--修改 初始 禁用 启用-->
           <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
@@ -257,6 +265,7 @@ export default {
         corpId: "",
         corpName: "",
         reductModel: "",
+        status: "",
         contact: ""
       },
       navList: [],
@@ -350,6 +359,7 @@ export default {
             corpId: this.search.corpId,
             corpName: this.search.corpName,
             reductModel: this.search.reductModel,
+            status: this.search.status,
             contact: this.search.contact
           },
           pageNumber: this.cur_page,

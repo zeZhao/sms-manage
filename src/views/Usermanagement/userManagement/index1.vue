@@ -236,6 +236,17 @@ export default {
         },
         {
           type: "select",
+          label: "状态",
+          key: "status",
+          optionData: [
+            { key: "1", value: "初始" },
+            { key: "2", value: "正常" },
+            { key: "3", value: "禁用" }
+          ],
+          placeholder: "请选择状态类型"
+        },
+        {
+          type: "select",
           label: "销售人员",
           key: "saleMan",
           optionData: [],

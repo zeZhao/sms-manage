@@ -63,7 +63,7 @@ export default {
         detele: "deleteInterfaceSign"
       },
       // 列表参数
-      namespace: "",
+      namespace: "secondaryRoute",
       //搜索框数据
       searchParam: {},
       //搜索框配置
