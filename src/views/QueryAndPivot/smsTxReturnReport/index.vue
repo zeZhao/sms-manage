@@ -28,8 +28,8 @@
       <el-table-column prop="operaId" label="运营商" />
       <el-table-column prop="operaId" label="状态" />
       <el-table-column prop="operaId" label="网关" />
-      <el-table-column prop="definiteTime" label="提交时间" show-overflow-tooltip />
-      <el-table-column prop="submitTime" label="发送时间" show-overflow-tooltip />
+      <el-table-column prop="submitTime" label="提交时间" show-overflow-tooltip />
+      <el-table-column prop="sendTime" label="发送时间" show-overflow-tooltip />
       <el-table-column prop="pkTotal" label="返回报告时间" show-overflow-tooltip />
       <el-table-column prop="seqid" label="手机接收时间" show-overflow-tooltip />
       <el-table-column prop="seqid" label="通道状态" show-overflow-tooltip />

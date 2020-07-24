@@ -34,8 +34,8 @@
           <span>{{scope.row.submitTime | timeFormat}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="pkTotal" label="PKTO TAL" show-overflow-tooltip width="100" />
-      <el-table-column prop="pkNumber" label="PKNU MBER" show-overflow-tooltip width="110" />
+      <el-table-column prop="pkTotal" label="PK TOTAL" show-overflow-tooltip width="100" />
+      <el-table-column prop="pkNumber" label="PK NUMBER" show-overflow-tooltip width="110" />
       <el-table-column prop="pid" label="PID" show-overflow-tooltip />
     </el-table>
     <p style="color:red">总条数：{{statistics}}</p>

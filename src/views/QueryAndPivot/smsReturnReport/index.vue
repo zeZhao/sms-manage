@@ -6,21 +6,6 @@
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
-      <!-- <el-table-column prop="protType" label="产品类型">
-        <template slot-scope="scope">
-          <span>
-            {{
-            scope.row.protType === 0
-            ? "待审"
-            : scope.row.protType === 1
-            ? "正在审核"
-            : scope.row.protType === 2
-            ? "审核通过"
-            : "拒绝"
-            }}
-          </span>
-        </template>
-      </el-table-column>-->
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
       <el-table-column prop="content" label="编号" show-overflow-tooltip />
       <el-table-column prop="mobile" label="状态" width="150" />
