@@ -712,14 +712,14 @@ export default {
   smsTxReport: {
     // 查询列表
     searchSendReport(params) {
-      return post("/SmsMrES/searchSendReport", params);
+      return post("/sendLogFegin/selectSendreportByPage", params);
     }
   },
   // 发送返回报告 / 返回报告
   smsReturnReport: {
     // 查询列表
     searchSendReturnReport(params) {
-      return post("/SmsMrES/searchSendReturnReport", params);
+      return post("/sendLogFegin/selectSendreturnByPage", params);
     }
   },
   // 定时
