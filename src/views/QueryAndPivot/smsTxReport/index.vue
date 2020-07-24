@@ -1,44 +1,49 @@
 <template>
-  <!--提交记录-->
-  <div class="sendLogFegin">
+  <!--发送报告-->
+  <div class="smsTxReport">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
-      <el-table-column prop="corporateId" label="企业ID" />
+      <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
-      <el-table-column prop="protType" label="产品类型">
+      <!-- <el-table-column prop="protType" label="产品类型">
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.protType === "1"
-            ? "web端"
-            : scope.row.protType === "2"
-            ? "http接口"
-            : scope.row.protType === "3"
-            ? "cmpp接口"
-            : scope.row.protType === "7"
-            ? "音频接口"
-            : ""
+            scope.row.protType === 0
+            ? "待审"
+            : scope.row.protType === 1
+            ? "正在审核"
+            : scope.row.protType === 2
+            ? "审核通过"
+            : "拒绝"
             }}
           </span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" width="150" />
-      <el-table-column prop="counter" label="条数" />
-      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
-      <el-table-column prop="definiteTime" label="定时时间" width="150" />
+      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="operaId" label="运营商">
+        <template slot-scope="scope">
+          <span>{{ scope.row.operaId == 1 ?'移动':( scope.row.operaId == 2?'联通 ':( scope.row.reductModel == 3?'电信': (scope.row.reductModel == 4 ? '三网':(scope.row.reductModel == 5 ? '移动联通' : (scope.row.reductModel == 6?'移动电信':(scope.row.reductModel == 7?'联通电信':''))))))}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">
           <span>{{scope.row.submitTime | timeFormat}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="pkTotal" label="PKTO TAL" show-overflow-tooltip width="100" />
-      <el-table-column prop="pkNumber" label="PKNU MBER" show-overflow-tooltip width="110" />
-      <el-table-column prop="pid" label="PID" show-overflow-tooltip />
+      <el-table-column prop="sendTime" label="发送时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.sendTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="pkTotal" label="平台耗时:秒" show-overflow-tooltip />
+      <el-table-column prop="seqid" label="SEQID" show-overflow-tooltip />
+      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
     </el-table>
-    <p style="color:red">总条数：{{statistics}}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -56,8 +61,8 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: "sendLogFegin",
-        list: "selectSendLogByPage",
+        namespace: "smsTxReport",
+        list: "searchSendReport",
       },
       // 列表参数
       namespace: "",
@@ -97,28 +102,80 @@ export default {
         },
         {
           type: "input",
+          label: "网关编号",
+          key: "gateway",
+          placeholder: "请输入网关编号",
+        },
+        {
+          type: "input",
+          label: "SEQID",
+          key: "seqid",
+          placeholder: "请输入SEQID",
+        },
+        {
+          type: "input",
+          label: "状态",
+          key: "hasSend",
+          placeholder: "请输入状态",
+        },
+        {
+          type: "input",
           label: "CID",
           key: "cid",
           placeholder: "请输入CID",
         },
         {
           type: "date",
-          label: "提交日期",
+          label: "发送日期",
           key: "dayTime",
-          placeholder: "审核日期",
+          placeholder: "发送日期",
         },
         {
           type: "timerange",
-          label: "提交时间",
+          label: "发送时间",
           key: ["", "startTime", "endTime"],
-          placeholder: "请选择提交时间",
+          placeholder: "请选择发送时间",
+        },
+        {
+          type: "select",
+          label: "省份",
+          key: "province",
+          placeholder: "请选择省份",
+          optionData: [],
         },
       ],
     };
   },
-  mounted() {},
+  mounted() {
+    this.listSysProvince();
+  },
   computed: {},
   methods: {
+    /*
+     * 获取省份列表
+     * */
+    listSysProvince() {
+      const params = {
+        data: {
+          provinceName: "",
+        },
+      };
+      this.$http.listSysProvince(params).then((res) => {
+        this.searchFormConfig.forEach((item) => {
+          const { key } = item;
+          if (key === "province") {
+            res.data.forEach((t) => {
+              let obj = {
+                key: t.provinceId,
+                value: t.provinceName,
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      });
+    },
+
     /**
      * 调整提交的参数
      *
@@ -144,6 +201,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sendLogFegin {
+.smsTxReport {
 }
 </style>
