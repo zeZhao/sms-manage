@@ -701,11 +701,25 @@ export default {
       return post("/smsCheck/queryByPage", params);
     }
   },
-  // 审核查询
+  // 提交记录
   sendLogFegin: {
     // 查询列表
     selectSendLogByPage(params) {
       return post("/sendLogFegin/selectSendLogByPage", params);
+    }
+  },
+  // 发送报告
+  smsTxReport: {
+    // 查询列表
+    searchSendReport(params) {
+      return post("/SmsMrES/searchSendReport", params);
+    }
+  },
+  // 发送返回报告 / 返回报告
+  smsReturnReport: {
+    // 查询列表
+    searchSendReturnReport(params) {
+      return post("/SmsMrES/searchSendReturnReport", params);
     }
   },
   // 定时

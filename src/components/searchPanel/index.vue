@@ -41,7 +41,7 @@
               </el-select>
             </template>
 
-            <!--时间范围选择-->
+            <!--日期范围选择-->
             <template v-if="item.type === 'daterange'">
               <el-date-picker
                 type="date"
@@ -59,6 +59,23 @@
                 v-model="form[item.key[2]]"
                 @change="_mxHandleSubmit()"
               ></el-date-picker>
+            </template>
+            <!--时间范围选择-->
+            <template v-if="item.type === 'timerange'">
+              <el-time-picker
+                :placeholder="item.placeholder || '选择开始日期'"
+                style="width: 45%"
+                :clearable="isClearAble(item)"
+                v-model="form[item.key[1]]"
+                @change="_mxHandleSubmit()"
+              ></el-time-picker>-
+              <el-time-picker
+                :placeholder="item.placeholder || '选择结束日期'"
+                style="width: 45%"
+                :clearable="isClearAble(item)"
+                v-model="form[item.key[2]]"
+                @change="_mxHandleSubmit()"
+              ></el-time-picker>
             </template>
             <!--单个日期-->
             <template v-if="item.type === 'date'">
@@ -101,24 +118,24 @@ export default {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     add: {
       type: Boolean,
-      default: true
+      default: true,
     },
     search: {
       type: Boolean,
-      default: true
+      default: true,
     },
     reset: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      form: {}
+      form: {},
     };
   },
   created() {},
@@ -140,11 +157,11 @@ export default {
           this._mxHandleSubmit();
         }
         if (api) {
-          this.$http[item.api]({ data: { ...params } }).then(res => {
-            res.data.forEach(data => {
+          this.$http[item.api]({ data: { ...params } }).then((res) => {
+            res.data.forEach((data) => {
               let obj = {
                 key: data[keys[0]],
-                value: data[keys[1]]
+                value: data[keys[1]],
               };
               item.optionData.push(obj);
             });
@@ -163,7 +180,7 @@ export default {
     // 新建
     create() {
       this.$emit("create");
-    }
+    },
   },
   computed: {},
   watch: {
@@ -172,8 +189,8 @@ export default {
         this.initComponent();
       },
       deep: true,
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 };
 </script>

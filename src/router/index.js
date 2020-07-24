@@ -646,6 +646,36 @@ export const asyncRoutes = [{
           title: '提交记录'
         }
       },
+      {
+        path: '/smsReturnReport/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsReturnReport/index'),
+        name: 'smsReturnReport',
+        meta: {
+          keepAlive: true,
+          title: '返回报告'
+        }
+      },
+      {
+        path: '/smsTxReport/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsTxReport/index'),
+        name: 'smsTxReport',
+        meta: {
+          keepAlive: true,
+          title: '发送报告'
+        }
+      },
+      {
+        path: '/smsTxReturnReport/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsTxReturnReport/index'),
+        name: 'smsTxReturnReport',
+        meta: {
+          keepAlive: true,
+          title: '发送返回报告'
+        }
+      },
 
     ]
   },

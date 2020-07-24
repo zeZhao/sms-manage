@@ -105,7 +105,11 @@ function queryData() {
       if (res.data.list) {
         list = res.data.list;
         this.pageObj.total = res.data.total;
-      } else if (res.data.pageInfo) {
+      } else if (res.data.content) {
+        list = res.data.content;
+        this.pageObj.total = res.data.totalElements;
+        this.statistics = res.data.numberOfElements
+      }else if (res.data.pageInfo) {
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;
         this.statistics = res.data.statistics
