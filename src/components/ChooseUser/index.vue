@@ -74,7 +74,7 @@ export default {
         {
           type: "input",
           label: "企业名称",
-          key: "userName",
+          key: "corpName",
           placeholder: "请输入企业名称"
         },
         {

@@ -882,6 +882,18 @@ export default {
     addGateway(params) {
       return post("/gateway/addGateway", params);
     },
+    // 停止
+    stopGateway(params) {
+      return post("/gateway/stopGateway", params);
+    },
+    // 启用
+    startGateway(params) {
+      return post("/gateway/startGateway", params);
+    },
+    //配置
+    updateGatewayByConfigure(params) {
+      return post("/gateway/updateGatewayByConfigure", params);
+    },
   },
   //彩信通道
   mmsGateway: {

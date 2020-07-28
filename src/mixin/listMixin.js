@@ -108,8 +108,8 @@ function queryData() {
       } else if (res.data.content) {
         list = res.data.content;
         this.pageObj.total = res.data.totalElements;
-        this.statistics = res.data.numberOfElements
-      }else if (res.data.pageInfo) {
+        this.statistics = res.data.totalElements
+      } else if (res.data.pageInfo) {
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;
         this.statistics = res.data.statistics

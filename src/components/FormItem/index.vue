@@ -174,30 +174,30 @@ export default {
       type: Array,
       default() {
         return [];
-      }
+      },
     },
     btnTxt: {
       type: String,
       default() {
         return "新增";
-      }
+      },
     },
     labelWidth: {
       type: [String, Number],
       default() {
         return 150;
-      }
+      },
     },
     colSpan: {
       type: [String, Number],
       default() {
         return 24;
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      formData: {}
+      formData: {},
     };
   },
   mounted() {
@@ -213,6 +213,7 @@ export default {
     //  select 事件
     onChange(val, item) {
       this._setDefaultVal(val, item);
+      this.$emit("onChange", { val, item });
     },
     // 选择组件
     chooses(item) {
@@ -222,7 +223,7 @@ export default {
      * 提交验证
      */
     onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$emit("submit", this.formData);
         } else {
@@ -236,7 +237,7 @@ export default {
      */
     initComponent() {
       const form = {};
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         const { key, defaultValue } = item;
         if (defaultValue) {
           form[key] = item.defaultValue;
@@ -252,7 +253,7 @@ export default {
      * 重置表单
      */
     resetForm() {
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         const { defaultValue, key, type } = item;
         if (defaultValue || this.formData[key]) {
           if (type === "checkbox") {
@@ -298,7 +299,7 @@ export default {
       } else {
         this.$set(item, "defaultValue", val);
       }
-    }
+    },
   },
   watch: {
     formConfig: {
@@ -306,9 +307,9 @@ export default {
         this.initComponent();
       },
       deep: true,
-      immediate: true
-    }
-  }
+      immediate: true,
+    },
+  },
 };
 </script>
 
