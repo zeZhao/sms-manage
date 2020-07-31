@@ -60,8 +60,8 @@
                 v-model="formData[item.key]"
                 filterable
                 clearable
-                :disabled="item.disabled"
                 :multiple="item.multiple"
+                :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
                   val => {

@@ -66,7 +66,7 @@ export default {
         list: "listRouteReturnErrorByPage",
         detele: "deleteRouteReturnError",
         add: "addRouteReturnError",
-        edit: "updateRouteReturnError"
+        edit: "updateRouteReturnError",
       },
       // 列表参数
       namespace: "routeReturnError",
@@ -78,13 +78,13 @@ export default {
           type: "input",
           label: "网关编号",
           key: "routeId",
-          placeholder: "请输入网关编号"
+          placeholder: "请输入网关编号",
         },
         {
           type: "input",
           label: "网关返回值",
           key: "result",
-          placeholder: "请输入网关返回值"
+          placeholder: "请输入网关返回值",
         },
         {
           type: "select",
@@ -94,21 +94,21 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "不限"
+              value: "不限",
             },
             {
               key: "1",
-              value: "移动"
+              value: "移动",
             },
             {
               key: "2",
-              value: "联通"
+              value: "联通",
             },
             {
               key: "3",
-              value: "电信"
-            }
-          ]
+              value: "电信",
+            },
+          ],
         },
         {
           type: "select",
@@ -117,15 +117,15 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "返回报告"
+              value: "返回报告",
             },
             {
-              key: "0",
-              value: "提交报告"
-            }
+              key: "2",
+              value: "提交报告",
+            },
           ],
-          placeholder: "请选择类型"
-        }
+          placeholder: "请选择类型",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -150,7 +150,7 @@ export default {
           label: "网关编号",
           key: "routeIds",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
 
         {
@@ -160,22 +160,22 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "不限"
+              value: "不限",
             },
             {
               key: 1,
-              value: "移动"
+              value: "移动",
             },
             {
               key: 2,
-              value: "联通"
+              value: "联通",
             },
             {
               key: 3,
-              value: "电信"
-            }
+              value: "电信",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -184,34 +184,34 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "返回报告"
+              value: "返回报告",
             },
             {
               key: "0",
-              value: "提交报告"
-            }
+              value: "提交报告",
+            },
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "网关返回值",
           key: "result",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
 
         {
           type: "textarea",
           label: "返回错误说明",
           key: "notes",
-          defaultValue: ""
-        }
+          defaultValue: "",
+        },
       ],
       bId: "",
       GatewayList: [], // 通道列表
-      ProvinceList: [] // 通道列表
+      ProvinceList: [], // 通道列表
     };
   },
   mounted() {
@@ -223,12 +223,12 @@ export default {
       const { val, item } = data;
       let obj = {};
       if (item.key === "gatewayName") {
-        item.optionData.map(t => {
+        item.optionData.map((t) => {
           if (t.key == val) {
             obj = t;
           }
         });
-        this.formConfig.map(t => {
+        this.formConfig.map((t) => {
           const { key } = t;
           if (key === "gatewayName") {
             t.defaultValue = obj.gatewayName;
@@ -248,15 +248,15 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: ""
-        }
+          isCm: "",
+        },
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.gateway.listGateway(params).then((res) => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
+        this.formConfig.forEach((item) => {
           const { key } = item;
           if (key === "gatewayName") {
-            res.data.forEach(t => {
+            res.data.forEach((t) => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
               // let obj = {
@@ -298,9 +298,9 @@ export default {
       form = Object.assign(form, { routeId: form.routeIds });
       console.log(form, "-----form");
       return form;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

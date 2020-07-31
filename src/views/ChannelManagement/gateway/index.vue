@@ -82,6 +82,7 @@
         :btnTxt="formTit"
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
+        @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
 
@@ -241,17 +242,24 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "select",
+          type: "input",
           label: "发送对象",
           key: "sendTo",
-          optionData: [
-            { key: "三网", value: "三网" },
-            { key: "移动", value: "移动" },
-            { key: "联通", value: "联通" },
-            { key: "电信", value: "电信" },
-          ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
+        // {
+        //   type: "select",
+        //   label: "发送对象",
+        //   key: "sendTo",
+        //   multiple: true,
+        //   optionData: [
+        //     { key: "三网", value: "三网" },
+        //     { key: "移动", value: "移动" },
+        //     { key: "联通", value: "联通" },
+        //     { key: "电信", value: "电信" },
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        // },
         {
           type: "input",
           label: "网关单价(分)",
@@ -702,6 +710,28 @@ export default {
           }
         });
       }
+    },
+    selectChange({ val, item }) {
+      // if (item.key === "sendTo") {
+      //   [].includes;
+      //   if (val.includes("三网")) {
+      //     item.optionData.forEach((item) => {
+      //       if (item.key != "三网") {
+      //         this.$nextTick(() => {
+      //           this.$set(item, "disabled", true);
+      //         });
+      //       }
+      //     });
+      //     console.log(val, "----三网----val");
+      //     console.log(item, "-----三网---item");
+      //   } else {
+      //     item.optionData.forEach((item) => {
+      //       this.$nextTick(() => {
+      //         this.$set(item, "disabled", false);
+      //       });
+      //     });
+      //   }
+      // }
     },
     /*
      * 获取省份列表

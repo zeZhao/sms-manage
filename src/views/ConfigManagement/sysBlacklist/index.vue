@@ -80,7 +80,7 @@ export default {
       searchAPI: {
         namespace: "sysBlacklist",
         list: "listBlacklistByPage",
-        detele: "deleteSysBlackList"
+        detele: "deleteSysBlackList",
       },
       // 列表参数
       namespace: "",
@@ -92,7 +92,7 @@ export default {
           type: "input",
           label: "黑名单号码",
           key: "mobile",
-          placeholder: "请输入黑名单号码"
+          placeholder: "请输入黑名单号码",
         },
         {
           type: "select",
@@ -102,38 +102,38 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "系统级"
+              value: "系统级",
             },
             {
               key: "1",
-              value: "网关级"
+              value: "网关级",
             },
             {
               key: "2",
-              value: "用户级"
+              value: "用户级",
             },
             {
               key: "3",
-              value: "营销级"
+              value: "营销级",
             },
             {
               key: "4",
-              value: "BSATS级"
-            }
-          ]
+              value: "BSATS级",
+            },
+          ],
         },
         {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
-        }
+          placeholder: "请输入用户名称",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -142,7 +142,7 @@ export default {
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -152,33 +152,33 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "系统级"
+              value: "系统级",
             },
-            {
-              key: "1",
-              value: "网关级"
-            },
+            // {
+            //   key: "1",
+            //   value: "网关级"
+            // },
             {
               key: "2",
-              value: "用户级"
+              value: "用户级",
             },
             {
               key: "3",
-              value: "营销级"
+              value: "营销级",
             },
             {
               key: "4",
-              value: "BSATS级"
-            }
+              value: "BSATS级",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "通道编号",
           key: "gateway",
           isShow: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -188,16 +188,16 @@ export default {
           disabled: true,
           isShow: true,
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "描述",
-          key: "remark"
-        }
+          key: "remark",
+        },
       ],
       blackId: "",
-      isChooseUser: false
+      isChooseUser: false,
     };
   },
   mounted() {},
@@ -205,7 +205,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -216,10 +216,11 @@ export default {
       const { val, item } = data;
       if (item.key === "blackType") {
         item.defaultValue = val;
-        if (val === "1") {
-          this._setDisplayShow(this.formConfig, "gateway", false);
-          this._setDisplayShow(this.formConfig, "userId", true);
-        } else if (val === "2") {
+        // if (val === "1") {
+        //   this._setDisplayShow(this.formConfig, "gateway", false);
+        //   this._setDisplayShow(this.formConfig, "userId", true);
+        // }
+        if (val === "2") {
           this._setDisplayShow(this.formConfig, "userId", false);
           this._setDisplayShow(this.formConfig, "gateway", true);
         } else {
@@ -234,10 +235,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysBlacklist.addSysBlackList(params).then(res => {
+        this.$http.sysBlacklist.addSysBlackList(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -250,10 +251,10 @@ export default {
         params = {
           data: {
             blackId: this.blackId,
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysBlacklist.updateSysBlackList(params).then(res => {
+        this.$http.sysBlacklist.updateSysBlackList(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -287,7 +288,7 @@ export default {
         this._setDisplayShow(this.formConfig, "userId", true);
       }
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
@@ -307,7 +308,7 @@ export default {
     },
     //修改表格数据
     _mxFormListData(data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         if (item.modifyTime) {
           item.modifyTime = new Date(item.modifyTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -315,9 +316,9 @@ export default {
         }
       });
       return data;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

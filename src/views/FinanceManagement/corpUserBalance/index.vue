@@ -6,7 +6,7 @@
       <el-table-column prop="userId" label="企业/用户ID" />
       <el-table-column prop="userName" label="企业/用户名称" show-overflow-tooltip />
       <el-table-column prop="smsBalance" label="短信余额" />
-      <el-table-column prop="mmsBalance" label="彩信余额" />
+      <!-- <el-table-column prop="mmsBalance" label="彩信余额" /> -->
       <el-table-column prop="debt" label="借款" />
       <el-table-column prop="unitPrice" label="单价" />
       <el-table-column prop="saleMan" label="销售" />
@@ -38,7 +38,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "corpUserBalance",
-        list: "queryByPage"
+        list: "queryByPage",
       },
       // 列表参数
       namespace: "userBalance",
@@ -50,13 +50,13 @@ export default {
           type: "input",
           label: "企业/用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入用户名称",
         },
         {
           type: "select",
@@ -66,22 +66,22 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "用户"
+              value: "用户",
             },
             {
               key: 1,
-              value: "企业"
-            }
+              value: "企业",
+            },
           ],
-          placeholder: "请选择类型"
-        }
-      ]
+          placeholder: "请选择类型",
+        },
+      ],
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {}
+  watch: {},
 };
 </script>
 

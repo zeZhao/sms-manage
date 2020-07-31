@@ -69,7 +69,7 @@ export default {
       searchAPI: {
         namespace: "sysGatewayAlarm",
         list: "listGatewayAlarmByPage",
-        detele: "deleteGatewayAlarm"
+        detele: "deleteGatewayAlarm",
       },
       // 列表参数
       namespace: "gatewayAlarm",
@@ -81,14 +81,14 @@ export default {
           type: "input",
           label: "网关编号",
           key: "gateway",
-          placeholder: "请输入网关编号"
+          placeholder: "请输入网关编号",
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号"
-        }
+          placeholder: "请输入手机号",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -96,7 +96,7 @@ export default {
           type: "input",
           label: "通道编号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -105,14 +105,14 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否"
+              value: "否",
             },
             {
               key: 1,
-              value: "是"
-            }
+              value: "是",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -121,21 +121,21 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否"
+              value: "否",
             },
             {
               key: 1,
-              value: "是"
-            }
+              value: "是",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "低于设定成功率报警",
           key: "sucCrate",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -144,40 +144,41 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "否"
+              value: "否",
             },
             {
               key: "1",
-              value: "是"
-            }
+              value: "是",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "投诉率报警",
           key: "complaintRate",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "日成功量提醒:",
           key: "daySendAlarm",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          maxlength: "11",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "预警用户",
           key: "adminUser",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -187,24 +188,24 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否"
+              value: "否",
             },
             {
               key: 1,
-              value: "是"
-            }
+              value: "是",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "同一失败状态报警次数",
           key: "errStatusNum",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        }
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
       ],
-      alarmId: ""
+      alarmId: "",
     };
   },
   mounted() {},
@@ -215,10 +216,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysGatewayAlarm.addGatewayAlarm(params).then(res => {
+        this.$http.sysGatewayAlarm.addGatewayAlarm(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -231,10 +232,10 @@ export default {
         params = {
           data: {
             alarmId: this.alarmId,
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysGatewayAlarm.updateGatewayAlarm(params).then(res => {
+        this.$http.sysGatewayAlarm.updateGatewayAlarm(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -255,7 +256,7 @@ export default {
     edit(row) {
       this.alarmId = row.alarmId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (row[key] === true) {
             row[key] = 1;
@@ -278,9 +279,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

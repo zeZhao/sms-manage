@@ -64,7 +64,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysSalesGroup",
-        list: "queryByPage"
+        list: "queryByPage",
       },
       // 列表参数
       namespace: "saleGroup",
@@ -76,14 +76,14 @@ export default {
           type: "input",
           label: "组名称",
           key: "groupName",
-          placeholder: "请输入组名称"
+          placeholder: "请输入组名称",
         },
         {
           type: "input",
           label: "备注",
           key: "remark",
-          placeholder: "请输入备注"
-        }
+          placeholder: "请输入备注",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -91,16 +91,18 @@ export default {
           type: "input",
           label: "组名称",
           key: "groupName",
+          maxlength: "20",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "备注",
-          key: "remark"
-        }
+          maxlength: "500",
+          key: "remark",
+        },
       ],
-      sid: ""
+      sid: "",
     };
   },
   mounted() {},
@@ -108,7 +110,7 @@ export default {
   methods: {
     updateStatus(row, status) {
       const { sid } = row;
-      this.$http.sysSalesGroup.updateStatus({ sid, status }).then(res => {
+      this.$http.sysSalesGroup.updateStatus({ sid, status }).then((res) => {
         if (res.code == 200) {
           this.$message.success("修改成功");
           this._mxGetList();
@@ -119,9 +121,9 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form
+          ...form,
         };
-        this.$http.sysSalesGroup.addOrUpdate(params).then(res => {
+        this.$http.sysSalesGroup.addOrUpdate(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -133,9 +135,9 @@ export default {
       } else {
         params = {
           sid: this.sid,
-          ...form
+          ...form,
         };
-        this.$http.sysSalesGroup.addOrUpdate(params).then(res => {
+        this.$http.sysSalesGroup.addOrUpdate(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -156,7 +158,7 @@ export default {
     edit(row) {
       this.sid = row.sid;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -175,7 +177,7 @@ export default {
       this.addChannel = false;
     },
     _mxFormListData(data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         if (item.modifyTime) {
           item.modifyTime = new Date(item.modifyTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -183,9 +185,9 @@ export default {
         }
       });
       return data;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
