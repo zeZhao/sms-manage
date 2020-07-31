@@ -118,10 +118,11 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, status) {
+    gateway(keys, status, orderStatus) {
       const params = {
         data: {
           status: status,
+          orderStatus: orderStatus,
         },
       };
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
@@ -160,9 +161,9 @@ export default {
   },
   created() {},
   mounted() {
-    this.gateway("gatewayCu", "2");
-    this.gateway("gatewayCt", "3");
-    this.gateway("gatewayCm", "1");
+    this.gateway("gatewayCu", "2", "1");
+    this.gateway("gatewayCt", "3", "1");
+    this.gateway("gatewayCm", "1", "1");
   },
 };
 </script>

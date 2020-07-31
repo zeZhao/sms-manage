@@ -52,7 +52,7 @@ export default {
       searchAPI: {
         namespace: "mmsUserGateway",
         list: "listMmsUserGatewayByPage",
-        detele: "deleteMmsUserGateway"
+        detele: "deleteMmsUserGateway",
       },
       // 列表参数
       namespace: "mmsUserGateway",
@@ -64,44 +64,44 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入用户名称",
         },
         {
           type: "input",
           label: "用户特服号",
           key: "code",
-          placeholder: "请输入用户特服号"
+          placeholder: "请输入用户特服号",
         },
         {
           type: "input",
           label: "电信网关通道",
           key: "ctGatewayId",
-          placeholder: "请输入电信网关通道"
+          placeholder: "请输入电信网关通道",
         },
         {
           type: "input",
           label: "联通网关通道",
           key: "cuGatewayId",
-          placeholder: "请输入联通网关通道"
+          placeholder: "请输入联通网关通道",
         },
         {
           type: "input",
           label: "移动网关通道",
           key: "cmGatewayId",
-          placeholder: "请输入移动网关通道"
-        }
+          placeholder: "请输入移动网关通道",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -113,7 +113,7 @@ export default {
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -121,7 +121,7 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -129,44 +129,44 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "移动通道",
           key: "cmGatewayId",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "联通通道",
           key: "cuGatewayId",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
           key: "ctGatewayId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "备注信息",
-          key: "remark"
-        }
+          key: "remark",
+        },
       ],
       ugId: "",
       GatewayList: [], //通道列表
-      isChooseUser: false
+      isChooseUser: false,
     };
   },
   mounted() {
-    this.gateway("cuGatewayId", "2");
-    this.gateway("ctGatewayId", "3");
-    this.gateway("cmGatewayId", "1");
+    this.gateway("cuGatewayId", "2", "1");
+    this.gateway("ctGatewayId", "3", "1");
+    this.gateway("cmGatewayId", "1", "1");
   },
   computed: {},
   methods: {
@@ -180,7 +180,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -196,18 +196,19 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, status) {
+    gateway(keys, status, orderStatus) {
       const params = {
         data: {
-          status: status
-        }
+          status: status,
+          orderStatus: orderStatus,
+        },
       };
-      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
+        this.formConfig.forEach((item) => {
           const { key } = item;
           if (key == keys) {
-            res.data.forEach(t => {
+            res.data.forEach((t) => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
               item.optionData.push(t);
@@ -221,10 +222,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.mmsUserGateway.addMmsUserGateway(params).then(res => {
+        this.$http.mmsUserGateway.addMmsUserGateway(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -237,10 +238,10 @@ export default {
         params = {
           data: {
             ugId: this.ugId,
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.mmsUserGateway.updateMmsUserGateway(params).then(res => {
+        this.$http.mmsUserGateway.updateMmsUserGateway(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -261,7 +262,7 @@ export default {
     edit(row) {
       this.ugId = row.ugId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -278,9 +279,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

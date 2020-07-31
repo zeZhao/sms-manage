@@ -263,7 +263,7 @@ export default {
               item.defaultValue = [];
               this.formData[key] = [];
             }
-          } else if (type === "select") {
+          } else if (type === "select" || type === "radio") {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
             } else {

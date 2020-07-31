@@ -292,6 +292,8 @@ export default {
           type: "radio",
           label: "通道排序",
           key: "",
+          initDefaultValue: "1",
+          defaultValue: "1",
           optionData: [
             { key: "1", value: "按价格排序" },
             { key: "2", value: "按通道号排序" },
@@ -457,9 +459,9 @@ export default {
     };
   },
   mounted() {
-    this.gateway("cuPassageway", "2");
-    this.gateway("ctPassageway", "3");
-    this.gateway("cmPassageway", "1");
+    this.gateway("cuPassageway", "2", "1");
+    this.gateway("ctPassageway", "3", "1");
+    this.gateway("cmPassageway", "1", "1");
     this.getSensitiveWordGroup();
   },
   computed: {},
@@ -469,6 +471,8 @@ export default {
       console.log(val, item);
       if (item.label === "通道排序") {
         this.gateway("cuPassageway", "2", val);
+        this.gateway("ctPassageway", "3", val);
+        this.gateway("cmPassageway", "1", val);
       }
     },
     selectChange({ val, item }) {

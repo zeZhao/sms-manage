@@ -71,7 +71,7 @@ export default {
       searchAPI: {
         namespace: "sysProvinceRoute",
         list: "listProvinceRouteByPage",
-        detele: "deleteProvinceRoute"
+        detele: "deleteProvinceRoute",
       },
       // 列表参数
       namespace: "provinceRoute",
@@ -83,20 +83,20 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "select",
           label: "省份",
           key: "province",
           placeholder: "请选择省份",
-          optionData: []
+          optionData: [],
         },
         {
           type: "select",
@@ -106,20 +106,20 @@ export default {
           optionData: [
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" }
-          ]
+            { key: "3", value: "电信" },
+          ],
         },
         {
           type: "input",
           label: "通道号",
           key: "route",
-          placeholder: "请输入通道号"
+          placeholder: "请输入通道号",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入用户名称",
         },
         {
           type: "select",
@@ -129,15 +129,15 @@ export default {
           optionData: [
             { key: "1", value: "特服号" },
             { key: "2", value: "客户ID" },
-            { key: "3", value: "企业ID" }
-          ]
+            { key: "3", value: "企业ID" },
+          ],
         },
         {
           type: "input",
           label: "通道特服号",
           key: "code",
-          placeholder: "请输入通道特服号"
-        }
+          placeholder: "请输入通道特服号",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -149,7 +149,7 @@ export default {
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -157,7 +157,7 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -165,7 +165,7 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -174,58 +174,58 @@ export default {
           optionData: [
             { key: 1, value: "特服号" },
             { key: 2, value: "客户ID" },
-            { key: 3, value: "企业ID" }
+            { key: 3, value: "企业ID" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "省份",
           key: "province",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "移动通道",
           key: "cm",
-          optionData: []
+          optionData: [],
         },
         {
           type: "select",
           label: "联通通道",
           key: "cu",
-          optionData: []
+          optionData: [],
         },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
-          key: "ct"
+          key: "ct",
         },
         {
           type: "textarea",
           label: "备注信息",
-          key: "remark"
-        }
+          key: "remark",
+        },
       ],
       routeId: "",
       ProvinceList: [], //省列表
       GatewayList: [], //通道列表
-      isChooseUser: false
+      isChooseUser: false,
     };
   },
   mounted() {
-    this.gateway("cu", "2");
-    this.gateway("ct", "3");
-    this.gateway("cm", "1");
+    this.gateway("cu", "2", "1");
+    this.gateway("ct", "3", "1");
+    this.gateway("cm", "1", "1");
     this.listSysProvince();
   },
   computed: {},
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -244,10 +244,10 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: ""
-        }
+          provinceName: "",
+        },
       };
-      this.$http.listSysProvince(params).then(res => {
+      this.$http.listSysProvince(params).then((res) => {
         this.ProvinceList = res.data;
         this._setDefaultValue(
           this.formConfig,
@@ -269,18 +269,19 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, status) {
+    gateway(keys, status, orderStatus) {
       const params = {
         data: {
-          status: status
-        }
+          status: status,
+          orderStatus: orderStatus,
+        },
       };
-      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
+        this.formConfig.forEach((item) => {
           const { key } = item;
           if (key == keys) {
-            res.data.forEach(t => {
+            res.data.forEach((t) => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
               item.optionData.push(t);
@@ -294,10 +295,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysProvinceRoute.addProvinceRoute(params).then(res => {
+        this.$http.sysProvinceRoute.addProvinceRoute(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -310,10 +311,10 @@ export default {
         params = {
           data: {
             routeId: this.routeId,
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysProvinceRoute.updateProvinceRoute(params).then(res => {
+        this.$http.sysProvinceRoute.updateProvinceRoute(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -334,7 +335,7 @@ export default {
     edit(row) {
       this.routeId = row.routeId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -356,9 +357,9 @@ export default {
      * 表格数据处理
      * */
     _mxFormListData(list) {
-      list.forEach(item => {
+      list.forEach((item) => {
         item.province &&
-          this.ProvinceList.forEach(t => {
+          this.ProvinceList.forEach((t) => {
             if (item.province == t.provinceId) {
               this.$set(item, "provinceName", t.provinceName);
               // item.province = t.provinceName;
@@ -366,9 +367,9 @@ export default {
           });
       });
       return list;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
