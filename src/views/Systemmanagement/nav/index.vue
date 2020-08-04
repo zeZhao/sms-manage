@@ -44,7 +44,6 @@
             v-if="scope.row.sortState"
             v-model="scope.row.sort"
             :min="1"
-            :max="99"
             label="排序位置"
           ></el-input-number>
           <el-button size="small" @click="editSort(scope.row)" v-if="scope.row.sortState">修改</el-button>
@@ -93,7 +92,7 @@
           <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number v-model="addInfo.seqNum" :min="1" :max="10" label="排序"></el-input-number>
+          <el-input-number v-model="addInfo.seqNum" :min="1" label="排序"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -123,7 +122,7 @@
           <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
-          <el-input-number v-model="addInfo.seqNum" :min="1" :max="10" label="排序"></el-input-number>
+          <el-input-number v-model="addInfo.seqNum" :min="1" label="排序"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -182,7 +181,7 @@ export default {
         funcUrl: "",
         funcCode: "",
         seqNum: "",
-        isEnabled: ""
+        isEnabled: "",
       },
       addInfo: {
         funcName: "",
@@ -192,16 +191,16 @@ export default {
         funcUrl: "",
         funcCode: "",
         seqNum: "",
-        isEnabled: ""
+        isEnabled: "",
       },
       value: [],
       optionProps: {
         value: "funcId",
         label: "funcName",
         children: "children",
-        checkStrictly: true
+        checkStrictly: true,
       },
-      options: []
+      options: [],
     };
   },
   mounted() {
@@ -216,14 +215,14 @@ export default {
     //修改排序确定提交
     editSort(row) {
       let params = {
-        ...row
+        ...row,
       };
-      this.$http.nav.addOrUpdate(params).then(res => {
+      this.$http.nav.addOrUpdate(params).then((res) => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "修改成功",
-            type: "success"
+            type: "success",
           });
           this.getNavList();
           row.sortState = false;
@@ -235,9 +234,9 @@ export default {
     getNavList() {
       let params = {
         status: "",
-        type: ""
+        type: "",
       };
-      this.$http.nav.selectMenuList(params).then(res => {
+      this.$http.nav.selectMenuList(params).then((res) => {
         if (res.code == "200") {
           this.navList = res.data;
           this.setSortState(this.navList);
@@ -249,7 +248,7 @@ export default {
     },
     // 设置修改排序状态字段
     setSortState(list) {
-      list.forEach(item => {
+      list.forEach((item) => {
         if (item.childMenu && item.childMenu.length > 0) {
           this.setSortState(item.childMenu);
         }
@@ -260,14 +259,14 @@ export default {
     changSwitch(e, id) {
       let params = {
         menuId: id,
-        status: e
+        status: e,
       };
-      this.$http.nav.updateStatus(params).then(res => {
+      this.$http.nav.updateStatus(params).then((res) => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "修改成功",
-            type: "success"
+            type: "success",
           });
           this.getNavList();
         } else {
@@ -298,12 +297,12 @@ export default {
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
+          type: "warning",
         }
       )
         .then(() => {
           let params = { menuId: row.menuId };
-          this.$http.nav.delete(params).then(res => {
+          this.$http.nav.delete(params).then((res) => {
             if (res.code == "200") {
               this.$message.success("删除成功");
               this.getNavList();
@@ -314,9 +313,9 @@ export default {
         })
         .catch(() => {});
     },
-    addNavInfo: function(formName, type) {
+    addNavInfo: function (formName, type) {
       console.log(this.addInfo.parentId);
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           if (type == "catalog") {
             console.log(1);
@@ -328,7 +327,7 @@ export default {
               node: "2",
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
-              status: 1
+              status: 1,
             };
           } else {
             console.log(2);
@@ -340,15 +339,15 @@ export default {
               node: "1",
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
-              status: 1
+              status: 1,
             };
           }
-          this.$http.nav.addOrUpdate(params).then(res => {
+          this.$http.nav.addOrUpdate(params).then((res) => {
             if (res.code == "200") {
               this.$message({
                 showClose: true,
                 message: "新增成功",
-                type: "success"
+                type: "success",
               });
               this.customerAddInfo = false;
               this.addNavList = false;
@@ -371,7 +370,7 @@ export default {
       });
     },
     setCustomerInfo(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log(this.setInfo);
           let params = {
@@ -382,14 +381,14 @@ export default {
             node: this.setInfo.node,
             sort: this.setInfo.sort,
             type: this.setInfo.type,
-            status: this.setInfo.status
+            status: this.setInfo.status,
           };
-          this.$http.nav.addOrUpdate(params).then(res => {
+          this.$http.nav.addOrUpdate(params).then((res) => {
             if (res.code == "200") {
               this.$message({
                 showClose: true,
                 message: "修改成功",
-                type: "success"
+                type: "success",
               });
               this.customerInfo = false;
               this.setInfo = {};
@@ -422,13 +421,13 @@ export default {
           temp[data[k][pid]]["children"].push(data[k]);
         } else {
           res.push(data[k]);
-        } 
+        }
       }
       this.navList = res;
       console.log(this.navList);
       return res;
-    }
-  }
+    },
+  },
 };
 </script>
 
