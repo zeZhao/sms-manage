@@ -5,6 +5,9 @@ import {
 import {
   getAuthMenu
 } from '@/api/user'
+import {
+  getToken
+} from '@/utils/auth'
 import Layout from '@/layout'
 
 /**
@@ -89,7 +92,7 @@ const actions = {
     return new Promise(resolve => {
       const loadMenuData = [];
       // 先查询后台并返回左侧菜单数据并把数据添加到路由
-      getAuthMenu(window.localStorage.getItem('token')).then(response => {
+      getAuthMenu(getToken()).then(response => {
         let data = response
         if (response.code !== 200) {
           this.$message({

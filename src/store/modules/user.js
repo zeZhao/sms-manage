@@ -74,7 +74,7 @@ const actions = {
       loginByUsername(userInfo).then(data => {
         console.log(data, '----data')
         // 设置 token，作为用户已登陆的前端标识，存在 cookie 中
-        setToken(data.result)
+        setToken(data.data)
         commit('SET_TOKEN', data.data)
         // localStorage.userId = data.result.userId;
         localStorage.token = data.data;

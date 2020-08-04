@@ -1,5 +1,9 @@
 import axios from 'axios';
 import Cookies from 'js-cookie'
+import {
+  getToken
+} from '@/utils/auth'
+import router from '../router'
 
 axios.defaults.timeout = 50000;
 // axios.defaults.baseURL = '';
@@ -23,7 +27,7 @@ axios.interceptors.request.use(
   config => {
     // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.headers = {
-      'token': window.localStorage.getItem('token')
+      'token': getToken()
     }
     // if(token){
     //   config.params = {'token':token}
@@ -43,6 +47,9 @@ axios.interceptors.response.use(
       Cookies.remove('Admin-Token');
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       window.location.reload()
+    } else if (response.data.code === 999) {
+      localStorage.clear();
+      this.$router.push('/login')
     }
     return response;
   },
