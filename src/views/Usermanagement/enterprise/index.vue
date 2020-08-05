@@ -251,6 +251,15 @@ export default {
         callback();
       }
     };
+    var validate = (rule, value, callback) => {
+      if (value && !/^\d+(\.\d{1,4})?$/.test(value)) {
+        callback(new Error("必须为正数，最多4位小数"));
+      } else if (value <= 0) {
+        callback(new Error("短信单价必须大于0"));
+      } else {
+        callback();
+      }
+    };
     return {
       // -------------------我-------------是------------的----------分------------界----------线----------------☺-------------------//
       cur_page: 1, // 默认在第一页
@@ -266,7 +275,7 @@ export default {
         corpName: "",
         reductModel: "",
         status: "",
-        contact: ""
+        contact: "",
       },
       navList: [],
       navListId: [],
@@ -283,12 +292,12 @@ export default {
         contact: "",
         mobile: "",
         bankAccount: "",
-        root: ""
+        root: "",
       },
       //新增企业验证
       updateFormRules: {
         corpName: [
-          { required: true, message: "请输入企业名称", trigger: "blur" }
+          { required: true, message: "请输入企业名称", trigger: "blur" },
         ],
         pwd: [{ required: true, message: "请输入8-16位密码", trigger: "blur" }],
         code: [{ required: true, message: "请输入特服号", trigger: "blur" }],
@@ -296,20 +305,21 @@ export default {
           {
             required: true,
             message: "请至少选择一个计费方式",
-            trigger: "change"
-          }
+            trigger: "change",
+          },
         ],
         isDirectUser: [
-          { required: true, message: "请选择是否为商用", trigger: "change" }
+          { required: true, message: "请选择是否为商用", trigger: "change" },
         ],
         cardUnit: [
-          { required: true, message: "请输入短信单价", trigger: "blur" }
+          { required: true, message: "请输入短信单价", trigger: "blur" },
+          { validator: validate, trigger: "change" },
         ],
         contact: [{ required: true, message: "请输入联系人", trigger: "blur" }],
         mobile: [
           { required: true, message: "请输入联系电话", trigger: "blur" },
-          { validator: validatePhone, trigger: "blur" }
-        ]
+          { validator: validatePhone, trigger: "blur" },
+        ],
       },
       formTit: "新增企业",
       formBtn: "新增",
@@ -321,7 +331,7 @@ export default {
       currentRowData: {},
       //选择企业
       isEnterprise: false,
-      status: ""
+      status: "",
     };
   },
   mounted() {
@@ -352,7 +362,7 @@ export default {
       this.orderList(); // 确定当前页面后刷新页面
     },
     // 列表
-    orderList: function() {
+    orderList: function () {
       const params = {
         data: {
           corp: {
@@ -360,13 +370,13 @@ export default {
             corpName: this.search.corpName,
             reductModel: this.search.reductModel,
             status: this.search.status,
-            contact: this.search.contact
+            contact: this.search.contact,
           },
           pageNumber: this.cur_page,
-          pageSize: this.pageNum
-        }
+          pageSize: this.pageNum,
+        },
       };
-      this.$http.corp.queryByPage(params).then(res => {
+      this.$http.corp.queryByPage(params).then((res) => {
         if (res.code == "200") {
           this.dataList = res.data.list;
           this.totalCount = Number(res.data.total);
@@ -385,9 +395,9 @@ export default {
     },
     //新增企业
     addCustomerInfo(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http.corp.addOrUpdate({ ...this.addInfo }).then(res => {
+          this.$http.corp.addOrUpdate({ ...this.addInfo }).then((res) => {
             const { code, data, msg } = res;
             if (code == 200) {
               this.$message.success(msg);
@@ -448,7 +458,7 @@ export default {
       const { corpId } = this.currentRowData;
       this.$http.corp
         .updateStatus({ corpId, status: this.status })
-        .then(res => {
+        .then((res) => {
           const { code, msg } = res;
           if (code === 200) {
             this.$message.success(msg);
@@ -456,8 +466,8 @@ export default {
           }
         });
       this.dialogVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
