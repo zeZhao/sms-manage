@@ -49,23 +49,8 @@
           <span>{{scope.row.receiveTime | timeFormat}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="seqid" label="通道状态" />
+      <el-table-column prop="statusj" label="通道状态" />
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
-      <!-- <el-table-column prop="protType" label="产品类型">
-        <template slot-scope="scope">
-          <span>
-            {{
-            scope.row.protType === 0
-            ? "待审"
-            : scope.row.protType === 1
-            ? "正在审核"
-            : scope.row.protType === 2
-            ? "审核通过"
-            : "拒绝"
-            }}
-          </span>
-        </template>
-      </el-table-column>-->
     </el-table>
     <Page
       :pageObj="pageObj"
