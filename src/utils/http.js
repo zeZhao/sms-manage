@@ -48,8 +48,14 @@ axios.interceptors.response.use(
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       window.location.reload()
     } else if (response.data.code === 999) {
-      localStorage.clear();
-      this.$router.push('/login')
+      Message({
+        message: '用户信息已失效，请重新登录',
+        type: 'error',
+      })
+      removeToken()
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
     }
     return response;
   },

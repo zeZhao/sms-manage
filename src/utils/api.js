@@ -419,7 +419,11 @@ export default {
     // 账号互转
     refundPrepaidCard(params) {
       return post("/sysPrepaidCard/refundPrepaidCard", params)
-    }
+    },
+    // 上传凭证
+    // uploadFile(params) {
+    //   return post("/sysPrepaidCard/uploadFile", params)
+    // }
   },
   //支出信息
   sysExpensesInfo: {
@@ -715,11 +719,18 @@ export default {
       return post("/sendLogFegin/selectSendreportByPage", params);
     }
   },
-  // 发送返回报告 / 返回报告
+  // 返回报告
   smsReturnReport: {
     // 查询列表
+    selectReturnReportByPage(params) {
+      return post("/sendLogFegin/selectReturnReportByPage", params);
+    }
+  },
+  // 发送返回报告
+  smsTxReturnReport: {
+    // 查询列表
     searchSendReturnReport(params) {
-      return post("/sendLogFegin/selectSendreturnByPage", params);
+      return post("/sendLogFegin/selectSendReturnByPage", params);
     }
   },
   // 定时

@@ -5,9 +5,10 @@ import {
 } from 'element-ui'
 import store from '@/store'
 import {
-  getToken
+  getToken,
+  removeToken
 } from '@/utils/auth'
-import router from '../router'
+import router from '@/router'
 
 let service = null
 
@@ -37,13 +38,8 @@ if (process.env.NODE_ENV === "production") {
 // request interceptor
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
     if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
       config.headers['token'] = getToken()
-      // config.headers['X-Token'] = getToken()
     }
     return config
   },
@@ -70,8 +66,17 @@ service.interceptors.response.use(
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       window.location.reload()
     } else if (res.code === 999) {
+      Message({
+        message: '用户信息已失效，请重新登录',
+        // message: error.message,
+        type: 'error',
+      })
+      removeToken()
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
       // localStorage.clear();
-      router.push(`/login?redirect=${router.fullPath}`)
+      // router.push(`/login?redirect=1`)
       // window.location.reload()
     } else {
       return res

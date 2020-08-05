@@ -47,6 +47,7 @@ import ErrorLog from "@/components/ErrorLog";
 import Screenfull from "@/components/Screenfull";
 import SizeSelect from "@/components/SizeSelect";
 import Search from "@/components/HeaderSearch";
+import { Message } from "element-ui";
 
 export default {
   components: {
@@ -76,12 +77,18 @@ export default {
     },
     logout() {
       // state.token = ''
-      Cookies.remove("Admin-Token");
-      Cookies.remove("token");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
-      window.location.reload();
-      // Cookies.remove('Token');
-      // window.location.reload()
+
+      this.$store.dispatch("user/logout").then(() => {
+        this.$message({
+          message: "退出成功！",
+          type: "success",
+        });
+        // Cookies.remove("Admin-Token");
+        // Cookies.remove("token");
+
+        window.location.reload();
+        // this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      });
     },
     userInfo: function () {
       this.$axios

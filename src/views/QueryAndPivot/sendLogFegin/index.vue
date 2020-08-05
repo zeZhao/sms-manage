@@ -6,17 +6,17 @@
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
-      <el-table-column prop="protType" label="产品类型">
+      <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.protType === "1"
+            scope.row.proType === 1
             ? "web端"
-            : scope.row.protType === "2"
+            : scope.row.proType === 2
             ? "http接口"
-            : scope.row.protType === "3"
+            : scope.row.proType === 3
             ? "cmpp接口"
-            : scope.row.protType === "7"
+            : scope.row.proType === 7
             ? "音频接口"
             : ""
             }}
@@ -28,7 +28,11 @@
       <el-table-column prop="mobile" label="手机号" width="150" />
       <el-table-column prop="count" label="条数" />
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
-      <el-table-column prop="definiteTime" label="定时时间" width="155" />
+      <el-table-column prop="definiteTime" label="定时时间" width="155">
+        <template slot-scope="scope">
+          <span>{{scope.row.definiteTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="155">
         <template slot-scope="scope">
           <span>{{scope.row.submitTime | timeFormat}}</span>
@@ -38,7 +42,7 @@
       <el-table-column prop="pkNumber" label="PK NUMBER" show-overflow-tooltip width="110" />
       <el-table-column prop="pid" label="PID" show-overflow-tooltip />
     </el-table>
-    <p style="color:red">总条数：{{statistics}}</p>
+    <p style="color:red">总条数：{{pageObj.total}}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"

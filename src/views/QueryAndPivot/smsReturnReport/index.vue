@@ -7,14 +7,22 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column prop="content" label="编号" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="状态" width="150" />
-      <el-table-column prop="gateway" label="错误描述" />
-      <el-table-column prop="operaId" label="返回报告时间" />
-      <el-table-column prop="definiteTime" label="手机接收时间" show-overflow-tooltip />
-      <el-table-column prop="submitTime" label="通道耗时:秒" show-overflow-tooltip />
-      <el-table-column prop="pkTotal" label="总耗时:秒" show-overflow-tooltip />
-      <el-table-column prop="seqid" label="SEQID" show-overflow-tooltip />
+      <el-table-column prop="gateway" label="编号" show-overflow-tooltip />
+      <el-table-column prop="status" label="状态" />
+      <el-table-column prop="error" label="错误描述" />
+      <el-table-column prop="returnTime" label="返回报告时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.returnTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="receiveTime" label="手机接收时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.receiveTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="gatewayTaking" label="通道耗时:秒" show-overflow-tooltip />
+      <el-table-column prop="totalTaking" label="总耗时:秒" show-overflow-tooltip />
+      <el-table-column prop="seqId" label="SEQID" show-overflow-tooltip />
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
     </el-table>
     <Page
@@ -35,7 +43,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsReturnReport",
-        list: "searchSendReturnReport",
+        list: "selectReturnReportByPage",
       },
       // 列表参数
       namespace: "",
@@ -76,7 +84,7 @@ export default {
         {
           type: "input",
           label: "SEQID",
-          key: "seqid",
+          key: "seqId",
           placeholder: "请输入SEQID",
         },
         {
@@ -94,11 +102,10 @@ export default {
         {
           type: "select",
           label: "状态",
-          key: "status",
+          key: "statusType",
           optionData: [
-            { key: "", value: "不限" },
             { key: "1", value: "成功" },
-            { key: "0", value: "失败" },
+            { key: "2", value: "失败" },
           ],
         },
         {

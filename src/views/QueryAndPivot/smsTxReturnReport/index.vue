@@ -6,6 +6,51 @@
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
+      <el-table-column prop="code" label="特服号" show-overflow-tooltip />
+      <el-table-column prop="content" label="内容" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="手机号" width="150" />
+      <el-table-column prop="province" label="省份" />
+      <el-table-column prop="operaId" label="运营商">
+        <template slot-scope="scope">
+          <span>
+            {{
+            scope.row.operaId === 0
+            ? "非法"
+            :scope.row.operaId === 1
+            ? "移动"
+            : scope.row.operaId === 2
+            ? "联通"
+            : scope.row.operaId === 3
+            ? "电信"
+            : "国际"
+            }}
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="状态" />
+      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="submitTime" label="提交时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.submitTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="startTime" label="发送时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.sendTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="returnTime" label="返回报告时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.returnTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="receiveTime" label="手机接收时间" width="150">
+        <template slot-scope="scope">
+          <span>{{scope.row.receiveTime | timeFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="seqid" label="通道状态" />
+      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
       <!-- <el-table-column prop="protType" label="产品类型">
         <template slot-scope="scope">
           <span>
@@ -21,19 +66,6 @@
           </span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" width="150" />
-      <el-table-column prop="gateway" label="省份" />
-      <el-table-column prop="operaId" label="运营商" />
-      <el-table-column prop="operaId" label="状态" />
-      <el-table-column prop="operaId" label="网关" />
-      <el-table-column prop="submitTime" label="提交时间" show-overflow-tooltip />
-      <el-table-column prop="sendTime" label="发送时间" show-overflow-tooltip />
-      <el-table-column prop="pkTotal" label="返回报告时间" show-overflow-tooltip />
-      <el-table-column prop="seqid" label="手机接收时间" show-overflow-tooltip />
-      <el-table-column prop="seqid" label="通道状态" show-overflow-tooltip />
-      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -52,7 +84,7 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: "smsReturnReport",
+        namespace: "smsTxReturnReport",
         list: "searchSendReturnReport",
       },
       // 列表参数
@@ -106,7 +138,7 @@ export default {
         {
           type: "input",
           label: "状态",
-          key: "hasSend",
+          key: "status",
           placeholder: "请输入状态",
         },
         {
@@ -130,13 +162,12 @@ export default {
         {
           type: "select",
           label: "是否有状态",
-          key: "status",
+          key: "statusType",
           placeholder: "请选择状态",
           optionData: [
-            { key: "0", value: "不限" },
-            { key: "1", value: "成功" },
-            { key: "2", value: "失败" },
-            { key: "3", value: "未知" },
+            { key: "2", value: "成功" },
+            { key: "3", value: "失败" },
+            { key: "4", value: "未知" },
           ],
         },
         {
@@ -160,9 +191,35 @@ export default {
       ],
     };
   },
-  mounted() {},
+  mounted() {
+    this.listSysProvince();
+  },
   computed: {},
   methods: {
+    /*
+     * 获取省份列表
+     * */
+    listSysProvince() {
+      const params = {
+        data: {
+          provinceName: "",
+        },
+      };
+      this.$http.listSysProvince(params).then((res) => {
+        this.searchFormConfig.forEach((item) => {
+          const { key } = item;
+          if (key === "province") {
+            res.data.forEach((t) => {
+              let obj = {
+                key: t.provinceName,
+                value: t.provinceName,
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      });
+    },
     /**
      * 调整提交的参数
      *
