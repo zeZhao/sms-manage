@@ -111,7 +111,7 @@ export default {
         {
           type: "date",
           label: "返回日期",
-          key: "dayTime",
+          key: "returnTime",
           placeholder: "返回日期",
         },
         {
@@ -141,8 +141,8 @@ export default {
      * @private
      */
     _formatRequestData(data) {
-      if (data.dayTime) {
-        data.dayTime = new Date(data.dayTime).Format("yyyy-MM-dd");
+      if (data.returnTime) {
+        data.returnTime = new Date(data.returnTime).Format("yyyy-MM-dd");
       }
       if (data.startTime) {
         data.startTime = new Date(data.startTime).Format("hh:mm:ss");

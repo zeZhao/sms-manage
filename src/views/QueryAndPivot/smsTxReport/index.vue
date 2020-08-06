@@ -112,7 +112,7 @@ export default {
         {
           type: "date",
           label: "发送日期",
-          key: "dayTime",
+          key: "sendTime",
           placeholder: "发送日期",
         },
         {
@@ -169,8 +169,8 @@ export default {
      * @private
      */
     _formatRequestData(data) {
-      if (data.dayTime) {
-        data.dayTime = new Date(data.dayTime).Format("yyyy-MM-dd");
+      if (data.sendTime) {
+        data.sendTime = new Date(data.sendTime).Format("yyyy-MM-dd");
       }
       if (data.startTime) {
         data.startTime = new Date(data.startTime).Format("hh:mm:ss");

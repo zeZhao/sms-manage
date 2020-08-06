@@ -109,7 +109,7 @@ export default {
           type: "date",
           label: "提交日期",
           key: "submitDate",
-          placeholder: "审核日期",
+          placeholder: "提交日期",
         },
         {
           type: "timerange",
