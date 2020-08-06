@@ -1,13 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie'
 import {
-  getToken
+  getToken,
+  removeToken
 } from '@/utils/auth'
 import {
-  MessageBox,
   Message
 } from 'element-ui'
-import router from '../router'
 
 axios.defaults.timeout = 50000;
 // axios.defaults.baseURL = '';
@@ -33,9 +32,6 @@ axios.interceptors.request.use(
     config.headers = {
       'token': getToken()
     }
-    // if(token){
-    //   config.params = {'token':token}
-    // }
     return config;
   },
   error => {
@@ -47,7 +43,6 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-    console.log(response.data.code, '----------------response.data')
     if (response.data.code == 401) {
       removeToken()
       window.location.reload()
@@ -85,7 +80,10 @@ export function fetch(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        this.$message.error('系统异常，请联系管理员');
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
       })
   })
 }
@@ -104,7 +102,10 @@ export function post(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        this.$message.error('系统异常，请联系管理员');
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
       })
   })
 }
@@ -122,7 +123,10 @@ export function patch(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        this.$message.error('系统异常，请联系管理员');
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
       })
   })
 }
@@ -140,7 +144,10 @@ export function put(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        this.$message.error('系统异常，请联系管理员');
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
       })
   })
 }
@@ -161,7 +168,10 @@ export function del(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        this.$message.error('系统异常，请联系管理员');
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
       })
   })
 }
