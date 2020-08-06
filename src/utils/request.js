@@ -112,6 +112,10 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
+    removeToken()
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
     return Promise.reject(error)
   }
 )
