@@ -83,8 +83,8 @@ export default {
           message: "退出成功！",
           type: "success",
         });
-        // Cookies.remove("Admin-Token");
-        // Cookies.remove("token");
+        Cookies.remove("Admin-Token");
+        Cookies.remove("token");
 
         window.location.reload();
         // this.$router.push(`/login?redirect=${this.$route.fullPath}`);

@@ -52,9 +52,7 @@ axios.interceptors.response.use(
         type: 'error',
       })
       removeToken()
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
+      window.location.reload()
     }
     return response;
   },

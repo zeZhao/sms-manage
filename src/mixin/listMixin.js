@@ -116,7 +116,7 @@ function queryData() {
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);
-    } else {
+    } else if (res.code === 500 || res.code === '500') {
       this.$message.error(res.data || "获取数据失败")
     }
   })

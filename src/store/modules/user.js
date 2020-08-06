@@ -12,6 +12,10 @@ import {
 import router, {
   resetRouter
 } from '@/router'
+import {
+  MessageBox,
+  Message
+} from 'element-ui'
 
 const state = {
   token: getToken(),
@@ -73,11 +77,19 @@ const actions = {
       // 请求后台登陆
       loginByUsername(userInfo).then(data => {
         console.log(data, '----data')
-        // 设置 token，作为用户已登陆的前端标识，存在 cookie 中
-        setToken(data.data)
-        commit('SET_TOKEN', data.data)
-        // localStorage.userId = data.result.userId;
-        localStorage.token = data.data;
+        if (data.code === 500) {
+          Message({
+            message: data.data,
+            // message: error.message,
+            type: 'error',
+          })
+        } else {
+          // 设置 token，作为用户已登陆的前端标识，存在 cookie 中
+          setToken(data.data)
+          commit('SET_TOKEN', data.data)
+          // localStorage.userId = data.result.userId;
+          localStorage.token = data.data;
+        }
         resolve()
       }).catch(error => {
         console.log(error, '----error')

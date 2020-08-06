@@ -68,16 +68,10 @@ service.interceptors.response.use(
     } else if (res.code === 999) {
       Message({
         message: '用户信息已失效，请重新登录',
-        // message: error.message,
         type: 'error',
       })
       removeToken()
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
-      // localStorage.clear();
-      // router.push(`/login?redirect=1`)
-      // window.location.reload()
+      window.location.reload()
     } else {
       return res
     }
