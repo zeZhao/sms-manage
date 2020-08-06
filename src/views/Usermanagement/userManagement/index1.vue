@@ -135,7 +135,7 @@ export default {
         detele: "",
         add: "addOrUpdate",
         edit: "addOrUpdate",
-        check: "check"
+        check: "check",
       },
       // 列表参数
       namespace: "corpUser",
@@ -147,25 +147,25 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "input",
           label: "用户id",
           key: "userId",
-          placeholder: "请输入用户id"
+          placeholder: "请输入用户id",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入用户名称",
         },
         {
           type: "input",
           label: "用户特服号",
           key: "code",
-          placeholder: "请输入用户特服号"
+          placeholder: "请输入用户特服号",
         },
         {
           type: "select",
@@ -173,9 +173,9 @@ export default {
           key: "isDirectUser",
           optionData: [
             { key: "1", value: "短信" },
-            { key: "2", value: "代理商" }
+            { key: "2", value: "代理商" },
           ],
-          placeholder: "请选择"
+          placeholder: "请选择",
         },
         {
           type: "select",
@@ -184,9 +184,9 @@ export default {
           optionData: [
             { key: "1", value: "行业" },
             { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
+            { key: "3", value: "VIP" },
           ],
-          placeholder: "请选择业务类型"
+          placeholder: "请选择业务类型",
         },
         {
           type: "select",
@@ -196,9 +196,9 @@ export default {
             { key: "1", value: "短信" },
             // { key: "2", value: "彩信" },
             { key: "3", value: "屏信" },
-            { key: "4", value: "语音" }
+            { key: "4", value: "语音" },
           ],
-          placeholder: "请选择产品"
+          placeholder: "请选择产品",
         },
         {
           type: "select",
@@ -208,9 +208,9 @@ export default {
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
             { key: "3", value: "cmpp接口" },
-            { key: "7", value: "音频接口" }
+            { key: "7", value: "音频接口" },
           ],
-          placeholder: "请选择产品类型"
+          placeholder: "请选择产品类型",
         },
         {
           type: "select",
@@ -220,9 +220,9 @@ export default {
             { key: "1", value: "预付提交计费" },
             { key: "2", value: "预付成功计费" },
             { key: "3", value: "后付提交计费" },
-            { key: "4", value: "后付成功计费" }
+            { key: "4", value: "后付成功计费" },
           ],
-          placeholder: "请选择计费方式"
+          placeholder: "请选择计费方式",
         },
         {
           type: "select",
@@ -230,9 +230,9 @@ export default {
           key: "reductType",
           optionData: [
             { key: "1", value: "用户id计费" },
-            { key: "2", value: "企业id计费" }
+            { key: "2", value: "企业id计费" },
           ],
-          placeholder: "请选择计费类型"
+          placeholder: "请选择计费类型",
         },
         {
           type: "select",
@@ -241,23 +241,23 @@ export default {
           optionData: [
             { key: "1", value: "初始" },
             { key: "2", value: "正常" },
-            { key: "3", value: "禁用" }
+            { key: "3", value: "禁用" },
           ],
-          placeholder: "请选择状态类型"
+          placeholder: "请选择状态类型",
         },
         {
           type: "select",
           label: "销售人员",
           key: "saleMan",
           optionData: [],
-          placeholder: "请选择销售人员"
+          placeholder: "请选择销售人员",
         },
         {
           type: "daterange",
           label: "创建时间",
           key: ["", "startDate", "endDate"],
-          placeholder: "请选择创建时间"
-        }
+          placeholder: "请选择创建时间",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -266,37 +266,37 @@ export default {
           label: "企业名称",
           key: "corpId",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "用户登录名",
           key: "loginName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "密码",
           key: "password",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "用户特服号",
           key: "code",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "可扩展的位数",
           key: "sublong",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -304,9 +304,9 @@ export default {
           key: "reductType",
           optionData: [
             { key: 1, value: "用户id计费" },
-            { key: 2, value: "企业id计费" }
+            { key: 2, value: "企业id计费" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -316,9 +316,9 @@ export default {
             { key: 1, value: "预付提交计费" },
             { key: 2, value: "预付成功计费" },
             { key: 3, value: "后付提交计费" },
-            { key: 4, value: "后付成功计费" }
+            { key: 4, value: "后付成功计费" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -328,9 +328,9 @@ export default {
           optionData: [
             { key: 0, value: "不返还" },
             { key: 1, value: "返失败" },
-            { key: 2, value: "返失败和未知" }
+            { key: 2, value: "返失败和未知" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -343,9 +343,9 @@ export default {
             { key: 4, value: "三网" },
             { key: 5, value: "移动联通" },
             { key: 6, value: "移动电信" },
-            { key: 7, value: "联通电信" }
+            { key: 7, value: "联通电信" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -355,15 +355,15 @@ export default {
             { key: 1, value: "短信" },
             // { key: 2, value: "彩信" },
             { key: 3, value: "屏信" },
-            { key: 4, value: "语音" }
+            { key: 4, value: "语音" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "短信单价",
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         // {
         //   type: "input",
@@ -379,16 +379,16 @@ export default {
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
             { key: 3, value: "cmpp接口" },
-            { key: 7, value: "音频接口" }
+            { key: 7, value: "音频接口" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "协议端口",
           key: "directPort",
           defaultValue: "",
-          disabled: true
+          disabled: true,
         },
         {
           type: "select",
@@ -398,9 +398,9 @@ export default {
             { key: "0", value: "无权限" },
             { key: 1, value: "推送" },
             { key: 2, value: "自取(批量)" },
-            { key: 3, value: "自取(单条)" }
+            { key: 3, value: "自取(单条)" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -409,27 +409,27 @@ export default {
           optionData: [
             { key: "0", value: "无权限" },
             { key: 1, value: "推送" },
-            { key: 2, value: "自取(批量)" }
+            { key: 2, value: "自取(批量)" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
-          label: "推动报告地址",
+          label: "推送报告地址",
           key: "reportUrl",
-          defaultValue: ""
+          defaultValue: "",
         },
         {
           type: "input",
           label: "推送上行地址",
           key: "moUrl",
-          defaultValue: ""
+          defaultValue: "",
         },
         {
           type: "input",
           label: "客户IP地址",
           key: "userIp",
-          defaultValue: ""
+          defaultValue: "",
         },
         // {
         //   type: "input",
@@ -442,14 +442,14 @@ export default {
           label: "客户联系人",
           key: "contact",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "客户联系人电话",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -458,9 +458,9 @@ export default {
           optionData: [
             { key: 1, value: "行业" },
             { key: 2, value: "营销" },
-            { key: 3, value: "VIP" }
+            { key: 3, value: "VIP" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -468,9 +468,9 @@ export default {
           key: "isDirectUser",
           optionData: [
             { key: 1, value: "短信" },
-            { key: 2, value: "代理商" }
+            { key: 2, value: "代理商" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "checkbox",
@@ -481,9 +481,9 @@ export default {
             { key: "1", value: "系统级" },
             { key: "2", value: "营销级" },
             { key: "3", value: "客户级" },
-            { key: "4", value: "BSATS级" }
+            { key: "4", value: "BSATS级" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
 
         {
@@ -492,15 +492,15 @@ export default {
           key: "isPostApi",
           optionData: [
             { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ]
+            { key: 1, value: "是" },
+          ],
         },
         {
           type: "select",
           label: "销售员",
           key: "saleMan",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -508,17 +508,17 @@ export default {
           key: "deductType",
           optionData: [
             { key: 1, value: "正常" },
-            { key: 2, value: "对比库" }
+            { key: 2, value: "对比库" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "备注",
-          key: "remark"
-        }
+          key: "remark",
+        },
       ],
-      currentRowData: {}
+      currentRowData: {},
     };
   },
   mounted() {
@@ -533,7 +533,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "审核";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -552,29 +552,29 @@ export default {
       form = this._mxArrangeSubmitData(form);
       const { namespace, add, edit, check } = this.searchAPI;
       let params = {
-        ...form
+        ...form,
       };
       if (this.formTit == "新增") {
-        this.$http[namespace][add](params).then(res => {
+        this.$http[namespace][add](params).then((res) => {
           this._mxSuccess(res);
         });
       } else if (this.formTit == "修改") {
         params = Object.assign(params, {
-          [editId]: this.id
+          [editId]: this.id,
         });
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
-        this.$http[namespace][edit](params).then(res => {
+        this.$http[namespace][edit](params).then((res) => {
           this._mxSuccess(res);
         });
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
           [editId]: this.id,
-          status: "2"
+          status: "2",
         });
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
-        this.$http[namespace][check](params).then(res => {
+        this.$http[namespace][check](params).then((res) => {
           this._mxSuccess(res);
         });
       }
@@ -594,7 +594,7 @@ export default {
       this.$msgbox({
         title: "信息",
         message: this.createElement(h, row),
-        showConfirmButton: false
+        showConfirmButton: false,
       });
     },
     //编辑表单前调整表单内数据
@@ -615,7 +615,7 @@ export default {
     },
     //获取所有企业
     getAllCorp() {
-      this.$http.corp.queryAllCorp().then(res => {
+      this.$http.corp.queryAllCorp().then((res) => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
@@ -629,7 +629,7 @@ export default {
     },
     //获取销售员
     getSaleman() {
-      this.$http.sysSales.queryAvailableSaleman().then(res => {
+      this.$http.sysSales.queryAvailableSaleman().then((res) => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
@@ -679,7 +679,7 @@ export default {
       const { userId } = this.currentRowData;
       this.$http.corpUser
         .updateStatus({ userId: userId, status: this.status })
-        .then(res => {
+        .then((res) => {
           const { code, msg } = res;
           if (code === 200) {
             this.$message.success(msg);
@@ -735,99 +735,99 @@ export default {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`)
+            h("span", null, `${row.proType}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.userName}`)
+            h("span", null, `${row.userName}`),
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
+            h("span", null, `${row.loginName}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
+            h("span", null, `${row.password}`),
           ]),
           h("p", null, [
             h("span", null, "网址: "),
-            h("span", null, `${row.mmsAuditCallBack}`)
-          ])
+            h("span", null, `${row.mmsAuditCallBack}`),
+          ]),
         ]);
       }
       if (row.proType === "http接口") {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`)
+            h("span", null, `${row.proType}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.userName}`)
+            h("span", null, `${row.userName}`),
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
+            h("span", null, `${row.loginName}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
+            h("span", null, `${row.password}`),
           ]),
           h("p", null, [
             h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp}`)
+            h("span", null, `${row.userIp}`),
           ]),
           h("p", null, [
             h("span", null, "接口地址: "),
-            h("span", null, `${row.mmsAuditCallBack}`)
-          ])
+            h("span", null, `${row.mmsAuditCallBack}`),
+          ]),
         ]);
       }
       if (row.proType === "cmpp接口") {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`)
+            h("span", null, `${row.proType}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.userName}`)
+            h("span", null, `${row.userName}`),
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
+            h("span", null, `${row.loginName}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
+            h("span", null, `${row.password}`),
           ]),
           h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
           h("p", null, [
             h("span", null, "端口: "),
-            h("span", null, `${row.directPort}`)
+            h("span", null, `${row.directPort}`),
           ]),
           h("p", null, [
             h("span", null, "协议: "),
-            h("span", null, `${row.password}`)
+            h("span", null, `${row.password}`),
           ]),
           h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
           h("p", null, [
             h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp}`)
+            h("span", null, `${row.userIp}`),
           ]),
           h("p", null, [
             h("span", null, "链接路数: "),
-            h("span", null, `${row.maxSession}`)
+            h("span", null, `${row.maxSession}`),
           ]),
           h("p", null, [
             h("span", null, "通道速率: "),
-            h("span", null, `${row.alertBalance}`)
-          ])
+            h("span", null, `${row.alertBalance}`),
+          ]),
         ]);
       }
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
