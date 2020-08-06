@@ -3,6 +3,10 @@ import Cookies from 'js-cookie'
 import {
   getToken
 } from '@/utils/auth'
+import {
+  MessageBox,
+  Message
+} from 'element-ui'
 import router from '../router'
 
 axios.defaults.timeout = 50000;
@@ -43,9 +47,9 @@ axios.interceptors.request.use(
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
+    console.log(response.data.code, '----------------response.data')
     if (response.data.code == 401) {
-      Cookies.remove('Admin-Token');
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      removeToken()
       window.location.reload()
     } else if (response.data.code === 999) {
       Message({
