@@ -3,13 +3,13 @@
   <div class="smsCheckWait">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false">
       <template slot="Other">
-        <el-button type="primary">超审</el-button>
-        <el-button type="primary" @click="_mxCreate">增加分配</el-button>
-        <el-button type="primary">停止分配</el-button>
+        <!-- <el-button type="primary" @click="_mxCreate">超审</el-button> -->
+        <el-button type="primary" @click="addCheck">增加分配</el-button>
+        <el-button type="primary" @click="stopCheck">停止分配</el-button>
       </template>
     </Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
-      <el-table-column type="selection" width="55" />
+      <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <!-- <el-table-column prop="gatewayType" label="类型">
@@ -31,6 +31,11 @@
       <el-table-column prop="submitTime" label="提交时间">
         <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
       </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button type="text" @click="supperCheck(scope.row)">超审</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -42,7 +47,7 @@
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
-        @submit="_mxHandleSubmit"
+        @submit="submit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
       ></FormItem>
@@ -57,7 +62,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
-      formTit: "新增",
+      formTit: "超审",
       addChannel: false,
       // 接口地址
       searchAPI: {
@@ -65,7 +70,7 @@ export default {
         list: "listCheckWaitByPage",
         detele: "",
         add: "",
-        edit: ""
+        edit: "",
       },
       // 列表参数
       namespace: "checkWait",
@@ -77,19 +82,19 @@ export default {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号"
+          placeholder: "请输入特服号",
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容"
+          placeholder: "请输入内容",
         },
         {
           type: "select",
@@ -98,247 +103,148 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "路由信息错"
+              value: "路由信息错",
             },
             {
               key: "2",
-              value: "关键字"
+              value: "关键字",
             },
             {
               key: "3",
-              value: "模板不匹配"
+              value: "模板不匹配",
             },
             {
               key: "5",
-              value: "数量超标"
+              value: "数量超标",
             },
             {
               key: "6",
-              value: "组合redis错"
+              value: "组合redis错",
             },
             {
               key: "7",
-              value: "组合超时"
-            }
+              value: "组合超时",
+            },
           ],
-          placeholder: "请选择类型"
+          placeholder: "请选择类型",
         },
         {
           type: "date",
           label: "提交时间",
           key: "submitTime",
-          placeholder: "请选择提交时间"
-        }
+          placeholder: "请选择提交时间",
+        },
       ],
       // 表单配置
       formConfig: [
         {
-          type: "select",
-          label: "通道名称",
-          key: "gatewayName",
-          defaultValue: "",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
           type: "input",
-          label: "通道编号",
-          key: "gateway",
+          label: "用户ID",
+          key: "userId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "select",
-          label: "类型",
-          key: "gatewayType",
+          type: "input",
+          label: "特服号",
+          key: "code",
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
+          type: "input",
+          label: "审核内容",
+          key: "content",
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
+          type: "input",
+          label: "移动通道",
+          key: "cm",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
+          type: "input",
+          label: "联通通道",
+          key: "cu",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
+          type: "input",
+          label: "电信通道",
+          key: "ct",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
+          type: "radio",
+          label: "审核状态",
+          key: "checkStatus",
           defaultValue: "",
           optionData: [
             {
-              key: 1,
-              value: "短信"
-            }
+              key: "1",
+              value: "通过",
+            },
+            {
+              key: "0",
+              value: "拒绝",
+            },
           ],
-          // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
-        {
-          type: "select",
-          label: "省份",
-          key: "province",
-          defaultValue: "",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "提交数",
-          key: "submitCount",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "成功数",
-          key: "succCount",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "成功率",
-          key: "succRatio",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "month",
-          label: "账单月份",
-          key: "countMonth",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "付款方式",
-          key: "paidWay",
-          optionData: [
-            {
-              key: 1,
-              value: "已付款"
-            },
-            {
-              key: 2,
-              value: "欠款"
-            },
-            {
-              key: 3,
-              value: "其他"
-            }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "联系人",
-          key: "linkMan",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "运营商",
-          key: "operaid",
-          optionData: [
-            {
-              key: 1,
-              value: "移动"
-            },
-            {
-              key: 2,
-              value: "联通"
-            },
-            {
-              key: 3,
-              value: "电信"
-            }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        }
       ],
-      GatewayList: [] // 通道列表
     };
   },
-  mounted() {
-    this.gateway();
-    this.listSysProvince();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    selectChange(data) {
-      const { val, item } = data;
-      let obj = {};
-      if (item.key === "gatewayName") {
-        item.optionData.map(t => {
-          if (t.key == val) {
-            obj = t;
+    supperCheck(row) {
+      this.formConfig.forEach((item) => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
           }
-        });
-        this.formConfig.map(t => {
-          const { key } = t;
-          if (key === "gatewayName") {
-            t.defaultValue = obj.gatewayName;
-          }
-          if (key === "gateway") {
-            t.defaultValue = obj.gateway;
-          }
-        });
-      }
-    },
-    /*
-     * 获取通道列表
-     * */
-    gateway() {
-      const params = {
-        data: {
-          gatewayName: "",
-          isCu: "",
-          isCt: "",
-          isCm: ""
         }
-      };
-      this.$http.gateway.listGateway(params).then(res => {
-        this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "gatewayName") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gateway);
-              this.$set(t, "value", t.gatewayName);
-              // let obj = {
-              //   key: t.gatewayId,
-              //   value: t.gatewayName
-              // };
-              item.optionData.push(t);
-            });
-          }
-        });
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
+    submit(form) {
+      this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then((res) => {
+        if (resOk(res)) {
+          this.$message.success("超审成功");
+        }
       });
     },
-    /*
-     * 获取省份列表
-     * */
-    listSysProvince() {
-      const params = {
-        data: {
-          provinceName: ""
+    addCheck() {
+      this.$http.smsCheckWait.addCheck().then((res) => {
+        if (resOk(res)) {
+          this.$message.success("请求成功");
         }
-      };
-      this.$http.listSysProvince(params).then(res => {
-        this.ProvinceList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
       });
-    }
-    //countMonth
-    // _mxArrangeSubmitData(formData) {
-    //   if (formData.countMonth) {
-    //     formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
-    //   }
-    //   return formData;
-    // }
+    },
+    stopCheck() {
+      this.$http.smsCheckWait.stopCheck().then((res) => {
+        if (resOk(res)) {
+          this.$message.success("请求成功");
+        }
+      });
+    },
+    selectChange(data) {},
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

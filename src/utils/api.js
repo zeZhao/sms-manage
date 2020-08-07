@@ -838,11 +838,11 @@ export default {
       return post("/smsCheckWait/addCheck", params);
     },
     // 停止分配
-    updateInterfaceSign(params) {
+    stopCheck(params) {
       return post("/smsCheckWait/stopCheck", params);
     },
     //  超审
-    deleteInterfaceSign(params) {
+    supperCheck(params) {
       return post("/smsCheckWait/supperCheck", params);
     },
   },
