@@ -458,6 +458,19 @@ export default {
         }
       });
     },
+    /**
+     * 清空默认选择项
+     * @param list 选择项
+     * @param key 选择项key值
+     * @private
+     */
+    _deleteDefaultValue(list, key) {
+      list.forEach(item => {
+        if (item.key === key) {
+          item.optionData = []
+        }
+      })
+    },
 
 
     /**

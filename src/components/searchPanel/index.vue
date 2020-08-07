@@ -31,6 +31,7 @@
                 filterable
                 :clearable="isClearAble(item)"
                 @change="_mxHandleSubmit()"
+                @focus="_mxHandleFocus()"
               >
                 <el-option
                   v-for="option in item.optionData"
@@ -156,17 +157,17 @@ export default {
           form[key] = item.defaultValue;
           this._mxHandleSubmit();
         }
-        if (api) {
-          this.$http[item.api]({ data: { ...params } }).then((res) => {
-            res.data.forEach((data) => {
-              let obj = {
-                key: data[keys[0]],
-                value: data[keys[1]],
-              };
-              item.optionData.push(obj);
-            });
-          });
-        }
+        // if (api) {
+        //   this.$http[item.api]({ data: { ...params } }).then((res) => {
+        //     res.data.forEach((data) => {
+        //       let obj = {
+        //         key: data[keys[0]],
+        //         value: data[keys[1]],
+        //       };
+        //       item.optionData.push(obj);
+        //     });
+        //   });
+        // }
       });
       this.form = form;
     },
@@ -180,6 +181,10 @@ export default {
     // 新建
     create() {
       this.$emit("create");
+    },
+    //获取焦点触发事件
+    _mxHandleFocus() {
+      this.$emit("focus");
     },
   },
   computed: {},

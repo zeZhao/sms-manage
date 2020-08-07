@@ -1,7 +1,12 @@
 <template>
   <!--敏感词-->
   <div class="sysSensitiveWord">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+      @focus="focus"
+    ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="wordName" label="敏感词" />
       <el-table-column prop="groupId" label="级别" />
@@ -44,7 +49,7 @@ export default {
       searchAPI: {
         namespace: "sysSensitiveWord",
         list: "listSensitiveWordByPage",
-        detele: "deleteSensitiveWord"
+        detele: "deleteSensitiveWord",
       },
       // 列表参数
       namespace: "sensitiveWord",
@@ -56,15 +61,15 @@ export default {
           type: "input",
           label: "敏感词",
           key: "wordName",
-          placeholder: "请输入敏感词"
+          placeholder: "请输入敏感词",
         },
         {
           type: "select",
           label: "敏感词组",
           key: "groupId",
           placeholder: "请选择敏感词组",
-          optionData: []
-        }
+          optionData: [],
+        },
       ],
       // 表单配置
       formConfig: [
@@ -74,23 +79,23 @@ export default {
           key: "wordName",
           maxlength: 50,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "敏感词组",
           key: "groupId",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "备注信息",
-          key: "remark"
-        }
+          key: "remark",
+        },
       ],
       wordId: "",
-      sysSensitiveWordGroup: []
+      sysSensitiveWordGroup: [],
     };
   },
   created() {
@@ -99,11 +104,16 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    focus() {
+      this.listSensitiveWordGroup();
+    },
     //敏感词组
     async listSensitiveWordGroup() {
+      this._deleteDefaultValue(this.searchFormConfig, "groupId");
+      this._deleteDefaultValue(this.formConfig, "groupId");
       await this.$http.sysSensitiveWordGroup
         .listSensitiveWordGroup({})
-        .then(res => {
+        .then((res) => {
           const { code, data, msg } = res;
           this.sysSensitiveWordGroup = data;
           this._setDefaultValue(
@@ -127,7 +137,7 @@ export default {
       const { wordName, groupId } = form;
       this.$http.sysSensitiveWord
         .checkSensitiveWord({ data: { wordName, groupId } })
-        .then(res => {
+        .then((res) => {
           //判断敏感词是否存在
           if (res.data === 1) {
             this.$message.error("敏感词存在！");
@@ -135,28 +145,30 @@ export default {
             if (this.formTit == "新增") {
               params = {
                 data: {
-                  ...form
-                }
+                  ...form,
+                },
               };
-              this.$http.sysSensitiveWord.addSensitiveWord(params).then(res => {
-                if (resOk(res)) {
-                  this.$message.success(res.msg || res.data);
-                  this._mxGetList();
-                  this.addChannel = false;
-                } else {
-                  this.$message.error(res.data || res.msg);
-                }
-              });
+              this.$http.sysSensitiveWord
+                .addSensitiveWord(params)
+                .then((res) => {
+                  if (resOk(res)) {
+                    this.$message.success(res.msg || res.data);
+                    this._mxGetList();
+                    this.addChannel = false;
+                  } else {
+                    this.$message.error(res.data || res.msg);
+                  }
+                });
             } else {
               params = {
                 data: {
                   wordId: this.wordId,
-                  ...form
-                }
+                  ...form,
+                },
               };
               this.$http.sysSensitiveWord
                 .updateSensitiveWord(params)
-                .then(res => {
+                .then((res) => {
                   if (resOk(res)) {
                     this.$message.success(res.msg || res.data);
                     this._mxGetList();
@@ -175,11 +187,12 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this.listSensitiveWordGroup();
     },
     edit(row) {
       this.wordId = row.wordId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -189,6 +202,7 @@ export default {
           this.$set(item, "defaultValue", "");
         }
       });
+      this.listSensitiveWordGroup();
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
@@ -196,9 +210,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
