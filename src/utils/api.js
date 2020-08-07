@@ -372,6 +372,12 @@ export default {
       return post("/sysPrepaidCard/listPrepaidCardByPage", params)
     }
   },
+  //用户日账单
+  userDailyBill: {
+    queryUserDailyBill(params) {
+      return post("/userDailyBill/queryUserDailyBill", params)
+    }
+  },
   //通道月账单
   smsGatewayBill: {
     // 列表

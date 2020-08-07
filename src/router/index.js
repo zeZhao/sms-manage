@@ -416,6 +416,16 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: '/userDailyBill/index',
+        component: () =>
+          import('@/views/FinanceManagement/userDailyBill/index'),
+        name: 'userDailyBill',
+        meta: {
+          keepAlive: true,
+          title: '用户日账单	'
+        }
+      },
+      {
         path: '/sysRecharge/index',
         component: () =>
           import('@/views/FinanceManagement/sysRecharge/index'),
