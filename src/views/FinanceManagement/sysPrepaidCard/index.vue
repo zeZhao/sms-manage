@@ -42,7 +42,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysPrepaidCard",
-        list: "listCorporateBillByPage"
+        list: "listCorporateBillByPage",
       },
       // 列表参数
       namespace: "prepaidCard",
@@ -54,7 +54,7 @@ export default {
           type: "input",
           label: "企业ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "select",
@@ -64,15 +64,15 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信"
-            }
+              value: "短信",
+            },
           ],
-          placeholder: "请选择类型"
+          placeholder: "请选择类型",
         },
         {
           type: "month",
           label: "月份",
-          key: "remark"
+          key: "remark",
         },
         {
           type: "select",
@@ -82,11 +82,11 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "月度帐单"
-            }
-          ]
-        }
-      ]
+              value: "月度帐单",
+            },
+          ],
+        },
+      ],
     };
   },
   mounted() {},
@@ -107,7 +107,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach(item => {
+      rows.forEach((item) => {
         const { cardCount, cardMoney, succCount, foreignPrice } = item;
         if (!succCount) {
           item.succCount = 0;
@@ -121,9 +121,9 @@ export default {
 
       // if()
       return rows;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
