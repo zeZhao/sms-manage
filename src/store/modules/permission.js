@@ -62,6 +62,7 @@ export function generaMenu(routes, data) {
       meta: {
         title: item.name,
         id: item.menuId,
+        icon: item.icon,
         keepAlive: true,
       }
     }

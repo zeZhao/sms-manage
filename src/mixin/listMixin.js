@@ -109,6 +109,9 @@ function queryData() {
         list = res.data.content;
         this.pageObj.total = res.data.totalElements;
         this.statistics = res.data.totalElements
+      } else if (res.data.records) {
+        list = res.data.records;
+        this.pageObj.total = res.data.total;
       } else if (res.data.pageInfo) {
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;

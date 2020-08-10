@@ -74,7 +74,8 @@ export const constantRoutes = [{
       meta: {
         title: '首页',
         affix: true,
-        breadcrumb: false
+        breadcrumb: false,
+        icon: 'el-icon-s-home'
       }
     }]
   },
@@ -93,6 +94,7 @@ export const asyncRoutes = [{
     name: '',
     meta: {
       title: 'WEB账号管理',
+      icon: "el-icon-s-operation"
     },
     children: [{
         path: '/role/index',
@@ -144,6 +146,7 @@ export const asyncRoutes = [{
     name: '',
     meta: {
       title: '用户管理',
+      icon: 'el-icon-user-solid'
     },
     children: [{
         path: '/enterprise/index',
@@ -423,6 +426,16 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: true,
           title: '用户日账单	'
+        }
+      },
+      {
+        path: '/gatewayMonthlyBill/index',
+        component: () =>
+          import('@/views/FinanceManagement/gatewayMonthlyBill/index'),
+        name: 'gatewayMonthlyBill',
+        meta: {
+          keepAlive: true,
+          title: '通道月账单（运营）	'
         }
       },
       {
@@ -742,15 +755,26 @@ export const asyncRoutes = [{
       title: '数据统计',
     },
     children: [{
-      path: '/sysTimeTasklistStatistics/index',
-      component: () =>
-        import('@/views/DataStatistics/sysTimeTasklistStatistics/index'),
-      name: 'sysTimeTasklistStatistics',
-      meta: {
-        keepAlive: true,
-        title: '定时统计'
-      }
-    }, ]
+        path: '/sysTimeTasklistStatistics/index',
+        component: () =>
+          import('@/views/DataStatistics/sysTimeTasklistStatistics/index'),
+        name: 'sysTimeTasklistStatistics',
+        meta: {
+          keepAlive: true,
+          title: '定时统计'
+        }
+      },
+      {
+        path: '/sysReport/index',
+        component: () =>
+          import('@/views/DataStatistics/sysReport/index'),
+        name: 'sysReport',
+        meta: {
+          keepAlive: true,
+          title: '用户发送情况统计'
+        }
+      },
+    ]
   },
   {
     path: '/ChannelManagement',

@@ -394,7 +394,7 @@ export default {
               this.setInfo = {};
               this.getNavList();
             } else {
-              this.$message.error(res.msg);
+              this.$message.error(res.data);
             }
           });
         } else {

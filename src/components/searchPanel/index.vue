@@ -17,7 +17,7 @@
             <template v-if="item.type === 'input'">
               <el-input
                 v-model="form[item.key]"
-                :placeholder="item.placeholder"
+                :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
                 @input="_mxHandleSubmit()"
               ></el-input>
@@ -64,14 +64,14 @@
             <!--时间范围选择-->
             <template v-if="item.type === 'timerange'">
               <el-time-picker
-                :placeholder="item.placeholder || '选择开始日期'"
+                :placeholder="item.placeholder || '选择开始时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
                 @change="_mxHandleSubmit()"
               ></el-time-picker>-
               <el-time-picker
-                :placeholder="item.placeholder || '选择结束日期'"
+                :placeholder="item.placeholder || '选择结束时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[2]]"
@@ -94,7 +94,7 @@
               <el-date-picker
                 style="width:100%"
                 type="month"
-                :placeholder="item.placeholder || '选择日期'"
+                :placeholder="item.placeholder || '选择月份'"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
                 @change="_mxHandleSubmit()"

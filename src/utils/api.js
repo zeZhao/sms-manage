@@ -378,6 +378,12 @@ export default {
       return post("/userDailyBill/queryUserDailyBill", params)
     }
   },
+  //通道月账单（运营）
+  gatewayMonthlyBill: {
+    queryList(params) {
+      return post("/gatewayMonthlyBill/queryList", params)
+    }
+  },
   //通道月账单
   smsGatewayBill: {
     // 列表
@@ -875,6 +881,17 @@ export default {
     // 查询列表
     queryTimeTaskByPage(params) {
       return post("/sysTimeTasklist/queryTimeTaskByPage", params);
+    },
+  },
+  //用户发送情况统计
+  report: {
+    // 查询列表
+    queryByPage(params) {
+      return fetch("/report/queryUserSendDetail", params);
+    },
+    //统计
+    queryUserSendDetailAll(params) {
+      return fetch("/report/queryUserSendDetailAll", params);
     },
   },
   //短信通道
