@@ -139,12 +139,6 @@ export default {
           placeholder: "发送日期",
         },
         {
-          type: "timerange",
-          label: "发送时间",
-          key: ["", "startTime", "endTime"],
-          placeholder: "请选择发送时间",
-        },
-        {
           type: "select",
           label: "是否有状态",
           key: "statusType",
@@ -172,6 +166,11 @@ export default {
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
           ],
+        },
+        {
+          type: "timerange",
+          label: "发送时间",
+          key: ["", "startTime", "endTime"],
         },
       ],
     };

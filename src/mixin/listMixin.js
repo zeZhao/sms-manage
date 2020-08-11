@@ -75,6 +75,13 @@ function queryData() {
   if (this.namespace) {
     let newF = DynamicKey.bind(this, this.namespace, searchParam)
     params = newF()
+  } else if (this.isParamsNotData) {
+    params = {
+      ...searchParam,
+      pageIndex: this.pageObj.currentPage,
+      pageNumber: this.pageObj.currentPage,
+      pageSize: this.pageObj.pageSize,
+    }
   } else {
     params = {
       data: {
@@ -116,6 +123,8 @@ function queryData() {
         list = res.data.pageInfo.list;
         this.pageObj.total = res.data.pageInfo.total;
         this.statistics = res.data.statistics
+      } else if (res.data) {
+        list = res.data;
       }
       //使用钩子再次格式化数据
       this.listData = this._mxFormListData(list);

@@ -256,7 +256,6 @@ export default {
           type: "daterange",
           label: "创建时间",
           key: ["", "startDate", "endDate"],
-          placeholder: "请选择创建时间",
         },
       ],
       // 表单配置

@@ -92,7 +92,6 @@
             type: "daterange",
             label: "时间",
             key: ['','startTime','endTime'],
-            placeholder: "请选择时间",
           },
         ],
       }

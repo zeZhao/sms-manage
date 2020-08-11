@@ -122,7 +122,6 @@ export default {
           type: "daterange",
           label: "提交日期",
           key: ["", "startTime", "endTime"],
-          placeholder: "请选择提交日期"
         }
       ]
     };

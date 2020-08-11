@@ -58,7 +58,6 @@ export default {
           type: "daterange",
           label: "统计日期",
           key: ["", "startTime", "endTime"],
-          placeholder: "统计日期通道管理"
         }
       ]
     };

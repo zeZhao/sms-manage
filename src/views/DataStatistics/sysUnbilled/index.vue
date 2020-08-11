@@ -3,27 +3,34 @@
   <div class="userDailyBill">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
-      <el-table-column prop="smsType" label="类型">
+      <el-table-column prop="corpId" label="企业ID" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
-          <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
+          <span>{{scope.row.exemptReviewType === 0?'需要审核':(scope.row.exemptReviewType === 1?'特服号':(scope.row.exemptReviewType === 2?'客户ID':(scope.row.exemptReviewType === 3?'企业ID':'')))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送条数" />
-      <el-table-column prop="successNum" label="成功数" />
-      <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column prop="successRate" label="成功率" />
-      <el-table-column prop="failRate" label="失败率" />
-      <el-table-column prop="unknownRate" label="未知率" />
-      <el-table-column label="占比">
+      <el-table-column prop="cmPassageway" label="移动通道" />
+      <el-table-column prop="cuPassageway" label="联通通道" />
+      <el-table-column prop="ctPassageway" label="电信通道" />
+      <el-table-column prop="smsType" label="免审类型">
         <template slot-scope="scope">
-          <span>{{statistics.sendNum/scope.row.sendNum}}</span>
+          <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':(scope.row.smsType === 4?'语音':'')))}}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="sendCount" label="发送量" />
+      <!-- <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            @click="_mxDeleteItem('exemptId',scope.row.exemptId)"
+            type="text"
+            size="small"
+          >删除</el-button>
+        </template>
+      </el-table-column>-->
     </el-table>
-    <p
-      style="color:red"
-    >用户总发送条数: {{statistics.sendNum}}&nbsp;&nbsp;用户总成功条数: {{statistics.successNum}}&nbsp;&nbsp;用户总成功率: {{statistics.successRate}}%&nbsp;&nbsp;用户总失败条数: {{statistics.failNum}}&nbsp;&nbsp;用户总失败率: {{statistics.failRate}}%&nbsp;&nbsp;用户总未知条数: {{statistics.unknownNum}}&nbsp;&nbsp;用户总未知率: {{statistics.unknownRate}}%</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -41,8 +48,9 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: "report",
-        list: "queryByPage",
+        namespace: "sysUnbilled",
+        list: "queryNoSendByPage",
+        detele: "deleteExemptReviewManage",
       },
       // 列表参数
       namespace: "",
@@ -70,38 +78,62 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
+          type: "input",
+          label: "特服号",
+          key: "code",
+          placeholder: "请输入特服号",
+        },
+        {
           type: "select",
           label: "类型",
-          key: "smsType",
+          key: "exemptReviewType",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
-            { key: "3", value: "屏信" },
-            { key: "4", value: "语音" },
+            // { key: "0", value: "需要审核" },
+            { key: "1", value: "特服号" },
+            { key: "2", value: "客户ID" },
+            { key: "3", value: "企业ID" },
+          ],
+          placeholder: "请选择类型",
+        },
+
+        {
+          type: "select",
+          label: "发送情况",
+          key: "sendStatus",
+          optionData: [
+            { key: "1", value: "不限制" },
+            { key: "0", value: "未发" },
+          ],
+          placeholder: "请选择发送情况",
+        },
+        {
+          type: "select",
+          label: "运营商",
+          key: "operaId",
+          optionData: [
+            // { key: "0", value: "非法" },
+            { key: "1", value: "移动" },
+            { key: "2", value: "联通" },
+            { key: "3", value: "电信" },
+            { key: "4", value: "国际" },
           ],
           placeholder: "请选择类型",
         },
         {
           type: "daterange",
-          label: "统计日期",
+          label: "统计周期",
           key: ["", "countDate", "endDate"],
         },
       ],
       statistics: {},
     };
   },
-  mounted() {
-    this.queryUserSendDetailAll();
-  },
+  mounted() {},
   computed: {},
   methods: {
-    // 获取统计
-    queryUserSendDetailAll() {
-      this.$http.report.queryUserSendDetailAll({}).then((res) => {
-        this.statistics = Object.assign({}, res.data);
-        console.log(this.statistics);
-      });
-    },
+    // 删除
+    _delete(row) {},
+
     // 修改搜索参数
     _formatRequestData(data) {
       const { countDate, endDate } = data;

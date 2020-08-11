@@ -116,17 +116,16 @@ export default {
           placeholder: "发送日期",
         },
         {
-          type: "timerange",
-          label: "发送时间",
-          key: ["", "startTime", "endTime"],
-          placeholder: "请选择发送时间",
-        },
-        {
           type: "select",
           label: "省份",
           key: "province",
           placeholder: "请选择省份",
           optionData: [],
+        },
+        {
+          type: "timerange",
+          label: "发送时间",
+          key: ["", "startTime", "endTime"],
         },
       ],
     };

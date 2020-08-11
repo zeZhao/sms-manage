@@ -883,6 +883,31 @@ export default {
       return post("/sysTimeTasklist/queryTimeTaskByPage", params);
     },
   },
+  // 成功率统计
+  sysSuccessRate: {
+    // 查询列表
+    querySendDetail(params) {
+      return fetch("/report/querySendDetail", params);
+    },
+  },
+  // 实时数据查询
+  sysRealTimeData: {
+    // 查询列表
+    realTimeData(params) {
+      return fetch("/report/realTimeData", params);
+    },
+  },
+  // 免审未发统计
+  sysUnbilled: {
+    // 查询列表
+    queryNoSendByPage(params) {
+      return fetch("/sysExemptReviewManage/queryNoSendByPage", params);
+    },
+    //  删除
+    deleteExemptReviewManage(params) {
+      return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
+    },
+  },
   //用户发送情况统计
   report: {
     // 查询列表

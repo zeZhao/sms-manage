@@ -55,7 +55,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysTimeTasklist",
-        list: "listTimeTasklistByPage"
+        list: "listTimeTasklistByPage",
       },
       // 列表参数
       namespace: "sysTimeTasklist",
@@ -67,43 +67,43 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入用户名称",
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容"
+          placeholder: "请输入内容",
         },
         {
           type: "input",
           label: "CID",
           key: "cId",
-          placeholder: "请输入CID"
+          placeholder: "请输入CID",
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号"
+          placeholder: "请输入手机号",
         },
         {
           type: "input",
           label: "网关",
           key: "gateway",
-          placeholder: "请输入网关"
+          placeholder: "请输入网关",
         },
         // {
         //   type: "input",
@@ -111,12 +111,7 @@ export default {
         //   key: "code",
         //   placeholder: "请输入特服号"
         // },
-        {
-          type: "daterange",
-          label: "定时时间",
-          key: ["", "startTimeS", "endTimeS"],
-          placeholder: "定时时间"
-        },
+
         {
           type: "select",
           label: "是否发送",
@@ -124,22 +119,27 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "未发送"
+              value: "未发送",
             },
             {
               key: "1",
-              value: "已发送"
-            }
+              value: "已发送",
+            },
           ],
-          placeholder: "是否发送"
-        }
-      ]
+          placeholder: "是否发送",
+        },
+        {
+          type: "daterange",
+          label: "定时时间",
+          key: ["", "startTimeS", "endTimeS"],
+        },
+      ],
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {}
+  watch: {},
 };
 </script>
 

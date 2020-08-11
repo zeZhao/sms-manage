@@ -115,7 +115,6 @@ export default {
           type: "timerange",
           label: "提交时间",
           key: ["", "startTime", "endTime"],
-          placeholder: "请选择提交时间",
         },
       ],
     };

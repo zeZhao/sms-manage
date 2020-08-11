@@ -47,15 +47,13 @@
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择开始日期'"
-                style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
                 @change="_mxHandleSubmit()"
-              ></el-date-picker>-
+              ></el-date-picker>
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择结束日期'"
-                style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[2]]"
                 @change="_mxHandleSubmit()"

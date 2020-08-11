@@ -40,7 +40,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysAlarmMessage",
-        list: "listAlarmMessageByPage"
+        list: "listAlarmMessageByPage",
       },
       // 列表参数
       namespace: "alarmMessage",
@@ -52,19 +52,19 @@ export default {
           type: "input",
           label: "编号",
           key: "num",
-          placeholder: "请输入编号"
+          placeholder: "请输入编号",
         },
         {
           type: "input",
           label: "服务器编号",
           key: "serverNum",
-          placeholder: "请输入服务器编号"
+          placeholder: "请输入服务器编号",
         },
         {
           type: "input",
           label: "应用模块",
           key: "useModule",
-          placeholder: "请输入应用模块"
+          placeholder: "请输入应用模块",
         },
         {
           type: "select",
@@ -74,41 +74,40 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "提醒"
+              value: "提醒",
             },
             {
               key: 1,
-              value: "一般"
+              value: "一般",
             },
             {
               key: 2,
-              value: "重要"
+              value: "重要",
             },
             {
               key: 3,
-              value: "严重"
-            }
-          ]
-        },
-        {
-          type: "daterange",
-          label: "时间",
-          key: ["", "startTime", "endTime"],
-          placeholder: "请选择时间"
+              value: "严重",
+            },
+          ],
         },
         {
           type: "input",
           label: "错误码",
           key: "errNum",
-          placeholder: "错误码"
-        }
-      ]
+          placeholder: "错误码",
+        },
+        {
+          type: "daterange",
+          label: "时间",
+          key: ["", "startTime", "endTime"],
+        },
+      ],
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {}
+  watch: {},
 };
 </script>
 

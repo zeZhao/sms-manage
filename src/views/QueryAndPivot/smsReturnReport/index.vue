@@ -118,7 +118,6 @@ export default {
           type: "timerange",
           label: "返回状态报告时间",
           key: ["", "startTime", "endTime"],
-          placeholder: "请选择返回状态报告时间",
         },
         // {
         //   type: "select",

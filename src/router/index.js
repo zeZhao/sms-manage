@@ -774,6 +774,36 @@ export const asyncRoutes = [{
           title: '用户发送情况统计'
         }
       },
+      {
+        path: '/sysSuccessRate/index',
+        component: () =>
+          import('@/views/DataStatistics/sysSuccessRate/index'),
+        name: 'sysSuccessRate',
+        meta: {
+          keepAlive: true,
+          title: '成功率统计'
+        }
+      },
+      {
+        path: '/sysRealTimeData/index',
+        component: () =>
+          import('@/views/DataStatistics/sysRealTimeData/index'),
+        name: 'sysRealTimeData',
+        meta: {
+          keepAlive: true,
+          title: '实时数据查询'
+        }
+      },
+      {
+        path: '/sysUnbilled/index',
+        component: () =>
+          import('@/views/DataStatistics/sysUnbilled/index'),
+        name: 'sysUnbilled',
+        meta: {
+          keepAlive: true,
+          title: '免审未发统计'
+        }
+      },
     ]
   },
   {
