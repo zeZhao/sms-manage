@@ -15,11 +15,11 @@
       <el-table-column prop="successRate" label="成功率" />
       <el-table-column prop="failRate" label="失败率" />
       <el-table-column prop="unknownRate" label="未知率" />
-      <el-table-column label="占比">
-        <template slot-scope="scope">
-          <span>{{statistics.sendNum/scope.row.sendNum}}</span>
+      <el-table-column prop="proportion" label="占比" />
+      <!-- <template slot-scope="scope">
+          <span>{{parseInt(scope.row.sendNum/statistics.sendNum)*100}}%</span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
     </el-table>
     <p
       style="color:red"
@@ -121,15 +121,15 @@ export default {
      */
     _mxFormListData(rows) {
       rows.forEach((item) => {
-        const { cardCount, cardMoney, succCount, foreignPrice } = item;
-        if (!succCount) {
-          item.succCount = 0;
-        }
-        if (!foreignPrice) {
-          item.foreignPrice = 0;
-        }
-        this.$set(item, "sumReductType", cardCount + succCount);
-        this.$set(item, "sumCardMoney", cardMoney + foreignPrice);
+        const { sendNum } = item;
+        let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
+        // if (!succCount) {
+        //   item.succCount = 0;
+        // }
+        // if (!foreignPrice) {
+        //   item.foreignPrice = 0;
+        // }
+        this.$set(item, "proportion", `${proportion}%`);
       });
 
       // if()
