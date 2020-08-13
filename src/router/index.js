@@ -690,6 +690,16 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: '/sendRecord/index',
+        component: () =>
+          import('@/views/QueryAndPivot/sendRecord/index'),
+        name: 'sendRecord',
+        meta: {
+          keepAlive: true,
+          title: '发送记录'
+        }
+      },
+      {
         path: '/smsReturnReport/index',
         component: () =>
           import('@/views/QueryAndPivot/smsReturnReport/index'),
@@ -792,6 +802,16 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: true,
           title: '用户发送情况统计'
+        }
+      },
+      {
+        path: '/userChannelStatistics/index',
+        component: () =>
+          import('@/views/DataStatistics/userChannelStatistics/index'),
+        name: 'userChannelStatistics',
+        meta: {
+          keepAlive: true,
+          title: '用户通道统计'
         }
       },
       {
