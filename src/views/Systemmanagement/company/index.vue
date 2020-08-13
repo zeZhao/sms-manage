@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true">
         <el-form-item>
-          <el-input v-model="searchForm.roleName" clearable placeholder="登录账号" />
+          <el-input v-model="searchForm.loginName" clearable placeholder="登录账号" />
         </el-form-item>
         <el-form-item>
           <el-input v-model="searchForm.userId" clearable placeholder="用户ID" />
@@ -217,11 +217,11 @@ export default {
     },
     // 列表
     orderList: function() {
-      const { roleName, userId, corpId } = this.searchForm;
+      const { loginName, userId, corpId } = this.searchForm;
       const params = {
         data: {
           webUser: {
-            roleName: roleName,
+            loginName: loginName,
             userId: userId,
             corpId: corpId
           },
