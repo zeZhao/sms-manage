@@ -474,6 +474,7 @@ export default {
         {
           type: "checkbox",
           label: "黑名单类型",
+          initDefaultValue: ["1", "3"],
           defaultValue: ["1", "3"],
           key: "blackLevel",
           optionData: [
@@ -526,6 +527,40 @@ export default {
   },
   computed: {},
   methods: {
+    //修改
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach((item) => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
+    _mxArrangeEditData(row) {
+      for (let key in row) {
+        if (key === "blackLevel") {
+          if (typeof row[key] === "string") {
+            let arr = row[key].split(",");
+            row[key] = arr.map((item) => {
+              return Number(item);
+            });
+          }
+        }
+      }
+      return row;
+    },
     // 审核
     _mxCheck(row, ID) {
       row = this._mxArrangeEditData(row);

@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true">
         <el-form-item>
-          <el-input v-model="roleIdSearch" clearable placeholder="角色ID" />
+          <el-input v-model="roleIdSearch" type="number" clearable placeholder="角色ID" />
         </el-form-item>
         <el-form-item>
           <el-input v-model="roleName" clearable placeholder="角色名称" />
@@ -247,7 +247,7 @@ export default {
       setRoleMenu: false,
       defaultProps: {
         children: "childMenu",
-        label: "name"
+        label: "name",
       },
       navList: [],
       addNavList: [],
@@ -256,15 +256,15 @@ export default {
         custId: "",
         custName: "",
         roleType: "",
-        des: ""
+        des: "",
       },
       addInfo: {
         custName: "",
         roleType: "1",
-        des: ""
+        des: "",
       },
       updateFormRules: {
-        contactMobile: [{ validator: validatePhone, trigger: "blur" }]
+        contactMobile: [{ validator: validatePhone, trigger: "blur" }],
       },
       companyOptions: [], // 企业全称下拉项
       pickerOptions: {
@@ -276,7 +276,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近一个月",
@@ -285,7 +285,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近三个月",
@@ -294,17 +294,17 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      }
+            },
+          },
+        ],
+      },
     };
   },
   mounted() {
     this.orderList();
   },
   filters: {
-    formatDate: function(value) {
+    formatDate: function (value) {
       // var val = JSON.parse(value)
       var date = new Date(value); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
       var Y = date.getFullYear() + "-";
@@ -322,7 +322,7 @@ export default {
       var s =
         date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       return Y + M + D + h + m + s;
-    }
+    },
   },
   methods: {
     checkPermission,
@@ -341,23 +341,23 @@ export default {
       this.orderList(); // 确定当前页面后刷新页面
     },
     // 条件批量推送
-    allPushrderList: function() {
+    allPushrderList: function () {
       this.allOrderStatusInfo = true;
     },
     // 列表
-    orderList: function() {
+    orderList: function () {
       const params = {
         data: {
           role: {
             roleId: this.roleIdSearch,
             roleName: this.roleName,
-            roleType: this.roleType
+            roleType: this.roleType,
           },
           pageNumber: this.cur_page,
-          pageSize: this.pageNum
-        }
+          pageSize: this.pageNum,
+        },
       };
-      this.$http.role.roleList(params).then(res => {
+      this.$http.role.roleList(params).then((res) => {
         if (res.code == "200") {
           this.dataList = res.data.list;
           this.totalCount = Number(res.data.total);
@@ -369,14 +369,14 @@ export default {
     updateStatus(e, id) {
       let params = {
         roleId: id,
-        status: e
+        status: e,
       };
-      this.$http.role.updateStatus(params).then(res => {
+      this.$http.role.updateStatus(params).then((res) => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "修改成功",
-            type: "success"
+            type: "success",
           });
           this.orderList();
         } else {
@@ -405,15 +405,15 @@ export default {
         message: h("div", null, [h("p", null, txt)]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
       })
-        .then(action => {
+        .then((action) => {
           this.updateStatus(e, id);
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消修改"
+            message: "已取消修改",
           });
           this.orderList();
         });
@@ -425,19 +425,19 @@ export default {
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
+          type: "warning",
         }
       )
         .then(() => {
           let params = {
-            roleId: row.roleId
+            roleId: row.roleId,
           };
-          this.$http.role.delete(params).then(res => {
+          this.$http.role.delete(params).then((res) => {
             if (res.code == "200") {
               this.$message({
                 showClose: true,
                 message: "删除成功",
-                type: "success"
+                type: "success",
               });
               this.orderList();
             } else {
@@ -452,19 +452,19 @@ export default {
       let params = {
         roleName: this.addInfo.custName,
         roleType: this.addInfo.roleType,
-        status: "1"
+        status: "1",
       };
       if (this.addInfo.custName == "") {
         return this.$message.error("请填写角色名称");
       } else if (this.addInfo.roleType == "") {
         return this.$message.error("请选择角色类型");
       }
-      this.$http.role.addOrUpdate(params).then(res => {
+      this.$http.role.addOrUpdate(params).then((res) => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "新增成功",
-            type: "success"
+            type: "success",
           });
           this.addInfo.roleName = "";
           this.setNavuserList(res.data, 1);
@@ -491,19 +491,19 @@ export default {
         roleId: this.setInfo.custId,
         roleName: this.setInfo.custName,
         roleType: this.setInfo.roleType,
-        des: this.setInfo.des
+        des: this.setInfo.des,
       };
       if (this.setInfo.roleName == "") {
         return this.$message.error("请填写角色名称");
       } else if (this.setInfo.roleType == "") {
         return this.$message.error("请选择角色类型");
       }
-      this.$http.role.addOrUpdate(params).then(res => {
+      this.$http.role.addOrUpdate(params).then((res) => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "修改成功",
-            type: "success"
+            type: "success",
           });
           this.setInfo.custId = "";
           this.setInfo.custName = "";
@@ -520,9 +520,9 @@ export default {
     deleteCustomer(id, type) {
       this.roleId = id;
       let params = {
-        roleId: id
+        roleId: id,
       };
-      this.$http.role.queryRoleMenu(params).then(res => {
+      this.$http.role.queryRoleMenu(params).then((res) => {
         if (res.code == "200") {
           this.navList = res.data;
           this.treeDataTranslate(res.data);
@@ -536,9 +536,9 @@ export default {
       this.navListId = [];
       let params = {
         status: 1,
-        type: this.addInfo.roleType
+        type: this.addInfo.roleType,
       };
-      this.$http.nav.selectMenuList(params).then(res => {
+      this.$http.nav.selectMenuList(params).then((res) => {
         if (res.code == "200") {
           this.addNavList = res.data;
           // this.$refs.tree.setCheckedKeys(this.navListId);
@@ -555,7 +555,7 @@ export default {
         let menuIds = CheckedKeys.concat(HalfCheckedKeys);
         var params = {
           roleId: id,
-          menuIds: menuIds
+          menuIds: menuIds,
         };
       } else {
         let CheckedKeys = this.$refs.tree.getCheckedKeys();
@@ -563,10 +563,10 @@ export default {
         let menuIds = CheckedKeys.concat(HalfCheckedKeys);
         var params = {
           roleId: this.roleId,
-          menuIds: menuIds
+          menuIds: menuIds,
         };
       }
-      this.$http.role.updateRoleMenu(params).then(res => {
+      this.$http.role.updateRoleMenu(params).then((res) => {
         if (res.code == "200") {
           this.customerAddInfo = false;
           this.customerInfo = false;
@@ -585,8 +585,8 @@ export default {
           this.treeDataTranslate(item.childMenu);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

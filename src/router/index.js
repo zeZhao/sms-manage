@@ -429,6 +429,16 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: '/userMonthlyBill/index',
+        component: () =>
+          import('@/views/FinanceManagement/userMonthlyBill/index'),
+        name: 'userMonthlyBill',
+        meta: {
+          keepAlive: true,
+          title: '用户月账单	'
+        }
+      },
+      {
         path: '/gatewayMonthlyBill/index',
         component: () =>
           import('@/views/FinanceManagement/gatewayMonthlyBill/index'),
@@ -617,6 +627,16 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: true,
           title: '定时'
+        }
+      },
+      {
+        path: '/sendAcrossDays/index',
+        component: () =>
+          import('@/views/QueryAndPivot/sendAcrossDays/index'),
+        name: 'sendAcrossDays',
+        meta: {
+          keepAlive: true,
+          title: '发送跨天列表查询'
         }
       },
       {

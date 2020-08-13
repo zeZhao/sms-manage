@@ -378,6 +378,12 @@ export default {
       return post("/userDailyBill/queryUserDailyBill", params)
     }
   },
+  //用户月账单
+  userMonthlyBill: {
+    queryList(params) {
+      return post("/userMonthlyBill/queryList", params)
+    }
+  },
   //通道月账单（运营）
   gatewayMonthlyBill: {
     queryList(params) {
@@ -750,6 +756,13 @@ export default {
     // 查询列表
     listTimeTasklistByPage(params) {
       return post("/sysTimeTasklist/listTimeTasklistByPage", params);
+    }
+  },
+  // 发送跨天列表查询
+  sendAcrossDays: {
+    // 查询列表
+    queryList(params) {
+      return post("/sendAcrossDays/queryList", params);
     }
   },
   // 待发
