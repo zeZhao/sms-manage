@@ -102,7 +102,7 @@ export const asyncRoutes = [{
           import('@/views/Systemmanagement/role/index'),
         name: 'role',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '角色管理'
         }
       },
@@ -112,7 +112,7 @@ export const asyncRoutes = [{
           import('@/views/Systemmanagement/nav/index'),
         name: 'nav',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '菜单管理'
         }
       }, {
@@ -121,7 +121,7 @@ export const asyncRoutes = [{
           import('@/views/Systemmanagement/user/index'),
         name: 'user',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '运营账号'
         }
       }, {
@@ -130,7 +130,7 @@ export const asyncRoutes = [{
           import('@/views/Systemmanagement/company/index'),
         name: 'company',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '商户管理'
         }
       }
@@ -154,7 +154,7 @@ export const asyncRoutes = [{
           import('@/views/Usermanagement/enterprise/index'),
         name: 'enterprise',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '企业信息'
         }
       },
@@ -164,7 +164,7 @@ export const asyncRoutes = [{
           import('@/views/Usermanagement/userManagement/index1'),
         name: 'userManagement',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户信息'
         }
       }
@@ -186,7 +186,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysResendConfig/index'),
         name: 'sysResendConfig',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '重发通道配置'
         }
       },
@@ -196,7 +196,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysSignRoute/index'),
         name: 'sysSignRoute',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '签名路由管理'
         }
       },
@@ -206,7 +206,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysSendLimit/index'),
         name: 'sysSendLimit',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '发送上限'
         }
       },
@@ -216,7 +216,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysGatewayGroup/index'),
         name: 'sysGatewayGroup',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '通道组配置'
         }
       },
@@ -226,7 +226,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysProvinceRoute/index'),
         name: 'sysProvinceRoute',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '分省路由'
         }
       },
@@ -236,7 +236,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysCustomerChannelStrategy/index'),
         name: 'sysCustomerChannelStrategy',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '客户通道策略'
         }
       }, {
@@ -245,7 +245,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/mmsUserGateway/index'),
         name: 'mmsUserGateway',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '彩信用户通道配置'
         }
       }, {
@@ -254,7 +254,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysSignCheck/index'),
         name: 'sysSignCheck',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '签名管理'
         }
       }, {
@@ -263,7 +263,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysSensitiveWord/index'),
         name: 'sysSensitiveWord',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '敏感词'
         }
       }, {
@@ -272,7 +272,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysSensitiveWordGroup/index'),
         name: 'sysSensitiveWordGroup',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '敏感词类别'
         }
       },
@@ -282,7 +282,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysWhitelist/index'),
         name: 'sysWhitelist',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '白名单管理'
         }
       },
@@ -292,7 +292,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysBlacklist/index'),
         name: 'sysBlacklist',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '黑名单管理'
         }
       },
@@ -302,7 +302,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysRedList/index'),
         name: 'sysRedList',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '红名单管理'
         }
       },
@@ -312,7 +312,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysSecondaryRoute/index'),
         name: 'sysSecondaryRoute',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '二次路由'
         }
       },
@@ -322,7 +322,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysInterfaceSign/index'),
         name: 'sysInterfaceSign',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '接口加强签名'
         }
       },
@@ -332,7 +332,7 @@ export const asyncRoutes = [{
           import('@/views/ConfigManagement/sysExemptReviewManage/index'),
         name: 'sysExemptReviewManage',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '免审管理'
         }
       },
@@ -354,7 +354,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/corpUserBalance/index'),
         name: 'corpUserBalance',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户余额'
         }
       },
@@ -364,7 +364,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/smsBalanceopt/index'),
         name: 'smsBalanceopt',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '余额调整记录'
         }
       },
@@ -374,7 +374,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysCompanyIncome/index'),
         name: 'sysCompanyIncome',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '收入信息'
         }
       },
@@ -384,7 +384,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/userBalanceDaily/index'),
         name: 'userBalanceDaily',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '零点余额'
         }
       },
@@ -394,7 +394,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysPrepaidCard/index'),
         name: 'sysPrepaidCard',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '企业月账单'
         }
       },
@@ -404,7 +404,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysGatewayBill/index'),
         name: 'sysGatewayBill',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '通道月账单	'
         }
       },
@@ -414,7 +414,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysUserPrepaidCard/index'),
         name: 'sysUserPrepaidCard',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户月账单	'
         }
       },
@@ -424,7 +424,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/userDailyBill/index'),
         name: 'userDailyBill',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户日账单	'
         }
       },
@@ -434,7 +434,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/userMonthlyBill/index'),
         name: 'userMonthlyBill',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户月账单	'
         }
       },
@@ -444,7 +444,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/gatewayMonthlyBill/index'),
         name: 'gatewayMonthlyBill',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '通道月账单（运营）	'
         }
       },
@@ -454,7 +454,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysRecharge/index'),
         name: 'sysRecharge',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '充值'
         }
       },
@@ -464,7 +464,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysFinancialControl/index'),
         name: 'sysFinancialControl',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '财务审核'
         }
       },
@@ -474,7 +474,7 @@ export const asyncRoutes = [{
           import('@/views/FinanceManagement/sysExpensesInfo/index'),
         name: 'sysExpensesInfo',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '支出信息'
         }
       },
@@ -496,7 +496,7 @@ export const asyncRoutes = [{
         import('@/views/Alertmanagement/sysAlarmMessage/index'),
       name: 'sysAlarmMessage',
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         title: '报警信息'
       }
     }, {
@@ -505,7 +505,7 @@ export const asyncRoutes = [{
         import('@/views/Alertmanagement/sysGatewayAlarm/index'),
       name: 'sysGatewayAlarm',
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         title: '通道警报'
       }
     }, {
@@ -514,7 +514,7 @@ export const asyncRoutes = [{
         import('@/views/Alertmanagement/sysUserAlarm/index'),
       name: 'sysUserAlarm',
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         title: '用户警报'
       }
     }, {
@@ -523,7 +523,7 @@ export const asyncRoutes = [{
         import('@/views/Alertmanagement/sysAlarmType/index'),
       name: 'sysAlarmType',
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         title: '报警类别'
       }
     }, {
@@ -532,7 +532,7 @@ export const asyncRoutes = [{
         import('@/views/Alertmanagement/sysAlarmMessageStatistics/index'),
       name: 'sysAlarmMessageStatistics',
       meta: {
-        keepAlive: true,
+        keepAlive: false,
         title: '报警信息统计表'
       }
     }, ]
@@ -553,7 +553,7 @@ export const asyncRoutes = [{
           import('@/views/SalesManagement/sysSalesGroup/index'),
         name: 'sysSalesGroup',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '销售组管理'
         }
       },
@@ -563,7 +563,7 @@ export const asyncRoutes = [{
           import('@/views/SalesManagement/sysSales/index'),
         name: 'sysSales',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '销售员'
         }
       },
@@ -585,7 +585,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsCheckMobile/index'),
         name: 'smsCheckMobile',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '审核号码'
         }
       },
@@ -595,7 +595,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsShortUrl/index'),
         name: 'smsShortUrl',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '短连接查询'
         }
       },
@@ -605,7 +605,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsMoQueue/index'),
         name: 'smsMoQueue',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '上行信息'
         }
       },
@@ -615,7 +615,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsCheck/index'),
         name: 'smsCheck',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '审核查询'
         }
       },
@@ -625,7 +625,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/sysTimeTasklist/index'),
         name: 'sysTimeTasklist',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '定时'
         }
       },
@@ -635,7 +635,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/sendAcrossDays/index'),
         name: 'sendAcrossDays',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '发送跨天列表查询'
         }
       },
@@ -645,7 +645,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsSendTask/index'),
         name: 'smsSendTask',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '待发'
         }
       },
@@ -655,7 +655,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/sysSendError/index'),
         name: 'sysSendError',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '网关错误'
         }
       },
@@ -665,7 +665,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/sysRouteReturnError/index'),
         name: 'sysRouteReturnError',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '失败原因数据统计'
         }
       },
@@ -675,7 +675,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsProfit/index'),
         name: 'smsProfit',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户利润查询'
         }
       },
@@ -685,7 +685,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/sendLogFegin/index'),
         name: 'sendLogFegin',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '提交记录'
         }
       },
@@ -695,7 +695,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/sendRecord/index'),
         name: 'sendRecord',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '发送记录'
         }
       },
@@ -705,7 +705,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsReturnReport/index'),
         name: 'smsReturnReport',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '返回报告'
         }
       },
@@ -715,7 +715,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsTxReport/index'),
         name: 'smsTxReport',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '发送报告'
         }
       },
@@ -725,7 +725,7 @@ export const asyncRoutes = [{
           import('@/views/QueryAndPivot/smsTxReturnReport/index'),
         name: 'smsTxReturnReport',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '发送返回报告'
         }
       },
@@ -748,7 +748,7 @@ export const asyncRoutes = [{
           import('@/views/AuditsManagement/smsCheckWait/index'),
         name: 'smsCheckWait',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '待审'
         }
       },
@@ -758,7 +758,7 @@ export const asyncRoutes = [{
           import('@/views/AuditsManagement/smsCheckTemplate/index'),
         name: 'smsCheckTemplate',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '待审模板'
         },
       },
@@ -768,7 +768,7 @@ export const asyncRoutes = [{
           import('@/views/AuditsManagement/smsCheckSign/index'),
         name: 'smsCheckSign',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '待审签名'
         },
       },
@@ -790,7 +790,7 @@ export const asyncRoutes = [{
           import('@/views/DataStatistics/sysTimeTasklistStatistics/index'),
         name: 'sysTimeTasklistStatistics',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '定时统计'
         }
       },
@@ -800,7 +800,7 @@ export const asyncRoutes = [{
           import('@/views/DataStatistics/sysReport/index'),
         name: 'sysReport',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户发送情况统计'
         }
       },
@@ -810,7 +810,7 @@ export const asyncRoutes = [{
           import('@/views/DataStatistics/userChannelStatistics/index'),
         name: 'userChannelStatistics',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '用户通道统计'
         }
       },
@@ -820,7 +820,7 @@ export const asyncRoutes = [{
           import('@/views/DataStatistics/sysSuccessRate/index'),
         name: 'sysSuccessRate',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '成功率统计'
         }
       },
@@ -830,7 +830,7 @@ export const asyncRoutes = [{
           import('@/views/DataStatistics/sysRealTimeData/index'),
         name: 'sysRealTimeData',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '实时数据查询'
         }
       },
@@ -840,7 +840,7 @@ export const asyncRoutes = [{
           import('@/views/DataStatistics/sysUnbilled/index'),
         name: 'sysUnbilled',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '免审未发统计'
         }
       },
@@ -862,7 +862,7 @@ export const asyncRoutes = [{
           import('@/views/ChannelManagement/gateway/index'),
         name: 'gateway',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '短信通道'
         }
       },
@@ -872,7 +872,7 @@ export const asyncRoutes = [{
           import('@/views/ChannelManagement/mmsGateway/index'),
         name: 'mmsGateway',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '彩信通道'
         }
       },
@@ -882,7 +882,7 @@ export const asyncRoutes = [{
           import('@/views/ChannelManagement/smsTestSendTask/index'),
         name: 'smsTestSendTask',
         meta: {
-          keepAlive: true,
+          keepAlive: false,
           title: '测试发送接口'
         }
       },
