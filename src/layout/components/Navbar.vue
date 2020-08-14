@@ -12,7 +12,7 @@
     <div class="right-menu">
       <span class="el-breadcrumb__item fontColor">账户名称：{{ custName }}&nbsp;&nbsp;/&nbsp;&nbsp;</span>
       <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
+        <!-- <search id="header-search" class="right-menu-item" /> -->
 
         <error-log class="errLog-container right-menu-item hover-effect" />
 
