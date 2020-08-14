@@ -111,35 +111,35 @@ export default {
         password: "",
         verifyCode: "",
         uuid: this.common.randomNum(),
-        time: this.common.getTime()
+        time: this.common.getTime(),
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername }
+          { required: true, trigger: "blur", validator: validateUsername },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword }
-        ]
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       passwordType: "password",
       capsTooltip: false,
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
     };
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         const query = route.query;
         if (query) {
           this.redirect = query.redirect;
           this.otherQuery = this.getOtherQuery(query);
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
@@ -206,7 +206,7 @@ export default {
         alert("请输入密码");
         return;
       }
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           // 代码调到了src/store下的user.js,调用了里面的LoginByUsername方法
@@ -214,7 +214,7 @@ export default {
             account: this.loginForm.username,
             pwd: this.loginForm.password,
             verifyCode: this.loginForm.verifyCode,
-            uuId: this.loginForm.uuid
+            uuId: this.loginForm.uuid,
           };
           this.$store
             .dispatch("user/LoginByUsername", formDtat)
@@ -222,7 +222,7 @@ export default {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
                 path: this.redirect || "/inedx",
-                query: this.otherQuery
+                query: this.otherQuery,
               });
               this.loading = false;
             })
@@ -230,7 +230,7 @@ export default {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
                 path: this.redirect || "/index",
-                query: this.otherQuery
+                query: this.otherQuery,
               });
               this.getCaptcha();
               this.loading = false;
@@ -248,7 +248,7 @@ export default {
         }
         return acc;
       }, {});
-    }
+    },
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
     //     const code = getQueryObject(e.newValue)
@@ -267,7 +267,7 @@ export default {
     //     }
     //   }
     // }
-  }
+  },
 };
 </script>
 
