@@ -99,13 +99,14 @@ export default {
     exportPlatform(row) {
       const { chargeType, corporateId, remark } = row;
       const countDate = remark.substring(0, 7);
-      this.$http.sysPrepaidCard
-        .exportPlatform({
-          smsType: chargeType, corporateId, countDate, direct: "1"
-        })
-        .then((res) => {
+      window.location.href = `/sysPrepaidCard/exportPlatform?corporateId=${corporateId}&smsType=${chargeType}&countDate=${countDate}&direct=1`
+      // this.$http.sysPrepaidCard
+      //   .exportPlatform({
+      //     smsType: chargeType, corporateId, countDate, direct: "1"
+      //   })
+      //   .then((res) => {
           
-        });
+      //   });
     },
     //导出直连账单
     exportDirectLink(row) {
