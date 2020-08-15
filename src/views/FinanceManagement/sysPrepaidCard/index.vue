@@ -19,8 +19,10 @@
       <el-table-column prop="remark" label="备注" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="exportPlatform(scope.row)">导出平台账单</el-button>
-          <el-button type="text" size="small" @click="exportDirectLink(scope.row)">导出直连账单</el-button>
+          <a :href="`/api/sysPrepaidCard/exportPlatform?corporateId=${scope.row.corporateId}&smsType=${scope.row.chargeType}&countDate=${scope.row.countDate}&direct=1`" title="导出平台账单" target="_blank">导出平台账单</a>
+          <a :href="`/api/sysPrepaidCard/exportPlatform?corporateId=${scope.row.corporateId}&smsType=${scope.row.chargeType}&countDate=${scope.row.countDate}&direct=1`" title="导出平台账单" target="_blank">导出平台账单</a>
+          <!-- <el-button type="text" size="small" @click="exportPlatform(scope.row)">导出平台账单</el-button> -->
+          <!-- <el-button type="text" size="small" @click="exportDirectLink(scope.row)">导出直连账单</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -99,7 +101,7 @@ export default {
     exportPlatform(row) {
       const { chargeType, corporateId, remark } = row;
       const countDate = remark.substring(0, 7);
-      window.location.href = `/sysPrepaidCard/exportPlatform?corporateId=${corporateId}&smsType=${chargeType}&countDate=${countDate}&direct=1`
+      top.location.href = `/api/sysPrepaidCard/exportPlatform?corporateId=${corporateId}&smsType=${chargeType}&countDate=${countDate}&direct=1`
       // this.$http.sysPrepaidCard
       //   .exportPlatform({
       //     smsType: chargeType, corporateId, countDate, direct: "1"
