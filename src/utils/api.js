@@ -378,7 +378,8 @@ export default {
     },
     //导出平台账单
     exportPlatform(params) {
-      return fetch("/sysPrepaidCard/exportPlatform", params)
+      return post("/sysPrepaidCard/exportPlatform", params)
+      
     },
     //导出直连账单
     exportDirectLink(params) {
