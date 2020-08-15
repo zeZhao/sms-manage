@@ -101,9 +101,11 @@ export default {
       const countDate = remark.substring(0, 7);
       this.$http.sysPrepaidCard
         .exportPlatform({
-          data: { smsType: chargeType, corporateId, countDate, isdirect: "1" },
+          smsType: chargeType, corporateId, countDate, direct: "1"
         })
-        .then((res) => {});
+        .then((res) => {
+          
+        });
     },
     //导出直连账单
     exportDirectLink(row) {
