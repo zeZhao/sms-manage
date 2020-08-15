@@ -815,6 +815,36 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: '/sendReportStatistics/index',
+        component: () =>
+          import('@/views/DataStatistics/sendReportStatistics/index'),
+        name: 'sendReportStatistics',
+        meta: {
+          keepAlive: false,
+          title: '发送报告统计'
+        }
+      },
+      {
+        path: '/returnReportStatistics/index',
+        component: () =>
+          import('@/views/DataStatistics/returnReportStatistics/index'),
+        name: 'returnReportStatistics',
+        meta: {
+          keepAlive: false,
+          title: '返回报告统计'
+        }
+      },
+      {
+        path: '/submitStatistics/index',
+        component: () =>
+          import('@/views/DataStatistics/submitStatistics/index'),
+        name: 'submitStatistics',
+        meta: {
+          keepAlive: false,
+          title: '提交统计'
+        }
+      },
+      {
         path: '/sysSuccessRate/index',
         component: () =>
           import('@/views/DataStatistics/sysSuccessRate/index'),
@@ -874,6 +904,16 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: false,
           title: '彩信通道'
+        }
+      },
+      {
+        path: '/sysComplaint/index',
+        component: () =>
+          import('@/views/ChannelManagement/sysComplaint/index'),
+        name: 'sysComplaint',
+        meta: {
+          keepAlive: false,
+          title: '投诉录入'
         }
       },
       {

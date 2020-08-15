@@ -298,6 +298,17 @@ export default {
       return post("/mmsUserGateway/addMmsUserGateway", params);
     },
   },
+  //投诉录入
+  sysComplaint: {
+    // 分页查询列表
+    queryByPage(params) {
+      return post("/sysComplaint/queryByPage", params);
+    },
+    // 添加、修改
+    addOrUpdate(params) {
+      return post("/sysComplaint/addOrUpdate", params);
+    },
+  },
   // 签名管理
   sysSignCheck: {
     // 分页查询列表
@@ -953,6 +964,39 @@ export default {
     queryUserSendDetailAll(params) {
       return fetch("/report/queryUserSendDetailAll", params);
     },
+  },
+  //返回报告统计
+  returnReportStatistics: {
+    // 查询列表
+    returnReportStatistics(params) {
+      return fetch("/report/returnReportStatistics", params);
+    },
+    //统计
+    returnReportTotal(params) {
+      return fetch("/report/returnReportTotal", params);
+    },
+  },
+  //发送报告统计
+  sendReportStatistics: {
+    // 查询列表
+    sendReportStatistics(params) {
+      return fetch("/report/sendReportStatistics", params);
+    },
+    //统计
+    sendReportTotal(params) {
+      return fetch("/report/sendReportTotal", params);
+    },
+  },
+  //提交统计
+  submitStatistics: {
+    // 查询列表
+    submitStatistics(params) {
+      return fetch("/report/submitStatistics", params);
+    },
+    // //统计
+    // sendReportTotal(params) {
+    //   return fetch("/report/sendReportTotal", params);
+    // },
   },
   //短信通道
   gateway: {

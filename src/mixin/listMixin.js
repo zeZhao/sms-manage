@@ -369,18 +369,27 @@ export default {
      * @param editId        编辑修改id
      * @private
      */
-    _mxHandleSubmit(form = {}, editId = this.editId) {
+    _mxHandleSubmit(form, editId, hasData = true) {
+      editId = this.editId
       form = this._mxArrangeSubmitData(form)
       const {
         namespace,
         add,
         edit
       } = this.searchAPI
-      let params = {
-        data: {
+      let params = {}
+
+      if (hasData) {
+        params = {
+          data: {
+            ...form
+          }
+        };
+      } else {
+        params = {
           ...form
-        }
-      };
+        };
+      }
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res)
