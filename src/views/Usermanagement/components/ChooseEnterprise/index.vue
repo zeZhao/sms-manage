@@ -4,7 +4,7 @@
       title="选择企业"
       :visible.sync="isEnterprise"
       top="45px"
-      width="50%"
+      width="60%"
       @close="cancel"
     >
       <el-row :gutter="20">
@@ -68,7 +68,7 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    // this.init();
   },
   computed: {},
   methods: {
@@ -119,7 +119,13 @@ export default {
       this.init();
     }
   },
-  watch: {}
+  watch: {
+      isEnterprise:{
+          handler(v){
+              this.init();
+          }
+      }
+  }
 };
 </script>
 

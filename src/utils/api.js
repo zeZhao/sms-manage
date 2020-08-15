@@ -364,6 +364,14 @@ export default {
   sysPrepaidCard: {
     listCorporateBillByPage(params) {
       return post("/sysPrepaidCard/listCorporateBillByPage", params)
+    },
+    //导出平台账单
+    exportPlatform(params) {
+      return post("/sysPrepaidCard/exportPlatform", params)
+    },
+    //导出直连账单
+    exportDirectLink(params) {
+      return post("/sysPrepaidCard/exportDirectLink", params)
     }
   },
   //用户月账单
@@ -376,6 +384,12 @@ export default {
   userDailyBill: {
     queryUserDailyBill(params) {
       return post("/userDailyBill/queryUserDailyBill", params)
+    }
+  },
+  //用户月账单
+  userMonthlyBill: {
+    queryList(params) {
+      return post("/userMonthlyBill/queryList", params)
     }
   },
   //通道月账单（运营）
@@ -724,6 +738,13 @@ export default {
       return post("/sendLogFegin/selectSendLogByPage", params);
     }
   },
+  // 发送记录
+  sendRecord: {
+    // 查询列表
+    selectSendBackByPage(params) {
+      return post("/sendLogFegin/selectSendBackByPage", params);
+    }
+  },
   // 发送报告
   smsTxReport: {
     // 查询列表
@@ -750,6 +771,13 @@ export default {
     // 查询列表
     listTimeTasklistByPage(params) {
       return post("/sysTimeTasklist/listTimeTasklistByPage", params);
+    }
+  },
+  // 发送跨天列表查询
+  sendAcrossDays: {
+    // 查询列表
+    queryList(params) {
+      return post("/sendAcrossDays/queryList", params);
     }
   },
   // 待发
@@ -881,6 +909,13 @@ export default {
     // 查询列表
     queryTimeTaskByPage(params) {
       return post("/sysTimeTasklist/queryTimeTaskByPage", params);
+    },
+  },
+  // 定时统计
+  userChannelStatistics: {
+    // 查询列表
+    queryList(params) {
+      return post("/userChannelStatistics/queryList", params);
     },
   },
   // 成功率统计
