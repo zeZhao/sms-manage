@@ -18,9 +18,9 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column label="操作" width="200">
-        <template slot-scope>
-          <el-button type="text" size="small">导出平台账单</el-button>
-          <el-button type="text" size="small">导出直连账单</el-button>
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="exportPlatform(scope.row)">导出平台账单</el-button>
+          <el-button type="text" size="small" @click="exportDirectLink(scope.row)">导出直连账单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -92,6 +92,29 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /* 
+      isdirect  平台 1 直连 2 
+    */
+    //导出平台账单
+    exportPlatform(row) {
+      const { chargeType, corporateId, remark } = row;
+      const countDate = remark.substring(0, 7);
+      this.$http.sysPrepaidCard
+        .exportPlatform({
+          data: { smsType: chargeType, corporateId, countDate, isdirect: "1" },
+        })
+        .then((res) => {});
+    },
+    //导出直连账单
+    exportDirectLink(row) {
+      const { chargeType, corporateId, remark } = row;
+      const countDate = remark.substring(0, 7);
+      this.$http.sysPrepaidCard
+        .exportPlatform({
+          data: { smsType: chargeType, corporateId, countDate, isdirect: "2" },
+        })
+        .then((res) => {});
+    },
     // 修改搜索参数
     _formatRequestData(data) {
       const { remark } = data;
