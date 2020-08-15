@@ -99,7 +99,7 @@ export default {
     exportPlatform(row) {
       const { chargeType, corporateId, remark } = row;
       const countDate = remark.substring(0, 7);
-      this.$axios.post('/api/sysPrepaidCard/exportPlatform', { smsType: chargeType, corporateId, countDate, direct: "1" },
+      this.$axios.post('/sysPrepaidCard/exportPlatform', { smsType: chargeType, corporateId, countDate, direct: "1" },
         {
           responseType: 'blob',
           headers:{'token': window.localStorage.getItem('token')}
@@ -125,7 +125,7 @@ export default {
     exportDirectLink(row) {
       const { chargeType, corporateId, remark } = row;
       const countDate = remark.substring(0, 7);
-      this.$axios.post('/api/sysPrepaidCard/exportPlatform', { smsType: chargeType, corporateId, countDate, direct: "1" },
+      this.$axios.post('/sysPrepaidCard/exportPlatform', { smsType: chargeType, corporateId, countDate, direct: "1" },
         {
           responseType: 'blob',
           headers:{'token': window.localStorage.getItem('token')}
