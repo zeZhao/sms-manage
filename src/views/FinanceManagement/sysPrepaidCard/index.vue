@@ -116,6 +116,7 @@ export default {
           data: { smsType: chargeType, corporateId, countDate, isdirect: "2" },
         })
         .then((res) => {
+          console.log("导出: ", res)
           if(res.data.type == 'application/octet-stream') {
             let blob = new Blob([res.data], {type: 'application/vnd.ms-excel;charset=utf-8'})
             let url = window.URL.createObjectURL(blob);
