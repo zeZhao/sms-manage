@@ -79,6 +79,7 @@ export default {
           key: "wordName",
           maxlength: 50,
           defaultValue: "",
+          disabled:true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -140,7 +141,7 @@ export default {
         .then((res) => {
           //判断敏感词是否存在
           if (res.data === 1) {
-            this.$message.error("敏感词存在！");
+            // this.$message.error("敏感词存在！");
           } else {
             if (this.formTit == "新增") {
               params = {

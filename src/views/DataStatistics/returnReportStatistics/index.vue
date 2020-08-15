@@ -1,29 +1,27 @@
 <template>
-  <!--用户日账单-->
+  <!--返回报告统计-->
   <div class="userDailyBill">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
+      <el-table-column prop="corpId" label="企业ID" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="code" label="特服号" />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送条数" />
-      <el-table-column prop="successNum" label="成功数" />
-      <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column prop="successRate" label="成功率" />
-      <el-table-column prop="failRate" label="失败率" />
-      <el-table-column prop="unknownRate" label="未知率" />
-      <el-table-column prop="proportion" label="占比" />
-      <!-- <template slot-scope="scope">
-          <span>{{parseInt(scope.row.sendNum/statistics.sendNum)*100}}%</span>
-        </template>
-      </el-table-column>-->
+      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="reportNum" label="返回条数" />
+      <el-table-column prop="reportNum" label="返回条数" />
+      <el-table-column prop="successNum" label="成功条数" />
+      <el-table-column prop="failNum" label="失败条数" />
+      <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p
       style="color:red"
-    >用户总发送条数: {{statistics.sendNum}}&nbsp;&nbsp;用户总成功条数: {{statistics.successNum}}&nbsp;&nbsp;用户总成功率: {{statistics.successRate}}%&nbsp;&nbsp;用户总失败条数: {{statistics.failNum}}&nbsp;&nbsp;用户总失败率: {{statistics.failRate}}%&nbsp;&nbsp;用户总未知条数: {{statistics.unknownNum}}&nbsp;&nbsp;用户总未知率: {{statistics.unknownRate}}%</p>
+    >总条数: {{statistics.sendNum}}&nbsp;&nbsp;行业总条数: {{statistics.successNum}}&nbsp;&nbsp;营销总条数: {{statistics.successRate}}&nbsp;&nbsp;Vip条数: {{statistics.failNum}}&nbsp;&nbsp;</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -41,14 +39,18 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: "report",
-        list: "queryByPage",
+        namespace: "returnReportStatistics",
+        list: "returnReportStatistics",
       },
       // 列表参数
       namespace: "",
       isParamsNotData: true,
       //搜索框数据
-      searchParam: {},
+      searchParam: {
+        showDate: 1,
+        showCode: 1,
+        showGateway: 1,
+      },
       //搜索框配置
       searchFormConfig: [
         {
@@ -70,17 +72,66 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
+          type: "input",
+          label: "网关",
+          key: "gateway",
+          placeholder: "请输入用户名称",
+        },
+        {
           type: "select",
-          label: "类型",
-          key: "smsType",
+          label: "运营商",
+          key: "operaId",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
-            { key: "3", value: "屏信" },
-            { key: "4", value: "语音" },
+            {
+              key: "0",
+              value: "全部",
+            },
+            {
+              key: 1,
+              value: "移动",
+            },
+            {
+              key: 2,
+              value: "联通",
+            },
+            {
+              key: 3,
+              value: "电信",
+            },
+            {
+              key: 4,
+              value: "非法",
+            },
           ],
           placeholder: "请选择类型",
         },
+        // {
+        //   type: "select",
+        //   label: "是否显示日期",
+        //   key: "showDate",
+        //   optionData: [
+        //     { key: "0", value: "否" },
+        //     { key: "1", value: "是" },
+        //   ],
+        // },
+        // {
+        //   type: "select",
+        //   label: "显示特服号",
+        //   key: "showCode",
+        //   optionData: [
+        //     { key: "0", value: "否" },
+        //     { key: "1", value: "是" },
+        //   ],
+        // },
+        // {
+        //   type: "select",
+        //   label: "是否显示网关",
+        //   key: "showGateway",
+        //   optionData: [
+        //     { key: "0", value: "否" },
+        //     { key: "1", value: "是" },
+        //   ],
+        // },
         {
           type: "daterange",
           label: "统计日期",
@@ -96,10 +147,12 @@ export default {
   computed: {},
   methods: {
     // 获取统计
-    queryUserSendDetailAll(data) {
-      this.$http.report.queryUserSendDetailAll({ ...data }).then((res) => {
-        this.statistics = Object.assign({}, res.data);
-      });
+    queryUserSendDetailAll() {
+      this.$http.returnReportStatistics
+        .returnReportTotal({ ...this.searchParam })
+        .then((res) => {
+          this.statistics = Object.assign({}, res.data);
+        });
     },
     // 修改搜索参数
     _formatRequestData(data) {
@@ -110,7 +163,7 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
-      this.queryUserSendDetailAll(data);
+      console.log(this.searchParam, "searchParam");
       return data;
     },
     /**

@@ -374,7 +374,11 @@ export default {
           type: "input",
           label: "免审数量",
           key: "exemptReviewNum",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+                        pattern: /^\+?[1-9]\d*$/,
+                        message: '请输入大于0的正整数',
+                        trigger: 'blur'
+                    }],
         },
         {
           type: "select",
@@ -450,7 +454,9 @@ export default {
         {
           type: "textarea",
           label: "备注信息",
+          maxlength:300,
           key: "remarks",
+          placeholder: "备注信息不能超过300字",
         },
       ],
       GatewayList: [], // 通道列表

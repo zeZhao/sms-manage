@@ -28,6 +28,7 @@
               <el-select
                 style="width:100%"
                 v-model="form[item.key]"
+                :placeholder="item.placeholder || `请选择${item.label}`"
                 filterable
                 :clearable="isClearAble(item)"
                 @change="_mxHandleSubmit()"
