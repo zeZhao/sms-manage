@@ -212,7 +212,8 @@ export default {
         {
           type: "textarea",
           label: "备注信息",
-          key: "remark"
+          key: "remark",
+          rules: [{ required: true, textarea: "请输入必填项", trigger: "blur" }]
         }
       ],
       ugId: "",
@@ -249,6 +250,7 @@ export default {
             this._mxGetList();
             this.addChannel = false;
           } else {
+            console.log(res.msg)
             this.$message.error(res.data || res.msg);
           }
         });
@@ -274,9 +276,10 @@ export default {
           this.$set(item, "defaultValue", "");
         }
       });
-      setTimeout(() => {
-        this.$refs.formItem.clearValidate();
-      }, 0);
+
+      // setTimeout(() => {
+      //   this.$refs.formItem.clearValidate();
+      // }, 0);
       this.addChannel = true;
     },
     cancel() {

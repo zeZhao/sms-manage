@@ -478,9 +478,9 @@ export default {
           defaultValue: ["1", "3"],
           key: "blackLevel",
           optionData: [
-            { key: "1", value: "系统级" },
-            { key: "2", value: "营销级" },
-            { key: "3", value: "客户级" },
+            { key: "0", value: "系统级" },
+            { key: "2", value: "客户级" },
+            { key: "3", value: "营销级" },
             { key: "4", value: "BSATS级" },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
@@ -527,27 +527,6 @@ export default {
   },
   computed: {},
   methods: {
-    //修改
-    _mxEdit(row, ID) {
-      row = this._mxArrangeEditData(row);
-      this.id = row[ID];
-      this.editId = ID;
-      this.formTit = "修改";
-      this.formConfig.forEach((item) => {
-        for (let key in row) {
-          if (item.key === key) {
-            this.$set(item, "defaultValue", row[key]);
-          }
-        }
-        if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
-        }
-      });
-      setTimeout(() => {
-        this.$refs.formItem.clearValidate();
-      }, 0);
-      this.addChannel = true;
-    },
     _mxArrangeEditData(row) {
       for (let key in row) {
         if (key === "blackLevel") {
@@ -630,22 +609,6 @@ export default {
         message: this.createElement(h, row),
         showConfirmButton: false,
       });
-    },
-    //编辑表单前调整表单内数据
-    _mxArrangeEditData(row) {
-      for (let key in row) {
-        if (row[key] === 0) {
-          row[key] = "0";
-        }
-        if (key === "blackLevel") {
-          if (row[key] && typeof row[key] == "string") {
-            row[key] = row[key].split(",");
-          } else {
-            row[key] = [];
-          }
-        }
-      }
-      return row;
     },
     //获取所有企业
     getAllCorp() {
