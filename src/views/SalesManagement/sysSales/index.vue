@@ -64,6 +64,54 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorUserName = (rule, value, callback) => {
+        let regex = /^[a-zA-Z0-9]{2,15}$/;
+        if (value == "") {
+            callback(new Error("登录名称不能为空"));
+        } else {
+            if (!regex.test(value)) {
+                callback(new Error("输入1-15位字符，支持数字、英文"));
+            } else {
+                callback();
+            }
+        }
+    };
+    const validatorPassword = (rule, value, callback) => {
+        let regex = /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/;
+        if (value == "") {
+            callback(new Error("登录密码不能为空"));
+        } else {
+            if (!regex.test(value)) {
+                callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
+            } else {
+                callback();
+            }
+        }
+    };
+    const validatorActualName = (rule, value, callback) => {
+        let regex = /^[\u4e00-\u9fa5_a-zA-Z]{1,15}$/;
+        if (value == "") {
+            callback(new Error("真实姓名不能为空"));
+        } else {
+            if (!regex.test(value)) {
+                callback(new Error("输入1-15位字符，支持汉字、英文"));
+            } else {
+                callback();
+            }
+        }
+    };
+    const validatorMobile = (rule, value, callback) => {
+        let regex = /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/;
+        if (value == "") {
+            callback(new Error("手机号不能为空"));
+        } else {
+            if (!regex.test(value)) {
+                callback(new Error("手机号格式不正确"));
+            } else {
+                callback();
+            }
+        }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -121,28 +169,28 @@ export default {
           label: "登录名称",
           key: "userName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorUserName}]
         },
         {
           type: "input",
           label: "登录密码",
           key: "password",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorPassword}]
         },
         {
           type: "input",
           label: "真实姓名",
           key: "actualName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorActualName}]
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorMobile}]
         },
         {
           type: "select",

@@ -104,7 +104,7 @@ export default {
           type: "input",
           label: "用户ID",
           key: "userId",
-          btnTxt: "选择用户",
+        //   btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,

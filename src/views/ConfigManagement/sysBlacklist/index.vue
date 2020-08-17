@@ -215,7 +215,8 @@ export default {
       this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
-          t.defaultValue = data.userId;
+           this.$set(t,'defaultValue',data.userId) 
+        //   t.defaultValue = data.userId;
         }
       });
     },

@@ -103,6 +103,7 @@ export default {
     },
     // 关闭
     cancel() {
+      this.searchParam = {}
       this.$emit("cancel", false);
     }
   },

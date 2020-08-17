@@ -346,7 +346,7 @@ export const asyncRoutes = [{
     alwaysShow: true,
     name: 'FinanceManagement',
     meta: {
-      title: '配置管理',
+      title: '财务管理',
     },
     children: [{
         path: '/corpUserBalance/index',
@@ -805,6 +805,16 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: '/smsComplaint/index',
+        component: () =>
+          import('@/views/DataStatistics/smsComplaint/index'),
+        name: 'smsComplaint',
+        meta: {
+          keepAlive: false,
+          title: '投诉统计'
+        }
+      },
+      {
         path: '/sysReport/index',
         component: () =>
           import('@/views/DataStatistics/sysReport/index'),
@@ -842,16 +852,6 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: false,
           title: '返回报告统计'
-        }
-      },
-      {
-        path: '/smsComplaint/index',
-        component: () =>
-          import('@/views/DataStatistics/smsComplaint/index'),
-        name: 'smsComplaint',
-        meta: {
-          keepAlive: false,
-          title: '投诉统计'
         }
       },
       {

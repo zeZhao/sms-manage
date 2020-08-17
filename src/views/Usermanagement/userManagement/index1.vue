@@ -595,8 +595,10 @@ export default {
     },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
+
       for (let key in formData) {
         if (key === "blackLevel") {
+            console.log(formData[key],formData,key)
           formData[key] = formData[key].join(",");
         }
       }
