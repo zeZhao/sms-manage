@@ -18,7 +18,7 @@
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'bid')" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('bId', scope.row.bId)" type="text" size="small">删除</el-button>
+          <el-button @click="_mxDeleteItem('bId', scope.row.bid)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
