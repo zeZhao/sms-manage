@@ -239,9 +239,6 @@ export default {
         title: '删除',
         message: h('div', null, [
           h('p', null, '您确定要删除此项吗？'),
-          h('p', {
-            style: 'color: red'
-          }, '删除后，将不再执行重发，请谨慎操作')
         ]),
         showCancelButton: true,
         confirmButtonText: '确定',

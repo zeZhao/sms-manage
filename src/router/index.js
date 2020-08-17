@@ -640,6 +640,16 @@ export const asyncRoutes = [{
         }
       },
       {
+        path: '/smsSendlogSubmit/index',
+        component: () =>
+          import('@/views/QueryAndPivot/smsSendlogSubmit/index'),
+        name: 'smsSendlogSubmit',
+        meta: {
+          keepAlive: false,
+          title: '前台提交调整'
+        }
+      },
+      {
         path: '/smsSendTask/index',
         component: () =>
           import('@/views/QueryAndPivot/smsSendTask/index'),
@@ -832,6 +842,16 @@ export const asyncRoutes = [{
         meta: {
           keepAlive: false,
           title: '返回报告统计'
+        }
+      },
+      {
+        path: '/smsComplaint/index',
+        component: () =>
+          import('@/views/DataStatistics/smsComplaint/index'),
+        name: 'smsComplaint',
+        meta: {
+          keepAlive: false,
+          title: '投诉统计'
         }
       },
       {

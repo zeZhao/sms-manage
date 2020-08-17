@@ -379,7 +379,7 @@ export default {
     //导出平台账单
     exportPlatform(params) {
       return post("/sysPrepaidCard/exportPlatform", params)
-      
+
     },
     //导出直连账单
     exportDirectLink(params) {
@@ -841,6 +841,25 @@ export default {
       return post("/sysRouteReturnError/deleteRouteReturnError", params);
     },
   },
+  // 前台提交调整
+  sysRouteReturnError: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsSendlogSubmit/queryByPage", params);
+    },
+    // 新增
+    addRouteReturnError(params) {
+      return post("/smsSendlogSubmit/addRouteReturnError", params);
+    },
+    // 修改
+    updateRouteReturnError(params) {
+      return post("/smsSendlogSubmit/updateRouteReturnError", params);
+    },
+    //  删除
+    deleteTaskid(params) {
+      return fetch("/smsSendlogSubmit/deleteTaskid", params);
+    },
+  },
   // 接口加强签名
   sysInterfaceSign: {
     // 查询列表
@@ -998,6 +1017,17 @@ export default {
     // sendReportTotal(params) {
     //   return fetch("/report/sendReportTotal", params);
     // },
+  },
+  //投诉统计
+  smsComplaint: {
+    // 查询列表
+    queryStatisticByPage(params) {
+      return post("/smsComplaint/queryStatisticByPage", params);
+    },
+    //统计
+    TypeStatistic(params) {
+      return fetch("/smsComplaint/querySmsComplaintTypeStatistic", params);
+    },
   },
   //短信通道
   gateway: {
