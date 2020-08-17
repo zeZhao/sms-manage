@@ -177,6 +177,11 @@ class managePlugin {
         return new Date(time).Format('yyyy-MM-dd')
       }
     })
+    Vue.filter('FormatMonth', function (time) {
+      if (time) {
+        return new Date(time).Format('yyyy-MM')
+      }
+    })
 
   }
 

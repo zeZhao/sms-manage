@@ -10,7 +10,9 @@
       <el-table-column prop="receivableMoeny" label="应收款(元)" />
       <el-table-column prop="factMoney" label="	实收款(元)	" />
       <el-table-column prop="poorMoeny" label="欠收款(元)" />
-      <el-table-column prop="countDate" label="账单月" />
+      <el-table-column prop="countDate" label="账单月">
+        <template slot-scope="scope">{{scope.row.countDate | FormatMonth}}</template>
+      </el-table-column>
     </el-table>
     <p style="color:red" v-if="this.statistics">
       提交数:{{ this.statistics.count }} &nbsp;&nbsp;应收款:{{
@@ -51,7 +53,7 @@ export default {
       searchAPI: {
         namespace: "sysCompanyIncome",
         list: "listCompanyIncomeByPage",
-        detele: "deleteCompanyIncome"
+        detele: "deleteCompanyIncome",
       },
       // 列表参数
       namespace: "companyIncome",
@@ -63,13 +65,13 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "month",
           label: "账单月",
           key: "countDate",
-          placeholder: "请选择账单月"
+          placeholder: "请选择账单月",
         },
         {
           type: "select",
@@ -79,13 +81,13 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "否"
+              value: "否",
             },
             {
               key: 2,
-              value: "是"
-            }
-          ]
+              value: "是",
+            },
+          ],
         },
         {
           type: "select",
@@ -95,21 +97,21 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "条数"
+              value: "条数",
             },
             {
               key: 1,
-              value: "应收款"
+              value: "应收款",
             },
             {
               key: 2,
-              value: "实收款"
+              value: "实收款",
             },
             {
               key: 3,
-              value: "欠收款"
-            }
-          ]
+              value: "欠收款",
+            },
+          ],
         },
         {
           type: "select",
@@ -119,14 +121,14 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "正序"
+              value: "正序",
             },
             {
               key: 1,
-              value: "倒序"
-            }
-          ]
-        }
+              value: "倒序",
+            },
+          ],
+        },
       ],
       // 表单配置
       formConfig: [
@@ -137,12 +139,12 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信"
-            }
+              value: "短信",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "select",
@@ -151,24 +153,24 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "预收"
+              value: "预收",
             },
             {
               key: 2,
-              value: "平台月度"
+              value: "平台月度",
             },
             {
               key: 3,
-              value: "直连月度"
+              value: "直连月度",
             },
             {
               key: 4,
-              value: "返佣"
-            }
+              value: "返佣",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
@@ -178,8 +180,8 @@ export default {
           disabled: true,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
@@ -187,13 +189,13 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "通道码号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -202,62 +204,62 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "移动"
+              value: "移动",
             },
             {
               key: 2,
-              value: "联通"
+              value: "联通",
             },
             {
               key: 3,
-              value: "电信"
-            }
+              value: "电信",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
           label: "公司名称",
           key: "companyName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "付款单位",
           key: "payCompany",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "条数",
           key: "count",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "单价(分)",
           key: "price",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "应收款",
           key: "receivableMoeny",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "实收款",
           key: "factMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "欠收款",
           key: "poorMoeny",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -266,28 +268,28 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "已收"
+              value: "已收",
             },
             {
               key: 2,
-              value: "欠款"
+              value: "欠款",
             },
             {
               key: 3,
-              value: "欠收"
+              value: "欠收",
             },
             {
               key: 4,
-              value: "坏账"
+              value: "坏账",
             },
             {
               key: 5,
-              value: "其他"
-            }
+              value: "其他",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "select",
@@ -296,22 +298,22 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "对公"
+              value: "对公",
             },
             {
               key: "2",
-              value: "对私"
-            }
+              value: "对私",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
           label: "对私收款人",
           key: "privateName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -320,41 +322,41 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "未开"
+              value: "未开",
             },
             {
               key: "2",
-              value: "已开"
-            }
+              value: "已开",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "month",
           label: "账单月",
           key: "countDate",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "date",
           label: "入账日期",
           key: "posttingDate",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "textarea",
           label: "备注信息",
-          key: "remark"
-        }
+          key: "remark",
+        },
       ],
       income_id: "",
-      isChooseUser: false
+      isChooseUser: false,
     };
   },
   mounted() {},
@@ -362,7 +364,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -377,13 +379,13 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form
-          }
+            ...form,
+          },
 
           // userId:"5826",
           // corpId:"3",
         };
-        this.$http.sysCompanyIncome.addCompanyIncome(params).then(res => {
+        this.$http.sysCompanyIncome.addCompanyIncome(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -396,10 +398,10 @@ export default {
         params = {
           data: {
             income_id: this.income_id,
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysCompanyIncome.updateCompanyIncome(params).then(res => {
+        this.$http.sysCompanyIncome.updateCompanyIncome(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -420,7 +422,7 @@ export default {
     edit(row) {
       this.income_id = row.income_id;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -437,9 +439,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
