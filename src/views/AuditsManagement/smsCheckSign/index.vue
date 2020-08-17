@@ -7,12 +7,12 @@
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">
         <template slot-scope="scope">
-          <a style="color:#1890ff" :href="`${origin}/${scope.row.licenceUrl}`">点击查看</a>
+          <a style="color:#1890ff" :href="`${origin}/${scope.row.licenceUrl}`" target="_blank">点击查看</a>
         </template>
       </el-table-column>
       <el-table-column prop="cardUrl" label="法人身份证">
         <template slot-scope="scope">
-          <a style="color:#1890ff" :href="`${origin}/${scope.row.cardUrl}`">点击查看</a>
+          <a style="color:#1890ff" :href="`${origin}/${scope.row.cardUrl}`" target="_blank">点击查看</a>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="申请时间">
