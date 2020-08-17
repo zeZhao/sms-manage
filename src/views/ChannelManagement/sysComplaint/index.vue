@@ -7,18 +7,18 @@
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="code" label="通道码号" />
-      <el-table-column prop="type" label="投诉类型" />
+      <el-table-column prop="type" label="投诉类型" width="100" />
       <el-table-column prop="complaintSources" label="投诉来源" />
       <el-table-column prop="result" label="处理方式" />
       <el-table-column prop="content" label="投诉内容" />
-      <el-table-column prop="adContent" label="实际下发内容" />
+      <el-table-column prop="adContent" label="实际下发内容" show-overflow-tooltip />
       <el-table-column prop="sign" label="签名" />
-      <el-table-column prop="mobile" label="投诉手机号" />
-      <el-table-column prop="complaintDate" label="投诉时间">
-        <template slot-scope="scope">{{scope.row.complaintDate | timeFormat}}</template>
+      <el-table-column prop="mobile" label="投诉手机号" width="120" />
+      <el-table-column prop="complaintDate" label="投诉时间" width="100">
+        <template slot-scope="scope">{{scope.row.complaintDate | Format}}</template>
       </el-table-column>
-      <el-table-column prop="adTime" label="实际下发时间">
-        <template slot-scope="scope">{{scope.row.adTime | timeFormat}}</template>
+      <el-table-column prop="adTime" label="实际下发时间" width="100">
+        <template slot-scope="scope">{{scope.row.adTime | Format}}</template>
       </el-table-column>
       <!-- <template slot-scope="scope">
           <span>{{scope.row.adTime | timeFormat}}</span>
@@ -30,10 +30,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="count" label="投诉次数" />
-      <el-table-column prop="adNumber" label="实际下发次数" />
-      <el-table-column prop="createDate" label="录入日期">
+      <el-table-column prop="adNumber" label="实际下发次数" width="125" />
+      <el-table-column prop="createDate" label="录入日期" width="100">
         <template slot-scope="scope">
-          <span>{{scope.row.createDate | timeFormat}}</span>
+          <span>{{scope.row.createDate | Format}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sale" label="销售" />
@@ -41,11 +41,6 @@
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
-          <!-- <el-button
-            @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
-            type="text"
-            size="small"
-          >删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -365,16 +360,16 @@ export default {
       }
       return data;
     },
-    _mxArrangeEditData(row) {
-      for (let key in row) {
-        if (key === "status" || key === "type") {
-          if (row[key] === 0) {
-            row[key] = "0";
-          }
-        }
-      }
-      return row;
-    },
+    // _mxArrangeEditData(row) {
+    //   for (let key in row) {
+    //     if (key === "status" || key === "type") {
+    //       if (row[key] === 0) {
+    //         row[key] = "0";
+    //       }
+    //     }
+    //   }
+    //   return row;
+    // },
   },
   watch: {},
 };
