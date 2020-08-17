@@ -474,14 +474,14 @@ export default {
         {
           type: "checkbox",
           label: "黑名单类型",
-          initDefaultValue: ["1", "3"],
-          defaultValue: ["1", "3"],
+          initDefaultValue: [0, 2],
+          defaultValue: [0, 2],
           key: "blackLevel",
           optionData: [
-            { key: "0", value: "系统级" },
-            { key: "2", value: "客户级" },
-            { key: "3", value: "营销级" },
-            { key: "4", value: "BSATS级" },
+            { key: 0, value: "系统级" },
+            { key: 2, value: "客户级" },
+            { key: 3, value: "营销级" },
+            { key: 4, value: "BSATS级" },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
@@ -528,6 +528,7 @@ export default {
   computed: {},
   methods: {
     _mxArrangeEditData(row) {
+      console.log(row, "-------row");
       for (let key in row) {
         if (key === "blackLevel") {
           if (typeof row[key] === "string") {
