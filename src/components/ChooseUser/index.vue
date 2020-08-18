@@ -48,8 +48,8 @@ export default {
   props: {
     isChooseUser: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   mixins: [listMixin],
   data() {
@@ -57,7 +57,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "corpUser",
-        list: "queryByPage"
+        list: "queryByPage",
       },
       // 列表参数
       namespace: "corpUser",
@@ -66,30 +66,30 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "input",
           label: "企业名称",
           key: "corpName",
-          placeholder: "请输入企业名称"
+          placeholder: "请输入企业名称",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
-        }
-      ]
+          placeholder: "请输入用户名称",
+        },
+      ],
     };
   },
   mounted() {},
@@ -103,11 +103,11 @@ export default {
     },
     // 关闭
     cancel() {
-      this.searchParam = {}
+      this.searchParam = {};
       this.$emit("cancel", false);
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

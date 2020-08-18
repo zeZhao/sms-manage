@@ -47,7 +47,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业/用户ID",
           key: "userId",
           placeholder: "请输入用户ID",

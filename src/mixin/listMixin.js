@@ -320,7 +320,6 @@ export default {
          */
 
         _mxEdit(row, ID) {
-
             row = this._mxArrangeEditData(row)
             this.id = row[ID];
             this.editId = ID

@@ -93,7 +93,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysUserPrepaidCard",
-        list: "listPrepaidCardByPage"
+        list: "listPrepaidCardByPage",
       },
       // 列表参数
       namespace: "prepaidCard",
@@ -102,10 +102,10 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "账号ID",
           key: "userId",
-          placeholder: "请输入账号ID"
+          placeholder: "请输入账号ID",
         },
         {
           type: "select",
@@ -115,19 +115,19 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信"
-            }
+              value: "短信",
+            },
             // {
             //   key: 2,
             //   value: "彩信"
             // }
           ],
-          placeholder: "请选择类型"
+          placeholder: "请选择类型",
         },
         {
           type: "month",
           label: "月份",
-          key: "queryMonth"
+          key: "queryMonth",
         },
         {
           type: "select",
@@ -136,23 +136,23 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "已付款"
+              value: "已付款",
             },
             {
               key: 1,
-              value: "欠款"
+              value: "欠款",
             },
             {
               key: 2,
-              value: "扣款"
+              value: "扣款",
             },
             {
               key: 3,
-              value: "还款"
-            }
-          ]
-        }
-      ]
+              value: "还款",
+            },
+          ],
+        },
+      ],
     };
   },
   mounted() {},
@@ -169,9 +169,9 @@ export default {
         data.queryMonth = new Date(queryMonth).Format("yyyy-MM");
       }
       return data;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

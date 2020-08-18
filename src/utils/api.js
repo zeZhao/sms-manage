@@ -379,7 +379,7 @@ export default {
     //导出平台账单
     exportPlatform(params) {
       return post("/sysPrepaidCard/exportPlatform", params)
-      
+
     },
     //导出直连账单
     exportDirectLink(params) {
@@ -587,6 +587,17 @@ export default {
     // 查询有效的销售人员
     queryAvailableSaleman(params) {
       return fetch("/sysSales/queryAvailableSaleman", params);
+    },
+  },
+  //提交统计
+  reportsubmitStatistics: {
+    // 列表
+    submitStatistics(params) {
+      return fetch("/report/submitStatistics", params);
+    },
+    // 汇总
+    saleSubmitStatisticsTotal(params) {
+      return fetch("/report/saleSubmitStatisticsTotal", params);
     },
   },
   //敏感词
@@ -841,6 +852,25 @@ export default {
       return post("/sysRouteReturnError/deleteRouteReturnError", params);
     },
   },
+  // 前台提交调整
+  smsSendlogSubmit: {
+    // 查询列表
+    queryByPage(params) {
+      return post("/smsSendlogSubmit/queryByPage", params);
+    },
+    // 修改
+    editSmsSendlogSubmit(params) {
+      return post("/smsSendlogSubmit/editSmsSendlogSubmit", params);
+    },
+    // 获取修改数据
+    getSmsSendlogSubmit(params) {
+      return fetch("/smsSendlogSubmit/getSmsSendlogSubmit", params);
+    },
+    //  删除
+    deleteTaskid(params) {
+      return fetch("/smsSendlogSubmit/deleteTaskid", params);
+    },
+  },
   // 接口加强签名
   sysInterfaceSign: {
     // 查询列表
@@ -998,6 +1028,17 @@ export default {
     // sendReportTotal(params) {
     //   return fetch("/report/sendReportTotal", params);
     // },
+  },
+  //投诉统计
+  smsComplaint: {
+    // 查询列表
+    queryStatisticByPage(params) {
+      return post("/smsComplaint/queryStatisticByPage", params);
+    },
+    //统计
+    TypeStatistic(params) {
+      return fetch("/smsComplaint/querySmsComplaintTypeStatistic", params);
+    },
   },
   //短信通道
   gateway: {
