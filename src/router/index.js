@@ -567,6 +567,16 @@ export const asyncRoutes = [{
           title: '销售员'
         }
       },
+      {
+        path: '/reportsubmitStatistics/index',
+        component: () =>
+          import('@/views/SalesManagement/reportsubmitStatistics/index'),
+        name: 'reportsubmitStatistics',
+        meta: {
+          keepAlive: false,
+          title: '提交统计'
+        }
+      },
     ]
   },
   {

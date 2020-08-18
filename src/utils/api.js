@@ -589,6 +589,17 @@ export default {
       return fetch("/sysSales/queryAvailableSaleman", params);
     },
   },
+  //提交统计
+  reportsubmitStatistics: {
+    // 列表
+    submitStatistics(params) {
+      return fetch("/report/submitStatistics", params);
+    },
+    // 汇总
+    saleSubmitStatisticsTotal(params) {
+      return fetch("/report/saleSubmitStatisticsTotal", params);
+    },
+  },
   //敏感词
   sysSensitiveWord: {
     // 分页查询列表

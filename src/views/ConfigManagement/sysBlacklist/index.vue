@@ -199,6 +199,15 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
+          type: "input",
+          label: "企业ID",
+          key: "corporateId",
+          disabled: true,
+          isShow: true,
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
           type: "textarea",
           label: "描述",
           key: "remark",
@@ -219,7 +228,9 @@ export default {
         const { key } = t;
         if (key === "userId") {
           this.$set(t, "defaultValue", data.userId);
-          //   t.defaultValue = data.userId;
+        }
+        if (key === "corporateId") {
+          this.$set(t, "defaultValue", data.corpId);
         }
       });
     },
@@ -233,10 +244,12 @@ export default {
         // }
         if (val === "2") {
           this._setDisplayShow(this.formConfig, "userId", false);
+          this._setDisplayShow(this.formConfig, "corporateId", false);
           this._setDisplayShow(this.formConfig, "gateway", true);
         } else {
           this._setDisplayShow(this.formConfig, "gateway", true);
           this._setDisplayShow(this.formConfig, "userId", true);
+          this._setDisplayShow(this.formConfig, "corporateId", true);
         }
       }
     },
@@ -281,6 +294,7 @@ export default {
       this.formTit = "新增";
       this._setDisplayShow(this.formConfig, "gateway", true);
       this._setDisplayShow(this.formConfig, "userId", true);
+      this._setDisplayShow(this.formConfig, "corporateId", true);
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -292,12 +306,15 @@ export default {
       if (blackType === "1") {
         this._setDisplayShow(this.formConfig, "gateway", false);
         this._setDisplayShow(this.formConfig, "userId", true);
+        this._setDisplayShow(this.formConfig, "corporateId", true);
       } else if (blackType === "2") {
         this._setDisplayShow(this.formConfig, "gateway", true);
         this._setDisplayShow(this.formConfig, "userId", false);
+        this._setDisplayShow(this.formConfig, "corporateId", false);
       } else {
         this._setDisplayShow(this.formConfig, "gateway", true);
         this._setDisplayShow(this.formConfig, "userId", true);
+        this._setDisplayShow(this.formConfig, "corporateId", true);
       }
       this.formTit = "修改";
       this.formConfig.forEach((item) => {
