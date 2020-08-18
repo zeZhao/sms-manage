@@ -52,9 +52,9 @@
       <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
-        <template slot-scope>
-          <el-button type="text" size="small" @click="detail">明细</el-button>
+      <el-table-column label="操作" width="80">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="detail(scope.row)">明细</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -70,24 +70,12 @@
       style="margin: 0 auto"
     >
       <div>
-        <ul>
-          <li>
-            <span>移动金额：</span>
-            <span>{{detailList.cm}}</span>
-          </li>
-          <li>
-            <span>联通金额：</span>
-            <span>{{detailList.cm}}</span>
-          </li>
-          <li>
-            <span>电信金额：</span>
-            <span>{{detailList.cm}}</span>
-          </li>
-          <li>
-            <span>未知号码金额：</span>
-            <span>{{detailList.cm}}</span>
-          </li>
-        </ul>
+        <el-form ref="detailList" :model="detailList" label-width="120px">
+            <el-form-item label="移动金额：">{{detailList.cmprice}}</el-form-item>
+            <el-form-item label="联通金额：">{{detailList.cuprice}}</el-form-item>
+            <el-form-item label="电信金额：">{{detailList.ctprice}}</el-form-item>
+            <el-form-item label="未知号码金额：">{{detailList.xxprice}}</el-form-item>
+        </el-form>
       </div>
     </el-dialog>
   </div>
@@ -170,7 +158,10 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    detail() {},
+    detail(data) {
+        this.isDetail = true;
+        this.detailList = data;
+    },
     // 修改搜索参数
     _formatRequestData(data) {
       const { queryMonth } = data;

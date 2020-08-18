@@ -104,10 +104,10 @@ export default {
               key: "0",
               value: "系统级",
             },
-            {
-              key: "1",
-              value: "网关级",
-            },
+            // {
+            //   key: "1",
+            //   value: "网关级",
+            // },
             {
               key: "2",
               value: "用户级",
@@ -278,6 +278,15 @@ export default {
       this.formTit = "新增";
       this._setDisplayShow(this.formConfig, "gateway", true);
       this._setDisplayShow(this.formConfig, "userId", true);
+
+      this.formConfig.forEach((item) => {
+        if(item.key === "blackType"){
+            this.$set(item, "disabled", false);
+        }
+        if(item.key === "userId"){
+            this.$set(item, "btnDisabled", false);
+        }
+      })
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);

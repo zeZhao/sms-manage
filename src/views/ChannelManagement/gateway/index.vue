@@ -698,13 +698,19 @@ export default {
     //开启关闭网关
     switchChange(val, gateway) {
       if (val) {
-        this.$http.gateway.startGateway({ gatewayId: gateway }).then((res) => {
+        this.$http.gateway.startGateway({
+            data:{
+                gatewayId: gateway
+            }
+        }).then((res) => {
           if (resOk(res)) {
             this.$message.success("网关启用成功！");
           }
         });
       } else {
-        this.$http.gateway.stopGateway({ gatewayId: gateway }).then((res) => {
+        this.$http.gateway.stopGateway({ data:{
+                gatewayId: gateway
+            } }).then((res) => {
           if (resOk(res)) {
             this.$message.success("网关停止成功！");
           }

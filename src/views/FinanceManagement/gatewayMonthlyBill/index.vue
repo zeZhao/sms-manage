@@ -35,7 +35,7 @@ export default {
         list: "queryList",
       },
       // 列表参数
-      namespace: "userMonthlyBill",
+      namespace: "gatewayMonthlyBill",
       //搜索框数据
       searchParam: {},
       //搜索框配置
