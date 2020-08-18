@@ -34,7 +34,9 @@
       <el-table-column prop="gateway" label="提交占比" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
-    <p style="color:red">总条数: 行业条数: 营销条数: Vip条数:</p>
+    <p
+      style="color:red"
+    >总条数: {{total.total}}；行业条数: {{total.industryNum}}；营销条数: {{total.marketingNum}} ；Vip条数: {{total.vipNum}}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -137,7 +139,7 @@ export default {
         .saleSubmitStatisticsTotal({ ...this.searchParam })
         .then((res) => {
           if (resOk(res)) {
-            // this.total
+            this.total = res.data;
           }
         });
     },

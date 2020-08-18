@@ -252,6 +252,11 @@ export default {
       };
       this.$http.listSysProvince(params).then((res) => {
         this.ProvinceList = res.data;
+        res.data.forEach((item) => {
+          if (item.provinceId === 0) {
+            item.provinceId = "0";
+          }
+        });
         this._setDefaultValue(
           this.formConfig,
           res.data,

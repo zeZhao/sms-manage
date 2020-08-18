@@ -61,7 +61,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsBalanceopt",
-        list: "queryByPage"
+        list: "queryByPage",
       },
       // 列表参数
       namespace: "balanceopt",
@@ -70,16 +70,16 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业/用户ID",
           key: "userId",
-          placeholder: "请输入企业/用户ID"
+          placeholder: "请输入企业/用户ID",
         },
         {
           type: "input",
           label: "企业/用户名称",
           key: "userName",
-          placeholder: "请输入企业/用户名称"
+          placeholder: "请输入企业/用户名称",
         },
         {
           type: "select",
@@ -90,8 +90,8 @@ export default {
             { key: 1, value: "充值" },
             { key: 5, value: "借款" },
             { key: 3, value: "扣款" },
-            { key: 2, value: "还款" }
-          ]
+            { key: 2, value: "还款" },
+          ],
         },
         {
           type: "select",
@@ -102,13 +102,13 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "用户"
+              value: "用户",
             },
             {
               key: 1,
-              value: "企业"
-            }
-          ]
+              value: "企业",
+            },
+          ],
         },
         {
           type: "select",
@@ -118,19 +118,19 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信"
+              value: "短信",
             },
             // {
             //   key: 2,
             //   value: "彩信"
             // }
-          ]
+          ],
         },
         {
           type: "daterange",
           label: "按时间查询",
-          key: ["", "startTime", "endTime"]
-        }
+          key: ["", "startTime", "endTime"],
+        },
       ],
       // 表单配置
       formConfig: [
@@ -142,8 +142,8 @@ export default {
           disabled: true,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
@@ -151,7 +151,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -160,16 +160,16 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "用户id计费"
+              value: "用户id计费",
             },
             {
               key: 2,
-              value: "企业id计费"
-            }
+              value: "企业id计费",
+            },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "select",
@@ -178,7 +178,7 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "短信"
+              value: "短信",
             },
             // {
             //   key: "2",
@@ -186,8 +186,8 @@ export default {
             // }
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "select",
@@ -197,28 +197,30 @@ export default {
             { key: 1, value: "充值" },
             { key: 5, value: "借款" },
             { key: 3, value: "扣款" },
-            { key: 2, value: "还款" }
+            { key: 2, value: "还款" },
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
           label: "当前操作条数",
           key: "optBalance",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remark",
-          rules: [{ required: true, textarea: "请输入必填项", trigger: "blur" }]
-        }
+          rules: [
+            { required: true, textarea: "请输入必填项", trigger: "blur" },
+          ],
+        },
       ],
       ugId: "",
       GatewayList: [], // 通道列表
-      isChooseUser: false
+      isChooseUser: false,
     };
   },
   mounted() {},
@@ -226,7 +228,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -240,17 +242,17 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form
+          ...form,
           // userId:"5826",
           // corpId:"3",
         };
-        this.$http.smsBalanceopt.add(params).then(res => {
+        this.$http.smsBalanceopt.add(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
           } else {
-            console.log(res.msg)
+            console.log(res.msg);
             this.$message.error(res.data || res.msg);
           }
         });
@@ -266,7 +268,7 @@ export default {
     edit(row) {
       this.ugId = row.ugId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -284,9 +286,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

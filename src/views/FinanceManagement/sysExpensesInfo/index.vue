@@ -79,7 +79,7 @@ export default {
           placeholder: "请输入收款单位",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "票号",
           key: "ticketNumber",
           placeholder: "请输入票号",

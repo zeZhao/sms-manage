@@ -22,6 +22,16 @@
                 @input="_mxHandleSubmit()"
               ></el-input>
             </template>
+            <!--数字输入框-->
+            <template v-if="item.type === 'inputNum'">
+              <el-input
+                v-model="form[item.key]"
+                type="number"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :clearable="isClearAble(item)"
+                @input="_mxHandleSubmit()"
+              ></el-input>
+            </template>
 
             <!--下拉列表-->
             <template v-if="item.type === 'select'">

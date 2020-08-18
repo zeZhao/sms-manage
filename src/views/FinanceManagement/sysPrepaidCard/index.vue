@@ -51,7 +51,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -99,53 +99,65 @@ export default {
     exportPlatform(row) {
       const { chargeType, corporateId, remark } = row;
       const countDate = remark.substring(0, 7);
-      this.$axios.post('/sysPrepaidCard/exportPlatform', { smsType: chargeType, corporateId, countDate, direct: "1" },
-        {
-          responseType: 'blob',
-          headers:{'token': window.localStorage.getItem('token')}
-        }
-        ).then(res=>{
-        if(res.data.type == 'application/octet-stream') {
-          let blob = new Blob([res.data], {type: 'application/vnd.ms-excel;charset=utf-8'})
-          let url = window.URL.createObjectURL(blob);
-          let aLink = document.createElement("a");
-          aLink.style.display = "none";
-          aLink.href = url;
-          aLink.setAttribute("download", "export.xlsx");
-          document.body.appendChild(aLink);
-          aLink.click();
-          document.body.removeChild(aLink);
-          window.URL.revokeObjectURL(url);
-        } else {
-          this.$message.error("没有符合条件的卡密");
-        }
-      })
+      this.$axios
+        .post(
+          "/sysPrepaidCard/exportPlatform",
+          { smsType: chargeType, corporateId, countDate, direct: "1" },
+          {
+            responseType: "blob",
+            headers: { token: window.localStorage.getItem("token") },
+          }
+        )
+        .then((res) => {
+          if (res.data.type == "application/octet-stream") {
+            let blob = new Blob([res.data], {
+              type: "application/vnd.ms-excel;charset=utf-8",
+            });
+            let url = window.URL.createObjectURL(blob);
+            let aLink = document.createElement("a");
+            aLink.style.display = "none";
+            aLink.href = url;
+            aLink.setAttribute("download", "export.xlsx");
+            document.body.appendChild(aLink);
+            aLink.click();
+            document.body.removeChild(aLink);
+            window.URL.revokeObjectURL(url);
+          } else {
+            this.$message.error("没有符合条件的卡密");
+          }
+        });
     },
     //导出直连账单
     exportDirectLink(row) {
       const { chargeType, corporateId, remark } = row;
       const countDate = remark.substring(0, 7);
-      this.$axios.post('/sysPrepaidCard/exportPlatform', { smsType: chargeType, corporateId, countDate, direct: "1" },
-        {
-          responseType: 'blob',
-          headers:{'token': window.localStorage.getItem('token')}
-        }
-        ).then(res=>{
-        if(res.data.type == 'application/octet-stream') {
-          let blob = new Blob([res.data], {type: 'application/vnd.ms-excel;charset=utf-8'})
-          let url = window.URL.createObjectURL(blob);
-          let aLink = document.createElement("a");
-          aLink.style.display = "none";
-          aLink.href = url;
-          aLink.setAttribute("download", "export.xlsx");
-          document.body.appendChild(aLink);
-          aLink.click();
-          document.body.removeChild(aLink);
-          window.URL.revokeObjectURL(url);
-        } else {
-          this.$message.error("没有符合条件的卡密");
-        }
-      })
+      this.$axios
+        .post(
+          "/sysPrepaidCard/exportPlatform",
+          { smsType: chargeType, corporateId, countDate, direct: "1" },
+          {
+            responseType: "blob",
+            headers: { token: window.localStorage.getItem("token") },
+          }
+        )
+        .then((res) => {
+          if (res.data.type == "application/octet-stream") {
+            let blob = new Blob([res.data], {
+              type: "application/vnd.ms-excel;charset=utf-8",
+            });
+            let url = window.URL.createObjectURL(blob);
+            let aLink = document.createElement("a");
+            aLink.style.display = "none";
+            aLink.href = url;
+            aLink.setAttribute("download", "export.xlsx");
+            document.body.appendChild(aLink);
+            aLink.click();
+            document.body.removeChild(aLink);
+            window.URL.revokeObjectURL(url);
+          } else {
+            this.$message.error("没有符合条件的卡密");
+          }
+        });
     },
     // 修改搜索参数
     _formatRequestData(data) {
