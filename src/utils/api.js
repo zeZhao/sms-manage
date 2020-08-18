@@ -847,13 +847,13 @@ export default {
     queryByPage(params) {
       return post("/smsSendlogSubmit/queryByPage", params);
     },
-    // 新增
-    addRouteReturnError(params) {
-      return post("/smsSendlogSubmit/addRouteReturnError", params);
-    },
     // 修改
-    updateRouteReturnError(params) {
-      return post("/smsSendlogSubmit/updateRouteReturnError", params);
+    editSmsSendlogSubmit(params) {
+      return post("/smsSendlogSubmit/editSmsSendlogSubmit", params);
+    },
+    // 获取修改数据
+    getSmsSendlogSubmit(params) {
+      return fetch("/smsSendlogSubmit/getSmsSendlogSubmit", params);
     },
     //  删除
     deleteTaskid(params) {

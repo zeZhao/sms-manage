@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxEdit(scope.row)" type="text" size="small">修改</el-button>
           <el-button @click="_mxDeleteItem(scope.row.taskId)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
@@ -66,8 +66,8 @@ export default {
         namespace: "sysRouteReturnError",
         list: "queryByPage",
         detele: "deleteTaskid",
-        add: "addRouteReturnError",
-        edit: "updateRouteReturnError",
+        add: "",
+        edit: "editSmsSendlogSubmit",
       },
       // 列表参数
       namespace: "",
@@ -102,21 +102,21 @@ export default {
         {
           type: "input",
           label: "内容",
-          key: "routeIds",
+          key: "content",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "数量",
-          key: "routeIds",
+          key: "count",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "手机数量",
-          key: "routeIds",
+          key: "mobilesCount",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
@@ -124,28 +124,28 @@ export default {
         {
           type: "input",
           label: "发送条数",
-          key: "routeIds",
+          key: "sendCount",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "成功条数",
-          key: "routeIds",
+          key: "successCount",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "失败条数",
-          key: "routeIds",
+          key: "failCount",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "未知条数",
-          key: "routeIds",
+          key: "unknowCount",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
@@ -160,12 +160,79 @@ export default {
       bId: "",
       GatewayList: [], // 通道列表
       ProvinceList: [], // 通道列表
+      rowData: {},
     };
   },
   mounted() {},
   computed: {},
   methods: {
     selectChange(data) {},
+    /**
+     * 提交表单操作
+     * @param form    表单数据
+     * @param editId        编辑修改id
+     * @private
+     */
+    _mxHandleSubmit(form) {
+      form = this._mxArrangeSubmitData(form);
+      const { namespace, add, edit } = this.searchAPI;
+      const {
+        count,
+        mobilesCount,
+        sendCount,
+        successCount,
+        failCount,
+        unknowCount,
+      } = form;
+      let params = {
+        smsSendlogSubmit: {
+          ...this.rowData,
+        },
+        countNew: count,
+        mobilesCountNew: mobilesCount,
+        sendCountNew: sendCount,
+        successCountNew: successCount,
+        failCountNew: failCount,
+        unknowCountNew: unknowCount,
+        msgType: this.rowData.msgType,
+      };
+      this.$http[namespace][edit](params).then((res) => {
+        this._mxSuccess(res);
+      });
+    },
+    // 修改
+    _mxEdit(row) {
+      row = this._mxArrangeEditData(row);
+      this.getEditData(row.taskId);
+      this.formTit = "修改";
+      this.formConfig.forEach((item) => {
+        for (let key in row) {
+          if (item.key === key) {
+            if (row[key] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[key]);
+            }
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
+    //获取修改数据
+    getEditData(taskid) {
+      this.$http.sysRouteReturnError
+        .getSmsSendlogSubmit({ taskid: taskid })
+        .then((res) => {
+          this.rowData = res.data;
+          console.log(this.rowData);
+        });
+    },
     // 修改搜索参数
     _formatRequestData(data) {
       const { startTime, endTime } = data;
@@ -177,6 +244,7 @@ export default {
       }
       return data;
     },
+    // 删除
     _mxDeleteItem(rowKey) {
       const h = this.$createElement;
       this.$msgbox({

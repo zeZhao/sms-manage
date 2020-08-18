@@ -104,10 +104,10 @@ export default {
               key: "0",
               value: "系统级",
             },
-            {
-              key: "1",
-              value: "网关级",
-            },
+            // {
+            //   key: "1",
+            //   value: "网关级",
+            // },
             {
               key: "2",
               value: "用户级",
@@ -142,11 +142,14 @@ export default {
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
-                        pattern: /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/,
-                        message: '手机号格式不对',
-                        trigger: 'blur'
-                    }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/,
+              message: "手机号格式不对",
+              trigger: "blur",
+            },
+          ],
         },
         {
           type: "select",
@@ -199,7 +202,7 @@ export default {
           type: "textarea",
           label: "描述",
           key: "remark",
-          maxlength:300,
+          maxlength: 300,
           placeholder: "备注信息不能超过300字",
         },
       ],
@@ -215,8 +218,8 @@ export default {
       this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
-           this.$set(t,'defaultValue',data.userId) 
-        //   t.defaultValue = data.userId;
+          this.$set(t, "defaultValue", data.userId);
+          //   t.defaultValue = data.userId;
         }
       });
     },
@@ -285,7 +288,7 @@ export default {
     edit(row) {
       const { blackId, blackType } = row;
       this.blackId = blackId;
-      console.log(blackType)
+      console.log(blackType);
       if (blackType === "1") {
         this._setDisplayShow(this.formConfig, "gateway", false);
         this._setDisplayShow(this.formConfig, "userId", true);
@@ -305,11 +308,11 @@ export default {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
           }
-          if(blackType === "2" && item.key === "blackType"){
-              this.$set(item, "disabled", true);
+          if (blackType === "2" && item.key === "blackType") {
+            this.$set(item, "disabled", true);
           }
-          if(blackType === "2" && item.key === "userId"){
-              this.$set(item, "btnDisabled", true);
+          if (blackType === "2" && item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
           }
         }
       });

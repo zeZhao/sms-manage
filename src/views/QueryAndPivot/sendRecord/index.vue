@@ -9,11 +9,37 @@
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="operaId" label="运营商" />
+      <el-table-column prop="operaId" label="运营商">
+        <template slot-scope="scope">
+          <span>
+            {{
+            scope.row.operaId === 1
+            ? "移动"
+            : scope.row.operaId === 2
+            ? "联通"
+            : scope.row.operaId === 3
+            ? "电信"
+            : ""
+            }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="counter" label="条数" />
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="hasSend" label="发送状态" />
+      <el-table-column prop="hasSend" label="发送状态">
+        <template slot-scope="scope">
+          <span>
+            {{
+            scope.row.hasSend === "0"
+            ? "未发"
+            : scope.row.hasSend === "1"
+            ? "已发送"
+            : ""
+            }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="createIime" label="创建时间">
         <template slot-scope="scope">
           <span>{{scope.row.createIime | timeFormat}}</span>
