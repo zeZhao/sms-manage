@@ -63,7 +63,7 @@ export default {
       addChannel: false,
       // 接口地址
       searchAPI: {
-        namespace: "sysRouteReturnError",
+        namespace: "smsSendlogSubmit",
         list: "queryByPage",
         detele: "deleteTaskid",
         add: "",

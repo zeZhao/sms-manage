@@ -853,7 +853,7 @@ export default {
     },
   },
   // 前台提交调整
-  sysRouteReturnError: {
+  smsSendlogSubmit: {
     // 查询列表
     queryByPage(params) {
       return post("/smsSendlogSubmit/queryByPage", params);
