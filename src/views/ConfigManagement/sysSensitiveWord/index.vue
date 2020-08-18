@@ -79,7 +79,7 @@ export default {
           key: "wordName",
           maxlength: 50,
           defaultValue: "",
-          disabled:true,
+          disabled: true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -188,12 +188,20 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this.formConfig.forEach((item) => {
+        if (item.key === "wordName") {
+          item.disabled = false;
+        }
+      });
       this.listSensitiveWordGroup();
     },
     edit(row) {
       this.wordId = row.wordId;
       this.formTit = "修改";
       this.formConfig.forEach((item) => {
+        if (item.key === "wordName") {
+          item.disabled = true;
+        }
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
