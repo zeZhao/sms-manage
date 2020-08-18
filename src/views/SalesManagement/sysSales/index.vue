@@ -65,52 +65,52 @@ export default {
   mixins: [listMixin],
   data() {
     const validatorUserName = (rule, value, callback) => {
-        let regex = /^[a-zA-Z0-9]{2,15}$/;
-        if (value == "") {
-            callback(new Error("登录名称不能为空"));
+      let regex = /^[a-zA-Z0-9]{2,15}$/;
+      if (value == "") {
+        callback(new Error("登录名称不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入1-15位字符，支持数字、英文"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("输入1-15位字符，支持数字、英文"));
-            } else {
-                callback();
-            }
+          callback();
         }
+      }
     };
     const validatorPassword = (rule, value, callback) => {
-        let regex = /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/;
-        if (value == "") {
-            callback(new Error("登录密码不能为空"));
+      let regex = /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/;
+      if (value == "") {
+        callback(new Error("登录密码不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
-            } else {
-                callback();
-            }
+          callback();
         }
+      }
     };
     const validatorActualName = (rule, value, callback) => {
-        let regex = /^[\u4e00-\u9fa5_a-zA-Z]{1,15}$/;
-        if (value == "") {
-            callback(new Error("真实姓名不能为空"));
+      let regex = /^[\u4e00-\u9fa5_a-zA-Z]{1,15}$/;
+      if (value == "") {
+        callback(new Error("真实姓名不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入1-15位字符，支持汉字、英文"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("输入1-15位字符，支持汉字、英文"));
-            } else {
-                callback();
-            }
+          callback();
         }
+      }
     };
     const validatorMobile = (rule, value, callback) => {
-        let regex = /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/;
-        if (value == "") {
-            callback(new Error("手机号不能为空"));
+      let regex = /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/;
+      if (value == "") {
+        callback(new Error("手机号不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("手机号格式不正确"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("手机号格式不正确"));
-            } else {
-                callback();
-            }
+          callback();
         }
+      }
     };
     return {
       formTit: "新增",
@@ -118,7 +118,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysSales",
-        list: "queryByPage"
+        list: "queryByPage",
       },
       // 列表参数
       namespace: "saleGroup",
@@ -130,13 +130,13 @@ export default {
           type: "input",
           label: "登录名",
           key: "userName",
-          placeholder: "请输入登录名"
+          placeholder: "请输入登录名",
         },
         {
           type: "input",
           label: "真实姓名",
           key: "actualName",
-          placeholder: "请输入真实姓名"
+          placeholder: "请输入真实姓名",
         },
         {
           type: "select",
@@ -145,22 +145,22 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "主管"
+              value: "主管",
             },
             {
               key: 2,
-              value: "组长"
+              value: "组长",
             },
             {
               key: 3,
-              value: "组员"
+              value: "组员",
             },
             {
               key: 4,
-              value: "介绍人"
-            }
-          ]
-        }
+              value: "介绍人",
+            },
+          ],
+        },
       ],
       // 表单配置
       formConfig: [
@@ -169,28 +169,40 @@ export default {
           label: "登录名称",
           key: "userName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorUserName}]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "blur", validator: validatorUserName },
+          ],
         },
         {
           type: "input",
           label: "登录密码",
           key: "password",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorPassword}]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "blur", validator: validatorPassword },
+          ],
         },
         {
           type: "input",
           label: "真实姓名",
           key: "actualName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorActualName}]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "blur", validator: validatorActualName },
+          ],
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{trigger: "blur",validator: validatorMobile}]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "blur", validator: validatorMobile },
+          ],
         },
         {
           type: "select",
@@ -200,33 +212,33 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "主管"
+              value: "主管",
             },
             {
               key: 2,
-              value: "组长"
+              value: "组长",
             },
             {
               key: 3,
-              value: "组员"
+              value: "组员",
             },
             {
               key: 4,
-              value: "介绍人"
-            }
+              value: "介绍人",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "销售组",
           key: "groupId",
           defaultValue: "",
-          optionData: []
-        }
+          optionData: [],
+        },
       ],
       id: "",
-      salesData: []
+      salesData: [],
     };
   },
   mounted() {
@@ -236,16 +248,16 @@ export default {
   methods: {
     // 获取 组
     getEditData() {
-      this.$http.sysSales.getEditData({}).then(res => {
+      this.$http.sysSales.getEditData({}).then((res) => {
         if (res.code === 200) {
           this.salesData = res.data;
-          this.formConfig.forEach(item => {
+          this.formConfig.forEach((item) => {
             const { key } = item;
             if (key === "groupId") {
-              res.data.forEach(t => {
+              res.data.forEach((t) => {
                 let obj = {
                   key: t.sid,
-                  value: t.groupName
+                  value: t.groupName,
                 };
                 item.optionData.push(obj);
               });
@@ -258,8 +270,8 @@ export default {
     },
     //修改状态
     updateStatus(row, status) {
-      const { id } = row;
-      this.$http.sysSales.updateStatus({ id, status }).then(res => {
+      const { id, userName } = row;
+      this.$http.sysSales.updateStatus({ id, status, userName }).then((res) => {
         if (res.code == 200) {
           this.$message.success("修改成功");
           this._mxGetList();
@@ -270,9 +282,9 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form
+          ...form,
         };
-        this.$http.sysSales.addOrUpdate(params).then(res => {
+        this.$http.sysSales.addOrUpdate(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -284,9 +296,9 @@ export default {
       } else {
         params = {
           id: this.id,
-          ...form
+          ...form,
         };
-        this.$http.sysSales.addOrUpdate(params).then(res => {
+        this.$http.sysSales.addOrUpdate(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -307,7 +319,7 @@ export default {
     edit(row) {
       this.id = row.id;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -326,7 +338,7 @@ export default {
       this.addChannel = false;
     },
     _mxFormListData(data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         if (item.modifyTime) {
           item.modifyTime = new Date(item.modifyTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -334,9 +346,9 @@ export default {
         }
       });
       return data;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 
