@@ -190,7 +190,7 @@ export default {
       //   });
       this.captcha =
         process.env.VUE_APP_BASE_API +
-        "/sysLogin/captcha?uuId=" +
+        "/api/sysLogin/captcha?uuId=" +
         this.loginForm.uuid +
         "&num=" +
         num;
@@ -221,7 +221,7 @@ export default {
             .then(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
-                path: this.redirect || "/inedx",
+                path: "/",
                 query: this.otherQuery,
               });
               this.loading = false;
@@ -229,7 +229,7 @@ export default {
             .catch(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
-                path: this.redirect || "/index",
+                path: "/",
                 query: this.otherQuery,
               });
               this.getCaptcha();
