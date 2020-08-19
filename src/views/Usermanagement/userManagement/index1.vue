@@ -541,16 +541,38 @@ export default {
       }
       return row;
     },
+    //修改
+    _mxEdit(row, ID){
+        row = this._mxArrangeEditData(row)
+            this.id = row[ID];
+            this.editId = ID
+            this.formTit = "修改";
+            this.formConfig.forEach(item => {
+                for (let key in row) {
+                    if (item.key === key) {
+                        this.$set(item, "defaultValue", (key=="reportType" || key=="moType")?(row[key]=='0'?row[key].toString():row[key]):row[key]);
+                    }
+                }
+                if (!Object.keys(row).includes(item.key)) {
+                    this.$set(item, "defaultValue", "");
+                }
+            });
+            setTimeout(() => {
+                this.$refs.formItem.clearValidate();
+            }, 0);
+            this.addChannel = true;
+    },
     // 审核
     _mxCheck(row, ID) {
       row = this._mxArrangeEditData(row);
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "审核";
+      console.log(this.formConfig)
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
-            this.$set(item, "defaultValue", row[key]);
+            this.$set(item, "defaultValue", (key=="reportType" || key=="moType")?(row[key]=='0'?row[key].toString():row[key]):row[key]);
           }
         }
       });
@@ -569,6 +591,8 @@ export default {
         ...form,
       };
       if (this.formTit == "新增") {
+          console.log(params)
+          console.log(this.formConfig)
         this.$http[namespace][add](params).then((res) => {
           this._mxSuccess(res);
         });
@@ -595,10 +619,8 @@ export default {
     },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
-
       for (let key in formData) {
         if (key === "blackLevel") {
-            console.log(formData[key],formData,key)
           formData[key] = formData[key].join(",");
         }
       }

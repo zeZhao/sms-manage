@@ -7,10 +7,10 @@
       <el-table-column prop="result" label="网关返回值" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type ? "返回报告" : "提交报告" }}</span>
+          <span>{{ scope.row.type==='0' ? "提交报告" : "返回报告" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="dwStatus" label="返回错误说明" />
+      <el-table-column prop="notes" label="返回错误说明" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span>
@@ -120,7 +120,7 @@ export default {
               value: "返回报告",
             },
             {
-              key: "2",
+              key: "0",
               value: "提交报告",
             },
           ],
@@ -279,11 +279,11 @@ export default {
     _mxArrangeEditData(row) {
       for (let key in row) {
         if (key === "type") {
-          if (row[key]) {
-            row[key] = "1";
-          } else {
-            row[key] = "0";
-          }
+        //   if (row[key]) {
+        //     row[key] = "1";
+        //   } else {
+        //     row[key] = "0";
+        //   }
         } else if (key === "operaId") {
           if (row[key] === 0) {
             row[key] = "0";

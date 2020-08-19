@@ -58,6 +58,46 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorGroupName = (rule, value, callback) => {
+      let regex = new RegExp(
+        "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,50}$"
+      );
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入1-50位字符，只能输入中文、英文、数字"));
+        } else {
+          callback();
+        }
+      }
+    };  
+    const validatorSendTo = (rule, value, callback) => {
+      let regex = new RegExp(
+        "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$"
+      );
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("输入1-10位字符，只能输入中文、英文、数字"));
+        } else {
+          callback();
+        }
+      }
+    }; 
+    const validatorRemark = (rule, value, callback) => {
+        let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+        if (value == "") {
+            callback(new Error("备注信息不能为空"));
+        } else {
+            if (!regex.test(value)) {
+                callback(new Error("支持汉字/数字/字母/标点符号"));
+            } else {
+                callback();
+            }
+        }
+    };  
     return {
       formTit: "新增",
       addChannel: false,
@@ -101,18 +141,20 @@ export default {
           type: "input",
           label: "通道组名称",
           key: "groupName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{ trigger: "blur", validator: validatorGroupName }]
         },
         {
           type: "input",
           label: "发送对象",
           key: "sendTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{ trigger: "blur", validator: validatorSendTo }]
         },
         {
           type: "input",
           label: "备注",
-          key: "notes"
+          maxlength:300,
+          key: "notes",
+          rules: [{trigger: "blur",validator: validatorRemark}]
         }
       ],
       id: "",

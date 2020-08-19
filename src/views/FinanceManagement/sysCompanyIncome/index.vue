@@ -11,7 +11,7 @@
       <el-table-column prop="factMoney" label="	实收款(元)	" />
       <el-table-column prop="poorMoeny" label="欠收款(元)" />
       <el-table-column prop="countDate" label="账单月">
-        <template slot-scope="scope">{{scope.row.countDate | FormatMonth}}</template>
+          <template slot-scope="scope">{{scope.row.countDate | timeFormat}}</template>
       </el-table-column>
     </el-table>
     <p style="color:red" v-if="this.statistics">
@@ -192,10 +192,11 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "select",
           label: "通道码号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "change" }],
+          optionData:[]
         },
         {
           type: "select",
@@ -415,9 +416,35 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
+      this.gateway();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+    },
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.GatewayList = res.data;
+        this.formConfig.forEach(item => {
+          const { key } = item;
+          
+          if (key === "gateway") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gateway);
+              this.$set(t, "value", t.gatewayName);
+              console.log(item)
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
     },
     edit(row) {
       this.income_id = row.income_id;

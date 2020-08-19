@@ -295,6 +295,14 @@ export default {
       this._setDisplayShow(this.formConfig, "gateway", true);
       this._setDisplayShow(this.formConfig, "userId", true);
       this._setDisplayShow(this.formConfig, "corporateId", true);
+      this.formConfig.forEach((item) => {
+        if(item.key === "blackType"){
+            this.$set(item, "disabled", false);
+        }
+        if(item.key === "userId"){
+            this.$set(item, "btnDisabled", false);
+        }
+      })
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);

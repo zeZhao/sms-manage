@@ -29,7 +29,7 @@
     ></Page>
     <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
       <FormItem
-        ref="form"
+        ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="submit"
@@ -175,11 +175,14 @@ export default {
       this.addChannel = false;
     },
     create() {
-      this.addChannel = true;
       this.formTit = "新增";
       // await
+      this.addChannel = true;
+      this.formConfig.forEach(item => {
+        this.$set(item, "defaultValue", "");
+      });
       setTimeout(() => {
-        this.$refs.form.resetForm();
+        this.$refs.formItem.clearValidate();
       }, 0);
     },
     edit(row) {

@@ -187,8 +187,8 @@
         </el-form-item>
         <el-form-item label="状态">
           <el-select style="width: 100%" v-model="setInfo.state" placeholder="状态" clearable>
-            <el-option value="1" label="正常" />
-            <el-option value="2" label="停用" />
+            <el-option :value="1" label="正常" />
+            <el-option :value="2" label="停用" />
           </el-select>
         </el-form-item>
       </el-form>

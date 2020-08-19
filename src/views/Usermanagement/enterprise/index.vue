@@ -387,11 +387,28 @@ export default {
     },
     newEnterprise() {
       this.customerAddInfo = true;
+      this.addInfo = {
+            corpName: "",
+            // pwd: "",
+            code: "",
+            sublong: "",
+            reductModel: "",
+            isDirectUser: "",
+            isBusiness: "",
+            cardUnit: "",
+            contact: "",
+            mobile: "",
+            bankAccount: "",
+            root: "",
+        }
+      this.$nextTick(()=>{
+        this.$refs['addForm'].clearValidate()
+      })  
       this.formBtn = "新增";
       this.formTit = "新增企业";
-      setTimeout(() => {
-        this.$refs.addForm.resetFields();
-      }, 0);
+    //   setTimeout(() => {
+    //     this.$refs.addForm.resetFields();
+    //   }, 0);
     },
     //新增企业
     addCustomerInfo(formName) {
@@ -425,6 +442,7 @@ export default {
         row.reductModel = row.reductModel.toString();
       }
       this.addInfo = Object.assign(this.addInfo, row);
+      
     },
 
     //修改状态
