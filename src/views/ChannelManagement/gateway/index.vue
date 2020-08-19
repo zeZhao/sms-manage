@@ -43,9 +43,11 @@
       <el-table-column prop="remark" label="网关状态">
         <template slot-scope="scope">
           <el-switch
-            v-model="scope.row.status"
+            v-model="scope.row.serverStatus"
             active-color="#13ce66"
             inactive-color="#ff4949"
+            active-value="1"
+            inactive-value="0"
             @change="((val)=>{switchChange(val,scope.row.gateway)})"
           ></el-switch>
         </template>
@@ -698,23 +700,29 @@ export default {
     //开启关闭网关
     switchChange(val, gateway) {
       if (val) {
-        this.$http.gateway.startGateway({
-            data:{
-                gatewayId: gateway
+        this.$http.gateway
+          .startGateway({
+            data: {
+              gatewayId: gateway,
+            },
+          })
+          .then((res) => {
+            if (resOk(res)) {
+              this.$message.success("网关启用成功！");
             }
-        }).then((res) => {
-          if (resOk(res)) {
-            this.$message.success("网关启用成功！");
-          }
-        });
+          });
       } else {
-        this.$http.gateway.stopGateway({ data:{
-                gatewayId: gateway
-            } }).then((res) => {
-          if (resOk(res)) {
-            this.$message.success("网关停止成功！");
-          }
-        });
+        this.$http.gateway
+          .stopGateway({
+            data: {
+              gatewayId: gateway,
+            },
+          })
+          .then((res) => {
+            if (resOk(res)) {
+              this.$message.success("网关停止成功！");
+            }
+          });
       }
     },
     selectChange({ val, item }) {
