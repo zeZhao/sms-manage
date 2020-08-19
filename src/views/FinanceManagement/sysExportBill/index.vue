@@ -23,7 +23,7 @@
           <el-date-picker v-model="searchData.endDate" type="month"></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData">导出</el-button>
+          <el-button type="primary" @click="exportMonthData()">导出</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -118,6 +118,11 @@ export default {
   methods: {
     //导出
     exportMonthData(userId) {
+      // if()
+      // this.$http.sysExportBill.export({ userId }).then((res) => {
+      //   let blob = new Blob([res.data], {
+      //     type: "application/vnd.ms-excel;charset=utf-8",
+      //   });
       this.$axios
         .post(
           "/bill/export/",
@@ -144,7 +149,6 @@ export default {
           } else {
             this.$message.error("没有符合条件的卡密");
           }
-        });
     },
     // 修改搜索参数
     _formatRequestData(data) {
