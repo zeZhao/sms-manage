@@ -46,8 +46,8 @@
             v-model="scope.row.serverStatus"
             active-color="#13ce66"
             inactive-color="#ff4949"
-            active-value="1"
-            inactive-value="0"
+            :active-value="1"
+            :inactive-value="0"
             @change="((val)=>{switchChange(val,scope.row.gateway)})"
           ></el-switch>
         </template>
