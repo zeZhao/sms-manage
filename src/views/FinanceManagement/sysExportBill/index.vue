@@ -118,21 +118,33 @@ export default {
   methods: {
     //导出
     exportMonthData(userId) {
-      this.$http.sysExportBill.export({ userId }).then((res) => {
-        let blob = new Blob([res.data], {
-          type: "application/vnd.ms-excel;charset=utf-8",
+      this.$axios
+        .post(
+          "/bill/export/",
+          { },
+          {
+            responseType: "blob",
+            headers: { token: window.localStorage.getItem("token") },
+          }
+        )
+        .then((res) => {
+          if (res.data.type == "application/octet-stream") {
+            let blob = new Blob([res.data], {
+              type: "application/vnd.ms-excel;charset=utf-8",
+            });
+            let url = window.URL.createObjectURL(blob);
+            let aLink = document.createElement("a");
+            aLink.style.display = "none";
+            aLink.href = url;
+            aLink.setAttribute("download", "export.xlsx");
+            document.body.appendChild(aLink);
+            aLink.click();
+            document.body.removeChild(aLink);
+            window.URL.revokeObjectURL(url);
+          } else {
+            this.$message.error("没有符合条件的卡密");
+          }
         });
-        let url = window.URL.createObjectURL(blob);
-        console.log(url);
-        let aLink = document.createElement("a");
-        aLink.style.display = "none";
-        aLink.href = url;
-        aLink.setAttribute("download", "月账单.xlsx");
-        document.body.appendChild(aLink);
-        aLink.click();
-        document.body.removeChild(aLink);
-        window.URL.revokeObjectURL(url);
-      });
     },
     // 修改搜索参数
     _formatRequestData(data) {
