@@ -87,7 +87,6 @@ export default {
         Cookies.remove("token");
 
         window.location.reload();
-        // this.$router.push(`/login?redirect=${this.$route.fullPath}`);
       });
     },
     userInfo: function () {
