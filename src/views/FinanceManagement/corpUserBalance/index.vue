@@ -17,7 +17,7 @@
       </el-table-column>
       <el-table-column prop="oper" label="操作人" />
       <el-table-column label="操作时间" width="155">
-        <template slot-scope="scope">{{scope.row.pCreateTime | timeFormat}}</template>
+        <template slot-scope="scope">{{scope.row.operDate | timeFormat}}</template>
       </el-table-column>
     </el-table>
     <Page

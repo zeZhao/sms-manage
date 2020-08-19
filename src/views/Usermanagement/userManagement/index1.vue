@@ -331,7 +331,7 @@ export default {
           key: "returnBalance",
           isShow: true,
           optionData: [
-            { key: 0, value: "不返还" },
+            { key: "0", value: "不返还" },
             { key: 1, value: "返失败" },
             { key: 2, value: "返失败和未知" },
           ],
@@ -554,18 +554,30 @@ export default {
       this.editId = ID;
       this.formTit = "修改";
       this.formConfig.forEach((item) => {
-        for (let key in row) {
-          if (item.key === key) {
+        for (let keys in row) {
+          if (item.key === keys) {
             this.$set(
               item,
               "defaultValue",
-              key == "reportType" || key == "moType"
-                ? row[key] == "0"
-                  ? row[key].toString()
-                  : row[key]
-                : row[key]
+              keys == "reportType" ||
+                keys == "moType" ||
+                keys == "returnBalance"
+                ? row[keys] == "0"
+                  ? row[keys].toString()
+                  : row[keys]
+                : row[keys]
             );
           }
+        }
+        if (item.key === "reductModel") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === 2) {
+              this._setDisplayShow(this.formConfig, "returnBalance", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "returnBalance", true);
+            }
+          });
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
@@ -582,14 +594,13 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "审核";
-      console.log(this.formConfig);
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(
               item,
               "defaultValue",
-              key == "reportType" || key == "moType"
+              key == "reportType" || key == "moType" || key == "returnBalance"
                 ? row[key] == "0"
                   ? row[key].toString()
                   : row[key]

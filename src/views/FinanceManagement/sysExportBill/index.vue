@@ -147,7 +147,7 @@ export default {
             document.body.removeChild(aLink);
             window.URL.revokeObjectURL(url);
           } else {
-            this.$message.error("没有符合条件的卡密");
+            this.$message.error("没有符合条件的账单");
           }
         });
     },

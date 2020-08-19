@@ -709,6 +709,8 @@ export default {
           .then((res) => {
             if (resOk(res)) {
               this.$message.success("网关启用成功！");
+            } else {
+              this.$message.error("网关启用失败！");
             }
           });
       } else {
@@ -721,6 +723,8 @@ export default {
           .then((res) => {
             if (resOk(res)) {
               this.$message.success("网关停止成功！");
+            } else {
+              this.$message.error("网关停止失败！");
             }
           });
       }
