@@ -126,7 +126,7 @@ export default {
       this.$axios
         .post(
           "/bill/export/",
-          { },
+          {},
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
@@ -141,7 +141,7 @@ export default {
             let aLink = document.createElement("a");
             aLink.style.display = "none";
             aLink.href = url;
-            aLink.setAttribute("download", "export.xlsx");
+            aLink.setAttribute("download", "月账单.xlsx");
             document.body.appendChild(aLink);
             aLink.click();
             document.body.removeChild(aLink);
@@ -149,7 +149,7 @@ export default {
           } else {
             this.$message.error("没有符合条件的卡密");
           }
-        })
+        });
     },
     // 修改搜索参数
     _formatRequestData(data) {
