@@ -189,6 +189,15 @@ export default {
     isClearAble(item) {
       return item.clearable !== false;
     },
+    /**
+     * 重置表单
+     */
+    resetForm() {
+      for (let key in this.form) {
+        this.form[key] = "";
+      }
+      this.$emit("search", this.form);
+    },
     // 新建
     create() {
       this.$emit("create");
