@@ -214,7 +214,7 @@ export default {
           label: "备注信息",
           key: "remark",
           rules: [
-            { required: true, textarea: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: "blur" },
           ],
         },
       ],

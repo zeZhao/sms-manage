@@ -194,7 +194,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="setCustomerInfo('updateCustomForm')">保存</el-button>
-        <el-button @click.native="customerInfo = false">取消</el-button>
+        <el-button @click.native="canselCustomerInfo">取消</el-button>
       </div>
     </el-dialog>
   </section>
@@ -462,8 +462,8 @@ export default {
       console.log(row);
       this.customerInfo = true;
       this.deleteCustomer();
-      this.setInfo = row;
-      this.setInfo.state = row.state;
+      this.setInfo = Object.assign({},row);
+    //   this.setInfo.state = row.state;
       // this.setInfo.pwd = "";
     },
     delUser(row) {
@@ -539,6 +539,10 @@ export default {
           this.$message.error(res.msg);
         }
       });
+    },
+    canselCustomerInfo(){
+        this.customerInfo = false;
+        // this.orderList();
     },
     setNavuserList(userId, roleId) {
       let params = {
