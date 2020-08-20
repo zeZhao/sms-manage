@@ -462,7 +462,7 @@ export default {
       console.log(row);
       this.customerInfo = true;
       this.deleteCustomer();
-      this.setInfo = row;
+      this.setInfo = Object.assign({},row);
     //   this.setInfo.state = row.state;
       // this.setInfo.pwd = "";
     },
@@ -542,7 +542,7 @@ export default {
     },
     canselCustomerInfo(){
         this.customerInfo = false;
-        this.orderList();
+        // this.orderList();
     },
     setNavuserList(userId, roleId) {
       let params = {
