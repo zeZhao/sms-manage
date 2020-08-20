@@ -221,7 +221,7 @@ export default {
             .then(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
-                path: this.redirect || "/inedx",
+                path: "/",
                 query: this.otherQuery,
               });
               this.loading = false;
@@ -229,7 +229,7 @@ export default {
             .catch(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
-                path: this.redirect || "/index",
+                path: "/",
                 query: this.otherQuery,
               });
               this.getCaptcha();

@@ -346,6 +346,17 @@ export default {
       return post("/smsBalanceopt/add", params);
     },
   },
+  //导出账单
+  sysExportBill: {
+    // 分页查询列表
+    list(params) {
+      return post("/bill/export/list", params);
+    },
+    // 新增
+    export(params) {
+      return post("/bill/export", params);
+    },
+  },
   //余额调整记录
   sysCompanyIncome: {
     // 分页查询列表

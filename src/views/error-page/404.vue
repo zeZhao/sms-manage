@@ -2,57 +2,57 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img class="pic-404__parent" src="@/assets/404_images/404.png" alt="404">
-        <img class="pic-404__child left" src="@/assets/404_images/404_cloud.png" alt="404">
-        <img class="pic-404__child mid" src="@/assets/404_images/404_cloud.png" alt="404">
-        <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404">
+        <img class="pic-404__parent" src="@/assets/404_images/404.png" alt="404" />
+        <img class="pic-404__child left" src="@/assets/404_images/404_cloud.png" alt="404" />
+        <img class="pic-404__child mid" src="@/assets/404_images/404_cloud.png" alt="404" />
+        <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404" />
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">当前账号暂无权限访问</div>
         <!-- <div class="bullshit__info">All rights reserved
           <a style="color:#20a0ff" href="https://wallstreetcn.com" target="_blank">wallstreetcn</a>
-        </div> -->
+        </div>-->
         <div class="bullshit__headline">请退出后重新登录，谢谢</div>
         <div class="bullshit__info"></div>
-         <el-button type="primary" @click="logout">退出</el-button>
+        <el-button type="primary" @click="logout">退出</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import Cookies from 'js-cookie'
-  import Breadcrumb from '@/components/Breadcrumb'
-  import Hamburger from '@/components/Hamburger'
-  import ErrorLog from '@/components/ErrorLog'
-  import Screenfull from '@/components/Screenfull'
-  import SizeSelect from '@/components/SizeSelect'
-  import Search from '@/components/HeaderSearch'
+import { mapGetters } from "vuex";
+import Cookies from "js-cookie";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
+import ErrorLog from "@/components/ErrorLog";
+import Screenfull from "@/components/Screenfull";
+import SizeSelect from "@/components/SizeSelect";
+import Search from "@/components/HeaderSearch";
+import { getToken, setToken, removeToken } from "@/utils/auth";
 export default {
-  name: 'Page404',
+  name: "Page404",
   computed: {
     message() {
-      return 'The webmaster said that you can not enter this page...'
-    }
+      return "The webmaster said that you can not enter this page...";
+    },
   },
-   methods: {
-      logout() {
-        // state.token = ''
-        Cookies.remove('Admin-Token');
-        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-        window.location.reload()
-        // Cookies.remove('Token');
-        // window.location.reload()
-      },
-      
-    }
-}
+  methods: {
+    logout() {
+      // state.token = ''
+      removeToken();
+      Cookies.remove("Admin-Token");
+      window.location.reload();
+      // Cookies.remove('Token');
+      // window.location.reload()
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.wscn-http404-container{
-  transform: translate(-50%,-50%);
+.wscn-http404-container {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;

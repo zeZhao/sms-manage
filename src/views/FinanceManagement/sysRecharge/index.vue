@@ -131,7 +131,6 @@
       style="margin: 0 auto"
     >
       <FormItem
-        :colSpan="12"
         ref="formItems"
         :formConfig="formConfigTransfers"
         btnTxt="确认转移"

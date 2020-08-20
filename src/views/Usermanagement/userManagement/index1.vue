@@ -24,12 +24,18 @@
       </el-table-column>
       <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.proType == '1'?'web前端':( scope.row.proType == '2'?'http接口':( scope.row.proType == '3'?'cmpp接口':'音频接口'))}}</span>
+          <span>{{ scope.row.proType === 1?'web前端':( scope.row.proType === 2?'http接口':( scope.row.proType === 3?'cmpp接口':(scope.row.proType === 7?'音频接口':'')))}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="发送运营商" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.sendType == '1'?'移动':( scope.row.reductModel == '2'?'联通 ':( scope.row.reductModel == '3'?'电信': (scope.row.reductModel == "4" ? '三网':(scope.row.reductModel == "5" ? '移动联通' : (scope.row.reductModel == "6"?'移动电信':'联通电信')))))}}</span>
+          <span v-if="scope.row.sendType === 1">移动</span>
+          <span v-if="scope.row.sendType === 2">联通</span>
+          <span v-if="scope.row.sendType === 3">电信</span>
+          <span v-if="scope.row.sendType === 4">三网</span>
+          <span v-if="scope.row.sendType === 5">移动联通</span>
+          <span v-if="scope.row.sendType === 6">移动电信</span>
+          <span v-if="scope.row.sendType === 7">联通电信</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式" width="110">
@@ -325,7 +331,7 @@ export default {
           key: "returnBalance",
           isShow: true,
           optionData: [
-            { key: 0, value: "不返还" },
+            { key: "0", value: "不返还" },
             { key: 1, value: "返失败" },
             { key: 2, value: "返失败和未知" },
           ],
@@ -542,25 +548,45 @@ export default {
       return row;
     },
     //修改
-    _mxEdit(row, ID){
-        row = this._mxArrangeEditData(row)
-            this.id = row[ID];
-            this.editId = ID
-            this.formTit = "修改";
-            this.formConfig.forEach(item => {
-                for (let key in row) {
-                    if (item.key === key) {
-                        this.$set(item, "defaultValue", (key=="reportType" || key=="moType")?(row[key]=='0'?row[key].toString():row[key]):row[key]);
-                    }
-                }
-                if (!Object.keys(row).includes(item.key)) {
-                    this.$set(item, "defaultValue", "");
-                }
-            });
-            setTimeout(() => {
-                this.$refs.formItem.clearValidate();
-            }, 0);
-            this.addChannel = true;
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach((item) => {
+        for (let keys in row) {
+          if (item.key === keys) {
+            this.$set(
+              item,
+              "defaultValue",
+              keys == "reportType" ||
+                keys == "moType" ||
+                keys == "returnBalance"
+                ? row[keys] == "0"
+                  ? row[keys].toString()
+                  : row[keys]
+                : row[keys]
+            );
+          }
+        }
+        if (item.key === "reductModel") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === 2) {
+              this._setDisplayShow(this.formConfig, "returnBalance", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "returnBalance", true);
+            }
+          });
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     // 审核
     _mxCheck(row, ID) {
@@ -568,11 +594,18 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "审核";
-      console.log(this.formConfig)
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
-            this.$set(item, "defaultValue", (key=="reportType" || key=="moType")?(row[key]=='0'?row[key].toString():row[key]):row[key]);
+            this.$set(
+              item,
+              "defaultValue",
+              key == "reportType" || key == "moType" || key == "returnBalance"
+                ? row[key] == "0"
+                  ? row[key].toString()
+                  : row[key]
+                : row[key]
+            );
           }
         }
       });
@@ -591,8 +624,8 @@ export default {
         ...form,
       };
       if (this.formTit == "新增") {
-          console.log(params)
-          console.log(this.formConfig)
+        console.log(params);
+        console.log(this.formConfig);
         this.$http[namespace][add](params).then((res) => {
           this._mxSuccess(res);
         });
@@ -634,6 +667,7 @@ export default {
         message: this.createElement(h, row),
         showConfirmButton: false,
       });
+      console.log(row.proType, "--------------");
     },
     //获取所有企业
     getAllCorp() {
@@ -742,22 +776,23 @@ export default {
     //   return formData;
     // },
     createElement(h, row) {
+      let strType = "";
       switch (row.proType) {
         case 1:
-          row.proType = "web前端";
+          strType = "web前端";
           break;
         case 2:
-          row.proType = "http接口";
+          strType = "http接口";
           break;
         case 3:
-          row.proType = "cmpp接口";
+          strType = "cmpp接口";
           break;
       }
-      if (row.proType === "web前端") {
+      if (row.proType === 1) {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`),
+            h("span", null, `${strType}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
@@ -777,11 +812,11 @@ export default {
           ]),
         ]);
       }
-      if (row.proType === "http接口") {
+      if (row.proType === 2) {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`),
+            h("span", null, `${strType}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
@@ -805,11 +840,11 @@ export default {
           ]),
         ]);
       }
-      if (row.proType === "cmpp接口") {
+      if (row.proType === 3) {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`),
+            h("span", null, `${strType}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
