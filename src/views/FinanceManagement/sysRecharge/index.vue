@@ -437,6 +437,7 @@ export default {
           type: "input",
           label: "接收条数",
           key: "cardCountTo",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
