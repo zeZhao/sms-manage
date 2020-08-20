@@ -76,7 +76,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifier" label="操作账号" />
       <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
@@ -96,7 +96,12 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center" width="70">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'cardId')" type="text" size="small">修改</el-button>
+          <el-button
+            :disabled="scope.row.cardStatus === 1"
+            @click="_mxEdit(scope.row, 'cardId')"
+            type="text"
+            size="small"
+          >修改</el-button>
           <!-- <el-button @click="_mxDeleteItem('signId', scope.row.signId)" type="text" size="small">删除</el-button> -->
         </template>
       </el-table-column>
@@ -121,7 +126,10 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @choose="choose"
+        @selectChange="selectChange"
         @inpChange="inpChange"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
       ></FormItem>
     </el-dialog>
     <el-dialog
@@ -213,6 +221,7 @@ export default {
           key: ["", "startTime", "endTime"],
           placeholder: "按时间查询",
         },
+
         {
           type: "select",
           label: "账单类型",
@@ -250,6 +259,8 @@ export default {
           type: "select",
           label: "计费类型",
           key: "reductType",
+          initDefaultValue: 2,
+          defaultValue: 2,
           optionData: [
             { key: 1, value: "用户id计费" },
             { key: 2, value: "企业id计费" },
@@ -278,7 +289,7 @@ export default {
           label: "企业ID",
           key: "corporateId",
           disabled: true,
-          isShow: true,
+          isShow: false,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
@@ -326,6 +337,7 @@ export default {
         {
           type: "input",
           label: "备注",
+          maxlength: 300,
           key: "remark",
         },
         {
@@ -341,10 +353,14 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "upload",
           label: "余额变动凭证",
+          btnTxt: "上传凭证",
           key: "fileUrl",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          limit: 1,
+          defaultValue: "",
+          defaultFileList: [],
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
       ],
       formConfigTransfers: [
@@ -435,6 +451,7 @@ export default {
         },
       ],
       isChooseUser: false,
+      chooseKey: "",
     };
   },
   mounted() {
@@ -442,6 +459,101 @@ export default {
   },
   computed: {},
   methods: {
+    //文件上传成功
+    handleSuccess({ response, file, fileList }) {
+      console.log(file, "---------file");
+      console.log(fileList, "---------fileList");
+      this.formConfig.forEach((item) => {
+        if (item.key === "fileUrl") {
+          item.defaultValue = response.data;
+          console.log(item.defaultFileList);
+        }
+      });
+    },
+    handleRemove({ file, fileList }) {
+      this.formConfig.forEach((item) => {
+        if (item.key === "fileUrl") {
+          item.defaultValue = "";
+        }
+      });
+    },
+    //选择控制
+    selectChange({ val, item }) {
+      console.log(val);
+      if (item.key === "reductType") {
+        if (val === 2) {
+          this._setDisplayShow(this.formConfig, "corporateId", false);
+        } else {
+          this._setDisplayShow(this.formConfig, "corporateId", true);
+        }
+      }
+    },
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach((item) => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+            if (key === "fileUrl" && row[key]) {
+              let file = [
+                {
+                  name: "凭证",
+                  url: row[key],
+                },
+              ];
+              this.$set(item, "defaultFileList", file);
+            }
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "reductType") {
+          if (item.defaultValue === 2) {
+            this._setDisplayShow(this.formConfig, "corporateId", false);
+          } else {
+            this._setDisplayShow(this.formConfig, "corporateId", true);
+          }
+        }
+        // if(item.key === "reductType")
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      //设置企业显示
+      this._setDisplayShow(this.formConfig, "corporateId", false);
+      // 初始上传文件为空
+      this.formConfig.forEach((item) => {
+        if (item.key === "fileUrl") {
+          item.defaultFileList = [];
+        }
+      });
+    },
     //获取销售员
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then((res) => {
@@ -494,6 +606,11 @@ export default {
         });
       }
     },
+    //显示选择用户弹窗
+    choose(item) {
+      this.chooseKey = item.key;
+      this.isChooseUser = true;
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {
@@ -510,22 +627,28 @@ export default {
       });
       this.formConfigTransfers.map((t) => {
         const { key } = t;
-        if (key === "userId") {
-          t.defaultValue = data.userId;
-        }
-        if (key === "userName") {
-          t.defaultValue = data.userName;
-        }
-        if (key === "userIdTo") {
-          t.defaultValue = data.userId;
-        }
-        if (key === "userNameTo") {
-          t.defaultValue = data.userName;
+        if (this.chooseKey === "userId") {
+          if (key === "userId") {
+            t.defaultValue = data.userId;
+          }
+          if (key === "userName") {
+            t.defaultValue = data.userName;
+          }
+        } else if (this.chooseKey === "userIdTo") {
+          if (key === "userIdTo") {
+            t.defaultValue = data.userId;
+          }
+          if (key === "userNameTo") {
+            t.defaultValue = data.userName;
+          }
         }
       });
     },
     transfers() {
       this.transfersDialog = true;
+      setTimeout(() => {
+        this.$refs.formItems.resetForm();
+      }, 0);
     },
     transfersSubmit(form) {
       const params = {

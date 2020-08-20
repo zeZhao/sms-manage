@@ -1044,11 +1044,11 @@ export default {
   smsComplaint: {
     // 查询列表
     queryStatisticByPage(params) {
-      return post("/smsComplaint/queryStatisticByPage", params);
+      return post("/sysComplaint/queryStatisticByPage", params);
     },
     //统计
     TypeStatistic(params) {
-      return fetch("/smsComplaint/querySmsComplaintTypeStatistic", params);
+      return fetch("/sysComplaint/querySmsComplaintTypeStatistic", params);
     },
   },
   //短信通道

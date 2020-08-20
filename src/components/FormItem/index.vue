@@ -147,6 +147,23 @@
                   }"
               ></el-time-picker>
             </template>
+            <!--上传-->
+            <template v-if="item.type === 'upload'">
+              <el-upload
+                ref="uploadFile"
+                :action="action"
+                :headers="header"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="handleSuccess"
+                :limit="item.limit"
+                :file-list="item.defaultFileList"
+                :on-exceed="handleExceed"
+              >
+                <el-button size="small" type="primary">{{item.btnTxt}}</el-button>
+                <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+              </el-upload>
+            </template>
           </el-form-item>
         </el-col>
         <div>
@@ -168,6 +185,7 @@
 </template>
 
 <script>
+import { getToken } from "@/utils/auth";
 export default {
   props: {
     formConfig: {
@@ -198,6 +216,10 @@ export default {
   data() {
     return {
       formData: {},
+      action: "api/api/sysPrepaidCard/uploadFile",
+      header: {
+        token: getToken(),
+      },
     };
   },
   mounted() {
@@ -249,6 +271,10 @@ export default {
     clearValidate() {
       this.$refs.form.clearValidate();
     },
+    //清空上传文件
+    clearFiles() {
+      this.$refs.uploadFile.clearFiles();
+    },
     /**
      * 重置表单
      */
@@ -299,6 +325,23 @@ export default {
       } else {
         this.$set(item, "defaultValue", val);
       }
+    },
+    //  文件上传成功时的钩子
+    handleSuccess(response, file, fileList) {
+      this.$emit("handleSuccess", { response, file, fileList });
+    },
+    //  文件列表移除文件时的钩子
+    handleRemove(file, fileList) {
+      this.$emit("handleRemove", { file, fileList });
+    },
+    // 点击文件列表中已上传的文件时的钩子
+    handlePreview(file) {
+      console.log(file);
+    },
+
+    //  文件超出个数限制时的钩子
+    handleExceed(files, fileList) {
+      this.$emit("handleExceed", { files, fileList });
     },
   },
   watch: {
