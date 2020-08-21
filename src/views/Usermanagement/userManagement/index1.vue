@@ -380,6 +380,7 @@ export default {
           type: "select",
           label: "产品类型",
           key: "proType",
+          disabled: false,
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
@@ -547,6 +548,18 @@ export default {
       }
       return row;
     },
+    _mxCreate() {
+        this.addChannel = true;
+        this.formTit = "新增";
+        this.formConfig.forEach((item) => {
+            if(item.key == 'proType'){
+                this.$set(item,'disabled',false)
+            }
+        })
+        setTimeout(() => {
+            this.$refs.formItem.resetForm();
+        }, 0);
+    },
     //修改
     _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
@@ -578,6 +591,9 @@ export default {
               this._setDisplayShow(this.formConfig, "returnBalance", true);
             }
           });
+        }
+        if(item.key == 'proType'){
+            this.$set(item,'disabled',true)
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
@@ -796,7 +812,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.userName}`),
+            h("span", null, `${row.corpName}`),
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
@@ -820,7 +836,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.userName}`),
+            h("span", null, `${row.corpName}`),
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
@@ -848,7 +864,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.userName}`),
+            h("span", null, `${row.corpName}`),
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
