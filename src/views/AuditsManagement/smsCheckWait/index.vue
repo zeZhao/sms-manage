@@ -19,7 +19,7 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "路由信息错" : (scope.row.gatewayType === 2 ? "关键字" :(scope.row.gatewayType === 3 ? "模板不匹配" :(scope.row.gatewayType === 5 ? "数量超标" :(scope.row.gatewayType === 6 ? "组合redis出错" :'组合超时')))) }}</span>
@@ -186,14 +186,15 @@ export default {
           type: "radio",
           label: "审核状态",
           key: "checkStatus",
+          initDefaultValue: "2",
           defaultValue: "",
           optionData: [
             {
-              key: "1",
+              key: "2",
               value: "通过",
             },
             {
-              key: "0",
+              key: "3",
               value: "拒绝",
             },
           ],
@@ -223,9 +224,7 @@ export default {
     },
     submit(form) {
       this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then((res) => {
-        if (resOk(res)) {
-          this.$message.success("超审成功");
-        }
+        this._mxSuccess(res);
       });
     },
     addCheck() {
