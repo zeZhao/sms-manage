@@ -189,11 +189,11 @@ export default {
           defaultValue: "",
           optionData: [
             {
-              key: "1",
+              key: "2",
               value: "通过",
             },
             {
-              key: "0",
+              key: "3",
               value: "拒绝",
             },
           ],
