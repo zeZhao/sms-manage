@@ -456,7 +456,14 @@ export default {
           label: "客户联系人电话",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+              message: "手机号码格式错误",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",

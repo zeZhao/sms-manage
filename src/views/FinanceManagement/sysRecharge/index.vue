@@ -259,8 +259,8 @@ export default {
           type: "select",
           label: "计费类型",
           key: "reductType",
-          initDefaultValue: 2,
-          defaultValue: 2,
+          // initDefaultValue: 2,
+          defaultValue: "",
           optionData: [
             { key: 1, value: "用户id计费" },
             { key: 2, value: "企业id计费" },
@@ -289,7 +289,7 @@ export default {
           label: "企业ID",
           key: "corporateId",
           disabled: true,
-          isShow: false,
+          isShow: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
@@ -297,31 +297,40 @@ export default {
           type: "input",
           label: "金额(元)",
           key: "cardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
               pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
               message: "请输入大于0的数字",
               trigger: "blur",
-            }],
+            },
+          ],
         },
         {
           type: "input",
           label: "单价(分)",
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
               pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
               message: "请输入大于0的数字",
               trigger: "blur",
-            }],
+            },
+          ],
         },
         {
           type: "input",
           label: "条数",
           key: "cardCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
-                        pattern: /^\+?[1-9]\d*$/,
-                        message: '请输入大于0的正整数',
-                        trigger: 'blur'
-                    }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "blur",
+            },
+          ],
         },
         {
           type: "select",
@@ -362,11 +371,14 @@ export default {
           type: "input",
           label: "实际收款额度",
           key: "factcardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
               pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
               message: "请输入大于0的数字",
               trigger: "blur",
-            }],
+            },
+          ],
         },
         {
           type: "upload",
@@ -563,7 +575,7 @@ export default {
         this.$refs.formItem.resetForm();
       }, 0);
       //设置企业显示
-      this._setDisplayShow(this.formConfig, "corporateId", false);
+      this._setDisplayShow(this.formConfig, "corporateId", true);
       // 初始上传文件为空
       this.formConfig.forEach((item) => {
         if (item.key === "fileUrl") {
