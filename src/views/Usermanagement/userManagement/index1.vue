@@ -153,6 +153,7 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corpId",
+
           placeholder: "请输入企业ID",
         },
         {
@@ -455,7 +456,14 @@ export default {
           label: "客户联系人电话",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+              message: "手机号码格式错误",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",
@@ -549,16 +557,19 @@ export default {
       return row;
     },
     _mxCreate() {
-        this.addChannel = true;
-        this.formTit = "新增";
-        this.formConfig.forEach((item) => {
-            if(item.key == 'proType'){
-                this.$set(item,'disabled',false)
-            }
-        })
-        setTimeout(() => {
-            this.$refs.formItem.resetForm();
-        }, 0);
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach((item) => {
+        if (item.key == "proType") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", false);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
     //修改
     _mxEdit(row, ID) {
@@ -592,8 +603,11 @@ export default {
             }
           });
         }
-        if(item.key == 'proType'){
-            this.$set(item,'disabled',true)
+        if (item.key == "proType") {
+          this.$set(item, "disabled", true);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", true);
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");

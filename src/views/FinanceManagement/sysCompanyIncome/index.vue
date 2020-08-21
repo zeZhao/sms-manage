@@ -11,7 +11,7 @@
       <el-table-column prop="factMoney" label="	实收款(元)	" />
       <el-table-column prop="poorMoeny" label="欠收款(元)" />
       <el-table-column prop="countDate" label="账单月">
-          <template slot-scope="scope">{{scope.row.countDate | timeFormat}}</template>
+        <template slot-scope="scope">{{scope.row.countDate | timeFormat}}</template>
       </el-table-column>
     </el-table>
     <p style="color:red" v-if="this.statistics">
@@ -46,18 +46,18 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
-     const validatorRemark = (rule, value, callback) => {
-        let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
-        if (value == "") {
-            // callback(new Error("备注信息不能为空"));
+    const validatorRemark = (rule, value, callback) => {
+      let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+      if (value == "") {
+        // callback(new Error("备注信息不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("支持汉字/数字/字母/标点符号"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("支持汉字/数字/字母/标点符号"));
-            } else {
-                callback();
-            }
+          callback();
         }
-    };   
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -154,9 +154,7 @@ export default {
               value: "短信",
             },
           ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -180,9 +178,7 @@ export default {
               value: "返佣",
             },
           ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -191,9 +187,7 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -207,8 +201,8 @@ export default {
           type: "select",
           label: "通道码号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "change" }],
-          optionData:[]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          optionData: [],
         },
         {
           type: "select",
@@ -228,9 +222,7 @@ export default {
               value: "电信",
             },
           ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -300,9 +292,7 @@ export default {
               value: "其他",
             },
           ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -318,9 +308,7 @@ export default {
               value: "对私",
             },
           ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -342,39 +330,35 @@ export default {
               value: "已开",
             },
           ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "month",
           label: "账单月",
           key: "countDate",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "date",
           label: "入账日期",
           key: "posttingDate",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remark",
           maxlength: "300",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       income_id: "",
       isChooseUser: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
     //选择用户选取赋值
@@ -430,10 +414,9 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
-      this.gateway();
+
       setTimeout(() => {
         this.$refs.formItem.resetForm();
-        console.log(this.formConfig)
       }, 0);
     },
     gateway() {
@@ -442,19 +425,19 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: ""
-        }
+          isCm: "",
+        },
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.gateway.listGateway(params).then((res) => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
+        this.formConfig.forEach((item) => {
           const { key } = item;
-          
+
           if (key === "gateway") {
-            res.data.forEach(t => {
+            res.data.forEach((t) => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
-              console.log(item)
+              console.log(item);
               item.optionData.push(t);
             });
           }
