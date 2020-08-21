@@ -419,6 +419,7 @@ export default {
       this.gateway();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
+        console.log(this.formConfig)
       }, 0);
     },
     gateway() {

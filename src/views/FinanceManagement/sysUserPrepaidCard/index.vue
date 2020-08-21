@@ -112,6 +112,7 @@ export default {
           label: "类型",
           key: "chargeType",
           defaultValue: 1,
+          clearable:false,
           optionData: [
             {
               key: 1,

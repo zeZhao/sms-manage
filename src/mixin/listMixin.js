@@ -80,6 +80,7 @@ function queryData() {
             ...searchParam,
             pageIndex: this.pageObj.currentPage,
             pageNumber: this.pageObj.currentPage,
+            pageNum: this.pageObj.currentPage,
             pageSize: this.pageObj.pageSize,
         }
     } else {
@@ -88,6 +89,7 @@ function queryData() {
                 ...searchParam,
                 pageIndex: this.pageObj.currentPage,
                 pageNumber: this.pageObj.currentPage,
+                pageNum: this.pageObj.currentPage,
                 pageSize: this.pageObj.pageSize,
             }
         }
