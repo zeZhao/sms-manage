@@ -101,9 +101,10 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "select",
           label: "通道",
           key: "gateway",
+          optionData:[],
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
           ]
@@ -181,6 +182,7 @@ export default {
       this.formConfig.forEach(item => {
         this.$set(item, "defaultValue", "");
       });
+      this.gateway();
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
@@ -205,6 +207,31 @@ export default {
     },
     cancel() {
       this.addChannel = false;
+    },
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.GatewayList = res.data;
+        this.formConfig.forEach(item => {
+          const { key } = item;
+          
+          if (key === "gateway") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gateway);
+              this.$set(t, "value", t.gatewayName);
+              console.log(item)
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
     }
   },
   watch: {}

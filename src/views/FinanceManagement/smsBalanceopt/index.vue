@@ -55,6 +55,18 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorRemark = (rule, value, callback) => {
+        let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+        if (value == "") {
+            callback(new Error("备注信息不能为空"));
+        } else {
+            if (!regex.test(value)) {
+                callback(new Error("支持汉字/数字/字母/标点符号"));
+            } else {
+                callback();
+            }
+        }
+    };   
     return {
       formTit: "新增",
       addChannel: false,
@@ -207,14 +219,19 @@ export default {
           type: "input",
           label: "当前操作条数",
           key: "optBalance",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+                        pattern: /^\+?[1-9]\d*$/,
+                        message: '请输入大于0的正整数',
+                        trigger: 'blur'
+                    }],
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remark",
+          maxlength:300,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: "blur"},{trigger: "blur",validator: validatorRemark}
           ],
         },
       ],

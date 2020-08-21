@@ -42,7 +42,8 @@ export default {
     data() {
         const validatorSign = (rule, value, callback) => {
             let regex = /^[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}$/;
-            if (value == "") {
+            console.log(value,value == "")
+            if (value == "" || value == null || value == undefined) {
                 callback(new Error("此项不能为空"));
             } else {
                 let data = value.split(',')
@@ -183,6 +184,10 @@ export default {
                     key: "sign",
                     placeholder:"可输入多个签名，用','隔开每个签名为2-8个字符，支持汉字、数字、英文",
                     rules: [{
+                        required: true,
+                        message: "请输入必填项",
+                        trigger: "blur"
+                    },{
                         trigger: "blur",
                         validator: validatorSign
                     }],

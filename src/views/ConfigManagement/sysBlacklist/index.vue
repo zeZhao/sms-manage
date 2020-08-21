@@ -73,6 +73,18 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorRemark = (rule, value, callback) => {
+      let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+      if (value == "") {
+        // callback(new Error("备注信息不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("支持汉字/数字/字母/标点符号"));
+        } else {
+          callback();
+        }
+      }
+    };  
     return {
       formTit: "新增",
       addChannel: false,
@@ -213,6 +225,7 @@ export default {
           key: "remark",
           maxlength: 300,
           placeholder: "备注信息不能超过300字",
+          rules: [{ trigger: "blur", validator: validatorRemark }]
         },
       ],
       blackId: "",

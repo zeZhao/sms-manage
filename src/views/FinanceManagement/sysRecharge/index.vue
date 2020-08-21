@@ -297,19 +297,31 @@ export default {
           type: "input",
           label: "金额(元)",
           key: "cardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
+              message: "请输入大于0的数字",
+              trigger: "blur",
+            }],
         },
         {
           type: "input",
           label: "单价(分)",
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
+              message: "请输入大于0的数字",
+              trigger: "blur",
+            }],
         },
         {
           type: "input",
           label: "条数",
           key: "cardCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+                        pattern: /^\+?[1-9]\d*$/,
+                        message: '请输入大于0的正整数',
+                        trigger: 'blur'
+                    }],
         },
         {
           type: "select",
@@ -350,7 +362,11 @@ export default {
           type: "input",
           label: "实际收款额度",
           key: "factcardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
+              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
+              message: "请输入大于0的数字",
+              trigger: "blur",
+            }],
         },
         {
           type: "upload",
