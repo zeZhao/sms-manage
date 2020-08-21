@@ -71,7 +71,7 @@ function queryData() {
 
 
     let params = {}
-        //提交参数做兼容处理
+    //提交参数做兼容处理
     if (this.namespace) {
         let newF = DynamicKey.bind(this, this.namespace, searchParam)
         params = newF()
@@ -131,13 +131,13 @@ function queryData() {
             //使用钩子再次格式化数据
             this.listData = this._mxFormListData(list);
         } else if (res.code === 500 || res.code === '500') {
-            this.$message.error(res.data || "获取数据失败")
+            this.$message.error(res.data || res.msg || "获取数据失败")
         }
     })
 }
 
 export default {
-    data: function() {
+    data: function () {
         return {
             pageObj: {
                 currentPage: 1,
@@ -174,7 +174,7 @@ export default {
         }
     },
 
-    created() {},
+    created() { },
 
     mounted() {
         this._mxGetList();
@@ -398,10 +398,10 @@ export default {
                 });
             } else {
                 params.data = Object.assign(params.data, {
-                        [editId]: this.id
-                    })
-                    // params.data[editId] = this.id
-                    // this.$set(params.data, editId, this.id)
+                    [editId]: this.id
+                })
+                // params.data[editId] = this.id
+                // this.$set(params.data, editId, this.id)
                 this.$http[namespace][edit](params).then(res => {
                     this._mxSuccess(res)
                 });
@@ -506,7 +506,7 @@ export default {
             list.forEach(item => {
                 if (item.key === key) {
                     this.$set(item, 'isShow', show)
-                        // item.isShow = true
+                    // item.isShow = true
                 }
             })
         }

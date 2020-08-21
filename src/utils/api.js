@@ -1113,4 +1113,614 @@ export default {
         },
     },
 
+
+
+    //通道报警
+    sysGatewayAlarm: {
+        // 分页查询列表
+        listGatewayAlarmByPage(params) {
+            return post("/sysGatewayAlarm/listGatewayAlarmByPage", params);
+        },
+        // 新增
+        addGatewayAlarm(params) {
+            return post("/sysGatewayAlarm/addGatewayAlarm", params);
+        },
+        // 修改
+        updateGatewayAlarm(params) {
+            return post("/sysGatewayAlarm/updateGatewayAlarm", params);
+        },
+        // 删除
+        deleteGatewayAlarm(params) {
+            return post("/sysGatewayAlarm/deleteGatewayAlarm", params);
+        },
+    },
+    //用户报警
+    sysUserAlarm: {
+        // 分页查询列表
+        listUserAlarmByPage(params) {
+            return post("/sysUserAlarm/listUserAlarmByPage", params);
+        },
+        // 新增
+        addUserAlarm(params) {
+            return post("/sysUserAlarm/addUserAlarm", params);
+        },
+        // 修改
+        updateUserAlarm(params) {
+            return post("/sysUserAlarm/updateUserAlarm", params);
+        },
+        // 删除
+        deleteUserAlarm(params) {
+            return post("/sysUserAlarm/deleteUserAlarm", params);
+        },
+    },
+    //用户报警
+    sysAlarmType: {
+        // 分页查询列表
+        listAlarmTypeByPage(params) {
+            return post("/sysAlarmType/listAlarmTypeByPage", params);
+        },
+        // 新增
+        addAlarmType(params) {
+            return post("/sysAlarmType/addAlarmType", params);
+        },
+        // 修改
+        updateAlarmType(params) {
+            return post("/sysAlarmType/updateAlarmType", params);
+        },
+        // 删除
+        deleteAlarmType(params) {
+            return post("/sysAlarmType/deleteAlarmType", params);
+        },
+    },
+    //销售组管理
+    sysSalesGroup: {
+        // 分页查询列表
+        queryByPage(params) {
+            return post("/sysSalesGroup/queryByPage", params);
+        },
+        // 新增
+        addOrUpdate(params) {
+            return post("/sysSalesGroup/addOrUpdate", params);
+        },
+        // 修改状态
+        updateStatus(params) {
+            return post("/sysSalesGroup/updateStatus", params);
+        },
+    },
+    //销售组管理
+    sysSales: {
+        // 分页查询列表
+        queryByPage(params) {
+            return post("/sysSales/queryByPage", params);
+        },
+        // 新增
+        addOrUpdate(params) {
+            return post("/sysSales/addOrUpdate", params);
+        },
+        // 修改状态
+        updateStatus(params) {
+            return post("/sysSales/updateStatus", params);
+        },
+        //  查询 新增修改销售员人页面 下拉框组
+        getEditData(params) {
+            return post("/sysSales/getEditData", params);
+        },
+        // 查询有效的销售人员
+        queryAvailableSaleman(params) {
+            return fetch("/sysSales/queryAvailableSaleman", params);
+        },
+    },
+    //提交统计
+    reportsubmitStatistics: {
+        // 列表
+        submitStatistics(params) {
+            return fetch("/report/submitStatistics", params);
+        },
+        // 汇总
+        saleSubmitStatisticsTotal(params) {
+            return fetch("/report/saleSubmitStatisticsTotal", params);
+        },
+    },
+    //敏感词
+    sysSensitiveWord: {
+        // 分页查询列表
+        listSensitiveWordByPage(params) {
+            return post("/sysSensitiveWord/listSensitiveWordByPage", params);
+        },
+        // 新增
+        addSensitiveWord(params) {
+            return post("/sysSensitiveWord/addSensitiveWord", params);
+        },
+        // 修改
+        updateSensitiveWord(params) {
+            return post("/sysSensitiveWord/updateSensitiveWord", params);
+        },
+        //  删除
+        deleteSensitiveWord(params) {
+            return post("/sysSensitiveWord/deleteSensitiveWord", params);
+        },
+        // 检测是否存在
+        checkSensitiveWord(params) {
+            return post("sysSensitiveWord/checkSensitiveWord", params);
+        },
+    },
+    // 敏感词组
+    sysSensitiveWordGroup: {
+        // 查询列表
+        listSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/listSensitiveWordGroup", params);
+        },
+        // 分页查询列表
+        listKeyWordGroupByPage(params) {
+            return post("/sysSensitiveWordGroup/listKeyWordGroupByPage", params);
+        },
+        // 新增
+        addSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/addSensitiveWordGroup", params);
+        },
+        // 修改状态
+        updateSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/updateSensitiveWordGroup", params);
+        },
+        //  删除
+        deleteSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/deleteSensitiveWordGroup", params);
+        },
+        //  检测是否存在
+        checkSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/checkSensitiveWordGroup", params);
+        },
+    },
+    // 黑名单管理
+    sysBlacklist: {
+        // 查询列表
+        listBlacklistByPage(params) {
+            return post("/sysBlacklist/listBlacklistByPage", params);
+        },
+        // 新增
+        addSysBlackList(params) {
+            return post("/sysBlacklist/addSysBlackList", params);
+        },
+        // 修改
+        updateSysBlackList(params) {
+            return post("/sysBlacklist/updateSysBlackList", params);
+        },
+        //  删除
+        deleteSysBlackList(params) {
+            return post("/sysBlacklist/deleteSysBlackList", params);
+        },
+    },
+    // 红名单管理
+    sysRedList: {
+        // 查询列表
+        listRedListByPage(params) {
+            return post("/sysRedList/listRedListByPage", params);
+        },
+        // 新增
+        addSysRedList(params) {
+            return post("/sysRedList/addSysRedList", params);
+        },
+        // 修改
+        updateSysRedList(params) {
+            return post("/sysRedList/updateSysRedList", params);
+        },
+        //  删除
+        deleteSysRedList(params) {
+            return post("/sysRedList/deleteSysRedList", params);
+        },
+    },
+    // 白名单管理
+    sysWhitelist: {
+        // 查询列表
+        listWhitelistByPage(params) {
+            return post("/sysWhitelist/listWhitelistByPage", params);
+        },
+        // 新增
+        addSysWhiteList(params) {
+            return post("/sysWhitelist/addSysWhiteList", params);
+        },
+        // 修改
+        updateSysWhiteList(params) {
+            return post("/sysWhitelist/updateSysWhiteList", params);
+        },
+        //  删除
+        deleteSysWhiteList(params) {
+            return post("/sysWhitelist/deleteSysWhiteList", params);
+        },
+    },
+    // 二次路由
+    sysSecondaryRoute: {
+        // 查询列表
+        listSecondaryRouteByPage(params) {
+            return post("/sysSecondaryRoute/listSecondaryRouteByPage", params);
+        },
+        // 新增
+        addSecondaryRoute(params) {
+            return post("/sysSecondaryRoute/addSecondaryRoute", params);
+        },
+        // 修改
+        updateSecondaryRoute(params) {
+            return post("/sysSecondaryRoute/updateSecondaryRoute", params);
+        },
+        //  删除
+        deleteInterfaceSign(params) {
+            return post("/sysSecondaryRoute/deleteInterfaceSign", params);
+        },
+    },
+    // 审核号码
+    smsCheckMobile: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsCheckMobile/queryByPage", params);
+        }
+    },
+    // 短连接查询
+    smsShortUrl: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsShortUrl/queryByPage", params);
+        }
+    },
+    // 上行信息
+    smsMoQueue: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsMoQueue/queryByPage", params);
+        }
+    },
+    // 审核查询
+    smsCheck: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsCheck/queryByPage", params);
+        }
+    },
+    // 提交记录
+    sendLogFegin: {
+        // 查询列表
+        selectSendLogByPage(params) {
+            return post("/sendLogFegin/selectSendLogByPage", params);
+        }
+    },
+    // 发送记录
+    sendRecord: {
+        // 查询列表
+        selectSendBackByPage(params) {
+            return post("/sendLogFegin/selectSendBackByPage", params);
+        }
+    },
+    // 发送报告
+    smsTxReport: {
+        // 查询列表
+        searchSendReport(params) {
+            return post("/sendLogFegin/selectSendreportByPage", params);
+        }
+    },
+    // 返回报告
+    smsReturnReport: {
+        // 查询列表
+        selectReturnReportByPage(params) {
+            return post("/sendLogFegin/selectReturnReportByPage", params);
+        }
+    },
+    // 发送返回报告
+    smsTxReturnReport: {
+        // 查询列表
+        searchSendReturnReport(params) {
+            return post("/sendLogFegin/selectSendReturnByPage", params);
+        }
+    },
+    // 定时
+    sysTimeTasklist: {
+        // 查询列表
+        listTimeTasklistByPage(params) {
+            return post("/sysTimeTasklist/listTimeTasklistByPage", params);
+        }
+    },
+    // 发送跨天列表查询
+    sendAcrossDays: {
+        // 查询列表
+        queryList(params) {
+            return post("/sendAcrossDays/queryList", params);
+        }
+    },
+    // 待发
+    smsSendTask: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsSendTask/queryByPage", params);
+        },
+        // 批量修改网关
+        batchModify(params) {
+            return post("/smsSendTask/batchModify", params);
+        },
+        //查看汇总 
+        queryGatewayStockNum(params) {
+            return post("/smsSendTask/queryGatewayStockNum", params);
+        }
+    },
+    // 网关错误
+    sysSendError: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/sysSendError/queryByPage", params);
+        },
+        // 修改网关
+        editGateWay(params) {
+            return post("/sysSendError/editGateWay", params);
+        },
+        // 修改内容
+        editContent(params) {
+            return post("/sysSendError/editContent", params);
+        },
+    },
+    // 失败原因
+    sysRouteReturnError: {
+        // 查询列表
+        listRouteReturnErrorByPage(params) {
+            return post("/sysRouteReturnError/listRouteReturnErrorByPage", params);
+        },
+        // 新增
+        addRouteReturnError(params) {
+            return post("/sysRouteReturnError/addRouteReturnError", params);
+        },
+        // 修改
+        updateRouteReturnError(params) {
+            return post("/sysRouteReturnError/updateRouteReturnError", params);
+        },
+        //  删除
+        deleteRouteReturnError(params) {
+            return post("/sysRouteReturnError/deleteRouteReturnError", params);
+        },
+    },
+    // 前台提交调整
+    smsSendlogSubmit: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsSendlogSubmit/queryByPage", params);
+        },
+        // 修改
+        editSmsSendlogSubmit(params) {
+            return post("/smsSendlogSubmit/editSmsSendlogSubmit", params);
+        },
+        // 获取修改数据
+        getSmsSendlogSubmit(params) {
+            return fetch("/smsSendlogSubmit/getSmsSendlogSubmit", params);
+        },
+        //  删除
+        deleteTaskid(params) {
+            return fetch("/smsSendlogSubmit/deleteTaskid", params);
+        },
+    },
+    // 接口加强签名
+    sysInterfaceSign: {
+        // 查询列表
+        listInterfaceSignByPage(params) {
+            return post("/sysInterfaceSign/listInterfaceSignByPage", params);
+        },
+        // 新增
+        addInterfaceSign(params) {
+            return post("/sysInterfaceSign/addInterfaceSign", params);
+        },
+        // 修改
+        updateInterfaceSign(params) {
+            return post("/sysInterfaceSign/updateInterfaceSign", params);
+        },
+        //  删除
+        deleteInterfaceSign(params) {
+            return post("/sysInterfaceSign/deleteInterfaceSign", params);
+        },
+    },
+    // 免审管理
+    sysExemptReviewManage: {
+        // 查询列表
+        listExemptReviewManageByPage(params) {
+            return post("/sysExemptReviewManage/listExemptReviewManageByPage", params);
+        },
+        // 新增
+        addExemptReviewManage(params) {
+            return post("/sysExemptReviewManage/addExemptReviewManage", params);
+        },
+        // 修改
+        updateExemptReviewManage(params) {
+            return post("/sysExemptReviewManage/updateExemptReviewManage", params);
+        },
+        //  删除
+        deleteExemptReviewManage(params) {
+            return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
+        },
+    },
+    // 审核管理-待审
+    smsCheckWait: {
+        // 查询列表
+        listCheckWaitByPage(params) {
+            return post("/smsCheckWait/listCheckWaitByPage", params);
+        },
+        // 添加分配
+        addCheck(params) {
+            return post("/smsCheckWait/addCheck", params);
+        },
+        // 停止分配
+        stopCheck(params) {
+            return post("/smsCheckWait/stopCheck", params);
+        },
+        //  超审
+        supperCheck(params) {
+            return post("/smsCheckWait/supperCheck", params);
+        },
+    },
+    // 审核管理-待审模板
+    smsCheckTemplate: {
+        // 查询列表
+        listCheckTemplateByPage(params) {
+            return post("/smsCheckTemplate/listCheckTemplateByPage", params);
+        },
+        // 修改
+        updateCheckTemplate(params) {
+            return post("/smsCheckTemplate/updateCheckTemplate", params);
+        },
+    },
+    // 用户利润查询
+    smsProfit: {
+        // 查询列表
+        queryByPage(params) {
+            return post("/smsProfit/queryByPage", params);
+        },
+    },
+    // 定时统计
+    sysTimeTasklistStatistics: {
+        // 查询列表
+        queryTimeTaskByPage(params) {
+            return post("/sysTimeTasklist/queryTimeTaskByPage", params);
+        },
+    },
+    // 定时统计
+    userChannelStatistics: {
+        // 查询列表
+        queryList(params) {
+            return post("/userChannelStatistics/queryList", params);
+        },
+    },
+    // 成功率统计
+    sysSuccessRate: {
+        // 查询列表
+        querySendDetail(params) {
+            return fetch("/report/querySendDetail", params);
+        },
+    },
+    // 实时数据查询
+    sysRealTimeData: {
+        // 查询列表
+        realTimeData(params) {
+            return fetch("/report/realTimeData", params);
+        },
+    },
+    // 免审未发统计
+    sysUnbilled: {
+        // 查询列表
+        queryNoSendByPage(params) {
+            return fetch("/sysExemptReviewManage/queryNoSendByPage", params);
+        },
+        //  删除
+        deleteExemptReviewManage(params) {
+            return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
+        },
+    },
+    //用户发送情况统计
+    report: {
+        // 查询列表
+        queryByPage(params) {
+            return fetch("/report/queryUserSendDetail", params);
+        },
+        //统计
+        queryUserSendDetailAll(params) {
+            return fetch("/report/queryUserSendDetailAll", params);
+        },
+    },
+    //返回报告统计
+    returnReportStatistics: {
+        // 查询列表
+        returnReportStatistics(params) {
+            return fetch("/report/returnReportStatistics", params);
+        },
+        //统计
+        returnReportTotal(params) {
+            return fetch("/report/returnReportTotal", params);
+        },
+    },
+    //发送报告统计
+    sendReportStatistics: {
+        // 查询列表
+        sendReportStatistics(params) {
+            return fetch("/report/sendReportStatistics", params);
+        },
+        //统计
+        sendReportTotal(params) {
+            return fetch("/report/sendReportTotal", params);
+        },
+    },
+    //提交统计
+    submitStatistics: {
+        // 查询列表
+        submitStatistics(params) {
+            return fetch("/report/submitStatistics", params);
+        },
+        // //统计
+        // sendReportTotal(params) {
+        //   return fetch("/report/sendReportTotal", params);
+        // },
+    },
+    //投诉统计
+    smsComplaint: {
+        // 查询列表
+        queryStatisticByPage(params) {
+            return post("/sysComplaint/queryStatisticByPage", params);
+        },
+        //统计
+        TypeStatistic(params) {
+            return fetch("/sysComplaint/querySmsComplaintTypeStatistic", params);
+        },
+    },
+    //短信通道
+    gateway: {
+        // 下拉查询列表
+        listGateway(params) {
+            return post("/gateway/listGateway", params);
+        },
+        // 分页查询列表
+        listGatewayByPage(params) {
+            return post("/gateway/listGatewayByPage", params);
+        },
+        // 删除
+        deleteGateway(params) {
+            return post("/gateway/deleteGateway", params);
+        },
+        // 修改
+        updateGateway(params) {
+            return post("/gateway/updateGateway", params);
+        },
+        // 添加
+        addGateway(params) {
+            return post("/gateway/addGateway", params);
+        },
+        // 停止
+        stopGateway(params) {
+            return post("/gateway/stopGateway", params);
+        },
+        // 启用
+        startGateway(params) {
+            return post("/gateway/startGateway", params);
+        },
+        //配置
+        updateGatewayByConfigure(params) {
+            return post("/gateway/updateGatewayByConfigure", params);
+        },
+    },
+    //彩信通道
+    mmsGateway: {
+        // 分页查询列表
+        listMmsGatewayByPage(params) {
+            return post("/mmsGateway/listMmsGatewayByPage", params);
+        },
+        // 删除
+        deleteMmsGateway(params) {
+            return post("/mmsGateway/deleteMmsGateway", params);
+        },
+        // 修改
+        updateMmsGateway(params) {
+            return post("/mmsGateway/updateMmsGateway", params);
+        },
+        // 添加
+        addMmsGateway(params) {
+            return post("/mmsGateway/addMmsGateway", params);
+        },
+    },
+    //测试发送接口
+    smsTestSendTask: {
+        // 分页查询列表
+        send(params) {
+            return post("/smsSendTask/send", params);
+        },
+    },
+
 }

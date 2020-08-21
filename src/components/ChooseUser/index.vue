@@ -19,7 +19,7 @@
         ></i>
         <div style="clear:both"></div>
       </span>
-      <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+      <Search ref="search" :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
       <el-table :data="listData" highlight-current-row style="width: 100%;">
         <el-table-column align="center" prop="corpId" label="企业ID" />
         <el-table-column align="center" prop="corpName" show-overflow-tooltip label="企业名" />
@@ -99,11 +99,15 @@ export default {
     selected(row) {
       this.$emit("cancel", false);
       this.$emit("chooseUserData", row);
-      this.searchParam = {};
+      setTimeout(() => {
+        this.$refs.search.resetForm();
+      });
     },
     // 关闭
     cancel() {
-      this.searchParam = {};
+      setTimeout(() => {
+        this.$refs.search.resetForm();
+      });
       this.$emit("cancel", false);
     },
   },

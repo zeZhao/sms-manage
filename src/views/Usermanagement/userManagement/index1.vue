@@ -640,10 +640,8 @@ export default {
         ...form,
       };
       if (this.formTit == "新增") {
-        console.log(params);
-        console.log(this.formConfig);
         this.$http[namespace][add](params).then((res) => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, params);
         });
       } else if (this.formTit == "修改") {
         params = Object.assign(params, {
@@ -652,7 +650,7 @@ export default {
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
         this.$http[namespace][edit](params).then((res) => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, params);
         });
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
@@ -662,8 +660,28 @@ export default {
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
         this.$http[namespace][check](params).then((res) => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, params);
         });
+      }
+    },
+
+    /**
+     * 提交成功后执行
+     * @param res
+     */
+    _mxSuccess(res, params) {
+      if (resOk(res)) {
+        this.$message.success(res.msg || res.data);
+        this._mxGetList();
+        this.addChannel = false;
+      } else {
+        this.formConfig.forEach((item) => {
+          if (item.key === "blackLevel") {
+            let arr = params.blackLevel.split(",");
+            item.defaultValue = arr.map((item) => Number(item));
+          }
+        });
+        this.$message.error(res.data || res.msg);
       }
     },
     //提交表单前调整表单内数据
