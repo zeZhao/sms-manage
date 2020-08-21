@@ -153,6 +153,7 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corpId",
+
           placeholder: "请输入企业ID",
         },
         {
@@ -549,16 +550,19 @@ export default {
       return row;
     },
     _mxCreate() {
-        this.addChannel = true;
-        this.formTit = "新增";
-        this.formConfig.forEach((item) => {
-            if(item.key == 'proType'){
-                this.$set(item,'disabled',false)
-            }
-        })
-        setTimeout(() => {
-            this.$refs.formItem.resetForm();
-        }, 0);
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach((item) => {
+        if (item.key == "proType") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", false);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
     //修改
     _mxEdit(row, ID) {
@@ -592,8 +596,11 @@ export default {
             }
           });
         }
-        if(item.key == 'proType'){
-            this.$set(item,'disabled',true)
+        if (item.key == "proType") {
+          this.$set(item, "disabled", true);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", true);
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
