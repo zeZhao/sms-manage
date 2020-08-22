@@ -118,15 +118,17 @@ export default {
   methods: {
     //导出
     exportMonthData(userId) {
+      this.searchData.userId = userId;
       // if()
       // this.$http.sysExportBill.export({ userId }).then((res) => {
       //   let blob = new Blob([res.data], {
       //     type: "application/vnd.ms-excel;charset=utf-8",
       //   });
+      console.log(this.searchData, "---this.searchData ");
       this.$axios
         .post(
           "/bill/export/",
-          { userId },
+          { ...this.searchData },
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
