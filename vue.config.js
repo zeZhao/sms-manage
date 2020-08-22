@@ -28,15 +28,37 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
-  productionSourceMap: false,
+  productionSourceMap: true,
   devServer: {
+    host: '0.0.0.0',
     port: port,
-    open: true,
+    open: false,
     overlay: {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    proxy: {
+      // change xxx-api/login => mock/login
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      // [process.env.VUE_APP_BASE_API]: {
+      //   target: `http://127.0.0.1:${port}/mock`,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     ['^' + process.env.VUE_APP_BASE_API]: ''
+      //   }
+      // }
+      '/api': {
+        // target: process.env.VUE_APP_HOST_URL+'/api',
+        target: 'http://10.10.0.4:82',
+        changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
+        pathRewrite: {
+          '^/api': 'http://10.10.0.4:82' //重写接口访问
+        }
+      }
+    },
+    // sockHost: 'http://localhost:9527',
+    // disableHostCheck: true,
+    // after: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -81,13 +103,19 @@ module.exports = {
       .end()
 
     config
+      // https://webpack.js.org/configuration/devtool/#development
+      .when(process.env.NODE_ENV === 'development',
+        config => config.devtool('cheap-source-map')
+      )
+
+    config
       .when(process.env.NODE_ENV !== 'development',
         config => {
           config
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
