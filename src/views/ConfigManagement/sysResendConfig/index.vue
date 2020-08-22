@@ -5,7 +5,7 @@
     <el-table :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gatewayName" label="通道" />
       <el-table-column prop="status" label="不重发状态" />
       <el-table-column prop="destGateway" label="重发目标通道" />
       <el-table-column prop="modifyTime" label="修改时间">
