@@ -126,7 +126,7 @@ export default {
       this.$axios
         .post(
           "/bill/export/",
-          {},
+          { userId },
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
