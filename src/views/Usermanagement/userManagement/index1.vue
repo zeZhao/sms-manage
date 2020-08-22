@@ -278,19 +278,42 @@ export default {
           type: "input",
           label: "用户名称",
           key: "userName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "10",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "用户登录名",
           key: "loginName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "10",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "密码",
           key: "password",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/,
+              message: "请输入8-16位，数字、字母、标点符号",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
@@ -302,7 +325,14 @@ export default {
           type: "input",
           label: "可扩展的位数",
           key: "sublong",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",
@@ -369,7 +399,14 @@ export default {
           type: "input",
           label: "短信单价",
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+          ],
         },
         // {
         //   type: "input",
@@ -449,6 +486,7 @@ export default {
           label: "客户联系人",
           key: "contact",
           defaultValue: "",
+          maxlength: "10",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -459,6 +497,7 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
+              ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
               pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
               message: "手机号码格式错误",
               trigger: "change",

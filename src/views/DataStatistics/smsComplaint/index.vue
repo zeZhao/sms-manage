@@ -71,7 +71,7 @@ export default {
       statisticsDate: "",
       //接口地址
       searchAPI: {
-        namespace: "smsComplaint",
+        namespace: "sysComplaint",
         list: "queryStatisticByPage",
       },
       // 列表参数
@@ -137,7 +137,7 @@ export default {
     query() {
       this.tableData = [];
       this.statisticsDate = new Date(this.statisticsDate).Format("yyyy-MM-dd");
-      this.$http.smsComplaint
+      this.$http.sysComplaint
         .TypeStatistic({ createdate: this.statisticsDate })
         .then((res) => {
           const {

@@ -216,7 +216,7 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur",
+              trigger: "change",
             },
           ],
         },

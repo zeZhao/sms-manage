@@ -93,7 +93,14 @@ export default {
           key: "groupName",
           maxlength: "20",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "textarea",

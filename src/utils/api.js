@@ -353,7 +353,7 @@ export default {
             return post("/bill/export/list", params);
         },
         // 新增
-        export (params) {
+        export(params) {
             return post("/bill/export", params);
         },
     },
@@ -1041,14 +1041,14 @@ export default {
         // },
     },
     //投诉统计
-    smsComplaint: {
+    sysComplaint: {
         // 查询列表
         queryStatisticByPage(params) {
-            return post("/smsComplaint/queryStatisticByPage", params);
+            return post("/sysComplaint/queryStatisticByPage", params);
         },
         //统计
         TypeStatistic(params) {
-            return fetch("/smsComplaint/querySmsComplaintTypeStatistic", params);
+            return fetch("/sysComplaint/querySysComplaintTypeStatistic", params);
         },
     },
     //短信通道
