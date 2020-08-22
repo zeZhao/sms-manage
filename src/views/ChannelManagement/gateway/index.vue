@@ -217,7 +217,15 @@ export default {
           type: "input",
           label: "网关编号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "4",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-8]\d{3}$/,
+              message: "1-8开头4位数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
