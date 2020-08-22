@@ -749,6 +749,7 @@ export default {
     },
     //开启关闭网关
     switchChange(val, gateway) {
+      console.log(val, "-----val");
       if (val) {
         this.$http.gateway
           .startGateway({
@@ -761,6 +762,11 @@ export default {
               this.$message.success("网关启用成功！");
             } else {
               this.$message.error("网关启用失败！");
+              this.listData.forEach((item) => {
+                if (item.gateway == gateway) {
+                  item.serverStatus = 0;
+                }
+              });
             }
           });
       } else {
@@ -775,6 +781,11 @@ export default {
               this.$message.success("网关停止成功！");
             } else {
               this.$message.error("网关停止失败！");
+              this.listData.forEach((item) => {
+                if (item.gateway == gateway) {
+                  item.serverStatus = 1;
+                }
+              });
             }
           });
       }
