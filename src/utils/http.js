@@ -72,8 +72,8 @@ axios.interceptors.response.use(
 export function fetch(url, params = {}) {
   return new Promise((resolve, reject) => {
     axios.get(url, {
-        params: params
-      })
+      params: params
+    })
       .then(response => {
         resolve(response.data);
       })
@@ -160,8 +160,8 @@ export function put(url, data = {}) {
 export function del(url, params = {}) {
   return new Promise((resolve, reject) => {
     axios.delete(url, {
-        data: params
-      })
+      data: params
+    })
       .then(response => {
         resolve(response.data);
       })
