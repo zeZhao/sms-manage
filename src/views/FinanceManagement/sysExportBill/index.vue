@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item label="账单类型">
           <el-select v-model="searchData.smsType">
-            <el-option key="1" value="短信" />
+            <el-option key="1" value="1" label="短信" />
           </el-select>
         </el-form-item>
         <el-form-item label="开发账单月">
