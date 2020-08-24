@@ -65,17 +65,17 @@ export default {
   mixins: [listMixin],
   data() {
     const validatorRemark = (rule, value, callback) => {
-        let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
-        if (value == "") {
-            // callback(new Error("备注信息不能为空"));
+      let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+      if (value == "") {
+        // callback(new Error("备注信息不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("支持汉字/数字/字母/标点符号"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("支持汉字/数字/字母/标点符号"));
-            } else {
-                callback();
-            }
+          callback();
         }
-    };    
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -222,8 +222,8 @@ export default {
           type: "textarea",
           label: "备注信息",
           key: "remark",
-          maxlength:300,
-          rules: [{trigger: "blur",validator: validatorRemark}]
+          maxlength: 300,
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       routeId: "",
@@ -360,7 +360,11 @@ export default {
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
-            this.$set(item, "defaultValue", row[key]);
+            if (row[key] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[key]);
+            }
           }
         }
         if (!Object.keys(row).includes(item.key)) {

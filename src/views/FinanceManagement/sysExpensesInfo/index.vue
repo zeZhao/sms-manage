@@ -204,6 +204,7 @@ export default {
           label: "摘要",
           key: "summary",
           defaultValue: "",
+          maxlength: "300",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -211,14 +212,29 @@ export default {
           label: "收付款单位",
           key: "collectionCompany",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "30",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "付款金额",
           key: "lender",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",
@@ -265,6 +281,7 @@ export default {
           type: "input",
           label: "备注",
           key: "remarks",
+          maxlength: "300",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },

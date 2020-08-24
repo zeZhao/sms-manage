@@ -71,7 +71,7 @@ export default {
           callback();
         }
       }
-    };  
+    };
     const validatorSendTo = (rule, value, callback) => {
       let regex = new RegExp(
         "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$"
@@ -85,19 +85,19 @@ export default {
           callback();
         }
       }
-    }; 
+    };
     const validatorRemark = (rule, value, callback) => {
-        let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
-        if (value == "") {
-            // callback(new Error("备注信息不能为空"));
+      let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+      if (value == "") {
+        // callback(new Error("备注信息不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("支持汉字/数字/字母/标点符号"));
         } else {
-            if (!regex.test(value)) {
-                callback(new Error("支持汉字/数字/字母/标点符号"));
-            } else {
-                callback();
-            }
+          callback();
         }
-    };  
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -105,14 +105,14 @@ export default {
       searchAPI: {
         namespace: "sysGatewayGroup",
         list: "listGatewayGroupByPage",
-        detele: "deleteGatewayGroup"
+        detele: "deleteGatewayGroup",
       },
       // 列表参数
       namespace: "gatewayGroup",
       //搜索框数据
       searchParam: {
         groupId: "",
-        groupName: ""
+        groupName: "",
       },
       //搜索框配置
       searchFormConfig: [
@@ -120,14 +120,14 @@ export default {
           type: "input",
           label: "通道组id",
           key: "groupId",
-          placeholder: "请输入通道组id"
+          placeholder: "请输入通道组id",
         },
         {
           type: "input",
           label: "通道组名称",
           key: "groupName",
-          placeholder: "请输入通道组名称"
-        }
+          placeholder: "请输入通道组名称",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -135,30 +135,44 @@ export default {
           type: "input",
           label: "通道组ID",
           key: "groupId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          maxlength: "4",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^9\d{3}$/,
+              message: "9开头4位数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "通道组名称",
           key: "groupName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{ trigger: "blur", validator: validatorGroupName }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "blur", validator: validatorGroupName },
+          ],
         },
         {
           type: "input",
           label: "发送对象",
           key: "sendTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{ trigger: "blur", validator: validatorSendTo }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "blur", validator: validatorSendTo },
+          ],
         },
         {
           type: "input",
           label: "备注",
-          maxlength:300,
+          maxlength: 300,
           key: "notes",
-          rules: [{trigger: "blur",validator: validatorRemark}]
-        }
+          // rules: [{ trigger: "blur", validator: validatorRemark }],
+        },
       ],
       id: "",
-      gatewayGroupList: []
+      gatewayGroupList: [],
     };
   },
   mounted() {},
@@ -170,10 +184,10 @@ export default {
         params = {
           data: {
             ...form,
-            sysGatewayDistributionList: [...this.gatewayGroupList]
-          }
+            sysGatewayDistributionList: [...this.gatewayGroupList],
+          },
         };
-        this.$http.sysGatewayGroup.addGatewayGroup(params).then(res => {
+        this.$http.sysGatewayGroup.addGatewayGroup(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -187,10 +201,10 @@ export default {
           data: {
             id: this.id,
             ...form,
-            sysGatewayDistributionList: [...this.gatewayGroupList]
-          }
+            sysGatewayDistributionList: [...this.gatewayGroupList],
+          },
         };
-        this.$http.sysGatewayGroup.updateGatewayGroup(params).then(res => {
+        this.$http.sysGatewayGroup.updateGatewayGroup(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -205,7 +219,7 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.gatewayGroupList = [];
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         if (item.key == "groupId") {
           this.$set(item, "disabled", false);
         }
@@ -218,7 +232,7 @@ export default {
       const { id, groupId } = row;
       this.id = id;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         if (item.key == "groupId") {
           this.$set(item, "disabled", true);
         }
@@ -233,10 +247,10 @@ export default {
       });
       this.$http.sysGatewayGroup
         .selectGatewayGroup({ data: { groupId: groupId.toString() } })
-        .then(res => {
+        .then((res) => {
           this.gatewayGroupList = res.data;
         });
-        setTimeout(() => {
+      setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
       this.addChannel = true;
@@ -251,9 +265,9 @@ export default {
     },
     deleteItem(scope) {
       this.gatewayGroupList.splice(scope.$index, 1);
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

@@ -583,6 +583,18 @@ export default {
         }
       });
     },
+
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      if (formData.reductType == 2) {
+        formData.userId = formData.corporateId;
+      }
+      return formData;
+    },
     //获取销售员
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then((res) => {

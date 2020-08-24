@@ -216,7 +216,7 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur",
+              trigger: "change",
             },
           ],
         },
@@ -227,7 +227,7 @@ export default {
           maxlength: 300,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorRemark },
+            // { trigger: "blur", validator: validatorRemark },
           ],
         },
       ],

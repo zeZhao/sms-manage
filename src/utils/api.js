@@ -353,7 +353,7 @@ export default {
             return post("/bill/export/list", params);
         },
         // 新增
-        export (params) {
+        export(params) {
             return post("/bill/export", params);
         },
     },
@@ -598,17 +598,6 @@ export default {
         // 查询有效的销售人员
         queryAvailableSaleman(params) {
             return fetch("/sysSales/queryAvailableSaleman", params);
-        },
-    },
-    //提交统计
-    reportsubmitStatistics: {
-        // 列表
-        submitStatistics(params) {
-            return fetch("/report/submitStatistics", params);
-        },
-        // 汇总
-        saleSubmitStatisticsTotal(params) {
-            return fetch("/report/saleSubmitStatisticsTotal", params);
         },
     },
     //敏感词
@@ -1041,14 +1030,14 @@ export default {
         // },
     },
     //投诉统计
-    smsComplaint: {
+    sysComplaint: {
         // 查询列表
         queryStatisticByPage(params) {
-            return post("/smsComplaint/queryStatisticByPage", params);
+            return post("/sysComplaint/queryStatisticByPage", params);
         },
         //统计
         TypeStatistic(params) {
-            return fetch("/smsComplaint/querySmsComplaintTypeStatistic", params);
+            return fetch("/sysComplaint/querySysComplaintTypeStatistic", params);
         },
     },
     //短信通道
@@ -1210,11 +1199,11 @@ export default {
             return fetch("/sysSales/queryAvailableSaleman", params);
         },
     },
-    //提交统计
+    //销售管理-提交统计
     reportsubmitStatistics: {
         // 列表
-        submitStatistics(params) {
-            return fetch("/report/submitStatistics", params);
+        saleSubmitStatistics(params) {
+            return fetch("/report/saleSubmitStatistics", params);
         },
         // 汇总
         saleSubmitStatisticsTotal(params) {

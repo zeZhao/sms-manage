@@ -111,14 +111,28 @@ export default {
           label: "数量",
           key: "count",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "手机数量",
           key: "mobilesCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
 
         {
@@ -126,28 +140,56 @@ export default {
           label: "发送条数",
           key: "sendCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "成功条数",
           key: "successCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "失败条数",
           key: "failCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "未知条数",
           key: "unknowCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
 
         // {
@@ -226,7 +268,7 @@ export default {
     },
     //获取修改数据
     getEditData(taskid) {
-      this.$http.sysRouteReturnError
+      this.$http.smsSendlogSubmit
         .getSmsSendlogSubmit({ taskid: taskid })
         .then((res) => {
           this.rowData = res.data;

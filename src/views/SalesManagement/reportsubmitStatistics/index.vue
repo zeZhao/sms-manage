@@ -55,7 +55,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "reportsubmitStatistics",
-        list: "submitStatistics",
+        list: "saleSubmitStatistics",
       },
       // 列表参数
       namespace: "",
@@ -126,7 +126,12 @@ export default {
           key: ["", "countDate", "endDate"],
         },
       ],
-      total: {},
+      total: {
+        total: 0,
+        industryNum: 0,
+        marketingNum: 0,
+        vipNum: 0,
+      },
     };
   },
   mounted() {

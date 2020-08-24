@@ -71,10 +71,10 @@
     >
       <div>
         <el-form ref="detailList" :model="detailList" label-width="120px">
-            <el-form-item label="移动金额：">{{detailList.cmprice}}</el-form-item>
-            <el-form-item label="联通金额：">{{detailList.cuprice}}</el-form-item>
-            <el-form-item label="电信金额：">{{detailList.ctprice}}</el-form-item>
-            <el-form-item label="未知号码金额：">{{detailList.xxprice}}</el-form-item>
+          <el-form-item label="移动金额：">{{detailList.cmprice}}</el-form-item>
+          <el-form-item label="联通金额：">{{detailList.cuprice}}</el-form-item>
+          <el-form-item label="电信金额：">{{detailList.ctprice}}</el-form-item>
+          <el-form-item label="未知号码金额：">{{detailList.xxprice}}</el-form-item>
         </el-form>
       </div>
     </el-dialog>
@@ -98,7 +98,9 @@ export default {
       // 列表参数
       namespace: "prepaidCard",
       //搜索框数据
-      searchParam: {},
+      searchParam: {
+        isBill: 1,
+      },
       //搜索框配置
       searchFormConfig: [
         {
@@ -112,7 +114,7 @@ export default {
           label: "类型",
           key: "chargeType",
           defaultValue: 1,
-          clearable:false,
+          clearable: false,
           optionData: [
             {
               key: 1,
@@ -160,8 +162,8 @@ export default {
   computed: {},
   methods: {
     detail(data) {
-        this.isDetail = true;
-        this.detailList = data;
+      this.isDetail = true;
+      this.detailList = data;
     },
     // 修改搜索参数
     _formatRequestData(data) {
@@ -169,6 +171,7 @@ export default {
       if (queryMonth) {
         data.queryMonth = new Date(queryMonth).Format("yyyy-MM");
       }
+      data.isBill = 1;
       return data;
     },
   },

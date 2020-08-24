@@ -228,43 +228,94 @@ export default {
           type: "input",
           label: "公司名称",
           key: "companyName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "30",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "付款单位",
           key: "payCompany",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "30",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "条数",
           key: "count",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "单价(分)",
           key: "price",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "应收款",
           key: "receivableMoeny",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "实收款",
           key: "factMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "欠收款",
           key: "poorMoeny",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",
@@ -314,7 +365,15 @@ export default {
           type: "input",
           label: "对私收款人",
           key: "privateName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "30",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",

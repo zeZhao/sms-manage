@@ -119,7 +119,7 @@
         </el-form-item>
         <!-- <el-form-item label="密码" prop="pwd">
           <el-input v-model="addInfo.pwd" type="password" clearable placeholder="请输入8-16位密码" />
-        </el-form-item> -->
+        </el-form-item>-->
         <el-form-item label="特服号" prop="code">
           <el-input
             v-model="addInfo.code"
@@ -252,8 +252,8 @@ export default {
       }
     };
     var validate = (rule, value, callback) => {
-      if (value && !/^\d+(\.\d{1,4})?$/.test(value)) {
-        callback(new Error("必须为正数，最多4位小数"));
+      if (value && !/^\d+(\.\d{1,2})?$/.test(value)) {
+        callback(new Error("必须为正数，最多2位小数"));
       } else if (value <= 0) {
         callback(new Error("短信单价必须大于0"));
       } else {
@@ -388,27 +388,27 @@ export default {
     newEnterprise() {
       this.customerAddInfo = true;
       this.addInfo = {
-            corpName: "",
-            // pwd: "",
-            code: "",
-            sublong: "",
-            reductModel: "",
-            isDirectUser: "",
-            isBusiness: "",
-            cardUnit: "",
-            contact: "",
-            mobile: "",
-            bankAccount: "",
-            root: "",
-        }
-      this.$nextTick(()=>{
-        this.$refs['addForm'].clearValidate()
-      })  
+        corpName: "",
+        // pwd: "",
+        code: "",
+        sublong: "",
+        reductModel: "",
+        isDirectUser: "",
+        isBusiness: "",
+        cardUnit: "",
+        contact: "",
+        mobile: "",
+        bankAccount: "",
+        root: "",
+      };
+      this.$nextTick(() => {
+        this.$refs["addForm"].clearValidate();
+      });
       this.formBtn = "新增";
       this.formTit = "新增企业";
-    //   setTimeout(() => {
-    //     this.$refs.addForm.resetFields();
-    //   }, 0);
+      //   setTimeout(() => {
+      //     this.$refs.addForm.resetFields();
+      //   }, 0);
     },
     //新增企业
     addCustomerInfo(formName) {
@@ -442,7 +442,6 @@ export default {
         row.reductModel = row.reductModel.toString();
       }
       this.addInfo = Object.assign(this.addInfo, row);
-      
     },
 
     //修改状态

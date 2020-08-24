@@ -217,19 +217,43 @@ export default {
           type: "input",
           label: "网关编号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "4",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-8]\d{3}$/,
+              message: "1-8开头4位数",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "网关名称",
           key: "gatewayName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "50",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "网关公司名称",
           key: "companyName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: "50",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
@@ -333,11 +357,27 @@ export default {
           type: "input",
           label: "联系人",
           key: "linkman",
+          maxlength: "10",
+          rules: [
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
           label: "联系方式",
+          maxlength: "11",
           key: "linkmanMobile",
+          rules: [
+            {
+              pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
+              message: "号码格式不对",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "input",
@@ -353,6 +393,14 @@ export default {
           type: "input",
           label: "结算公司",
           key: "clearIngcorp",
+          maxlength: "50",
+          rules: [
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change",
+            },
+          ],
         },
         {
           type: "select",
@@ -600,11 +648,13 @@ export default {
           type: "textarea",
           label: "特殊设置",
           key: "collocation",
+          maxlength: "300",
         },
         {
           type: "textarea",
           label: "备注",
           key: "remark",
+          maxlength: "300",
         },
       ],
       //选择配置
@@ -699,6 +749,7 @@ export default {
     },
     //开启关闭网关
     switchChange(val, gateway) {
+      console.log(val, "-----val");
       if (val) {
         this.$http.gateway
           .startGateway({
@@ -711,6 +762,11 @@ export default {
               this.$message.success("网关启用成功！");
             } else {
               this.$message.error("网关启用失败！");
+              this.listData.forEach((item) => {
+                if (item.gateway == gateway) {
+                  item.serverStatus = 0;
+                }
+              });
             }
           });
       } else {
@@ -725,6 +781,11 @@ export default {
               this.$message.success("网关停止成功！");
             } else {
               this.$message.error("网关停止失败！");
+              this.listData.forEach((item) => {
+                if (item.gateway == gateway) {
+                  item.serverStatus = 1;
+                }
+              });
             }
           });
       }

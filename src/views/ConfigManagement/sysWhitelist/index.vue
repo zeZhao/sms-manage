@@ -52,6 +52,7 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
+        @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
     <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
@@ -114,6 +115,7 @@ export default {
           type: "select",
           label: "类型",
           key: "type",
+          initDefaultValue: 1,
           defaultValue: 1,
           optionData: [
             {
@@ -129,12 +131,21 @@ export default {
         },
         {
           type: "input",
-          label: "用户ID/通道ID",
+          label: "用户ID",
           key: "userId",
           btnTxt: "选择用户",
           // disabled: true,
           defaultValue: "",
           // change: this.selectUser,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+        {
+          type: "select",
+          label: "通道ID",
+          key: "userId",
+          isShow: true,
+          defaultValue: "",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -150,9 +161,23 @@ export default {
       isChooseUser: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
+    //选择控制
+    selectChange({ val, item }) {
+      if (item.key === "type") {
+        if (val === 2) {
+          this._setLabelDisplayShow(this.formConfig, "通道ID", false);
+          this._setLabelDisplayShow(this.formConfig, "用户ID", true);
+        } else {
+          this._setLabelDisplayShow(this.formConfig, "通道ID", true);
+          this._setLabelDisplayShow(this.formConfig, "用户ID", false);
+        }
+      }
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {
@@ -203,6 +228,8 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this._setLabelDisplayShow(this.formConfig, "通道ID", true);
+      this._setLabelDisplayShow(this.formConfig, "用户ID", false);
     },
     edit(row) {
       this.whiteId = row.whiteId;
@@ -215,6 +242,15 @@ export default {
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "type") {
+          if (item.defaultValue === 2) {
+            this._setLabelDisplayShow(this.formConfig, "通道ID", false);
+            this._setLabelDisplayShow(this.formConfig, "用户ID", true);
+          } else {
+            this._setLabelDisplayShow(this.formConfig, "通道ID", true);
+            this._setLabelDisplayShow(this.formConfig, "用户ID", false);
+          }
         }
       });
       setTimeout(() => {
@@ -240,6 +276,31 @@ export default {
         }
       });
       return data;
+    },
+    //获取通道
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: "",
+        },
+      };
+      this.$http.gateway.listGateway(params).then((res) => {
+        this.GatewayList = res.data;
+        this.formConfig.forEach((item) => {
+          const { label } = item;
+
+          if (label === "通道ID") {
+            res.data.forEach((t) => {
+              this.$set(t, "key", t.gateway);
+              this.$set(t, "value", t.gatewayName);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
     },
   },
   watch: {},
