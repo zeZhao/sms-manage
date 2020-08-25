@@ -21,8 +21,8 @@
           <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="gateway" label="网关" />
-      <el-table-column prop="sendNum" label="条数" />
+      <el-table-column prop="submitNum" label="提交条数" />
+      <el-table-column prop="sendNum" label="占比" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p
@@ -169,7 +169,7 @@ export default {
   methods: {
     // 获取统计
     queryUserSendDetailAll() {
-      this.$http.sendReportStatistics.sendReportTotal({}).then((res) => {
+      this.$http.submitStatistics.submitStatistics({}).then((res) => {
         this.statistics = Object.assign({}, res.data);
         console.log(this.statistics);
       });

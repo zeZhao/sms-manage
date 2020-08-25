@@ -21,7 +21,7 @@
     </el-table>
     <p
       style="color:red"
-    >总条数: {{statistics.sendNum}}&nbsp;&nbsp;行业总条数: {{statistics.successNum}}&nbsp;&nbsp;营销总条数: {{statistics.successRate}}&nbsp;&nbsp;Vip条数: {{statistics.failNum}}&nbsp;&nbsp;</p>
+    >总数: {{statistics.returnNum}}&nbsp;&nbsp;成功数: {{statistics.successNum}}&nbsp;&nbsp;失败数: {{statistics.failNum}}&nbsp;&nbsp;</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -147,9 +147,9 @@ export default {
   computed: {},
   methods: {
     // 获取统计
-    queryUserSendDetailAll() {
+    queryUserSendDetailAll(searchParam) {
       this.$http.returnReportStatistics
-        .returnReportTotal({ ...this.searchParam })
+        .returnReportTotal({ ...searchParam })
         .then((res) => {
           this.statistics = Object.assign({}, res.data);
         });
@@ -163,6 +163,7 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
+      this.queryUserSendDetailAll(data);
       console.log(this.searchParam, "searchParam");
       return data;
     },
