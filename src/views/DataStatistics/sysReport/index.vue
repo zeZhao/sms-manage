@@ -6,7 +6,7 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="gateway" label="网关" />
-      <el-table-column prop="sendNum" label="网关名称" />
+      <el-table-column prop="gatewayName" label="网关名称" />
       <el-table-column prop="province" label="省份" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">

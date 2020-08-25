@@ -1634,10 +1634,10 @@ export default {
         submitStatistics(params) {
             return fetch("/report/submitStatistics", params);
         },
-        // //统计
-        // sendReportTotal(params) {
-        //   return fetch("/report/sendReportTotal", params);
-        // },
+        //统计
+        submitStatisticsTotal(params) {
+            return fetch("/report/submitStatisticsTotal", params);
+        },
     },
     //投诉统计
     smsComplaint: {

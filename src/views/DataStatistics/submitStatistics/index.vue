@@ -22,12 +22,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="submitNum" label="提交条数" />
-      <el-table-column prop="sendNum" label="占比" />
+      <el-table-column prop="sendNum" label="占比">
+        <template slot-scope="scope">
+          <span>{{scope.row.submitNum/statistics.total}}%</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p
       style="color:red"
-    >总条数: {{statistics.sendNum}}&nbsp;&nbsp;行业总条数: {{statistics.industryNum}}&nbsp;&nbsp;营销总条数: {{statistics.marketingNum}}&nbsp;&nbsp;Vip条数: {{statistics.vipNum}}&nbsp;&nbsp;</p>
+    >总条数: {{statistics.total}}&nbsp;&nbsp;行业总条数: {{statistics.industryNum}}&nbsp;&nbsp;营销总条数: {{statistics.marketingNum}}&nbsp;&nbsp;Vip条数: {{statistics.vipNum}}&nbsp;&nbsp;</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -163,16 +167,19 @@ export default {
     };
   },
   mounted() {
-    this.queryUserSendDetailAll();
+    this.saleSubmitStatistics();
   },
   computed: {},
   methods: {
     // 获取统计
-    queryUserSendDetailAll() {
-      this.$http.submitStatistics.submitStatistics({}).then((res) => {
-        this.statistics = Object.assign({}, res.data);
-        console.log(this.statistics);
-      });
+    saleSubmitStatistics(searchParam) {
+      this.$http.submitStatistics
+        .submitStatisticsTotal({ searchParam })
+        .then((res) => {
+          if (resOk(res)) {
+            this.statistics = res.data;
+          }
+        });
     },
     // 修改搜索参数
     _formatRequestData(data) {
@@ -183,6 +190,7 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
+      this.saleSubmitStatistics(data);
       return data;
     },
     /**
