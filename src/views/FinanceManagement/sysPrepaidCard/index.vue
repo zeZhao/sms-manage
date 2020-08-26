@@ -53,8 +53,7 @@ export default {
         {
           type: "inputNum",
           label: "企业ID",
-          key: "userId",
-          placeholder: "请输入用户ID",
+          key: "corporateId",
         },
         {
           type: "select",

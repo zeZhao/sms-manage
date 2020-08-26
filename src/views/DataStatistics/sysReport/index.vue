@@ -3,6 +3,17 @@
   <div class="userDailyBill">
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="gatewayName" label="网关名称" />
+      <el-table-column prop="province" label="省份" />
+      <el-table-column prop="operaId" label="运营商">
+        <template slot-scope="scope">
+          <span>{{ scope.row.operaId === 0 ? "非法" : (scope.row.operaId === 1 ? "移动" :(scope.row.operaId === 2 ? "联通" :(scope.row.operaId === 3 ? "电信" :'国际'))) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="code" label="特服号" />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
@@ -48,7 +59,13 @@ export default {
       namespace: "",
       isParamsNotData: true,
       //搜索框数据
-      searchParam: {},
+      searchParam: {
+        showProvince: 1,
+        showGateway: 1,
+        showOpera: 1,
+        showUser: 1,
+        showCode: 1,
+      },
       //搜索框配置
       searchFormConfig: [
         {
@@ -70,6 +87,18 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
+          type: "input",
+          label: "通道号",
+          key: "gateway",
+          placeholder: "请输入用户名称",
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code",
+          placeholder: "请输入用户名称",
+        },
+        {
           type: "select",
           label: "类型",
           key: "smsType",
@@ -82,6 +111,68 @@ export default {
           placeholder: "请选择类型",
         },
         {
+          type: "select",
+          label: "运营商",
+          key: "operaId",
+          optionData: [
+            { key: "1", value: "移动" },
+            { key: "2", value: "联通" },
+            { key: "3", value: "电信" },
+            { key: "4", value: "国际" },
+          ],
+        },
+        {
+          type: "select",
+          label: "省份",
+          key: "province",
+          optionData: [],
+        },
+        // {
+        //   type: "select",
+        //   label: "是否查询省份",
+        //   key: "showProvince",
+        //   optionData: [
+        //     { key: "0", value: "不显示" },
+        //     { key: "1", value: "显示" },
+        //   ],
+        // },
+        // {
+        //   type: "select",
+        //   label: "是否查询网关",
+        //   key: "showGateway",
+        //   optionData: [
+        //     { key: "0", value: "不显示" },
+        //     { key: "1", value: "显示" },
+        //   ],
+        // },
+        // {
+        //   type: "select",
+        //   label: "显示运营商",
+        //   key: "showOpera",
+        //   optionData: [
+        //     { key: "0", value: "不显示" },
+        //     { key: "1", value: "显示" },
+        //   ],
+        // },
+        // {
+        //   type: "select",
+        //   label: "是否显示用户",
+        //   key: "showUser",
+        //   optionData: [
+        //     { key: "0", value: "不显示" },
+        //     { key: "1", value: "显示" },
+        //   ],
+        // },
+        // {
+        //   type: "select",
+        //   label: "显示特服号",
+        //   key: "showCode",
+        //   optionData: [
+        //     { key: "0", value: "不显示" },
+        //     { key: "1", value: "显示" },
+        //   ],
+        // },
+        {
           type: "daterange",
           label: "统计日期",
           key: ["", "countDate", "endDate"],
@@ -92,9 +183,34 @@ export default {
   },
   mounted() {
     this.queryUserSendDetailAll();
+    this.listSysProvince();
   },
   computed: {},
   methods: {
+    /*
+     * 获取省份列表
+     * */
+    listSysProvince() {
+      const params = {
+        data: {
+          provinceName: "",
+        },
+      };
+      this.$http.listSysProvince(params).then((res) => {
+        this.searchFormConfig.forEach((item) => {
+          const { key } = item;
+          if (key === "province") {
+            res.data.forEach((t) => {
+              let obj = {
+                key: t.provinceId,
+                value: t.provinceName,
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      });
+    },
     // 获取统计
     queryUserSendDetailAll(data) {
       this.$http.report.queryUserSendDetailAll({ ...data }).then((res) => {

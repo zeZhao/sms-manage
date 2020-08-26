@@ -11,6 +11,7 @@
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
       <el-table-column prop="unknownNum" label="未知数" />
+      <el-table-column prop="provinceName" label="省份" />
     </el-table>
     <!-- <p
       style="color:red"
@@ -61,12 +62,17 @@ export default {
           placeholder: "请输入网关",
         },
         // {
-        //   type: "select",
+        //   type: "input",
         //   label: "省份",
-        //   key: "province",
-        //   optionData: [],
-        //   placeholder: "请选择省份",
+        //   key: "provinceName",
         // },
+        {
+          type: "select",
+          label: "省份",
+          key: "province",
+          optionData: [],
+          placeholder: "请选择省份",
+        },
         {
           type: "daterange",
           label: "统计日期",
@@ -77,35 +83,35 @@ export default {
     };
   },
   mounted() {
-    // this.listSysProvince();
+    this.listSysProvince();
   },
   computed: {},
   methods: {
     /*
      * 获取省份列表
      * */
-    // listSysProvince() {
-    //   const params = {
-    //     data: {
-    //       provinceName: "",
-    //     },
-    //   };
-    //   this.$http.listSysProvince(params).then((res) => {
-    //     this.ProvinceList = res.data;
-    //     this.searchFormConfig.forEach((item) => {
-    //       const { key } = item;
-    //       if (key === "province") {
-    //         res.data.forEach((t) => {
-    //           let obj = {
-    //             key: t.provinceId,
-    //             value: t.provinceName,
-    //           };
-    //           item.optionData.push(obj);
-    //         });
-    //       }
-    //     });
-    //   });
-    // },
+    listSysProvince() {
+      const params = {
+        data: {
+          provinceName: "",
+        },
+      };
+      this.$http.listSysProvince(params).then((res) => {
+        this.ProvinceList = res.data;
+        this.searchFormConfig.forEach((item) => {
+          const { key } = item;
+          if (key === "province") {
+            res.data.forEach((t) => {
+              let obj = {
+                key: t.provinceId,
+                value: t.provinceName,
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      });
+    },
     // 修改搜索参数
     _formatRequestData(data) {
       const { countDate, endDate } = data;
