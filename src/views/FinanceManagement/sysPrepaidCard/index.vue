@@ -7,10 +7,10 @@
       <el-table-column prop="corporateName" label="企业名称" />
       <el-table-column prop="cardCount" label="条数" />
       <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="succCount" label="直连条数" />
-      <el-table-column prop="foreignPrice" label="直连金额(元)" />
-      <el-table-column prop="sumReductType" label="总条数" />
-      <el-table-column prop="sumCardMoney" label="总金额(元)" />
+      <el-table-column prop="directCount" label="直连条数" />
+      <el-table-column prop="directPrice" label="直连金额(元)" />
+      <el-table-column prop="sumCount" label="总条数" />
+      <el-table-column prop="sumPrice" label="总金额(元)" />
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
