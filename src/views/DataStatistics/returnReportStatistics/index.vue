@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="reportNum" label="返回条数" />
-      <el-table-column prop="reportNum" label="返回条数" />
+      <!-- <el-table-column prop="reportNum" label="返回条数" /> -->
       <el-table-column prop="successNum" label="成功条数" />
       <el-table-column prop="failNum" label="失败条数" />
       <el-table-column prop="countDate" label="统计日期" />
