@@ -895,7 +895,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "网址: "),
-            h("span", null, `${row.mmsAuditCallBack}`),
+            h("span", null, "https://user.sms.jvtd.cn"),
           ]),
         ]);
       }
