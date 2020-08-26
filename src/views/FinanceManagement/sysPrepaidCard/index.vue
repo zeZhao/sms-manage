@@ -129,7 +129,7 @@ export default {
       this.$axios
         .post(
           "/sysPrepaidCard/exportPlatform",
-          { smsType: chargeType, corporateId, countDate, direct: "1" },
+          { smsType: chargeType, corporateId, countDate, direct: "2" },
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
