@@ -551,10 +551,20 @@ export default {
         },
         {
           type: "select",
+          label: "是否强加签名",
+          key: "httpSign",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: 1, value: "是" },
+          ],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+        },
+        {
+          type: "select",
           label: "销售员",
           key: "saleMan",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -564,7 +574,7 @@ export default {
             { key: 1, value: "正常" },
             { key: 2, value: "对比库" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
@@ -582,7 +592,6 @@ export default {
   computed: {},
   methods: {
     _mxArrangeEditData(row) {
-      console.log(row, "-------row");
       for (let key in row) {
         if (key === "blackLevel") {
           if (typeof row[key] === "string") {
@@ -619,17 +628,11 @@ export default {
       this.formConfig.forEach((item) => {
         for (let keys in row) {
           if (item.key === keys) {
-            this.$set(
-              item,
-              "defaultValue",
-              keys == "reportType" ||
-                keys == "moType" ||
-                keys == "returnBalance"
-                ? row[keys] == "0"
-                  ? row[keys].toString()
-                  : row[keys]
-                : row[keys]
-            );
+            if (row[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[keys]);
+            }
           }
         }
         if (item.key === "reductModel") {
@@ -887,7 +890,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.userId}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
@@ -895,7 +898,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "网址: "),
-            h("span", null, `${row.mmsAuditCallBack}`),
+            h("span", null, "https://user.sms.jvtd.cn"),
           ]),
         ]);
       }
@@ -911,7 +914,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.userId}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
@@ -939,7 +942,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.userId}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),

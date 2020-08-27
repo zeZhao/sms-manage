@@ -7,6 +7,7 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="手机号" width="110" />
       <el-table-column prop="gateway" label="编号" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="error" label="错误描述" />

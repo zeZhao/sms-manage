@@ -23,7 +23,7 @@
           <el-date-picker v-model="searchData.endDate" type="month"></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData()">导出</el-button>
+          <el-button type="primary" @click="exportMonthData(searchData.userId)">导出</el-button>
         </el-form-item>
       </el-form>
     </el-row>

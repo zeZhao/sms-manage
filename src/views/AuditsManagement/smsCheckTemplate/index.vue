@@ -61,7 +61,7 @@ export default {
         list: "listCheckTemplateByPage",
         detele: "",
         add: "",
-        edit: "updateCheckTemplate"
+        edit: "updateCheckTemplate",
       },
       // 列表参数
       namespace: "checkTemplate",
@@ -73,13 +73,13 @@ export default {
           type: "input",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入企业ID",
         },
         {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "select",
@@ -88,15 +88,15 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "过关键字"
+              value: "过关键字",
             },
             {
               key: "2",
-              value: "不过关键字"
-            }
+              value: "不过关键字",
+            },
           ],
-          placeholder: "请选择匹配类型"
-        }
+          placeholder: "请选择匹配类型",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -104,11 +104,11 @@ export default {
           type: "input",
           label: "用户ID",
           key: "userId",
-        //   btnTxt: "选择用户",
+          //   btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -116,7 +116,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
@@ -124,7 +124,7 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -134,18 +134,18 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "特服号"
+              value: "特服号",
             },
             {
               key: "2",
-              value: "客户ID"
+              value: "客户ID",
             },
             {
               key: "3",
-              value: "企业ID"
-            }
+              value: "企业ID",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -155,34 +155,34 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "待审核"
+              value: "待审核",
             },
             {
               key: 2,
-              value: "审核处理中"
+              value: "审核处理中",
             },
             {
               key: 4,
-              value: "审核通过"
+              value: "审核通过",
             },
             {
               key: 5,
-              value: "审核拒绝"
-            }
+              value: "审核拒绝",
+            },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
           label: "模板信息",
           key: "template",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        }
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
       ],
       bId: "",
       GatewayList: [], // 通道列表
       ProvinceList: [], // 通道列表
-      isChooseUser: false
+      isChooseUser: false,
     };
   },
   mounted() {},
@@ -190,7 +190,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -202,9 +202,20 @@ export default {
           t.defaultValue = data.code;
         }
       });
-    }
+    },
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      data.status = 1;
+      return data;
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

@@ -21,7 +21,9 @@
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="successRate" label="成功率" />
+      <el-table-column label="成功率">
+          <template slot-scope="scope">{{scope.row.successRate.toFixed(2)}}%</template>
+       </el-table-column> 
     </el-table>
     <!-- <p
       style="color:red"
@@ -54,13 +56,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",

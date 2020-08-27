@@ -109,27 +109,33 @@ export default {
             { required: true, message: "请输入必填项", trigger: "change" },
           ],
         },
+        // {
+        //   type: "select",
+        //   label: "不重发的状态",
+        //   key: "status",
+        //   optionData: [
+        //     {
+        //       key: "未知",
+        //       value: "未知",
+        //     },
+        //     {
+        //       key: "DELIVERD",
+        //       value: "DELIVERD",
+        //     },
+        //     {
+        //       key: "UNDELIVERD",
+        //       value: "UNDELIVERD",
+        //     },
+        //   ],
+        //   rules: [
+        //     { required: true, message: "请输入必填项", trigger: "change" },
+        //   ],
+        // },
         {
-          type: "select",
+          type: "input",
           label: "不重发的状态",
           key: "status",
-          optionData: [
-            {
-              key: "未知",
-              value: "未知",
-            },
-            {
-              key: "DELIVERD",
-              value: "DELIVERD",
-            },
-            {
-              key: "UNDELIVERD",
-              value: "UNDELIVERD",
-            },
-          ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
