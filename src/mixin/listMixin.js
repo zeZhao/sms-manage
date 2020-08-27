@@ -497,7 +497,7 @@ export default {
 
 
         /**
-         * 设置表单项显示隐藏
+         * 通过key设置表单项显示隐藏
          * @param list 选择项
          * @param key 选择项key值
          * @private
@@ -505,6 +505,20 @@ export default {
         _setDisplayShow(list, key, show) {
             list.forEach(item => {
                 if (item.key === key) {
+                    this.$set(item, 'isShow', show)
+                    // item.isShow = true
+                }
+            })
+        },
+        /**
+         * 通过label设置表单项显示隐藏
+         * @param list 选择项
+         * @param label 选择项label值
+         * @private
+         */
+        _setLabelDisplayShow(list, label, show) {
+            list.forEach(item => {
+                if (item.label === label) {
                     this.$set(item, 'isShow', show)
                     // item.isShow = true
                 }

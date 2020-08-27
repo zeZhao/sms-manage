@@ -168,7 +168,7 @@ export default {
           label: "备注",
           maxlength: 300,
           key: "notes",
-          rules: [{ trigger: "blur", validator: validatorRemark }],
+          // rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       id: "",

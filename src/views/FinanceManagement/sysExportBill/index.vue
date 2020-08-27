@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item label="账单类型">
           <el-select v-model="searchData.smsType">
-            <el-option key="1" value="短信" />
+            <el-option key="1" value="1" label="短信" />
           </el-select>
         </el-form-item>
         <el-form-item label="开发账单月">
@@ -23,7 +23,7 @@
           <el-date-picker v-model="searchData.endDate" type="month"></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData()">导出</el-button>
+          <el-button type="primary" @click="exportMonthData(searchData.userId)">导出</el-button>
         </el-form-item>
       </el-form>
     </el-row>

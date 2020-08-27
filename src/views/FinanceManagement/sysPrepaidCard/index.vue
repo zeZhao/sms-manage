@@ -7,10 +7,10 @@
       <el-table-column prop="corporateName" label="企业名称" />
       <el-table-column prop="cardCount" label="条数" />
       <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="succCount" label="直连条数" />
-      <el-table-column prop="foreignPrice" label="直连金额(元)" />
-      <el-table-column prop="sumReductType" label="总条数" />
-      <el-table-column prop="sumCardMoney" label="总金额(元)" />
+      <el-table-column prop="directCount" label="直连条数" />
+      <el-table-column prop="directPrice" label="直连金额(元)" />
+      <el-table-column prop="sumCount" label="总条数" />
+      <el-table-column prop="sumPrice" label="总金额(元)" />
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
@@ -53,8 +53,7 @@ export default {
         {
           type: "inputNum",
           label: "企业ID",
-          key: "userId",
-          placeholder: "请输入用户ID",
+          key: "corporateId",
         },
         {
           type: "select",
@@ -109,22 +108,18 @@ export default {
           }
         )
         .then((res) => {
-          if (res.data.type == "application/octet-stream") {
-            let blob = new Blob([res.data], {
-              type: "application/vnd.ms-excel;charset=utf-8",
-            });
-            let url = window.URL.createObjectURL(blob);
-            let aLink = document.createElement("a");
-            aLink.style.display = "none";
-            aLink.href = url;
-            aLink.setAttribute("download", "export.xlsx");
-            document.body.appendChild(aLink);
-            aLink.click();
-            document.body.removeChild(aLink);
-            window.URL.revokeObjectURL(url);
-          } else {
-            this.$message.error("没有符合条件的卡密");
-          }
+          let blob = new Blob([res.data], {
+            type: "application/vnd.ms-excel;charset=utf-8",
+          });
+          let url = window.URL.createObjectURL(blob);
+          let aLink = document.createElement("a");
+          aLink.style.display = "none";
+          aLink.href = url;
+          aLink.setAttribute("download", `${countDate}月平台账单.xlsx`);
+          document.body.appendChild(aLink);
+          aLink.click();
+          document.body.removeChild(aLink);
+          window.URL.revokeObjectURL(url);
         });
     },
     //导出直连账单
@@ -134,29 +129,25 @@ export default {
       this.$axios
         .post(
           "/sysPrepaidCard/exportPlatform",
-          { smsType: chargeType, corporateId, countDate, direct: "1" },
+          { smsType: chargeType, corporateId, countDate, direct: "2" },
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
           }
         )
         .then((res) => {
-          if (res.data.type == "application/octet-stream") {
-            let blob = new Blob([res.data], {
-              type: "application/vnd.ms-excel;charset=utf-8",
-            });
-            let url = window.URL.createObjectURL(blob);
-            let aLink = document.createElement("a");
-            aLink.style.display = "none";
-            aLink.href = url;
-            aLink.setAttribute("download", "export.xlsx");
-            document.body.appendChild(aLink);
-            aLink.click();
-            document.body.removeChild(aLink);
-            window.URL.revokeObjectURL(url);
-          } else {
-            this.$message.error("没有符合条件的卡密");
-          }
+          let blob = new Blob([res.data], {
+            type: "application/vnd.ms-excel;charset=utf-8",
+          });
+          let url = window.URL.createObjectURL(blob);
+          let aLink = document.createElement("a");
+          aLink.style.display = "none";
+          aLink.href = url;
+          aLink.setAttribute("download", `${countDate}月直连账单.xlsx`);
+          document.body.appendChild(aLink);
+          aLink.click();
+          document.body.removeChild(aLink);
+          window.URL.revokeObjectURL(url);
         });
     },
     // 修改搜索参数

@@ -117,7 +117,7 @@ export default {
           label: "特服号",
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
       signCheckId: "",

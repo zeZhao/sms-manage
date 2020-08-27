@@ -51,7 +51,7 @@ export default {
       searchAPI: {
         namespace: "sysResendConfig",
         list: "listResendConfigByPage",
-        detele: "deleteResendConfig"
+        detele: "deleteResendConfig",
       },
       // 列表参数
       namespace: "resendConfig",
@@ -63,32 +63,32 @@ export default {
           type: "input",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名",
           key: "userName",
-          placeholder: "请输入用户名"
+          placeholder: "请输入用户名",
         },
         {
           type: "input",
           label: "通道",
           key: "gateway",
-          placeholder: "请输入通道"
+          placeholder: "请输入通道",
         },
         {
           type: "input",
           label: "不重发状态",
           key: "status",
-          placeholder: "请输入不重发状态"
+          placeholder: "请输入不重发状态",
         },
         {
           type: "input",
           label: "重发目标通道",
           key: "destGateway",
-          placeholder: "请输入重发目标通道"
-        }
+          placeholder: "请输入重发目标通道",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -97,51 +97,59 @@ export default {
           label: "用户ID",
           key: "userId",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "select",
           label: "通道",
           key: "gateway",
-          optionData:[],
+          optionData: [],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
+        // {
+        //   type: "select",
+        //   label: "不重发的状态",
+        //   key: "status",
+        //   optionData: [
+        //     {
+        //       key: "未知",
+        //       value: "未知",
+        //     },
+        //     {
+        //       key: "DELIVERD",
+        //       value: "DELIVERD",
+        //     },
+        //     {
+        //       key: "UNDELIVERD",
+        //       value: "UNDELIVERD",
+        //     },
+        //   ],
+        //   rules: [
+        //     { required: true, message: "请输入必填项", trigger: "change" },
+        //   ],
+        // },
         {
-          type: "select",
+          type: "input",
           label: "不重发的状态",
           key: "status",
-          optionData: [
-            {
-              key: "未知",
-              value: "未知"
-            },
-            {
-              key: "DELIVERD",
-              value: "DELIVERD"
-            },
-            {
-              key: "UNDELIVERD",
-              value: "UNDELIVERD"
-            }
-          ],
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "input",
           label: "重发目标通道",
           key: "destGateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        }
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
       ],
-      resendId: ""
+      resendId: "",
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
     submit(form) {
@@ -149,10 +157,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysResendConfig.addResendConfig(params).then(res => {
+        this.$http.sysResendConfig.addResendConfig(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -162,10 +170,10 @@ export default {
         params = {
           data: {
             resendId: this.resendId,
-            ...form
-          }
+            ...form,
+          },
         };
-        this.$http.sysResendConfig.updateResendConfig(params).then(res => {
+        this.$http.sysResendConfig.updateResendConfig(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -179,10 +187,10 @@ export default {
       this.formTit = "新增";
       // await
       this.addChannel = true;
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         this.$set(item, "defaultValue", "");
       });
-      this.gateway();
+
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
@@ -190,7 +198,7 @@ export default {
     edit(row) {
       this.resendId = row.resendId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -214,27 +222,27 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: ""
-        }
+          isCm: "",
+        },
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.gateway.listGateway(params).then((res) => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
+        this.formConfig.forEach((item) => {
           const { key } = item;
-          
+
           if (key === "gateway") {
-            res.data.forEach(t => {
+            res.data.forEach((t) => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
-              console.log(item)
+              console.log(item);
               item.optionData.push(t);
             });
           }
         });
       });
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

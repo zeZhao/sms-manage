@@ -115,7 +115,7 @@
           >
             <el-option
               v-for="item in navList"
-              :key="item.roleName"
+              :key="item.roleId"
               :label="item.roleName"
               :value="item.roleId"
             ></el-option>
@@ -179,7 +179,7 @@
           >
             <el-option
               v-for="item in navList"
-              :key="item.roleName"
+              :key="item.roleId"
               :label="item.roleName"
               :value="item.roleId"
             ></el-option>
@@ -425,8 +425,8 @@ export default {
         return this.$message.error("请填写账号");
       } else if (this.addInfo.pwd == "") {
         return this.$message.error("请填写密码");
-      } else if(!(/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/).test(this.addInfo.pwd)){
-          return this.$message.error("密码为8-16位，数字、字母、标点符号");
+      } else if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.addInfo.pwd)) {
+        return this.$message.error("密码为8-16位，数字、字母、标点符号");
       } else if (this.addInfo.name == "") {
         return this.$message.error("请填写姓名");
       } else if (this.addInfo.state == "") {
@@ -462,8 +462,8 @@ export default {
       console.log(row);
       this.customerInfo = true;
       this.deleteCustomer();
-      this.setInfo = Object.assign({},row);
-    //   this.setInfo.state = row.state;
+      this.setInfo = Object.assign({}, row);
+      //   this.setInfo.state = row.state;
       // this.setInfo.pwd = "";
     },
     delUser(row) {
@@ -522,9 +522,9 @@ export default {
         return this.$message.error("请填写账号");
       } else if (this.setInfo.name == "") {
         return this.$message.error("请填写姓名");
-      } else if(!(/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/).test(this.setInfo.pwd)){
-          return this.$message.error("密码为8-16位，数字、字母、标点符号");
-      }else if (this.setInfo.state == "") {
+      } else if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.setInfo.pwd)) {
+        return this.$message.error("密码为8-16位，数字、字母、标点符号");
+      } else if (this.setInfo.state == "") {
         return this.$message.error("请选择状态");
       } else if (this.setInfo.mobile == "") {
         return this.$message.error("请填写手机号");
@@ -540,9 +540,9 @@ export default {
         }
       });
     },
-    canselCustomerInfo(){
-        this.customerInfo = false;
-        // this.orderList();
+    canselCustomerInfo() {
+      this.customerInfo = false;
+      // this.orderList();
     },
     setNavuserList(userId, roleId) {
       let params = {

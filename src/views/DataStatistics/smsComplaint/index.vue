@@ -82,7 +82,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userid",
           placeholder: "请输入用户ID",

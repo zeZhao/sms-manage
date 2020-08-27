@@ -227,7 +227,7 @@ export default {
           maxlength: 300,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorRemark },
+            // { trigger: "blur", validator: validatorRemark },
           ],
         },
       ],

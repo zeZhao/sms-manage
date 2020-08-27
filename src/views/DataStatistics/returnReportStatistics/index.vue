@@ -14,14 +14,14 @@
       </el-table-column>
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="reportNum" label="返回条数" />
-      <el-table-column prop="reportNum" label="返回条数" />
+      <!-- <el-table-column prop="reportNum" label="返回条数" /> -->
       <el-table-column prop="successNum" label="成功条数" />
       <el-table-column prop="failNum" label="失败条数" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p
       style="color:red"
-    >总条数: {{statistics.sendNum}}&nbsp;&nbsp;行业总条数: {{statistics.successNum}}&nbsp;&nbsp;营销总条数: {{statistics.successRate}}&nbsp;&nbsp;Vip条数: {{statistics.failNum}}&nbsp;&nbsp;</p>
+    >总数: {{statistics.returnNum}}&nbsp;&nbsp;成功数: {{statistics.successNum}}&nbsp;&nbsp;失败数: {{statistics.failNum}}&nbsp;&nbsp;</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -54,13 +54,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -147,9 +147,9 @@ export default {
   computed: {},
   methods: {
     // 获取统计
-    queryUserSendDetailAll() {
+    queryUserSendDetailAll(searchParam) {
       this.$http.returnReportStatistics
-        .returnReportTotal({ ...this.searchParam })
+        .returnReportTotal({ ...searchParam })
         .then((res) => {
           this.statistics = Object.assign({}, res.data);
         });
@@ -163,6 +163,7 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
+      this.queryUserSendDetailAll(data);
       console.log(this.searchParam, "searchParam");
       return data;
     },
