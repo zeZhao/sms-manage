@@ -887,7 +887,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.userId}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
@@ -911,7 +911,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.userId}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
@@ -939,7 +939,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.userId}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
