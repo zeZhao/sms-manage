@@ -553,18 +553,18 @@ export default {
           type: "select",
           label: "是否强加签名",
           key: "httpSign",
-          isShow: true,
           optionData: [
             { key: "0", value: "否" },
             { key: 1, value: "是" },
           ],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
         {
           type: "select",
           label: "销售员",
           key: "saleMan",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -574,7 +574,7 @@ export default {
             { key: 1, value: "正常" },
             { key: 2, value: "对比库" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
         {
           type: "textarea",
@@ -615,7 +615,6 @@ export default {
           this.$set(item, "disabled", false);
         }
       });
-      this._setDisplayShow(this.formConfig, "httpSign", true);
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -656,7 +655,6 @@ export default {
           this.$set(item, "defaultValue", "");
         }
       });
-      this._setDisplayShow(this.formConfig, "httpSign", false);
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
