@@ -551,6 +551,16 @@ export default {
         },
         {
           type: "select",
+          label: "是否强加签名",
+          key: "httpSign",
+          isShow: true,
+          optionData: [
+            { key: "0", value: "否" },
+            { key: 1, value: "是" },
+          ],
+        },
+        {
+          type: "select",
           label: "销售员",
           key: "saleMan",
           optionData: [],
@@ -582,7 +592,6 @@ export default {
   computed: {},
   methods: {
     _mxArrangeEditData(row) {
-      console.log(row, "-------row");
       for (let key in row) {
         if (key === "blackLevel") {
           if (typeof row[key] === "string") {
@@ -606,6 +615,7 @@ export default {
           this.$set(item, "disabled", false);
         }
       });
+      this._setDisplayShow(this.formConfig, "httpSign", true);
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -619,17 +629,11 @@ export default {
       this.formConfig.forEach((item) => {
         for (let keys in row) {
           if (item.key === keys) {
-            this.$set(
-              item,
-              "defaultValue",
-              keys == "reportType" ||
-                keys == "moType" ||
-                keys == "returnBalance"
-                ? row[keys] == "0"
-                  ? row[keys].toString()
-                  : row[keys]
-                : row[keys]
-            );
+            if (row[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[keys]);
+            }
           }
         }
         if (item.key === "reductModel") {
@@ -652,6 +656,7 @@ export default {
           this.$set(item, "defaultValue", "");
         }
       });
+      this._setDisplayShow(this.formConfig, "httpSign", false);
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
