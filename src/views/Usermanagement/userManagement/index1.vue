@@ -781,8 +781,8 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "userName",
-            "userName"
+            "actualName",
+            "actualName"
           );
           this._setDefaultValue(
             this.searchFormConfig,
