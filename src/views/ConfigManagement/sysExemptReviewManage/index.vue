@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
-          <span>{{ scope.row.isLoss ? "是" : '否' }}</span>
+          <span>{{ scope.row.isLoss==="1" ? "是" : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="update_by" label="修改人" />
@@ -85,7 +85,7 @@ export default {
           callback();
         }
       }
-    };   
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -386,11 +386,14 @@ export default {
           type: "input",
           label: "免审数量",
           key: "exemptReviewNum",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
-                        pattern: /^\+?[1-9]\d*$/,
-                        message: '请输入大于0的正整数',
-                        trigger: 'blur'
-                    }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "blur",
+            },
+          ],
         },
         {
           type: "select",
@@ -466,10 +469,10 @@ export default {
         {
           type: "textarea",
           label: "备注信息",
-          maxlength:300,
+          maxlength: 300,
           key: "remarks",
           placeholder: "备注信息不能超过300字",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       GatewayList: [], // 通道列表
@@ -612,6 +615,11 @@ export default {
         });
       });
     },
+    /**
+     * 编辑表单前调整表单内数据
+     * @param row
+     * @private
+     */
     _mxArrangeEditData(row) {
       for (let key in row) {
         if (

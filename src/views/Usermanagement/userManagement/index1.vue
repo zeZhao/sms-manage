@@ -788,8 +788,8 @@ export default {
             this.searchFormConfig,
             res.data,
             "saleMan",
-            "id",
-            "userName"
+            "actualName",
+            "actualName"
           );
         }
       });
