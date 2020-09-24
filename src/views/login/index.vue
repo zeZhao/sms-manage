@@ -31,7 +31,12 @@
             />
           </el-form-item>
 
-          <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+          <el-tooltip
+            v-model="capsTooltip"
+            content="Caps lock is On"
+            placement="right"
+            manual
+          >
             <el-form-item prop="password">
               <el-input
                 :key="passwordType"
@@ -47,7 +52,9 @@
                 @keyup.enter.native="handleLogin"
               />
               <span class="show-pwd" @click="showPwd">
-                <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+                <svg-icon
+                  :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+                />
               </span>
             </el-form-item>
           </el-tooltip>
@@ -62,7 +69,7 @@
               spellcheck="false"
               maxlength="6"
               @keyup.enter.native="handleLogin"
-              style="float: left;width: 50% "
+              style="float: left; width: 50%"
             ></el-input>
             <div class="captcha_code">
               <img :src="captcha" ref="code" @click="getCaptcha" />
@@ -73,7 +80,8 @@
             type="primary"
             class="loginBut"
             @click.native.prevent="handleLogin"
-          >登录</el-button>
+            >登录</el-button
+          >
         </el-form>
       </div>
     </div>
@@ -190,7 +198,7 @@ export default {
       //   });
       this.captcha =
         process.env.VUE_APP_BASE_API +
-        "/api/sysLogin/captcha?uuId=" +
+        "/sysLogin/captcha?uuId=" +
         this.loginForm.uuid +
         "&num=" +
         num;
