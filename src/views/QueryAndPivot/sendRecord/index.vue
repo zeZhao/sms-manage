@@ -1,8 +1,12 @@
 <template>
   <!--发送记录-->
   <div class="sendRecord">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
@@ -13,13 +17,13 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.operaId === 1
-            ? "移动"
-            : scope.row.operaId === 2
-            ? "联通"
-            : scope.row.operaId === 3
-            ? "电信"
-            : ""
+              scope.row.operaId === 1
+                ? "移动"
+                : scope.row.operaId === 2
+                ? "联通"
+                : scope.row.operaId === 3
+                ? "电信"
+                : ""
             }}
           </span>
         </template>
@@ -31,18 +35,18 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.hasSend === "0"
-            ? "未发"
-            : scope.row.hasSend === "1"
-            ? "已发送"
-            : ""
+              scope.row.hasSend === "0"
+                ? "未发"
+                : scope.row.hasSend === "1"
+                ? "已发送"
+                : ""
             }}
           </span>
         </template>
       </el-table-column>
       <el-table-column prop="createIime" label="创建时间">
         <template slot-scope="scope">
-          <span>{{scope.row.createIime | timeFormat}}</span>
+          <span>{{ scope.row.createIime | timeFormat }}</span>
         </template>
       </el-table-column>
 
@@ -50,21 +54,21 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.proType === 1
-            ? "web端"
-            : scope.row.proType === 2
-            ? "http接口"
-            : scope.row.proType === 3
-            ? "cmpp接口"
-            : scope.row.proType === 7
-            ? "音频接口"
-            : ""
+              scope.row.proType === 1
+                ? "web端"
+                : scope.row.proType === 2
+                ? "http接口"
+                : scope.row.proType === 3
+                ? "cmpp接口"
+                : scope.row.proType === 7
+                ? "音频接口"
+                : ""
             }}
           </span>
         </template>
       </el-table-column>
     </el-table>
-    <p style="color:red">总条数：{{pageObj.total}}</p>
+    <p style="color: red">总条数：{{ pageObj.total }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -92,13 +96,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -128,7 +132,7 @@ export default {
           placeholder: "请输入CID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关",
           key: "gateway",
         },

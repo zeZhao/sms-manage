@@ -1,8 +1,12 @@
 <template>
   <!--发送报告-->
   <div class="smsTxReport">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
@@ -12,20 +16,36 @@
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{ scope.row.operaId == 1 ?'移动':( scope.row.operaId == 2?'联通 ':( scope.row.reductModel == 3?'电信': (scope.row.reductModel == 4 ? '国际':(scope.row.reductModel == 0 ? '非法' : ''))))}}</span>
+          <span>{{
+            scope.row.operaId == 1
+              ? "移动"
+              : scope.row.operaId == 2
+              ? "联通 "
+              : scope.row.reductModel == 3
+              ? "电信"
+              : scope.row.reductModel == 4
+              ? "国际"
+              : scope.row.reductModel == 0
+              ? "非法"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">
-          <span>{{scope.row.submitTime | timeFormat}}</span>
+          <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendTime" label="发送时间" width="150">
         <template slot-scope="scope">
-          <span>{{scope.row.sendTime | timeFormat}}</span>
+          <span>{{ scope.row.sendTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="platformTaking" label="平台耗时:秒" show-overflow-tooltip />
+      <el-table-column
+        prop="platformTaking"
+        label="平台耗时:秒"
+        show-overflow-tooltip
+      />
       <el-table-column prop="seqId" label="SEQID" show-overflow-tooltip />
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
     </el-table>
@@ -56,13 +76,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",

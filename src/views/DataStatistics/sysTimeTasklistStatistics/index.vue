@@ -1,8 +1,12 @@
 <template>
   <!--定时统计-->
   <div class="sysTimeTasklistStatistics">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -28,7 +32,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysTimeTasklistStatistics",
-        list: "queryTimeTaskByPage"
+        list: "queryTimeTaskByPage",
       },
       // 列表参数
       namespace: "timeTask",
@@ -40,32 +44,32 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户ID",
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入用户名称",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "gateway",
-          placeholder: "通道编号"
+          placeholder: "通道编号",
         },
         {
           type: "daterange",
           label: "统计日期",
           key: ["", "startTime", "endTime"],
-        }
-      ]
+        },
+      ],
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {}
+  watch: {},
 };
 </script>
 

@@ -1,8 +1,12 @@
 <template>
   <!--实时数据查询-->
   <div class="userDailyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="gateway" label="网关" />
@@ -56,7 +60,7 @@ export default {
           placeholder: "请输入特服号",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关",
           key: "gateway",
           placeholder: "请输入网关",

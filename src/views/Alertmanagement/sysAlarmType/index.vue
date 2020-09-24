@@ -1,31 +1,73 @@
 <template>
   <!--报警类别-->
   <div class="sysAlarmType">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="errNum" label="错误码" />
       <el-table-column prop="useModule" label="应用模块" />
       <el-table-column prop="alerType" label="报警类型" width="120" />
-      <el-table-column prop="mobile" label="手机号码" width="115" show-overflow-tooltip />
+      <el-table-column
+        prop="mobile"
+        label="手机号码"
+        width="115"
+        show-overflow-tooltip
+      />
       <el-table-column prop="adminUser" label="预警用户" />
       <el-table-column prop="alarmLevel" label="报警级别">
         <template slot-scope="scope">
-          <span>{{scope.row.alarmLevel=== 0?'提醒':(scope.row.alarmLevel=== 1?'一般':(scope.row.alarmLevel=== 2?'重要':'严重'))}}</span>
+          <span>{{
+            scope.row.alarmLevel === 0
+              ? "提醒"
+              : scope.row.alarmLevel === 1
+              ? "一般"
+              : scope.row.alarmLevel === 2
+              ? "重要"
+              : "严重"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="alarmMode" label="报警方式">
         <template slot-scope="scope">
-          <span>{{scope.row.alarmMode=== '1'?'短信':(scope.row.alarmMode=== '2'?'微信':'弹窗')}}</span>
+          <span>{{
+            scope.row.alarmMode === "1"
+              ? "短信"
+              : scope.row.alarmMode === "2"
+              ? "微信"
+              : "弹窗"
+          }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="wetContentTemp" label="微信报警模板" show-overflow-tooltip />
-      <el-table-column prop="smsContentTemp" label="短信报警模板" show-overflow-tooltip />
-      <el-table-column prop="wetTempId" label="微信模板ID" show-overflow-tooltip />
+      <el-table-column
+        prop="wetContentTemp"
+        label="微信报警模板"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="smsContentTemp"
+        label="短信报警模板"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="wetTempId"
+        label="微信模板ID"
+        show-overflow-tooltip
+      />
       <el-table-column prop="des" label="描述" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('typeId',scope.row.typeId)" type="text" size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('typeId', scope.row.typeId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -34,7 +76,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -69,7 +116,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "错误码",
           key: "errNum",
           placeholder: "错误码",

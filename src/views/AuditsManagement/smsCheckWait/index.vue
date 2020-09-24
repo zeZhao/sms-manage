@@ -1,14 +1,18 @@
 <template>
   <!--待审-->
   <div class="smsCheckWait">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    >
       <template slot="Other">
         <!-- <el-button type="primary" @click="_mxCreate">超审</el-button> -->
         <el-button type="primary" @click="addCheck">增加分配</el-button>
         <el-button type="primary" @click="stopCheck">停止分配</el-button>
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
@@ -22,18 +26,34 @@
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
-          <span>{{ scope.row.gatewayType === 1 ? "路由信息错" : (scope.row.gatewayType === 2 ? "关键字" :(scope.row.gatewayType === 3 ? "模板不匹配" :(scope.row.gatewayType === 5 ? "数量超标" :(scope.row.gatewayType === 6 ? "组合redis出错" :'组合超时')))) }}</span>
+          <span>{{
+            scope.row.gatewayType === 1
+              ? "路由信息错"
+              : scope.row.gatewayType === 2
+              ? "关键字"
+              : scope.row.gatewayType === 3
+              ? "模板不匹配"
+              : scope.row.gatewayType === 5
+              ? "数量超标"
+              : scope.row.gatewayType === 6
+              ? "组合redis出错"
+              : "组合超时"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
       <el-table-column prop="submitTime" label="提交时间">
-        <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.submitTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="text" @click="supperCheck(scope.row)">超审</el-button>
+          <el-button type="text" @click="supperCheck(scope.row)"
+            >超审</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -42,7 +62,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -79,7 +104,7 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",

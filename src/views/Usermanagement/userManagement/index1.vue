@@ -1,17 +1,32 @@
 <template>
   <!--企业用户-->
   <div class="corpUser">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;" stripe>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="企业/代理ID" width="100" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="loginName" label="用户登录名" width="100" />
-      <el-table-column prop="password" label="密码" width="100" show-overflow-tooltip />
+      <el-table-column
+        prop="password"
+        label="密码"
+        width="100"
+        show-overflow-tooltip
+      />
       <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.accountType == '1'?'行业':( scope.row.accountType == '2'?'营销':"vip")}}</span>
+          <span>{{
+            scope.row.accountType == "1"
+              ? "行业"
+              : scope.row.accountType == "2"
+              ? "营销"
+              : "vip"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
@@ -19,12 +34,30 @@
       <el-table-column prop="longCode" label="长号码" />
       <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
-          <span>{{ scope.row.productType == '1'?'短信':( scope.row.productType == '2'?'彩信':( scope.row.productType == '3'?'屏信':'语音'))}}</span>
+          <span>{{
+            scope.row.productType == "1"
+              ? "短信"
+              : scope.row.productType == "2"
+              ? "彩信"
+              : scope.row.productType == "3"
+              ? "屏信"
+              : "语音"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.proType === 1?'web前端':( scope.row.proType === 2?'http接口':( scope.row.proType === 3?'cmpp接口':(scope.row.proType === 7?'音频接口':'')))}}</span>
+          <span>{{
+            scope.row.proType === 1
+              ? "web前端"
+              : scope.row.proType === 2
+              ? "http接口"
+              : scope.row.proType === 3
+              ? "cmpp接口"
+              : scope.row.proType === 7
+              ? "音频接口"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="发送运营商" width="100">
@@ -40,45 +73,77 @@
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式" width="110">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductModel == '1'?'预付提交计费':( scope.row.reductModel == '2'?'预付成功计费':( scope.row.reductModel == '3'?'后付提交计费':'后付成功计费'))}}</span>
+          <span>{{
+            scope.row.reductModel == "1"
+              ? "预付提交计费"
+              : scope.row.reductModel == "2"
+              ? "预付成功计费"
+              : scope.row.reductModel == "3"
+              ? "后付提交计费"
+              : "后付成功计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == '1'?'用户id计费':'企业id计费'}}</span>
+          <span>{{
+            scope.row.reductType == "1" ? "用户id计费" : "企业id计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsBalance" label="短信余额" />
       <el-table-column prop="debt" label="借款" />
-      <el-table-column prop="cardUnit" label="单价（分）" width="100"></el-table-column>
+      <el-table-column
+        prop="cardUnit"
+        label="单价（分）"
+        width="100"
+      ></el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.status == '0'?'删除':( scope.row.status == '1'?'待审核':( scope.row.status == '2'?'正常':'停用'))}}</span>
+          <span>{{
+            scope.row.status == "0"
+              ? "删除"
+              : scope.row.status == "1"
+              ? "待审核"
+              : scope.row.status == "2"
+              ? "正常"
+              : "停用"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="messageShow(scope.row)" type="text" size="small">信息</el-button>
-          <el-button @click="_mxEdit(scope.row, 'userId')" type="text" size="small">修改</el-button>
+          <el-button @click="messageShow(scope.row)" type="text" size="small"
+            >信息</el-button
+          >
           <el-button
-            :disabled="scope.row.status == '2'||scope.row.status == '3'"
+            @click="_mxEdit(scope.row, 'userId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
+          <el-button
+            :disabled="scope.row.status == '2' || scope.row.status == '3'"
             @click="_mxCheck(scope.row, 'userId')"
             type="text"
             size="small"
-          >审核</el-button>
+            >审核</el-button
+          >
           <el-button
             v-if="scope.row.status == 2"
-            @click="setType(scope.row,'disable','3')"
+            @click="setType(scope.row, 'disable', '3')"
             style="color: #ec5858"
             type="text"
             size="small"
-          >停用</el-button>
+            >停用</el-button
+          >
           <el-button
             v-if="scope.row.status == 3"
-            @click="setType(scope.row,'enabled','2')"
+            @click="setType(scope.row, 'enabled', '2')"
             type="text"
             size="small"
-          >启用</el-button>
+            >启用</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -111,8 +176,10 @@
       :close-on-click-modal="false"
       width="30%"
     >
-      <span>{{information}}</span>
-      <p v-show=" dialogTit === '停用' " style="color: #EC5858">停用后将无法使用，请谨慎操作！</p>
+      <span>{{ information }}</span>
+      <p v-show="dialogTit === '停用'" style="color: #ec5858">
+        停用后将无法使用，请谨慎操作！
+      </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateStatus">确 定</el-button>
@@ -150,14 +217,13 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
-
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户id",
           key: "userId",
           placeholder: "请输入用户id",

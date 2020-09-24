@@ -1,15 +1,27 @@
 <template>
   <!--返回报告统计-->
   <div class="userDailyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
-          <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
+          <span>{{
+            scope.row.smsType === 1
+              ? "短信"
+              : scope.row.smsType === 2
+              ? "彩信"
+              : scope.row.smsType === 3
+              ? "屏信"
+              : "语音"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="gateway" label="网关" />
@@ -19,9 +31,11 @@
       <el-table-column prop="failNum" label="失败条数" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
-    <p
-      style="color:red"
-    >总数: {{statistics.returnNum}}&nbsp;&nbsp;成功数: {{statistics.successNum}}&nbsp;&nbsp;失败数: {{statistics.failNum}}&nbsp;&nbsp;</p>
+    <p style="color: red">
+      总数: {{ statistics.returnNum }}&nbsp;&nbsp;成功数:
+      {{ statistics.successNum }}&nbsp;&nbsp;失败数:
+      {{ statistics.failNum }}&nbsp;&nbsp;
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -72,10 +86,9 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关",
           key: "gateway",
-          placeholder: "请输入用户名称",
         },
         {
           type: "select",

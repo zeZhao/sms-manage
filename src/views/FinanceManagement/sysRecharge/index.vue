@@ -1,22 +1,22 @@
 <template>
   <!--充值-->
   <div class="sysRecharge">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    >
       <template slot="Other">
         <el-button type="primary" @click="transfers">账号互转</el-button>
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
           <span>
-            {{
-            scope.row.chargeType == 1
-            ? "短信"
-            : "彩信"
-            }}
+            {{ scope.row.chargeType == 1 ? "短信" : "彩信" }}
           </span>
         </template>
       </el-table-column>
@@ -29,13 +29,13 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.paidWay == 0
-            ? "充值"
-            : scope.row.paidWay == 1
-            ? "借款"
-            : scope.row.paidWay == 2
-            ? "扣款"
-            : "还款"
+              scope.row.paidWay == 0
+                ? "充值"
+                : scope.row.paidWay == 1
+                ? "借款"
+                : scope.row.paidWay == 2
+                ? "扣款"
+                : "还款"
             }}
           </span>
         </template>
@@ -44,13 +44,13 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.reductModel == 1
-            ? "预付提交计费"
-            : scope.row.reductModel == 2
-            ? "预付成功计费"
-            : scope.row.reductModel == 3
-            ? "后付提交计费"
-            : "后付成功计费"
+              scope.row.reductModel == 1
+                ? "预付提交计费"
+                : scope.row.reductModel == 2
+                ? "预付成功计费"
+                : scope.row.reductModel == 3
+                ? "后付提交计费"
+                : "后付成功计费"
             }}
           </span>
         </template>
@@ -60,17 +60,17 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.isBill == 0
-            ? "充值记录"
-            : scope.row.isBill == 1
-            ? "月度帐单"
-            : scope.row.isBill == 2
-            ? "后付提交计费"
-            : scope.row.isBill == 3
-            ? "后付提交计费"
-            : scope.row.isBill == 4
-            ? "后付提交计费"
-            : "月度帐单"
+              scope.row.isBill == 0
+                ? "充值记录"
+                : scope.row.isBill == 1
+                ? "月度帐单"
+                : scope.row.isBill == 2
+                ? "后付提交计费"
+                : scope.row.isBill == 3
+                ? "后付提交计费"
+                : scope.row.isBill == 4
+                ? "后付提交计费"
+                : "月度帐单"
             }}
           </span>
         </template>
@@ -79,17 +79,19 @@
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifier" label="操作账号" />
       <el-table-column prop="createTime" label="创建时间" width="150">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核">
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.cardStatus == 0
-            ? "未操作"
-            : scope.row.cardStatus == 1
-            ? "审核通过"
-            : "审核驳回"
+              scope.row.cardStatus == 0
+                ? "未操作"
+                : scope.row.cardStatus == 1
+                ? "审核通过"
+                : "审核驳回"
             }}
           </span>
         </template>
@@ -101,7 +103,8 @@
             @click="_mxEdit(scope.row, 'cardId')"
             type="text"
             size="small"
-          >修改</el-button>
+            >修改</el-button
+          >
           <!-- <el-button @click="_mxDeleteItem('signId', scope.row.signId)" type="text" size="small">删除</el-button> -->
         </template>
       </el-table-column>
@@ -147,7 +150,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -210,7 +217,7 @@ export default {
           placeholder: "类型",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",

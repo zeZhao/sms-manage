@@ -1,22 +1,26 @@
 <template>
   <!--黑名单管理-->
   <div class="sysBlacklist">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="blackType" label="黑名单类型">
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.blackType === "0"
-            ? "系统级"
-            : scope.row.blackType === "1"
-            ? "网关级"
-            : scope.row.blackType === "2"
-            ? "用户级"
-            : scope.row.blackType === "3"
-            ? "营销级"
-            : "BSATS级"
+              scope.row.blackType === "0"
+                ? "系统级"
+                : scope.row.blackType === "1"
+                ? "网关级"
+                : scope.row.blackType === "2"
+                ? "用户级"
+                : scope.row.blackType === "3"
+                ? "营销级"
+                : "BSATS级"
             }}
           </span>
         </template>
@@ -29,21 +33,21 @@
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>
-            {{
-            scope.row.status === "1"
-            ? "正常": "禁用"
-            }}
+            {{ scope.row.status === "1" ? "正常" : "禁用" }}
           </span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('blackId', scope.row.blackId)"
             type="text"
             size="small"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +56,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -63,7 +72,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -84,7 +97,7 @@ export default {
           callback();
         }
       }
-    };  
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -135,7 +148,7 @@ export default {
           ],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -225,7 +238,7 @@ export default {
           key: "remark",
           maxlength: 300,
           placeholder: "备注信息不能超过300字",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       blackId: "",
@@ -309,13 +322,13 @@ export default {
       this._setDisplayShow(this.formConfig, "userId", true);
       this._setDisplayShow(this.formConfig, "corporateId", true);
       this.formConfig.forEach((item) => {
-        if(item.key === "blackType"){
-            this.$set(item, "disabled", false);
+        if (item.key === "blackType") {
+          this.$set(item, "disabled", false);
         }
-        if(item.key === "userId"){
-            this.$set(item, "btnDisabled", false);
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
         }
-      })
+      });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);

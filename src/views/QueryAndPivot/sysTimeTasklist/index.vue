@@ -1,8 +1,12 @@
 <template>
   <!--定时-->
   <div class="sysTimeTasklist">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -14,11 +18,11 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.hasSend === 1
-            ? "移动"
-            : scope.row.hasSend === 2
-            ? "联通"
-            : "电信"
+              scope.row.hasSend === 1
+                ? "移动"
+                : scope.row.hasSend === 2
+                ? "联通"
+                : "电信"
             }}
           </span>
         </template>
@@ -31,10 +35,14 @@
       </el-table-column>
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="definiteTime" label="定时时间" width="150">
-        <template slot-scope="scope">{{scope.row.definiteTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.definiteTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
-        <template slot-scope="scope">{{scope.row.submitTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.submitTime | timeFormat
+        }}</template>
       </el-table-column>
     </el-table>
     <Page
@@ -64,13 +72,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -100,7 +108,7 @@ export default {
           placeholder: "请输入手机号",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关",
           key: "gateway",
           placeholder: "请输入网关",

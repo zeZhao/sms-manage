@@ -1,29 +1,54 @@
 <template>
   <!--待审模板-->
   <div class="smsCheckTemplate">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === '1' ? "特服号" : (scope.row.type === '2' ? "客户ID" :'企业ID') }}</span>
+          <span>{{
+            scope.row.type === "1"
+              ? "特服号"
+              : scope.row.type === "2"
+              ? "客户ID"
+              : "企业ID"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="template" label="模板信息" show-overflow-tooltip />
       <el-table-column prop="createdAt" label="创建时间" width="150">
-        <template slot-scope="scope">{{scope.row.createdAt | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createdAt | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.status === 1 ? "待审核" : (scope.row.status === 2 ? "审核处理中" :(scope.row.status === 4 ? "审核通过" :'审核拒绝')) }}</span>
+          <span>{{
+            scope.row.status === 1
+              ? "待审核"
+              : scope.row.status === 2
+              ? "审核处理中"
+              : scope.row.status === 4
+              ? "审核通过"
+              : "审核拒绝"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'templateId')" type="text" size="small">修改</el-button>
+          <el-button
+            @click="_mxEdit(scope.row, 'templateId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -32,7 +57,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -42,7 +72,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -70,13 +104,13 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -111,7 +145,7 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
           disabled: true,
