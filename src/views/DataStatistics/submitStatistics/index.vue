@@ -1,37 +1,68 @@
 <template>
   <!--发送报告统计-->
   <div class="sendReportStatistics">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="accountType" label="用户类型">
         <template slot-scope="scope">
-          <span>{{scope.row.smsType === 1?'行业':(scope.row.smsType === 2?'营销':(scope.row.smsType === 3?'vip':''))}}</span>
+          <span>{{
+            scope.row.smsType === 1
+              ? "行业"
+              : scope.row.smsType === 2
+              ? "营销"
+              : scope.row.smsType === 3
+              ? "vip"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{scope.row.operaId === 1?'移动':(scope.row.operaId === 2?'联通':(scope.row.operaId === 3?'屏信':'语音'))}}</span>
+          <span>{{
+            scope.row.operaId === 1
+              ? "移动"
+              : scope.row.operaId === 2
+              ? "联通"
+              : scope.row.operaId === 3
+              ? "屏信"
+              : "语音"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
-          <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
+          <span>{{
+            scope.row.smsType === 1
+              ? "短信"
+              : scope.row.smsType === 2
+              ? "彩信"
+              : scope.row.smsType === 3
+              ? "屏信"
+              : "语音"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitNum" label="提交条数" />
       <el-table-column prop="sendNum" label="占比">
         <template slot-scope="scope">
-          <span>{{scope.row.submitNum/statistics.total}}%</span>
+          <span>{{ scope.row.submitNum / statistics.total }}%</span>
         </template>
       </el-table-column>
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
-    <p
-      style="color:red"
-    >总条数: {{statistics.total}}&nbsp;&nbsp;行业总条数: {{statistics.industryNum}}&nbsp;&nbsp;营销总条数: {{statistics.marketingNum}}&nbsp;&nbsp;Vip条数: {{statistics.vipNum}}&nbsp;&nbsp;</p>
+    <p style="color: red">
+      总条数: {{ statistics.total }}&nbsp;&nbsp;行业总条数:
+      {{ statistics.industryNum }}&nbsp;&nbsp;营销总条数:
+      {{ statistics.marketingNum }}&nbsp;&nbsp;Vip条数:
+      {{ statistics.vipNum }}&nbsp;&nbsp;
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -82,10 +113,9 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关",
           key: "gateway",
-          placeholder: "请输入用户名称",
         },
         {
           type: "select",

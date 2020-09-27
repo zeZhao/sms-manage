@@ -1,8 +1,12 @@
 <template>
   <!--彩信用户通道配置-->
   <div class="mmsUserGateway">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
@@ -11,12 +15,21 @@
       <el-table-column prop="cuGatewayId" label="联通通道" />
       <el-table-column prop="ctGatewayId" label="电信通道" />
       <el-table-column prop="updateTime" label="修改时间">
-        <template slot-scope="scope">{{scope.row.updateTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.updateTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('ugId',scope.row.ugId)" type="text" size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('ugId', scope.row.ugId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -25,7 +38,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -35,7 +53,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancels"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancels"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -56,7 +78,7 @@ export default {
           callback();
         }
       }
-    };  
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -73,13 +95,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -167,9 +189,9 @@ export default {
         {
           type: "textarea",
           label: "备注信息",
-          maxlength:300,
+          maxlength: 300,
           key: "remark",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       ugId: "",

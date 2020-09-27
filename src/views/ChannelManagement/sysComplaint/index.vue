@@ -1,8 +1,12 @@
 <template>
   <!--投诉录入-->
   <div class="sysComplaint">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="gateway" label="通道" />
@@ -11,14 +15,20 @@
       <el-table-column prop="complaintSources" label="投诉来源" />
       <el-table-column prop="result" label="处理方式" />
       <el-table-column prop="content" label="投诉内容" />
-      <el-table-column prop="adContent" label="实际下发内容" show-overflow-tooltip />
+      <el-table-column
+        prop="adContent"
+        label="实际下发内容"
+        show-overflow-tooltip
+      />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="mobile" label="投诉手机号" width="120" />
       <el-table-column prop="complaintDate" label="投诉时间" width="100">
-        <template slot-scope="scope">{{scope.row.complaintDate | Format}}</template>
+        <template slot-scope="scope">{{
+          scope.row.complaintDate | Format
+        }}</template>
       </el-table-column>
       <el-table-column prop="adTime" label="实际下发时间" width="100">
-        <template slot-scope="scope">{{scope.row.adTime | Format}}</template>
+        <template slot-scope="scope">{{ scope.row.adTime | Format }}</template>
       </el-table-column>
       <!-- <template slot-scope="scope">
           <span>{{scope.row.adTime | timeFormat}}</span>
@@ -26,21 +36,33 @@
       </el-table-column>-->
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{ scope.row.operaId === 0 ? "非法" : (scope.row.operaId === 1 ? "移动" :(scope.row.operaId === 2 ? "联通" :(scope.row.operaId === 3 ? "电信" :'国际'))) }}</span>
+          <span>{{
+            scope.row.operaId === 0
+              ? "非法"
+              : scope.row.operaId === 1
+              ? "移动"
+              : scope.row.operaId === 2
+              ? "联通"
+              : scope.row.operaId === 3
+              ? "电信"
+              : "国际"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="count" label="投诉次数" />
       <el-table-column prop="adNumber" label="实际下发次数" width="125" />
       <el-table-column prop="createDate" label="录入日期" width="100">
         <template slot-scope="scope">
-          <span>{{scope.row.createDate | Format}}</span>
+          <span>{{ scope.row.createDate | Format }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sale" label="销售" />
       <el-table-column prop="remarks" label="备注" />
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
+            >修改</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -49,17 +71,30 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
-        @submit="((form)=>{_mxHandleSubmit(form,'',false)})"
+        @submit="
+          (form) => {
+            _mxHandleSubmit(form, '', false);
+          }
+        "
         @cancel="_mxCancel"
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -86,12 +121,12 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "gateway",
         },

@@ -1,12 +1,16 @@
 <template>
   <!--投诉统计-->
   <div class="sendReportStatistics">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    >
       <template slot="Other">
         <el-button type="primary" @click="statistic">投诉统计</el-button>
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userid" label="用户ID" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="code" label="通道码号" />
@@ -21,10 +25,15 @@
     ></Page>
 
     <el-dialog title="投诉统计" :visible.sync="dialogVisible" width="80%">
-      <el-date-picker v-model="statisticsDate" type="date" forma="yyyy-MM-dd" placeholder="选择日期"></el-date-picker>
+      <el-date-picker
+        v-model="statisticsDate"
+        type="date"
+        forma="yyyy-MM-dd"
+        placeholder="选择日期"
+      ></el-date-picker>
       <el-button type="primary" @click="query">查询</el-button>
       <template>
-        <el-table :data="tableData" style="width: 100%;margin-top:20px">
+        <el-table :data="tableData" style="width: 100%; margin-top: 20px">
           <!-- <el-table-column :prop="processMode" label="处理方式"></el-table-column>
           <el-table-column label="投诉类型" align="center">
             <el-table-column prop="securityCode" label="验证码"></el-table-column>
@@ -50,11 +59,15 @@
             <el-table-column prop="9" label="其他"></el-table-column>
           </el-table-column>
         </el-table>
-        <p style="color:red">当天投诉总数:{{count}}；处理个数：0；审核通过个数：0</p>
+        <p style="color: red">
+          当天投诉总数:{{ count }}；处理个数：0；审核通过个数：0
+        </p>
       </template>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -88,7 +101,7 @@ export default {
           placeholder: "请输入用户ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "gateway",
         },

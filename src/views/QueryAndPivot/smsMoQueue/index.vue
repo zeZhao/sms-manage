@@ -1,8 +1,12 @@
 <template>
   <!--上行信息-->
   <div class="smsMoQueue">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="code" label="特服号" />
@@ -13,11 +17,11 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.type === 1
-            ? "移动 "
-            : scope.row.type === 2
-            ? "联通 "
-            : "电信"
+              scope.row.type === 1
+                ? "移动 "
+                : scope.row.type === 2
+                ? "联通 "
+                : "电信"
             }}
           </span>
         </template>
@@ -25,7 +29,9 @@
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="gateway" label="上行网关" />
       <el-table-column prop="createTime" label="上行时间" width="150">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
@@ -60,13 +66,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "账号ID",
           key: "userId",
           placeholder: "请输入账号ID",

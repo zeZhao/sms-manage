@@ -1,8 +1,12 @@
 <template>
   <!--提交记录-->
   <div class="sendLogFegin">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
@@ -10,15 +14,15 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.proType === 1
-            ? "web端"
-            : scope.row.proType === 2
-            ? "http接口"
-            : scope.row.proType === 3
-            ? "cmpp接口"
-            : scope.row.proType === 7
-            ? "音频接口"
-            : ""
+              scope.row.proType === 1
+                ? "web端"
+                : scope.row.proType === 2
+                ? "http接口"
+                : scope.row.proType === 3
+                ? "cmpp接口"
+                : scope.row.proType === 7
+                ? "音频接口"
+                : ""
             }}
           </span>
         </template>
@@ -30,19 +34,29 @@
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
       <el-table-column prop="definiteTime" label="定时时间" width="155">
         <template slot-scope="scope">
-          <span>{{scope.row.definiteTime | timeFormat}}</span>
+          <span>{{ scope.row.definiteTime | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="155">
         <template slot-scope="scope">
-          <span>{{scope.row.submitTime | timeFormat}}</span>
+          <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="pkTotal" label="PK TOTAL" show-overflow-tooltip width="100" />
-      <el-table-column prop="pkNumber" label="PK NUMBER" show-overflow-tooltip width="110" />
+      <el-table-column
+        prop="pkTotal"
+        label="PK TOTAL"
+        show-overflow-tooltip
+        width="100"
+      />
+      <el-table-column
+        prop="pkNumber"
+        label="PK NUMBER"
+        show-overflow-tooltip
+        width="110"
+      />
       <el-table-column prop="pid" label="PID" show-overflow-tooltip />
     </el-table>
-    <p style="color:red">总条数：{{pageObj.total}}</p>
+    <p style="color: red">总条数：{{ pageObj.total }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -70,13 +84,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",

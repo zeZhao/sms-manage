@@ -1,15 +1,25 @@
 <template>
   <!--免审管理-->
   <div class="sysExemptReviewManage">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.exemptReviewType === 1 ? "特服号" : (scope.row.exemptReviewType === 2 ? "客户ID" :'企业ID') }}</span>
+          <span>{{
+            scope.row.exemptReviewType === 1
+              ? "特服号"
+              : scope.row.exemptReviewType === 2
+              ? "客户ID"
+              : "企业ID"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="cmPassageway" label="移动通道" />
@@ -18,31 +28,43 @@
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span>{{ scope.row.isTemplate===true ? "需要" :'不需要' }}</span>
+          <span>{{ scope.row.isTemplate === true ? "需要" : "不需要" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="isParallelDetection" label="是否并行检测" width="110">
+      <el-table-column
+        prop="isParallelDetection"
+        label="是否并行检测"
+        width="110"
+      >
         <template slot-scope="scope">
-          <span>{{ scope.row.isParallelDetection ? "是" : '否' }}</span>
+          <span>{{ scope.row.isParallelDetection ? "是" : "否" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
-          <span>{{ scope.row.isLoss ? "是" : '否' }}</span>
+          <span>{{ scope.row.isLoss === "1" ? "是" : "否" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="update_by" label="修改人" />
       <el-table-column prop="update_time" label="修改时间" width="150">
-        <template slot-scope="scope">{{scope.row.update_time | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.update_time | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'exemptId')" type="text" size="small">修改</el-button>
           <el-button
-            @click="_mxDeleteItem('exemptId',scope.row.exemptId)"
+            @click="_mxEdit(scope.row, 'exemptId')"
             type="text"
             size="small"
-          >删除</el-button>
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('exemptId', scope.row.exemptId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -51,7 +73,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -63,7 +90,11 @@
         @onChange="onChange"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancel"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancel"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -85,7 +116,7 @@ export default {
           callback();
         }
       }
-    };   
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -104,13 +135,13 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -386,11 +417,14 @@ export default {
           type: "input",
           label: "免审数量",
           key: "exemptReviewNum",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" },{
-                        pattern: /^\+?[1-9]\d*$/,
-                        message: '请输入大于0的正整数',
-                        trigger: 'blur'
-                    }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: "blur",
+            },
+          ],
         },
         {
           type: "select",
@@ -466,10 +500,10 @@ export default {
         {
           type: "textarea",
           label: "备注信息",
-          maxlength:300,
+          maxlength: 300,
           key: "remarks",
           placeholder: "备注信息不能超过300字",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       GatewayList: [], // 通道列表
@@ -612,6 +646,11 @@ export default {
         });
       });
     },
+    /**
+     * 编辑表单前调整表单内数据
+     * @param row
+     * @private
+     */
     _mxArrangeEditData(row) {
       for (let key in row) {
         if (

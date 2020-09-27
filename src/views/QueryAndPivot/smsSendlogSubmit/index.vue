@@ -1,8 +1,12 @@
 <template>
   <!--前台提交调整-->
   <div class="smsSendlogSubmit">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="taskId" label="任务ID" width="100" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
@@ -10,12 +14,12 @@
       <el-table-column prop="mobilesCount" label="手机号数量" />
       <el-table-column prop="submitTime" label="提交时间" width="100">
         <template slot-scope="scope">
-          <span>{{scope.row.submitTime | Format}}</span>
+          <span>{{ scope.row.submitTime | Format }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="definiteTime" label="定时时间" width="100">
         <template slot-scope="scope">
-          <span>{{scope.row.definiteTime | Format}}</span>
+          <span>{{ scope.row.definiteTime | Format }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendCount" label="发送条数" />
@@ -24,13 +28,28 @@
       <el-table-column prop="unknowCount" label="未知条数" />
       <el-table-column prop="taskstatus" label="定时状态">
         <template slot-scope="scope">
-          <span>{{scope.row.taskstatus == 0 ? '不定时': (scope.row.taskstatus == 1 ? '定时': (scope.row.taskstatus == 1 ? '定时取消': ''))}}</span>
+          <span>{{
+            scope.row.taskstatus == 0
+              ? "不定时"
+              : scope.row.taskstatus == 1
+              ? "定时"
+              : scope.row.taskstatus == 1
+              ? "定时取消"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem(scope.row.taskId)" type="text" size="small">删除</el-button>
+          <el-button @click="_mxEdit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem(scope.row.taskId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -39,7 +58,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -77,12 +101,12 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userid",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "任务ID",
           key: "taskid",
         },

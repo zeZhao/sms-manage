@@ -1,19 +1,32 @@
 <template>
   <section>
     <!--工具条-->
-    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
         <el-form-item>
-          <el-input v-model="search.corpId" clearable placeholder="企业ID" />
+          <el-input
+            v-model="search.corpId"
+            type="number"
+            clearable
+            placeholder="企业ID"
+          />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="search.corpName" clearable placeholder="企业名称" />
+          <el-input
+            v-model="search.corpName"
+            clearable
+            placeholder="企业名称"
+          />
         </el-form-item>
         <el-form-item>
           <el-input v-model="search.contact" clearable placeholder="联系人" />
         </el-form-item>
         <el-form-item>
-          <el-select v-model="search.reductModel" placeholder="计费模式" clearable>
+          <el-select
+            v-model="search.reductModel"
+            placeholder="计费模式"
+            clearable
+          >
             <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
             <el-option value="1" label="预付提交计费" />
             <el-option value="2" label="预付成功计费" />
@@ -33,11 +46,13 @@
           <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-button type="primary" @click="newEnterprise">新增企业信息</el-button>
+          <el-button type="primary" @click="newEnterprise"
+            >新增企业信息</el-button
+          >
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row style="width: 100%;">
+    <el-table :data="dataList" highlight-current-row style="width: 100%">
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="code" label="特服号" />
@@ -47,38 +62,59 @@
       <el-table-column prop="sublong" label="扩展位数" />
       <el-table-column prop="reductModel" label="计费方式">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductModel == '1'?'预付提交计费':( scope.row.reductModel == '2'?'预付成功计费':( scope.row.reductModel == '3'?'后付提交计费':'后付成功计费'))}}</span>
+          <span>{{
+            scope.row.reductModel == "1"
+              ? "预付提交计费"
+              : scope.row.reductModel == "2"
+              ? "预付成功计费"
+              : scope.row.reductModel == "3"
+              ? "后付提交计费"
+              : "后付成功计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsBalance" label="短信余额" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.status == 0?'删除':( scope.row.status == 1?'初始':( scope.row.status == 2?'正常':'禁用'))}}</span>
+          <span>{{
+            scope.row.status == 0
+              ? "删除"
+              : scope.row.status == 1
+              ? "初始"
+              : scope.row.status == 2
+              ? "正常"
+              : "禁用"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <!--修改 初始 禁用 启用-->
-          <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="infoShow(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
             v-if="scope.row.status == 1"
-            @click="setType(scope.row,'init','2')"
+            @click="setType(scope.row, 'init', '2')"
             type="text"
             size="small"
-          >初始</el-button>
+            >初始</el-button
+          >
           <el-button
             v-if="scope.row.status == 2"
-            @click="setType(scope.row,'disable','3')"
+            @click="setType(scope.row, 'disable', '3')"
             style="color: #ec5858"
             type="text"
             size="small"
-          >禁用</el-button>
+            >禁用</el-button
+          >
           <el-button
             v-if="scope.row.status == 3"
-            @click="setType(scope.row,'enabled','2')"
+            @click="setType(scope.row, 'enabled', '2')"
             type="text"
             size="small"
-          >启用</el-button>
+            >启用</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -193,7 +229,12 @@
           />
         </el-form-item>
         <el-form-item label="客户联系人电话" prop="mobile">
-          <el-input v-model="addInfo.mobile" type="phone" clearable placeholder="请输入客户联系人电话" />
+          <el-input
+            v-model="addInfo.mobile"
+            type="phone"
+            clearable
+            placeholder="请输入客户联系人电话"
+          />
         </el-form-item>
         <el-form-item label="开户行信息" prop="bankAccount">
           <el-input
@@ -206,15 +247,21 @@
           />
         </el-form-item>
         <el-form-item label="父企业ID" prop="root">
-          <el-button v-if="!addInfo.root" @click="selectCompany">请选择父企业</el-button>
-          <span v-else>{{addInfo.root}}</span>
+          <el-button v-if="!addInfo.root" @click="selectCompany"
+            >请选择父企业</el-button
+          >
+          <span v-else>{{ addInfo.root }}</span>
           <span>
-            <el-button v-if="addInfo.root" @click="selectCompany">修改</el-button>
+            <el-button v-if="addInfo.root" @click="selectCompany"
+              >修改</el-button
+            >
           </span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addCustomerInfo('addForm')">{{formBtn}}</el-button>
+        <el-button type="primary" @click="addCustomerInfo('addForm')">{{
+          formBtn
+        }}</el-button>
         <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -224,14 +271,20 @@
       :close-on-click-modal="false"
       width="30%"
     >
-      <span>{{information}}</span>
-      <p v-show=" dialogTit === '禁用' " style="color: #EC5858">禁用后将无法使用，请谨慎操作！</p>
+      <span>{{ information }}</span>
+      <p v-show="dialogTit === '禁用'" style="color: #ec5858">
+        禁用后将无法使用，请谨慎操作！
+      </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateStatus">确 定</el-button>
       </span>
     </el-dialog>
-    <ChooseEnterprise :isEnterprise="isEnterprise" @cancel="cancel" @getCorpId="getCorpId"></ChooseEnterprise>
+    <ChooseEnterprise
+      :isEnterprise="isEnterprise"
+      @cancel="cancel"
+      @getCorpId="getCorpId"
+    ></ChooseEnterprise>
   </section>
 </template>
 <script>

@@ -1,8 +1,12 @@
 <template>
   <!--提交统计-->
   <div class="reportsubmitStatistics">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
@@ -34,9 +38,10 @@
       <el-table-column prop="gateway" label="提交占比" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
-    <p
-      style="color:red"
-    >总条数: {{total.total}}；行业条数: {{total.industryNum}}；营销条数: {{total.marketingNum}} ；Vip条数: {{total.vipNum}}</p>
+    <p style="color: red">
+      总条数: {{ total.total }}；行业条数: {{ total.industryNum }}；营销条数:
+      {{ total.marketingNum }} ；Vip条数: {{ total.vipNum }}
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -65,12 +70,12 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corpId",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
         },

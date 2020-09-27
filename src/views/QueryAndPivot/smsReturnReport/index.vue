@@ -1,8 +1,12 @@
 <template>
   <!--返回报告-->
   <div class="smsReturnReport">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
@@ -13,16 +17,24 @@
       <el-table-column prop="error" label="错误描述" />
       <el-table-column prop="returnTime" label="返回报告时间" width="150">
         <template slot-scope="scope">
-          <span>{{scope.row.returnTime | timeFormat}}</span>
+          <span>{{ scope.row.returnTime | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="receiveTime" label="手机接收时间" width="150">
         <template slot-scope="scope">
-          <span>{{scope.row.receiveTime | timeFormat}}</span>
+          <span>{{ scope.row.receiveTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="gatewayTaking" label="通道耗时:秒" show-overflow-tooltip />
-      <el-table-column prop="totalTaking" label="总耗时:秒" show-overflow-tooltip />
+      <el-table-column
+        prop="gatewayTaking"
+        label="通道耗时:秒"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="totalTaking"
+        label="总耗时:秒"
+        show-overflow-tooltip
+      />
       <el-table-column prop="seqId" label="SEQID" show-overflow-tooltip />
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
     </el-table>
@@ -53,13 +65,13 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "企业ID",
           key: "corporateId",
           placeholder: "请输入企业ID",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",

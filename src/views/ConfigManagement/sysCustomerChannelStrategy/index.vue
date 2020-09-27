@@ -1,11 +1,23 @@
 <template>
   <!--客户通道策略-->
   <div class="sysCustomerChannelStrategy">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="strategyLevel" label="策略类型">
         <template slot-scope="scope">
-          <span>{{scope.row.strategyLevel === 1 ? '系统级':(scope.row.strategyLevel === 2 ? '特服号级':(scope.row.strategyLevel === 3 ? '客户级':'企业级'))}}</span>
+          <span>{{
+            scope.row.strategyLevel === 1
+              ? "系统级"
+              : scope.row.strategyLevel === 2
+              ? "特服号级"
+              : scope.row.strategyLevel === 3
+              ? "客户级"
+              : "企业级"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="corpId" label="企业ID" />
@@ -17,16 +29,21 @@
       <el-table-column prop="ctPassageway" label="电信网关" />
       <el-table-column prop="modifier" label="修改人" />
       <el-table-column prop="modifyTime" label="修改时间">
-        <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('strategyId', scope.row.strategyId)"
             type="text"
             size="small"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -35,7 +52,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -45,7 +67,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -79,7 +105,7 @@ export default {
           callback();
         }
       }
-    }; 
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -114,7 +140,7 @@ export default {
           ],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户ID",
           key: "userId",
           placeholder: "请输入用户ID",
@@ -231,7 +257,7 @@ export default {
           type: "textarea",
           label: "备注信息",
           key: "remarks",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          rules: [{ trigger: "blur", validator: validatorRemark }],
         },
       ],
       strategyId: "",

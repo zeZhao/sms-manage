@@ -1,8 +1,12 @@
 <template>
   <!--用户通道统计-->
   <div class="userChannelStatistics">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" show-overflow-tooltip />
       <el-table-column prop="gateway" label="通道编号" />
@@ -10,7 +14,7 @@
       <el-table-column prop="longCode" label="通道长号码" />
       <el-table-column prop="smsType" label="通道类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.smsType == 1 ?'短信':'' }}</span>
+          <span>{{ scope.row.smsType == 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="succcount" label="成功条数" />
@@ -55,7 +59,7 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "gatewayId",
         },
