@@ -205,8 +205,8 @@
             placeholder="请选择"
             popper-class="select-option"
           >
-            <el-option value="0" label="商用" />
-            <el-option value="1" label="非商用" />
+            <el-option :value="1" label="商用" />
+            <el-option :value="2" label="非商用" />
           </el-select>
         </el-form-item>
         <el-form-item label="短信的单价" prop="cardUnit">
