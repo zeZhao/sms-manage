@@ -74,7 +74,7 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "网关编号",
           key: "gatewayId",
           placeholder: "请输入网关编号"
