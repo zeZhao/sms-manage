@@ -605,25 +605,26 @@ export default {
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
-
         {
           type: "select",
           label: "请求api黑名单接口",
           key: "isPostApi",
           optionData: [
-            { key: "0", value: "否" },
+            { key: 0, value: "否" },
             { key: 1, value: "是" },
           ],
+          defaultValue: 1
         },
         {
           type: "select",
           label: "是否强加签名",
           key: "httpSign",
           optionData: [
-            { key: "0", value: "否" },
+            { key: 0, value: "否" },
             { key: 1, value: "是" },
           ],
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+          defaultValue: 1,
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },
         {
           type: "select",
