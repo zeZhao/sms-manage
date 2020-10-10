@@ -214,7 +214,7 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: "inputNum",
+          type: "input",
           label: "网关编号",
           key: "gateway",
           maxlength: "4",

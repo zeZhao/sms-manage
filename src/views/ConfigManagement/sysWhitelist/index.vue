@@ -15,11 +15,7 @@
           <span>{{ scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间">
-        <template
-          slot-scope="scope"
-        >{{scope.row.modifyTime ? scope.row.modifyTime : scope.row.createTime}}</template>
-      </el-table-column>
+      <el-table-column prop="modifyTime" label="修改时间"/>
       <!-- <template slot-scope="scope">
           <span>{{ scope.row.code  ? scope.row.code  : scope.row.createUser }}</span>
         </template>
