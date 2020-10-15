@@ -17,9 +17,9 @@
       />
       <el-table-column prop="messageNum" label="短信条数" />
       <el-table-column prop="clickTimes" label="活动访问次数" />
-      <el-table-column prop="count" label="提交时间" width="150">
+      <el-table-column prop="createTime" label="提交时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.count | timeFormat
+          scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column prop="defineTime" label="定时时间" width="150">

@@ -133,7 +133,7 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "网关编号",
           key: "gateway",
           placeholder: "请输入网关编号",
@@ -656,6 +656,19 @@ export default {
           key: "remark",
           maxlength: "300",
         },
+        {
+          type: "input",
+          label: "网关环境",
+          key: "profile",
+          maxlength: "30",
+          rules: [
+            {
+              pattern: /^([a-zA-Z0-9_]){1,30}$/,
+              message: "只支持字母",
+              trigger: "change",
+            }
+          ],
+        }
       ],
       //选择配置
       configData: [

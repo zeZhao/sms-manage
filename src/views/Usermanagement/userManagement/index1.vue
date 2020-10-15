@@ -230,9 +230,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "用户名",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名",
         },
         {
           type: "input",
@@ -605,15 +605,15 @@ export default {
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
-
         {
           type: "select",
           label: "请求api黑名单接口",
           key: "isPostApi",
           optionData: [
             { key: "0", value: "否" },
-            { key: 1, value: "是" },
+            { key: "1", value: "是" },
           ],
+          defaultValue: "1"
         },
         {
           type: "select",
@@ -621,9 +621,10 @@ export default {
           key: "httpSign",
           optionData: [
             { key: "0", value: "否" },
-            { key: 1, value: "是" },
+            { key: "1", value: "是" },
           ],
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+          defaultValue: "1",
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },
         {
           type: "select",

@@ -59,6 +59,7 @@
                 type="date"
                 :placeholder="item.placeholder || '选择开始日期'"
                 style="width: 45%"
+                value-format="yyyy-MM-dd"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
                 @change="_mxHandleSubmit()"
@@ -67,6 +68,7 @@
                 type="date"
                 :placeholder="item.placeholder || '选择结束日期'"
                 style="width: 45%"
+                value-format="yyyy-MM-dd"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[2]]"
                 @change="_mxHandleSubmit()"
@@ -94,6 +96,7 @@
               <el-date-picker
                 style="width:100%"
                 type="date"
+                value-format="yyyy-MM-dd"
                 :placeholder="item.placeholder || '选择日期'"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
@@ -105,6 +108,7 @@
               <el-date-picker
                 style="width:100%"
                 type="month"
+                value-format="yyyy-MM"
                 :placeholder="item.placeholder || '选择月份'"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
