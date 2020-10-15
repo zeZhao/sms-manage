@@ -733,17 +733,13 @@ export default {
       this.editId = ID;
       this.formTit = "审核";
       this.formConfig.forEach((item) => {
-        for (let key in row) {
-          if (item.key === key) {
-            this.$set(
-              item,
-              "defaultValue",
-              key == "reportType" || key == "moType" || key == "returnBalance"
-                ? row[key] == "0"
-                  ? row[key].toString()
-                  : row[key]
-                : row[key]
-            );
+        for (let keys in row) {
+          if (item.key === keys) {
+            if (row[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[keys]);
+            }
           }
         }
       });

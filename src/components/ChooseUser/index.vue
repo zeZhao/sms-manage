@@ -11,24 +11,36 @@
       :close-on-press-escape="false"
     >
       <span slot="title">
-        <p style="float:left;font-size: 16px;">选择用户</p>
+        <p style="float: left; font-size: 16px">选择用户</p>
         <i
-          style="float:right;margin-top: 16px;cursor: pointer;"
+          style="float: right; margin-top: 16px; cursor: pointer"
           class="el-icon-close"
           @click="cancel"
         ></i>
-        <div style="clear:both"></div>
+        <div style="clear: both"></div>
       </span>
-      <Search ref="search" :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-      <el-table :data="listData" highlight-current-row style="width: 100%;">
+      <Search
+        ref="search"
+        :searchFormConfig="searchFormConfig"
+        @search="_mxDoSearch"
+        :add="false"
+      ></Search>
+      <el-table :data="listData" highlight-current-row style="width: 100%">
         <el-table-column align="center" prop="corpId" label="企业ID" />
-        <el-table-column align="center" prop="corpName" show-overflow-tooltip label="企业名" />
+        <el-table-column
+          align="center"
+          prop="corpName"
+          show-overflow-tooltip
+          label="企业名"
+        />
         <el-table-column align="center" prop="userId" label="用户ID" />
         <el-table-column align="center" prop="userName" label="用户名" />
         <el-table-column align="center" prop="code" label="特服号" />
         <el-table-column align="center" fixed="right" label="操作">
           <template slot-scope="scope">
-            <el-button @click="selected(scope.row)" type="text" size="small">选中</el-button>
+            <el-button @click="selected(scope.row)" type="text" size="small"
+              >选中</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -57,7 +69,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "corpUser",
-        list: "queryByPage",
+        list: "queryMainInfo",
       },
       // 列表参数
       namespace: "corpUser",

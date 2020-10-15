@@ -152,6 +152,10 @@ export default {
         check(params) {
             return post("/corpUser/check", params);
         },
+        // 企业和用户列表
+        queryMainInfo(params) {
+            return post("/corpUser/queryMainInfo", params);
+        },
     },
     //通道重发配置
     sysResendConfig: {
