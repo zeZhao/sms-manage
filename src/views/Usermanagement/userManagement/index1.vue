@@ -611,9 +611,9 @@ export default {
           key: "isPostApi",
           optionData: [
             { key: "0", value: "否" },
-            { key: "1", value: "是" },
+            { key: 1, value: "是" },
           ],
-          defaultValue: "1"
+          defaultValue: 1,
         },
         {
           type: "select",
@@ -621,10 +621,10 @@ export default {
           key: "httpSign",
           optionData: [
             { key: "0", value: "否" },
-            { key: "1", value: "是" },
+            { key: 1, value: "是" },
           ],
-          defaultValue: "1",
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
+          defaultValue: 1,
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
         {
           type: "select",
