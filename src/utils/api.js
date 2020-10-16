@@ -260,6 +260,21 @@ export default {
             return post("/sysProvinceRoute/addProvinceRoute", params);
         },
     },
+    //优化比例配置
+    corpUserOptimize: {
+        // 列表
+        queryByPage(params) {
+            return post("/corpUserOptimize/queryByPage", params);
+        },
+        // 删除
+        delete(params) {
+            return post("/corpUserOptimize/delete", params);
+        },
+        // 新增修改优化比例配置
+        addOrUpdate(params) {
+            return post("/corpUserOptimize/addOrUpdate", params);
+        },
+    },
     //客户通道策略
     sysCustomerChannelStrategy: {
         // 下拉查询列表
