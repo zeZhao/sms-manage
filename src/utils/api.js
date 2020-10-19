@@ -152,6 +152,10 @@ export default {
         check(params) {
             return post("/corpUser/check", params);
         },
+        // 企业和用户列表
+        queryMainInfo(params) {
+            return post("/corpUser/queryMainInfo", params);
+        },
     },
     //通道重发配置
     sysResendConfig: {
@@ -254,6 +258,21 @@ export default {
         // 添加
         addProvinceRoute(params) {
             return post("/sysProvinceRoute/addProvinceRoute", params);
+        },
+    },
+    //优化比例配置
+    corpUserOptimize: {
+        // 列表
+        queryByPage(params) {
+            return post("/corpUserOptimize/queryByPage", params);
+        },
+        // 删除
+        delete(params) {
+            return post("/corpUserOptimize/delete", params);
+        },
+        // 新增修改优化比例配置
+        addOrUpdate(params) {
+            return post("/corpUserOptimize/addOrUpdate", params);
         },
     },
     //客户通道策略
