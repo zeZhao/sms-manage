@@ -1,8 +1,12 @@
 <template>
   <!--余额调整记录-->
   <div class="mmsUserGateway">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -10,24 +14,36 @@
       <el-table-column prop="afterBalance" label="操作后的余额" />
       <el-table-column prop="optType" label="操作类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.optType === "1" ? '充值': (scope.row.optType === "2" ? '还款':(scope.row.optType === "3" ? '扣款':'借款')) }}</span>
+          <span>{{
+            scope.row.optType === "1"
+              ? "充值"
+              : scope.row.optType === "2"
+              ? "还款"
+              : scope.row.optType === "3"
+              ? "扣款"
+              : "借款"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="optBalance" label="当前操作条数" />
       <el-table-column prop="operator" label="操作人名称" />
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType === 1 ? '为用户id计费':'企业id计费' }}</span>
+          <span>{{
+            scope.row.reductType === 1 ? "为用户id计费" : "企业id计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="chargeType" label="信息类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.chargeType === 1 ? '短信':'彩信' }}</span>
+          <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="createTime" label="操作时间" width="150">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
     </el-table>
     <Page
@@ -35,7 +51,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -45,7 +66,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -109,9 +134,13 @@ export default {
           type: "select",
           label: "查询类型",
           key: "selectType",
-          defaultValue: 1,
+          defaultValue: "",
           placeholder: "请选择查询类型",
           optionData: [
+            {
+              key: "",
+              value: "请选择",
+            },
             {
               key: 0,
               value: "用户",
