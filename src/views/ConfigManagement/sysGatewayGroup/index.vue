@@ -32,12 +32,12 @@
           <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
             <el-table-column prop="gateway" label="通道组ID">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.gateway"></el-input>
+                <el-input type="number" v-model="scope.row.gateway"></el-input>
               </template>
             </el-table-column>
             <el-table-column prop="ratio" label="分配比例">
               <template slot-scope="scope">
-                <el-input v-model="scope.row.ratio"></el-input>
+                <el-input type="number" v-model="scope.row.ratio"></el-input>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
