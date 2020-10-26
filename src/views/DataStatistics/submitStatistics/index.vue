@@ -25,15 +25,12 @@
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.operaId === 1
-              ? "移动"
-              : scope.row.operaId === 2
-              ? "联通"
-              : scope.row.operaId === 3
-              ? "屏信"
-              : "语音"
-          }}</span>
+          <span v-if="scope.row.operaId == 0">非法</span>
+          <span v-else-if="scope.row.operaId == 1">移动</span>
+          <span v-else-if="scope.row.operaId == 2">联通</span>
+          <span v-else-if="scope.row.operaId == 3">电信</span>
+          <span v-else-if="scope.row.operaId == 4">国际</span>
+          <span v-else></span>
         </template>
       </el-table-column>
       <el-table-column prop="smsType" label="类型">

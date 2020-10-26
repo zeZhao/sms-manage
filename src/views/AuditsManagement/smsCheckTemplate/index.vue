@@ -145,7 +145,7 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "企业ID",
           key: "corpId",
           disabled: true,

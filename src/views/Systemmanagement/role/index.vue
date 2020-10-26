@@ -1,10 +1,15 @@
 <template>
   <section>
     <!--工具条-->
-    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
         <el-form-item>
-          <el-input v-model="roleIdSearch" type="number" clearable placeholder="角色ID" />
+          <el-input
+            v-model="roleIdSearch"
+            type="number"
+            clearable
+            placeholder="角色ID"
+          />
         </el-form-item>
         <el-form-item>
           <el-input v-model="roleName" clearable placeholder="角色名称" />
@@ -25,11 +30,17 @@
               customerAddInfo = true;
               getNavList();
             "
-          >新增角色</el-button>
+            >新增角色</el-button
+          >
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row height="680" style="width: 100%;">
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      height="680"
+      style="width: 100%"
+    >
       <!--角色id 	角色名称 角色类型 1是前端角色 2是后端角色 描述-->
       <el-table-column prop="roleId" label="ID" />
       <el-table-column prop="roleName" label="角色名称" />
@@ -54,9 +65,13 @@
       <!--<el-table-column prop="des" label="描述" />-->
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="infoShow(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <!--<el-button  @click="deleteCustomer(scope.row.roleId)" type="text" size="small">绑定权限</el-button>-->
-          <el-button @click="delUser(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="delUser(scope.row)" type="text" size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -88,7 +103,11 @@
         class="demo-ruleForm"
       >
         <el-form-item label="角色名称">
-          <el-input v-model="addInfo.custName" clearable placeholder="角色名称" />
+          <el-input
+            v-model="addInfo.custName"
+            clearable
+            placeholder="角色名称"
+          />
         </el-form-item>
         <el-form-item label="角色类型">
           <el-select
@@ -122,7 +141,9 @@
         <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addCustomerInfo('addForm')">新增</el-button>
+        <el-button type="primary" @click="addCustomerInfo('addForm')"
+          >新增</el-button
+        >
         <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -141,10 +162,19 @@
         class="demo-ruleForm"
       >
         <el-form-item label="角色名称">
-          <el-input v-model="setInfo.custName" clearable placeholder="角色名称" />
+          <el-input
+            v-model="setInfo.custName"
+            clearable
+            placeholder="角色名称"
+          />
         </el-form-item>
         <el-form-item label="角色类型">
-          <el-select style="width: 100%" v-model="setInfo.roleType" placeholder="角色类型" disabled>
+          <el-select
+            style="width: 100%"
+            v-model="setInfo.roleType"
+            placeholder="角色类型"
+            disabled
+          >
             <el-option value="1" label="前端角色" />
             <el-option value="2" label="后端角色" />
           </el-select>
@@ -169,7 +199,9 @@
         <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')">保存</el-button>
+        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')"
+          >保存</el-button
+        >
         <el-button @click.native="customerInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -199,7 +231,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="setNavuserList('updateCustomForm')">保存</el-button>
+        <el-button type="primary" @click="setNavuserList('updateCustomForm')"
+          >保存</el-button
+        >
         <el-button @click.native="setRoleMenu = false">取消</el-button>
       </div>
     </el-dialog>
@@ -471,7 +505,7 @@ export default {
           this.customerAddInfo = false;
           this.orderList();
         } else {
-          this.$message.error(res.msg);
+          this.$message.error(res.data);
         }
       });
     },

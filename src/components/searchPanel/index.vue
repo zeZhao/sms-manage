@@ -6,9 +6,20 @@
 
 <template>
   <div>
-    <el-form ref="form" :model="form" label-width="120px" v-if="searchFormConfig.length">
-      <el-row style="margin-bottom: 10px;">
-        <el-col :sm="12" :md="8" :lg="6" v-for="(item, index) in searchFormConfig" :key="index">
+    <el-form
+      ref="form"
+      :model="form"
+      label-width="120px"
+      v-if="searchFormConfig.length"
+    >
+      <el-row style="margin-bottom: 10px">
+        <el-col
+          :sm="12"
+          :md="8"
+          :lg="6"
+          v-for="(item, index) in searchFormConfig"
+          :key="index"
+        >
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :class="item.label ? `` : `empty-label-item`"
@@ -36,7 +47,7 @@
             <!--下拉列表-->
             <template v-if="item.type === 'select'">
               <el-select
-                style="width:100%"
+                style="width: 100%"
                 v-model="form[item.key]"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 filterable
@@ -63,7 +74,8 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
                 @change="_mxHandleSubmit()"
-              ></el-date-picker>-
+              ></el-date-picker
+              >-
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择结束日期'"
@@ -82,7 +94,8 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
                 @change="_mxHandleSubmit()"
-              ></el-time-picker>-
+              ></el-time-picker
+              >-
               <el-time-picker
                 :placeholder="item.placeholder || '选择结束时间'"
                 style="width: 45%"
@@ -94,7 +107,7 @@
             <!--单个日期-->
             <template v-if="item.type === 'date'">
               <el-date-picker
-                style="width:100%"
+                style="width: 100%"
                 type="date"
                 value-format="yyyy-MM-dd"
                 :placeholder="item.placeholder || '选择日期'"
@@ -106,7 +119,7 @@
             <!--单个月份-->
             <template v-if="item.type === 'month'">
               <el-date-picker
-                style="width:100%"
+                style="width: 100%"
                 type="month"
                 value-format="yyyy-MM"
                 :placeholder="item.placeholder || '选择月份'"
@@ -118,8 +131,18 @@
           </el-form-item>
         </el-col>
         <slot name="Btn">
-          <el-button type="primary" @click="_mxHandleSubmit()" style="margin-left: 15px">查询</el-button>
-          <el-button type="primary" v-if="add && searchFormConfig.length" @click="create">新建</el-button>
+          <el-button
+            type="primary"
+            @click="_mxHandleSubmit()"
+            style="margin-left: 15px"
+            >查询</el-button
+          >
+          <el-button
+            type="primary"
+            v-if="add && searchFormConfig.length"
+            @click="create"
+            >新建</el-button
+          >
         </slot>
         <slot name="Other"></slot>
       </el-row>
@@ -168,7 +191,7 @@ export default {
       const form = {};
       this.searchFormConfig.forEach((item, index) => {
         const { key, api, params, keys, defaultValue } = item;
-        if (defaultValue) {
+        if (defaultValue || defaultValue === "") {
           form[key] = item.defaultValue;
           this._mxHandleSubmit();
         }
