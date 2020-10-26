@@ -187,6 +187,8 @@ export default {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
+          } else {
+            this.$message.error(res.msg || res.data);
           }
         });
       } else {
@@ -200,6 +202,8 @@ export default {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
+          } else {
+            this.$message.error(res.msg || res.data);
           }
         });
       }
