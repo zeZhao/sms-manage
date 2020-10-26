@@ -12,7 +12,7 @@
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" width="150" />
+      <el-table-column prop="mobile" label="手机号" show-overflow-tooltip />
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
