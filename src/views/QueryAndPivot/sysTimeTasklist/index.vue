@@ -16,21 +16,24 @@
       <el-table-column prop="gateway" label="网关" />
       <el-table-column prop="operaid" label="运营商">
         <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.hasSend === 1
-                ? "移动"
-                : scope.row.hasSend === 2
-                ? "联通"
-                : "电信"
-            }}
-          </span>
+          <span v-if="scope.row.operaid === 0">非法</span>
+          <span v-else-if="scope.row.operaid === 1">移动</span>
+          <span v-else-if="scope.row.operaid === 2">联通</span>
+          <span v-else-if="scope.row.operaid === 3">电信</span>
+          <span v-else-if="scope.row.operaid === 4">国际</span>
+          <span v-else></span>
         </template>
       </el-table-column>
       <el-table-column prop="pkTotal" label="条数" />
       <el-table-column prop="status" label="状态(是否发送)" width="150">
         <template slot-scope="scope">
-          <span>{{ scope.row.hasSend === 0 ? "未发" : "已发" }}</span>
+          <span>{{
+            scope.row.status === 0
+              ? "未发"
+              : scope.row.status === 1
+              ? "已发"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="cid" label="CID" />

@@ -1,8 +1,12 @@
 <template>
   <!--收入信息-->
   <div class="sysCompanyIncome">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column type="index" label="序号" />
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="companyName" label="公司名称" />
@@ -11,12 +15,14 @@
       <el-table-column prop="factMoney" label="	实收款(元)	" />
       <el-table-column prop="poorMoeny" label="欠收款(元)" />
       <el-table-column prop="countDate" label="账单月">
-        <template slot-scope="scope">{{scope.row.countDate | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.countDate | timeFormat
+        }}</template>
       </el-table-column>
     </el-table>
-    <p style="color:red" v-if="this.statistics">
+    <p style="color: red" v-if="this.statistics">
       提交数:{{ this.statistics.count }} &nbsp;&nbsp;应收款:{{
-      this.statistics.receivable_moeny
+        this.statistics.receivable_moeny
       }}&nbsp;&nbsp; 实收款:{{ this.statistics.fact_money }}&nbsp;&nbsp;
       欠收款:{{ this.statistics.poor_moeny }}
     </p>
@@ -25,7 +31,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :colSpan="12"
@@ -36,7 +47,11 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -523,6 +538,20 @@ export default {
     },
     cancel() {
       this.addChannel = false;
+    },
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      const { countDate } = data;
+      if (countDate) {
+        data.countDate = `${countDate}-01`;
+      }
+      return data;
     },
   },
   watch: {},
