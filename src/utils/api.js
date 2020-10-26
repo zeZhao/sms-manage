@@ -268,7 +268,7 @@ export default {
         },
         // 删除
         delete(params) {
-            return post("/corpUserOptimize/delete", params);
+            return fetch("/corpUserOptimize/delete", params);
         },
         // 新增修改优化比例配置
         addOrUpdate(params) {

@@ -13,11 +13,11 @@
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="optimizeType" label="优化类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.codeType === 1 ? "正常" : "对比库" }}</span>
+          <span>{{ scope.row.optimizeType === 1 ? "正常" : "对比库" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="gateway" label="优化比例" />
-      <el-table-column prop="gateway" label="不优化关键词" />
+      <el-table-column prop="optimizePercent" label="优化比例" />
+      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" />
       <el-table-column label="操作" width="200"
         >1458
         <template slot-scope="scope">
@@ -67,6 +67,22 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorSign = (rule, value, callback) => {
+      let regex = new RegExp("^([0]|[1-9][0-9]*)$");
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (!regex.test(value)) {
+          callback(new Error("请输入不超过100的数字"));
+        } else {
+          if (value > 100 || value < 0) {
+            callback(new Error("请输入不超过100的数字"));
+          } else {
+            callback();
+          }
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -167,7 +183,13 @@ export default {
           type: "input",
           label: "优化比列",
           key: "optimizePercent",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              trigger: "change",
+              validator: validatorSign,
+            },
+          ],
         },
         {
           type: "textarea",
@@ -183,6 +205,38 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /**
+     * 删除列表中项目
+     * @param id
+     * @private
+     */
+    _mxDeleteItem(key, id) {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "删除",
+        message: h("div", null, [
+          h("p", null, "您确定要删除此项吗？"),
+          // h('p', {
+          //     style: 'color: red'
+          // }, '删除后，将不再执行重发，请谨慎操作')
+        ]),
+        showCancelButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then((action) => {
+        const params = {};
+        params[key] = id.toString();
+        const { namespace, detele } = this.searchAPI;
+        this.$http[namespace][detele](params).then((res) => {
+          if (resOk(res)) {
+            this.$message.info("删除成功！");
+            this._mxGetList();
+          } else {
+            this.$message.info("删除失败！");
+          }
+        });
+      });
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {
