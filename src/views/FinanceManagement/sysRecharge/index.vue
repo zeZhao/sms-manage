@@ -42,7 +42,9 @@
       </el-table-column>
       <el-table-column prop="reductModel" label="计费类型" width="110">
         <template slot-scope="scope">
-          <span>
+          <span v-if="scope.row.reductType === 1">为用户id计费</span>
+          <span v-if="scope.row.reductType === 2">为企业id计费</span>
+          <!-- <span>
             {{
               scope.row.reductModel == 1
                 ? "预付提交计费"
@@ -52,7 +54,7 @@
                 ? "后付提交计费"
                 : "后付成功计费"
             }}
-          </span>
+          </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="操作类型" />
@@ -182,12 +184,12 @@ export default {
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
-        {
-          type: "inputNum",
-          label: "充值卡号",
-          key: "cardNum",
-          placeholder: "请输入充值卡号",
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "充值卡号",
+        //   key: "cardNum",
+        //   placeholder: "请输入充值卡号",
+        // },
         {
           type: "inputNum",
           label: "用户ID",

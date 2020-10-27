@@ -7,7 +7,7 @@
       :add="false"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="userId" label="企业ID" />
+      <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
