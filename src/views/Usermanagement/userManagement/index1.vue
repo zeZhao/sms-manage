@@ -633,16 +633,16 @@ export default {
           optionData: [],
           rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
         },
-        {
-          type: "select",
-          label: "优化类型",
-          key: "deductType",
-          optionData: [
-            { key: 1, value: "正常" },
-            { key: 2, value: "对比库" },
-          ],
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
-        },
+        // {
+        //   type: "select",
+        //   label: "优化类型",
+        //   key: "deductType",
+        //   optionData: [
+        //     { key: 1, value: "正常" },
+        //     { key: 2, value: "对比库" },
+        //   ],
+        //   rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+        // },
         {
           type: "textarea",
           label: "备注",
