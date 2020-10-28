@@ -945,7 +945,7 @@ export default {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${strType}`),
+            h("span", null, `${strType || ""}`),
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
@@ -985,11 +985,11 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp}`),
+            h("span", null, `${row.userIp || ""}`),
           ]),
           h("p", null, [
             h("span", null, "接口地址: "),
-            h("span", null, `${row.mmsAuditCallBack}`),
+            h("span", null, `${row.mmsAuditCallBack || ""}`),
           ]),
         ]);
       }
@@ -1014,7 +1014,7 @@ export default {
           h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
           h("p", null, [
             h("span", null, "端口: "),
-            h("span", null, `${row.directPort}`),
+            h("span", null, `${row.directPort || ""}`),
           ]),
           h("p", null, [
             h("span", null, "协议: "),
@@ -1023,15 +1023,15 @@ export default {
           h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
           h("p", null, [
             h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp}`),
+            h("span", null, `${row.userIp || ""}`),
           ]),
           h("p", null, [
             h("span", null, "链接路数: "),
-            h("span", null, `${row.maxSession}`),
+            h("span", null, `${row.maxSession || ""}`),
           ]),
           h("p", null, [
             h("span", null, "通道速率: "),
-            h("span", null, `${row.alertBalance}`),
+            h("span", null, `${row.alertBalance || ""}`),
           ]),
         ]);
       }

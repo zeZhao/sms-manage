@@ -19,13 +19,15 @@
         <template slot-scope="scope">
           <span>
             {{
-              scope.row.type === 0
+              scope.row.checkStatus === "0"
                 ? "待审"
-                : scope.row.type === 1
+                : scope.row.checkStatus === "1"
                 ? "正在审核"
-                : scope.row.type === 2
+                : scope.row.checkStatus === "2"
                 ? "审核通过"
-                : "拒绝"
+                : scope.row.checkStatus === "3"
+                ? "拒绝"
+                : ""
             }}
           </span>
         </template>
@@ -41,9 +43,9 @@
         }}</template>
       </el-table-column>
       <el-table-column prop="checkDate" label="审核时间" width="150">
-        <template slot-scope="scope">{{
+        <!-- <template slot-scope="scope">{{
           scope.row.checkDate | timeFormat
-        }}</template>
+        }}</template> -->
       </el-table-column>
     </el-table>
     <Page

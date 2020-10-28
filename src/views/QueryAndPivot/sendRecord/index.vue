@@ -50,7 +50,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="proType" label="产品类型">
+      <!-- <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
           <span>
             {{
@@ -66,7 +66,7 @@
             }}
           </span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <p style="color: red">总条数：{{ pageObj.total }}</p>
     <Page

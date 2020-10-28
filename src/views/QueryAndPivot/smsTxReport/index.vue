@@ -21,11 +21,11 @@
               ? "移动"
               : scope.row.operaId == 2
               ? "联通 "
-              : scope.row.reductModel == 3
+              : scope.row.operaId == 3
               ? "电信"
-              : scope.row.reductModel == 4
+              : scope.row.operaId == 4
               ? "国际"
-              : scope.row.reductModel == 0
+              : scope.row.operaId == 0
               ? "非法"
               : ""
           }}</span>

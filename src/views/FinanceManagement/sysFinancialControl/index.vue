@@ -27,12 +27,14 @@
           <span>
             {{
               scope.row.paidWay == 0
-                ? "已付款"
+                ? "充值"
                 : scope.row.paidWay == 1
-                ? "欠款"
+                ? "借款"
                 : scope.row.paidWay == 2
                 ? "扣款"
-                : "还款"
+                : scope.row.paidWay == 3
+                ? "还款"
+                : ""
             }}
           </span>
         </template>
@@ -64,7 +66,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifier" label="操作账号" />
       <el-table-column prop="paymentCompany" label="打款公司名称" width="110" />
       <el-table-column prop="createTime" label="创建时间" width="150">

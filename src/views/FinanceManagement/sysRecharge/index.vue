@@ -7,7 +7,7 @@
       @create="_mxCreate"
     >
       <template slot="Other">
-        <el-button type="primary" @click="transfers">账号互转</el-button>
+        <!-- <el-button type="primary" @click="transfers">账号互转</el-button> -->
       </template>
     </Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
