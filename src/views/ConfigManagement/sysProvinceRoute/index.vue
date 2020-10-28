@@ -140,7 +140,7 @@ export default {
           ],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道号",
           key: "route",
           placeholder: "请输入通道号",
@@ -163,7 +163,7 @@ export default {
           ],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道特服号",
           key: "code",
           placeholder: "请输入通道特服号",

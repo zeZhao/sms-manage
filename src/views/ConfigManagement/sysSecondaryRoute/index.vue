@@ -130,7 +130,7 @@ export default {
           placeholder: "请输入用户名称",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关编号",
           key: "gateway",
           placeholder: "请输入网关编号",
@@ -142,13 +142,13 @@ export default {
           placeholder: "请输入用户签名",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "客户特服号",
           key: "code",
           placeholder: "请输入客户特服号",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "网关特服号",
           key: "gwcode",
           placeholder: "请输入网关特服号",

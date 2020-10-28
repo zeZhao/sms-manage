@@ -133,7 +133,7 @@ export default {
           placeholder: "请输入签名",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户特服号",
           key: "code",
           placeholder: "请输入用户特服号",
@@ -159,19 +159,19 @@ export default {
           placeholder: "请选择类型",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "电信网关通道",
           key: "ct",
           placeholder: "请输入电信网关通道",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "联通网关通道",
           key: "cu",
           placeholder: "请输入联通网关通道",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "移动网关通道",
           key: "cm",
           placeholder: "请输入移动网关通道",

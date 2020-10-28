@@ -1,18 +1,25 @@
 <template>
   <!--敏感词组-->
   <div class="sysSensitiveWordGroup">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="groupId" label="编号" />
       <el-table-column prop="groupName" label="敏感词名" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('groupId', scope.row.groupId)"
             type="text"
             size="small"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -21,7 +28,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -46,7 +58,7 @@ export default {
       searchAPI: {
         namespace: "sysSensitiveWordGroup",
         list: "listKeyWordGroupByPage",
-        detele: "deleteSensitiveWordGroup"
+        detele: "deleteSensitiveWordGroup",
       },
       // 列表参数
       namespace: "keyWordGroup",
@@ -55,18 +67,18 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "敏感词组编号",
           key: "groupId",
 
-          placeholder: "请输入类别编号"
+          placeholder: "请输入类别编号",
         },
         {
           type: "input",
           label: "敏感词组名称",
           key: "groupName",
-          placeholder: "请输入类别名称"
-        }
+          placeholder: "请输入类别名称",
+        },
       ],
       // 表单配置
       formConfig: [
@@ -76,10 +88,10 @@ export default {
           maxlength: 50,
           key: "groupName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        }
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
       ],
-      groupId: ""
+      groupId: "",
     };
   },
   mounted() {},
@@ -90,19 +102,19 @@ export default {
       const { groupName } = form;
       this.$http.sysSensitiveWordGroup
         .checkSensitiveWordGroup({ data: { groupName } })
-        .then(res => {
+        .then((res) => {
           if (res.data === 1) {
             this.$message.error("敏感词类别存在！");
           } else {
             if (this.formTit == "新增") {
               params = {
                 data: {
-                  ...form
-                }
+                  ...form,
+                },
               };
               this.$http.sysSensitiveWordGroup
                 .addSensitiveWordGroup(params)
-                .then(res => {
+                .then((res) => {
                   if (resOk(res)) {
                     this.$message.success(res.msg || res.data);
                     this._mxGetList();
@@ -115,12 +127,12 @@ export default {
               params = {
                 data: {
                   groupId: this.groupId,
-                  ...form
-                }
+                  ...form,
+                },
               };
               this.$http.sysSensitiveWordGroup
                 .updateSensitiveWordGroup(params)
-                .then(res => {
+                .then((res) => {
                   if (resOk(res)) {
                     this.$message.success(res.msg || res.data);
                     this._mxGetList();
@@ -143,7 +155,7 @@ export default {
     edit(row) {
       this.groupId = row.groupId;
       this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -160,9 +172,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    }
+    },
   },
-  watch: {}
+  watch: {},
 };
 </script>
 

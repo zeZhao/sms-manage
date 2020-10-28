@@ -86,7 +86,7 @@ export default {
           placeholder: "请输入用户名",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道",
           key: "gateway",
           placeholder: "请输入通道",
@@ -98,7 +98,7 @@ export default {
           placeholder: "请输入不重发状态",
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "重发目标通道",
           key: "destGateway",
           placeholder: "请输入重发目标通道",
