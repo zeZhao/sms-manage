@@ -8,7 +8,11 @@
       class="demo-ruleForm"
     >
       <el-row>
-        <el-col :span="colSpan" v-for="(item, index) in formConfig" :key="index">
+        <el-col
+          :span="colSpan"
+          v-for="(item, index) in formConfig"
+          :key="index"
+        >
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
@@ -18,23 +22,26 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{inputWid:item.btnTxt}"
+                :class="{ inputWid: item.btnTxt }"
                 v-model="formData[item.key]"
                 clearable
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
-                @input="val => {
+                @input="
+                  (val) => {
                     onInputChange(val, item);
-                  }"
+                  }
+                "
               />
               <el-button
-                style="border-color:#1890ff"
+                style="border-color: #1890ff"
                 v-if="item.btnTxt"
                 :disabled="item.btnDisabled"
                 @click="chooses(item)"
-              >{{item.btnTxt}}</el-button>
+                >{{ item.btnTxt }}</el-button
+              >
             </template>
 
             <!--多文本输入框-->
@@ -47,16 +54,35 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
-                @input="val => {
+                @input="
+                  (val) => {
                     onChange(val, item);
-                  }"
+                  }
+                "
+              />
+            </template>
+            <!--数字输入框-->
+            <template v-if="item.type === 'inputNum'">
+              <el-input
+                v-model="formData[item.key]"
+                type="number"
+                clearable
+                show-word-limit
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
+                @input="
+                  (val) => {
+                    onChange(val, item);
+                  }
+                "
               />
             </template>
 
             <!--下拉列表-->
             <template v-if="item.type === 'select'">
               <el-select
-                style="width:100%"
+                style="width: 100%"
                 v-model="formData[item.key]"
                 filterable
                 clearable
@@ -64,7 +90,7 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  val => {
+                  (val) => {
                     selectChange(val, item);
                   }
                 "
@@ -82,15 +108,18 @@
             <template v-if="item.type === 'checkbox'">
               <el-checkbox-group
                 v-model="formData[item.key]"
-                @change="val => {
+                @change="
+                  (val) => {
                     onChange(val, item);
-                  }"
+                  }
+                "
               >
                 <el-checkbox
                   v-for="option in item.optionData"
                   :key="option.key"
                   :label="option.key"
-                >{{ option.value }}</el-checkbox>
+                  >{{ option.value }}</el-checkbox
+                >
               </el-checkbox-group>
             </template>
 
@@ -98,15 +127,18 @@
             <template v-if="item.type === 'radio'">
               <el-radio-group
                 v-model="formData[item.key]"
-                @change="val => {
+                @change="
+                  (val) => {
                     onChange(val, item);
-                  }"
+                  }
+                "
               >
                 <el-radio
                   v-for="option in item.optionData"
                   :key="option.key"
                   :label="option.key"
-                >{{ option.value }}</el-radio>
+                  >{{ option.value }}</el-radio
+                >
               </el-radio-group>
             </template>
 
@@ -117,9 +149,11 @@
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
                 v-model="formData[item.key]"
-                @change="val => {
+                @change="
+                  (val) => {
                     onChange(val, item);
-                  }"
+                  }
+                "
               ></el-date-picker>
             </template>
 
@@ -130,9 +164,11 @@
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
                 v-model="formData[item.key]"
-                @change="val => {
+                @change="
+                  (val) => {
                     onChange(val, item);
-                  }"
+                  }
+                "
               ></el-date-picker>
             </template>
 
@@ -142,9 +178,11 @@
                 clearable
                 v-model="formData[item.key]"
                 :placeholder="item.placeholder || `请选择${item.label}`"
-                @change="val => {
+                @change="
+                  (val) => {
                     onChange(val, item);
-                  }"
+                  }
+                "
               ></el-time-picker>
             </template>
             <!--上传-->
@@ -160,7 +198,9 @@
                 :file-list="item.defaultFileList"
                 :on-exceed="handleExceed"
               >
-                <el-button size="small" type="primary">{{item.btnTxt}}</el-button>
+                <el-button size="small" type="primary">{{
+                  item.btnTxt
+                }}</el-button>
                 <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
               </el-upload>
             </template>
@@ -170,10 +210,12 @@
           <slot name="Other"></slot>
           <div class="submitBtn">
             <slot name="Btn">
-              <el-button type="primary" @click="onSubmit('form')" v-throttle="3000">
-                {{
-                btnTxt
-                }}
+              <el-button
+                type="primary"
+                @click="onSubmit('form')"
+                v-throttle="3000"
+              >
+                {{ btnTxt }}
               </el-button>
               <el-button @click="cancel">取消</el-button>
             </slot>

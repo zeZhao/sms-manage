@@ -32,20 +32,34 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="checker" label="审核根源" />
+      <el-table-column prop="checker" label="审核根源" width="130">
+        <template slot-scope="scope">
+          <span v-if="scope.row.source == '1'">路由信息错误</span>
+          <span v-if="scope.row.source == '2'">关键字</span>
+          <span v-if="scope.row.source == '3'">模板不匹配</span>
+          <span v-if="scope.row.source == '5'">数量超标</span>
+          <span v-if="scope.row.source == '6'">组合redis出错</span>
+          <span v-if="scope.row.source == '7'">组合超时</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" width="150" />
-      <el-table-column prop="combined" label="是否处理" />
-      <el-table-column prop="checker" label="审核人" />
+      <el-table-column prop="combined" label="是否处理"
+        ><template slot-scope="scope">
+          <span v-if="scope.row.combined == 0">否</span>
+          <span v-if="scope.row.combined == 1">是</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="loginName" label="审核人" />
       <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column prop="checkDate" label="审核时间" width="150">
-        <!-- <template slot-scope="scope">{{
-          scope.row.checkDate | timeFormat
-        }}</template> -->
+        <template slot-scope="scope">{{
+          scope.row.checkDate | Format
+        }}</template>
       </el-table-column>
     </el-table>
     <Page
@@ -129,9 +143,9 @@ export default {
           placeholder: "审核日期",
         },
         {
-          type: "daterange",
+          type: "date",
           label: "提交日期",
-          key: ["", "startTime", "endTime"],
+          key: "startTime",
         },
       ],
     };
@@ -148,7 +162,7 @@ export default {
      */
     _formatRequestData(data) {
       if (data.startTime) {
-        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:01");
+        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd");
       }
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");

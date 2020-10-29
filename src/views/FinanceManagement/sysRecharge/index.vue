@@ -347,8 +347,8 @@ export default {
           key: "paidWay",
           optionData: [
             { key: "0", value: "充值" },
-            { key: 1, value: "借款" },
-            { key: 2, value: "扣款" },
+            // { key: 1, value: "借款" },
+            // { key: 2, value: "扣款" },
             { key: 3, value: "还款" },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],

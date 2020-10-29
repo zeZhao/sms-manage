@@ -26,7 +26,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="optBalance" label="当前操作条数" />
-      <el-table-column prop="operator" label="操作人名称" />
+      <el-table-column prop="operatorName" label="操作人名称" />
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
@@ -230,10 +230,10 @@ export default {
           label: "操作类型",
           key: "optType",
           optionData: [
-            { key: 1, value: "充值" },
+            // { key: 1, value: "充值" },
             { key: 5, value: "借款" },
             { key: 3, value: "扣款" },
-            { key: 2, value: "还款" },
+            // { key: 2, value: "还款" },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
@@ -241,12 +241,23 @@ export default {
           type: "input",
           label: "当前操作条数",
           key: "optBalance",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
               trigger: "change",
+            },
+            {
+              trigger: "change",
+              validator: (rule, value, callback) => {
+                if (value > 1000000000) {
+                  callback(new Error("不能超过1000000000"));
+                } else {
+                  callback();
+                }
+              },
             },
           ],
         },

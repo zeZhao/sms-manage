@@ -382,7 +382,7 @@ export default {
           ],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "用户特服号",
           key: "code",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
