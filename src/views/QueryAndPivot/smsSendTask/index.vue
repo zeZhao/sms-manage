@@ -24,7 +24,8 @@
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.hasSend === 0 ? "未发" : "已发送" }}</span>
+          <span v-if="scope.row.hasSend === '0'">未发</span>
+          <span v-if="scope.row.hasSend === '1'">已发送</span>
         </template>
       </el-table-column>
       <el-table-column prop="definiteTime" label="定时时间" width="150">

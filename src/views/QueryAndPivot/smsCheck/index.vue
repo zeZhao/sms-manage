@@ -9,7 +9,7 @@
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
+      <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cmCount" label="移动" />
@@ -58,7 +58,7 @@
       </el-table-column>
       <el-table-column prop="checkDate" label="审核时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.checkDate | Format
+          scope.row.checkDate | timeFormat
         }}</template>
       </el-table-column>
     </el-table>

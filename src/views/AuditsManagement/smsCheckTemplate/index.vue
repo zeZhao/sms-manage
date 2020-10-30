@@ -187,10 +187,10 @@ export default {
           key: "status",
           defaultValue: "",
           optionData: [
-            // {
-            //   key: 1,
-            //   value: "待审核",
-            // },
+            {
+              key: 1,
+              value: "待审核",
+            },
             // {
             //   key: 2,
             //   value: "审核处理中",

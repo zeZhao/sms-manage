@@ -7,7 +7,7 @@
       @create="create"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="code" label="用户ID" />
+      <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="通道编号" />
