@@ -499,14 +499,19 @@ export default {
   methods: {
     //文件上传成功
     handleSuccess({ response, file, fileList }) {
+      console.log(response, "---------response");
       console.log(file, "---------file");
       console.log(fileList, "---------fileList");
-      this.formConfig.forEach((item) => {
-        if (item.key === "fileUrl") {
-          item.defaultValue = response.data;
-          console.log(item.defaultFileList);
-        }
-      });
+      if (response.code == 200) {
+        this.formConfig.forEach((item) => {
+          if (item.key === "fileUrl") {
+            item.defaultValue = response.data;
+            console.log(item.defaultFileList);
+          }
+        });
+      } else {
+        this.$message.error(response.data);
+      }
     },
     handleRemove({ file, fileList }) {
       this.formConfig.forEach((item) => {

@@ -193,7 +193,12 @@
                 :headers="header"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
-                :on-success="handleSuccess"
+                :on-success="
+                  (res, file, fileList) => {
+                    handleSuccess(item, res, file, fileList);
+                  }
+                "
+                :on-error="handleError"
                 :limit="item.limit"
                 :file-list="item.defaultFileList"
                 :on-exceed="handleExceed"
@@ -258,7 +263,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "api/sysPrepaidCard/uploadFile",
+      action: "/api/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken(),
       },
@@ -369,8 +374,18 @@ export default {
       }
     },
     //  文件上传成功时的钩子
-    handleSuccess(response, file, fileList) {
-      this.$emit("handleSuccess", { response, file, fileList });
+    handleSuccess(item, response, file, fileList) {
+      if (response.code == 200) {
+        this.$emit("handleSuccess", { response, file, fileList });
+      } else {
+        this.$message.error(response.data);
+        item.defaultFileList = [];
+        // fileList = [];
+      }
+    },
+    //  文件上传失败时的钩子
+    handleError(err, file, fileList) {
+      this.$emit("handleError", { err, file, fileList });
     },
     //  文件列表移除文件时的钩子
     handleRemove(file, fileList) {
