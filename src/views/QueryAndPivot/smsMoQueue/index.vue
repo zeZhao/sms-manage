@@ -15,15 +15,9 @@
       <el-table-column prop="city" label="城市" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.type === 1
-                ? "移动 "
-                : scope.row.type === 2
-                ? "联通 "
-                : "电信"
-            }}
-          </span>
+          <span v-if="scope.row.operaId === 1">移动</span>
+          <span v-if="scope.row.operaId === 2">联通</span>
+          <span v-if="scope.row.operaId === 3">电信</span>
         </template>
       </el-table-column>
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
