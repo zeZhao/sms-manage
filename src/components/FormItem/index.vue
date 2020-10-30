@@ -263,7 +263,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "/api/api/sysPrepaidCard/uploadFile",
+      action: "/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken(),
       },
