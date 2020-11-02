@@ -44,7 +44,7 @@
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">用户id计费</span>
           <span v-if="scope.row.reductType === 2">企业id计费</span>
-          <!-- <span>
+          <!-- <span>；
             {{
               scope.row.reductModel == 1
                 ? "预付提交计费"
