@@ -1,10 +1,18 @@
 <template>
   <!--短信通道-->
   <div class="gateway">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="gateway" label="编号" />
-      <el-table-column prop="gatewayName" label="网关名称" show-overflow-tooltip />
+      <el-table-column
+        prop="gatewayName"
+        label="网关名称"
+        show-overflow-tooltip
+      />
       <!-- <el-table-column prop="gatewayType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
@@ -48,19 +56,34 @@
             inactive-color="#ff4949"
             :active-value="1"
             :inactive-value="0"
-            @change="((val)=>{switchChange(val,scope.row.gateway)})"
+            @change="
+              (val) => {
+                switchChange(val, scope.row.gateway);
+              }
+            "
           ></el-switch>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'gatewayId')" type="text" size="small">修改</el-button>
+          <el-button
+            @click="_mxEdit(scope.row, 'gatewayId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
             type="text"
             size="small"
-          >删除</el-button>
-          <el-button @click="config(scope.row.gatewayId)" type="text" size="small">配置</el-button>
+            >删除</el-button
+          >
+          <el-button
+            @click="config(scope.row.gatewayId)"
+            type="text"
+            size="small"
+            >配置</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -166,7 +189,6 @@ export default {
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
           ],
-          placeholder: "请选择落地省份",
         },
         {
           type: "select",
@@ -176,7 +198,6 @@ export default {
             { key: "0", value: "可用" },
             { key: 1, value: "不可用" },
           ],
-          placeholder: "请选择落地省份",
         },
         {
           type: "select",
@@ -190,7 +211,6 @@ export default {
             { key: "5", value: "弃用" },
             { key: "6", value: "全部" },
           ],
-          placeholder: "请选择落地省份",
         },
         {
           type: "input",
@@ -666,9 +686,9 @@ export default {
               pattern: /^([a-zA-Z0-9_]){1,30}$/,
               message: "只支持字母",
               trigger: "change",
-            }
+            },
           ],
-        }
+        },
       ],
       //选择配置
       configData: [

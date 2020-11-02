@@ -14,12 +14,12 @@
       <el-table-column prop="mobilesCount" label="手机号数量" />
       <el-table-column prop="submitTime" label="提交时间" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.submitTime | Format }}</span>
+          <span>{{ scope.row.submitTime }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="definiteTime" label="定时时间" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.definiteTime | Format }}</span>
+          <span>{{ scope.row.definiteTime }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendCount" label="发送条数" />

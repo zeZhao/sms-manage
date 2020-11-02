@@ -149,7 +149,26 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      if (data.startTimeS) {
+        data.startTimeS = new Date(data.startTimeS).Format(
+          "yyyy-MM-dd 00:00:01"
+        );
+      }
+      if (data.endTimeS) {
+        data.endTimeS = new Date(data.endTimeS).Format("yyyy-MM-dd 23:59:59");
+      }
+      return data;
+    },
+  },
   watch: {},
 };
 </script>

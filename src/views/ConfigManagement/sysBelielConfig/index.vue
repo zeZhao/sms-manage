@@ -181,7 +181,7 @@ export default {
         },
         {
           type: "input",
-          label: "优化比列",
+          label: "优化比例",
           key: "optimizePercent",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },

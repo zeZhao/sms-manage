@@ -128,7 +128,7 @@ export default {
           type: "input",
           label: "签名",
           key: "sign",
-          placeholder: "请输入电签名",
+          placeholder: "请输入签名",
         },
         {
           type: "select",
