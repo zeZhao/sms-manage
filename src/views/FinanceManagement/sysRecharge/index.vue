@@ -42,8 +42,8 @@
       </el-table-column>
       <el-table-column prop="reductModel" label="计费类型" width="110">
         <template slot-scope="scope">
-          <span v-if="scope.row.reductType === 1">为用户id计费</span>
-          <span v-if="scope.row.reductType === 2">为企业id计费</span>
+          <span v-if="scope.row.reductType === 1">用户id计费</span>
+          <span v-if="scope.row.reductType === 2">企业id计费</span>
           <!-- <span>
             {{
               scope.row.reductModel == 1

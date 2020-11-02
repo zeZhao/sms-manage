@@ -142,7 +142,7 @@ export default {
         {
           type: "daterange",
           label: "定时时间",
-          key: ["", "startTimeS", "endTimeS"],
+          key: ["", "startTime", "endTime"],
         },
       ],
     };
@@ -158,13 +158,11 @@ export default {
      * @private
      */
     _formatRequestData(data) {
-      if (data.startTimeS) {
-        data.startTimeS = new Date(data.startTimeS).Format(
-          "yyyy-MM-dd 00:00:01"
-        );
+      if (data.startTime) {
+        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:01");
       }
-      if (data.endTimeS) {
-        data.endTimeS = new Date(data.endTimeS).Format("yyyy-MM-dd 23:59:59");
+      if (data.endTime) {
+        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
       return data;
     },

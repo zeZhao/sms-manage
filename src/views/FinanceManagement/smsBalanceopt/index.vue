@@ -30,7 +30,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "为用户id计费" : "企业id计费"
+            scope.row.reductType === 1 ? "用户id计费" : "企业id计费"
           }}</span>
         </template>
       </el-table-column>
