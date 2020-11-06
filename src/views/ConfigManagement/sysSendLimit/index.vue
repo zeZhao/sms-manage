@@ -78,6 +78,17 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorSign = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("此项不能为空"));
+      } else {
+        if (value > 10) {
+          callback(new Error("不能大于10"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -155,6 +166,10 @@ export default {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
               trigger: "blur",
+            },
+            {
+              trigger: "change",
+              validator: validatorSign,
             },
           ],
         },

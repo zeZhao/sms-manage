@@ -21,7 +21,16 @@
       <el-table-column prop="afterBalance" label="操作后的条数" />
       <el-table-column prop="cardUnit" label="当前操作单价(分)" />
       <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="fileUrl" label="付款截图" />
+      <el-table-column prop="fileUrl" label="付款截图">
+        <template slot-scope="scope">
+          <a
+            style="color: #1890ff"
+            :href="`${origin}${scope.row.fileUrl}`"
+            target="_blank"
+            >点击查看</a
+          >
+        </template>
+      </el-table-column>
       <el-table-column prop="paidWay" label="付款状态">
         <template slot-scope="scope">
           <span>
@@ -54,12 +63,12 @@
                 : scope.row.isBill == 1
                 ? "月度帐单"
                 : scope.row.isBill == 2
-                ? "后付提交计费"
+                ? "退款记录"
                 : scope.row.isBill == 3
-                ? "后付提交计费"
+                ? "借款记录"
                 : scope.row.isBill == 4
-                ? "后付提交计费"
-                : "月度帐单"
+                ? "补款记录"
+                : "转移记录"
             }}
           </span>
         </template>
@@ -186,6 +195,7 @@ export default {
           key: ["", "startTime", "endTime"],
         },
       ],
+      origin: window.location.origin,
     };
   },
   mounted() {},

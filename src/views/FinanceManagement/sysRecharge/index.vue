@@ -67,12 +67,12 @@
                 : scope.row.isBill == 1
                 ? "月度帐单"
                 : scope.row.isBill == 2
-                ? "后付提交计费"
+                ? "转移记录"
                 : scope.row.isBill == 3
-                ? "后付提交计费"
+                ? "借款记录"
                 : scope.row.isBill == 4
-                ? "后付提交计费"
-                : "月度帐单"
+                ? "补款记录"
+                : "转移记录"
             }}
           </span>
         </template>
