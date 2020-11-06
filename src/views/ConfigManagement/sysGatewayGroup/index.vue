@@ -1,16 +1,27 @@
 <template>
   <!--通道组配置-->
   <div class="sysGatewayGroup">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="groupId" label="通道组ID" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />
       <el-table-column prop="notes" label="备注" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('groupId',scope.row.groupId)" type="text" size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('groupId', scope.row.groupId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -19,7 +30,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -42,7 +58,9 @@
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template slot-scope="scope">
-                <el-button @click="deleteItem(scope)" type="text" size="small">删除</el-button>
+                <el-button @click="deleteItem(scope)" type="text" size="small"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -265,6 +283,19 @@ export default {
     },
     deleteItem(scope) {
       this.gatewayGroupList.splice(scope.$index, 1);
+    },
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      if (data.groupId) {
+        data.groupId = Number(data.groupId);
+      }
+      return data;
     },
   },
   watch: {},
