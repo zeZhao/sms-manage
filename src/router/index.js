@@ -173,7 +173,7 @@ export const asyncRoutes = [{
 {
     path: '/ConfigManagement',
     component: Layout,
-    redirect: '/ConfigManagement/index',
+    redirect: '/sysExemptReviewManage/index',
     hidden: true,
     alwaysShow: true,
     name: '',

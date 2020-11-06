@@ -39,11 +39,9 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="计费类型">
+      <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.reductModel == 1 ? "用户计费" : "企业计费"
-          }}</span>
+          <span>{{ scope.row.reductType == 1 ? "用户计费" : "企业计费" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="操作类型" />

@@ -499,9 +499,6 @@ export default {
   methods: {
     //文件上传成功
     handleSuccess({ response, file, fileList }) {
-      console.log(response, "---------response");
-      console.log(file, "---------file");
-      console.log(fileList, "---------fileList");
       if (response.code == 200) {
         this.formConfig.forEach((item) => {
           if (item.key === "fileUrl") {
@@ -656,7 +653,7 @@ export default {
             cardMoney = item.defaultValue;
           }
           if (item.key === "cardCount") {
-            item.defaultValue = parseInt((cardMoney * 100) / cardUnit);
+            item.defaultValue = Math.round((cardMoney * 100) / cardUnit);
           }
         });
       }

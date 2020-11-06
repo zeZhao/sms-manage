@@ -10,8 +10,10 @@
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <span class="el-breadcrumb__item fontColor">账户名称：{{ custName }}&nbsp;&nbsp;/&nbsp;&nbsp;</span>
-      <template v-if="device!=='mobile'">
+      <span class="el-breadcrumb__item fontColor"
+        >账户名称：{{ custName }}&nbsp;&nbsp;/&nbsp;&nbsp;</span
+      >
+      <template v-if="device !== 'mobile'">
         <!-- <search id="header-search" class="right-menu-item" /> -->
 
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -19,7 +21,10 @@
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
+      <el-dropdown
+        class="avatar-container right-menu-item hover-effect"
+        trigger="click"
+      >
         <div class="avatar-wrapper">
           <img
             style="width: 70px"
@@ -30,7 +35,16 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">退出</span>
+            <span
+              style="
+                display: block;
+                width: 100px;
+                height: 35px;
+                text-align: center;
+              "
+              @click="logout"
+              >退出</span
+            >
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

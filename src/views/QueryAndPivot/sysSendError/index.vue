@@ -277,8 +277,11 @@ export default {
 
     submitGateway(form) {
       for (let key in form) {
-        if (key === "startTime" || key === "endTime") {
+        if (key === "startTime") {
           form[key] = new Date(form[key]).Format("yyyy-MM-dd hh:mm:ss");
+        }
+        if (key === "endTime") {
+          form[key] = new Date(form[key]).Format("yyyy-MM-dd 23:59:59");
         }
       }
       this.$http.sysSendError.editGateWay({ ...form }).then((res) => {
@@ -304,6 +307,14 @@ export default {
         }
       });
       return rows;
+    },
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      return formData;
     },
   },
   watch: {},

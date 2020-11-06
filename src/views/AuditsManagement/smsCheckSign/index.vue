@@ -13,7 +13,7 @@
         <template slot-scope="scope">
           <a
             style="color: #1890ff"
-            :href="`${origin}/${scope.row.licenceUrl}`"
+            :href="`${origin}${scope.row.licenceUrl}`"
             target="_blank"
             >点击查看</a
           >
@@ -23,7 +23,7 @@
         <template slot-scope="scope">
           <a
             style="color: #1890ff"
-            :href="`${origin}/${scope.row.cardUrl}`"
+            :href="`${origin}${scope.row.cardUrl}`"
             target="_blank"
             >点击查看</a
           >

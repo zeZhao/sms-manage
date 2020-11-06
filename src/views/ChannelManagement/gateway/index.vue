@@ -41,7 +41,7 @@
       </el-table-column>
       <el-table-column prop="status" label="可用">
         <template slot-scope="scope">
-          <span>{{ scope.row.status ? "是" : "否" }}</span>
+          <span>{{ scope.row.status ? "可用" : "不可用" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="otherGateway" label="备用网关" />
@@ -195,8 +195,8 @@ export default {
           label: "是否可用",
           key: "status",
           optionData: [
-            { key: "0", value: "可用" },
-            { key: 1, value: "不可用" },
+            { key: 1, value: "可用" },
+            { key: "0", value: "不可用" },
           ],
         },
         {

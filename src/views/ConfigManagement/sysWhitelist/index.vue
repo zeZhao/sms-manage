@@ -1,8 +1,12 @@
 <template>
   <!--白名单管理-->
   <div class="sysWhitelist">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
@@ -12,26 +16,33 @@
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="modifyUser" label="修改人">
         <template slot-scope="scope">
-          <span>{{ scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser }}</span>
+          <span>{{
+            scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser
+          }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间"/>
+      <el-table-column prop="modifyTime" label="修改时间" />
       <!-- <template slot-scope="scope">
           <span>{{ scope.row.code  ? scope.row.code  : scope.row.createUser }}</span>
         </template>
       </el-table-column>-->
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('whiteId', scope.row.whiteId)"
             type="text"
             size="small"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -40,7 +51,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -51,7 +67,11 @@
         @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -118,10 +138,10 @@ export default {
               key: 1,
               value: "用户",
             },
-            {
-              key: 2,
-              value: "通道",
-            },
+            // {
+            //   key: 2,
+            //   value: "通道",
+            // },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
