@@ -221,6 +221,16 @@ export const asyncRoutes = [{
         }
     },
     {
+        path: '/sysTag/index',
+        component: () =>
+            import('@/views/ConfigManagement/sysTag/index'),
+        name: 'sysTag',
+        meta: {
+            keepAlive: false,
+            title: '标签'
+        }
+    },
+    {
         path: '/sysGatewayGroup/index',
         component: () =>
             import('@/views/ConfigManagement/sysGatewayGroup/index'),

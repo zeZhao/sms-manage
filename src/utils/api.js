@@ -214,6 +214,25 @@ export default {
             return post("/sysSendLimit/addSendLimit", params);
         },
     },
+    //标签
+    sysTag: {
+        // 发送上限列表
+        tagList(params) {
+            return fetch("/sms/tag", params);
+        },
+        // 删除
+        deleteTag(id) {
+            return del(`/sms/tag/${id}`);
+        },
+        // 保存
+        tagPost(params) {
+            return post("/sms/tag", params);
+        },
+        // 修改
+        tagPut(params) {
+            return put("/sms/tag", params);
+        },
+    },
     //通道组配置
     sysGatewayGroup: {
         // 列表
