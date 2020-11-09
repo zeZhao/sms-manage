@@ -115,7 +115,7 @@ export default {
         ]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
+        cancelButtonText: "取消", 
       }).then((action) => {
         this.$http.sysTag.deleteTag(id).then((res) => {
           if (resOk(res)) {

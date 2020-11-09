@@ -24,8 +24,9 @@
       <el-table-column prop="fileUrl" label="付款截图">
         <template slot-scope="scope">
           <a
+            v-if="scope.row.fileUrl"
             style="color: #1890ff"
-            :href="`${origin}${scope.row.fileUrl}`"
+            :href="`${origin}/${scope.row.fileUrl}`"
             target="_blank"
             >点击查看</a
           >
