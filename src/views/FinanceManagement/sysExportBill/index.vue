@@ -1,8 +1,12 @@
 <template>
   <!--导出账单-->
   <div class="sysExportBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <h3>多月导出账单</h3>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <h3>按照筛选条件导出多月账单</h3>
     <el-row>
       <el-form v-model="searchData" :inline="true" label-width="120px">
         <el-form-item label="用户ID">
@@ -16,18 +20,26 @@
             <el-option key="1" value="1" label="短信" />
           </el-select>
         </el-form-item>
-        <el-form-item label="开发账单月">
-          <el-date-picker v-model="searchData.billDate" type="month"></el-date-picker>
+        <el-form-item label="开始账单月">
+          <el-date-picker
+            v-model="searchData.billDate"
+            type="month"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="结束账单月">
-          <el-date-picker v-model="searchData.endDate" type="month"></el-date-picker>
+          <el-date-picker
+            v-model="searchData.endDate"
+            type="month"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData(searchData.userId)">导出</el-button>
+          <el-button type="primary" @click="exportMonthData(searchData.userId)"
+            >导出</el-button
+          >
         </el-form-item>
       </el-form>
     </el-row>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="gateway" label="通道id" />
@@ -41,7 +53,12 @@
       <el-table-column prop="billDate" label="账单月" width="100" />
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
-          <el-button @click="exportMonthData(scope.row.userId)" type="text" size="small">导出</el-button>
+          <el-button
+            @click="exportMonthData(scope.row.userId)"
+            type="text"
+            size="small"
+            >导出</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
