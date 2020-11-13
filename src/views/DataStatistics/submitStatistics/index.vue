@@ -49,7 +49,9 @@
       <el-table-column prop="submitNum" label="提交条数" />
       <el-table-column prop="sendNum" label="占比">
         <template slot-scope="scope">
-          <span>{{ scope.row.submitNum / statistics.total }}%</span>
+          <span
+            >{{ (scope.row.submitNum / statistics.total).toFixed(2) }}%</span
+          >
         </template>
       </el-table-column>
       <el-table-column prop="countDate" label="统计日期" />
@@ -109,11 +111,11 @@ export default {
           key: "userName",
           placeholder: "请输入用户名称",
         },
-        {
-          type: "inputNum",
-          label: "网关",
-          key: "gateway",
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "网关",
+        //   key: "gateway",
+        // },
         {
           type: "select",
           label: "运营商",

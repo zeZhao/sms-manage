@@ -12,7 +12,11 @@
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="counter" label="条数" />
       <el-table-column prop="gateway" label="网关编号" />
-      <el-table-column prop="definiteTime" label="定时日期" />
+      <el-table-column prop="definiteTime" label="定时日期">
+        <template slot-scope="scope">
+          <span>{{ scope.row.definiteTime | Format }}</span>
+        </template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"

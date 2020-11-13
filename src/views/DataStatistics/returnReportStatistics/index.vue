@@ -10,7 +10,11 @@
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="code" label="特服号" />
+      <el-table-column
+        prop="code"
+        label="特服号"
+        v-if="searchParam.showCode === '1'"
+      />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span>{{
@@ -24,12 +28,20 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="gateway" label="网关" />
+      <el-table-column
+        prop="gateway"
+        label="网关"
+        v-if="searchParam.showGateway === '1'"
+      />
       <el-table-column prop="reportNum" label="返回条数" />
       <!-- <el-table-column prop="reportNum" label="返回条数" /> -->
       <el-table-column prop="successNum" label="成功条数" />
       <el-table-column prop="failNum" label="失败条数" />
-      <el-table-column prop="countDate" label="统计日期" />
+      <el-table-column
+        prop="countDate"
+        label="统计日期"
+        v-if="searchParam.showDate === '1'"
+      />
     </el-table>
     <p style="color: red">
       总数: {{ statistics.returnNum }}&nbsp;&nbsp;成功数:
@@ -61,9 +73,9 @@ export default {
       isParamsNotData: true,
       //搜索框数据
       searchParam: {
-        showDate: 1,
-        showCode: 1,
-        showGateway: 1,
+        // showDate: "1",
+        // showCode: "1",
+        // showGateway: "1",
       },
       //搜索框配置
       searchFormConfig: [
@@ -118,33 +130,36 @@ export default {
           ],
           placeholder: "请选择类型",
         },
-        // {
-        //   type: "select",
-        //   label: "是否显示日期",
-        //   key: "showDate",
-        //   optionData: [
-        //     { key: "0", value: "否" },
-        //     { key: "1", value: "是" },
-        //   ],
-        // },
-        // {
-        //   type: "select",
-        //   label: "显示特服号",
-        //   key: "showCode",
-        //   optionData: [
-        //     { key: "0", value: "否" },
-        //     { key: "1", value: "是" },
-        //   ],
-        // },
-        // {
-        //   type: "select",
-        //   label: "是否显示网关",
-        //   key: "showGateway",
-        //   optionData: [
-        //     { key: "0", value: "否" },
-        //     { key: "1", value: "是" },
-        //   ],
-        // },
+        {
+          type: "select",
+          label: "是否显示日期",
+          key: "showDate",
+          defaultValue: "1",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" },
+          ],
+        },
+        {
+          type: "select",
+          label: "显示特服号",
+          key: "showCode",
+          defaultValue: "0",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" },
+          ],
+        },
+        {
+          type: "select",
+          label: "是否显示网关",
+          key: "showGateway",
+          defaultValue: "0",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" },
+          ],
+        },
         {
           type: "daterange",
           label: "统计日期",

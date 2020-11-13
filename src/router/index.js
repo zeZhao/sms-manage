@@ -479,6 +479,16 @@ export const asyncRoutes = [{
         }
     },
     {
+        path: '/smsProfit/index',
+        component: () =>
+            import('@/views/QueryAndPivot/smsProfit/index'),
+        name: 'smsProfit',
+        meta: {
+            keepAlive: false,
+            title: '用户利润查询'
+        }
+    },
+    {
         path: '/sysRecharge/index',
         component: () =>
             import('@/views/FinanceManagement/sysRecharge/index'),
@@ -719,16 +729,7 @@ export const asyncRoutes = [{
             title: '失败原因数据统计'
         }
     },
-    {
-        path: '/smsProfit/index',
-        component: () =>
-            import('@/views/QueryAndPivot/smsProfit/index'),
-        name: 'smsProfit',
-        meta: {
-            keepAlive: false,
-            title: '用户利润查询'
-        }
-    },
+
     {
         path: '/sendLogFegin/index',
         component: () =>

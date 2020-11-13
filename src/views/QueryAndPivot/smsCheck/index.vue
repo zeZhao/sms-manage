@@ -11,7 +11,7 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="counter" label="手机个数" />
+      <el-table-column prop="counter" label="手机个数" show-overflow-tooltip />
       <el-table-column prop="cmCount" label="移动" />
       <el-table-column prop="cuCount" label="联通" />
       <el-table-column prop="ctCount" label="电信" />
@@ -43,7 +43,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" width="150" />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="150"
+        show-overflow-tooltip
+      />
       <el-table-column prop="combined" label="是否处理"
         ><template slot-scope="scope">
           <span v-if="scope.row.handleStatus == 0">未处理</span>

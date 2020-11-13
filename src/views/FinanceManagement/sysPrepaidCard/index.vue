@@ -1,8 +1,12 @@
 <template>
   <!--企业月账单-->
   <div class="sysPrepaidCard">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="corporateName" label="企业名称" />
       <el-table-column prop="cardCount" label="条数" />
@@ -19,8 +23,15 @@
       <el-table-column prop="remark" label="备注" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="exportPlatform(scope.row)">导出平台账单</el-button>
-          <el-button type="text" size="small" @click="exportDirectLink(scope.row)">导出直连账单</el-button>
+          <el-button type="text" size="small" @click="exportPlatform(scope.row)"
+            >导出平台账单</el-button
+          >
+          <el-button
+            type="text"
+            size="small"
+            @click="exportDirectLink(scope.row)"
+            >导出直连账单</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -109,7 +120,7 @@ export default {
         )
         .then((res) => {
           let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel;charset=utf-8",
+            type: "application/vnd.ms-excel",
           });
           let url = window.URL.createObjectURL(blob);
           let aLink = document.createElement("a");
@@ -120,6 +131,17 @@ export default {
           aLink.click();
           document.body.removeChild(aLink);
           window.URL.revokeObjectURL(url);
+
+          // const link = document.createElement("a");
+          // let blob = new Blob([res.data], { type: "application/vnd.ms-excel" });
+          // link.style.display = "none";
+          // link.href = URL.createObjectURL(blob);
+
+          // // link.download = res.headers['content-disposition'] //下载后文件名
+          // link.download = data.fileName; //下载的文件名
+          // document.body.appendChild(link);
+          // link.click();
+          // document.body.removeChild(link);
         });
     },
     //导出直连账单
@@ -147,7 +169,7 @@ export default {
           document.body.appendChild(aLink);
           aLink.click();
           document.body.removeChild(aLink);
-          window.URL.revokeObjectURL(url);
+          window.URL.removeChild(url);
         });
     },
     // 修改搜索参数

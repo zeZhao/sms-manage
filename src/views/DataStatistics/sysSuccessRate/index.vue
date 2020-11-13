@@ -14,15 +14,15 @@
       <el-table-column prop="operator" label="运营商">
         <template slot-scope="scope">
           <span>{{
-            scope.row.operator === 1
+            scope.row.operaId === 1
               ? "移动"
-              : scope.row.operator === 2
+              : scope.row.operaId === 2
               ? "联通"
-              : scope.row.operator === 3
+              : scope.row.operaId === 3
               ? "电信"
-              : scope.row.operator === 4
+              : scope.row.operaId === 4
               ? "国际"
-              : scope.row.operator === 0
+              : scope.row.operaId === 0
               ? "非法"
               : ""
           }}</span>
@@ -124,9 +124,9 @@ export default {
           key: "smsType",
           optionData: [
             { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
-            { key: "3", value: "屏信" },
-            { key: "4", value: "语音" },
+            // { key: "2", value: "彩信" },
+            // { key: "3", value: "屏信" },
+            // { key: "4", value: "语音" },
           ],
           placeholder: "请选择类型",
         },
@@ -135,7 +135,30 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    /**
+     * 对表格数据进行自定义调整
+     * @param rows
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(rows) {
+      // console.log(this.searchParam, "--------aaaaa  ProvinceList");
+      // if (this.searchParam.province) {
+      //   let str = "";
+      //   this.ProvinceList.forEach((item) => {
+      //     if (item.provinceId === this.searchParam.province) {
+      //       str = item.provinceName;
+      //     }
+      //   });
+      //   this.searchParam.provinceName = str;
+      // }
+      rows = [Object.assign(rows[0], this.searchParam)];
+
+      console.log(rows, "-------------rows");
+      return rows;
+    },
+  },
   watch: {},
 };
 </script>

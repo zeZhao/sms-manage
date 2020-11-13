@@ -215,9 +215,12 @@ export default {
         _mxDoSearch(param = this.searchParam) {
             //调用查询时默认跳转到第一页
             this.pageObj.currentPage = 1;
-            this.searchParam = {
-                ...param
-            };
+            this.$nextTick(() => {
+                this.searchParam = {
+                    ...param
+                };
+            })
+
             this._mxGetList();
         },
 

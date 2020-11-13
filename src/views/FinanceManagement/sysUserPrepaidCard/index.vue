@@ -1,26 +1,32 @@
 <template>
   <!--用户月账单-->
   <div class="sysUserPrepaidCard">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="cardNum" label="卡号" show-overflow-tooltip />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType === 1 ? "用户id计费" : "企业id计费" }}</span>
+          <span>{{
+            scope.row.reductType === 1 ? "用户id计费" : "企业id计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式" width="110">
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.reductModel == "1"
-            ? "预付提交计费"
-            : scope.row.reductModel == "2"
-            ? "预付成功计费"
-            : scope.row.reductModel == "3"
-            ? "后付提交计费"
-            : "后付成功计费"
+              scope.row.reductModel == "1"
+                ? "预付提交计费"
+                : scope.row.reductModel == "2"
+                ? "预付成功计费"
+                : scope.row.reductModel == "3"
+                ? "后付提交计费"
+                : "后付成功计费"
             }}
           </span>
         </template>
@@ -32,13 +38,13 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.paidWay == 0
-            ? "已付款"
-            : scope.row.paidWay == 1
-            ? "欠款"
-            : scope.row.paidWay == 2
-            ? "扣款"
-            : "还款"
+              scope.row.paidWay == 0
+                ? "充值"
+                : scope.row.paidWay == 1
+                ? "借款"
+                : scope.row.paidWay == 2
+                ? "扣款"
+                : "还款"
             }}
           </span>
         </template>
@@ -50,11 +56,15 @@
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column prop="createTime" label="创建时间" width="150">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="80">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="detail(scope.row)">明细</el-button>
+          <el-button type="text" size="small" @click="detail(scope.row)"
+            >明细</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -71,10 +81,18 @@
     >
       <div>
         <el-form ref="detailList" :model="detailList" label-width="120px">
-          <el-form-item label="移动金额：">{{detailList.cmprice}}</el-form-item>
-          <el-form-item label="联通金额：">{{detailList.cuprice}}</el-form-item>
-          <el-form-item label="电信金额：">{{detailList.ctprice}}</el-form-item>
-          <el-form-item label="未知号码金额：">{{detailList.xxprice}}</el-form-item>
+          <el-form-item label="移动金额：">{{
+            detailList.cmprice
+          }}</el-form-item>
+          <el-form-item label="联通金额：">{{
+            detailList.cuprice
+          }}</el-form-item>
+          <el-form-item label="电信金额：">{{
+            detailList.ctprice
+          }}</el-form-item>
+          <el-form-item label="未知号码金额：">{{
+            detailList.xxprice
+          }}</el-form-item>
         </el-form>
       </div>
     </el-dialog>
@@ -139,11 +157,11 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "已付款",
+              value: "充值",
             },
             {
               key: 1,
-              value: "欠款",
+              value: "借款",
             },
             {
               key: 2,

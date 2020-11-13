@@ -127,6 +127,28 @@ export default {
       }
       return data;
     },
+    /**
+     * 对表格数据进行自定义调整
+     * @param rows
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(rows) {
+      console.log(this.searchParam, "--------aaaaa  ProvinceList");
+      if (this.searchParam.province) {
+        let str = "";
+        this.ProvinceList.forEach((item) => {
+          if (item.provinceId === this.searchParam.province) {
+            str = item.provinceName;
+          }
+        });
+        this.searchParam.provinceName = str;
+      }
+      rows = [Object.assign(rows[0], this.searchParam)];
+
+      console.log(rows, "-------------rows");
+      return rows;
+    },
   },
   watch: {},
 };

@@ -1,8 +1,12 @@
 <template>
   <!--支出信息-->
   <div class="sysExpensesInfo">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column type="index" label="序号" />
       <el-table-column prop="no" label="下单编号" show-overflow-tooltip />
       <el-table-column prop="corporateName" label="所属公司" />
@@ -10,7 +14,11 @@
       <el-table-column prop="theMonth" label="所属月" width="95" />
       <el-table-column prop="dates" label="日期" width="95" />
       <el-table-column prop="summary" label="摘要" show-overflow-tooltip />
-      <el-table-column prop="collectionCompany" label="收款单位" show-overflow-tooltip />
+      <el-table-column
+        prop="collectionCompany"
+        label="收款单位"
+        show-overflow-tooltip
+      />
       <el-table-column prop="lender" label="付款金额" />
       <el-table-column prop="ticketsPlusNotes" label="是否回票" />
       <el-table-column prop="ticketNumber" label="票号" show-overflow-tooltip />
@@ -23,12 +31,15 @@
       <el-table-column prop="remarks" label="备注" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('expensesInfoId', scope.row.id)"
             type="text"
             size="small"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -37,7 +48,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -242,12 +258,12 @@ export default {
           key: "ticketsPlusNotes",
           optionData: [
             {
-              key: "是",
-              value: "是",
+              key: "已回",
+              value: "已回",
             },
             {
-              key: "否",
-              value: "否",
+              key: "未回",
+              value: "未回",
             },
           ],
           // change: this.selectUser,

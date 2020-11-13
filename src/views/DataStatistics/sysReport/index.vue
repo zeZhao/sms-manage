@@ -1,22 +1,72 @@
 <template>
   <!--用户日账单-->
   <div class="userDailyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
-      <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="gateway" label="网关" />
-      <el-table-column prop="gatewayName" label="网关名称" />
-      <el-table-column prop="province" label="省份" />
-      <el-table-column prop="operaId" label="运营商">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
+      <el-table-column
+        prop="userId"
+        label="用户ID"
+        v-if="searchParam.showUser === '1'"
+      />
+      <el-table-column
+        prop="userName"
+        label="用户名"
+        v-if="searchParam.showUser === '1'"
+      />
+      <el-table-column
+        prop="gateway"
+        label="网关"
+        v-if="searchParam.showGateway === '1'"
+      />
+      <el-table-column
+        prop="gatewayName"
+        label="网关名称"
+        v-if="searchParam.showGateway === '1'"
+      />
+      <el-table-column
+        prop="province"
+        label="省份"
+        v-if="searchParam.showProvince === '1'"
+      />
+      <el-table-column
+        prop="operaId"
+        label="运营商"
+        v-if="searchParam.showOpera === '1'"
+      >
         <template slot-scope="scope">
-          <span>{{ scope.row.operaId === 0 ? "非法" : (scope.row.operaId === 1 ? "移动" :(scope.row.operaId === 2 ? "联通" :(scope.row.operaId === 3 ? "电信" :'国际'))) }}</span>
+          <span>{{
+            scope.row.operaId === 0
+              ? "非法"
+              : scope.row.operaId === 1
+              ? "移动"
+              : scope.row.operaId === 2
+              ? "联通"
+              : scope.row.operaId === 3
+              ? "电信"
+              : "国际"
+          }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="code" label="特服号" />
+      <el-table-column
+        prop="code"
+        label="特服号"
+        v-if="searchParam.showCode === '1'"
+      />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
-          <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':'语音'))}}</span>
+          <span>{{
+            scope.row.smsType === 1
+              ? "短信"
+              : scope.row.smsType === 2
+              ? "彩信"
+              : scope.row.smsType === 3
+              ? "屏信"
+              : "语音"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendNum" label="发送条数" />
@@ -25,16 +75,26 @@
       <el-table-column prop="unknownNum" label="未知数" />
       <el-table-column prop="successRate" label="成功率" />
       <el-table-column prop="failRate" label="失败率" />
-      <el-table-column prop="unknownRate" label="未知率" />
+      <el-table-column prop="unknownRate" label="未知率">
+        <template slot-scope="scope">
+          <span>{{ parseInt(scope.row.unknownRate).toFixed(2) }}%</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="proportion" label="占比" />
       <!-- <template slot-scope="scope">
           <span>{{parseInt(scope.row.sendNum/statistics.sendNum)*100}}%</span>
         </template>
       </el-table-column>-->
     </el-table>
-    <p
-      style="color:red"
-    >用户总发送条数: {{statistics.sendNum}}&nbsp;&nbsp;用户总成功条数: {{statistics.successNum}}&nbsp;&nbsp;用户总成功率: {{statistics.successRate}}%&nbsp;&nbsp;用户总失败条数: {{statistics.failNum}}&nbsp;&nbsp;用户总失败率: {{statistics.failRate}}%&nbsp;&nbsp;用户总未知条数: {{statistics.unknownNum}}&nbsp;&nbsp;用户总未知率: {{statistics.unknownRate}}%</p>
+    <p style="color: red">
+      用户总发送条数: {{ statistics.sendNum }}&nbsp;&nbsp;用户总成功条数:
+      {{ statistics.successNum }}&nbsp;&nbsp;用户总成功率:
+      {{ statistics.successRate }}%&nbsp;&nbsp;用户总失败条数:
+      {{ statistics.failNum }}&nbsp;&nbsp;用户总失败率:
+      {{ statistics.failRate }}%&nbsp;&nbsp;用户总未知条数:
+      {{ statistics.unknownNum }}&nbsp;&nbsp;用户总未知率:
+      {{ statistics.unknownRate }}%
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -127,51 +187,56 @@ export default {
           key: "province",
           optionData: [],
         },
-        // {
-        //   type: "select",
-        //   label: "是否查询省份",
-        //   key: "showProvince",
-        //   optionData: [
-        //     { key: "0", value: "不显示" },
-        //     { key: "1", value: "显示" },
-        //   ],
-        // },
-        // {
-        //   type: "select",
-        //   label: "是否查询网关",
-        //   key: "showGateway",
-        //   optionData: [
-        //     { key: "0", value: "不显示" },
-        //     { key: "1", value: "显示" },
-        //   ],
-        // },
-        // {
-        //   type: "select",
-        //   label: "显示运营商",
-        //   key: "showOpera",
-        //   optionData: [
-        //     { key: "0", value: "不显示" },
-        //     { key: "1", value: "显示" },
-        //   ],
-        // },
-        // {
-        //   type: "select",
-        //   label: "是否显示用户",
-        //   key: "showUser",
-        //   optionData: [
-        //     { key: "0", value: "不显示" },
-        //     { key: "1", value: "显示" },
-        //   ],
-        // },
-        // {
-        //   type: "select",
-        //   label: "显示特服号",
-        //   key: "showCode",
-        //   optionData: [
-        //     { key: "0", value: "不显示" },
-        //     { key: "1", value: "显示" },
-        //   ],
-        // },
+        {
+          type: "select",
+          label: "是否查询省份",
+          key: "showProvince",
+          defaultValue: "1",
+          optionData: [
+            { key: "0", value: "不显示" },
+            { key: "1", value: "显示" },
+          ],
+        },
+        {
+          type: "select",
+          label: "是否查询网关",
+          key: "showGateway",
+          defaultValue: "1",
+          optionData: [
+            { key: "0", value: "不显示" },
+            { key: "1", value: "显示" },
+          ],
+        },
+        {
+          type: "select",
+          label: "显示运营商",
+          key: "showOpera",
+          defaultValue: "1",
+          optionData: [
+            { key: "0", value: "不显示" },
+            { key: "1", value: "显示" },
+          ],
+        },
+        {
+          type: "select",
+          label: "是否显示用户",
+          key: "showUser",
+          defaultValue: "1",
+          optionData: [
+            { key: "0", value: "不显示" },
+            { key: "1", value: "显示" },
+          ],
+        },
+        {
+          type: "select",
+          label: "显示特服号",
+          key: "showCode",
+          defaultValue: "0",
+          optionData: [
+            { key: "0", value: "不显示" },
+            { key: "1", value: "显示" },
+          ],
+        },
         {
           type: "daterange",
           label: "统计日期",
