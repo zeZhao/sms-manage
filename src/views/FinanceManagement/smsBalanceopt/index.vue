@@ -109,15 +109,13 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业/用户ID",
+          label: "用户ID",
           key: "userId",
-          placeholder: "请输入企业/用户ID",
         },
         {
           type: "input",
-          label: "企业/用户名称",
+          label: "用户名称",
           key: "userName",
-          placeholder: "请输入企业/用户名称",
         },
         {
           type: "select",

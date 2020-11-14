@@ -44,7 +44,7 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="gateway" label="通道id" />
       <el-table-column prop="smsType" label="类型" />
-      <el-table-column prop="userId" label="提交数" />
+      <el-table-column prop="submitNum" label="提交数" />
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" />
       <el-table-column prop="successNum" label="成功数" />

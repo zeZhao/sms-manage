@@ -95,11 +95,11 @@ export default {
           key: "userId",
           placeholder: "请输入用户ID",
         },
-        {
-          type: "input",
-          label: "特服号",
-          key: "code",
-        },
+        // {
+        //   type: "input",
+        //   label: "特服号",
+        //   key: "code",
+        // },
         {
           type: "inputNum",
           label: "网关",
@@ -153,9 +153,19 @@ export default {
       //   });
       //   this.searchParam.provinceName = str;
       // }
-      rows = [Object.assign(rows[0], this.searchParam)];
-
-      console.log(rows, "-------------rows");
+      if (rows && rows.length > 0) {
+        rows.forEach((item) => {
+          item.corpId = this.searchParam.corpId;
+          item.userId = this.searchParam.userId;
+          item.gateway = this.searchParam.gateway;
+          item.operaId = this.searchParam.operaId;
+          item.smsType = this.searchParam.smsType;
+          if (!this.searchParam.userId) {
+            item.userName = "";
+          }
+        });
+        rows = [Object.assign(rows[0], this.searchParam)];
+      }
       return rows;
     },
   },
