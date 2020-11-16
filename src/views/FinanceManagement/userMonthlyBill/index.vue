@@ -1,8 +1,12 @@
 <template>
   <!--用户月账单-->
   <div class="userDailyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
@@ -13,13 +17,13 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.reductModel == 1
-            ? "预付提交计费"
-            : scope.row.reductModel == 2
-            ? "预付成功计费"
-            : scope.row.reductModel == 3
-            ? "后付提交计费"
-            : "后付成功计费"
+              scope.row.reductModel == 1
+                ? "预付提交计费"
+                : scope.row.reductModel == 2
+                ? "预付成功计费"
+                : scope.row.reductModel == 3
+                ? "后付提交计费"
+                : "后付成功计费"
             }}
           </span>
         </template>
@@ -27,7 +31,7 @@
       <el-table-column prop="submitCount" label="提交条数" />
       <el-table-column prop="sendCount" label="发送条数" />
       <el-table-column prop="succCount" label="成功条数" />
-      <el-table-column prop="succCount" label="单价(分)" />
+      <el-table-column prop="cardUnit" label="单价(分)" />
       <el-table-column prop="failCount" label="失败条数" />
       <el-table-column prop="unknownCount" label="未知条数" />
     </el-table>

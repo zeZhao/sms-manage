@@ -84,18 +84,18 @@ export default {
           label: "月份",
           key: "remark",
         },
-        {
-          type: "select",
-          key: "isBill",
-          label: "帐单类型",
-          defaultValue: 1,
-          optionData: [
-            {
-              key: 1,
-              value: "月度帐单",
-            },
-          ],
-        },
+        // {
+        //   type: "select",
+        //   key: "isBill",
+        //   label: "帐单类型",
+        //   defaultValue: 1,
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "月度帐单",
+        //     },
+        //   ],
+        // },
       ],
     };
   },
@@ -178,6 +178,7 @@ export default {
       if (remark) {
         data.remark = new Date(remark).Format("yyyy-MM");
       }
+      data.isBill = 1;
       return data;
     },
     /**
