@@ -792,18 +792,15 @@ export default {
             return post("/smsCheck/queryByPage", params);
         }
     },
-    // 提交记录
-    sendLogFegin: {
-        // 查询列表
-        selectSendLogByPage(params) {
-            return post("/sendLogFegin/selectSendLogByPage", params);
-        }
-    },
     // 发送记录
     sendRecord: {
         // 查询列表
         selectSendBackByPage(params) {
             return post("/sendLogFegin/selectSendBackByPage", params);
+        },
+        // 查询列表总数
+        selectSendBackAllNum(params) {
+            return post("/sendLogFegin/selectSendBackAllNum", params);
         }
     },
     // 发送报告
@@ -1407,15 +1404,13 @@ export default {
         // 查询列表
         selectSendLogByPage(params) {
             return post("/sendLogFegin/selectSendLogByPage", params);
+        },
+        // 总数量查询
+        selectSendLogAllNum(params) {
+            return post("/sendLogFegin/selectSendLogAllNum", params);
         }
     },
-    // 发送记录
-    sendRecord: {
-        // 查询列表
-        selectSendBackByPage(params) {
-            return post("/sendLogFegin/selectSendBackByPage", params);
-        }
-    },
+
     // 发送报告
     smsTxReport: {
         // 查询列表

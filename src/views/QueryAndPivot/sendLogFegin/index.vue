@@ -56,7 +56,7 @@
       />
       <el-table-column prop="pid" label="PID" show-overflow-tooltip />
     </el-table>
-    <p style="color: red">总条数：{{ pageObj.total }}</p>
+    <p style="color: red">总条数：{{ total }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -131,11 +131,27 @@ export default {
           key: ["", "startTime", "endTime"],
         },
       ],
+      total: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    this.selectSendLogAllNum();
+  },
   computed: {},
   methods: {
+    selectSendLogAllNum() {
+      let params = {
+        data: {
+          ...this.searchParam,
+        },
+      };
+      this.$http.sendLogFegin.selectSendLogAllNum(params).then((res) => {
+        if (res.code === 200) {
+          this.total = res.data;
+        }
+        console.log(res);
+      });
+    },
     /**
      * 调整提交的参数
      *
@@ -156,7 +172,11 @@ export default {
       return data;
     },
   },
-  watch: {},
+  watch: {
+    searchParam(val) {
+      this.selectSendLogAllNum();
+    },
+  },
 };
 </script>
 

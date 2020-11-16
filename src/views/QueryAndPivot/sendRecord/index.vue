@@ -68,7 +68,7 @@
         </template>
       </el-table-column> -->
     </el-table>
-    <p style="color: red">总条数：{{ pageObj.total }}</p>
+    <p style="color: red">总条数：{{ total }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -147,11 +147,27 @@ export default {
           key: ["", "startTime", "endTime"],
         },
       ],
+      total: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    this.selectSendBackAllNum();
+  },
   computed: {},
   methods: {
+    selectSendBackAllNum() {
+      let params = {
+        data: {
+          ...this.searchParam,
+        },
+      };
+      this.$http.sendRecord.selectSendBackAllNum(params).then((res) => {
+        if (res.code === 200) {
+          this.total = res.data;
+        }
+        console.log(res);
+      });
+    },
     /**
      * 调整提交的参数
      *
@@ -172,7 +188,11 @@ export default {
       return data;
     },
   },
-  watch: {},
+  watch: {
+    searchParam(val) {
+      this.selectSendBackAllNum();
+    },
+  },
 };
 </script>
 
