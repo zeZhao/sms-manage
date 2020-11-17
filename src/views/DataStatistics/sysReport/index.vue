@@ -73,18 +73,26 @@
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
       <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column prop="successRate" label="成功率" />
-      <el-table-column prop="failRate" label="失败率" />
+      <el-table-column prop="successRate" label="成功率">
+        <template slot-scope="scope">
+          <span>{{ parseInt(scope.row.successRate).toFixed(2) }}%</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="failRate" label="失败率">
+        <template slot-scope="scope">
+          <span>{{ parseInt(scope.row.failRate).toFixed(2) }}%</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="unknownRate" label="未知率">
         <template slot-scope="scope">
           <span>{{ parseInt(scope.row.unknownRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
-      <el-table-column prop="proportion" label="占比" />
-      <!-- <template slot-scope="scope">
-          <span>{{parseInt(scope.row.sendNum/statistics.sendNum)*100}}%</span>
+      <el-table-column prop="proportion" label="占比">
+        <template slot-scope="scope">
+          <span>{{ parseInt(scope.row.unknownRate).toFixed(2) }}%</span>
         </template>
-      </el-table-column>-->
+      </el-table-column>
     </el-table>
     <p style="color: red">
       用户总发送条数: {{ statistics.sendNum }}&nbsp;&nbsp;用户总成功条数:

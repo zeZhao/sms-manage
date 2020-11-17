@@ -1,12 +1,18 @@
 <template>
   <!--通道月账单（运营）-->
   <div class="gatewayMonthlyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="countDateStr" label="月份" width="150">
-        <template slot-scope="scope">{{scope.row.countDateStr | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.countDateStr | FormatMonth
+        }}</template>
       </el-table-column>
       <el-table-column prop="sendCount" label="发送条数" />
       <el-table-column prop="succCount" label="成功条数" />
