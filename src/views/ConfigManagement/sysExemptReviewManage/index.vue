@@ -652,29 +652,30 @@ export default {
      * @private
      */
     _mxArrangeEditData(row) {
-      for (let key in row) {
+      let obj = Object.assign({}, row);
+      for (let key in obj) {
         if (
           key === "isParallelDetection" ||
           key === "isTemplate" ||
           key === "isCombination" ||
           key === "isGatewayGroup"
         ) {
-          if (row[key]) {
-            row[key] = "1";
+          if (obj[key]) {
+            obj[key] = "1";
           } else {
-            row[key] = "0";
+            obj[key] = "0";
           }
         }
         if (key === "sensitiveWord") {
-          if (typeof row[key] === "string") {
-            let arr = row[key].split(",");
-            row[key] = arr.map((item) => {
+          if (typeof obj[key] === "string") {
+            let arr = obj[key].split(",");
+            obj[key] = arr.map((item) => {
               return Number(item);
             });
           }
         }
       }
-      return row;
+      return obj;
     },
     /**
      * 创建表单
