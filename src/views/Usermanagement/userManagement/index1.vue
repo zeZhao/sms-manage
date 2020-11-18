@@ -844,14 +844,14 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
         }
