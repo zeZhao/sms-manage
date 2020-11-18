@@ -44,7 +44,11 @@ export default {
       namespace: "",
       isParamsNotData: true,
       //搜索框数据
-      searchParam: {},
+      searchParam: {
+        userId: "",
+        code: "",
+        gateway: "",
+      },
       //搜索框配置
       searchFormConfig: [
         {
@@ -134,7 +138,15 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      console.log(this.searchParam, "--------aaaaa  ProvinceList");
+      if (rows && rows.length > 0) {
+        rows.forEach((item) => {
+          item.userId = this.searchParam.userId;
+          item.code = this.searchParam.code;
+          item.gateway = this.searchParam.gateway;
+        });
+        rows = [Object.assign(rows[0], this.searchParam)];
+      }
+
       if (this.searchParam.province) {
         let str = "";
         this.ProvinceList.forEach((item) => {

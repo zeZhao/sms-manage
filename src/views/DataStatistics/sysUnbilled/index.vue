@@ -1,15 +1,29 @@
 <template>
   <!--用户日账单-->
   <div class="userDailyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
-          <span>{{scope.row.exemptReviewType === 0?'需要审核':(scope.row.exemptReviewType === 1?'特服号':(scope.row.exemptReviewType === 2?'客户ID':(scope.row.exemptReviewType === 3?'企业ID':'')))}}</span>
+          <span>{{
+            scope.row.exemptReviewType === 0
+              ? "需要审核"
+              : scope.row.exemptReviewType === 1
+              ? "特服号"
+              : scope.row.exemptReviewType === 2
+              ? "客户ID"
+              : scope.row.exemptReviewType === 3
+              ? "企业ID"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="cmPassageway" label="移动通道" />
@@ -17,7 +31,17 @@
       <el-table-column prop="ctPassageway" label="电信通道" />
       <el-table-column prop="smsType" label="免审类型">
         <template slot-scope="scope">
-          <span>{{scope.row.smsType === 1?'短信':(scope.row.smsType === 2?'彩信':(scope.row.smsType === 3?'屏信':(scope.row.smsType === 4?'语音':'')))}}</span>
+          <span>{{
+            scope.row.smsType === 1
+              ? "短信"
+              : scope.row.smsType === 2
+              ? "彩信"
+              : scope.row.smsType === 3
+              ? "屏信"
+              : scope.row.smsType === 4
+              ? "语音"
+              : ""
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendCount" label="发送量" />
@@ -101,8 +125,8 @@ export default {
           label: "发送情况",
           key: "sendStatus",
           optionData: [
-            { key: "1", value: "不限制" },
-            { key: "0", value: "未发" },
+            { key: "", value: "不限制" },
+            { key: "1", value: "未发" },
           ],
           placeholder: "请选择发送情况",
         },

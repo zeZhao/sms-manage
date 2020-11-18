@@ -1,12 +1,18 @@
 <template>
   <!--用户日账单-->
   <div class="userDailyBill">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="countDate" label="日期" width="150">
-        <template slot-scope="scope">{{scope.row.countDate | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.countDate | Format
+        }}</template>
       </el-table-column>
       <el-table-column prop="submitCount" label="提交条数" />
       <el-table-column prop="sendCount" label="发送条数" />
