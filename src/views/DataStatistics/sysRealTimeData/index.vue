@@ -139,27 +139,23 @@ export default {
      */
     _mxFormListData(rows) {
       if (rows && rows.length > 0) {
+        let str = "";
+        if (this.searchParam.province) {
+          this.ProvinceList.forEach((item) => {
+            if (item.provinceName === this.searchParam.province) {
+              str = item.provinceName;
+            }
+          });
+          this.searchParam.provinceName = str;
+        }
         rows.forEach((item) => {
           item.userId = this.searchParam.userId;
           item.code = this.searchParam.code;
           item.gateway = this.searchParam.gateway;
-          item.provinceName = this.searchParam.province;
+          item.provinceName = str;
         });
         rows = [Object.assign(rows[0], this.searchParam)];
       }
-
-      if (this.searchParam.province) {
-        let str = "";
-        this.ProvinceList.forEach((item) => {
-          if (item.provinceId === this.searchParam.province) {
-            str = item.provinceName;
-          }
-        });
-        this.searchParam.provinceName = str;
-      }
-      rows = [Object.assign(rows[0], this.searchParam)];
-
-      console.log(rows, "-------------rows");
       return rows;
     },
   },
