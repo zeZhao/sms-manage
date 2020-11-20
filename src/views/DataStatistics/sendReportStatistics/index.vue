@@ -54,7 +54,7 @@
       />
     </el-table>
     <p style="color: red">
-      总条数: {{ statistics.sendNum }}&nbsp;&nbsp;行业总条数:
+      总条数: {{ pageObj.total }}&nbsp;&nbsp;行业总条数:
       {{ statistics.industryNum }}&nbsp;&nbsp;营销总条数:
       {{ statistics.marketingNum }}&nbsp;&nbsp;Vip条数:
       {{ statistics.vipNum }}&nbsp;&nbsp;

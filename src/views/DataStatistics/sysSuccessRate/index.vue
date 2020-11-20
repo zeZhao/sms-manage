@@ -14,15 +14,15 @@
       <el-table-column prop="operator" label="运营商">
         <template slot-scope="scope">
           <span>{{
-            scope.row.operaId === 1
+            scope.row.operaId === "1"
               ? "移动"
-              : scope.row.operaId === 2
+              : scope.row.operaId === "2"
               ? "联通"
-              : scope.row.operaId === 3
+              : scope.row.operaId === "3"
               ? "电信"
-              : scope.row.operaId === 4
+              : scope.row.operaId === "4"
               ? "国际"
-              : scope.row.operaId === 0
+              : scope.row.operaId === "0"
               ? "非法"
               : ""
           }}</span>
@@ -31,7 +31,7 @@
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.smsType === 1
+            scope.row.smsType === "1"
               ? "短信"
               : scope.row.smsType === 2
               ? "彩信"
@@ -158,7 +158,7 @@ export default {
           item.corpId = this.searchParam.corpId;
           item.userId = this.searchParam.userId;
           item.gateway = this.searchParam.gateway;
-          item.operaId = this.searchParam.operaId;
+          item.operator = this.searchParam.operaId;
           item.smsType = this.searchParam.smsType;
           if (!this.searchParam.userId) {
             item.userName = "";

@@ -111,7 +111,7 @@ export default {
           if (key === "province") {
             res.data.forEach((t) => {
               let obj = {
-                key: t.provinceId,
+                key: t.provinceName,
                 value: t.provinceName,
               };
               item.optionData.push(obj);
@@ -143,6 +143,7 @@ export default {
           item.userId = this.searchParam.userId;
           item.code = this.searchParam.code;
           item.gateway = this.searchParam.gateway;
+          item.provinceName = this.searchParam.province;
         });
         rows = [Object.assign(rows[0], this.searchParam)];
       }
