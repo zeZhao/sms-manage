@@ -39,7 +39,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="userName" label="操作人" />
+      <el-table-column prop="sysName" label="操作人" />
       <el-table-column prop="operDate" label="统计时间" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.operDate | timeFormat }}</span>
@@ -88,14 +88,14 @@ export default {
           type: "select",
           label: "类型",
           key: "reductType",
-          defaultValue: 1,
+          defaultValue: 2,
           optionData: [
             {
-              key: 0,
+              key: 1,
               value: "用户",
             },
             {
-              key: 1,
+              key: 2,
               value: "企业",
             },
           ],

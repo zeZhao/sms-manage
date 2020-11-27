@@ -220,7 +220,7 @@
         </el-form-item>
         <el-form-item label="客户联系人" prop="contact">
           <el-input
-            maxlength="30"
+            maxlength="10"
             show-word-limit
             v-model="addInfo.contact"
             type="phone"
@@ -475,7 +475,7 @@ export default {
               this.customerAddInfo = false;
               this.$refs[formName].resetFields();
             } else {
-              this.$message.error(data);
+              this.$message.error(msg);
             }
           });
         } else {
