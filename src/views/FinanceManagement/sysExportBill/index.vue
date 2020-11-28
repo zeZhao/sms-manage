@@ -35,7 +35,7 @@
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData(searchData.userId)"
+          <el-button type="primary" @click="exportMonthData('all')"
             >导出</el-button
           >
         </el-form-item>
@@ -54,11 +54,8 @@
       <el-table-column prop="unknownNum" label="未知数" />
       <el-table-column prop="billDate" label="账单月" width="100" />
       <el-table-column fixed="right" label="操作">
-        <template slot-scope="scope">
-          <el-button
-            @click="exportMonthData(scope.row)"
-            type="text"
-            size="small"
+        <template>
+          <el-button @click="exportMonthData('scope')" type="text" size="small"
             >导出</el-button
           >
         </template>
@@ -136,18 +133,23 @@ export default {
   computed: {},
   methods: {
     //导出
-    exportMonthData(userId) {
-      this.searchData.userId = userId;
+    exportMonthData(type) {
+      let params = {};
+      if (type === "scope") {
+        params = { ...this.searchParam };
+      } else if (type === "all") {
+        params = { ...this.searchData };
+      }
       // if()
       // this.$http.sysExportBill.export({ userId }).then((res) => {
       //   let blob = new Blob([res.data], {
       //     type: "application/vnd.ms-excel;charset=utf-8",
       //   });
-      console.log(this.searchData, "---this.searchData ");
+      // console.log(this.searchData, "---this.searchData ");
       this.$axios
         .post(
           "/bill/export/",
-          { ...this.searchParam },
+          { ...params },
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
