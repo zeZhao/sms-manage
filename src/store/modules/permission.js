@@ -44,7 +44,29 @@ export function filterAsyncRoutes(routes, roles) {
     })
     return res
 }
-
+export function filePath(item) {
+    let path = ''
+    if (item.parentId === 3000) {
+        path = `Usermanagement${item.linkUrl}`
+    } else if (item.parentId === 5000) {
+        path = `Systemmanagement${item.linkUrl}`
+    } else if (item.parentId === 3100) {
+        path = `ConfigManagement${item.linkUrl}`
+    } else if (item.parentId === 3200) {
+        path = `QueryAndPivot${item.linkUrl}`
+    } else if (item.parentId === 3300) {
+        path = `DataStatistics${item.linkUrl}`
+    } else if (item.parentId === 3400) {
+        path = `AuditsManagement${item.linkUrl}`
+    } else if (item.parentId === 3500) {
+        path = `ChannelManagement${item.linkUrl}`
+    } else if (item.parentId === 3600) {
+        path = `FinanceManagement${item.linkUrl}`
+    } else if (item.parentId === 4900) {
+        path = `SalesManagement${item.linkUrl}`
+    }
+    return path
+}
 
 /**
  * 后台查询的菜单数据拼装成路由格式的数据
@@ -52,14 +74,15 @@ export function filterAsyncRoutes(routes, roles) {
  */
 export function generaMenu(routes, data) {
     data.forEach(item => {
+
         const menu = {
             path: item.linkUrl === '#' ? item.menuId + 'list' : item.linkUrl,
-            component: item.linkUrl === '#' ? Layout : () =>
-                import (`@/views${item.linkUrl}`),
+            component: item.linkUrl === '#' ? Layout : (resolve) =>
+                require([`@/views/${filePath(item)}`], resolve),
             alwaysShow: item.linkUrl === '#' ? true : false,
             // component: () => import('@/views/outList'),
             children: [],
-            name: '',
+            name: item.name,
             meta: {
                 title: item.name,
                 id: item.menuId,
