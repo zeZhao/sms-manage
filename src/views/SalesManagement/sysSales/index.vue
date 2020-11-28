@@ -1,43 +1,61 @@
 <template>
   <!--销售员-->
   <div class="sysSales">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userName" label="登录名" />
       <el-table-column prop="actualName" label="真实姓名" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="groupName" label="所属组" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
-          <span>{{scope.row.type === 1 ? '主管' : (scope.row.type === 2 ? '组长' : (scope.row.type === 3 ? '组员':'介绍人'))}}</span>
+          <span>{{
+            scope.row.type === 1
+              ? "主管"
+              : scope.row.type === 2
+              ? "组长"
+              : scope.row.type === 3
+              ? "组员"
+              : "介绍人"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="modifyTime" label="修改时间" width="150">
-        <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
       </el-table-column>
-      <el-table-column prop="modifier" label="修改人" />
+      <el-table-column prop="sysName" label="修改人" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{scope.row.status === 1 ? '正常' : '停用'}}</span>
+          <span>{{ scope.row.status === 1 ? "正常" : "停用" }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
-            @click="updateStatus(scope.row,'2')"
+            @click="updateStatus(scope.row, '2')"
             type="text"
             size="small"
             v-if="scope.row.status === 1"
             style="color: red"
-          >停用</el-button>
+            >停用</el-button
+          >
           <el-button
-            @click="updateStatus(scope.row,'1')"
+            @click="updateStatus(scope.row, '1')"
             type="text"
             size="small"
             v-else
             style="color: #3a835d"
-          >启动</el-button>
+            >启动</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -46,7 +64,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"

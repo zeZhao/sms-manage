@@ -20,6 +20,7 @@
       <el-table-column prop="succcount" label="成功条数" />
       <el-table-column prop="share" label="占比" />
     </el-table>
+    <p style="color: red">总条数: {{ statistics }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -86,11 +87,23 @@ export default {
           key: ["", "startTime", "endTime"],
         },
       ],
+      statistics: 0,
     };
   },
-  mounted() {},
+  mounted() {
+    this.queryChannelSuccNum(this.searchParam);
+  },
   computed: {},
   methods: {
+    // 获取统计
+    queryChannelSuccNum(searchParam) {
+      this.$http.userChannelStatistics
+        .queryChannelSuccNum(searchParam)
+        .then((res) => {
+          this.statistics = res.data;
+          console.log(this.statistics);
+        });
+    },
     /**
      * 调整提交的参数
      *
@@ -105,6 +118,9 @@ export default {
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd");
       }
+      this.queryChannelSuccNum({
+        data: { userChannelStatistics: { ...data } },
+      });
       return data;
     },
   },

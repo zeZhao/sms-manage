@@ -994,6 +994,10 @@ export default {
         queryList(params) {
             return post("/userChannelStatistics/queryList", params);
         },
+        // 统计
+        queryChannelSuccNum(params) {
+            return post("/userChannelStatistics/queryChannelSuccNum", params);
+        },
     },
     // 成功率统计
     sysSuccessRate: {
@@ -1009,17 +1013,7 @@ export default {
             return fetch("/report/realTimeData", params);
         },
     },
-    // 免审未发统计
-    sysUnbilled: {
-        // 查询列表
-        queryNoSendByPage(params) {
-            return fetch("/sysExemptReviewManage/queryNoSendByPage", params);
-        },
-        //  删除
-        deleteExemptReviewManage(params) {
-            return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
-        },
-    },
+
     //用户发送情况统计
     report: {
         // 查询列表
@@ -1596,27 +1590,6 @@ export default {
             return post("/sysTimeTasklist/queryTimeTaskByPage", params);
         },
     },
-    // 定时统计
-    userChannelStatistics: {
-        // 查询列表
-        queryList(params) {
-            return post("/userChannelStatistics/queryList", params);
-        },
-    },
-    // 成功率统计
-    sysSuccessRate: {
-        // 查询列表
-        querySendDetail(params) {
-            return fetch("/report/querySendDetail", params);
-        },
-    },
-    // 实时数据查询
-    sysRealTimeData: {
-        // 查询列表
-        realTimeData(params) {
-            return fetch("/report/realTimeData", params);
-        },
-    },
     // 免审未发统计
     sysUnbilled: {
         // 查询列表
@@ -1628,39 +1601,9 @@ export default {
             return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
         },
     },
-    //用户发送情况统计
-    report: {
-        // 查询列表
-        queryByPage(params) {
-            return fetch("/report/queryUserSendDetail", params);
-        },
-        //统计
-        queryUserSendDetailAll(params) {
-            return fetch("/report/queryUserSendDetailAll", params);
-        },
-    },
-    //返回报告统计
-    returnReportStatistics: {
-        // 查询列表
-        returnReportStatistics(params) {
-            return fetch("/report/returnReportStatistics", params);
-        },
-        //统计
-        returnReportTotal(params) {
-            return fetch("/report/returnReportTotal", params);
-        },
-    },
-    //发送报告统计
-    sendReportStatistics: {
-        // 查询列表
-        sendReportStatistics(params) {
-            return fetch("/report/sendReportStatistics", params);
-        },
-        //统计
-        sendReportTotal(params) {
-            return fetch("/report/sendReportTotal", params);
-        },
-    },
+
+
+
     //提交统计
     submitStatistics: {
         // 查询列表

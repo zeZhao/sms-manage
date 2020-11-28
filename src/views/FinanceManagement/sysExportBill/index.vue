@@ -22,12 +22,14 @@
         </el-form-item>
         <el-form-item label="开始账单月">
           <el-date-picker
+            value-format="yyyy-MM"
             v-model="searchData.billDate"
             type="month"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="结束账单月">
           <el-date-picker
+            value-format="yyyy-MM"
             v-model="searchData.endDate"
             type="month"
           ></el-date-picker>
@@ -54,7 +56,7 @@
       <el-table-column fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
-            @click="exportMonthData(scope.row.userId)"
+            @click="exportMonthData(scope.row)"
             type="text"
             size="small"
             >导出</el-button
@@ -145,7 +147,7 @@ export default {
       this.$axios
         .post(
           "/bill/export/",
-          { ...this.searchData },
+          { ...this.searchParam },
           {
             responseType: "blob",
             headers: { token: window.localStorage.getItem("token") },
@@ -174,7 +176,7 @@ export default {
     _formatRequestData(data) {
       const { billDate } = data;
       if (billDate) {
-        data.billDate = new Date(billDate).Format("yyyy-MM-dd");
+        data.billDate = new Date(billDate).Format("yyyy-MM");
       }
       return data;
     },

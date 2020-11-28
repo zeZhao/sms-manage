@@ -54,7 +54,7 @@
       />
     </el-table>
     <p style="color: red">
-      总条数: {{ pageObj.total }}&nbsp;&nbsp;行业总条数:
+      总条数: {{ statistics.total }}&nbsp;&nbsp;行业总条数:
       {{ statistics.industryNum }}&nbsp;&nbsp;营销总条数:
       {{ statistics.marketingNum }}&nbsp;&nbsp;Vip条数:
       {{ statistics.vipNum }}&nbsp;&nbsp;
@@ -196,16 +196,18 @@ export default {
     };
   },
   mounted() {
-    this.queryUserSendDetailAll();
+    this.queryUserSendDetailAll(this.searchParam);
   },
   computed: {},
   methods: {
     // 获取统计
-    queryUserSendDetailAll() {
-      this.$http.sendReportStatistics.sendReportTotal({}).then((res) => {
-        this.statistics = Object.assign({}, res.data);
-        console.log(this.statistics);
-      });
+    queryUserSendDetailAll(searchParam) {
+      this.$http.sendReportStatistics
+        .sendReportTotal(searchParam)
+        .then((res) => {
+          this.statistics = Object.assign({}, res.data);
+          console.log(this.statistics);
+        });
     },
     // 修改搜索参数
     _formatRequestData(data) {
@@ -216,6 +218,7 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
+      this.queryUserSendDetailAll(data);
       return data;
     },
     /**

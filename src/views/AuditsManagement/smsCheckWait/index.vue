@@ -41,9 +41,42 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cm" label="移动通道" />
-      <el-table-column prop="cu" label="联通通道" />
-      <el-table-column prop="ct" label="电信通道" />
+      <el-table-column prop="cmCount" label="移动通道">
+        <template slot-scope="scope">
+          <el-select v-model="scope.row.cmCount">
+            <el-option
+              v-for="item in gatewayCmList"
+              :key="item.id"
+              :value="item.id"
+              :label="item.name"
+            ></el-option>
+          </el-select>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cuCount" label="联通通道">
+        <template slot-scope="scope">
+          <el-select v-model="scope.row.cuCount">
+            <el-option
+              v-for="item in gatewayCuList"
+              :key="item.id"
+              :value="item.id"
+              :label="item.name"
+            ></el-option>
+          </el-select>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ctCount" label="电信通道">
+        <template slot-scope="scope">
+          <el-select v-model="scope.row.ctCount">
+            <el-option
+              v-for="item in gatewayCtList"
+              :key="item.id"
+              :value="item.id"
+              :label="item.name"
+            ></el-option>
+          </el-select>
+        </template>
+      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
@@ -226,11 +259,50 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
       ],
+      gatewayCuList: [],
+      gatewayCtList: [],
+      gatewayCmList: [],
     };
+  },
+  created() {
+    this.gateway("gatewayCu", "2", "1");
+    this.gateway("gatewayCt", "3", "1");
+    this.gateway("gatewayCm", "1", "1");
   },
   mounted() {},
   computed: {},
   methods: {
+    /*
+     * 获取通道列表
+     * */
+    gateway(keys, status, orderStatus) {
+      const params = {
+        data: {
+          status: status,
+          orderStatus: orderStatus,
+        },
+      };
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
+        if (status === "2") {
+          this.gatewayCuList = res.data;
+        } else if (status === "3") {
+          this.gatewayCtList = res.data;
+        } else if (status === "1") {
+          this.gatewayCmList = res.data;
+        }
+
+        // this.formConfig.forEach((item) => {
+        //   const { key } = item;
+        //   if (key == keys) {
+        //     res.data.forEach((t) => {
+        //       this.$set(t, "key", t.id);
+        //       this.$set(t, "value", t.name);
+        //       item.optionData.push(t);
+        //     });
+        //   }
+        // });
+      });
+    },
     supperCheck(row) {
       this.formConfig.forEach((item) => {
         for (let key in row) {
