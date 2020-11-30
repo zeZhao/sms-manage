@@ -1,7 +1,7 @@
 <template>
   <section>
     <!--工具条-->
-    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
         <el-form-item>
           <el-input v-model="roleId" clearable placeholder="登陆账号" />
@@ -19,11 +19,23 @@
           <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-button type="primary" @click="customerAddInfo = true;deleteCustomer()">新增运营账号</el-button>
+          <el-button
+            type="primary"
+            @click="
+              customerAddInfo = true;
+              deleteCustomer();
+            "
+            >新增运营账号</el-button
+          >
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row height="680" style="width: 100%;">
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      height="680"
+      style="width: 100%"
+    >
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="ID" />
       <el-table-column prop="account" label="账号" />
@@ -38,7 +50,7 @@
             inactive-color="#ff4949"
             :active-value="1"
             :inactive-value="2"
-            @change="changSwitch($event,scope.row.suId)"
+            @change="changSwitch($event, scope.row.suId)"
           ></el-switch>
         </template>
       </el-table-column>
@@ -50,8 +62,12 @@
       <!--<el-table-column prop="memo" label="描述" />-->
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="delUser(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="infoShow(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button @click="delUser(scope.row)" type="text" size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -92,7 +108,12 @@
           />
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="addInfo.pwd" type="password" clearable placeholder="密码" />
+          <el-input
+            v-model="addInfo.pwd"
+            type="password"
+            clearable
+            placeholder="密码"
+          />
         </el-form-item>
         <el-form-item label="姓名">
           <el-input
@@ -104,7 +125,12 @@
           />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="addInfo.mobile" type="phone" clearable placeholder="手机号" />
+          <el-input
+            v-model="addInfo.mobile"
+            type="phone"
+            clearable
+            placeholder="手机号"
+          />
         </el-form-item>
         <el-form-item label="选择角色">
           <el-select
@@ -122,14 +148,21 @@
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select style="width: 100%" v-model="addInfo.state" placeholder="状态" clearable>
+          <el-select
+            style="width: 100%"
+            v-model="addInfo.state"
+            placeholder="状态"
+            clearable
+          >
             <el-option value="1" label="正常" />
             <el-option value="2" label="停用" />
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addCustomerInfo('addForm')">新增</el-button>
+        <el-button type="primary" @click="addCustomerInfo('addForm')"
+          >新增</el-button
+        >
         <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -156,7 +189,12 @@
           />
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="setInfo.pwd" type="password" clearable placeholder="密码" />
+          <el-input
+            v-model="setInfo.pwd"
+            type="password"
+            clearable
+            placeholder="密码"
+          />
         </el-form-item>
         <el-form-item label="姓名">
           <el-input
@@ -168,7 +206,12 @@
           />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="setInfo.mobile" type="phone" clearable placeholder="手机号" />
+          <el-input
+            v-model="setInfo.mobile"
+            type="phone"
+            clearable
+            placeholder="手机号"
+          />
         </el-form-item>
         <el-form-item label="选择角色">
           <el-select
@@ -186,14 +229,21 @@
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select style="width: 100%" v-model="setInfo.state" placeholder="状态" clearable>
+          <el-select
+            style="width: 100%"
+            v-model="setInfo.state"
+            placeholder="状态"
+            clearable
+          >
             <el-option :value="1" label="正常" />
             <el-option :value="2" label="停用" />
           </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')">保存</el-button>
+        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')"
+          >保存</el-button
+        >
         <el-button @click.native="canselCustomerInfo">取消</el-button>
       </div>
     </el-dialog>
@@ -464,7 +514,7 @@ export default {
       this.deleteCustomer();
       this.setInfo = Object.assign({}, row);
       //   this.setInfo.state = row.state;
-      // this.setInfo.pwd = "";
+      this.setInfo.pwd = "";
     },
     delUser(row) {
       this.$confirm(
@@ -510,6 +560,7 @@ export default {
     },
     setCustomerInfo(formName) {
       this.customerInfo = true;
+
       let params = {
         suId: this.setInfo.suId,
         account: this.setInfo.account,
@@ -522,8 +573,10 @@ export default {
         return this.$message.error("请填写账号");
       } else if (this.setInfo.name == "") {
         return this.$message.error("请填写姓名");
-      } else if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.setInfo.pwd)) {
-        return this.$message.error("密码为8-16位，数字、字母、标点符号");
+      } else if (this.setInfo.pwd) {
+        if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.setInfo.pwd)) {
+          return this.$message.error("密码为8-16位，数字、字母、标点符号");
+        }
       } else if (this.setInfo.state == "") {
         return this.$message.error("请选择状态");
       } else if (this.setInfo.mobile == "") {

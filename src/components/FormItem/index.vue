@@ -296,7 +296,7 @@ export default {
         if (valid) {
           this.$emit("submit", this.formData);
         } else {
-          // this.$message.error("请输入必填项")
+          this.$message.error("请输入必填项");
           return false;
         }
       });

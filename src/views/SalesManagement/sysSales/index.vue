@@ -101,14 +101,13 @@ export default {
     };
     const validatorPassword = (rule, value, callback) => {
       let regex = /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/;
-      if (value == "") {
-        callback(new Error("登录密码不能为空"));
-      } else {
+      if (value) {
         if (!regex.test(value)) {
           callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
         } else {
-          callback();
         }
+      } else {
+        callback();
       }
     };
     const validatorActualName = (rule, value, callback) => {
@@ -202,10 +201,7 @@ export default {
           label: "登录密码",
           key: "password",
           defaultValue: "",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorPassword },
-          ],
+          rules: [{ trigger: "blur", validator: validatorPassword }],
         },
         {
           type: "input",
@@ -302,6 +298,7 @@ export default {
       });
     },
     submit(form) {
+      console.log(form, "--------form");
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -342,6 +339,7 @@ export default {
     edit(row) {
       this.id = row.id;
       this.formTit = "修改";
+
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
@@ -349,6 +347,9 @@ export default {
           }
         }
         if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "password") {
           this.$set(item, "defaultValue", "");
         }
       });
