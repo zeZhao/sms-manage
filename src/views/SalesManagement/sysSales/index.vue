@@ -143,7 +143,7 @@ export default {
         list: "queryByPage",
       },
       // 列表参数
-      namespace: "saleGroup",
+      namespace: "saleMan",
       //搜索框数据
       searchParam: {},
       //搜索框配置
