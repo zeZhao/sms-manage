@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "http://10.10.0.5:9091",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
