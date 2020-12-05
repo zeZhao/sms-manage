@@ -35,7 +35,8 @@
       <el-table-column prop="successNum" label="成功条数" />
       <el-table-column prop="failNum" label="失败条数" />
       <el-table-column prop="unknownNum" label="未知条数" />
-      <el-table-column prop="gateway" label="提交占比" />
+      <el-table-column prop="percentage" label="提交占比" />
+      <el-table-column prop="saleActualName" label="销售" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p style="color: red">
@@ -83,6 +84,18 @@ export default {
           type: "input",
           label: "用户名称",
           key: "userName",
+        },
+        // {
+        //   type: "input",
+        //   label: "销售名称",
+        //   key: "saleActualName",
+        // },
+        {
+          type: "select",
+          label: "销售人员",
+          key: "saleActualName",
+          optionData: [],
+          placeholder: "请选择销售人员",
         },
         {
           type: "select",
@@ -141,9 +154,24 @@ export default {
   },
   mounted() {
     this.saleSubmitStatistics();
+    this.getSaleman();
   },
   computed: {},
   methods: {
+    //获取销售员
+    getSaleman() {
+      this.$http.sysSales.queryAvailableSaleman().then((res) => {
+        if (resOk(res)) {
+          this._setDefaultValue(
+            this.searchFormConfig,
+            res.data,
+            "saleActualName",
+            "actualName",
+            "actualName"
+          );
+        }
+      });
+    },
     saleSubmitStatistics() {
       this.$http.reportsubmitStatistics
         .saleSubmitStatisticsTotal({ ...this.searchParam })

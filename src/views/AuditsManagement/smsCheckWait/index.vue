@@ -41,38 +41,38 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cmCount" label="移动通道">
+      <el-table-column prop="cmGateway" label="移动通道">
         <template slot-scope="scope">
-          <el-select v-model="scope.row.cmCount">
+          <el-select v-model="scope.row.cmGateway">
             <el-option
               v-for="item in gatewayCmList"
               :key="item.id"
               :value="item.id"
-              :label="item.name"
+              :label="item.id"
             ></el-option>
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="cuCount" label="联通通道">
+      <el-table-column prop="cuGateway" label="联通通道">
         <template slot-scope="scope">
-          <el-select v-model="scope.row.cuCount">
+          <el-select v-model="scope.row.cuGateway">
             <el-option
               v-for="item in gatewayCuList"
               :key="item.id"
               :value="item.id"
-              :label="item.name"
+              :label="item.id"
             ></el-option>
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="ctCount" label="电信通道">
+      <el-table-column prop="ctGateway" label="电信通道">
         <template slot-scope="scope">
-          <el-select v-model="scope.row.ctCount">
+          <el-select v-model="scope.row.ctGateway">
             <el-option
               v-for="item in gatewayCtList"
               :key="item.id"
               :value="item.id"
-              :label="item.name"
+              :label="item.id"
             ></el-option>
           </el-select>
         </template>

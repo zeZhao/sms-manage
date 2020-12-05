@@ -50,7 +50,9 @@
       <el-table-column prop="sendNum" label="占比">
         <template slot-scope="scope">
           <span
-            >{{ (scope.row.submitNum / statistics.total).toFixed(2) }}%</span
+            >{{
+              ((scope.row.submitNum / statistics.total) * 100).toFixed(2)
+            }}%</span
           >
         </template>
       </el-table-column>

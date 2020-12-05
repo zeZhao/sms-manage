@@ -475,7 +475,7 @@ export default {
               this.customerAddInfo = false;
               this.$refs[formName].resetFields();
             } else {
-              this.$message.error(msg);
+              this.$message.error(data);
             }
           });
         } else {

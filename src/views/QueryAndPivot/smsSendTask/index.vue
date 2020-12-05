@@ -8,7 +8,7 @@
     >
       <template slot="Other">
         <el-button type="primary" @click="edit">批量修改网关</el-button>
-        <el-button type="primary" @click="ViewTheSummary = true"
+        <el-button type="primary" @click="ViewTheSummaryBtn"
           >查看汇总</el-button
         >
       </template>
@@ -230,6 +230,10 @@ export default {
   },
   computed: {},
   methods: {
+    ViewTheSummaryBtn() {
+      this.ViewTheSummary = true;
+      this.queryGatewayStockNum();
+    },
     // 批量修改网关
     edit() {
       this.editGateway = true;

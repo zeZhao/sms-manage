@@ -96,11 +96,11 @@
     </el-table>
     <p style="color: red">
       用户总发送条数: {{ statistics.sendNum }}&nbsp;&nbsp;用户总成功条数:
-      {{ parseInt(statistics.successNum).toFixed(2) }}&nbsp;&nbsp;用户总成功率:
+      {{ statistics.successNum }}&nbsp;&nbsp;用户总成功率:
       {{
         parseInt(statistics.successRate).toFixed(2)
       }}%&nbsp;&nbsp;用户总失败条数:
-      {{ parseInt(statistics.failNum).toFixed(2) }}&nbsp;&nbsp;用户总失败率:
+      {{ statistics.failNum }}&nbsp;&nbsp;用户总失败率:
       {{ parseInt(statistics.failRate).toFixed(2) }}%&nbsp;&nbsp;用户总未知条数:
       {{ statistics.unknownNum }}&nbsp;&nbsp;用户总未知率:
       {{ parseInt(statistics.unknownRate).toFixed(2) }}%
