@@ -952,7 +952,7 @@ export default {
             h("span", null, `${row.corpName}`),
           ]),
           h("p", null, [
-            h("span", null, "登录账号: "),
+            h("span", null, "用户登录名: "),
             h("span", null, `${row.userName}`),
           ]),
           h("p", null, [
@@ -976,7 +976,7 @@ export default {
             h("span", null, `${row.corpName}`),
           ]),
           h("p", null, [
-            h("span", null, "登录账号: "),
+            h("span", null, "用户登录名: "),
             h("span", null, `${row.userName}`),
           ]),
           h("p", null, [
@@ -1004,7 +1004,7 @@ export default {
             h("span", null, `${row.corpName}`),
           ]),
           h("p", null, [
-            h("span", null, "登录账号: "),
+            h("span", null, "用户登录名: "),
             h("span", null, `${row.userName}`),
           ]),
           h("p", null, [
@@ -1013,16 +1013,16 @@ export default {
           ]),
           h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
           h("p", null, [
-            h("span", null, "端口: "),
+            h("span", null, "协议端口: "),
             h("span", null, `${row.directPort || ""}`),
           ]),
           h("p", null, [
             h("span", null, "协议: "),
-            h("span", null, `${row.password}`),
+            h("span", null, `${row.directPort}`),
           ]),
           h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
           h("p", null, [
-            h("span", null, "客户端IP: "),
+            h("span", null, "客户IP地址: "),
             h("span", null, `${row.userIp || ""}`),
           ]),
           h("p", null, [
