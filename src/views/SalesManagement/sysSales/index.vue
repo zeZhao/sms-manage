@@ -105,6 +105,7 @@ export default {
         if (!regex.test(value)) {
           callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
         } else {
+          callback();
         }
       } else {
         callback();
