@@ -953,7 +953,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "用户登录名: "),
-            h("span", null, `${row.userName}`),
+            h("span", null, `${row.loginName}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
@@ -977,7 +977,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "用户登录名: "),
-            h("span", null, `${row.userName}`),
+            h("span", null, `${row.loginName}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
@@ -1005,7 +1005,7 @@ export default {
           ]),
           h("p", null, [
             h("span", null, "用户登录名: "),
-            h("span", null, `${row.userName}`),
+            h("span", null, `${row.loginName}`),
           ]),
           h("p", null, [
             h("span", null, "密码: "),
