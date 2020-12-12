@@ -45,7 +45,23 @@
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="gateway" label="通道id" />
-      <el-table-column prop="smsType" label="类型" />
+      <el-table-column prop="smsType" label="类型">
+        <template slot-scope="scope">
+          <span v-if="scope.row.smsType === 1">短信</span>
+          <span v-if="scope.row.smsType === 2">彩信</span>
+          <span v-if="scope.row.smsType === 3">屏信</span>
+          <span v-if="scope.row.smsType === 4">语音</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="operaId" label="运营商">
+        <template slot-scope="scope">
+          <span v-if="scope.row.operaId === 0">非法</span>
+          <span v-if="scope.row.operaId === 1">移动</span>
+          <span v-if="scope.row.operaId === 2">联通</span>
+          <span v-if="scope.row.operaId === 3">电信</span>
+          <span v-if="scope.row.operaId === 4">国际</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="submitNum" label="提交数" />
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" />
@@ -54,8 +70,11 @@
       <el-table-column prop="unknownNum" label="未知数" />
       <el-table-column prop="billDate" label="账单月" width="100" />
       <el-table-column fixed="right" label="操作">
-        <template>
-          <el-button @click="exportMonthData('scope')" type="text" size="small"
+        <template slot-scope="scope">
+          <el-button
+            @click="exportMonthData('scope', scope.row)"
+            type="text"
+            size="small"
             >导出</el-button
           >
         </template>
@@ -133,10 +152,10 @@ export default {
   computed: {},
   methods: {
     //导出
-    exportMonthData(type) {
+    exportMonthData(type, row) {
       let params = {};
       if (type === "scope") {
-        params = { ...this.searchParam };
+        params = { ...row };
       } else if (type === "all") {
         params = { ...this.searchData };
       }
