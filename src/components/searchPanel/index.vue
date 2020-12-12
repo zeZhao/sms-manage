@@ -30,8 +30,8 @@
                 v-model="form[item.key]"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
-                @input="_mxHandleSubmit()"
               ></el-input>
+              <!-- @input="_mxHandleSubmit()" -->
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
@@ -40,19 +40,19 @@
                 type="number"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
-                @input="_mxHandleSubmit()"
               ></el-input>
+              <!-- @input="_mxHandleSubmit()" -->
             </template>
 
             <!--下拉列表-->
             <template v-if="item.type === 'select'">
+              <!-- @change="_mxHandleSubmit()" -->
               <el-select
                 style="width: 100%"
                 v-model="form[item.key]"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 filterable
                 :clearable="isClearAble(item)"
-                @change="_mxHandleSubmit()"
                 @focus="_mxHandleFocus()"
               >
                 <el-option
@@ -66,6 +66,7 @@
 
             <!--日期范围选择-->
             <template v-if="item.type === 'daterange'">
+              <!-- @change="_mxHandleSubmit()" -->
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择开始日期'"
@@ -73,7 +74,6 @@
                 value-format="yyyy-MM-dd"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
-                @change="_mxHandleSubmit()"
               ></el-date-picker
               >-
               <el-date-picker
@@ -83,17 +83,17 @@
                 value-format="yyyy-MM-dd"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[2]]"
-                @change="_mxHandleSubmit()"
               ></el-date-picker>
+              <!-- @change="_mxHandleSubmit()" -->
             </template>
             <!--时间范围选择-->
             <template v-if="item.type === 'timerange'">
+              <!-- @change="_mxHandleSubmit()" -->
               <el-time-picker
                 :placeholder="item.placeholder || '选择开始时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
-                @change="_mxHandleSubmit()"
               ></el-time-picker
               >-
               <el-time-picker
@@ -101,11 +101,11 @@
                 style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[2]]"
-                @change="_mxHandleSubmit()"
               ></el-time-picker>
             </template>
             <!--单个日期-->
             <template v-if="item.type === 'date'">
+              <!-- @change="_mxHandleSubmit()" -->
               <el-date-picker
                 style="width: 100%"
                 type="date"
@@ -113,11 +113,11 @@
                 :placeholder="item.placeholder || '选择日期'"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
-                @change="_mxHandleSubmit()"
               ></el-date-picker>
             </template>
             <!--单个月份-->
             <template v-if="item.type === 'month'">
+              <!-- @change="_mxHandleSubmit()" -->
               <el-date-picker
                 style="width: 100%"
                 type="month"
@@ -125,7 +125,6 @@
                 :placeholder="item.placeholder || '选择月份'"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
-                @change="_mxHandleSubmit()"
               ></el-date-picker>
             </template>
           </el-form-item>
