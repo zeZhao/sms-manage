@@ -48,8 +48,14 @@
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
+        @choose="choose"
       ></FormItem>
     </el-dialog>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -110,9 +116,11 @@ export default {
           type: "input",
           label: "用户ID",
           key: "userId",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+          btnTxt: "选择用户",
+          btnDisabled: false,
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "select",
@@ -159,6 +167,7 @@ export default {
         },
       ],
       resendId: "",
+      isChooseUser: false,
     };
   },
   mounted() {
@@ -166,6 +175,15 @@ export default {
   },
   computed: {},
   methods: {
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map((t) => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+      });
+    },
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
@@ -240,7 +258,6 @@ export default {
         },
       };
       this.$http.gateway.listGateway(params).then((res) => {
-        this.GatewayList = res.data;
         this.formConfig.forEach((item) => {
           const { key } = item;
 
@@ -248,7 +265,6 @@ export default {
             res.data.forEach((t) => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
-              console.log(item);
               item.optionData.push(t);
             });
           }

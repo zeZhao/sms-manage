@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="mobile" label="手机号码" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userName" label="用户名" />
+
       <el-table-column prop="blackType" label="黑名单类型">
         <template slot-scope="scope">
           <span>
@@ -25,9 +27,9 @@
           </span>
         </template>
       </el-table-column>
+      <el-table-column prop="mobile" label="手机号码" />
       <!-- <el-table-column prop="gateway" label="网关" /> -->
-      <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" />
+
       <el-table-column prop="modifyTime" label="修改日期" />
       <el-table-column prop="remark" label="描述" />
       <el-table-column prop="status" label="状态">

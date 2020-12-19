@@ -79,13 +79,14 @@ export default {
   data() {
     const validatorSign = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}$/;
-      console.log(value, value == "");
       if (value == "" || value == null || value == undefined) {
         callback(new Error("此项不能为空"));
       } else {
         let data = value.split(",");
         data.forEach((item, k) => {
-          if (!regex.test(item)) {
+          if (item.indexOf("，") !== -1) {
+            callback(new Error("只可以用英文','分割"));
+          } else if (!regex.test(item)) {
             callback(new Error("输入2-8位，只能输入中文、英文、数字"));
           } else {
             callback();
