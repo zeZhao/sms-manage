@@ -14,7 +14,6 @@
       <el-table-column prop="code" label="客户特服号" />
       <el-table-column prop="gwcode" label="网关特服号" />
       <el-table-column prop="gateway" label="网关编号" />
-      <el-table-column prop="userName" label="客户名称" />
       <el-table-column prop="sign" label="客户签名" />
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
@@ -183,13 +182,22 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
-
         {
           type: "input",
+          label: "用户名称",
+          disabled: true,
+          key: "userName",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        },
+
+        {
+          type: "select",
           label: "网关编号",
           key: "gateway",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          optionData: [],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
@@ -198,12 +206,7 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
-        {
-          type: "input",
-          label: "客户名称",
-          key: "userName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+
         {
           type: "input",
           label: "客户签名",
@@ -226,9 +229,35 @@ export default {
       isChooseUser: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: "",
+        },
+      };
+      this.$http.gateway.listGateway(params).then((res) => {
+        this.GatewayList = res.data;
+        this.formConfig.forEach((item) => {
+          const { key } = item;
+
+          if (key === "gateway") {
+            res.data.forEach((t) => {
+              this.$set(t, "key", t.gateway);
+              this.$set(t, "value", t.gatewayName);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {

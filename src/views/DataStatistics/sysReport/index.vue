@@ -75,17 +75,17 @@
       <el-table-column prop="unknownNum" label="未知数" />
       <el-table-column prop="successRate" label="成功率">
         <template slot-scope="scope">
-          <span>{{ parseInt(scope.row.successRate).toFixed(2) }}%</span>
+          <span>{{ Number(scope.row.successRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
       <el-table-column prop="failRate" label="失败率">
         <template slot-scope="scope">
-          <span>{{ parseInt(scope.row.failRate).toFixed(2) }}%</span>
+          <span>{{ Number(scope.row.failRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
       <el-table-column prop="unknownRate" label="未知率">
         <template slot-scope="scope">
-          <span>{{ parseInt(scope.row.unknownRate).toFixed(2) }}%</span>
+          <span>{{ Number(scope.row.unknownRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
       <el-table-column prop="percentage" label="占比">
@@ -98,12 +98,12 @@
       用户总发送条数: {{ statistics.sendNum }}&nbsp;&nbsp;用户总成功条数:
       {{ statistics.successNum }}&nbsp;&nbsp;用户总成功率:
       {{
-        parseInt(statistics.successRate).toFixed(2)
+        Number(statistics.successRate).toFixed(2)
       }}%&nbsp;&nbsp;用户总失败条数:
       {{ statistics.failNum }}&nbsp;&nbsp;用户总失败率:
-      {{ parseInt(statistics.failRate).toFixed(2) }}%&nbsp;&nbsp;用户总未知条数:
+      {{ Number(statistics.failRate).toFixed(2) }}%&nbsp;&nbsp;用户总未知条数:
       {{ statistics.unknownNum }}&nbsp;&nbsp;用户总未知率:
-      {{ parseInt(statistics.unknownRate).toFixed(2) }}%
+      {{ Number(statistics.unknownRate).toFixed(2) }}%
     </p>
     <Page
       :pageObj="pageObj"

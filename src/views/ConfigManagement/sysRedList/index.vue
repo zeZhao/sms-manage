@@ -188,20 +188,48 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "select",
           label: "通道编号",
           key: "gateway",
-          defaultValue: "0",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          optionData: [],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
       ],
       redId: "",
       isChooseUser: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: "",
+        },
+      };
+      this.$http.gateway.listGateway(params).then((res) => {
+        this.GatewayList = res.data;
+        this.formConfig.forEach((item) => {
+          const { key } = item;
+
+          if (key === "gateway") {
+            res.data.forEach((t) => {
+              this.$set(t, "key", t.gateway);
+              this.$set(t, "value", t.gatewayName);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {
