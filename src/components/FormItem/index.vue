@@ -286,6 +286,7 @@ export default {
     },
     // 选择组件
     chooses(item) {
+      console.log(item, "----------");
       this.$emit("choose", item);
     },
     /**

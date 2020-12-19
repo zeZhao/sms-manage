@@ -87,7 +87,7 @@ export function generaMenu(routes, data) {
                 title: item.name,
                 id: item.menuId,
                 icon: item.icon,
-                keepAlive: false,
+                keepAlive: true,
             }
         }
         if (item.childMenu) {
@@ -125,7 +125,6 @@ const actions = {
                         type: 0
                     })
                 } else {
-                    console.log(response.data)
                     data = response.data
                     Object.assign(loadMenuData, data)
                     generaMenu(asyncRoutes, loadMenuData)

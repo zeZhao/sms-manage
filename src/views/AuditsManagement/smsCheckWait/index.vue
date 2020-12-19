@@ -220,24 +220,24 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "select",
           label: "移动通道",
           key: "cm",
-          defaultValue: "",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "select",
           label: "联通通道",
           key: "cu",
-          defaultValue: "",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "select",
           label: "电信通道",
           key: "ct",
-          defaultValue: "",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -265,9 +265,9 @@ export default {
     };
   },
   created() {
-    this.gateway("gatewayCu", "2", "1");
-    this.gateway("gatewayCt", "3", "1");
-    this.gateway("gatewayCm", "1", "1");
+    this.gateway("cu", "2", "1");
+    this.gateway("ct", "3", "1");
+    this.gateway("cm", "1", "1");
   },
   mounted() {},
   computed: {},
@@ -291,16 +291,16 @@ export default {
           this.gatewayCmList = res.data;
         }
 
-        // this.formConfig.forEach((item) => {
-        //   const { key } = item;
-        //   if (key == keys) {
-        //     res.data.forEach((t) => {
-        //       this.$set(t, "key", t.id);
-        //       this.$set(t, "value", t.name);
-        //       item.optionData.push(t);
-        //     });
-        //   }
-        // });
+        this.formConfig.forEach((item) => {
+          const { key } = item;
+          if (key == keys) {
+            res.data.forEach((t) => {
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.name);
+              item.optionData.push(t);
+            });
+          }
+        });
       });
     },
     supperCheck(row) {
