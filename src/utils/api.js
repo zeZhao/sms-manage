@@ -337,7 +337,7 @@ export default {
         },
     },
     //投诉录入
-    sysComplaint: {
+    sysComplaints: {
         // 分页查询列表
         queryByPage(params) {
             return post("/sysComplaint/queryByPage", params);

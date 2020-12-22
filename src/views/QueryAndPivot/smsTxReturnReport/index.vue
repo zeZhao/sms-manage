@@ -233,4 +233,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.smsTxReturnReport {
+  overflow-y: auto;
+}
 </style>
