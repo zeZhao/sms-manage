@@ -14,7 +14,7 @@
       <el-table-column prop="gateway" label="网关编号" />
       <el-table-column prop="definiteTime" label="统计日期">
         <template slot-scope="scope">
-          <span>{{ scope.row.definiteTime | Format }}</span>
+          <span>{{ scope.row.definiteTime | timeFormat }}</span>
         </template>
       </el-table-column>
     </el-table>
