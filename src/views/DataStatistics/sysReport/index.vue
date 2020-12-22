@@ -90,7 +90,7 @@
       </el-table-column>
       <el-table-column prop="percentage" label="占比">
         <template slot-scope="scope">
-          <span>{{ scope.row.percentage }}%</span>
+          <span>{{ Number(scope.row.percentage).toFixed(2) }}%</span>
         </template>
       </el-table-column>
     </el-table>

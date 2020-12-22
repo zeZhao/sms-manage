@@ -1,13 +1,17 @@
 <template>
   <!--失败原因-->
   <div class="sysRouteReturnError">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="routeId" label="网关编号" />
       <el-table-column prop="result" label="网关返回值" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type==='0' ? "提交报告" : "返回报告" }}</span>
+          <span>{{ scope.row.type === "0" ? "提交报告" : "返回报告" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="notes" label="返回错误说明" />
@@ -15,21 +19,28 @@
         <template slot-scope="scope">
           <span>
             {{
-            scope.row.operaId === 0
-            ? "不限"
-            : scope.row.operaId === 1
-            ? "移动"
-            : scope.row.operaId === 2
-            ? "联通"
-            : "电信"
+              scope.row.operaId === 0
+                ? "不限"
+                : scope.row.operaId === 1
+                ? "移动"
+                : scope.row.operaId === 2
+                ? "联通"
+                : "电信"
             }}
           </span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('id', scope.row.id)" type="text" size="small">删除</el-button>
+          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('id', scope.row.id)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -38,7 +49,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -207,6 +223,7 @@ export default {
           label: "返回错误说明",
           key: "notes",
           defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
       ],
       bId: "",
@@ -279,11 +296,11 @@ export default {
     _mxArrangeEditData(row) {
       for (let key in row) {
         if (key === "type") {
-        //   if (row[key]) {
-        //     row[key] = "1";
-        //   } else {
-        //     row[key] = "0";
-        //   }
+          //   if (row[key]) {
+          //     row[key] = "1";
+          //   } else {
+          //     row[key] = "0";
+          //   }
         } else if (key === "operaId") {
           if (row[key] === 0) {
             row[key] = "0";

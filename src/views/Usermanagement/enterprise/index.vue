@@ -159,7 +159,7 @@
         <el-form-item label="特服号" prop="code">
           <el-input
             v-model="addInfo.code"
-            maxlength="21"
+            maxlength="4"
             show-word-limit
             clearable
             placeholder="请输入特服号"

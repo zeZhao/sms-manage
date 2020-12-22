@@ -320,14 +320,14 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then((action) => {
-        this.$http.sysRouteReturnError
+        this.$http.smsSendlogSubmit
           .deleteTaskid({ taskid: rowKey })
           .then((res) => {
             if (resOk(res)) {
-              this.$message.info("删除成功！");
+              this.$message.success("删除成功！");
               this._mxGetList();
             } else {
-              this.$message.info("删除失败！");
+              this.$message.error("删除失败！");
             }
             console.log(res);
           });
