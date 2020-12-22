@@ -191,6 +191,7 @@ export default {
           type: "input",
           label: "登录名称",
           key: "userName",
+          disabled: false,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -333,6 +334,11 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
+      this.formConfig.forEach((item) => {
+        if (item.key === "userName") {
+          item.disabled = false;
+        }
+      });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -352,6 +358,9 @@ export default {
         }
         if (item.key === "password") {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userName") {
+          item.disabled = true;
         }
       });
       setTimeout(() => {

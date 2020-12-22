@@ -194,6 +194,14 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorPrice = (rule, value, callback) => {
+      if (value && value < 1000) {
+        callback();
+      } else {
+        callback("正整数不能超过3位数");
+      }
+    };
+
     return {
       dialogVisible: false,
       dialogTit: "",
@@ -470,6 +478,11 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
+              trigger: "change",
+            },
+            {
+              validator: validatorPrice,
+              message: "正整数不能超过3位数",
               trigger: "change",
             },
           ],

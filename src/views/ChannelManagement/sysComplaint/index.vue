@@ -79,6 +79,8 @@
     >
       <FormItem
         ref="formItem"
+        :colSpan="12"
+        labelWidth="110"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="
@@ -109,13 +111,13 @@ export default {
       addChannel: false,
       // 接口地址
       searchAPI: {
-        namespace: "sysComplaint",
+        namespace: "sysComplaints",
         list: "queryByPage",
         add: "addOrUpdate",
         edit: "addOrUpdate",
       },
       // 列表参数
-      namespace: "sysComplaint",
+      namespace: "sysComplaints",
       // 搜索框数据
       searchParam: {},
       // 搜索框配置

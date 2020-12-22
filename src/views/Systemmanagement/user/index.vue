@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
         <el-form-item>
-          <el-input v-model="roleId" clearable placeholder="登陆账号" />
+          <el-input v-model="roleId" clearable placeholder="登录账号" />
         </el-form-item>
         <el-form-item>
           <el-input v-model="roleName" clearable placeholder="姓名" />
