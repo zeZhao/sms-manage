@@ -117,7 +117,7 @@ export default {
         edit: "addOrUpdate",
       },
       // 列表参数
-      namespace: "sysComplaints",
+      namespace: "sysComplaint",
       // 搜索框数据
       searchParam: {},
       // 搜索框配置
@@ -228,9 +228,13 @@ export default {
           key: "userName",
         },
         {
-          type: "input",
+          type: "select",
           label: "通道编号",
           key: "gateway",
+          optionData: [],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
         {
           type: "input",
@@ -369,9 +373,34 @@ export default {
       isChooseUser: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: "",
+        },
+      };
+      this.$http.gateway.listGateway(params).then((res) => {
+        this.formConfig.forEach((item) => {
+          const { key } = item;
+
+          if (key === "gateway") {
+            res.data.forEach((t) => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {

@@ -162,11 +162,14 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
-          type: "input",
+          type: "select",
           label: "网关编号",
           key: "routeIds",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          optionData: [],
+          // defaultValue: "",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
 
         {
@@ -272,14 +275,10 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach((item) => {
           const { key } = item;
-          if (key === "gatewayName") {
+          if (key === "routeIds") {
             res.data.forEach((t) => {
-              this.$set(t, "key", t.gateway);
-              this.$set(t, "value", t.gatewayName);
-              // let obj = {
-              //   key: t.gatewayId,
-              //   value: t.gatewayName
-              // };
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
               item.optionData.push(t);
             });
           }
