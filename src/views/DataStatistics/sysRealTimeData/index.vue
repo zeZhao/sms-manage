@@ -138,7 +138,8 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      if (rows && rows.length > 0) {
+      if (rows) {
+        rows = [rows];
         let str = "";
         if (this.searchParam.province) {
           this.ProvinceList.forEach((item) => {

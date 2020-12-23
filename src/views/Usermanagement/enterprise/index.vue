@@ -167,7 +167,7 @@
         </el-form-item>
         <el-form-item label="可扩展位数" prop="sublong">
           <el-input
-            maxlength="21"
+            maxlength="10"
             show-word-limit
             v-model="addInfo.sublong"
             clearable

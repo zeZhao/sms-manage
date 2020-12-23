@@ -9,7 +9,7 @@
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="gatewayName" label="通道" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="status" label="不重发状态" />
       <el-table-column prop="destGateway" label="重发目标通道" />
       <el-table-column prop="modifyTime" label="修改时间">
@@ -131,28 +131,7 @@ export default {
             { required: true, message: "请输入必填项", trigger: "change" },
           ],
         },
-        // {
-        //   type: "select",
-        //   label: "不重发的状态",
-        //   key: "status",
-        //   optionData: [
-        //     {
-        //       key: "未知",
-        //       value: "未知",
-        //     },
-        //     {
-        //       key: "DELIVERD",
-        //       value: "DELIVERD",
-        //     },
-        //     {
-        //       key: "UNDELIVERD",
-        //       value: "UNDELIVERD",
-        //     },
-        //   ],
-        //   rules: [
-        //     { required: true, message: "请输入必填项", trigger: "change" },
-        //   ],
-        // },
+
         {
           type: "input",
           label: "不重发的状态",
@@ -160,10 +139,13 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "select",
           label: "重发目标通道",
           key: "destGateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          optionData: [],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" },
+          ],
         },
       ],
       resendId: "",
@@ -261,10 +243,10 @@ export default {
         this.formConfig.forEach((item) => {
           const { key } = item;
 
-          if (key === "gateway") {
+          if (key === "gateway" || key === "destGateway") {
             res.data.forEach((t) => {
-              this.$set(t, "key", t.gateway);
-              this.$set(t, "value", t.gatewayName);
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
               item.optionData.push(t);
             });
           }
