@@ -148,6 +148,7 @@
                 type="date"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
+                :value-format="item.format || 'yyyy-MM-dd'"
                 v-model="formData[item.key]"
                 @change="
                   (val) => {
@@ -163,6 +164,7 @@
                 type="month"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
+                :value-format="item.format || 'yyyy-MM'"
                 v-model="formData[item.key]"
                 @change="
                   (val) => {
@@ -177,6 +179,7 @@
               <el-time-picker
                 clearable
                 v-model="formData[item.key]"
+                :value-format="item.format || 'HH-mm-ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
                   (val) => {
