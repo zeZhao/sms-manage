@@ -8,7 +8,7 @@ import {
   Message
 } from 'element-ui'
 
-axios.defaults.timeout = 50000;
+axios.defaults.timeout = 500000;
 // axios.defaults.baseURL = '';
 if (process.env.NODE_ENV === "production") {
   let baseUrl = ''

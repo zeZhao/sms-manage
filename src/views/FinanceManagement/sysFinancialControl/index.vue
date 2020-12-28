@@ -134,9 +134,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "账号ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入账号ID",
         },
         {
           type: "select",
@@ -279,6 +279,23 @@ export default {
             }
           });
       });
+    },
+
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(row) {
+      if (row.endTime) {
+        row.endTime = `${row.endTime} 23:59:59`;
+      }
+      if (row.startTime) {
+        row.startTime = `${row.startTime} 00:00:01`;
+      }
+      return row;
     },
   },
   watch: {},

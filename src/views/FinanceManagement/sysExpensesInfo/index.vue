@@ -10,8 +10,16 @@
       <el-table-column type="index" label="序号" />
       <el-table-column prop="no" label="下单编号" show-overflow-tooltip />
       <el-table-column prop="corporateName" label="所属公司" />
-      <el-table-column prop="orderMonth" label="下单月" width="95" />
-      <el-table-column prop="theMonth" label="所属月" width="95" />
+      <el-table-column prop="orderMonth" label="下单月" width="95">
+        <template slot-scope="scope">
+          <span>{{ scope.row.orderMonth | FormatMonth }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="theMonth" label="所属月" width="95">
+        <template slot-scope="scope">
+          <span>{{ scope.row.theMonth | FormatMonth }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="dates" label="日期" width="95" />
       <el-table-column prop="summary" label="摘要" show-overflow-tooltip />
       <el-table-column
