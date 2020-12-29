@@ -6,12 +6,22 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" width="110" show-overflow-tooltip/>
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="110"
+        show-overflow-tooltip
+      />
       <el-table-column prop="gateway" label="网关" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="error" label="错误描述" />

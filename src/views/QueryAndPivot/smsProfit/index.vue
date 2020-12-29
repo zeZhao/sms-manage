@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="createDate" label="日期" width="100" />
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="corpName" label="公司全称" show-overflow-tooltip />

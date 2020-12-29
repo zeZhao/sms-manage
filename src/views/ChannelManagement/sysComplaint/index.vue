@@ -426,16 +426,6 @@ export default {
       }
       return data;
     },
-    // _mxArrangeEditData(row) {
-    //   for (let key in row) {
-    //     if (key === "status" || key === "type") {
-    //       if (row[key] === 0) {
-    //         row[key] = "0";
-    //       }
-    //     }
-    //   }
-    //   return row;
-    // },
   },
   watch: {},
 };

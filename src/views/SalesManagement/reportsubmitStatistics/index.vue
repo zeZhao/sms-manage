@@ -26,8 +26,8 @@
       </el-table-column>
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
-          <span v-if="scope.row.operaId === 1">短信</span>
-          <span v-if="scope.row.operaId === 2">彩信</span>
+          <span v-if="scope.row.smsType === 1">短信</span>
+          <span v-if="scope.row.smsType === 2">彩信</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitNum" label="提交条数" />
