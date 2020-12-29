@@ -274,18 +274,33 @@ export default {
           type: "date",
           label: "投诉时间",
           key: "complaintDate",
+          disabledDate: {
+            disabledDate(time) {
+              return time.getTime() <= Date.now() - 8.64e7;
+            },
+          },
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "date",
           label: "实际下发时间",
           key: "adTime",
+          disabledDate: {
+            disabledDate(time) {
+              return time.getTime() <= Date.now() - 8.64e7;
+            },
+          },
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "date",
           label: "录入时间",
           key: "createDate",
+          disabledDate: {
+            disabledDate(time) {
+              return time.getTime() <= Date.now() - 8.64e7;
+            },
+          },
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
@@ -310,13 +325,14 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "投诉次数",
           key: "count",
+          minlength: 1,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "实际下发次数",
           key: "adNumber",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],

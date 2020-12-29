@@ -45,6 +45,7 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
+        @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -379,6 +380,7 @@ export default {
         {
           type: "input",
           label: "对私收款人",
+          isShow: false,
           key: "privateName",
           maxlength: "30",
           rules: [
@@ -435,6 +437,20 @@ export default {
   },
   computed: {},
   methods: {
+    selectChange(data) {
+      const { val, item } = data;
+      let obj = {};
+
+      if (item.key === "toPublic") {
+        this.$nextTick(() => {
+          if (item.defaultValue === "1") {
+            this._setDisplayShow(this.formConfig, "privateName", true);
+          } else {
+            this._setDisplayShow(this.formConfig, "privateName", false);
+          }
+        });
+      }
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map((t) => {
@@ -526,6 +542,16 @@ export default {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
           }
+        }
+        if (item.key === "toPublic") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === "1") {
+              this._setDisplayShow(this.formConfig, "privateName", true);
+            } else {
+              this._setDisplayShow(this.formConfig, "privateName", false);
+            }
+          });
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
