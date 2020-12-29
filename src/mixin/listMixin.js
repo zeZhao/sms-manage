@@ -167,7 +167,7 @@ export default {
             //节流阀-最后一次请求的时间戳
             lastRequestTimeStamp: 0,
             //节流阀-接口请求频率限制(ms)
-            requestFrequency: 300,
+            requestFrequency: 3000,
             //节流阀-查询接口任务
             queryTask: null,
 
@@ -326,6 +326,7 @@ export default {
          */
 
         _mxEdit(row, ID) {
+
             row = this._mxArrangeEditData(row)
             this.id = row[ID];
             this.editId = ID
@@ -396,14 +397,22 @@ export default {
                     ...form
                 };
             }
+
             if (this.formTit == "新增") {
                 this.$http[namespace][add](params).then(res => {
                     this._mxSuccess(res)
                 });
             } else {
-                params.data = Object.assign(params.data, {
-                    [editId]: this.id
-                })
+                if (hasData) {
+                    params.data = Object.assign(params.data, {
+                        [editId]: this.id
+                    })
+                } else {
+                    params = Object.assign(params, {
+                        [editId]: this.id
+                    })
+                }
+
                 // params.data[editId] = this.id
                 // this.$set(params.data, editId, this.id)
                 this.$http[namespace][edit](params).then(res => {

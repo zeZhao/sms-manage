@@ -68,6 +68,7 @@
         :btnTxt="formTit"
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
+        @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
   </div>
@@ -280,6 +281,7 @@ export default {
         {
           type: "input",
           label: "票号",
+          isShow: false,
           key: "ticketNumber",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
@@ -322,6 +324,57 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    selectChange(data) {
+      const { val, item } = data;
+      let obj = {};
+
+      if (item.key === "ticketsPlusNotes") {
+        this.$nextTick(() => {
+          if (item.defaultValue === "未回") {
+            this._setDisplayShow(this.formConfig, "ticketNumber", true);
+          } else {
+            this._setDisplayShow(this.formConfig, "ticketNumber", false);
+          }
+        });
+      }
+    },
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach((item) => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "ticketsPlusNotes") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === "未回") {
+              this._setDisplayShow(this.formConfig, "ticketNumber", true);
+            } else {
+              this._setDisplayShow(this.formConfig, "ticketNumber", false);
+            }
+          });
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
     // 表格列表数据
     _mxFormListData(data) {
       data.forEach((item) => {
