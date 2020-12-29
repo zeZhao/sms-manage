@@ -63,14 +63,15 @@
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
-              <el-input
+              <el-input-number
                 v-model="formData[item.key]"
-                type="number"
                 clearable
-                show-word-limit
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
-                :maxlength="item.maxlength"
+                :max="item.maxlength"
+                :min="item.minlength"
+                :precision="item.precision || 0"
+                :controls-position="item.position || 'right'"
                 @input="
                   (val) => {
                     onChange(val, item);
@@ -149,6 +150,7 @@
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 clearable
                 :value-format="item.format || 'yyyy-MM-dd'"
+                :picker-options="item.disabledDate || null"
                 v-model="formData[item.key]"
                 @change="
                   (val) => {
@@ -289,7 +291,6 @@ export default {
     },
     // 选择组件
     chooses(item) {
-      console.log(item, "----------");
       this.$emit("choose", item);
     },
     /**
