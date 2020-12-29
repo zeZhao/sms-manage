@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="taskId" label="任务ID" width="100" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />

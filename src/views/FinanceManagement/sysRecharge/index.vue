@@ -79,7 +79,7 @@
       </el-table-column>
 
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="modifier" label="操作账号" />
+      <el-table-column prop="creater" label="操作账号" />
       <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
