@@ -158,18 +158,16 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "提交数",
           key: "submitCount",
-          minlength: 1,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "成功数",
           key: "succCount",
-          minlength: 1,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -250,18 +248,15 @@ export default {
     inpChange(data) {
       const { val, item } = data;
       if (item.key === "succCount") {
-        let cardMoney = "";
-        let cardUnit = "";
+        let submitCount = "";
         this.formConfig.forEach(item => {
-          if (item.key === "cardUnit") {
-            cardUnit = item.defaultValue;
-          } else if (item.key === "cardMoney") {
-            cardMoney = item.defaultValue;
-          }
-          if (item.key === "cardCount") {
-            item.defaultValue = Math.round((cardMoney * 100) / cardUnit);
+          if (item.key === "submitCount") {
+            submitCount = item.defaultValue;
           }
         });
+        if (Number(val) > Number(submitCount)) {
+          item.defaultValue = submitCount;
+        }
       }
     },
     selectChange(data) {
