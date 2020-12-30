@@ -30,7 +30,7 @@
                 :maxlength="item.maxlength"
                 show-word-limit
                 @input="
-                  (val) => {
+                  val => {
                     onInputChange(val, item);
                   }
                 "
@@ -55,7 +55,7 @@
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 @input="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -73,7 +73,7 @@
                 :precision="item.precision || 0"
                 :controls-position="item.position || 'right'"
                 @input="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -91,7 +91,7 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  (val) => {
+                  val => {
                     selectChange(val, item);
                   }
                 "
@@ -110,7 +110,7 @@
               <el-checkbox-group
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -129,7 +129,7 @@
               <el-radio-group
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -153,7 +153,7 @@
                 :picker-options="item.disabledDate || null"
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -169,7 +169,7 @@
                 :value-format="item.format || 'yyyy-MM'"
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -184,7 +184,7 @@
                 :value-format="item.format || 'HH-mm-ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -244,34 +244,34 @@ export default {
       type: Array,
       default() {
         return [];
-      },
+      }
     },
     btnTxt: {
       type: String,
       default() {
         return "新增";
-      },
+      }
     },
     labelWidth: {
       type: [String, Number],
       default() {
         return 150;
-      },
+      }
     },
     colSpan: {
       type: [String, Number],
       default() {
         return 24;
-      },
-    },
+      }
+    }
   },
   data() {
     return {
       formData: {},
       action: "/api/sysPrepaidCard/uploadFile",
       header: {
-        token: getToken(),
-      },
+        token: getToken()
+      }
     };
   },
   mounted() {
@@ -297,7 +297,7 @@ export default {
      * 提交验证
      */
     onSubmit(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           this.$emit("submit", this.formData);
         } else {
@@ -311,11 +311,9 @@ export default {
      */
     initComponent() {
       const form = {};
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         const { key, defaultValue } = item;
-        if (defaultValue) {
-          form[key] = item.defaultValue;
-        }
+        form[key] = item.defaultValue;
       });
       this.formData = form;
     },
@@ -331,7 +329,7 @@ export default {
      * 重置表单
      */
     resetForm() {
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         const { defaultValue, key, type } = item;
         if (defaultValue || this.formData[key]) {
           if (type === "checkbox") {
@@ -404,7 +402,7 @@ export default {
     //  文件超出个数限制时的钩子
     handleExceed(files, fileList) {
       this.$emit("handleExceed", { files, fileList });
-    },
+    }
   },
   watch: {
     formConfig: {
@@ -412,9 +410,9 @@ export default {
         this.initComponent();
       },
       deep: true,
-      immediate: true,
-    },
-  },
+      immediate: true
+    }
+  }
 };
 </script>
 
