@@ -84,7 +84,7 @@
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="
-          (form) => {
+          form => {
             _mxHandleSubmit(form, '', false);
           }
         "
@@ -114,7 +114,7 @@ export default {
         namespace: "sysComplaints",
         list: "queryByPage",
         add: "addOrUpdate",
-        edit: "addOrUpdate",
+        edit: "addOrUpdate"
       },
       // 列表参数
       namespace: "sysComplaint",
@@ -125,17 +125,17 @@ export default {
         {
           type: "inputNum",
           label: "用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "inputNum",
           label: "通道编号",
-          key: "gateway",
+          key: "gateway"
         },
         {
           type: "input",
           label: "通道码号",
-          key: "code",
+          key: "code"
         },
         {
           type: "select",
@@ -150,13 +150,13 @@ export default {
             { key: "短信欺诈", value: "短信欺诈" },
             { key: "钓鱼", value: "钓鱼" },
             { key: "金融", value: "金融" },
-            { key: "其他", value: "其他" },
-          ],
+            { key: "其他", value: "其他" }
+          ]
         },
         {
           type: "daterange",
           label: "平台下发时间",
-          key: ["", "complaintDateStart", "complaintDateEnd"],
+          key: ["", "complaintDateStart", "complaintDateEnd"]
         },
 
         {
@@ -167,39 +167,39 @@ export default {
             { key: "有效投诉", value: "有效投诉" },
             { key: "全量投诉", value: "全量投诉" },
             { key: "已核减", value: "已核减" },
-            { key: "未下发", value: "未下发" },
-          ],
+            { key: "未下发", value: "未下发" }
+          ]
         },
         {
           type: "daterange",
           label: "录入日期",
-          key: ["", "createDateStart", "createDateEnd"],
+          key: ["", "createDateStart", "createDateEnd"]
         },
         {
           type: "input",
           label: "投诉内容",
-          key: "content",
+          key: "content"
         },
         {
           type: "input",
           label: "投诉手机号",
-          key: "mobile",
+          key: "mobile"
         },
         {
           type: "input",
           label: "实际下发内容",
-          key: "adContent",
+          key: "adContent"
         },
         {
           type: "input",
           label: "用户名称",
-          key: "userName",
+          key: "userName"
         },
         {
           type: "input",
           label: "备注",
-          key: "remarks",
-        },
+          key: "remarks"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -209,8 +209,8 @@ export default {
           key: "userType",
           optionData: [
             { key: "1", value: "用户" },
-            { key: "2", value: "企业" },
-          ],
+            { key: "2", value: "企业" }
+          ]
         },
         {
           type: "input",
@@ -218,14 +218,14 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           key: "userId",
-          defaultValue: "",
+          defaultValue: ""
         },
         {
           type: "input",
           label: "用户名称",
           disabled: true,
           defaultValue: "",
-          key: "userName",
+          key: "userName"
         },
         {
           type: "select",
@@ -233,13 +233,13 @@ export default {
           key: "gateway",
           optionData: [],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
         },
         {
           type: "input",
           label: "通道码号",
-          key: "code",
+          key: "code"
         },
         {
           type: "select",
@@ -255,9 +255,9 @@ export default {
             { key: "短信欺诈", value: "短信欺诈" },
             { key: "钓鱼", value: "钓鱼" },
             { key: "金融", value: "金融" },
-            { key: "其他", value: "其他" },
+            { key: "其他", value: "其他" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -267,8 +267,8 @@ export default {
             { key: "有效投诉", value: "有效投诉" },
             { key: "全量投诉", value: "全量投诉" },
             { key: "已核减 ", value: "已核减 " },
-            { key: "未下发", value: "未下发" },
-          ],
+            { key: "未下发", value: "未下发" }
+          ]
         },
         {
           type: "date",
@@ -277,9 +277,9 @@ export default {
           disabledDate: {
             disabledDate(time) {
               return time.getTime() <= Date.now() - 8.64e7;
-            },
+            }
           },
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "date",
@@ -287,10 +287,10 @@ export default {
           key: "adTime",
           disabledDate: {
             disabledDate(time) {
-              return time.getTime() <= Date.now() - 8.64e7;
-            },
+              return time > Date.now();
+            }
           },
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "date",
@@ -298,10 +298,10 @@ export default {
           key: "createDate",
           disabledDate: {
             disabledDate(time) {
-              return time.getTime() <= Date.now() - 8.64e7;
-            },
+              return time > Date.now();
+            }
           },
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -315,53 +315,54 @@ export default {
             { key: "360助手 ", value: "360助手 " },
             { key: "10000 ", value: "10000 " },
             { key: "100010 ", value: "100010 " },
-            { key: "其他", value: "其他" },
-          ],
+            { key: "其他", value: "其他" }
+          ]
         },
         {
           type: "input",
           label: "投诉手机号",
           key: "mobile",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "inputNum",
           label: "投诉次数",
           key: "count",
           minlength: 1,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "inputNum",
           label: "实际下发次数",
           key: "adNumber",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          minlength: 1,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "投诉内容",
           key: "content",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "实际下发内容",
-          key: "adContent",
+          key: "adContent"
         },
         {
           type: "input",
           label: "签名",
-          key: "sign",
+          key: "sign"
         },
         {
           type: "input",
           label: "销售",
-          key: "sale",
+          key: "sale"
         },
         {
           type: "input",
           label: "备注",
-          key: "remarks",
+          key: "remarks"
         },
 
         {
@@ -370,8 +371,8 @@ export default {
           key: "ifAddBlack",
           optionData: [
             { key: "1", value: "是" },
-            { key: "2", value: "否" },
-          ],
+            { key: "2", value: "否" }
+          ]
         },
         {
           type: "select",
@@ -382,11 +383,11 @@ export default {
             { key: "1", value: "网关级" },
             { key: "2 ", value: "客户级" },
             { key: "3 ", value: "营销级" },
-            { key: "4 ", value: "BSATS级 " },
-          ],
-        },
+            { key: "4 ", value: "BSATS级 " }
+          ]
+        }
       ],
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {
@@ -400,15 +401,15 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: "",
-        },
+          isCm: ""
+        }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
-        this.formConfig.forEach((item) => {
+      this.$http.gateway.listGateway(params).then(res => {
+        this.formConfig.forEach(item => {
           const { key } = item;
 
           if (key === "gateway") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
               this.$set(t, "value", t.gateway);
               item.optionData.push(t);
@@ -419,7 +420,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -441,11 +442,10 @@ export default {
         data.createDate = new Date(createDate).Format("yyyy-MM-dd");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

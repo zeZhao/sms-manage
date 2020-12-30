@@ -109,6 +109,7 @@ export default {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
+        callback();
         // callback(new Error("备注信息不能为空"));
       } else {
         if (!regex.test(value)) {
@@ -127,7 +128,7 @@ export default {
         list: "listExemptReviewManageByPage",
         detele: "deleteExemptReviewManage",
         add: "addExemptReviewManage",
-        edit: "updateExemptReviewManage",
+        edit: "updateExemptReviewManage"
       },
       // 列表参数
       namespace: "",
@@ -139,25 +140,25 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名",
           key: "userName",
-          placeholder: "请输入用户名",
+          placeholder: "请输入用户名"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "select",
@@ -166,18 +167,18 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "特服号",
+              value: "特服号"
             },
             {
               key: "2",
-              value: "客户ID",
+              value: "客户ID"
             },
             {
               key: "3",
-              value: "企业ID",
-            },
+              value: "企业ID"
+            }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "select",
@@ -186,28 +187,28 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "短信",
-            },
+              value: "短信"
+            }
           ],
-          placeholder: "请选择免审类型",
+          placeholder: "请选择免审类型"
         },
         {
           type: "input",
           label: "移动通道编号",
           key: "ctPassageway",
-          placeholder: "请输入移动通道编号",
+          placeholder: "请输入移动通道编号"
         },
         {
           type: "input",
           label: "联通通道编号",
           key: "cuPassageway",
-          placeholder: "请输入联通通道编号",
+          placeholder: "请输入联通通道编号"
         },
         {
           type: "input",
           label: "电信通道编号",
           key: "cmPassageway",
-          placeholder: "请输入电信通道编号",
+          placeholder: "请输入电信通道编号"
         },
         {
           type: "select",
@@ -216,14 +217,14 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "否",
+              value: "否"
             },
             {
               key: "1",
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          placeholder: "请选择是否并行检测",
+          placeholder: "请选择是否并行检测"
         },
         {
           type: "select",
@@ -232,24 +233,24 @@ export default {
           optionData: [
             {
               key: "",
-              value: "全部",
+              value: "全部"
             },
             {
               key: "0",
-              value: "否",
+              value: "否"
             },
             {
               key: "1",
-              value: "是",
-            },
-          ],
+              value: "是"
+            }
+          ]
         },
         {
           type: "select",
           label: "关键字类别",
           key: "sensitiveWord",
           optionData: [],
-          placeholder: "请选择关键字类别",
+          placeholder: "请选择关键字类别"
         },
         {
           type: "select",
@@ -258,19 +259,19 @@ export default {
           optionData: [
             {
               key: "扩展位数",
-              value: "扩展位数",
+              value: "扩展位数"
             },
             {
               key: "显示号码",
-              value: "显示号码",
+              value: "显示号码"
             },
             {
               key: "特殊内容",
-              value: "特殊内容",
-            },
+              value: "特殊内容"
+            }
           ],
-          placeholder: "请选择特殊需求",
-        },
+          placeholder: "请选择特殊需求"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -283,7 +284,7 @@ export default {
           btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -291,7 +292,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -300,7 +301,7 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -308,7 +309,7 @@ export default {
           disabled: true,
           key: "cardUnit",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -319,18 +320,18 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "特服号",
+              value: "特服号"
             },
             {
               key: 2,
-              value: "客户ID",
+              value: "客户ID"
             },
             {
               key: 3,
-              value: "企业ID",
-            },
+              value: "企业ID"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "radio",
@@ -341,15 +342,15 @@ export default {
           optionData: [
             { key: "1", value: "按价格排序" },
             { key: "2", value: "按通道号排序" },
-            { key: "3", value: "按通道名称排序" },
-          ],
+            { key: "3", value: "按通道名称排序" }
+          ]
         },
         {
           type: "select",
           label: "移动通道",
           key: "cmPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {
         //   type: "select",
@@ -364,7 +365,7 @@ export default {
           label: "联通通道",
           key: "cuPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {
         //   type: "select",
@@ -379,7 +380,7 @@ export default {
           label: "电信通道",
           optionData: [],
           key: "ctPassageway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {
         //   type: "select",
@@ -397,13 +398,13 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "否",
+              value: "否"
             },
             {
               key: "1",
-              value: "是",
-            },
-          ],
+              value: "是"
+            }
+          ]
           // isShow: true
         },
         {
@@ -412,7 +413,7 @@ export default {
           initDefaultValue: [],
           defaultValue: [],
           optionData: [],
-          key: "sensitiveWord",
+          key: "sensitiveWord"
         },
         {
           type: "input",
@@ -423,9 +424,9 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "select",
@@ -433,14 +434,14 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "需要",
+              value: "需要"
             },
             {
               key: "0",
-              value: "不需要",
-            },
+              value: "不需要"
+            }
           ],
-          key: "isTemplate",
+          key: "isTemplate"
         },
         {
           type: "select",
@@ -450,15 +451,15 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "是",
+              value: "是"
             },
             {
               key: "0",
-              value: "否",
-            },
+              value: "否"
+            }
           ],
           key: "isParallelDetection",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -468,15 +469,15 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "是",
+              value: "是"
             },
             {
               key: "0",
-              value: "否",
-            },
+              value: "否"
+            }
           ],
           key: "isCombination",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -485,18 +486,18 @@ export default {
           optionData: [
             {
               key: "扩展位数",
-              value: "扩展位数",
+              value: "扩展位数"
             },
             {
               key: "显示号码",
-              value: "显示号码",
+              value: "显示号码"
             },
             {
               key: "特殊内容",
-              value: "特殊内容",
-            },
+              value: "特殊内容"
+            }
           ],
-          placeholder: "请选择特殊需求",
+          placeholder: "请选择特殊需求"
         },
         {
           type: "textarea",
@@ -504,12 +505,12 @@ export default {
           maxlength: 300,
           key: "remarks",
           placeholder: "备注信息不能超过300字",
-          rules: [{ trigger: "blur", validator: validatorRemark }],
-        },
+          rules: [{ trigger: "blur", validator: validatorRemark }]
+        }
       ],
       GatewayList: [], // 通道列表
       isChooseUser: false, //选择用户
-      isGatewayGroup: "0", // 是否包含通道组
+      isGatewayGroup: "0" // 是否包含通道组
     };
   },
   mounted() {
@@ -536,17 +537,17 @@ export default {
         key === "ctPassageway" ||
         key === "cmPassageway"
       ) {
-        optionData.forEach((t) => {
+        optionData.forEach(t => {
           if (t.key === val) {
             if (t.status === "1") {
-              this.formConfig.forEach((item) => {
+              this.formConfig.forEach(item => {
                 if (item.key === "isGatewayGroup") {
                   item.defaultValue = "0";
                 }
               });
               this.isGatewayGroup = "0";
             } else {
-              this.formConfig.forEach((item) => {
+              this.formConfig.forEach(item => {
                 if (item.key === "isGatewayGroup") {
                   item.defaultValue = "1";
                 }
@@ -567,7 +568,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -585,7 +586,7 @@ export default {
     },
     //获取敏感词组
     getSensitiveWordGroup() {
-      this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then((res) => {
+      this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
         this._setDefaultValue(
           this.searchFormConfig,
           res.data,
@@ -601,9 +602,9 @@ export default {
           "groupName"
         );
         this.$nextTick(() => {
-          this.formConfig.forEach((item) => {
+          this.formConfig.forEach(item => {
             if (item.key === "sensitiveWord") {
-              res.data.forEach((t) => {
+              res.data.forEach(t => {
                 item.initDefaultValue.push(t.groupId);
                 // item.defaultValue.push(t.groupId);
               });
@@ -629,16 +630,16 @@ export default {
       const params = {
         data: {
           status: status,
-          orderStatus: orderStatus,
-        },
+          orderStatus: orderStatus
+        }
       };
-      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
             item.optionData = [];
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
               item.optionData.push(t);
@@ -670,7 +671,7 @@ export default {
         if (key === "sensitiveWord") {
           if (typeof obj[key] === "string") {
             let arr = obj[key].split(",");
-            obj[key] = arr.map((item) => {
+            obj[key] = arr.map(item => {
               return Number(item);
             });
           }
@@ -705,7 +706,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -736,9 +737,9 @@ export default {
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

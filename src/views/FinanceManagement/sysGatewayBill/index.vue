@@ -51,6 +51,7 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
+        @inpChange="inpChange"
       ></FormItem>
     </el-dialog>
   </div>
@@ -71,7 +72,7 @@ export default {
         list: "listGatewayBillByPage",
         detele: "deleteGatewayBill",
         add: "addGatewayBill",
-        edit: "updateGatewayBill",
+        edit: "updateGatewayBill"
       },
       // 列表参数
       namespace: "gatewayBill",
@@ -83,25 +84,25 @@ export default {
           type: "inputNum",
           label: "通道编号",
           key: "gateway",
-          placeholder: "请输入通道编号",
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
           label: " 通道名称",
           key: "gatewayName",
-          placeholder: "请输入通道名称",
+          placeholder: "请输入通道名称"
         },
         {
           type: "input",
           label: "负责人",
           key: "linkMan",
-          placeholder: "请输入负责人",
+          placeholder: "请输入负责人"
         },
         {
           type: "month",
           label: "统计时间",
           key: "countMonth",
-          placeholder: "请选择统计时间",
+          placeholder: "请选择统计时间"
         },
         {
           type: "select",
@@ -110,11 +111,11 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "短信",
-            },
+              value: "短信"
+            }
           ],
-          placeholder: "请选择类型",
-        },
+          placeholder: "请选择类型"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -124,7 +125,7 @@ export default {
           key: "gatewayName",
           defaultValue: "",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -132,7 +133,7 @@ export default {
           key: "gateway",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -142,11 +143,11 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
+              value: "短信"
+            }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -154,35 +155,35 @@ export default {
           key: "province",
           defaultValue: "",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "提交数",
           key: "submitCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "成功数",
           key: "succCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "成功率",
           key: "succRatio",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "month",
           label: "账单月份",
           key: "countMonth",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -191,25 +192,25 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "已付款",
+              value: "已付款"
             },
             {
               key: 2,
-              value: "欠款",
+              value: "欠款"
             },
             {
               key: 3,
-              value: "其他",
-            },
+              value: "其他"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "联系人",
           key: "linkMan",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -218,23 +219,23 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "移动",
+              value: "移动"
             },
             {
               key: 2,
-              value: "联通",
+              value: "联通"
             },
             {
               key: 3,
-              value: "电信",
-            },
+              value: "电信"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
       bId: "",
       GatewayList: [], // 通道列表
-      ProvinceList: [], // 通道列表
+      ProvinceList: [] // 通道列表
     };
   },
   mounted() {
@@ -243,16 +244,31 @@ export default {
   },
   computed: {},
   methods: {
+    // input输入事件
+    inpChange(data) {
+      const { val, item } = data;
+      if (item.key === "succCount") {
+        let submitCount = "";
+        this.formConfig.forEach(item => {
+          if (item.key === "submitCount") {
+            submitCount = item.defaultValue;
+          }
+        });
+        if (Number(val) > Number(submitCount)) {
+          item.defaultValue = submitCount;
+        }
+      }
+    },
     selectChange(data) {
       const { val, item } = data;
       let obj = {};
       if (item.key === "gatewayName") {
-        item.optionData.map((t) => {
+        item.optionData.map(t => {
           if (t.key == val) {
             obj = t;
           }
         });
-        this.formConfig.map((t) => {
+        this.formConfig.map(t => {
           const { key } = t;
           if (key === "gatewayName") {
             t.defaultValue = obj.gatewayName;
@@ -269,18 +285,18 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: "",
-        },
+          provinceName: ""
+        }
       };
-      this.$http.listSysProvince(params).then((res) => {
+      this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               let obj = {
                 key: t.provinceId,
-                value: t.provinceName,
+                value: t.provinceName
               };
               item.optionData.push(obj);
             });
@@ -297,15 +313,15 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: "",
-        },
+          isCm: ""
+        }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
+      this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "gatewayName") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
               // let obj = {
@@ -324,9 +340,9 @@ export default {
         formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
       }
       return formData;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

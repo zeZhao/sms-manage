@@ -26,19 +26,12 @@
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.gatewayType === 1
-              ? "路由信息错"
-              : scope.row.gatewayType === 2
-              ? "关键字"
-              : scope.row.gatewayType === 3
-              ? "模板不匹配"
-              : scope.row.gatewayType === 5
-              ? "数量超标"
-              : scope.row.gatewayType === 6
-              ? "组合redis出错"
-              : "组合超时"
-          }}</span>
+          <span v-if="scope.row.gatewayType === 1">没有配置免审</span>
+          <span v-if="scope.row.gatewayType === 2">关键字</span>
+          <span v-if="scope.row.gatewayType === 3">模板不匹配</span>
+          <span v-if="scope.row.gatewayType === 5">免审数量超标</span>
+          <span v-if="scope.row.gatewayType === 6">组合redis出错</span>
+          <span v-if="scope.row.gatewayType === 7">组合超时</span>
         </template>
       </el-table-column>
       <el-table-column prop="cmGateway" label="移动通道">
@@ -128,7 +121,7 @@ export default {
         list: "listCheckWaitByPage",
         detele: "",
         add: "",
-        edit: "",
+        edit: ""
       },
       // 列表参数
       namespace: "checkWait",
@@ -140,19 +133,19 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "select",
@@ -161,37 +154,37 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "路由信息错",
+              value: "没有配置免审"
             },
             {
               key: "2",
-              value: "关键字",
+              value: "关键字"
             },
             {
               key: "3",
-              value: "模板不匹配",
+              value: "模板不匹配"
             },
             {
               key: "5",
-              value: "数量超标",
+              value: "免审数量超标"
             },
             {
               key: "6",
-              value: "组合redis错",
+              value: "组合redis错"
             },
             {
               key: "7",
-              value: "组合超时",
-            },
+              value: "组合超时"
+            }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "date",
           label: "提交时间",
           key: "submitTime",
-          placeholder: "请选择提交时间",
-        },
+          placeholder: "请选择提交时间"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -201,7 +194,7 @@ export default {
           key: "userId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -209,7 +202,7 @@ export default {
           key: "code",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -217,28 +210,28 @@ export default {
           key: "content",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "移动通道",
           key: "cm",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "联通通道",
           key: "cu",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "电信通道",
           key: "ct",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "radio",
@@ -249,19 +242,19 @@ export default {
           optionData: [
             {
               key: "2",
-              value: "通过",
+              value: "通过"
             },
             {
               key: "3",
-              value: "拒绝",
-            },
+              value: "拒绝"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
       gatewayCuList: [],
       gatewayCtList: [],
-      gatewayCmList: [],
+      gatewayCmList: []
     };
   },
   created() {
@@ -279,10 +272,10 @@ export default {
       const params = {
         data: {
           status: status,
-          orderStatus: orderStatus,
-        },
+          orderStatus: orderStatus
+        }
       };
-      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         if (status === "2") {
           this.gatewayCuList = res.data;
         } else if (status === "3") {
@@ -291,10 +284,10 @@ export default {
           this.gatewayCmList = res.data;
         }
 
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
               item.optionData.push(t);
@@ -304,7 +297,7 @@ export default {
       });
     },
     supperCheck(row) {
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -320,27 +313,27 @@ export default {
       this.addChannel = true;
     },
     submit(form) {
-      this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then((res) => {
+      this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
         this._mxSuccess(res);
       });
     },
     addCheck() {
-      this.$http.smsCheckWait.addCheck().then((res) => {
+      this.$http.smsCheckWait.addCheck().then(res => {
         if (resOk(res)) {
           this.$message.success("请求成功");
         }
       });
     },
     stopCheck() {
-      this.$http.smsCheckWait.stopCheck().then((res) => {
+      this.$http.smsCheckWait.stopCheck().then(res => {
         if (resOk(res)) {
           this.$message.success("请求成功");
         }
       });
     },
-    selectChange(data) {},
+    selectChange(data) {}
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
