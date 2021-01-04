@@ -160,7 +160,7 @@ export default {
       //节流阀-最后一次请求的时间戳
       lastRequestTimeStamp: 0,
       //节流阀-接口请求频率限制(ms)
-      requestFrequency: 3000,
+      requestFrequency: 0,
       //节流阀-查询接口任务
       queryTask: null
     };
