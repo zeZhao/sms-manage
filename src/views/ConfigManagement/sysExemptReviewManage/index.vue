@@ -247,10 +247,10 @@ export default {
         },
         {
           type: "select",
-          label: "关键字类别",
+          label: "敏感词类别",
           key: "sensitiveWord",
           optionData: [],
-          placeholder: "请选择关键字类别"
+          placeholder: "请选择敏感词类别"
         },
         {
           type: "select",

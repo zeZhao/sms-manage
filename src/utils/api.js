@@ -28,6 +28,21 @@ export default {
         return fetch("/corpUser/queryMainInfo", params);
     },
 
+    sendReportStatistic: {
+        // 发送统计
+        querySendStaticByTime(params) {
+            return fetch("/sendReportStatistic/querySendStaticByTime", params);
+        },
+        //运营商发送数量统计
+        queryCountByOpera(params) {
+            return fetch("/sendReportStatistic/queryCountByOpera", params);
+        },
+        //区域统计
+        queryCountByArea(params) {
+            return fetch("/sendReportStatistic/queryCountByArea", params);
+        },
+    },
+
     role: {
         // 角色列表
         roleList(params) {

@@ -55,7 +55,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="生成时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -111,13 +111,13 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysUserPrepaidCard",
-        list: "listPrepaidCardByPage",
+        list: "listPrepaidCardByPage"
       },
       // 列表参数
       namespace: "prepaidCard",
       //搜索框数据
       searchParam: {
-        isBill: 1,
+        isBill: 1
       },
       //搜索框配置
       searchFormConfig: [
@@ -125,7 +125,7 @@ export default {
           type: "inputNum",
           label: "账号ID",
           key: "userId",
-          placeholder: "请输入账号ID",
+          placeholder: "请输入账号ID"
         },
         {
           type: "select",
@@ -136,19 +136,19 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
+              value: "短信"
+            }
             // {
             //   key: 2,
             //   value: "彩信"
             // }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "month",
           label: "月份",
-          key: "queryMonth",
+          key: "queryMonth"
         },
         {
           type: "select",
@@ -157,23 +157,23 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "充值",
+              value: "充值"
             },
             {
               key: 1,
-              value: "借款",
+              value: "借款"
             },
             {
               key: 2,
-              value: "扣款",
+              value: "扣款"
             },
             {
               key: 3,
-              value: "还款",
-            },
-          ],
-        },
-      ],
+              value: "还款"
+            }
+          ]
+        }
+      ]
     };
   },
   mounted() {},
@@ -191,9 +191,9 @@ export default {
       }
       data.isBill = 1;
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
