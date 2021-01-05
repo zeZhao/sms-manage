@@ -88,7 +88,7 @@ export default {
       searchAPI: {
         namespace: "sysWhitelist",
         list: "listWhitelistByPage",
-        detele: "deleteSysWhiteList",
+        detele: "deleteSysWhiteList"
       },
       // 列表参数
       namespace: "",
@@ -98,15 +98,15 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "用户id/通道id",
+          label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户id/通道id",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "手机号码",
           key: "mobile",
-          placeholder: "请输入手机号码",
+          placeholder: "请输入手机号码"
         },
         {
           type: "select",
@@ -116,14 +116,14 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "用户",
+              value: "用户"
             },
             {
               key: "2",
-              value: "通道",
-            },
-          ],
-        },
+              value: "通道"
+            }
+          ]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -136,14 +136,14 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "用户",
-            },
+              value: "用户"
+            }
             // {
             //   key: 2,
             //   value: "通道",
             // },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -153,7 +153,7 @@ export default {
           // disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -162,19 +162,19 @@ export default {
           isShow: true,
           defaultValue: "",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "手机号码",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
       whiteId: "",
       GatewayList: [], //通道列表
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {
@@ -196,7 +196,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -208,10 +208,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysWhitelist.addSysWhiteList(params).then((res) => {
+        this.$http.sysWhitelist.addSysWhiteList(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -224,10 +224,10 @@ export default {
         params = {
           data: {
             whiteId: this.whiteId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysWhitelist.updateSysWhiteList(params).then((res) => {
+        this.$http.sysWhitelist.updateSysWhiteList(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -250,7 +250,7 @@ export default {
     edit(row) {
       this.whiteId = row.whiteId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -279,7 +279,7 @@ export default {
     },
     //修改表格数据
     _mxFormListData(data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.createTime) {
           item.createTime = new Date(item.createTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -300,16 +300,16 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: "",
-        },
+          isCm: ""
+        }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
+      this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { label } = item;
 
           if (label === "通道ID") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
               item.optionData.push(t);
@@ -317,9 +317,9 @@ export default {
           }
         });
       });
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
