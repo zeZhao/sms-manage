@@ -216,7 +216,7 @@ export default {
         detele: "",
         add: "addOrUpdate",
         edit: "addOrUpdate",
-        check: "check",
+        check: "check"
       },
       // 列表参数
       namespace: "corpUser",
@@ -228,25 +228,25 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户id",
           key: "userId",
-          placeholder: "请输入用户id",
+          placeholder: "请输入用户id"
         },
         {
           type: "input",
           label: "用户名",
           key: "userName",
-          placeholder: "请输入用户名",
+          placeholder: "请输入用户名"
         },
         {
           type: "input",
           label: "用户特服号",
           key: "code",
-          placeholder: "请输入用户特服号",
+          placeholder: "请输入用户特服号"
         },
         {
           type: "select",
@@ -254,9 +254,9 @@ export default {
           key: "isDirectUser",
           optionData: [
             { key: "1", value: "短信" },
-            { key: "2", value: "代理商" },
+            { key: "2", value: "代理商" }
           ],
-          placeholder: "请选择",
+          placeholder: "请选择"
         },
         {
           type: "select",
@@ -265,9 +265,9 @@ export default {
           optionData: [
             { key: "1", value: "行业" },
             { key: "2", value: "营销" },
-            { key: "3", value: "VIP" },
+            { key: "3", value: "VIP" }
           ],
-          placeholder: "请选择业务类型",
+          placeholder: "请选择业务类型"
         },
         {
           type: "select",
@@ -277,9 +277,9 @@ export default {
             { key: "1", value: "短信" },
             // { key: "2", value: "彩信" },
             { key: "3", value: "屏信" },
-            { key: "4", value: "语音" },
+            { key: "4", value: "语音" }
           ],
-          placeholder: "请选择产品",
+          placeholder: "请选择产品"
         },
         {
           type: "select",
@@ -289,9 +289,9 @@ export default {
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
             { key: "3", value: "cmpp接口" },
-            { key: "7", value: "音频接口" },
+            { key: "7", value: "音频接口" }
           ],
-          placeholder: "请选择产品类型",
+          placeholder: "请选择产品类型"
         },
         {
           type: "select",
@@ -301,9 +301,9 @@ export default {
             { key: "1", value: "预付提交计费" },
             { key: "2", value: "预付成功计费" },
             { key: "3", value: "后付提交计费" },
-            { key: "4", value: "后付成功计费" },
+            { key: "4", value: "后付成功计费" }
           ],
-          placeholder: "请选择计费方式",
+          placeholder: "请选择计费方式"
         },
         {
           type: "select",
@@ -311,9 +311,9 @@ export default {
           key: "reductType",
           optionData: [
             { key: "1", value: "用户id计费" },
-            { key: "2", value: "企业id计费" },
+            { key: "2", value: "企业id计费" }
           ],
-          placeholder: "请选择计费类型",
+          placeholder: "请选择计费类型"
         },
         {
           type: "select",
@@ -322,22 +322,22 @@ export default {
           optionData: [
             { key: "1", value: "初始" },
             { key: "2", value: "正常" },
-            { key: "3", value: "禁用" },
+            { key: "3", value: "禁用" }
           ],
-          placeholder: "请选择状态类型",
+          placeholder: "请选择状态类型"
         },
         {
           type: "select",
           label: "销售人员",
           key: "saleMan",
           optionData: [],
-          placeholder: "请选择销售人员",
+          placeholder: "请选择销售人员"
         },
         {
           type: "daterange",
           label: "创建时间",
-          key: ["", "startDate", "endDate"],
-        },
+          key: ["", "startDate", "endDate"]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -346,7 +346,7 @@ export default {
           label: "企业名称",
           key: "corpId",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -358,9 +358,9 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -372,9 +372,9 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -385,15 +385,15 @@ export default {
             {
               pattern: /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/,
               message: "请输入8-16位，数字、字母、标点符号",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "inputNum",
           label: "用户特服号",
           key: "code",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -404,9 +404,9 @@ export default {
             {
               pattern: /^[1-9]\d*$/,
               message: "只能输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -414,9 +414,9 @@ export default {
           key: "reductType",
           optionData: [
             { key: 1, value: "用户id计费" },
-            { key: 2, value: "企业id计费" },
+            { key: 2, value: "企业id计费" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -426,9 +426,9 @@ export default {
             { key: 1, value: "预付提交计费" },
             { key: 2, value: "预付成功计费" },
             { key: 3, value: "后付提交计费" },
-            { key: 4, value: "后付成功计费" },
+            { key: 4, value: "后付成功计费" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -438,9 +438,9 @@ export default {
           optionData: [
             { key: "0", value: "不返还" },
             { key: 1, value: "返失败" },
-            { key: 2, value: "返失败和未知" },
+            { key: 2, value: "返失败和未知" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -453,9 +453,9 @@ export default {
             { key: 4, value: "三网" },
             { key: 5, value: "移动联通" },
             { key: 6, value: "移动电信" },
-            { key: 7, value: "联通电信" },
+            { key: 7, value: "联通电信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -465,9 +465,9 @@ export default {
             { key: 1, value: "短信" },
             // { key: 2, value: "彩信" },
             { key: 3, value: "屏信" },
-            { key: 4, value: "语音" },
+            { key: 4, value: "语音" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -478,14 +478,14 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
-              trigger: "change",
+              trigger: "change"
             },
             {
               validator: validatorPrice,
               message: "正整数不能超过3位数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         // {
         //   type: "input",
@@ -502,16 +502,16 @@ export default {
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
             { key: 3, value: "cmpp接口" },
-            { key: 7, value: "音频接口" },
+            { key: 7, value: "音频接口" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "协议端口",
           key: "directPort",
           defaultValue: "",
-          disabled: true,
+          disabled: true
         },
         {
           type: "select",
@@ -521,9 +521,9 @@ export default {
             { key: "0", value: "无权限" },
             { key: 1, value: "推送" },
             { key: 2, value: "自取(批量)" },
-            { key: 3, value: "自取(单条)" },
+            { key: 3, value: "自取(单条)" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -532,27 +532,27 @@ export default {
           optionData: [
             { key: "0", value: "无权限" },
             { key: 1, value: "推送" },
-            { key: 2, value: "自取(批量)" },
+            { key: 2, value: "自取(批量)" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "推送报告地址",
           key: "reportUrl",
-          defaultValue: "",
+          defaultValue: ""
         },
         {
           type: "input",
           label: "推送上行地址",
           key: "moUrl",
-          defaultValue: "",
+          defaultValue: ""
         },
         {
           type: "input",
           label: "客户IP地址",
           key: "userIp",
-          defaultValue: "",
+          defaultValue: ""
         },
         // {
         //   type: "input",
@@ -566,7 +566,7 @@ export default {
           key: "contact",
           defaultValue: "",
           maxlength: "10",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -579,9 +579,9 @@ export default {
               ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
               pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
               message: "手机号码格式错误",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -590,9 +590,9 @@ export default {
           optionData: [
             { key: 1, value: "行业" },
             { key: 2, value: "营销" },
-            { key: 3, value: "VIP" },
+            { key: 3, value: "VIP" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -600,9 +600,9 @@ export default {
           key: "isDirectUser",
           optionData: [
             { key: 1, value: "短信" },
-            { key: 2, value: "代理商" },
+            { key: 2, value: "代理商" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "checkbox",
@@ -614,9 +614,9 @@ export default {
             { key: 0, value: "系统级" },
             { key: 2, value: "客户级" },
             { key: 3, value: "营销级" },
-            { key: 4, value: "BSATS级" },
+            { key: 4, value: "BSATS级" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -624,9 +624,9 @@ export default {
           key: "isPostApi",
           optionData: [
             { key: "0", value: "否" },
-            { key: 1, value: "是" },
+            { key: 1, value: "是" }
           ],
-          defaultValue: 1,
+          defaultValue: 1
         },
         {
           type: "select",
@@ -634,17 +634,17 @@ export default {
           key: "httpSign",
           optionData: [
             { key: "0", value: "否" },
-            { key: 1, value: "是" },
+            { key: 1, value: "是" }
           ],
           defaultValue: 1,
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "销售员",
           key: "saleMan",
           optionData: [],
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },
         // {
         //   type: "select",
@@ -659,10 +659,10 @@ export default {
         {
           type: "textarea",
           label: "备注",
-          key: "remark",
-        },
+          key: "remark"
+        }
       ],
-      currentRowData: {},
+      currentRowData: {}
     };
   },
   mounted() {
@@ -676,7 +676,7 @@ export default {
         if (key === "blackLevel") {
           if (typeof row[key] === "string") {
             let arr = row[key].split(",");
-            row[key] = arr.map((item) => {
+            row[key] = arr.map(item => {
               return Number(item);
             });
           }
@@ -687,7 +687,7 @@ export default {
     _mxCreate() {
       this.addChannel = true;
       this.formTit = "新增";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key == "proType") {
           this.$set(item, "disabled", false);
         }
@@ -695,6 +695,7 @@ export default {
           this.$set(item, "disabled", false);
         }
       });
+      this.getAllCorp();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -702,10 +703,11 @@ export default {
     //修改
     _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
+      this.getAllCorp();
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let keys in row) {
           if (item.key === keys) {
             if (row[keys] === 0) {
@@ -746,7 +748,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "审核";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let keys in row) {
           if (item.key === keys) {
             if (row[keys] === 0) {
@@ -769,29 +771,29 @@ export default {
       form = this._mxArrangeSubmitData(form);
       const { namespace, add, edit, check } = this.searchAPI;
       let params = {
-        ...form,
+        ...form
       };
       if (this.formTit == "新增") {
-        this.$http[namespace][add](params).then((res) => {
+        this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
         });
       } else if (this.formTit == "修改") {
         params = Object.assign(params, {
-          [editId]: this.id,
+          [editId]: this.id
         });
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
-        this.$http[namespace][edit](params).then((res) => {
+        this.$http[namespace][edit](params).then(res => {
           this._mxSuccess(res, params);
         });
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
           [editId]: this.id,
-          status: "2",
+          status: "2"
         });
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
-        this.$http[namespace][check](params).then((res) => {
+        this.$http[namespace][check](params).then(res => {
           this._mxSuccess(res, params);
         });
       }
@@ -807,10 +809,10 @@ export default {
         this._mxGetList();
         this.addChannel = false;
       } else {
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           if (item.key === "blackLevel") {
             let arr = params.blackLevel.split(",");
-            item.defaultValue = arr.map((item) => Number(item));
+            item.defaultValue = arr.map(item => Number(item));
           }
         });
         this.$message.error(res.data || res.msg);
@@ -831,13 +833,13 @@ export default {
       this.$msgbox({
         title: "信息",
         message: this.createElement(h, row),
-        showConfirmButton: false,
+        showConfirmButton: false
       });
       console.log(row.proType, "--------------");
     },
     //获取所有企业
     getAllCorp() {
-      this.$http.corp.queryAllCorp().then((res) => {
+      this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
@@ -851,7 +853,7 @@ export default {
     },
     //获取销售员
     getSaleman() {
-      this.$http.sysSales.queryAvailableSaleman().then((res) => {
+      this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
@@ -901,7 +903,7 @@ export default {
       const { userId } = this.currentRowData;
       this.$http.corpUser
         .updateStatus({ userId: userId, status: this.status })
-        .then((res) => {
+        .then(res => {
           const { code, msg } = res;
           if (code === 200) {
             this.$message.success(msg);
@@ -958,99 +960,99 @@ export default {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${strType || ""}`),
+            h("span", null, `${strType || ""}`)
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.corpName}`),
+            h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
             h("span", null, "用户登录名: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.loginName}`)
           ]),
           h("p", null, [
             h("span", null, "密码: "),
-            h("span", null, `${row.password}`),
+            h("span", null, `${row.password}`)
           ]),
           h("p", null, [
             h("span", null, "网址: "),
-            h("span", null, "https://user.sms.jvtd.cn"),
-          ]),
+            h("span", null, "https://user.sms.jvtd.cn")
+          ])
         ]);
       }
       if (row.proType === 2) {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${strType}`),
+            h("span", null, `${strType}`)
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.corpName}`),
+            h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
             h("span", null, "用户登录名: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.loginName}`)
           ]),
           h("p", null, [
             h("span", null, "密码: "),
-            h("span", null, `${row.password}`),
+            h("span", null, `${row.password}`)
           ]),
           h("p", null, [
             h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp || ""}`),
+            h("span", null, `${row.userIp || ""}`)
           ]),
           h("p", null, [
             h("span", null, "接口地址: "),
-            h("span", null, `${row.mmsAuditCallBack || ""}`),
-          ]),
+            h("span", null, `${row.mmsAuditCallBack || ""}`)
+          ])
         ]);
       }
       if (row.proType === 3) {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
-            h("span", null, `${strType}`),
+            h("span", null, `${strType}`)
           ]),
           h("p", null, [
             h("span", null, "企业名称: "),
-            h("span", null, `${row.corpName}`),
+            h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
             h("span", null, "用户登录名: "),
-            h("span", null, `${row.loginName}`),
+            h("span", null, `${row.loginName}`)
           ]),
           h("p", null, [
             h("span", null, "密码: "),
-            h("span", null, `${row.password}`),
+            h("span", null, `${row.password}`)
           ]),
           h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
           h("p", null, [
             h("span", null, "协议端口: "),
-            h("span", null, `${row.directPort || ""}`),
+            h("span", null, `${row.directPort || ""}`)
           ]),
           h("p", null, [
             h("span", null, "协议: "),
-            h("span", null, `${row.directPort}`),
+            h("span", null, `${row.directPort}`)
           ]),
           h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
           h("p", null, [
             h("span", null, "客户IP地址: "),
-            h("span", null, `${row.userIp || ""}`),
+            h("span", null, `${row.userIp || ""}`)
           ]),
           h("p", null, [
             h("span", null, "链接路数: "),
-            h("span", null, `${row.maxSession || ""}`),
+            h("span", null, `${row.maxSession || ""}`)
           ]),
           h("p", null, [
             h("span", null, "通道速率: "),
-            h("span", null, `${row.alertBalance || ""}`),
-          ]),
+            h("span", null, `${row.alertBalance || ""}`)
+          ])
         ]);
       }
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

@@ -102,7 +102,7 @@ export default {
       searchAPI: {
         namespace: "sysSecondaryRoute",
         list: "listSecondaryRouteByPage",
-        detele: "deleteInterfaceSign",
+        detele: "deleteInterfaceSign"
       },
       // 列表参数
       namespace: "secondaryRoute",
@@ -114,44 +114,44 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "inputNum",
           label: "网关编号",
           key: "gateway",
-          placeholder: "请输入网关编号",
+          placeholder: "请输入网关编号"
         },
         {
           type: "input",
           label: "用户签名",
           key: "sign",
-          placeholder: "请输入用户签名",
+          placeholder: "请输入用户签名"
         },
         {
           type: "inputNum",
           label: "客户特服号",
           key: "code",
-          placeholder: "请输入客户特服号",
+          placeholder: "请输入客户特服号"
         },
         {
           type: "inputNum",
           label: "网关特服号",
           key: "gwcode",
-          placeholder: "请输入网关特服号",
-        },
+          placeholder: "请输入网关特服号"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -164,7 +164,7 @@ export default {
           defaultValue: "",
           btnDisabled: false,
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -172,7 +172,7 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -180,14 +180,14 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "用户名称",
           disabled: true,
           key: "userName",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -196,15 +196,15 @@ export default {
           key: "gateway",
           optionData: [],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
         },
         {
           type: "input",
           label: "网关特服号",
           key: "gwcode",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -214,19 +214,19 @@ export default {
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorSign },
-          ],
+            { trigger: "blur", validator: validatorSign }
+          ]
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remark",
           maxlength: "300",
-          rules: [{ trigger: "blur", validator: validatorRemark }],
-        },
+          rules: [{ trigger: "blur", validator: validatorRemark }]
+        }
       ],
       routeId: "",
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {
@@ -240,18 +240,18 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: "",
-        },
+          isCm: ""
+        }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
+      this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
 
           if (key === "gateway") {
-            res.data.forEach((t) => {
-              this.$set(t, "key", t.gateway);
-              this.$set(t, "value", t.gatewayName);
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
               item.optionData.push(t);
             });
           }
@@ -260,7 +260,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -282,10 +282,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSecondaryRoute.addSecondaryRoute(params).then((res) => {
+        this.$http.sysSecondaryRoute.addSecondaryRoute(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -298,20 +298,18 @@ export default {
         params = {
           data: {
             routeId: this.routeId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSecondaryRoute
-          .updateSecondaryRoute(params)
-          .then((res) => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data);
-              this._mxGetList();
-              this.addChannel = false;
-            } else {
-              this.$message.error(res.data || res.msg);
-            }
-          });
+        this.$http.sysSecondaryRoute.updateSecondaryRoute(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
       }
     },
     create() {
@@ -320,7 +318,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userId") {
           this.$set(item, "btnDisabled", false);
         }
@@ -329,7 +327,7 @@ export default {
     edit(row) {
       this.routeId = row.routeId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -352,7 +350,7 @@ export default {
     },
     //修改表格数据
     _mxFormListData(data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.createTime) {
           item.createTime = new Date(item.createTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -360,9 +358,9 @@ export default {
         }
       });
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
