@@ -9,13 +9,9 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="limitType" label="类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.limitType == "1"
-              ? "同手机号同内容"
-              : scope.row.limitType == "2"
-              ? "同手机号"
-              : "同CID同手机号"
-          }}</span>
+          <span v-if="scope.row.limitType == '1'">同手机号同内容</span>
+          <span v-if="scope.row.limitType == '2'">同手机号</span>
+          <span v-if="scope.row.limitType == '3'">同CID同手机号</span>
         </template>
       </el-table-column>
       <el-table-column prop="count" label="发送上限" />
@@ -96,13 +92,13 @@ export default {
       searchAPI: {
         namespace: "sysSendLimit",
         list: "listSendLimitByPage",
-        detele: "deleteSendLimit",
+        detele: "deleteSendLimit"
       },
       // 列表参数
       namespace: "sendLimit",
       //搜索框数据
       searchParam: {
-        userId: "",
+        userId: ""
       },
       //搜索框配置
       searchFormConfig: [
@@ -110,8 +106,8 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
-        },
+          placeholder: "请输入用户ID"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -127,9 +123,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -140,17 +136,17 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "同手机号同内容",
+              value: "同手机号同内容"
             },
             {
               key: 2,
-              value: "同手机号",
+              value: "同手机号"
             },
             {
               key: 3,
-              value: "同CID同手机号",
-            },
-          ],
+              value: "同CID同手机号"
+            }
+          ]
         },
         {
           type: "input",
@@ -160,22 +156,22 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
+              trigger: "blur"
             },
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur",
+              trigger: "blur"
             },
             {
               trigger: "change",
-              validator: validatorSign,
-            },
-          ],
-        },
+              validator: validatorSign
+            }
+          ]
+        }
       ],
       limitId: "",
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {},
@@ -183,7 +179,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -195,10 +191,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSendLimit.addSendLimit(params).then((res) => {
+        this.$http.sysSendLimit.addSendLimit(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -210,10 +206,10 @@ export default {
         params = {
           data: {
             limitId: this.limitId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSendLimit.updateSendLimit(params).then((res) => {
+        this.$http.sysSendLimit.updateSendLimit(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -232,7 +228,7 @@ export default {
       setTimeout(() => {
         this.$refs.form.resetForm();
       }, 0);
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userId") {
           this.$set(item, "btnDisabled", false);
         }
@@ -241,7 +237,7 @@ export default {
     edit(row) {
       this.limitId = row.limitId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -261,9 +257,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

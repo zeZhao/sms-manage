@@ -48,7 +48,15 @@
           <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
             <el-table-column prop="gateway" label="通道组ID">
               <template slot-scope="scope">
-                <el-input type="number" v-model="scope.row.gateway"></el-input>
+                <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
+                <el-select v-model="scope.row.gateway">
+                  <el-option
+                    v-for="(item, index) in GatewayList"
+                    :key="index"
+                    :value="item.gatewayId"
+                    :label="item.gateway"
+                  ></el-option>
+                </el-select>
               </template>
             </el-table-column>
             <el-table-column prop="ratio" label="分配比例">
@@ -123,14 +131,14 @@ export default {
       searchAPI: {
         namespace: "sysGatewayGroup",
         list: "listGatewayGroupByPage",
-        detele: "deleteGatewayGroup",
+        detele: "deleteGatewayGroup"
       },
       // 列表参数
       namespace: "gatewayGroup",
       //搜索框数据
       searchParam: {
         groupId: "",
-        groupName: "",
+        groupName: ""
       },
       //搜索框配置
       searchFormConfig: [
@@ -138,14 +146,14 @@ export default {
           type: "inputNum",
           label: "通道组id",
           key: "groupId",
-          placeholder: "请输入通道组id",
+          placeholder: "请输入通道组id"
         },
         {
           type: "input",
           label: "通道组名称",
           key: "groupName",
-          placeholder: "请输入通道组名称",
-        },
+          placeholder: "请输入通道组名称"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -159,9 +167,9 @@ export default {
             {
               pattern: /^9\d{3}$/,
               message: "9开头4位数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -169,8 +177,8 @@ export default {
           key: "groupName",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorGroupName },
-          ],
+            { trigger: "blur", validator: validatorGroupName }
+          ]
         },
         {
           type: "input",
@@ -178,34 +186,56 @@ export default {
           key: "sendTo",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorSendTo },
-          ],
+            { trigger: "blur", validator: validatorSendTo }
+          ]
         },
         {
           type: "input",
           label: "备注",
           maxlength: 300,
-          key: "notes",
+          key: "notes"
           // rules: [{ trigger: "blur", validator: validatorRemark }],
-        },
+        }
       ],
       id: "",
       gatewayGroupList: [],
+      GatewayList: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.gateway();
+  },
   computed: {},
   methods: {
+    // 获取通道
+    gateway() {
+      const params = {
+        data: {
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.GatewayList = [];
+        res.data.forEach(t => {
+          this.$set(t, "key", t.gatewayId);
+          this.$set(t, "value", t.gateway);
+          this.GatewayList.push(t);
+        });
+      });
+    },
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
         params = {
           data: {
             ...form,
-            sysGatewayDistributionList: [...this.gatewayGroupList],
-          },
+            sysGatewayDistributionList: [...this.gatewayGroupList]
+          }
         };
-        this.$http.sysGatewayGroup.addGatewayGroup(params).then((res) => {
+        this.$http.sysGatewayGroup.addGatewayGroup(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -219,10 +249,10 @@ export default {
           data: {
             id: this.id,
             ...form,
-            sysGatewayDistributionList: [...this.gatewayGroupList],
-          },
+            sysGatewayDistributionList: [...this.gatewayGroupList]
+          }
         };
-        this.$http.sysGatewayGroup.updateGatewayGroup(params).then((res) => {
+        this.$http.sysGatewayGroup.updateGatewayGroup(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -237,7 +267,7 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.gatewayGroupList = [];
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key == "groupId") {
           this.$set(item, "disabled", false);
         }
@@ -250,7 +280,7 @@ export default {
       const { id, groupId } = row;
       this.id = id;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key == "groupId") {
           this.$set(item, "disabled", true);
         }
@@ -265,7 +295,7 @@ export default {
       });
       this.$http.sysGatewayGroup
         .selectGatewayGroup({ data: { groupId: groupId.toString() } })
-        .then((res) => {
+        .then(res => {
           this.gatewayGroupList = res.data;
         });
       setTimeout(() => {
@@ -296,9 +326,9 @@ export default {
         data.groupId = Number(data.groupId);
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
