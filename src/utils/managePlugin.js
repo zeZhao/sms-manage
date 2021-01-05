@@ -301,7 +301,7 @@ class managePlugin {
           if (!el.disabled) {
             setTimeout(() => {
               el.style.pointerEvents = 'auto';
-            }, binding.value || 2000);
+            }, binding.value || 5000);
           }
         });
       }

@@ -134,6 +134,7 @@
             type="primary"
             @click="_mxHandleSubmit()"
             style="margin-left: 15px"
+            v-throttle
             >查询</el-button
           >
           <el-button
@@ -156,24 +157,24 @@ export default {
       type: Array,
       default() {
         return [];
-      },
+      }
     },
     add: {
       type: Boolean,
-      default: true,
+      default: true
     },
     search: {
       type: Boolean,
-      default: true,
+      default: true
     },
     reset: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
   data() {
     return {
-      form: {},
+      form: {}
     };
   },
   created() {},
@@ -231,7 +232,7 @@ export default {
     //获取焦点触发事件
     _mxHandleFocus() {
       this.$emit("focus");
-    },
+    }
   },
   computed: {},
   watch: {
@@ -240,8 +241,8 @@ export default {
         this.initComponent();
       },
       deep: true,
-      immediate: true,
-    },
-  },
+      immediate: true
+    }
+  }
 };
 </script>
