@@ -86,6 +86,7 @@ export default {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
+        callback();
         // callback(new Error("备注信息不能为空"));
       } else {
         if (!regex.test(value)) {
@@ -93,6 +94,18 @@ export default {
         } else {
           callback();
         }
+      }
+    };
+    const validatorCode = (rule, value, callback) => {
+      let regex = /^[0-9]*$/;
+      if (value) {
+        console.log(Number(value).constructor);
+        if (!regex.test(Number(value)) || value.toString().length !== 4) {
+          callback(new Error("特服号仅支持4位数字"));
+        } else {
+          callback();
+        }
+        // callback(new Error("备注信息不能为空"));
       }
     };
     return {
@@ -204,7 +217,10 @@ export default {
           label: "网关特服号",
           key: "gwcode",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "change", validator: validatorCode }
+          ]
         },
 
         {
@@ -234,6 +250,10 @@ export default {
   },
   computed: {},
   methods: {
+    sum(num1, num2) {
+      if (num2 > 100) {
+      }
+    },
     gateway() {
       const params = {
         data: {

@@ -85,6 +85,7 @@ export default {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
+        callback();
         // callback(new Error("备注信息不能为空"));
       } else {
         if (!regex.test(value)) {
