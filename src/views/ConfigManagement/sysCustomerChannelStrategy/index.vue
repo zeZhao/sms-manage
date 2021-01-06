@@ -97,6 +97,7 @@ export default {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
+        callback();
         // callback(new Error("备注信息不能为空"));
       } else {
         if (!regex.test(value)) {
@@ -113,7 +114,7 @@ export default {
       searchAPI: {
         namespace: "sysCustomerChannelStrategy",
         list: "listStrategyByPage",
-        detele: "deleteStrategy",
+        detele: "deleteStrategy"
       },
       //搜索框数据
       searchParam: {
@@ -121,7 +122,7 @@ export default {
         userId: "",
         userName: "",
         cmPassageway: "",
-        cuPassageway: "",
+        cuPassageway: ""
       },
       // 列表参数
       namespace: "",
@@ -136,33 +137,33 @@ export default {
             { key: "1", value: "系统级" },
             { key: "2", value: "特服号级" },
             { key: "3", value: "客户级" },
-            { key: "4", value: "企业级" },
-          ],
+            { key: "4", value: "企业级" }
+          ]
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "input",
           label: "移动通道编号",
           key: "cmPassageway",
-          placeholder: "请输入移动通道编号",
+          placeholder: "请输入移动通道编号"
         },
         {
           type: "input",
           label: "联通通道编号",
           key: "cuPassageway",
-          placeholder: "请输入联通通道编号",
-        },
+          placeholder: "请输入联通通道编号"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -174,9 +175,9 @@ export default {
             { key: 1, value: "系统级" },
             { key: 2, value: "特服号级" },
             { key: 3, value: "客户级" },
-            { key: 4, value: "企业级" },
+            { key: 4, value: "企业级" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -187,7 +188,7 @@ export default {
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -195,7 +196,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -203,14 +204,14 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "移动通道",
           key: "cmPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -218,15 +219,15 @@ export default {
           key: "cmMaxBatchNum",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: validatorMaxBatchNum, trigger: "change" },
-          ],
+            { validator: validatorMaxBatchNum, trigger: "change" }
+          ]
         },
         {
           type: "select",
           label: "联通通道",
           key: "cuPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -234,15 +235,15 @@ export default {
           key: "cuMaxBatchNum",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: validatorMaxBatchNum, trigger: "change" },
-          ],
+            { validator: validatorMaxBatchNum, trigger: "change" }
+          ]
         },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
           key: "ctPassageway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -250,19 +251,19 @@ export default {
           key: "ctMaxBatchNum",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: validatorMaxBatchNum, trigger: "change" },
-          ],
+            { validator: validatorMaxBatchNum, trigger: "change" }
+          ]
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remarks",
-          rules: [{ trigger: "blur", validator: validatorRemark }],
-        },
+          rules: [{ trigger: "blur", validator: validatorRemark }]
+        }
       ],
       strategyId: "",
       GatewayList: [], //通道列表
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {
@@ -274,7 +275,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -294,15 +295,15 @@ export default {
       const params = {
         data: {
           status: status,
-          orderStatus: orderStatus,
-        },
+          orderStatus: orderStatus
+        }
       };
-      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
               item.optionData.push(t);
@@ -316,30 +317,28 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysCustomerChannelStrategy
-          .addStrategy(params)
-          .then((res) => {
-            if (resOk(res)) {
-              this.$message.success(res.msg || res.data);
-              this._mxGetList();
-              this.addChannel = false;
-            } else {
-              this.$message.error(res.data || res.msg);
-            }
-          });
+        this.$http.sysCustomerChannelStrategy.addStrategy(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
       } else {
         params = {
           data: {
             strategyId: this.strategyId,
-            ...form,
-          },
+            ...form
+          }
         };
         this.$http.sysCustomerChannelStrategy
           .updateStrategy(params)
-          .then((res) => {
+          .then(res => {
             if (resOk(res)) {
               this.$message.success(res.msg || res.data);
               this._mxGetList();
@@ -356,7 +355,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userId") {
           item.btnDisabled = false;
         }
@@ -365,7 +364,7 @@ export default {
     edit(row) {
       this.strategyId = row.strategyId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -390,14 +389,14 @@ export default {
      * 表格数据处理
      * */
     _mxFormListData(list) {
-      list.forEach((item) => {
+      list.forEach(item => {
         item.province &&
-          this.ProvinceList.forEach((t) => {
+          this.ProvinceList.forEach(t => {
             if (item.province == t.provinceId) {
               item.province = t.provinceName;
             }
           });
-        this.GatewayList.forEach((t) => {
+        this.GatewayList.forEach(t => {
           const { gatewayId, gatewayName } = t;
           if (item.cu == gatewayId) {
             item.cu = gatewayName;
@@ -411,9 +410,9 @@ export default {
         });
       });
       return list;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
