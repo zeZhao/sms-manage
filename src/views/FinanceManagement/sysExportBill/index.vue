@@ -100,12 +100,12 @@ export default {
         gateway: "",
         smsType: "",
         billDate: "",
-        endDate: "",
+        endDate: ""
       },
       //接口地址
       searchAPI: {
         namespace: "sysExportBill",
-        list: "list",
+        list: "list"
       },
       // 列表参数
       namespace: "",
@@ -117,17 +117,17 @@ export default {
         {
           type: "inputNum",
           label: "企业ID",
-          key: "corpId",
+          key: "corpId"
         },
         {
           type: "inputNum",
           label: "用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "inputNum",
           label: "通道ID",
-          key: "gateway",
+          key: "gateway"
         },
         {
           type: "select",
@@ -136,16 +136,16 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
-          ],
+              value: "短信"
+            }
+          ]
         },
         {
           type: "month",
           label: "账单月",
-          key: "billDate",
-        },
-      ],
+          key: "billDate"
+        }
+      ]
     };
   },
   mounted() {},
@@ -153,6 +153,7 @@ export default {
   methods: {
     //导出
     exportMonthData(type, row) {
+      console.log(row, "------row");
       let params = {};
       if (type === "scope") {
         params = { ...row };
@@ -171,19 +172,22 @@ export default {
           { ...params },
           {
             responseType: "blob",
-            headers: { token: window.localStorage.getItem("token") },
+            headers: { token: window.localStorage.getItem("token") }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.data.type == "application/octet-stream") {
             let blob = new Blob([res.data], {
-              type: "application/vnd.ms-excel;charset=utf-8",
+              type: "application/vnd.ms-excel;charset=utf-8"
             });
             let url = window.URL.createObjectURL(blob);
             let aLink = document.createElement("a");
             aLink.style.display = "none";
             aLink.href = url;
-            aLink.setAttribute("download", "月账单.xlsx");
+            aLink.setAttribute(
+              "download",
+              `${row ? row.billDate : ""}月账单.xlsx`
+            );
             document.body.appendChild(aLink);
             aLink.click();
             document.body.removeChild(aLink);
@@ -200,11 +204,10 @@ export default {
         data.billDate = new Date(billDate).Format("yyyy-MM");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

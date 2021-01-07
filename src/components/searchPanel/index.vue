@@ -16,7 +16,7 @@
         <el-col
           :sm="12"
           :md="8"
-          :lg="6"
+          :lg="item.type === 'daterange' || item.type === 'timerange' ? 12 : 6"
           v-for="(item, index) in searchFormConfig"
           :key="index"
         >
@@ -95,8 +95,7 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
               ></el-time-picker
-              >-
-              <el-time-picker
+              >-<el-time-picker
                 :placeholder="item.placeholder || '选择结束时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
