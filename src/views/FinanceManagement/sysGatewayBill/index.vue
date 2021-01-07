@@ -63,6 +63,26 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
+    const validatorSubmit = (rule, value, callback) => {
+      let regex = /^[0-9]*$/;
+      if (value) {
+        if (!regex.test(value)) {
+          callback(new Error("仅支持数字"));
+        } else {
+          callback();
+        }
+      }
+    };
+    const validatorSucc = (rule, value, callback) => {
+      let regex = /^[0-9]*$/;
+      if (value) {
+        if (!regex.test(value)) {
+          callback(new Error("仅支持数字"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -162,18 +182,25 @@ export default {
           label: "提交数",
           key: "submitCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "change", validator: validatorSubmit }
+          ]
         },
         {
           type: "input",
           label: "成功数",
           key: "succCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { trigger: "change", validator: validatorSucc }
+          ]
         },
         {
           type: "input",
           label: "成功率",
+          disabled: true,
           key: "succRatio",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -247,16 +274,28 @@ export default {
     // input输入事件
     inpChange(data) {
       const { val, item } = data;
+
       if (item.key === "succCount") {
         let submitCount = "";
-        this.formConfig.forEach(item => {
-          if (item.key === "submitCount") {
-            submitCount = item.defaultValue;
+        this.formConfig.forEach(items => {
+          if (items.key === "submitCount") {
+            submitCount = items.defaultValue;
           }
         });
         if (Number(val) > Number(submitCount)) {
           item.defaultValue = submitCount;
         }
+        this.formConfig.forEach(el => {
+          // let succNum = null;
+          // if (el.key === "succCount") {
+          //   succNum = item.defaultValue;
+          // }
+          if (el.key === "succRatio") {
+            el.defaultValue = (
+              parseFloat(Number(item.defaultValue) / Number(submitCount)) * 100
+            ).toFixed(2);
+          }
+        });
       }
     },
     selectChange(data) {

@@ -65,6 +65,7 @@ export default {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
+        callback();
         // callback(new Error("备注信息不能为空"));
       } else {
         if (!regex.test(value)) {
@@ -81,7 +82,7 @@ export default {
       searchAPI: {
         namespace: "sysCompanyIncome",
         list: "listCompanyIncomeByPage",
-        detele: "deleteCompanyIncome",
+        detele: "deleteCompanyIncome"
       },
       // 列表参数
       namespace: "companyIncome",
@@ -93,13 +94,13 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "month",
           label: "账单月",
           key: "countDate",
-          placeholder: "请选择账单月",
+          placeholder: "请选择账单月"
         },
         {
           type: "select",
@@ -109,13 +110,13 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "否",
+              value: "否"
             },
             {
               key: 2,
-              value: "是",
-            },
-          ],
+              value: "是"
+            }
+          ]
         },
         {
           type: "select",
@@ -125,21 +126,21 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "条数",
+              value: "条数"
             },
             {
               key: 1,
-              value: "应收款",
+              value: "应收款"
             },
             {
               key: 2,
-              value: "实收款",
+              value: "实收款"
             },
             {
               key: 3,
-              value: "欠收款",
-            },
-          ],
+              value: "欠收款"
+            }
+          ]
         },
         {
           type: "select",
@@ -149,14 +150,14 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "正序",
+              value: "正序"
             },
             {
               key: 1,
-              value: "倒序",
-            },
-          ],
-        },
+              value: "倒序"
+            }
+          ]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -167,10 +168,10 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
+              value: "短信"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -179,22 +180,22 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "预收",
+              value: "预收"
             },
             {
               key: 2,
-              value: "平台月度",
+              value: "平台月度"
             },
             {
               key: 3,
-              value: "直连月度",
+              value: "直连月度"
             },
             {
               key: 4,
-              value: "返佣",
-            },
+              value: "返佣"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -203,7 +204,7 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -211,14 +212,14 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "通道码号",
           key: "gateway",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-          optionData: [],
+          optionData: []
         },
         {
           type: "select",
@@ -227,18 +228,18 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "移动",
+              value: "移动"
             },
             {
               key: 2,
-              value: "联通",
+              value: "联通"
             },
             {
               key: 3,
-              value: "电信",
-            },
+              value: "电信"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -250,9 +251,9 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -264,9 +265,9 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -277,9 +278,9 @@ export default {
             {
               pattern: /^[1-9]\d*$/,
               message: "只能输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -290,9 +291,9 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -303,9 +304,9 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -316,9 +317,9 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -329,9 +330,9 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -340,26 +341,26 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "已收",
+              value: "已收"
             },
             {
               key: 2,
-              value: "欠款",
+              value: "欠款"
             },
             {
               key: 3,
-              value: "欠收",
+              value: "欠收"
             },
             {
               key: 4,
-              value: "坏账",
+              value: "坏账"
             },
             {
               key: 5,
-              value: "其他",
-            },
+              value: "其他"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -368,14 +369,14 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "对公",
+              value: "对公"
             },
             {
               key: "2",
-              value: "对私",
-            },
+              value: "对私"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -388,9 +389,9 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -399,37 +400,37 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "未开",
+              value: "未开"
             },
             {
               key: "2",
-              value: "已开",
-            },
+              value: "已开"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "month",
           label: "账单月",
           key: "countDate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "date",
           label: "入账日期",
           key: "posttingDate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remark",
           maxlength: "300",
-          rules: [{ trigger: "blur", validator: validatorRemark }],
-        },
+          rules: [{ trigger: "blur", validator: validatorRemark }]
+        }
       ],
       income_id: "",
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {
@@ -453,7 +454,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -468,13 +469,13 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
 
           // userId:"5826",
           // corpId:"3",
         };
-        this.$http.sysCompanyIncome.addCompanyIncome(params).then((res) => {
+        this.$http.sysCompanyIncome.addCompanyIncome(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -487,10 +488,10 @@ export default {
         params = {
           data: {
             income_id: this.income_id,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysCompanyIncome.updateCompanyIncome(params).then((res) => {
+        this.$http.sysCompanyIncome.updateCompanyIncome(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -515,16 +516,16 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: "",
-        },
+          isCm: ""
+        }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
+      this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
 
           if (key === "gateway") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
               console.log(item);
@@ -537,7 +538,7 @@ export default {
     edit(row) {
       this.income_id = row.income_id;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -578,9 +579,9 @@ export default {
         data.countDate = `${countDate}-01`;
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

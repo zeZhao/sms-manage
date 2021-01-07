@@ -49,7 +49,7 @@
         <template slot-scope="scope">
           <span>{{
             scope.row.proType === 1
-              ? "web前端"
+              ? "web端"
               : scope.row.proType === 2
               ? "http接口"
               : scope.row.proType === 3
@@ -947,7 +947,7 @@ export default {
       let strType = "";
       switch (row.proType) {
         case 1:
-          strType = "web前端";
+          strType = "web端";
           break;
         case 2:
           strType = "http接口";
