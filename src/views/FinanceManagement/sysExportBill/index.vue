@@ -62,7 +62,7 @@
           <span v-if="scope.row.operaId === 4">国际</span>
         </template>
       </el-table-column>
-      <el-table-column prop="submitNum" label="提交数" />
+      <!-- <el-table-column prop="submitNum" label="提交数" /> -->
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" />
       <el-table-column prop="successNum" label="成功数" />
