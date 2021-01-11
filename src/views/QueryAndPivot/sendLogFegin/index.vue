@@ -80,7 +80,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sendLogFegin",
-        list: "selectSendLogByPage",
+        list: "selectSendLogByPage"
       },
       // 列表参数
       namespace: "",
@@ -92,51 +92,51 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
+        },
+        {
+          type: "timerange",
+          label: "提交时间",
+          key: ["", "startTime", "endTime"]
         },
         {
           type: "date",
           label: "提交日期",
           key: "submitDate",
-          placeholder: "提交日期",
-        },
-        {
-          type: "timerange",
-          label: "提交时间",
-          key: ["", "startTime", "endTime"],
-        },
+          placeholder: "提交日期"
+        }
       ],
-      total: 0,
+      total: 0
     };
   },
   mounted() {
@@ -147,10 +147,10 @@ export default {
     selectSendLogAllNum() {
       let params = {
         data: {
-          ...this.searchParam,
-        },
+          ...this.searchParam
+        }
       };
-      this.$http.sendLogFegin.selectSendLogAllNum(params).then((res) => {
+      this.$http.sendLogFegin.selectSendLogAllNum(params).then(res => {
         if (res.code === 200) {
           this.total = res.data;
         }
@@ -175,13 +175,13 @@ export default {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
       return data;
-    },
+    }
   },
   watch: {
     searchParam(val) {
       this.selectSendLogAllNum();
-    },
-  },
+    }
+  }
 };
 </script>
 

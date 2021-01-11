@@ -176,7 +176,7 @@ export default {
         list: "listPrepaidCardByPage",
         detele: "",
         add: "addPrepaidCard",
-        edit: "updatePrepaidCard",
+        edit: "updatePrepaidCard"
       },
       // 列表参数
       namespace: "prepaidCard",
@@ -194,7 +194,7 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "select",
@@ -204,31 +204,25 @@ export default {
             { key: "0", value: "充值" },
             { key: "1", value: "借款" },
             { key: "2", value: "扣款" },
-            { key: "3", value: "还款" },
+            { key: "3", value: "还款" }
           ],
-          placeholder: "类型",
+          placeholder: "类型"
         },
         {
           type: "select",
           label: "产品",
           key: "chargeType",
           optionData: [
-            { key: "1", value: "短信" },
+            { key: "1", value: "短信" }
             // { key: "2", value: "彩信" }
           ],
-          placeholder: "类型",
+          placeholder: "类型"
         },
         {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
-        },
-        {
-          type: "daterange",
-          label: "按时间查询",
-          key: ["", "startTime", "endTime"],
-          placeholder: "按时间查询",
+          placeholder: "请输入企业ID"
         },
 
         {
@@ -241,8 +235,8 @@ export default {
             { key: "2", value: "退款记录" },
             { key: "3", value: "借款记录" },
             { key: "4", value: "补款记录" },
-            { key: "5", value: "转移记录" },
-          ],
+            { key: "5", value: "转移记录" }
+          ]
         },
         {
           type: "select",
@@ -251,9 +245,15 @@ export default {
           optionData: [
             { key: "对公付款", value: "对公付款" },
             { key: "对私付款", value: "对私付款" },
-            { key: "无", value: "无" },
-          ],
+            { key: "无", value: "无" }
+          ]
         },
+        {
+          type: "daterange",
+          label: "按时间查询",
+          key: ["", "startTime", "endTime"],
+          placeholder: "按时间查询"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -262,7 +262,7 @@ export default {
           label: "产品类型",
           key: "chargeType",
           optionData: [{ key: 1, value: "短信" }],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -272,9 +272,9 @@ export default {
           defaultValue: "",
           optionData: [
             { key: 1, value: "用户id计费" },
-            { key: 2, value: "企业id计费" },
+            { key: 2, value: "企业id计费" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -283,7 +283,7 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -291,7 +291,7 @@ export default {
           key: "userName",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -300,7 +300,7 @@ export default {
           disabled: true,
           isShow: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -311,9 +311,9 @@ export default {
             {
               pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
               message: "请输入大于0的数字",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "input",
@@ -324,9 +324,9 @@ export default {
             {
               pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
               message: "请输入大于0的数字",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "input",
@@ -337,9 +337,9 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "select",
@@ -349,9 +349,9 @@ export default {
             { key: "0", value: "充值" },
             // { key: 1, value: "借款" },
             // { key: 2, value: "扣款" },
-            { key: 3, value: "还款" },
+            { key: 3, value: "还款" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -360,21 +360,21 @@ export default {
           optionData: [
             { key: "对公付款", value: "对公付款" },
             { key: "对私付款", value: "对私付款" },
-            { key: "无", value: "无" },
+            { key: "无", value: "无" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "备注",
           maxlength: 300,
-          key: "remark",
+          key: "remark"
         },
         {
           type: "select",
           label: "销售员的名字",
           key: "saleMan",
-          optionData: [],
+          optionData: []
         },
         {
           type: "input",
@@ -385,9 +385,9 @@ export default {
             {
               pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
               message: "请输入大于0的数字",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "upload",
@@ -396,9 +396,9 @@ export default {
           key: "fileUrl",
           limit: 1,
           defaultValue: "",
-          defaultFileList: [],
+          defaultFileList: []
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+        }
       ],
       formConfigTransfers: [
         {
@@ -406,10 +406,10 @@ export default {
           label: "产品类型",
           key: "chargeType",
           optionData: [
-            { key: 1, value: "短信" },
+            { key: 1, value: "短信" }
             // { key: 2, value: "彩信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -419,7 +419,7 @@ export default {
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {
         //   type: "input",
@@ -437,7 +437,7 @@ export default {
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {
         //   type: "input",
@@ -450,46 +450,46 @@ export default {
         {
           type: "input",
           label: "转移条数",
-          key: "cardCount",
+          key: "cardCount"
         },
         {
           type: "input",
           label: "转移方单价(分)",
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "转移金额",
           key: "cardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "接收方单价(分)",
           key: "cardUnitTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "接收条数",
           key: "cardCountTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "备注",
-          key: "remark",
+          key: "remark"
         },
         {
           type: "select",
           label: "销售员的名字",
           key: "saleMan",
-          optionData: [],
-        },
+          optionData: []
+        }
       ],
       isChooseUser: false,
-      chooseKey: "",
+      chooseKey: ""
     };
   },
   mounted() {
@@ -500,7 +500,7 @@ export default {
     //文件上传成功
     handleSuccess({ response, file, fileList }) {
       if (response.code == 200) {
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           if (item.key === "fileUrl") {
             item.defaultValue = response.data;
             console.log(item.defaultFileList);
@@ -511,7 +511,7 @@ export default {
       }
     },
     handleRemove({ file, fileList }) {
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "fileUrl") {
           item.defaultValue = "";
         }
@@ -540,7 +540,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -548,8 +548,8 @@ export default {
               let file = [
                 {
                   name: "凭证",
-                  url: row[key],
-                },
+                  url: row[key]
+                }
               ];
               this.$set(item, "defaultFileList", file);
             }
@@ -588,7 +588,7 @@ export default {
       //设置企业显示
       this._setDisplayShow(this.formConfig, "corporateId", true);
       // 初始上传文件为空
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "fileUrl") {
           item.defaultFileList = [];
         }
@@ -608,7 +608,7 @@ export default {
     },
     //获取销售员
     getSaleman() {
-      this.$http.sysSales.queryAvailableSaleman().then((res) => {
+      this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
@@ -646,7 +646,7 @@ export default {
       if (item.key === "cardMoney" || item.key === "cardUnit") {
         let cardMoney = "";
         let cardUnit = "";
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           if (item.key === "cardUnit") {
             cardUnit = item.defaultValue;
           } else if (item.key === "cardMoney") {
@@ -665,7 +665,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -677,7 +677,7 @@ export default {
           t.defaultValue = data.corpId;
         }
       });
-      this.formConfigTransfers.map((t) => {
+      this.formConfigTransfers.map(t => {
         const { key } = t;
         if (this.chooseKey === "userId") {
           if (key === "userId") {
@@ -705,10 +705,10 @@ export default {
     transfersSubmit(form) {
       const params = {
         data: {
-          ...form,
-        },
+          ...form
+        }
       };
-      this.$http.sysRecharge.refundPrepaidCard(params).then((res) => {
+      this.$http.sysRecharge.refundPrepaidCard(params).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg);
           this.transfersDialog = false;
@@ -719,9 +719,9 @@ export default {
     },
     transfersCancel() {
       this.transfersDialog = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
