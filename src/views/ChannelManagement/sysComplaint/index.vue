@@ -153,11 +153,6 @@ export default {
             { key: "其他", value: "其他" }
           ]
         },
-        {
-          type: "daterange",
-          label: "平台下发时间",
-          key: ["", "complaintDateStart", "complaintDateEnd"]
-        },
 
         {
           type: "select",
@@ -170,11 +165,7 @@ export default {
             { key: "未下发", value: "未下发" }
           ]
         },
-        {
-          type: "daterange",
-          label: "录入日期",
-          key: ["", "createDateStart", "createDateEnd"]
-        },
+
         {
           type: "input",
           label: "投诉内容",
@@ -199,6 +190,16 @@ export default {
           type: "input",
           label: "备注",
           key: "remarks"
+        },
+        {
+          type: "daterange",
+          label: "平台下发时间",
+          key: ["", "complaintDateStart", "complaintDateEnd"]
+        },
+        {
+          type: "daterange",
+          label: "录入日期",
+          key: ["", "createDateStart", "createDateEnd"]
         }
       ],
       // 表单配置
@@ -276,7 +277,7 @@ export default {
           key: "complaintDate",
           disabledDate: {
             disabledDate(time) {
-              return time.getTime() <= Date.now() - 8.64e7;
+              return time.getTime() >= Date.now() - 8.64e6;
             }
           },
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -380,10 +381,10 @@ export default {
           key: "blackLevel",
           optionData: [
             { key: "0", value: "系统级" },
-            { key: "1", value: "网关级" },
+            // { key: "1", value: "网关级" },
             { key: "2 ", value: "客户级" },
-            { key: "3 ", value: "营销级" },
-            { key: "4 ", value: "BSATS级 " }
+            { key: "3 ", value: "营销级" }
+            // { key: "4 ", value: "BSATS级 " }
           ]
         }
       ],
