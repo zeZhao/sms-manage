@@ -441,7 +441,8 @@ export default {
               value: "不需要"
             }
           ],
-          key: "isTemplate"
+          key: "isTemplate",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
