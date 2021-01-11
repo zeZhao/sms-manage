@@ -26,12 +26,12 @@
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
-          <span v-if="scope.row.gatewayType === 1">没有配置免审</span>
-          <span v-if="scope.row.gatewayType === 2">关键字</span>
-          <span v-if="scope.row.gatewayType === 3">模板不匹配</span>
-          <span v-if="scope.row.gatewayType === 5">免审数量超标</span>
-          <span v-if="scope.row.gatewayType === 6">组合redis出错</span>
-          <span v-if="scope.row.gatewayType === 7">组合超时</span>
+          <span v-if="scope.row.source === '1'">没有配置免审</span>
+          <span v-if="scope.row.source === '2'">关键字</span>
+          <span v-if="scope.row.source === '3'">模板不匹配</span>
+          <span v-if="scope.row.source === '5'">免审数量超标</span>
+          <span v-if="scope.row.source === '6'">组合redis出错</span>
+          <span v-if="scope.row.source === '7'">组合超时</span>
         </template>
       </el-table-column>
       <el-table-column prop="cmGateway" label="移动通道">

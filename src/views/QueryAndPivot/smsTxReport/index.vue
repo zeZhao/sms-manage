@@ -72,7 +72,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsTxReport",
-        list: "searchSendReport",
+        list: "searchSendReport"
       },
       // 列表参数
       namespace: "",
@@ -84,75 +84,76 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "input",
           label: "网关编号",
           key: "gateway",
-          placeholder: "请输入网关编号",
+          placeholder: "请输入网关编号"
         },
         {
           type: "input",
           label: "SEQID",
           key: "seqId",
-          placeholder: "请输入SEQID",
+          placeholder: "请输入SEQID"
         },
         {
           type: "input",
           label: "状态",
           key: "status",
-          placeholder: "请输入状态",
+          placeholder: "请输入状态"
         },
         {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
-        {
-          type: "date",
-          label: "发送日期",
-          key: "sendTime",
-          placeholder: "发送日期",
-        },
+
         {
           type: "select",
           label: "省份",
           key: "province",
           placeholder: "请选择省份",
-          optionData: [],
+          optionData: []
         },
         {
           type: "timerange",
           label: "发送时间",
-          key: ["", "startTime", "endTime"],
+          key: ["", "startTime", "endTime"]
         },
-      ],
+        {
+          type: "date",
+          label: "发送日期",
+          key: "sendTime",
+          placeholder: "发送日期"
+        }
+      ]
     };
   },
   mounted() {
@@ -166,17 +167,17 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: "",
-        },
+          provinceName: ""
+        }
       };
-      this.$http.listSysProvince(params).then((res) => {
-        this.searchFormConfig.forEach((item) => {
+      this.$http.listSysProvince(params).then(res => {
+        this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               let obj = {
                 key: t.provinceName,
-                value: t.provinceName,
+                value: t.provinceName
               };
               item.optionData.push(obj);
             });
@@ -203,9 +204,9 @@ export default {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
