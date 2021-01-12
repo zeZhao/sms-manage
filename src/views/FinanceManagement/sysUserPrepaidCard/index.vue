@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="cardNum" label="卡号" show-overflow-tooltip />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="reductType" label="计费类型" width="100">

@@ -1,37 +1,52 @@
 <template>
   <!--销售组管理-->
   <div class="sysSalesGroup">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%;"
+      v-loading="loading"
+    >
       <el-table-column prop="sid" label="ID" />
       <el-table-column prop="groupName" label="组名称" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifyTime" label="修改时间">
-        <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="modifyer" label="修改人" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{scope.row.status === 1 ? '正常' : '停用'}}</span>
+          <span>{{ scope.row.status === 1 ? "正常" : "停用" }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
-            @click="updateStatus(scope.row,'2')"
+            @click="updateStatus(scope.row, '2')"
             type="text"
             size="small"
             v-if="scope.row.status === 1"
             style="color: red"
-          >停用</el-button>
+            >停用</el-button
+          >
           <el-button
-            @click="updateStatus(scope.row,'1')"
+            @click="updateStatus(scope.row, '1')"
             type="text"
             size="small"
             v-else
             style="color: #3a835d"
-          >启动</el-button>
+            >启动</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -40,7 +55,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -64,7 +84,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysSalesGroup",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "saleGroup",
@@ -76,14 +96,14 @@ export default {
           type: "input",
           label: "组名称",
           key: "groupName",
-          placeholder: "请输入组名称",
+          placeholder: "请输入组名称"
         },
         {
           type: "input",
           label: "备注",
           key: "remark",
-          placeholder: "请输入备注",
-        },
+          placeholder: "请输入备注"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -98,18 +118,18 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "textarea",
           label: "备注",
           maxlength: "500",
-          key: "remark",
-        },
+          key: "remark"
+        }
       ],
-      sid: "",
+      sid: ""
     };
   },
   mounted() {},
@@ -117,7 +137,7 @@ export default {
   methods: {
     updateStatus(row, status) {
       const { sid } = row;
-      this.$http.sysSalesGroup.updateStatus({ sid, status }).then((res) => {
+      this.$http.sysSalesGroup.updateStatus({ sid, status }).then(res => {
         if (res.code == 200) {
           this.$message.success("修改成功");
           this._mxGetList();
@@ -128,9 +148,9 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form,
+          ...form
         };
-        this.$http.sysSalesGroup.addOrUpdate(params).then((res) => {
+        this.$http.sysSalesGroup.addOrUpdate(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -142,9 +162,9 @@ export default {
       } else {
         params = {
           sid: this.sid,
-          ...form,
+          ...form
         };
-        this.$http.sysSalesGroup.addOrUpdate(params).then((res) => {
+        this.$http.sysSalesGroup.addOrUpdate(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -165,7 +185,7 @@ export default {
     edit(row) {
       this.sid = row.sid;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -184,7 +204,7 @@ export default {
       this.addChannel = false;
     },
     _mxFormListData(data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.modifyTime) {
           item.modifyTime = new Date(item.modifyTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -192,9 +212,9 @@ export default {
         }
       });
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

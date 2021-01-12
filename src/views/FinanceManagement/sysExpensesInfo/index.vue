@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column type="index" label="序号" />
       <el-table-column prop="no" label="下单编号" show-overflow-tooltip />
       <el-table-column prop="corporateName" label="所属公司" />
@@ -89,7 +94,7 @@ export default {
         list: "listExpensesInfoByPage",
         detele: "deleteExpensesInfo",
         add: "addExpensesInfo",
-        edit: "updateExpensesInfo",
+        edit: "updateExpensesInfo"
       },
       // 列表参数
       namespace: "expensesInfo",
@@ -101,13 +106,13 @@ export default {
           type: "input",
           label: "收款单位",
           key: "collectionCompany",
-          placeholder: "请输入收款单位",
+          placeholder: "请输入收款单位"
         },
         {
           type: "inputNum",
           label: "票号",
           key: "ticketNumber",
-          placeholder: "请输入票号",
+          placeholder: "请输入票号"
         },
         {
           type: "select",
@@ -116,14 +121,14 @@ export default {
           optionData: [
             {
               key: "已回",
-              value: "已回",
+              value: "已回"
             },
             {
               key: "未回",
-              value: "未回",
-            },
+              value: "未回"
+            }
           ],
-          placeholder: "请选择是否回票",
+          placeholder: "请选择是否回票"
         },
         {
           type: "select",
@@ -132,38 +137,38 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "是",
+              value: "是"
             },
             {
               key: "2",
-              value: "否",
-            },
+              value: "否"
+            }
           ],
-          placeholder: "请选择是否已付款",
+          placeholder: "请选择是否已付款"
         },
         {
           type: "input",
           label: "金额",
           key: "lender",
-          placeholder: "请输入金额",
+          placeholder: "请输入金额"
         },
         {
           type: "month",
           label: "下单月",
           key: "orderMonthS",
-          placeholder: "请选择下单月",
+          placeholder: "请选择下单月"
         },
         {
           type: "month",
           label: "所属月",
           key: "theMonthS",
-          placeholder: "请选择所属月",
+          placeholder: "请选择所属月"
         },
         {
           type: "input",
           label: "下单编号",
           key: "no",
-          placeholder: "请输入下单编号",
+          placeholder: "请输入下单编号"
         },
         {
           type: "select",
@@ -172,16 +177,16 @@ export default {
           optionData: [
             {
               key: "聚通达",
-              value: "聚通达",
-            },
+              value: "聚通达"
+            }
           ],
-          placeholder: "请选择是否已付款",
+          placeholder: "请选择是否已付款"
         },
         {
           type: "daterange",
           label: "日期",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -189,7 +194,7 @@ export default {
           type: "input",
           label: "编号",
           key: "no",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -198,31 +203,31 @@ export default {
           optionData: [
             {
               key: "聚通达",
-              value: "聚通达",
-            },
+              value: "聚通达"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "month",
           label: "下单月",
           key: "orderMonth",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "month",
           label: "所属月",
           key: "theMonth",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "date",
           label: "日期",
           key: "dates",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -230,7 +235,7 @@ export default {
           key: "summary",
           defaultValue: "",
           maxlength: "300",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -243,9 +248,9 @@ export default {
             {
               pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
               message: "不支持特殊字符",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -257,9 +262,9 @@ export default {
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -268,15 +273,15 @@ export default {
           optionData: [
             {
               key: "已回",
-              value: "已回",
+              value: "已回"
             },
             {
               key: "未回",
-              value: "未回",
-            },
+              value: "未回"
+            }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -284,7 +289,7 @@ export default {
           isShow: false,
           key: "ticketNumber",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -293,15 +298,15 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "是",
+              value: "是"
             },
             {
               key: 2,
-              value: "否",
-            },
+              value: "否"
+            }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -309,16 +314,16 @@ export default {
           key: "remarks",
           maxlength: "300",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "开票类型",
           key: "billingType",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
-      ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
+      ]
     };
   },
   mounted() {},
@@ -350,7 +355,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -377,7 +382,7 @@ export default {
     },
     // 表格列表数据
     _mxFormListData(data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.orderMonth) {
           item.orderMonth = new Date(item.orderMonth).Format("yyyy-MM-dd");
         }
@@ -400,7 +405,7 @@ export default {
         data.orderMonthS = new Date(orderMonthS).Format("yyyy-MM");
       }
       return data;
-    },
+    }
     //countMonth
     // _mxArrangeSubmitData(formData) {
     //   if (formData.countMonth) {
@@ -409,7 +414,7 @@ export default {
     //   return formData;
     // }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

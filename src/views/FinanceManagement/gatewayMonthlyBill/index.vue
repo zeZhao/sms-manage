@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="countDateStr" label="月份" width="150">
@@ -38,7 +43,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "gatewayMonthlyBill",
-        list: "queryList",
+        list: "queryList"
       },
       // 列表参数
       namespace: "gatewayMonthlyBill",
@@ -49,19 +54,19 @@ export default {
         {
           type: "inputNum",
           label: "通道编号",
-          key: "gatewayId",
+          key: "gatewayId"
         },
         {
           type: "input",
           label: "通道名称",
-          key: "gatewayName",
+          key: "gatewayName"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
@@ -85,7 +90,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { cardCount, cardMoney, succCount, foreignPrice } = item;
         if (!succCount) {
           item.succCount = 0;
@@ -99,11 +104,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
