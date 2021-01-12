@@ -74,18 +74,18 @@ function queryData() {
   } else if (this.isParamsNotData) {
     params = {
       ...searchParam,
-      pageIndex: this.pageObj.currentPage,
+      // pageIndex: this.pageObj.currentPage,
       pageNumber: this.pageObj.currentPage,
-      pageNum: this.pageObj.currentPage,
+      // pageNum: this.pageObj.currentPage,
       pageSize: this.pageObj.pageSize
     };
   } else {
     params = {
       data: {
         ...searchParam,
-        pageIndex: this.pageObj.currentPage,
+        // pageIndex: this.pageObj.currentPage,
         pageNumber: this.pageObj.currentPage,
-        pageNum: this.pageObj.currentPage,
+        // pageNum: this.pageObj.currentPage,
         pageSize: this.pageObj.pageSize
       }
     };
