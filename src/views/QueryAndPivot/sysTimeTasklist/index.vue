@@ -29,7 +29,7 @@
           <span v-else></span>
         </template>
       </el-table-column>
-      <el-table-column prop="pkTotal" label="条数" />
+      <el-table-column prop="counter" label="条数" />
       <el-table-column prop="status" label="状态(是否发送)" width="150">
         <template slot-scope="scope">
           <span>{{
@@ -71,7 +71,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysTimeTasklist",
-        list: "listTimeTasklistByPage",
+        list: "listTimeTasklistByPage"
       },
       // 列表参数
       namespace: "sysTimeTasklist",
@@ -83,43 +83,43 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
           label: "CID",
           key: "cId",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "inputNum",
           label: "网关",
           key: "gateway",
-          placeholder: "请输入网关",
+          placeholder: "请输入网关"
         },
         // {
         //   type: "input",
@@ -135,21 +135,21 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "未发送",
+              value: "未发送"
             },
             {
               key: "1",
-              value: "已发送",
-            },
+              value: "已发送"
+            }
           ],
-          placeholder: "是否发送",
+          placeholder: "是否发送"
         },
         {
           type: "daterange",
           label: "定时时间",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
@@ -170,9 +170,9 @@ export default {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

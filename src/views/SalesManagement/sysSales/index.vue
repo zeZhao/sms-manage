@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userName" label="登录名" />
       <el-table-column prop="actualName" label="真实姓名" />
       <el-table-column prop="mobile" label="手机号" />
@@ -141,7 +146,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysSales",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "saleMan",
@@ -153,13 +158,13 @@ export default {
           type: "input",
           label: "登录名",
           key: "userName",
-          placeholder: "请输入登录名",
+          placeholder: "请输入登录名"
         },
         {
           type: "input",
           label: "真实姓名",
           key: "actualName",
-          placeholder: "请输入真实姓名",
+          placeholder: "请输入真实姓名"
         },
         {
           type: "select",
@@ -168,22 +173,22 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "主管",
+              value: "主管"
             },
             {
               key: 2,
-              value: "组长",
+              value: "组长"
             },
             {
               key: 3,
-              value: "组员",
+              value: "组员"
             },
             {
               key: 4,
-              value: "介绍人",
-            },
-          ],
-        },
+              value: "介绍人"
+            }
+          ]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -195,15 +200,15 @@ export default {
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorUserName },
-          ],
+            { trigger: "blur", validator: validatorUserName }
+          ]
         },
         {
           type: "input",
           label: "登录密码",
           key: "password",
           defaultValue: "",
-          rules: [{ trigger: "blur", validator: validatorPassword }],
+          rules: [{ trigger: "blur", validator: validatorPassword }]
         },
         {
           type: "input",
@@ -212,8 +217,8 @@ export default {
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorActualName },
-          ],
+            { trigger: "blur", validator: validatorActualName }
+          ]
         },
         {
           type: "input",
@@ -222,8 +227,8 @@ export default {
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorMobile },
-          ],
+            { trigger: "blur", validator: validatorMobile }
+          ]
         },
         {
           type: "select",
@@ -233,33 +238,33 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "主管",
+              value: "主管"
             },
             {
               key: 2,
-              value: "组长",
+              value: "组长"
             },
             {
               key: 3,
-              value: "组员",
+              value: "组员"
             },
             {
               key: 4,
-              value: "介绍人",
-            },
+              value: "介绍人"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "销售组",
           key: "groupId",
           defaultValue: "",
-          optionData: [],
-        },
+          optionData: []
+        }
       ],
       id: "",
-      salesData: [],
+      salesData: []
     };
   },
   mounted() {
@@ -269,16 +274,16 @@ export default {
   methods: {
     // 获取 组
     getEditData() {
-      this.$http.sysSales.getEditData({}).then((res) => {
+      this.$http.sysSales.getEditData({}).then(res => {
         if (res.code === 200) {
           this.salesData = res.data;
-          this.formConfig.forEach((item) => {
+          this.formConfig.forEach(item => {
             const { key } = item;
             if (key === "groupId") {
-              res.data.forEach((t) => {
+              res.data.forEach(t => {
                 let obj = {
                   key: t.sid,
-                  value: t.groupName,
+                  value: t.groupName
                 };
                 item.optionData.push(obj);
               });
@@ -292,7 +297,7 @@ export default {
     //修改状态
     updateStatus(row, status) {
       const { id, userName } = row;
-      this.$http.sysSales.updateStatus({ id, status, userName }).then((res) => {
+      this.$http.sysSales.updateStatus({ id, status, userName }).then(res => {
         if (res.code == 200) {
           this.$message.success("修改成功");
           this._mxGetList();
@@ -304,9 +309,9 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form,
+          ...form
         };
-        this.$http.sysSales.addOrUpdate(params).then((res) => {
+        this.$http.sysSales.addOrUpdate(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -318,9 +323,9 @@ export default {
       } else {
         params = {
           id: this.id,
-          ...form,
+          ...form
         };
-        this.$http.sysSales.addOrUpdate(params).then((res) => {
+        this.$http.sysSales.addOrUpdate(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -334,7 +339,7 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userName") {
           item.disabled = false;
         }
@@ -347,7 +352,7 @@ export default {
       this.id = row.id;
       this.formTit = "修改";
 
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -372,7 +377,7 @@ export default {
       this.addChannel = false;
     },
     _mxFormListData(data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.modifyTime) {
           item.modifyTime = new Date(item.modifyTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -380,9 +385,9 @@ export default {
         }
       });
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -99,7 +104,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsBalanceopt",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "balanceopt",
@@ -110,12 +115,12 @@ export default {
         {
           type: "inputNum",
           label: "用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
           label: "用户名称",
-          key: "userName",
+          key: "userName"
         },
         {
           type: "select",
@@ -126,8 +131,8 @@ export default {
             { key: 1, value: "充值" },
             { key: 5, value: "借款" },
             { key: 3, value: "扣款" },
-            { key: 2, value: "还款" },
-          ],
+            { key: 2, value: "还款" }
+          ]
         },
         {
           type: "select",
@@ -138,17 +143,17 @@ export default {
           optionData: [
             {
               key: "",
-              value: "请选择",
+              value: "请选择"
             },
             {
               key: 0,
-              value: "用户",
+              value: "用户"
             },
             {
               key: 1,
-              value: "企业",
-            },
-          ],
+              value: "企业"
+            }
+          ]
         },
         {
           type: "select",
@@ -158,19 +163,19 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
+              value: "短信"
+            }
             // {
             //   key: 2,
             //   value: "彩信"
             // }
-          ],
+          ]
         },
         {
           type: "daterange",
           label: "按时间查询",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -181,7 +186,7 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -189,7 +194,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -198,14 +203,14 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "用户id计费",
+              value: "用户id计费"
             },
             {
               key: 2,
-              value: "企业id计费",
-            },
+              value: "企业id计费"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -214,14 +219,14 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "短信",
-            },
+              value: "短信"
+            }
             // {
             //   key: "2",
             //   value: "彩信"
             // }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -230,10 +235,10 @@ export default {
           optionData: [
             // { key: 1, value: "充值" },
             { key: 5, value: "借款" },
-            { key: 3, value: "扣款" },
+            { key: 3, value: "扣款" }
             // { key: 2, value: "还款" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -245,7 +250,7 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
+              trigger: "change"
             },
             {
               trigger: "change",
@@ -255,9 +260,9 @@ export default {
                 } else {
                   callback();
                 }
-              },
-            },
-          ],
+              }
+            }
+          ]
         },
         {
           type: "textarea",
@@ -265,14 +270,14 @@ export default {
           key: "remark",
           maxlength: 300,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: "blur" }
             // { trigger: "blur", validator: validatorRemark },
-          ],
-        },
+          ]
+        }
       ],
       ugId: "",
       GatewayList: [], // 通道列表
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {},
@@ -280,7 +285,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -294,11 +299,11 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form,
+          ...form
           // userId:"5826",
           // corpId:"3",
         };
-        this.$http.smsBalanceopt.add(params).then((res) => {
+        this.$http.smsBalanceopt.add(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -320,7 +325,7 @@ export default {
     edit(row) {
       this.ugId = row.ugId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -338,9 +343,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

@@ -188,7 +188,7 @@ export default {
         },
         {
           type: "daterange",
-          label: "平台下发时间",
+          label: "投诉时间",
           key: ["", "complaintDateStart", "complaintDateEnd"]
         },
         {

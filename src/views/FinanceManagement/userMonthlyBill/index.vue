@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
@@ -53,7 +58,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "userMonthlyBill",
-        list: "queryList",
+        list: "queryList"
       },
       // 列表参数
       namespace: "userMonthlyBill",
@@ -65,20 +70,20 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
@@ -94,7 +99,7 @@ export default {
         data.endTime = new Date(endTime).Format("yyyy-MM-dd");
       }
       return data;
-    },
+    }
     /**
      * 对表格数据进行自定义调整
      * @param rows
@@ -118,9 +123,8 @@ export default {
     //   return rows;
     // },
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

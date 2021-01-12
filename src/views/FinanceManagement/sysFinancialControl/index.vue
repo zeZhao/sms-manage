@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="账号ID" />
       <el-table-column prop="chargeType" label="产品">
@@ -124,7 +129,7 @@ export default {
         list: "listPrepaidCardByPage",
         detele: "",
         add: "addPrepaidCard",
-        edit: "updatePrepaidCard",
+        edit: "updatePrepaidCard"
       },
       // 列表参数
       namespace: "prepaidCard",
@@ -136,7 +141,7 @@ export default {
           type: "inputNum",
           label: "账号ID",
           key: "userId",
-          placeholder: "请输入账号ID",
+          placeholder: "请输入账号ID"
         },
         {
           type: "select",
@@ -146,25 +151,25 @@ export default {
             { key: "0", value: "充值" },
             { key: "1", value: "借款" },
             { key: "2", value: "扣款" },
-            { key: "3", value: "还款" },
+            { key: "3", value: "还款" }
           ],
-          placeholder: "类型",
+          placeholder: "类型"
         },
         {
           type: "select",
           label: "产品",
           key: "chargeType",
           optionData: [
-            { key: "1", value: "短信" },
+            { key: "1", value: "短信" }
             // { key: "2", value: "彩信" }
           ],
-          placeholder: "类型",
+          placeholder: "类型"
         },
         {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
 
         {
@@ -177,8 +182,8 @@ export default {
             { key: "2", value: "退款记录" },
             { key: "3", value: "借款记录" },
             { key: "4", value: "补款记录" },
-            { key: "5", value: "转移记录" },
-          ],
+            { key: "5", value: "转移记录" }
+          ]
         },
         {
           type: "select",
@@ -187,16 +192,16 @@ export default {
           optionData: [
             { key: "对公付款", value: "对公付款" },
             { key: "对私付款", value: "对私付款" },
-            { key: "无", value: "无" },
-          ],
+            { key: "无", value: "无" }
+          ]
         },
         {
           type: "daterange",
           label: "按时间查询",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
-      origin: window.location.origin,
+      origin: window.location.origin
     };
   },
   mounted() {},
@@ -220,22 +225,22 @@ export default {
             h("span", null, "付款公司名称"),
             h("el-input", {
               props: {
-                value: corpName,
-              },
-            }),
-          ]),
+                value: corpName
+              }
+            })
+          ])
         ]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then((action) => {
+        cancelButtonText: "取消"
+      }).then(action => {
         const params = {
           data: {
             paymentCompany: corpName,
-            cardId,
-          },
+            cardId
+          }
         };
-        this.$http.sysFinancialControl.useCard(params).then((res) => {
+        this.$http.sysFinancialControl.useCard(params).then(res => {
           if (resOk(res)) {
             this.$message.success("操作成功");
             this._mxGetList();
@@ -261,18 +266,18 @@ export default {
             h("span", null, "付款公司名称"),
             h("el-input", {
               props: {
-                value: corpName,
-              },
-            }),
-          ]),
+                value: corpName
+              }
+            })
+          ])
         ]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then((action) => {
+        cancelButtonText: "取消"
+      }).then(action => {
         this.$http.sysFinancialControl
           .stopPrepaidCard({ data: { cardId, paymentCompany: corpName } })
-          .then((res) => {
+          .then(res => {
             if (resOk(res)) {
               this.$message.success("操作成功");
               this._mxGetList();
@@ -296,9 +301,9 @@ export default {
         row.startTime = `${row.startTime} 00:00:01`;
       }
       return row;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
