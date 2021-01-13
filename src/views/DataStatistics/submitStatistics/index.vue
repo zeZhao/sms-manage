@@ -87,7 +87,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "submitStatistics",
-        list: "submitStatistics",
+        list: "submitStatistics"
       },
       // 列表参数
       namespace: "",
@@ -96,7 +96,7 @@ export default {
       searchParam: {
         showDate: 1,
         showCode: 1,
-        showGateway: 1,
+        showGateway: 1
       },
       //搜索框配置
       searchFormConfig: [
@@ -104,19 +104,19 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         // {
         //   type: "inputNum",
@@ -130,22 +130,22 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "移动",
+              value: "移动"
             },
             {
               key: 2,
-              value: "联通",
+              value: "联通"
             },
             {
               key: 3,
-              value: "电信",
+              value: "电信"
             },
             {
               key: 4,
-              value: "国际",
-            },
+              value: "国际"
+            }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "select",
@@ -154,17 +154,17 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "行业",
+              value: "行业"
             },
             {
               key: 2,
-              value: "营销",
+              value: "营销"
             },
             {
               key: 3,
-              value: "vip",
-            },
-          ],
+              value: "vip"
+            }
+          ]
         },
         // {
         //   type: "select",
@@ -196,10 +196,10 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"],
-        },
+          key: ["", "countDate", "endDate"]
+        }
       ],
-      statistics: {},
+      statistics: {}
     };
   },
   mounted() {
@@ -210,8 +210,8 @@ export default {
     // 获取统计
     saleSubmitStatistics(searchParam) {
       this.$http.submitStatistics
-        .submitStatisticsTotal({ searchParam })
-        .then((res) => {
+        .submitStatisticsTotal({ ...searchParam })
+        .then(res => {
           if (resOk(res)) {
             this.statistics = res.data;
           }
@@ -226,6 +226,7 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
+
       this.saleSubmitStatistics(data);
       return data;
     },
@@ -236,7 +237,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { sendNum } = item;
         let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
         // if (!succCount) {
@@ -250,11 +251,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

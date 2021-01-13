@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="code" label="签名特服号" />
@@ -102,7 +107,7 @@ export default {
       searchAPI: {
         namespace: "sysSignCheck",
         list: "listSignCheckByPage",
-        detele: "deleteSignCheck",
+        detele: "deleteSignCheck"
       },
       // 列表参数
       namespace: "signCheck",
@@ -114,7 +119,7 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "select",
@@ -124,10 +129,10 @@ export default {
             { key: 1, value: "待审核" },
             { key: 2, value: "审核处理中" },
             { key: 4, value: "审核通过" },
-            { key: 5, value: "审核拒绝" },
+            { key: 5, value: "审核拒绝" }
           ],
-          placeholder: "请输入用户名称",
-        },
+          placeholder: "请输入用户名称"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -136,7 +141,7 @@ export default {
           label: "用户ID",
           key: "userId",
           disabled: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -144,18 +149,18 @@ export default {
           key: "sign",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          defaultValue: "",
+          defaultValue: ""
           //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        }
       ],
       signCheckId: "",
-      origin: window.location.origin,
+      origin: window.location.origin
     };
   },
   mounted() {},
@@ -168,10 +173,10 @@ export default {
         params = {
           data: {
             signCheckId: this.signCheckId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSignCheck.updateSignCheck(params).then((res) => {
+        this.$http.sysSignCheck.updateSignCheck(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -192,7 +197,7 @@ export default {
     edit(row) {
       this.signCheckId = row.signCheckId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -209,9 +214,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

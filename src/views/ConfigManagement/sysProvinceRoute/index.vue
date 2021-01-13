@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" show-overflow-tooltip />
       <el-table-column prop="corporateId" label="企业ID" />

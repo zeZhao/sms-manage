@@ -16,9 +16,9 @@
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="companyName" label="公司名称" />
       <el-table-column prop="count" label="条数" />
-      <el-table-column prop="receivableMoeny" label="应收款(元)" />
+      <el-table-column prop="receivableMoney" label="应收款(元)" />
       <el-table-column prop="factMoney" label="	实收款(元)	" />
-      <el-table-column prop="poorMoeny" label="欠收款(元)" />
+      <el-table-column prop="poorMoney" label="欠收款(元)" />
       <el-table-column prop="countDate" label="账单月">
         <template slot-scope="scope">{{
           scope.row.countDate | timeFormat
@@ -303,7 +303,7 @@ export default {
         {
           type: "input",
           label: "应收款",
-          key: "receivableMoeny",
+          key: "receivableMoney",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -329,7 +329,7 @@ export default {
         {
           type: "input",
           label: "欠收款",
-          key: "poorMoeny",
+          key: "poorMoney",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -471,6 +471,7 @@ export default {
     },
     submit(form) {
       let params = {};
+      form = this._mxArrangeSubmitData(form);
       if (this.formTit == "新增") {
         params = {
           data: {
@@ -533,7 +534,6 @@ export default {
             res.data.forEach(t => {
               this.$set(t, "key", t.gateway);
               this.$set(t, "value", t.gatewayName);
-              console.log(item);
               item.optionData.push(t);
             });
           }
@@ -578,7 +578,7 @@ export default {
      * @returns {*}
      * @private
      */
-    _formatRequestData(data) {
+    _mxArrangeSubmitData(data) {
       const { countDate } = data;
       if (countDate) {
         data.countDate = `${countDate}-01`;

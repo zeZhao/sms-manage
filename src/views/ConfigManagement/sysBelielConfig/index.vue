@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corporateId" label="企业/代理ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
@@ -90,7 +95,7 @@ export default {
       searchAPI: {
         namespace: "corpUserOptimize",
         list: "queryByPage",
-        detele: "delete",
+        detele: "delete"
       },
       // 列表参数
       namespace: "corpUserOptimize",
@@ -101,37 +106,37 @@ export default {
         {
           type: "inputNum",
           label: "企业ID",
-          key: "corporateId",
+          key: "corporateId"
         },
         {
           type: "input",
           label: "用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
           label: "用户名称",
-          key: "userName",
+          key: "userName"
         },
         {
           type: "input",
           label: "用户特服号",
-          key: "code",
+          key: "code"
         },
         {
           type: "input",
           label: "不优化关键词",
-          key: "noOptimizeTemplate",
+          key: "noOptimizeTemplate"
         },
         {
           type: "select",
           label: "产品类型",
           optionData: [
             { key: "1", value: "正常" },
-            { key: "2", value: "对比库" },
+            { key: "2", value: "对比库" }
           ],
-          key: "optimizeType",
-        },
+          key: "optimizeType"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -143,7 +148,7 @@ export default {
           btnDisabled: false,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -151,7 +156,7 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -159,7 +164,7 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -170,14 +175,14 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "正常",
+              value: "正常"
             },
             {
               key: 2,
-              value: "对比库",
-            },
+              value: "对比库"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -187,19 +192,19 @@ export default {
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
               trigger: "change",
-              validator: validatorSign,
-            },
-          ],
+              validator: validatorSign
+            }
+          ]
         },
         {
           type: "textarea",
           label: "不优化关键词",
           key: "noOptimizeTemplate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
       id: "",
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {},
@@ -215,19 +220,19 @@ export default {
       this.$msgbox({
         title: "删除",
         message: h("div", null, [
-          h("p", null, "您确定要删除此项吗？"),
+          h("p", null, "您确定要删除此项吗？")
           // h('p', {
           //     style: 'color: red'
           // }, '删除后，将不再执行重发，请谨慎操作')
         ]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then((action) => {
+        cancelButtonText: "取消"
+      }).then(action => {
         const params = {};
         params[key] = id.toString();
         const { namespace, detele } = this.searchAPI;
-        this.$http[namespace][detele](params).then((res) => {
+        this.$http[namespace][detele](params).then(res => {
           if (resOk(res)) {
             this.$message.info("删除成功！");
             this._mxGetList();
@@ -239,7 +244,7 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -255,7 +260,7 @@ export default {
     edit(row) {
       this.id = row.id;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -275,9 +280,9 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form,
+          ...form
         };
-        this.$http.corpUserOptimize.addOrUpdate(params).then((res) => {
+        this.$http.corpUserOptimize.addOrUpdate(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -289,9 +294,9 @@ export default {
       } else {
         params = {
           id: this.id,
-          ...form,
+          ...form
         };
-        this.$http.corpUserOptimize.addOrUpdate(params).then((res) => {
+        this.$http.corpUserOptimize.addOrUpdate(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -308,7 +313,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userId") {
           item.btnDisabled = false;
         }
@@ -316,9 +321,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
