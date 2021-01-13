@@ -36,17 +36,11 @@
       </el-table-column>-->
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.operaId === 0
-              ? "非法"
-              : scope.row.operaId === 1
-              ? "移动"
-              : scope.row.operaId === 2
-              ? "联通"
-              : scope.row.operaId === 3
-              ? "电信"
-              : "国际"
-          }}</span>
+          <span v-if="scope.row.operaId === '0'">非法</span>
+          <span v-if="scope.row.operaId === '1'">移动</span>
+          <span v-if="scope.row.operaId === '2'">联通</span>
+          <span v-if="scope.row.operaId === '3'">电信</span>
+          <span v-if="scope.row.operaId === '4'">国际</span>
         </template>
       </el-table-column>
       <el-table-column prop="count" label="投诉次数" />
@@ -142,6 +136,7 @@ export default {
           label: "投诉类型",
           key: "type",
           optionData: [
+            { key: "验证码", value: "验证码" },
             { key: "有效验证码", value: "有效验证码" },
             { key: "会员营销", value: "会员营销" },
             { key: "非会员营销", value: "非会员营销" },
@@ -193,7 +188,7 @@ export default {
         },
         {
           type: "daterange",
-          label: "平台下发时间",
+          label: "投诉时间",
           key: ["", "complaintDateStart", "complaintDateEnd"]
         },
         {
@@ -323,7 +318,14 @@ export default {
           type: "input",
           label: "投诉手机号",
           key: "mobile",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/,
+              message: "手机号格式不对",
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "inputNum",
@@ -431,7 +433,28 @@ export default {
         }
       });
     },
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
     _formatRequestData(data) {
+      const { complaintDateEnd, complaintDateStart } = data;
+      if (complaintDateStart) {
+        data.complaintDateStart = new Date(complaintDateStart).Format(
+          "yyyy-MM-dd 00:00:01"
+        );
+      }
+      if (complaintDateEnd) {
+        data.complaintDateEnd = new Date(complaintDateEnd).Format(
+          "yyyy-MM-dd 23:59:59"
+        );
+      }
+      return data;
+    },
+    _mxArrangeSubmitData(data) {
       const { complaintDate, adTime, createDate } = data;
       if (complaintDate) {
         data.complaintDate = new Date(complaintDate).Format("yyyy-MM-dd");

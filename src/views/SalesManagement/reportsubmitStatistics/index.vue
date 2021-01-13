@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
@@ -61,7 +66,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "reportsubmitStatistics",
-        list: "saleSubmitStatistics",
+        list: "saleSubmitStatistics"
       },
       // 列表参数
       namespace: "",
@@ -73,17 +78,17 @@ export default {
         {
           type: "inputNum",
           label: "企业ID",
-          key: "corpId",
+          key: "corpId"
         },
         {
           type: "inputNum",
           label: "用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
           label: "用户名称",
-          key: "userName",
+          key: "userName"
         },
         // {
         //   type: "input",
@@ -95,7 +100,7 @@ export default {
           label: "销售人员",
           key: "saleActualName",
           optionData: [],
-          placeholder: "请选择销售人员",
+          placeholder: "请选择销售人员"
         },
         {
           type: "select",
@@ -105,8 +110,8 @@ export default {
             { key: "0", value: "非法" },
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" },
-          ],
+            { key: "3", value: "电信" }
+          ]
         },
         {
           type: "select",
@@ -115,8 +120,8 @@ export default {
           optionData: [
             { key: "1", value: "行业" },
             { key: "2", value: "营销" },
-            { key: "3", value: "VIP" },
-          ],
+            { key: "3", value: "VIP" }
+          ]
         },
         {
           type: "select",
@@ -126,8 +131,8 @@ export default {
             { key: "1", value: "日期" },
             { key: "2", value: "企业ID" },
             { key: "3", value: "运营商" },
-            { key: "4", value: "用户类型" },
-          ],
+            { key: "4", value: "用户类型" }
+          ]
         },
         {
           type: "select",
@@ -135,21 +140,21 @@ export default {
           key: "orderBy",
           optionData: [
             { key: "1", value: "日期" },
-            { key: "2", value: "提交数" },
-          ],
+            { key: "2", value: "提交数" }
+          ]
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"],
-        },
+          key: ["", "countDate", "endDate"]
+        }
       ],
       total: {
         total: 0,
         industryNum: 0,
         marketingNum: 0,
-        vipNum: 0,
-      },
+        vipNum: 0
+      }
     };
   },
   mounted() {
@@ -160,7 +165,7 @@ export default {
   methods: {
     //获取销售员
     getSaleman() {
-      this.$http.sysSales.queryAvailableSaleman().then((res) => {
+      this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.searchFormConfig,
@@ -175,7 +180,7 @@ export default {
     saleSubmitStatistics() {
       this.$http.reportsubmitStatistics
         .saleSubmitStatisticsTotal({ ...this.searchParam })
-        .then((res) => {
+        .then(res => {
           if (resOk(res)) {
             this.total = res.data;
           }
@@ -198,11 +203,10 @@ export default {
       }
       this.saleSubmitStatistics(data);
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

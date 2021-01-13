@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="corporateName" label="企业名称" />
       <el-table-column prop="cardCount" label="条数" />
@@ -53,7 +58,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysPrepaidCard",
-        list: "listCorporateBillByPage",
+        list: "listCorporateBillByPage"
       },
       // 列表参数
       namespace: "prepaidCard",
@@ -64,7 +69,7 @@ export default {
         {
           type: "inputNum",
           label: "企业ID",
-          key: "corporateId",
+          key: "corporateId"
         },
         {
           type: "select",
@@ -74,16 +79,16 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
+              value: "短信"
+            }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "month",
           label: "月份",
-          key: "remark",
-        },
+          key: "remark"
+        }
         // {
         //   type: "select",
         //   key: "isBill",
@@ -96,7 +101,7 @@ export default {
         //     },
         //   ],
         // },
-      ],
+      ]
     };
   },
   mounted() {},
@@ -115,12 +120,12 @@ export default {
           { smsType: chargeType, corporateId, countDate, direct: "1" },
           {
             responseType: "blob",
-            headers: { token: window.localStorage.getItem("token") },
+            headers: { token: window.localStorage.getItem("token") }
           }
         )
-        .then((res) => {
+        .then(res => {
           let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel",
+            type: "application/vnd.ms-excel"
           });
           let url = window.URL.createObjectURL(blob);
           let aLink = document.createElement("a");
@@ -154,12 +159,12 @@ export default {
           { smsType: chargeType, corporateId, countDate, direct: "2" },
           {
             responseType: "blob",
-            headers: { token: window.localStorage.getItem("token") },
+            headers: { token: window.localStorage.getItem("token") }
           }
         )
-        .then((res) => {
+        .then(res => {
           let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel;charset=utf-8",
+            type: "application/vnd.ms-excel;charset=utf-8"
           });
           let url = window.URL.createObjectURL(blob);
           let aLink = document.createElement("a");
@@ -188,7 +193,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { cardCount, cardMoney, succCount, foreignPrice } = item;
         if (!succCount) {
           item.succCount = 0;
@@ -202,9 +207,9 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userId" label="企业/用户ID" />
       <el-table-column
         prop="userName"
@@ -50,7 +55,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "corpUserBalance",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "userBalance",
@@ -61,13 +66,13 @@ export default {
         {
           type: "inputNum",
           label: "企业/用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "企业/用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入企业/用户名称"
         },
         {
           type: "select",
@@ -77,26 +82,26 @@ export default {
           optionData: [
             {
               key: "",
-              value: "请选择",
+              value: "请选择"
             },
             {
               key: 0,
-              value: "用户",
+              value: "用户"
             },
             {
               key: 1,
-              value: "企业",
-            },
+              value: "企业"
+            }
           ],
-          placeholder: "请选择类型",
-        },
-      ],
+          placeholder: "请选择类型"
+        }
+      ]
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {},
+  watch: {}
 };
 </script>
 
