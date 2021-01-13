@@ -5,7 +5,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="id" label="编号" />
       <el-table-column prop="name" label="标签名称" />
       <el-table-column label="操作" width="200">
@@ -65,21 +70,21 @@ export default {
       searchAPI: {
         namespace: "sysTag",
         list: "tagList",
-        detele: "deleteTag",
+        detele: "deleteTag"
       },
       // 列表参数
       namespace: "",
       //搜索框数据
       searchParam: {
-        userId: "",
+        userId: ""
       },
       //搜索框配置
       searchFormConfig: [
         {
           type: "input",
           label: "标签名称",
-          key: "name",
-        },
+          key: "name"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -91,13 +96,13 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
-        },
+              trigger: "blur"
+            }
+          ]
+        }
       ],
       id: "",
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {},
@@ -108,16 +113,16 @@ export default {
       this.$msgbox({
         title: "删除",
         message: h("div", null, [
-          h("p", null, "您确定要删除此项吗？"),
+          h("p", null, "您确定要删除此项吗？")
           // h('p', {
           //     style: 'color: red'
           // }, '删除后，将不再执行重发，请谨慎操作')
         ]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消", 
-      }).then((action) => {
-        this.$http.sysTag.deleteTag(id).then((res) => {
+        cancelButtonText: "取消"
+      }).then(action => {
+        this.$http.sysTag.deleteTag(id).then(res => {
           if (resOk(res)) {
             this.$message.success("删除成功");
             this._mxGetList();
@@ -131,9 +136,9 @@ export default {
       let params = {};
       if (this.formTit == "新增") {
         params = {
-          ...form,
+          ...form
         };
-        this.$http.sysTag.tagPost(params).then((res) => {
+        this.$http.sysTag.tagPost(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -144,9 +149,9 @@ export default {
       } else {
         params = {
           id: this.id,
-          ...form,
+          ...form
         };
-        this.$http.sysTag.tagPut(params).then((res) => {
+        this.$http.sysTag.tagPut(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -169,7 +174,7 @@ export default {
     edit(row) {
       this.id = row.id;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -186,9 +191,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

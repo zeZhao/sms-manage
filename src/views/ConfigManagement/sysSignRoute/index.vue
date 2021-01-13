@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corporateId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
@@ -101,7 +106,7 @@ export default {
       searchAPI: {
         namespace: "sysSignRoute",
         list: "listSignRouteByPage",
-        detele: "deleteSignRoute",
+        detele: "deleteSignRoute"
       },
       // 列表参数
       namespace: "signRoute",
@@ -113,31 +118,31 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "input",
           label: "签名",
           key: "sign",
-          placeholder: "请输入签名",
+          placeholder: "请输入签名"
         },
         {
           type: "inputNum",
           label: "用户特服号",
           key: "code",
-          placeholder: "请输入用户特服号",
+          placeholder: "请输入用户特服号"
         },
         {
           type: "select",
@@ -146,37 +151,37 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "特服号",
+              value: "特服号"
             },
             {
               key: 2,
-              value: "用户ID",
+              value: "用户ID"
             },
             {
               key: 3,
-              value: "企业ID",
-            },
+              value: "企业ID"
+            }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "inputNum",
           label: "电信网关通道",
           key: "ct",
-          placeholder: "请输入电信网关通道",
+          placeholder: "请输入电信网关通道"
         },
         {
           type: "inputNum",
           label: "联通网关通道",
           key: "cu",
-          placeholder: "请输入联通网关通道",
+          placeholder: "请输入联通网关通道"
         },
         {
           type: "inputNum",
           label: "移动网关通道",
           key: "cm",
-          placeholder: "请输入移动网关通道",
-        },
+          placeholder: "请输入移动网关通道"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -193,9 +198,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "input",
@@ -207,9 +212,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "input",
@@ -221,9 +226,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "textarea",
@@ -235,13 +240,13 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
+              trigger: "blur"
             },
             {
               trigger: "blur",
-              validator: validatorSign,
-            },
-          ],
+              validator: validatorSign
+            }
+          ]
         },
         {
           type: "select",
@@ -252,17 +257,17 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "特服号",
+              value: "特服号"
             },
             {
               key: 2,
-              value: "用户ID",
+              value: "用户ID"
             },
             {
               key: 3,
-              value: "企业ID",
-            },
-          ],
+              value: "企业ID"
+            }
+          ]
         },
         {
           type: "select",
@@ -273,9 +278,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "select",
@@ -286,9 +291,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "select",
@@ -299,14 +304,14 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
-        },
+              trigger: "blur"
+            }
+          ]
+        }
       ],
       routeId: "",
       GatewayList: [], // 通道列表
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {
@@ -318,7 +323,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -338,15 +343,15 @@ export default {
       const params = {
         data: {
           status: status,
-          orderStatus: orderStatus,
-        },
+          orderStatus: orderStatus
+        }
       };
-      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then((res) => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
               item.optionData.push(t);
@@ -360,10 +365,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSignRoute.addSignRoute(params).then((res) => {
+        this.$http.sysSignRoute.addSignRoute(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -376,10 +381,10 @@ export default {
         params = {
           data: {
             routeId: this.routeId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysSignRoute.updateSignRoute(params).then((res) => {
+        this.$http.sysSignRoute.updateSignRoute(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -396,7 +401,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userId") {
           item.btnDisabled = false;
         }
@@ -405,7 +410,7 @@ export default {
     edit(row) {
       this.routeId = row.routeId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -425,9 +430,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

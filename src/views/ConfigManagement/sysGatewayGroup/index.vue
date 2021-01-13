@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="groupId" label="通道组ID" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />

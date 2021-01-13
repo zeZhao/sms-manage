@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="strategyLevel" label="策略类型">
         <template slot-scope="scope">
           <span>{{

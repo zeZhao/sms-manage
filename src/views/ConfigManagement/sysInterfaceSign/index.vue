@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="code" label="特服号" />
@@ -98,7 +103,7 @@ export default {
         list: "listInterfaceSignByPage",
         detele: "deleteInterfaceSign",
         add: "addInterfaceSign",
-        edit: "updateInterfaceSign",
+        edit: "updateInterfaceSign"
       },
       // 列表参数
       namespace: "",
@@ -110,25 +115,25 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户特服号",
           key: "code",
-          placeholder: "请输入用户特服号",
+          placeholder: "请输入用户特服号"
         },
         {
           type: "input",
           label: "签名",
           key: "sign",
-          placeholder: "请输入签名",
+          placeholder: "请输入签名"
         },
         {
           type: "select",
@@ -137,19 +142,19 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "特服号",
+              value: "特服号"
             },
             {
               key: "2",
-              value: "客户ID",
+              value: "客户ID"
             },
             {
               key: "3",
-              value: "企业ID",
-            },
+              value: "企业ID"
+            }
           ],
-          placeholder: "类型",
-        },
+          placeholder: "类型"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -165,9 +170,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "input",
@@ -179,9 +184,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "input",
@@ -193,9 +198,9 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "select",
@@ -204,24 +209,24 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "特服号",
+              value: "特服号"
             },
             {
               key: 2,
-              value: "客户ID",
+              value: "客户ID"
             },
             {
               key: 3,
-              value: "企业ID",
-            },
+              value: "企业ID"
+            }
           ],
           rules: [
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
-            },
-          ],
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "textarea",
@@ -231,16 +236,16 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur",
+              trigger: "blur"
             },
             {
               trigger: "change",
-              validator: validatorSign,
-            },
-          ],
-        },
+              validator: validatorSign
+            }
+          ]
+        }
       ],
-      isChooseUser: false,
+      isChooseUser: false
     };
   },
   mounted() {},
@@ -248,7 +253,7 @@ export default {
   methods: {
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map((t) => {
+      this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -264,7 +269,7 @@ export default {
     _mxCreate() {
       this.addChannel = true;
       this.formTit = "新增";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         if (item.key === "userId") {
           this.$set(item, "btnDisabled", false);
         }
@@ -278,7 +283,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -295,11 +300,10 @@ export default {
         this.$refs.formItem.clearValidate();
       }, 0);
       this.addChannel = true;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
