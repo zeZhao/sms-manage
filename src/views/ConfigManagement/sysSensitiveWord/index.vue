@@ -7,7 +7,12 @@
       @create="create"
       @focus="focus"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%;"
+      v-loading="loading"
+    >
       <el-table-column prop="wordName" label="敏感词" />
       <el-table-column prop="groupId" label="级别" />
       <el-table-column prop="groupName" label="敏感词组" />

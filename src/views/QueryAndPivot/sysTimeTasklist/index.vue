@@ -164,7 +164,7 @@ export default {
      */
     _formatRequestData(data) {
       if (data.startTime) {
-        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:01");
+        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:00");
       }
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");

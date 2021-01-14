@@ -5,7 +5,12 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="limitType" label="类型">
         <template slot-scope="scope">
