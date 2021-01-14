@@ -34,7 +34,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="counter" label="条数" />
-      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
         <template slot-scope="scope">
@@ -138,7 +138,7 @@ export default {
         },
         {
           type: "inputNum",
-          label: "网关",
+          label: "通道",
           key: "gateway"
         },
         {

@@ -1,10 +1,14 @@
 <template>
   <!--彩信通道-->
   <div class="mmsGateway">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
-      <el-table-column prop="gatewayId" label="网关编号" />
-      <el-table-column prop="name" label="网关名称" />
+      <el-table-column prop="gatewayId" label="通道编号" />
+      <el-table-column prop="name" label="通道名称" />
       <!-- <el-table-column prop="gatewayType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
@@ -12,24 +16,38 @@
       </el-table-column>-->
       <el-table-column prop="type" label="运营商">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 0 ? "三网" : (scope.row.type === 1 ? "移动" :(scope.row.type === 2 ? "联通" :'电信')) }}</span>
+          <span>{{
+            scope.row.type === 0
+              ? "三网"
+              : scope.row.type === 1
+              ? "移动"
+              : scope.row.type === 2
+              ? "联通"
+              : "电信"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="price" label="通道价格(分)" />
       <el-table-column prop="status" label="是否可用">
         <template slot-scope="scope">
-          <span>{{ scope.row.status === 0 ? "不可用" : '可用' }}</span>
+          <span>{{ scope.row.status === 0 ? "不可用" : "可用" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'gatewayId')" type="text" size="small">修改</el-button>
+          <el-button
+            @click="_mxEdit(scope.row, 'gatewayId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
           <el-button
             @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
             type="text"
             size="small"
-          >删除</el-button>
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -38,7 +56,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -75,15 +98,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "网关编号",
+          label: "通道编号",
           key: "gatewayId",
-          placeholder: "请输入网关编号"
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
-          label: "网关名称",
+          label: "通道名称",
           key: "name",
-          placeholder: "请输入网关名称"
+          placeholder: "请输入通道名称"
         },
         {
           type: "select",
@@ -130,13 +153,13 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "网关名称",
+          label: "通道名称",
           key: "name",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "网关公司名称",
+          label: "通道公司名称",
           key: "corpName"
         },
         {
@@ -166,7 +189,7 @@ export default {
         },
         {
           type: "input",
-          label: "网关单价(分)",
+          label: "通道单价(分)",
           key: "price",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -177,12 +200,12 @@ export default {
         // },
         {
           type: "input",
-          label: "网关用户名",
+          label: "通道用户名",
           key: "urlUserName"
         },
         {
           type: "input",
-          label: "网关密码",
+          label: "通道密码",
           key: "urlPwd"
         },
         {

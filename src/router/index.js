@@ -717,7 +717,7 @@ export const asyncRoutes = [
     //         name: 'sysSendError',
     //         meta: {
     //             keepAlive: false,
-    //             title: '网关错误'
+    //             title: '通道错误'
     //         }
     //     },
     //     {

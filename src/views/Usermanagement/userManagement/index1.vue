@@ -10,8 +10,8 @@
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="企业/代理ID" width="100" />
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="loginName" label="用户登录名" width="100" />
+      <el-table-column prop="userName" label="用户名" width="100" show-overflow-tooltip/>
+      <el-table-column prop="loginName" label="用户登录名" width="100" show-overflow-tooltip/>
       <el-table-column
         prop="password"
         label="密码"

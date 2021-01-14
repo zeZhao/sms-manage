@@ -19,7 +19,7 @@
       <el-table-column prop="longCode" label="通道码号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="gateway" label="网关编号" />
+      <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span>{{
@@ -85,7 +85,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sendAcrossDays",
-        list: "queryList",
+        list: "queryList"
       },
       // 列表参数
       namespace: "smsSendReport",
@@ -97,25 +97,25 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "date",
           label: "开始日期",
-          key: "startTime",
+          key: "startTime"
         },
         {
           type: "date",
           label: "结束日期",
-          key: "endTime",
-        },
-      ],
+          key: "endTime"
+        }
+      ]
     };
   },
   mounted() {},
@@ -140,7 +140,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { cardCount, cardMoney, succCount, foreignPrice } = item;
         if (!succCount) {
           item.succCount = 0;
@@ -154,11 +154,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

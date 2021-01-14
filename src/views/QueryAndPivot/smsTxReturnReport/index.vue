@@ -37,7 +37,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="status" label="状态" />
-      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime | timeFormat }}</span>
@@ -79,7 +79,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsTxReturnReport",
-        list: "searchSendReturnReport",
+        list: "searchSendReturnReport"
       },
       // 列表参数
       namespace: "",
@@ -91,61 +91,61 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "input",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "请输入网关编号",
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
           label: "SEQID",
           key: "seqid",
-          placeholder: "请输入SEQID",
+          placeholder: "请输入SEQID"
         },
         {
           type: "input",
           label: "状态",
           key: "status",
-          placeholder: "请输入状态",
+          placeholder: "请输入状态"
         },
         {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
         {
           type: "date",
           label: "发送日期",
           key: "sendTime",
-          placeholder: "发送日期",
+          placeholder: "发送日期"
         },
         {
           type: "select",
@@ -155,15 +155,15 @@ export default {
           optionData: [
             { key: "2", value: "成功" },
             { key: "3", value: "失败" },
-            { key: "4", value: "未知" },
-          ],
+            { key: "4", value: "未知" }
+          ]
         },
         {
           type: "select",
           label: "省份",
           key: "province",
           placeholder: "请选择省份",
-          optionData: [],
+          optionData: []
         },
         {
           type: "select",
@@ -173,15 +173,15 @@ export default {
           optionData: [
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" },
-          ],
+            { key: "3", value: "电信" }
+          ]
         },
         {
           type: "timerange",
           label: "发送时间",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {
@@ -195,17 +195,17 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: "",
-        },
+          provinceName: ""
+        }
       };
-      this.$http.listSysProvince(params).then((res) => {
-        this.searchFormConfig.forEach((item) => {
+      this.$http.listSysProvince(params).then(res => {
+        this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               let obj = {
                 key: t.provinceName,
-                value: t.provinceName,
+                value: t.provinceName
               };
               item.optionData.push(obj);
             });
@@ -231,9 +231,9 @@ export default {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

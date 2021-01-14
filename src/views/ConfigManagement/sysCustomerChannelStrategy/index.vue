@@ -29,9 +29,9 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="cmPassageway" label="移动网关" />
-      <el-table-column prop="cuPassageway" label="联通网关" />
-      <el-table-column prop="ctPassageway" label="电信网关" />
+      <el-table-column prop="cmPassageway" label="移动通道" />
+      <el-table-column prop="cuPassageway" label="联通通道" />
+      <el-table-column prop="ctPassageway" label="电信通道" />
       <el-table-column prop="modifier" label="修改人" />
       <el-table-column prop="modifyTime" label="修改时间">
         <template slot-scope="scope">{{

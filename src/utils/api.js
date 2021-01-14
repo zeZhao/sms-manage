@@ -859,7 +859,7 @@ export default {
         queryByPage(params) {
             return post("/smsSendTask/queryByPage", params);
         },
-        // 批量修改网关
+        // 批量修改通道
         batchModify(params) {
             return post("/smsSendTask/batchModify", params);
         },
@@ -868,13 +868,13 @@ export default {
             return post("/smsSendTask/queryGatewayStockNum", params);
         }
     },
-    // 网关错误
+    // 通道错误
     sysSendError: {
         // 查询列表
         queryByPage(params) {
             return post("/sysSendError/queryByPage", params);
         },
-        // 修改网关
+        // 修改通道
         editGateWay(params) {
             return post("/sysSendError/editGateWay", params);
         },
@@ -1461,7 +1461,7 @@ export default {
         queryByPage(params) {
             return post("/smsSendTask/queryByPage", params);
         },
-        // 批量修改网关
+        // 批量修改通道
         batchModify(params) {
             return post("/smsSendTask/batchModify", params);
         },
@@ -1470,13 +1470,13 @@ export default {
             return post("/smsSendTask/queryGatewayStockNum", params);
         }
     },
-    // 网关错误
+    // 通道错误
     sysSendError: {
         // 查询列表
         queryByPage(params) {
             return post("/sysSendError/queryByPage", params);
         },
-        // 修改网关
+        // 修改通道
         editGateWay(params) {
             return post("/sysSendError/editGateWay", params);
         },
