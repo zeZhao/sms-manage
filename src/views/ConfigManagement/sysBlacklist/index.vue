@@ -174,6 +174,7 @@ export default {
           type: "input",
           label: "手机号",
           key: "mobile",
+          disabled: false,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -336,6 +337,9 @@ export default {
         if (item.key === "userId") {
           this.$set(item, "btnDisabled", false);
         }
+        if (item.key === "mobile") {
+          this.$set(item, "disabled", false);
+        }
       });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
@@ -362,6 +366,9 @@ export default {
       this.formConfig.forEach(item => {
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "mobile") {
+          this.$set(item, "disabled", true);
         }
         for (let key in row) {
           if (item.key === key) {

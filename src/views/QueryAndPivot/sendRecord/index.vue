@@ -92,7 +92,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sendRecord",
-        list: "selectSendBackByPage",
+        list: "selectSendBackByPage"
       },
       // 列表参数
       namespace: "",
@@ -104,69 +104,69 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
         {
           type: "inputNum",
           label: "网关",
-          key: "gateway",
+          key: "gateway"
         },
         {
           type: "date",
           label: "创建日期",
-          key: "createTime",
+          key: "createTime"
         },
         {
           type: "timerange",
           label: "创建时间",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
-      total: 0,
+      total: 0
     };
   },
   mounted() {
-    this.selectSendBackAllNum();
+    this.selectSendBackAllNum(this.searchParam);
   },
   computed: {},
   methods: {
-    selectSendBackAllNum() {
+    selectSendBackAllNum(data) {
       let params = {
         data: {
-          ...this.searchParam,
-        },
+          ...data
+        }
       };
-      this.$http.sendRecord.selectSendBackAllNum(params).then((res) => {
+      this.$http.sendRecord.selectSendBackAllNum(params).then(res => {
         if (res.code === 200) {
           this.total = res.data;
         }
@@ -190,16 +190,12 @@ export default {
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
+      this.selectSendBackAllNum(data);
       return data;
-    },
+    }
   },
-  watch: {
-    searchParam(val) {
-      this.selectSendBackAllNum();
-    },
-  },
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
