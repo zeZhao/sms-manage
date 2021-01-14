@@ -17,8 +17,8 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="客户特服号" />
-      <el-table-column prop="gwcode" label="网关特服号" />
-      <el-table-column prop="gateway" label="网关编号" />
+      <el-table-column prop="gwcode" label="通道特服号" />
+      <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="sign" label="客户签名" />
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
@@ -148,9 +148,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "请输入网关编号"
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
@@ -166,9 +166,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "网关特服号",
+          label: "通道特服号",
           key: "gwcode",
-          placeholder: "请输入网关特服号"
+          placeholder: "请输入通道特服号"
         }
       ],
       // 表单配置
@@ -210,7 +210,7 @@ export default {
 
         {
           type: "select",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
           optionData: [],
           rules: [
@@ -219,7 +219,7 @@ export default {
         },
         {
           type: "input",
-          label: "网关特服号",
+          label: "通道特服号",
           key: "gwcode",
           defaultValue: "",
           rules: [

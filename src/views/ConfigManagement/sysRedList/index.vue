@@ -97,9 +97,9 @@ export default {
         },
         {
           type: "input",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "请输入网关编号"
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
@@ -187,7 +187,7 @@ export default {
             },
             {
               key: 2,
-              value: "特定网关"
+              value: "特定通道"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

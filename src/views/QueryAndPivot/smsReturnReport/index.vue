@@ -22,7 +22,7 @@
         width="110"
         show-overflow-tooltip
       />
-      <el-table-column prop="gateway" label="网关" show-overflow-tooltip />
+      <el-table-column prop="gateway" label="通道" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="error" label="错误描述" />
       <el-table-column prop="returnTime" label="返回报告时间" width="150">
@@ -66,7 +66,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsReturnReport",
-        list: "selectReturnReportByPage",
+        list: "selectReturnReportByPage"
       },
       // 列表参数
       namespace: "",
@@ -78,49 +78,49 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corporateId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "input",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "请输入网关编号",
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
           label: "SEQID",
           key: "seqId",
-          placeholder: "请输入SEQID",
+          placeholder: "请输入SEQID"
         },
         {
           type: "input",
           label: "状态",
           key: "status",
-          placeholder: "请输入状态",
+          placeholder: "请输入状态"
         },
         {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
         {
           type: "select",
@@ -128,20 +128,20 @@ export default {
           key: "statusType",
           optionData: [
             { key: "1", value: "成功" },
-            { key: "2", value: "失败" },
-          ],
+            { key: "2", value: "失败" }
+          ]
         },
         {
           type: "date",
           label: "返回日期",
           key: "returnTime",
-          placeholder: "返回日期",
+          placeholder: "返回日期"
         },
         {
           type: "timerange",
           label: "返回状态报告时间",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
         // {
         //   type: "select",
         //   label: "省份",
@@ -149,7 +149,7 @@ export default {
         //   placeholder: "请选择省份",
         //   optionData: [],
         // },
-      ],
+      ]
     };
   },
   mounted() {},
@@ -173,9 +173,9 @@ export default {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

@@ -16,7 +16,7 @@
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="counter" label="条数" />
-      <el-table-column prop="gateway" label="网关编号" />
+      <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="definiteTime" label="统计日期">
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime | Format }}</span>
@@ -41,7 +41,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysTimeTasklistStatistics",
-        list: "queryTimeTaskByPage",
+        list: "queryTimeTaskByPage"
       },
       // 列表参数
       namespace: "timeTask",
@@ -53,32 +53,32 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "inputNum",
           label: "通道编号",
           key: "gateway",
-          placeholder: "通道编号",
+          placeholder: "通道编号"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {},
+  watch: {}
 };
 </script>
 

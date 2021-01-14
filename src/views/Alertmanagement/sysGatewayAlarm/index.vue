@@ -1,41 +1,56 @@
 <template>
   <!--通道警报-->
   <div class="mmsUserGateway">
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%;">
-      <el-table-column prop="gateway" label="网关编号" />
+      <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="submitFail" label="是否提交失败报警">
         <template slot-scope="scope">
-          <span>{{scope.row.submitFail === 0 ? '否':'是'}}</span>
+          <span>{{ scope.row.submitFail === 0 ? "否" : "是" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="alarmStaus" label="失败状态">
         <template slot-scope="scope">
-          <span>{{scope.row.alarmStaus === 0 ? '否':'是'}}</span>
+          <span>{{ scope.row.alarmStaus === 0 ? "否" : "是" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="mobile" label="手机号码" width="115" />
       <el-table-column prop="adminUser" label="预警用户" />
       <el-table-column prop="sucCrate" label="低于设定成功率报警" />
-      <el-table-column prop="disconnectFail" label="连不上网关报警">
+      <el-table-column prop="disconnectFail" label="连不上通道报警">
         <template slot-scope="scope">
-          <span>{{scope.row.disconnectFail === 0 ? '否':'是'}}</span>
+          <span>{{ scope.row.disconnectFail === 0 ? "否" : "是" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="complaintRate" label="投诉率报警" />
       <el-table-column prop="daySendAlarm" label="日成功量提醒" />
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" width="150">
-        <template slot-scope="scope">{{scope.row.createTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="modifyUser" label="修改人" />
       <el-table-column prop="modifyTime" label="修改时间" width="150">
-        <template slot-scope="scope">{{scope.row.modifyTime | timeFormat}}</template>
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('alarmId',scope.row.alarmId)" type="text" size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('alarmId', scope.row.alarmId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -44,7 +59,12 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -69,7 +89,7 @@ export default {
       searchAPI: {
         namespace: "sysGatewayAlarm",
         list: "listGatewayAlarmByPage",
-        detele: "deleteGatewayAlarm",
+        detele: "deleteGatewayAlarm"
       },
       // 列表参数
       namespace: "gatewayAlarm",
@@ -79,16 +99,16 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "请输入网关编号",
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
-        },
+          placeholder: "请输入手机号"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -96,7 +116,7 @@ export default {
           type: "input",
           label: "通道编号",
           key: "gateway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -105,14 +125,14 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否",
+              value: "否"
             },
             {
               key: 1,
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -121,13 +141,13 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否",
+              value: "否"
             },
             {
               key: 1,
-              value: "是",
-            },
-          ],
+              value: "是"
+            }
+          ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -135,36 +155,36 @@ export default {
           label: "低于设定成功率报警",
           key: "sucCrate",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
-          label: "连不上网关报警",
+          label: "连不上通道报警",
           key: "alarmStaus",
           optionData: [
             {
               key: "0",
-              value: "否",
+              value: "否"
             },
             {
               key: "1",
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "投诉率报警",
           key: "complaintRate",
-          defaultValue: "",
+          defaultValue: ""
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "日成功量提醒:",
           key: "daySendAlarm",
-          defaultValue: "",
+          defaultValue: ""
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -172,12 +192,12 @@ export default {
           label: "手机号",
           key: "mobile",
           maxlength: "11",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "预警用户",
-          key: "adminUser",
+          key: "adminUser"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
@@ -188,24 +208,24 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否",
+              value: "否"
             },
             {
               key: 1,
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "同一失败状态报警次数",
           key: "errStatusNum",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
-      alarmId: "",
+      alarmId: ""
     };
   },
   mounted() {},
@@ -216,10 +236,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysGatewayAlarm.addGatewayAlarm(params).then((res) => {
+        this.$http.sysGatewayAlarm.addGatewayAlarm(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -232,10 +252,10 @@ export default {
         params = {
           data: {
             alarmId: this.alarmId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysGatewayAlarm.updateGatewayAlarm(params).then((res) => {
+        this.$http.sysGatewayAlarm.updateGatewayAlarm(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -256,7 +276,7 @@ export default {
     edit(row) {
       this.alarmId = row.alarmId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (row[key] === true) {
             row[key] = 1;
@@ -279,11 +299,10 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

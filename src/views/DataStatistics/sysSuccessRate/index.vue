@@ -15,7 +15,7 @@
       <el-table-column prop="corpId" label="企业ID" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="operator" label="运营商">
         <template slot-scope="scope">
           <span>{{
@@ -79,7 +79,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysSuccessRate",
-        list: "querySendDetail",
+        list: "querySendDetail"
       },
       // 列表参数
       namespace: "",
@@ -92,13 +92,13 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         // {
         //   type: "input",
@@ -107,8 +107,8 @@ export default {
         // },
         {
           type: "inputNum",
-          label: "网关",
-          key: "gateway",
+          label: "通道",
+          key: "gateway"
         },
         {
           type: "select",
@@ -119,23 +119,23 @@ export default {
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
-            { key: "4", value: "国际" },
+            { key: "4", value: "国际" }
           ],
-          placeholder: "请选择运营商",
+          placeholder: "请选择运营商"
         },
         {
           type: "select",
           label: "类型",
           key: "smsType",
           optionData: [
-            { key: "1", value: "短信" },
+            { key: "1", value: "短信" }
             // { key: "2", value: "彩信" },
             // { key: "3", value: "屏信" },
             // { key: "4", value: "语音" },
           ],
-          placeholder: "请选择类型",
-        },
-      ],
+          placeholder: "请选择类型"
+        }
+      ]
     };
   },
   mounted() {},
@@ -159,7 +159,7 @@ export default {
       //   this.searchParam.provinceName = str;
       // }
       if (rows && rows.length > 0) {
-        rows.forEach((item) => {
+        rows.forEach(item => {
           item.corpId = this.searchParam.corpId;
           item.userId = this.searchParam.userId;
           item.gateway = this.searchParam.gateway;
@@ -172,11 +172,10 @@ export default {
         rows = [Object.assign(rows[0], this.searchParam)];
       }
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

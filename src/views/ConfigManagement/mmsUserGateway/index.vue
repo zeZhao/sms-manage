@@ -126,21 +126,21 @@ export default {
         },
         {
           type: "input",
-          label: "电信网关通道",
+          label: "电信通道通道",
           key: "ctGatewayId",
-          placeholder: "请输入电信网关通道"
+          placeholder: "请输入电信通道通道"
         },
         {
           type: "input",
-          label: "联通网关通道",
+          label: "联通通道通道",
           key: "cuGatewayId",
-          placeholder: "请输入联通网关通道"
+          placeholder: "请输入联通通道通道"
         },
         {
           type: "input",
-          label: "移动网关通道",
+          label: "移动通道通道",
           key: "cmGatewayId",
-          placeholder: "请输入移动网关通道"
+          placeholder: "请输入移动通道通道"
         }
       ],
       // 表单配置

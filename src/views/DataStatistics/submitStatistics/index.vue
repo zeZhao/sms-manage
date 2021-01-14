@@ -120,7 +120,7 @@ export default {
         },
         // {
         //   type: "inputNum",
-        //   label: "网关",
+        //   label: "通道",
         //   key: "gateway",
         // },
         {
@@ -186,7 +186,7 @@ export default {
         // },
         // {
         //   type: "select",
-        //   label: "是否显示网关",
+        //   label: "是否显示通道",
         //   key: "showGateway",
         //   optionData: [
         //     { key: "0", value: "否" },

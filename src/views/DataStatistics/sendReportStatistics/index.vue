@@ -48,7 +48,7 @@
       </el-table-column>
       <el-table-column
         prop="gateway"
-        label="网关"
+        label="通道"
         v-if="searchParam.showGateway === '1'"
       />
       <el-table-column prop="sendNum" label="条数" />
@@ -82,7 +82,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sendReportStatistics",
-        list: "sendReportStatistics",
+        list: "sendReportStatistics"
       },
       // 列表参数
       namespace: "",
@@ -99,24 +99,24 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "inputNum",
-          label: "网关",
-          key: "gateway",
+          label: "通道",
+          key: "gateway"
         },
         {
           type: "select",
@@ -125,22 +125,22 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "移动",
+              value: "移动"
             },
             {
               key: 2,
-              value: "联通",
+              value: "联通"
             },
             {
               key: 3,
-              value: "电信",
+              value: "电信"
             },
             {
               key: 4,
-              value: "国际",
-            },
+              value: "国际"
+            }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "select",
@@ -149,17 +149,17 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "行业",
+              value: "行业"
             },
             {
               key: 2,
-              value: "营销",
+              value: "营销"
             },
             {
               key: 3,
-              value: "vip",
-            },
-          ],
+              value: "vip"
+            }
+          ]
         },
         {
           type: "select",
@@ -168,8 +168,8 @@ export default {
           defaultValue: "1",
           optionData: [
             { key: "0", value: "否" },
-            { key: "1", value: "是" },
-          ],
+            { key: "1", value: "是" }
+          ]
         },
         {
           type: "select",
@@ -178,26 +178,26 @@ export default {
           defaultValue: "0",
           optionData: [
             { key: "0", value: "否" },
-            { key: "1", value: "是" },
-          ],
+            { key: "1", value: "是" }
+          ]
         },
         {
           type: "select",
-          label: "是否显示网关",
+          label: "是否显示通道",
           key: "showGateway",
           defaultValue: "0",
           optionData: [
             { key: "0", value: "否" },
-            { key: "1", value: "是" },
-          ],
+            { key: "1", value: "是" }
+          ]
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"],
-        },
+          key: ["", "countDate", "endDate"]
+        }
       ],
-      statistics: {},
+      statistics: {}
     };
   },
   mounted() {
@@ -207,12 +207,10 @@ export default {
   methods: {
     // 获取统计
     queryUserSendDetailAll(searchParam) {
-      this.$http.sendReportStatistics
-        .sendReportTotal(searchParam)
-        .then((res) => {
-          this.statistics = Object.assign({}, res.data);
-          console.log(this.statistics);
-        });
+      this.$http.sendReportStatistics.sendReportTotal(searchParam).then(res => {
+        this.statistics = Object.assign({}, res.data);
+        console.log(this.statistics);
+      });
     },
     // 修改搜索参数
     _formatRequestData(data) {
@@ -233,7 +231,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { sendNum } = item;
         let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
         // if (!succCount) {
@@ -247,11 +245,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

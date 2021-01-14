@@ -26,7 +26,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="gateway" label="上行网关" />
+      <el-table-column prop="gateway" label="上行通道" />
       <el-table-column prop="createTime" label="上行时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
@@ -56,7 +56,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsMoQueue",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "moQueue",
@@ -68,37 +68,37 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "账号ID",
           key: "userId",
-          placeholder: "请输入账号ID",
+          placeholder: "请输入账号ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "input",
           label: "上行手机号",
           key: "mobile",
-          placeholder: "请输入上行手机号",
+          placeholder: "请输入上行手机号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
-          label: "上行网关",
+          label: "上行通道",
           key: "gateway",
-          placeholder: "请输入上行网关",
+          placeholder: "请输入上行通道"
         },
 
         {
@@ -106,20 +106,20 @@ export default {
           label: "省份",
           key: "province",
           optionData: [],
-          placeholder: "请选择省份",
+          placeholder: "请选择省份"
         },
         {
           type: "input",
           label: "城市",
           key: "city",
-          placeholder: "请输入城市",
+          placeholder: "请输入城市"
         },
         {
           type: "daterange",
           label: "上行时间",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {
@@ -133,10 +133,10 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: "",
-        },
+          provinceName: ""
+        }
       };
-      this.$http.listSysProvince(params).then((res) => {
+      this.$http.listSysProvince(params).then(res => {
         //province
         this._setDefaultValue(
           this.searchFormConfig,
@@ -146,9 +146,9 @@ export default {
           "provinceName"
         );
       });
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

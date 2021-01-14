@@ -22,7 +22,7 @@
               scope.row.blackType === "0"
                 ? "系统级"
                 : scope.row.blackType === "1"
-                ? "网关级"
+                ? "通道级"
                 : scope.row.blackType === "2"
                 ? "用户级"
                 : scope.row.blackType === "3"
@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="mobile" label="手机号码" />
-      <!-- <el-table-column prop="gateway" label="网关" /> -->
+      <!-- <el-table-column prop="gateway" label="通道" /> -->
 
       <el-table-column prop="modifyTime" label="修改日期" />
       <el-table-column prop="remark" label="描述" />
@@ -139,7 +139,7 @@ export default {
             },
             // {
             //   key: "1",
-            //   value: "网关级",
+            //   value: "通道级",
             // },
             {
               key: "2",
@@ -197,7 +197,7 @@ export default {
             },
             // {
             //   key: "1",
-            //   value: "网关级"
+            //   value: "通道级"
             // },
             {
               key: "2",

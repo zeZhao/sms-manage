@@ -24,12 +24,12 @@
       />
       <el-table-column
         prop="gateway"
-        label="网关"
+        label="通道"
         v-if="searchParam.showGateway === '1'"
       />
       <el-table-column
         prop="gatewayName"
-        label="网关名称"
+        label="通道名称"
         v-if="searchParam.showGateway === '1'"
       />
       <el-table-column
@@ -128,7 +128,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "report",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "",
@@ -139,7 +139,7 @@ export default {
         showGateway: 1,
         showOpera: 1,
         showUser: 1,
-        showCode: 1,
+        showCode: 1
       },
       //搜索框配置
       searchFormConfig: [
@@ -147,31 +147,31 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "inputNum",
           label: "通道号",
           key: "gateway",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "inputNum",
           label: "特服号",
           key: "code",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "select",
@@ -181,9 +181,9 @@ export default {
             { key: "1", value: "短信" },
             { key: "2", value: "彩信" },
             { key: "3", value: "屏信" },
-            { key: "4", value: "语音" },
+            { key: "4", value: "语音" }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "select",
@@ -193,14 +193,14 @@ export default {
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
-            { key: "4", value: "国际" },
-          ],
+            { key: "4", value: "国际" }
+          ]
         },
         {
           type: "select",
           label: "省份",
           key: "province",
-          optionData: [],
+          optionData: []
         },
         {
           type: "select",
@@ -209,18 +209,18 @@ export default {
           defaultValue: "1",
           optionData: [
             { key: "0", value: "不显示" },
-            { key: "1", value: "显示" },
-          ],
+            { key: "1", value: "显示" }
+          ]
         },
         {
           type: "select",
-          label: "是否查询网关",
+          label: "是否查询通道",
           key: "showGateway",
           defaultValue: "1",
           optionData: [
             { key: "0", value: "不显示" },
-            { key: "1", value: "显示" },
-          ],
+            { key: "1", value: "显示" }
+          ]
         },
         {
           type: "select",
@@ -229,8 +229,8 @@ export default {
           defaultValue: "1",
           optionData: [
             { key: "0", value: "不显示" },
-            { key: "1", value: "显示" },
-          ],
+            { key: "1", value: "显示" }
+          ]
         },
         {
           type: "select",
@@ -239,8 +239,8 @@ export default {
           defaultValue: "1",
           optionData: [
             { key: "0", value: "不显示" },
-            { key: "1", value: "显示" },
-          ],
+            { key: "1", value: "显示" }
+          ]
         },
         {
           type: "select",
@@ -249,16 +249,16 @@ export default {
           defaultValue: "0",
           optionData: [
             { key: "0", value: "不显示" },
-            { key: "1", value: "显示" },
-          ],
+            { key: "1", value: "显示" }
+          ]
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"],
-        },
+          key: ["", "countDate", "endDate"]
+        }
       ],
-      statistics: {},
+      statistics: {}
     };
   },
   mounted() {
@@ -273,17 +273,17 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: "",
-        },
+          provinceName: ""
+        }
       };
-      this.$http.listSysProvince(params).then((res) => {
-        this.searchFormConfig.forEach((item) => {
+      this.$http.listSysProvince(params).then(res => {
+        this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               let obj = {
                 key: t.provinceId,
-                value: t.provinceName,
+                value: t.provinceName
               };
               item.optionData.push(obj);
             });
@@ -293,7 +293,7 @@ export default {
     },
     // 获取统计
     queryUserSendDetailAll(data) {
-      this.$http.report.queryUserSendDetailAll({ ...data }).then((res) => {
+      this.$http.report.queryUserSendDetailAll({ ...data }).then(res => {
         this.statistics = Object.assign({}, res.data);
       });
     },
@@ -316,7 +316,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { sendNum } = item;
         let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
         // if (!succCount) {
@@ -330,11 +330,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
