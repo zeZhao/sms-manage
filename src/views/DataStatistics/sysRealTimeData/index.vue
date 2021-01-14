@@ -14,7 +14,7 @@
     >
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" />
       <el-table-column prop="successNum" label="成功数" />
@@ -43,7 +43,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysRealTimeData",
-        list: "realTimeData",
+        list: "realTimeData"
       },
       // 列表参数
       namespace: "",
@@ -52,7 +52,7 @@ export default {
       searchParam: {
         userId: "",
         code: "",
-        gateway: "",
+        gateway: ""
       },
       //搜索框配置
       searchFormConfig: [
@@ -60,19 +60,19 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "inputNum",
-          label: "网关",
+          label: "通道",
           key: "gateway",
-          placeholder: "请输入网关",
+          placeholder: "请输入通道"
         },
         // {
         //   type: "input",
@@ -84,15 +84,15 @@ export default {
           label: "省份",
           key: "province",
           optionData: [],
-          placeholder: "请选择省份",
+          placeholder: "请选择省份"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"],
-        },
+          key: ["", "countDate", "endDate"]
+        }
       ],
-      ProvinceList: [],
+      ProvinceList: []
     };
   },
   mounted() {
@@ -106,18 +106,18 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: "",
-        },
+          provinceName: ""
+        }
       };
-      this.$http.listSysProvince(params).then((res) => {
+      this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
-        this.searchFormConfig.forEach((item) => {
+        this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               let obj = {
                 key: t.provinceName,
-                value: t.provinceName,
+                value: t.provinceName
               };
               item.optionData.push(obj);
             });
@@ -147,14 +147,14 @@ export default {
         rows = [rows];
         let str = "";
         if (this.searchParam.province) {
-          this.ProvinceList.forEach((item) => {
+          this.ProvinceList.forEach(item => {
             if (item.provinceName === this.searchParam.province) {
               str = item.provinceName;
             }
           });
           this.searchParam.provinceName = str;
         }
-        rows.forEach((item) => {
+        rows.forEach(item => {
           item.userId = this.searchParam.userId;
           item.code = this.searchParam.code;
           item.gateway = this.searchParam.gateway;
@@ -163,11 +163,10 @@ export default {
         rows = [Object.assign(rows[0], this.searchParam)];
       }
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

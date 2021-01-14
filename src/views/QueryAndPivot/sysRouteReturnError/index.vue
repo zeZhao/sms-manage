@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="routeId" label="网关编号" />
-      <el-table-column prop="result" label="网关返回值" />
+      <el-table-column prop="routeId" label="通道编号" />
+      <el-table-column prop="result" label="通道返回值" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type === "0" ? "提交报告" : "返回报告" }}</span>
@@ -87,7 +87,7 @@ export default {
         list: "listRouteReturnErrorByPage",
         detele: "deleteRouteReturnError",
         add: "addRouteReturnError",
-        edit: "updateRouteReturnError",
+        edit: "updateRouteReturnError"
       },
       // 列表参数
       namespace: "routeReturnError",
@@ -97,15 +97,15 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "网关编号",
+          label: "通道编号",
           key: "routeId",
-          placeholder: "请输入网关编号",
+          placeholder: "请输入通道编号"
         },
         {
           type: "input",
-          label: "网关返回值",
+          label: "通道返回值",
           key: "result",
-          placeholder: "请输入网关返回值",
+          placeholder: "请输入通道返回值"
         },
         {
           type: "select",
@@ -115,21 +115,21 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "不限",
+              value: "不限"
             },
             {
               key: "1",
-              value: "移动",
+              value: "移动"
             },
             {
               key: "2",
-              value: "联通",
+              value: "联通"
             },
             {
               key: "3",
-              value: "电信",
-            },
-          ],
+              value: "电信"
+            }
+          ]
         },
         {
           type: "select",
@@ -138,15 +138,15 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "返回报告",
+              value: "返回报告"
             },
             {
               key: "0",
-              value: "提交报告",
-            },
+              value: "提交报告"
+            }
           ],
-          placeholder: "请选择类型",
-        },
+          placeholder: "请选择类型"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -160,7 +160,7 @@ export default {
         // },
         // {
         //   type: "input",
-        //   label: "网关编号",
+        //   label: "通道编号",
         //   key: "gateway",
         //   disabled: true,
         //   defaultValue: "",
@@ -168,13 +168,13 @@ export default {
         // },
         {
           type: "select",
-          label: "网关编号",
+          label: "通道编号",
           key: "routeIds",
           optionData: [],
           // defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" },
-          ],
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
         },
 
         {
@@ -184,22 +184,22 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "不限",
+              value: "不限"
             },
             {
               key: 1,
-              value: "移动",
+              value: "移动"
             },
             {
               key: 2,
-              value: "联通",
+              value: "联通"
             },
             {
               key: 3,
-              value: "电信",
-            },
+              value: "电信"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -208,22 +208,22 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "返回报告",
+              value: "返回报告"
             },
             {
               key: "0",
-              value: "提交报告",
-            },
+              value: "提交报告"
+            }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "网关返回值",
+          label: "通道返回值",
           key: "result",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -231,12 +231,12 @@ export default {
           label: "返回错误说明",
           key: "notes",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
       bId: "",
       GatewayList: [], // 通道列表
-      ProvinceList: [], // 通道列表
+      ProvinceList: [] // 通道列表
     };
   },
   mounted() {
@@ -248,12 +248,12 @@ export default {
       const { val, item } = data;
       let obj = {};
       if (item.key === "gatewayName") {
-        item.optionData.map((t) => {
+        item.optionData.map(t => {
           if (t.key == val) {
             obj = t;
           }
         });
-        this.formConfig.map((t) => {
+        this.formConfig.map(t => {
           const { key } = t;
           if (key === "gatewayName") {
             t.defaultValue = obj.gatewayName;
@@ -273,15 +273,15 @@ export default {
           gatewayName: "",
           isCu: "",
           isCt: "",
-          isCm: "",
-        },
+          isCm: ""
+        }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
+      this.$http.gateway.listGateway(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach((item) => {
+        this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "routeIds") {
-            res.data.forEach((t) => {
+            res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
               this.$set(t, "value", t.gateway);
               item.optionData.push(t);
@@ -319,9 +319,9 @@ export default {
       form = Object.assign(form, { routeId: form.routeIds });
       console.log(form, "-----form");
       return form;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

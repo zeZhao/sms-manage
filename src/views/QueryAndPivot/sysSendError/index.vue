@@ -1,5 +1,5 @@
 <template>
-  <!--网关错误-->
+  <!--通道错误-->
   <div class="sysSendError">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -14,7 +14,7 @@
           >查询</el-button
         >
         <el-button type="primary" @click="editContent">修改内容</el-button>
-        <el-button type="primary" @click="editGateway">修改网关</el-button>
+        <el-button type="primary" @click="editGateway">修改通道</el-button>
       </template>
     </Search>
     <el-table
@@ -29,7 +29,7 @@
       <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" width="120" />
-      <el-table-column prop="gateway" label="网关" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="errCode" label="错误码" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="err" label="错误描述" show-overflow-tooltip />
@@ -60,7 +60,7 @@
       ></FormItem>
     </el-dialog>
     <el-dialog
-      title="修改网关"
+      title="修改通道"
       :visible.sync="gateway"
       :close-on-click-modal="false"
       style="margin: 0 auto"
@@ -69,7 +69,7 @@
         :colSpan="12"
         ref="formItemGateway"
         :formConfig="formConfigGateway"
-        btnTxt="修改网关"
+        btnTxt="修改通道"
         @submit="submitGateway"
         @cancel="cancelGateway"
       ></FormItem>
@@ -89,7 +89,7 @@ export default {
       // 接口地址
       searchAPI: {
         namespace: "sysSendError",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "sendError",
@@ -101,61 +101,61 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "企业ID",
+          placeholder: "企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "用户ID",
+          placeholder: "用户ID"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "内容",
+          placeholder: "内容"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "手机号",
+          placeholder: "手机号"
         },
         {
           type: "input",
-          label: "网关编号",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "网关编号",
+          placeholder: "通道编号"
         },
         {
           type: "inputNum",
           label: "错误码",
           key: "errCode",
-          placeholder: "错误码",
+          placeholder: "错误码"
         },
         {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "CID",
+          placeholder: "CID"
         },
         {
           type: "input",
           label: "错误描述",
           key: "err",
-          placeholder: "错误描述",
+          placeholder: "错误描述"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "特服号",
+          placeholder: "特服号"
         },
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
       // 修改内容表单配置
       formConfigContent: [
@@ -164,87 +164,87 @@ export default {
           label: "用户ID",
           key: "userId",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "原内容",
           key: "content",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "原关键字",
           key: "keyWord",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "目标关键字",
           key: "newKeyWord",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
-      // 修改网关表单配置
+      // 修改通道表单配置
       formConfigGateway: [
         {
           type: "input",
           label: "用户ID",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
           label: "内容",
-          key: "content",
+          key: "content"
         },
         {
           type: "input",
           label: "cid",
-          key: "cid",
+          key: "cid"
         },
         {
           type: "input",
-          label: "原网关",
+          label: "原通道",
           key: "gateway",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "目标网关",
+          label: "目标通道",
           key: "newGateway",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "手机号",
-          key: "mobile",
+          key: "mobile"
         },
         {
           type: "input",
           label: "错误原因",
-          key: "err",
+          key: "err"
         },
         {
           type: "input",
           label: "特服号",
-          key: "code",
+          key: "code"
         },
         {
           type: "date",
           label: "开始时间",
-          key: "startTime",
+          key: "startTime"
         },
         {
           type: "date",
           label: "结束时间",
-          key: "endTime",
-        },
-      ],
+          key: "endTime"
+        }
+      ]
     };
   },
   mounted() {},
@@ -257,7 +257,7 @@ export default {
         this.$refs.formItemContent.resetForm();
       });
     },
-    // 修改网关
+    // 修改通道
     editGateway() {
       this.gateway = true;
       setTimeout(() => {
@@ -267,7 +267,7 @@ export default {
 
     //提交修改内容
     submitContent(form) {
-      this.$http.sysSendError.editContent({ ...form }).then((res) => {
+      this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || "修改成功！");
           this.content = false;
@@ -289,7 +289,7 @@ export default {
           form[key] = new Date(form[key]).Format("yyyy-MM-dd 23:59:59");
         }
       }
-      this.$http.sysSendError.editGateWay({ ...form }).then((res) => {
+      this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || "修改成功！");
           this.gateway = false;
@@ -304,7 +304,7 @@ export default {
 
     //countMonth
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         if (item.submitTime) {
           item.submitTime = new Date(item.submitTime).Format(
             "yyyy-MM-dd hh:mm:ss"
@@ -320,9 +320,9 @@ export default {
      */
     _mxArrangeSubmitData(formData) {
       return formData;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
