@@ -612,7 +612,7 @@ export default {
           key: "blackLevel",
           optionData: [
             { key: 0, value: "系统级" },
-            { key: 2, value: "客户级" },
+            { key: 2, value: "用户级" },
             { key: 3, value: "营销级" },
             { key: 4, value: "BSATS级" }
           ],
