@@ -79,7 +79,7 @@ export default {
       searchAPI: {
         namespace: "sysUnbilled",
         list: "queryNoSendByPage",
-        detele: "deleteExemptReviewManage",
+        detele: "deleteExemptReviewManage"
       },
       // 列表参数
       namespace: "",
@@ -92,25 +92,25 @@ export default {
           type: "inputNum",
           label: "企业ID",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入企业ID"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "input",
           label: "特服号",
           key: "code",
-          placeholder: "请输入特服号",
+          placeholder: "请输入特服号"
         },
         {
           type: "select",
@@ -119,10 +119,10 @@ export default {
           optionData: [
             // { key: "0", value: "需要审核" },
             { key: "1", value: "特服号" },
-            { key: "2", value: "客户ID" },
-            { key: "3", value: "企业ID" },
+            { key: "2", value: "客户ID" }
+            // { key: "3", value: "企业ID" },
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
 
         {
@@ -131,9 +131,9 @@ export default {
           key: "sendStatus",
           optionData: [
             { key: "", value: "不限制" },
-            { key: "1", value: "未发" },
+            { key: "1", value: "未发" }
           ],
-          placeholder: "请选择发送情况",
+          placeholder: "请选择发送情况"
         },
         {
           type: "select",
@@ -144,17 +144,17 @@ export default {
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
-            { key: "4", value: "国际" },
+            { key: "4", value: "国际" }
           ],
-          placeholder: "请选择类型",
+          placeholder: "请选择类型"
         },
         {
           type: "daterange",
           label: "统计周期",
-          key: ["", "countDate", "endDate"],
-        },
+          key: ["", "countDate", "endDate"]
+        }
       ],
-      statistics: {},
+      statistics: {}
     };
   },
   mounted() {},
@@ -181,7 +181,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { cardCount, cardMoney, succCount, foreignPrice } = item;
         if (!succCount) {
           item.succCount = 0;
@@ -195,11 +195,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -39,7 +39,7 @@
       </el-table-column>
       <el-table-column prop="checker" label="审核根源" width="130">
         <template slot-scope="scope">
-          <span v-if="scope.row.source == '1'">路由信息错误</span>
+          <span v-if="scope.row.source == '1'">没有配置免审</span>
           <span v-if="scope.row.source == '2'">关键字</span>
           <span v-if="scope.row.source == '3'">模板不匹配</span>
           <span v-if="scope.row.source == '5'">数量超标</span>
@@ -90,7 +90,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsCheck",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "smsCheck",
@@ -105,59 +105,59 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "待审",
+              value: "待审"
             },
             {
               key: "1",
-              value: "正在审核",
+              value: "正在审核"
             },
             {
               key: "2",
-              value: "审核通过",
+              value: "审核通过"
             },
             {
               key: "3",
-              value: "拒绝",
-            },
+              value: "拒绝"
+            }
           ],
-          placeholder: "审核状态",
+          placeholder: "审核状态"
         },
         {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户ID"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "input",
           label: "CID",
           key: "cId",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "date",
           label: "审核日期",
           key: "checkDate",
-          placeholder: "审核日期",
+          placeholder: "审核日期"
         },
         {
           type: "date",
           label: "提交日期",
-          key: "startTime",
-        },
-      ],
+          key: "startTime"
+        }
+      ]
     };
   },
   mounted() {},
@@ -178,9 +178,9 @@ export default {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
