@@ -166,21 +166,21 @@ export default {
         },
         {
           type: "inputNum",
-          label: "电信通道通道",
+          label: "电信通道",
           key: "ct",
-          placeholder: "请输入电信通道通道"
+          placeholder: "请输入电信通道"
         },
         {
           type: "inputNum",
-          label: "联通通道通道",
+          label: "联通通道",
           key: "cu",
-          placeholder: "请输入联通通道通道"
+          placeholder: "请输入联通通道"
         },
         {
           type: "inputNum",
-          label: "移动通道通道",
+          label: "移动通道",
           key: "cm",
-          placeholder: "请输入移动通道通道"
+          placeholder: "请输入移动通道"
         }
       ],
       // 表单配置

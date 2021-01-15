@@ -10,8 +10,18 @@
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="企业/代理ID" width="100" />
       <el-table-column prop="userId" label="用户ID" />
-      <el-table-column prop="userName" label="用户名" width="100" show-overflow-tooltip/>
-      <el-table-column prop="loginName" label="用户登录名" width="100" show-overflow-tooltip/>
+      <el-table-column
+        prop="userName"
+        label="用户名"
+        width="100"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="loginName"
+        label="用户登录名"
+        width="100"
+        show-overflow-tooltip
+      />
       <el-table-column
         prop="password"
         label="密码"
@@ -352,11 +362,11 @@ export default {
           type: "input",
           label: "用户名称",
           key: "userName",
-          maxlength: "10",
+          maxlength: "20",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
               message: "不支持特殊字符",
               trigger: "change"
             }
@@ -366,11 +376,11 @@ export default {
           type: "input",
           label: "用户登录名",
           key: "loginName",
-          maxlength: "10",
+          maxlength: "20",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
               message: "不支持特殊字符",
               trigger: "change"
             }
@@ -565,7 +575,7 @@ export default {
           label: "客户联系人",
           key: "contact",
           defaultValue: "",
-          maxlength: "10",
+          maxlength: "20",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {

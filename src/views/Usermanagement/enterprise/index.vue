@@ -221,7 +221,7 @@
         </el-form-item>
         <el-form-item label="客户联系人" prop="contact">
           <el-input
-            maxlength="10"
+            maxlength="20"
             show-word-limit
             v-model="addInfo.contact"
             type="phone"
