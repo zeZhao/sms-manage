@@ -189,6 +189,7 @@ export default {
           type: "select",
           label: "黑名单类型",
           key: "blackType",
+          disabled: false,
           defaultValue: "",
           optionData: [
             {
@@ -368,6 +369,9 @@ export default {
           this.$set(item, "defaultValue", "");
         }
         if (item.key === "mobile") {
+          this.$set(item, "disabled", true);
+        }
+        if (item.key === "blackType") {
           this.$set(item, "disabled", true);
         }
         for (let key in row) {
