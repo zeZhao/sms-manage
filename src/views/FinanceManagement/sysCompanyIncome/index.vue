@@ -21,7 +21,7 @@
       <el-table-column prop="poorMoney" label="欠收款(元)" />
       <el-table-column prop="countDate" label="账单月">
         <template slot-scope="scope">{{
-          scope.row.countDate | timeFormat
+          scope.row.countDate | Format
         }}</template>
       </el-table-column>
     </el-table>
