@@ -405,14 +405,19 @@ export default {
         data.orderMonthS = new Date(orderMonthS).Format("yyyy-MM");
       }
       return data;
-    }
+    },
     //countMonth
-    // _mxArrangeSubmitData(formData) {
-    //   if (formData.countMonth) {
-    //     formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
-    //   }
-    //   return formData;
-    // }
+    _mxArrangeSubmitData(formData) {
+      if (formData.orderMonth) {
+        formData.orderMonth = new Date(formData.orderMonth).Format(
+          "yyyy-MM-01"
+        );
+      }
+      if (formData.theMonth) {
+        formData.theMonth = new Date(formData.theMonth).Format("yyyy-MM-01");
+      }
+      return formData;
+    }
   },
   watch: {}
 };
