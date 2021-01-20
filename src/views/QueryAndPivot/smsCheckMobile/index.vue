@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="cid" label="批次ID" />
+      <el-table-column prop="cid" label="CID" />
       <el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
       <el-table-column prop="type" label="号码类型">
         <template slot-scope="scope">
@@ -32,7 +32,8 @@
       <el-table-column prop="count" label="手机号的个数" />
       <el-table-column prop="status" label="处理状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 1 ? "未处理 " : "已处理" }}</span>
+          <span v-if="scope.row.status === '0'">未处理</span>
+          <span v-if="scope.row.status === '1'">已处理</span>
         </template>
       </el-table-column>
       <el-table-column prop="unitPrice" label="分区字段" />
@@ -60,7 +61,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsCheckMobile",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "checkMobile",
@@ -72,27 +73,27 @@ export default {
           type: "input",
           label: "CID",
           key: "cid",
-          placeholder: "请输入CID",
+          placeholder: "请输入CID"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "date",
           label: "提交日期",
           key: "createTime",
-          placeholder: "请选择提交日期",
-        },
-      ],
+          placeholder: "请选择提交日期"
+        }
+      ]
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {},
+  watch: {}
 };
 </script>
 
