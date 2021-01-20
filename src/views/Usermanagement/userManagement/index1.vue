@@ -609,7 +609,7 @@ export default {
           label: "是否是直客",
           key: "isDirectUser",
           optionData: [
-            { key: 1, value: "短信" },
+            { key: 1, value: "直客" },
             { key: 2, value: "代理商" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

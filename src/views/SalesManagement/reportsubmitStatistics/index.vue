@@ -41,7 +41,7 @@
       <el-table-column prop="failNum" label="失败条数" />
       <el-table-column prop="unknownNum" label="未知条数" />
       <el-table-column prop="percentage" label="提交占比" />
-      <el-table-column prop="saleActualName" label="销售" />
+      <el-table-column prop="saleUserName" label="销售" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p style="color: red">
@@ -98,7 +98,7 @@ export default {
         {
           type: "select",
           label: "销售人员",
-          key: "saleActualName",
+          key: "saleUserName",
           optionData: [],
           placeholder: "请选择销售人员"
         },
@@ -170,9 +170,9 @@ export default {
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
-            "saleActualName",
-            "actualName",
-            "actualName"
+            "saleUserName",
+            "userName",
+            "userName"
           );
         }
       });
