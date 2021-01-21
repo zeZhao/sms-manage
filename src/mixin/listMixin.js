@@ -272,7 +272,7 @@ export default {
     },
 
     /**
-     * 调整提交的参数
+     * 调整筛选条件提交的参数
      *
      * @param data
      * @returns {*}
