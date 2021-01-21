@@ -20,7 +20,11 @@
       <el-table-column prop="saleman" label="销售名称" />
       <el-table-column prop="reductModel" label="计费类型">
         <template slot-scope="scope">
-          <span>
+          <span v-if="scope.row.reductModel == 1">预付提交计费</span>
+          <span v-if="scope.row.reductModel == 2">预付成功计费</span>
+          <span v-if="scope.row.reductModel == 3">后付提交计费</span>
+          <span v-if="scope.row.reductModel == 4">后付成功计费</span>
+          <!-- <span>
             {{
               scope.row.reductModel == 1
                 ? "预付提交计费"
@@ -30,7 +34,7 @@
                 ? "后付提交计费"
                 : "后付成功计费"
             }}
-          </span>
+          </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="submitCount" label="提交条数" />

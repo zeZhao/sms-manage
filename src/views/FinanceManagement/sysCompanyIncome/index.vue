@@ -21,15 +21,15 @@
       <el-table-column prop="poorMoney" label="欠收款(元)" />
       <el-table-column prop="countDate" label="账单月">
         <template slot-scope="scope">{{
-          scope.row.countDate | timeFormat
+          scope.row.countDate | FormatMonth
         }}</template>
       </el-table-column>
     </el-table>
     <p style="color: red" v-if="this.statistics">
       提交数:{{ this.statistics.count }} &nbsp;&nbsp;应收款:{{
-        this.statistics.receivable_moeny
+        this.statistics.receivable_money
       }}&nbsp;&nbsp; 实收款:{{ this.statistics.fact_money }}&nbsp;&nbsp;
-      欠收款:{{ this.statistics.poor_moeny }}
+      欠收款:{{ this.statistics.poor_money }}
     </p>
     <Page
       :pageObj="pageObj"
@@ -570,6 +570,20 @@ export default {
     },
     cancel() {
       this.addChannel = false;
+    },
+    /**
+     * 调整筛选条件提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      const { countDate } = data;
+      if (countDate) {
+        data.countDate = `${countDate}-01`;
+      }
+      return data;
     },
     /**
      * 调整提交的参数

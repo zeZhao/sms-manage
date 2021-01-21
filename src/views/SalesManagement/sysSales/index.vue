@@ -339,9 +339,13 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
+      let rule = { required: true, message: "请输入必填项", trigger: "blur" };
       this.formConfig.forEach(item => {
         if (item.key === "userName") {
           item.disabled = false;
+        }
+        if (item.key === "password") {
+          this.$set(item.rules, 1, rule);
         }
       });
       setTimeout(() => {
@@ -363,6 +367,7 @@ export default {
         }
         if (item.key === "password") {
           this.$set(item, "defaultValue", "");
+          this.$set(item.rules, 1, {});
         }
         if (item.key === "userName") {
           item.disabled = true;
