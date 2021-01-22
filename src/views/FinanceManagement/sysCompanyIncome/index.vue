@@ -19,17 +19,17 @@
       <el-table-column prop="receivableMoney" label="应收款(元)" />
       <el-table-column prop="factMoney" label="	实收款(元)	" />
       <el-table-column prop="poorMoney" label="欠收款(元)" />
-      <el-table-column prop="countDate" label="账单月">
-        <template slot-scope="scope">{{
+      <el-table-column prop="countDateS" label="账单月">
+        <!-- <template slot-scope="scope">{{
           scope.row.countDate | FormatMonth
-        }}</template>
+        }}</template> -->
       </el-table-column>
     </el-table>
     <p style="color: red" v-if="this.statistics">
       提交数:{{ this.statistics.count }} &nbsp;&nbsp;应收款:{{
-        this.statistics.receivable_money
-      }}&nbsp;&nbsp; 实收款:{{ this.statistics.fact_money }}&nbsp;&nbsp;
-      欠收款:{{ this.statistics.poor_money }}
+        this.statistics.receivableMoney
+      }}&nbsp;&nbsp; 实收款:{{ this.statistics.factMoney }}&nbsp;&nbsp;
+      欠收款:{{ this.statistics.poorMoney }}
     </p>
     <Page
       :pageObj="pageObj"
