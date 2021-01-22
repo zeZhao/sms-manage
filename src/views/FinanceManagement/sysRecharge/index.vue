@@ -657,8 +657,10 @@ export default {
           } else if (item.key === "cardMoney") {
             cardMoney = item.defaultValue;
           }
-          if (item.key === "cardCount") {
-            item.defaultValue = Math.round((cardMoney * 100) / cardUnit);
+          if (cardUnit && cardMoney) {
+            if (item.key === "cardCount") {
+              item.defaultValue = Math.round((cardMoney * 100) / cardUnit);
+            }
           }
         });
       }
