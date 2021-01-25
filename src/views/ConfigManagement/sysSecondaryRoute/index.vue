@@ -76,7 +76,7 @@ export default {
   mixins: [listMixin],
   data() {
     const validatorSign = (rule, value, callback) => {
-      let regex = /^[\u4e00-\u9fa5_a-zA-Z0-9]{2,8}$/;
+      let regex = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
       if (value == "") {
         callback(new Error("客户签名不能为空"));
       } else {
