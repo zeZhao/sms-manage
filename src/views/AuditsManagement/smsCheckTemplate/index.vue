@@ -121,12 +121,12 @@ export default {
           key: "matchType",
           optionData: [
             {
-              key: "2",
-              value: "过关键字"
+              key: "1",
+              value: "正常发送"
             },
             {
-              key: "1",
-              value: "不过关键字"
+              key: "2",
+              value: "拦截"
             }
           ],
           placeholder: "请选择匹配类型"
