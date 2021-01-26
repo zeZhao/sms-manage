@@ -705,7 +705,7 @@ export default {
           this.$set(item, "disabled", false);
         }
       });
-      this.getAllCorp();
+      // this.getAllCorp();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -713,7 +713,7 @@ export default {
     //修改
     _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
-      this.getAllCorp();
+      // this.getAllCorp();
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
