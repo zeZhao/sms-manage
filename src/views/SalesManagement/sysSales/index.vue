@@ -105,7 +105,7 @@ export default {
       }
     };
     const validatorPassword = (rule, value, callback) => {
-      let regex = /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/;
+      let regex = /^[\d0-9a-zA-Z-*/+.~!@#$%^&*()]{8,16}$/;
       if (value) {
         if (!regex.test(value)) {
           callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
