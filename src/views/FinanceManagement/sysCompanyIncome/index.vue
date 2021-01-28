@@ -14,12 +14,110 @@
     >
       <el-table-column type="index" label="序号" />
       <el-table-column prop="corporateId" label="企业ID" />
+      <el-table-column
+        prop="userId"
+        label="用户ID"
+        v-if="searchParam.isDetail === 2"
+      />
+      <el-table-column
+        prop="gateway"
+        label="通道码号	"
+        v-if="searchParam.isDetail === 2"
+      />
+      <el-table-column
+        prop="operaId"
+        label="码号运营商	"
+        v-if="searchParam.isDetail === 2"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.operaId == '1'">移动</span>
+          <span v-if="scope.row.operaId == '2'">联通</span>
+          <span v-if="scope.row.operaId == '3'">电信</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="companyName" label="公司名称" />
+      <el-table-column
+        prop="payCompany"
+        label="付款单位	"
+        v-if="searchParam.isDetail === 2"
+      />
       <el-table-column prop="count" label="条数" />
+      <el-table-column
+        prop="corporateId"
+        label="单价(分)	"
+        v-if="searchParam.isDetail === 2"
+      />
       <el-table-column prop="receivableMoney" label="应收款(元)" />
       <el-table-column prop="factMoney" label="	实收款(元)	" />
       <el-table-column prop="poorMoney" label="欠收款(元)" />
+      <el-table-column
+        prop="smsType"
+        label="信息类型	"
+        v-if="searchParam.isDetail === 2"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.smsType == '1'">短信</span>
+          <span v-if="scope.row.smsType == '2'">彩信</span>
+          <span v-if="scope.row.smsType == '3'">屏信</span>
+          <span v-if="scope.row.smsType == '4'">语音</span>
+          <span v-if="scope.row.smsType == '5'">流量</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="incomeType"
+        label="收入类型	"
+        v-if="searchParam.isDetail === 2"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.incomeType == '1'">预收</span>
+          <span v-if="scope.row.incomeType == '2'">平台月度账单</span>
+          <span v-if="scope.row.incomeType == '3'">直连月度账单</span>
+          <span v-if="scope.row.incomeType == '4'">返佣</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="isBilling"
+        label="是否开票	"
+        v-if="searchParam.isDetail === 2"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.isBilling == '1'">已开</span>
+          <span v-if="scope.row.isBilling == '2'">未开</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="toPublic"
+        label="是否对公	"
+        v-if="searchParam.isDetail === 2"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.toPublic == '1'">对公</span>
+          <span v-if="scope.row.toPublic == '2'">对私</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="paymentStatus"
+        label="回款状态	"
+        v-if="searchParam.isDetail === 2"
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.paymentStatus == '1'">已收</span>
+          <span v-if="scope.row.paymentStatus == '2'">欠款</span>
+          <span v-if="scope.row.paymentStatus == '3'">欠收</span>
+          <span v-if="scope.row.paymentStatus == '4'">坏账</span>
+          <span v-if="scope.row.paymentStatus == '5'">其他</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="countDateS" label="账单月">
+        <el-table-column
+          prop="posttingDate"
+          label="入账日期	"
+          v-if="searchParam.isDetail === 2"
+        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.posttingDate | Format }}</span>
+          </template>
+        </el-table-column>
         <!-- <template slot-scope="scope">{{
           scope.row.countDate | FormatMonth
         }}</template> -->
