@@ -256,6 +256,7 @@ export default {
           type: "input",
           label: "付款金额",
           key: "lender",
+          maxlength: 9,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },

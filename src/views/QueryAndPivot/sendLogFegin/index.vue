@@ -140,14 +140,14 @@ export default {
     };
   },
   mounted() {
-    this.selectSendLogAllNum();
+    this.selectSendLogAllNum(this.searchParam);
   },
   computed: {},
   methods: {
-    selectSendLogAllNum() {
+    selectSendLogAllNum(data) {
       let params = {
         data: {
-          ...this.searchParam
+          ...data
         }
       };
       this.$http.sendLogFegin.selectSendLogAllNum(params).then(res => {
@@ -174,6 +174,7 @@ export default {
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
+      this.selectSendLogAllNum(data);
       return data;
     }
   },

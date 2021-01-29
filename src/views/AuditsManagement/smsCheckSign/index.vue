@@ -93,7 +93,7 @@ export default {
       searchAPI: {
         namespace: "sysSignCheck",
         list: "listSignCheckByPage",
-        edit: "checkSignCheck",
+        edit: "checkSignCheck"
       },
       // 列表参数
       namespace: "signCheck",
@@ -105,8 +105,8 @@ export default {
           type: "inputNum",
           label: "用户ID",
           key: "userId",
-          placeholder: "请输入用户ID",
-        },
+          placeholder: "请输入用户ID"
+        }
       ],
       // 表单配置
       formConfig: [
@@ -115,34 +115,36 @@ export default {
           label: "用户ID",
           key: "userId",
           disabled: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "签名",
           key: "sign",
           disabled: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "签名特服号",
           key: "code",
-          defaultValue: "",
+          defaultValue: ""
         },
         {
           type: "radio",
           label: "状态",
           key: "status",
+          initDefaultValue: 4,
           defaultValue: 4,
           optionData: [
             { key: 4, value: "通过" },
-            { key: 5, value: "拒绝" },
+            { key: 5, value: "拒绝" }
           ],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
       signCheckId: "",
-      origin: window.location.origin,
+      origin: window.location.origin
     };
   },
   mounted() {},
@@ -153,7 +155,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "审核";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -169,9 +171,9 @@ export default {
     _formatRequestData(data) {
       data["status"] = 1;
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
