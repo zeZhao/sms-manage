@@ -478,7 +478,7 @@ export default {
       } else if (
         !/^[\d0-9a-zA-Z-*/+.~!@#$%^&*()]{8,16}$/.test(this.addInfo.pwd)
       ) {
-        return this.$message.error("密码为8-16位，数字、字母、标点符号");
+        return this.$message.error("密码为8-16位，数字、字母、英文符号");
       } else if (this.addInfo.name == "") {
         return this.$message.error("请填写姓名");
       } else if (this.addInfo.state == "") {
