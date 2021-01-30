@@ -168,7 +168,7 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/,
+              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
               message: "手机号格式不对",
               trigger: "blur"
             }

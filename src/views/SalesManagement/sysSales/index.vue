@@ -129,7 +129,7 @@ export default {
       }
     };
     const validatorMobile = (rule, value, callback) => {
-      let regex = /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/;
+      let regex = /^1(3|4|5|6|7|8|9)\d{9}$/;
       if (value == "") {
         callback(new Error("手机号不能为空"));
       } else {

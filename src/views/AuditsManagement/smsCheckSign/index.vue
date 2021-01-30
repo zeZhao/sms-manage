@@ -15,8 +15,10 @@
             style="color: #1890ff"
             :href="`${origin}${scope.row.licenceUrl}`"
             target="_blank"
+            v-if="scope.row.licenceUrl"
             >点击查看</a
           >
+          <span v-else>暂无图片</span>
         </template>
       </el-table-column>
       <el-table-column prop="cardUrl" label="法人身份证">
@@ -25,8 +27,10 @@
             style="color: #1890ff"
             :href="`${origin}${scope.row.cardUrl}`"
             target="_blank"
+            v-if="scope.row.cardUrl"
             >点击查看</a
           >
+          <span v-else>暂无图片</span>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="申请时间">

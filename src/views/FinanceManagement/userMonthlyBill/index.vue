@@ -24,6 +24,7 @@
           <span v-if="scope.row.reductModel == 2">预付成功计费</span>
           <span v-if="scope.row.reductModel == 3">后付提交计费</span>
           <span v-if="scope.row.reductModel == 4">后付成功计费</span>
+          <span v-else>未识别</span>
           <!-- <span>
             {{
               scope.row.reductModel == 1
