@@ -162,7 +162,7 @@
             controls-position="right"
             :min="1000"
             :max="9999"
-            type="number"
+            :precision="0"
             placeholder="请输入特服号"
           />
         </el-form-item>

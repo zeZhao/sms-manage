@@ -851,13 +851,27 @@ export default {
     getAllCorp() {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
-          this._setDefaultValue(
-            this.formConfig,
-            res.data,
-            "corpId",
-            "corpId",
-            "corpName"
-          );
+          let arr = [];
+          this.formConfig.forEach(item => {
+            if (item.key === 'corpId') {
+              res.data.forEach(t => {
+                let obj = {
+                  key: t.corpId,
+                  value: t.corpName
+                };
+                arr.push(obj);
+              });
+            }
+            item.optionData = arr
+          });
+
+          // this._setDefaultValue(
+          //   this.formConfig,
+          //   res.data,
+          //   "corpId",
+          //   "corpId",
+          //   "corpName"
+          // );
         }
       });
     },

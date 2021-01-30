@@ -432,12 +432,10 @@ export default {
               key: t[optionKey],
               value: t[optionVal]
             };
-            arr.push(obj);
+            item.optionData.push(obj);
           });
         }
-        item.optionData = arr
       });
-
     },
 
     /**
