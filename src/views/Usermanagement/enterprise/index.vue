@@ -354,7 +354,7 @@ export default {
           { required: true, message: "请输入企业名称", trigger: "blur" }
         ],
         // pwd: [{ required: true, message: "请输入8-16位密码", trigger: "blur" }],
-        code: [{ required: true, message: "请输入特服号", trigger: "blur" }],
+        // code: [{ required: true, message: "请输入特服号", trigger: "blur" }],
         reductModel: [
           {
             required: true,
