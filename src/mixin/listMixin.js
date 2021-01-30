@@ -424,6 +424,7 @@ export default {
      * @private
      */
     _setDefaultValue(list, data, key, optionKey, optionVal) {
+      let arr = []
       list.forEach(item => {
         if (item.key === key) {
           data.forEach(t => {
@@ -431,10 +432,12 @@ export default {
               key: t[optionKey],
               value: t[optionVal]
             };
-            item.optionData.push(obj);
+            arr.push(obj);
           });
         }
+        item.optionData = arr
       });
+
     },
 
     /**

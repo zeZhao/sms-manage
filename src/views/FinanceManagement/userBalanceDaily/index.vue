@@ -17,10 +17,25 @@
         prop="userName"
         label="企业/用户名称"
         show-overflow-tooltip
-      />
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.userName">{{ scope.row.userName }}</span>
+          <span v-else>未命名</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="smsBalance" label="短信余额" />
-      <el-table-column prop="debt" label="借款" />
-      <el-table-column prop="unitPrice" label="单价" />
+      <el-table-column prop="debt" label="借款">
+        <template slot-scope="scope">
+          <span v-if="scope.row.debt">{{ scope.row.debt }}</span>
+          <span v-else>0</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="unitPrice" label="单价">
+        <template slot-scope="scope">
+          <span v-if="scope.row.unitPrice">{{ scope.row.unitPrice }}</span>
+          <span v-else>0</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="saleMan" label="销售" />
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">

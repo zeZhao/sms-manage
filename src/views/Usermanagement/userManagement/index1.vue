@@ -402,8 +402,8 @@ export default {
         {
           type: "inputNum",
           label: "用户特服号",
-          key: "code",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "code"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -705,7 +705,7 @@ export default {
           this.$set(item, "disabled", false);
         }
       });
-      // this.getAllCorp();
+      this.getAllCorp();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -713,7 +713,7 @@ export default {
     //修改
     _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
-      // this.getAllCorp();
+      this.getAllCorp();
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";

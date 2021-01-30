@@ -43,7 +43,7 @@
       />
       <el-table-column prop="count" label="条数" />
       <el-table-column
-        prop="corporateId"
+        prop="price"
         label="单价(分)	"
         v-if="searchParam.isDetail === 2"
       />
