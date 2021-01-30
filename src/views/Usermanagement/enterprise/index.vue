@@ -157,14 +157,7 @@
           <el-input v-model="addInfo.pwd" type="password" clearable placeholder="请输入8-16位密码" />
         </el-form-item>-->
         <el-form-item label="特服号" prop="code">
-          <el-input-number
-            v-model="addInfo.code"
-            controls-position="right"
-            :min="1000"
-            :max="9999"
-            :precision="0"
-            placeholder="请输入特服号"
-          />
+          <el-input v-model="addInfo.code" placeholder="请输入特服号" />
         </el-form-item>
         <el-form-item label="可扩展位数" prop="sublong">
           <el-input
@@ -295,6 +288,13 @@ import ChooseEnterprise from "../components/ChooseEnterprise";
 export default {
   components: { ChooseEnterprise },
   data() {
+    var validCode = (rule, value, callback) => {
+      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
+        callback(new Error("请输入4位特服号"));
+      } else {
+        callback();
+      }
+    };
     var validatePhone = (rule, value, callback) => {
       if (
         value &&
@@ -354,7 +354,13 @@ export default {
           { required: true, message: "请输入企业名称", trigger: "blur" }
         ],
         // pwd: [{ required: true, message: "请输入8-16位密码", trigger: "blur" }],
-        // code: [{ required: true, message: "请输入特服号", trigger: "blur" }],
+        code: [
+          // { required: true, message: "请输入特服号", trigger: "blur" },
+          {
+            validator: validCode,
+            trigger: "change"
+          }
+        ],
         reductModel: [
           {
             required: true,
