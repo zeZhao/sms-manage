@@ -142,7 +142,7 @@ export default {
             },
             {
               key: 4,
-              value: "国际"
+              value: "非法"
             }
           ],
           placeholder: "请选择类型"
