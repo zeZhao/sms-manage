@@ -124,6 +124,14 @@ export default {
         }
       }
     };
+    const validatorNum = (rule, value, callback) => {
+      console.log(Number(value));
+      if (Number(value) > 5000) {
+        callback(new Error("免审数量不能超出5000"));
+      } else {
+        callback();
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -429,6 +437,10 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
+              trigger: "blur"
+            },
+            {
+              validator: validatorNum,
               trigger: "blur"
             }
           ]

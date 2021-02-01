@@ -1,33 +1,34 @@
 <template>
   <!--企业用户-->
   <div class="corpUser">
-    <Search :searchFormConfig="searchFormConfig"
-            @search="_mxDoSearch"
-            @create="_mxCreate"></Search>
-    <el-table :data="listData"
-              highlight-current-row
-              style="width: 100%"
-              stripe>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId"
-                       label="企业/代理ID"
-                       width="100" />
-      <el-table-column prop="userId"
-                       label="用户ID" />
-      <el-table-column prop="userName"
-                       label="用户名"
-                       width="100"
-                       show-overflow-tooltip />
-      <el-table-column prop="loginName"
-                       label="用户登录名"
-                       width="100"
-                       show-overflow-tooltip />
-      <el-table-column prop="password"
-                       label="密码"
-                       width="100"
-                       show-overflow-tooltip />
-      <el-table-column prop="accountType"
-                       label="业务类型">
+      <el-table-column prop="corpId" label="企业/代理ID" width="100" />
+      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column
+        prop="userName"
+        label="用户名"
+        width="100"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="loginName"
+        label="用户登录名"
+        width="100"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="password"
+        label="密码"
+        width="100"
+        show-overflow-tooltip
+      />
+      <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.accountType == "1"
@@ -38,14 +39,10 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="code"
-                       label="特服号" />
-      <el-table-column prop="sublong"
-                       label="扩展长度" />
-      <el-table-column prop="longCode"
-                       label="长号码" />
-      <el-table-column prop="productType"
-                       label="产品">
+      <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="sublong" label="扩展长度" />
+      <el-table-column prop="longCode" label="长号码" />
+      <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
           <span>{{
             scope.row.productType == "1"
@@ -58,8 +55,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="proType"
-                       label="产品类型">
+      <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.proType === 1
@@ -74,9 +70,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendType"
-                       label="发送运营商"
-                       width="100">
+      <el-table-column prop="sendType" label="发送运营商" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.sendType === 1">移动</span>
           <span v-if="scope.row.sendType === 2">联通</span>
@@ -87,9 +81,7 @@
           <span v-if="scope.row.sendType === 7">联通电信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel"
-                       label="计费方式"
-                       width="110">
+      <el-table-column prop="reductModel" label="计费方式" width="110">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -102,24 +94,21 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductType"
-                       label="计费类型"
-                       width="100">
+      <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductType == "1" ? "用户id计费" : "企业id计费"
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsBalance"
-                       label="短信余额" />
-      <el-table-column prop="debt"
-                       label="借款" />
-      <el-table-column prop="cardUnit"
-                       label="单价（分）"
-                       width="100"></el-table-column>
-      <el-table-column prop="status"
-                       label="状态">
+      <el-table-column prop="smsBalance" label="短信余额" />
+      <el-table-column prop="debt" label="借款" />
+      <el-table-column
+        prop="cardUnit"
+        label="单价（分）"
+        width="100"
+      ></el-table-column>
+      <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{
             scope.row.status == "0"
@@ -132,63 +121,78 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right"
-                       label="操作"
-                       width="200">
+      <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="messageShow(scope.row)"
-                     type="text"
-                     size="small">信息</el-button>
-          <el-button @click="_mxEdit(scope.row, 'userId')"
-                     type="text"
-                     size="small">修改</el-button>
-          <el-button :disabled="scope.row.status == '2' || scope.row.status == '3'"
-                     @click="_mxCheck(scope.row, 'userId')"
-                     type="text"
-                     size="small">审核</el-button>
-          <el-button v-if="scope.row.status == 2"
-                     @click="setType(scope.row, 'disable', '3')"
-                     style="color: #ec5858"
-                     type="text"
-                     size="small">停用</el-button>
-          <el-button v-if="scope.row.status == 3"
-                     @click="setType(scope.row, 'enabled', '2')"
-                     type="text"
-                     size="small">启用</el-button>
+          <el-button @click="messageShow(scope.row)" type="text" size="small"
+            >信息</el-button
+          >
+          <el-button
+            @click="_mxEdit(scope.row, 'userId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
+          <el-button
+            :disabled="scope.row.status == '2' || scope.row.status == '3'"
+            @click="_mxCheck(scope.row, 'userId')"
+            type="text"
+            size="small"
+            >审核</el-button
+          >
+          <el-button
+            v-if="scope.row.status == 2"
+            @click="setType(scope.row, 'disable', '3')"
+            style="color: #ec5858"
+            type="text"
+            size="small"
+            >停用</el-button
+          >
+          <el-button
+            v-if="scope.row.status == 3"
+            @click="setType(scope.row, 'enabled', '2')"
+            type="text"
+            size="small"
+            >启用</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj"
-          @handleSizeChange="handleSizeChange"
-          @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit"
-               :visible.sync="addChannel"
-               :close-on-click-modal="false"
-               top="45px"
-               width="80%">
-      <FormItem :colSpan="8"
-                :labelWidth="150"
-                ref="formItem"
-                :formConfig="formConfig"
-                :btnTxt="formTit"
-                @submit="_mxHandleSubmit"
-                @cancel="_mxCancel"
-                @selectChange="selectChange"></FormItem>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+      width="80%"
+    >
+      <FormItem
+        :colSpan="8"
+        :labelWidth="150"
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @selectChange="selectChange"
+      ></FormItem>
     </el-dialog>
-    <el-dialog :title="dialogTit"
-               :visible.sync="dialogVisible"
-               :close-on-click-modal="false"
-               width="30%">
+    <el-dialog
+      :title="dialogTit"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="30%"
+    >
       <span>{{ information }}</span>
-      <p v-show="dialogTit === '停用'"
-         style="color: #ec5858">
+      <p v-show="dialogTit === '停用'" style="color: #ec5858">
         停用后将无法使用，请谨慎操作！
       </p>
-      <span slot="footer"
-            class="dialog-footer">
+      <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="updateStatus">确 定</el-button>
+        <el-button type="primary" @click="updateStatus">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -199,12 +203,19 @@ import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     const validatorPrice = (rule, value, callback) => {
       if (value && value < 1000) {
         callback();
       } else {
         callback("正整数不能超过3位数");
+      }
+    };
+    const validCode = (rule, value, callback) => {
+      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
+        callback(new Error("请输入4位特服号"));
+      } else {
+        callback();
       }
     };
 
@@ -396,10 +407,15 @@ export default {
           ]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "用户特服号",
-          key: "code"
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "code",
+          rules: [
+            {
+              validator: validCode,
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -671,13 +687,13 @@ export default {
       currentRowData: {}
     };
   },
-  mounted () {
+  mounted() {
     this.getAllCorp();
     this.getSaleman();
   },
   computed: {},
   methods: {
-    _mxArrangeEditData (row) {
+    _mxArrangeEditData(row) {
       for (let key in row) {
         if (key === "blackLevel") {
           if (typeof row[key] === "string") {
@@ -690,7 +706,7 @@ export default {
       }
       return row;
     },
-    _mxCreate () {
+    _mxCreate() {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
@@ -707,7 +723,7 @@ export default {
       }, 0);
     },
     //修改
-    _mxEdit (row, ID) {
+    _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
       this.getAllCorp();
       this.id = row[ID];
@@ -749,7 +765,7 @@ export default {
       this.addChannel = true;
     },
     // 审核
-    _mxCheck (row, ID) {
+    _mxCheck(row, ID) {
       row = this._mxArrangeEditData(row);
       this.id = row[ID];
       this.editId = ID;
@@ -773,7 +789,7 @@ export default {
      * @param editId        编辑修改id
      * @private
      */
-    _mxHandleSubmit (form = {}, editId = this.editId) {
+    _mxHandleSubmit(form = {}, editId = this.editId) {
       form = this._mxArrangeSubmitData(form);
       const { namespace, add, edit, check } = this.searchAPI;
       let params = {
@@ -809,7 +825,7 @@ export default {
      * 提交成功后执行
      * @param res
      */
-    _mxSuccess (res, params) {
+    _mxSuccess(res, params) {
       if (resOk(res)) {
         this.$message.success(res.msg || res.data);
         this._mxGetList();
@@ -825,7 +841,7 @@ export default {
       }
     },
     //提交表单前调整表单内数据
-    _mxArrangeSubmitData (formData) {
+    _mxArrangeSubmitData(formData) {
       for (let key in formData) {
         if (key === "blackLevel") {
           formData[key] = formData[key].join(",");
@@ -834,7 +850,7 @@ export default {
       return formData;
     },
     //信息弹框
-    messageShow (row) {
+    messageShow(row) {
       const h = this.$createElement;
       this.$msgbox({
         title: "信息",
@@ -844,12 +860,12 @@ export default {
       console.log(row.proType, "--------------");
     },
     //获取所有企业
-    getAllCorp () {
+    getAllCorp() {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           let arr = [];
           this.formConfig.forEach(item => {
-            if (item.key === 'corpId') {
+            if (item.key === "corpId") {
               res.data.forEach(t => {
                 let obj = {
                   key: t.corpId,
@@ -857,9 +873,8 @@ export default {
                 };
                 arr.push(obj);
               });
-              item.optionData = arr
+              item.optionData = arr;
             }
-
           });
 
           // this._setDefaultValue(
@@ -873,7 +888,7 @@ export default {
       });
     },
     //获取销售员
-    getSaleman () {
+    getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
@@ -894,14 +909,14 @@ export default {
       });
     },
     //修改状态
-    setType (row, type, status) {
+    setType(row, type, status) {
       this.dialogTitle(type);
       this.currentRowData = row;
       this.dialogVisible = true;
       this.status = status;
       // "corpId":"7080", "status":"3"
     },
-    dialogTitle (type) {
+    dialogTitle(type) {
       let str = {};
       switch (type) {
         case "disable":
@@ -920,7 +935,7 @@ export default {
       this.dialogTit = str.title;
       this.information = str.information;
     },
-    updateStatus () {
+    updateStatus() {
       const { userId } = this.currentRowData;
       this.$http.corpUser
         .updateStatus({ userId: userId, status: this.status })
@@ -933,7 +948,7 @@ export default {
         });
       this.dialogVisible = false;
     },
-    selectChange (data) {
+    selectChange(data) {
       const { val, item } = data;
       let obj = {};
       if (item.key === "reductModel") {
@@ -964,7 +979,7 @@ export default {
     //   }
     //   return formData;
     // },
-    createElement (h, row) {
+    createElement(h, row) {
       let strType = "";
       switch (row.proType) {
         case 1:
