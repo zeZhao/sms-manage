@@ -351,6 +351,98 @@ export default {
         },
         {
           type: "select",
+          label: "是否可用",
+          key: "status",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "连不上通道自动转",
+          key: "disconnectFailTurn",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "连续提交失败自动转",
+          key: "submitFailTurn",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "低于成功率自动转",
+          key: "succRate",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "失败状态自动转",
+          key: "fsAutoChange",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "是否取路由",
+          key: "isTwoRoute",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "不取" },
+            { key: "1", value: "取" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "服务端ip",
+          key: "serverIp",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "服务端端口",
+          key: "serverPort",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "滑动窗口",
+          key: "slideWindow",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "账号",
+          key: "clientId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "密码",
+          key: "sharedSecret",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "通道端口号",
+          key: "srcId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
           label: "运营状态",
           key: "operateStatus",
           optionData: [
@@ -422,17 +514,7 @@ export default {
             }
           ]
         },
-        {
-          type: "select",
-          label: "是否可用",
-          key: "status",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+
         {
           type: "input",
           label: "通道负责人",
@@ -538,87 +620,7 @@ export default {
           label: "可扩展位数",
           key: "isSub"
         },
-        {
-          type: "select",
-          label: "连不上通道自动转",
-          key: "disconnectFailTurn",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "连续提交失败自动转",
-          key: "submitFailTurn",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "低于成功率自动转",
-          key: "succRate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "失败状态自动转",
-          key: "fsAutoChange",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "是否取路由",
-          key: "isTwoRoute",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "不取" },
-            { key: "1", value: "取" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "服务端ip",
-          key: "serverIp",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "服务端端口",
-          key: "serverPort",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "滑动窗口",
-          key: "slideWindow",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "账号",
-          key: "clientId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "密码",
-          key: "sharedSecret",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "通道端口号",
-          key: "srcId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+
         {
           type: "input",
           label: "业务代码",

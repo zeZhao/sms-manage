@@ -523,8 +523,8 @@ export default {
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
-            { key: 3, value: "cmpp接口" },
-            { key: 7, value: "音频接口" }
+            { key: 3, value: "cmpp接口" }
+            // { key: 7, value: "音频接口" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -621,7 +621,7 @@ export default {
           label: "是否是直客",
           key: "isDirectUser",
           optionData: [
-            { key: 1, value: "直客" },
+            { key: 1, value: "同行" },
             { key: 2, value: "代理商" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
