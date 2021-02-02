@@ -18,7 +18,7 @@
         <el-form-item label="是否为直客">
           <el-select v-model="search.isDirectUser" placeholder="请选择" clearable>
             <el-option value="1" label="直客" />
-            <el-option value="2" label="代理商" />
+            <el-option value="2" label="同行" />
           </el-select>
         </el-form-item>
         <el-form-item label="业务类型">
@@ -384,7 +384,7 @@
             popper-class="select-option"
           >
             <el-option value="1" label="直客" />
-            <el-option value="2" label="代理商" />
+            <el-option value="2" label="同行" />
           </el-select>
         </el-form-item>
         <el-form-item label="黑名单类型" prop="blackLevel">
