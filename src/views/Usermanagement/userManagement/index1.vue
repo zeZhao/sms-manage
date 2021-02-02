@@ -411,6 +411,7 @@ export default {
           label: "用户特服号",
           key: "code",
           rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
             {
               validator: validCode,
               trigger: "change"
@@ -621,8 +622,8 @@ export default {
           label: "是否是直客",
           key: "isDirectUser",
           optionData: [
-            { key: 1, value: "同行" },
-            { key: 2, value: "代理商" }
+            { key: 1, value: "直客" },
+            { key: 2, value: "同行" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
