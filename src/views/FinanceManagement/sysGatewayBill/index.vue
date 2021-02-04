@@ -354,6 +354,7 @@ export default {
     gateway() {
       const params = {
         data: {
+          serverStatus: 1,
           gatewayName: "",
           isCu: "",
           isCt: "",
