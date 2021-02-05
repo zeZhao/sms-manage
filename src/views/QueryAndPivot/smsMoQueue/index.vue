@@ -142,7 +142,7 @@ export default {
           this.searchFormConfig,
           res.data,
           "province",
-          "provinceId",
+          "provinceName",
           "provinceName"
         );
       });
