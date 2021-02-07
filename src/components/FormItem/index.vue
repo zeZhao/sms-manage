@@ -181,7 +181,7 @@
               <el-time-picker
                 clearable
                 v-model="formData[item.key]"
-                :value-format="item.format || 'HH-mm-ss'"
+                :value-format="item.format || 'HH:mm:ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
                   val => {

@@ -8,7 +8,7 @@
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业/代理ID" width="100" />
+      <el-table-column prop="corpId" label="企业ID" width="100" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column
         prop="userName"
@@ -270,8 +270,8 @@ export default {
           label: "是否是直客",
           key: "isDirectUser",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "代理商" }
+            { key: "1", value: "直客" },
+            { key: "2", value: "同行" }
           ],
           placeholder: "请选择"
         },
@@ -337,7 +337,7 @@ export default {
           label: "状态",
           key: "status",
           optionData: [
-            { key: "1", value: "初始" },
+            { key: "1", value: "待审核" },
             { key: "2", value: "正常" },
             { key: "3", value: "禁用" }
           ],
