@@ -115,7 +115,7 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "不限"
+              value: "非法"
             },
             {
               key: "1",
@@ -270,6 +270,8 @@ export default {
     gateway() {
       const params = {
         data: {
+          serverStatus: 1,
+          serverStatus: 1,
           gatewayName: "",
           isCu: "",
           isCt: "",

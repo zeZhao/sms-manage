@@ -38,10 +38,10 @@
           </span> -->
         </template>
       </el-table-column>
+      <el-table-column prop="cardUnit" label="单价(分)" />
       <el-table-column prop="submitCount" label="提交条数" />
       <el-table-column prop="sendCount" label="发送条数" />
       <el-table-column prop="succCount" label="成功条数" />
-      <el-table-column prop="cardUnit" label="单价(分)" />
       <el-table-column prop="failCount" label="失败条数" />
       <el-table-column prop="unknownCount" label="未知条数" />
     </el-table>

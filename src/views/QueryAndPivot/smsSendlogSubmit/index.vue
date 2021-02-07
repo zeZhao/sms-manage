@@ -31,9 +31,12 @@
       <el-table-column prop="successCount" label="成功条数" />
       <el-table-column prop="failCount" label="失败条数" />
       <el-table-column prop="unknowCount" label="未知条数" />
-      <el-table-column prop="taskstatus" label="定时状态">
+      <el-table-column prop="taskStatus" label="定时状态">
         <template slot-scope="scope">
-          <span>{{
+          <span v-if="scope.row.taskStatus == 0">不定时</span>
+          <span v-if="scope.row.taskStatus == 1">定时</span>
+          <span v-if="scope.row.taskStatus == 3">定时取消</span>
+          <!-- <span>{{
             scope.row.taskstatus == 0
               ? "不定时"
               : scope.row.taskstatus == 1
@@ -41,7 +44,7 @@
               : scope.row.taskstatus == 1
               ? "定时取消"
               : ""
-          }}</span>
+          }}</span> -->
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
@@ -96,7 +99,7 @@ export default {
         list: "queryByPage",
         detele: "deleteTaskid",
         add: "",
-        edit: "editSmsSendlogSubmit",
+        edit: "editSmsSendlogSubmit"
       },
       // 列表参数
       namespace: "",
@@ -108,23 +111,23 @@ export default {
         {
           type: "inputNum",
           label: "用户ID",
-          key: "userid",
+          key: "userid"
         },
         {
           type: "inputNum",
           label: "任务ID",
-          key: "taskid",
+          key: "taskid"
         },
         {
           type: "input",
           label: "内容",
-          key: "content",
+          key: "content"
         },
         {
           type: "daterange",
           label: "日期",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -133,7 +136,7 @@ export default {
           label: "内容",
           key: "content",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -145,9 +148,9 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -159,9 +162,9 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
 
         {
@@ -174,9 +177,9 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -186,11 +189,11 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^\+?[1-9]\d*$/,
+              pattern: /^\+?[0-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -200,11 +203,11 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^\+?[1-9]\d*$/,
+              pattern: /^\+?[0-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -214,12 +217,12 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^\+?[1-9]\d*$/,
+              pattern: /^\+?[0-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "change",
-            },
-          ],
-        },
+              trigger: "change"
+            }
+          ]
+        }
 
         // {
         //   type: "textarea",
@@ -231,7 +234,7 @@ export default {
       bId: "",
       GatewayList: [], // 通道列表
       ProvinceList: [], // 通道列表
-      rowData: {},
+      rowData: {}
     };
   },
   mounted() {},
@@ -253,11 +256,11 @@ export default {
         sendCount,
         successCount,
         failCount,
-        unknowCount,
+        unknowCount
       } = form;
       let params = {
         smsSendlogSubmit: {
-          ...this.rowData,
+          ...this.rowData
         },
         countNew: count,
         mobilesCountNew: mobilesCount,
@@ -265,9 +268,9 @@ export default {
         successCountNew: successCount,
         failCountNew: failCount,
         unknowCountNew: unknowCount,
-        msgType: this.rowData.msgType,
+        msgType: this.rowData.msgType
       };
-      this.$http[namespace][edit](params).then((res) => {
+      this.$http[namespace][edit](params).then(res => {
         this._mxSuccess(res);
       });
     },
@@ -276,7 +279,7 @@ export default {
       row = this._mxArrangeEditData(row);
       this.getEditData(row.taskId);
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             if (row[key] === 0) {
@@ -299,7 +302,7 @@ export default {
     getEditData(taskid) {
       this.$http.smsSendlogSubmit
         .getSmsSendlogSubmit({ taskid: taskid })
-        .then((res) => {
+        .then(res => {
           this.rowData = res.data;
           console.log(this.rowData);
         });
@@ -323,11 +326,11 @@ export default {
         message: h("div", null, [h("p", null, "您确定要删除此项吗？")]),
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消",
-      }).then((action) => {
+        cancelButtonText: "取消"
+      }).then(action => {
         this.$http.smsSendlogSubmit
           .deleteTaskid({ taskid: rowKey })
-          .then((res) => {
+          .then(res => {
             if (resOk(res)) {
               this.$message.success("删除成功！");
               this._mxGetList();
@@ -337,9 +340,9 @@ export default {
             console.log(res);
           });
       });
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

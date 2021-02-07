@@ -96,10 +96,10 @@ export default {
           placeholder: "请输入红名单号码"
         },
         {
-          type: "input",
+          type: "select",
           label: "通道编号",
           key: "gateway",
-          placeholder: "请输入通道编号"
+          optionData: []
         },
         {
           type: "input",
@@ -214,6 +214,7 @@ export default {
     gateway() {
       const params = {
         data: {
+          serverStatus: 1,
           gatewayName: "",
           isCu: "",
           isCt: "",
@@ -224,7 +225,16 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-
+          if (key === "gateway") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
+              item.optionData.push(t);
+            });
+          }
+        });
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
           if (key === "gateway") {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);

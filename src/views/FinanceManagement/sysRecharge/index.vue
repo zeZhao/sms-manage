@@ -401,8 +401,10 @@ export default {
           key: "fileUrl",
           limit: 1,
           defaultValue: "",
-          defaultFileList: []
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          defaultFileList: [],
+          rules: [
+            { required: true, message: "请上传余额变动凭证", trigger: "blur" }
+          ]
         }
       ],
       formConfigTransfers: [
