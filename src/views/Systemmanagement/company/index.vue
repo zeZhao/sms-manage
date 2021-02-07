@@ -41,7 +41,7 @@
       style="width: 100%"
     >
       <!--登录账户	姓名	手机号	状态	操作-->
-      <el-table-column prop="userName" label="企业名" />
+      <el-table-column prop="corpName" label="企业名" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="loginName" label="登录账号" />
       <el-table-column prop="password" label="密码" />
