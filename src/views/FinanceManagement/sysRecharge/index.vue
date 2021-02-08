@@ -140,6 +140,7 @@
         @inpChange="inpChange"
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
+        @handleExceed="handleExceed"
       ></FormItem>
     </el-dialog>
     <el-dialog
@@ -524,6 +525,12 @@ export default {
         }
       });
     },
+    handleExceed({ file, fileList }) {
+      console.log(file);
+      console.log(fileList);
+      this.$message.error("仅允许上传一张！");
+    },
+
     //选择控制
     selectChange({ val, item }) {
       console.log(val);
