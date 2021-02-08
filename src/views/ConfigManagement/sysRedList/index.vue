@@ -21,9 +21,16 @@
           <span>{{ scope.row.codeType === 1 ? "用户" : "特服号" }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
+        }}</template>
+      </el-table-column>
+      <el-table-column prop="modifyUser" label="修改人" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column label="操作" width="200">
