@@ -92,7 +92,15 @@ export default {
       }
     };
     const validatorTemplate = (rule, value, callback) => {
-      let regex = new RegExp("^([0]|[1-9][0-9]*)$");
+      if (value) {
+        let firstStr = value.substring(0, 1);
+        let lastStr = value.substring(value.length, value.length - 1);
+        if (firstStr === "|" || lastStr === "|") {
+          callback(new Error("不能以'|'为开头结尾"));
+        } else {
+          callback();
+        }
+      }
     };
     return {
       formTit: "新增",
@@ -104,7 +112,7 @@ export default {
         detele: "delete"
       },
       // 列表参数
-      namespace: "corpUserOptimize",
+      namespace: "",
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -247,7 +255,8 @@ export default {
         }
       ],
       id: "",
-      isChooseUser: false
+      isChooseUser: false,
+      isParamsNotData: false
     };
   },
   mounted() {},

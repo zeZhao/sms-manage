@@ -32,16 +32,29 @@ function throttle() {
  * @param val
  */
 function DynamicKey(key, val) {
-  let params = {
-    data: {
+  let params = {}
+  if (this.isParamsNotData) {
+    params = {
+      data: {
+        // pageIndex: this.pageObj.currentPage,
+        pageNumber: this.pageObj.currentPage,
+        pageSize: this.pageObj.pageSize
+      }
+    };
+    params.data[key] = {
+      ...val
+    };
+  } else {
+    params = {
       pageIndex: this.pageObj.currentPage,
       pageNumber: this.pageObj.currentPage,
       pageSize: this.pageObj.pageSize
-    }
-  };
-  params.data[key] = {
-    ...val
-  };
+    };
+    params[key] = {
+      ...val
+    };
+  }
+
 
   return params;
 }
@@ -71,24 +84,27 @@ function queryData() {
   if (this.namespace) {
     let newF = DynamicKey.bind(this, this.namespace, searchParam);
     params = newF();
-  } else if (this.isParamsNotData) {
-    params = {
-      ...searchParam,
-      // pageIndex: this.pageObj.currentPage,
-      pageNumber: this.pageObj.currentPage,
-      // pageNum: this.pageObj.currentPage,
-      pageSize: this.pageObj.pageSize
-    };
   } else {
-    params = {
-      data: {
+    if (this.isParamsNotData) {
+      params = {
+        data: {
+          ...searchParam,
+          // pageIndex: this.pageObj.currentPage,
+          pageNumber: this.pageObj.currentPage,
+          // pageNum: this.pageObj.currentPage,
+          pageSize: this.pageObj.pageSize
+        }
+      };
+    } else {
+      params = {
         ...searchParam,
         // pageIndex: this.pageObj.currentPage,
         pageNumber: this.pageObj.currentPage,
         // pageNum: this.pageObj.currentPage,
         pageSize: this.pageObj.pageSize
-      }
-    };
+      };
+    }
+
   }
 
   const { namespace, list } = this.searchAPI; //动态接口路径
@@ -162,7 +178,9 @@ export default {
       //节流阀-接口请求频率限制(ms)
       requestFrequency: 0,
       //节流阀-查询接口任务
-      queryTask: null
+      queryTask: null,
+      //列表请求是否需要data包起来
+      isParamsNotData: true
     };
   },
 
