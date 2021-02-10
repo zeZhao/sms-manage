@@ -51,7 +51,7 @@
         <div slot="Other">
           <el-button @click="addGatewayGroup">添加通道</el-button>
           <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
-            <el-table-column prop="gateway" label="通道组ID">
+            <el-table-column prop="gateway" label="通道ID">
               <template slot-scope="scope">
                 <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
                 <el-select v-model="scope.row.gateway">
