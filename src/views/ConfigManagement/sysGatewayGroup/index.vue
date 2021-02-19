@@ -51,7 +51,7 @@
         <div slot="Other">
           <el-button @click="addGatewayGroup">添加通道</el-button>
           <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
-            <el-table-column prop="gateway" label="通道组ID">
+            <el-table-column prop="gateway" label="通道ID">
               <template slot-scope="scope">
                 <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
                 <el-select v-model="scope.row.gateway">
@@ -67,6 +67,14 @@
             <el-table-column prop="ratio" label="分配比例">
               <template slot-scope="scope">
                 <el-input type="number" v-model="scope.row.ratio"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="ratio" label="通道类型">
+              <template slot-scope="scope">
+                <el-select v-model="scope.row.type">
+                  <el-option :value="1" label="动态调整"></el-option>
+                  <el-option :value="2" label="固定比例"></el-option>
+                </el-select>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
@@ -217,6 +225,7 @@ export default {
     gateway() {
       const params = {
         data: {
+          serverStatus: 1,
           gatewayName: "",
           isCu: "",
           isCt: "",
@@ -314,7 +323,7 @@ export default {
     },
     addGatewayGroup() {
       this.$nextTick(() => {
-        this.gatewayGroupList.push({ gateway: "", ratio: "" });
+        this.gatewayGroupList.push({ gateway: "", ratio: "", type: 1 });
       });
     },
     deleteItem(scope) {

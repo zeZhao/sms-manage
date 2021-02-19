@@ -21,9 +21,16 @@
           <span>{{ scope.row.codeType === 1 ? "用户" : "特服号" }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
+        }}</template>
+      </el-table-column>
+      <el-table-column prop="modifyUser" label="修改人" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column label="操作" width="200">
@@ -96,10 +103,10 @@ export default {
           placeholder: "请输入红名单号码"
         },
         {
-          type: "input",
+          type: "select",
           label: "通道编号",
           key: "gateway",
-          placeholder: "请输入通道编号"
+          optionData: []
         },
         {
           type: "input",
@@ -168,7 +175,7 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/,
+              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
               message: "手机号格式不对",
               trigger: "blur"
             }
@@ -214,6 +221,7 @@ export default {
     gateway() {
       const params = {
         data: {
+          serverStatus: 1,
           gatewayName: "",
           isCu: "",
           isCt: "",
@@ -224,7 +232,16 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-
+          if (key === "gateway") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
+              item.optionData.push(t);
+            });
+          }
+        });
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
           if (key === "gateway") {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);

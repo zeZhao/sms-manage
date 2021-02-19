@@ -25,7 +25,7 @@
               ? "组长"
               : scope.row.type === 3
               ? "组员"
-              : "介绍人"
+              : ""
           }}</span>
         </template>
       </el-table-column>
@@ -108,7 +108,7 @@ export default {
       let regex = /^[\d0-9a-zA-Z-*/+.~!@#$%^&*()]{8,16}$/;
       if (value) {
         if (!regex.test(value)) {
-          callback(new Error("输入8-16位字符，支持数字、英文、标点符号"));
+          callback(new Error("输入8-16位字符，支持数字、英文、英文符号"));
         } else {
           callback();
         }
@@ -129,7 +129,7 @@ export default {
       }
     };
     const validatorMobile = (rule, value, callback) => {
-      let regex = /^([0-9]{3,4}\-)?[0-9]{7,8}$|^0?1[3|4|5|7|8|9][0-9]\d{8}$/;
+      let regex = /^1(3|4|5|6|7|8|9)\d{9}$/;
       if (value == "") {
         callback(new Error("手机号不能为空"));
       } else {
@@ -182,11 +182,11 @@ export default {
             {
               key: 3,
               value: "组员"
-            },
-            {
-              key: 4,
-              value: "介绍人"
             }
+            // {
+            //   key: 4,
+            //   value: "介绍人"
+            // }
           ]
         }
       ],
@@ -247,11 +247,11 @@ export default {
             {
               key: 3,
               value: "组员"
-            },
-            {
-              key: 4,
-              value: "介绍人"
             }
+            // {
+            //   key: 4,
+            //   value: "介绍人"
+            // }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

@@ -146,10 +146,10 @@ export default {
           ]
         },
         {
-          type: "inputNum",
+          type: "select",
           label: "通道号",
           key: "route",
-          placeholder: "请输入通道号"
+          optionData: []
         },
         {
           type: "input",
@@ -257,6 +257,7 @@ export default {
     };
   },
   mounted() {
+    this.gateways();
     this.gateway("cu", "2", "1");
     this.gateway("ct", "3", "1");
     this.gateway("cm", "1", "1");
@@ -264,6 +265,30 @@ export default {
   },
   computed: {},
   methods: {
+    gateways() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.GatewayList = res.data;
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "route") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map(t => {

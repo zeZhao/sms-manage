@@ -8,7 +8,7 @@
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
       <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业/代理ID" width="100" />
+      <el-table-column prop="corpId" label="企业ID" width="100" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column
         prop="userName"
@@ -211,6 +211,13 @@ export default {
         callback("正整数不能超过3位数");
       }
     };
+    const validCode = (rule, value, callback) => {
+      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
+        callback(new Error("请输入4位特服号"));
+      } else {
+        callback();
+      }
+    };
 
     return {
       dialogVisible: false,
@@ -263,8 +270,8 @@ export default {
           label: "是否是直客",
           key: "isDirectUser",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "代理商" }
+            { key: "1", value: "直客" },
+            { key: "2", value: "同行" }
           ],
           placeholder: "请选择"
         },
@@ -330,7 +337,7 @@ export default {
           label: "状态",
           key: "status",
           optionData: [
-            { key: "1", value: "初始" },
+            { key: "1", value: "待审核" },
             { key: "2", value: "正常" },
             { key: "3", value: "禁用" }
           ],
@@ -400,10 +407,16 @@ export default {
           ]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "用户特服号",
           key: "code",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              validator: validCode,
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -511,8 +524,8 @@ export default {
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
-            { key: 3, value: "cmpp接口" },
-            { key: 7, value: "音频接口" }
+            { key: 3, value: "cmpp接口" }
+            // { key: 7, value: "音频接口" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -610,7 +623,7 @@ export default {
           key: "isDirectUser",
           optionData: [
             { key: 1, value: "直客" },
-            { key: 2, value: "代理商" }
+            { key: 2, value: "同行" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -705,7 +718,7 @@ export default {
           this.$set(item, "disabled", false);
         }
       });
-      // this.getAllCorp();
+      this.getAllCorp();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -713,7 +726,7 @@ export default {
     //修改
     _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
-      // this.getAllCorp();
+      this.getAllCorp();
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
@@ -851,13 +864,27 @@ export default {
     getAllCorp() {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
-          this._setDefaultValue(
-            this.formConfig,
-            res.data,
-            "corpId",
-            "corpId",
-            "corpName"
-          );
+          let arr = [];
+          this.formConfig.forEach(item => {
+            if (item.key === "corpId") {
+              res.data.forEach(t => {
+                let obj = {
+                  key: t.corpId,
+                  value: t.corpName
+                };
+                arr.push(obj);
+              });
+              item.optionData = arr;
+            }
+          });
+
+          // this._setDefaultValue(
+          //   this.formConfig,
+          //   res.data,
+          //   "corpId",
+          //   "corpId",
+          //   "corpName"
+          // );
         }
       });
     },

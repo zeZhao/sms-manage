@@ -23,6 +23,9 @@
       </el-table-column>
       <el-table-column prop="optimizePercent" label="优化比例" />
       <el-table-column prop="noOptimizeTemplate" label="不优化关键词" />
+      <el-table-column prop="optimizeTemplate" label="优化关键词" />
+      <el-table-column prop="startTime" label="开始时间(时:分)" />
+      <el-table-column prop="endTime" label="结束时间(时:分)" />
       <el-table-column label="操作" width="200"
         >1458
         <template slot-scope="scope">
@@ -88,6 +91,17 @@ export default {
         }
       }
     };
+    const validatorTemplate = (rule, value, callback) => {
+      if (value) {
+        let firstStr = value.substring(0, 1);
+        let lastStr = value.substring(value.length, value.length - 1);
+        if (firstStr === "|" || lastStr === "|") {
+          callback(new Error("不能以'|'为开头结尾"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -98,7 +112,7 @@ export default {
         detele: "delete"
       },
       // 列表参数
-      namespace: "corpUserOptimize",
+      namespace: "",
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -127,6 +141,11 @@ export default {
           type: "input",
           label: "不优化关键词",
           key: "noOptimizeTemplate"
+        },
+        {
+          type: "input",
+          label: "优化关键词",
+          key: "optimizeTemplate"
         },
         {
           type: "select",
@@ -200,11 +219,44 @@ export default {
           type: "textarea",
           label: "不优化关键词",
           key: "noOptimizeTemplate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          placeholder: "多个关键词请用'|'隔开",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              trigger: "change",
+              validator: validatorTemplate
+            }
+          ]
+        },
+        {
+          type: "textarea",
+          label: "优化关键词",
+          key: "optimizeTemplate",
+          placeholder: "多个关键词请用'|'隔开",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              trigger: "change",
+              validator: validatorTemplate
+            }
+          ]
+        },
+        {
+          type: "time",
+          label: "开始时间(时:分)",
+          key: "startTime"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "time",
+          label: "结束时间(时:分)	",
+          key: "endTime"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
       id: "",
-      isChooseUser: false
+      isChooseUser: false,
+      isParamsNotData: false
     };
   },
   mounted() {},

@@ -262,12 +262,12 @@ export default {
           "yyyy-MM-dd"
         );
       }
-      if (formData.startTime) {
-        formData.startTime = new Date(formData.startTime).Format("hh:mm:ss");
-      }
-      if (formData.endTime) {
-        formData.endTime = new Date(formData.endTime).Format("hh:mm:ss");
-      }
+      // if (formData.startTime) {
+      //   formData.startTime = new Date(formData.startTime).Format("hh:mm:ss");
+      // }
+      // if (formData.endTime) {
+      //   formData.endTime = new Date(formData.endTime).Format("hh:mm:ss");
+      // }
       return formData;
     },
     submitGateway(form) {

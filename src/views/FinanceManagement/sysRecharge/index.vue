@@ -140,6 +140,7 @@
         @inpChange="inpChange"
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
+        @handleExceed="handleExceed"
       ></FormItem>
     </el-dialog>
     <el-dialog
@@ -401,8 +402,10 @@ export default {
           key: "fileUrl",
           limit: 1,
           defaultValue: "",
-          defaultFileList: []
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          defaultFileList: [],
+          rules: [
+            { required: true, message: "请上传余额变动凭证", trigger: "blur" }
+          ]
         }
       ],
       formConfigTransfers: [
@@ -522,6 +525,12 @@ export default {
         }
       });
     },
+    handleExceed({ file, fileList }) {
+      console.log(file);
+      console.log(fileList);
+      this.$message.error("仅允许上传一张！");
+    },
+
     //选择控制
     selectChange({ val, item }) {
       console.log(val);

@@ -124,6 +124,14 @@ export default {
         }
       }
     };
+    const validatorNum = (rule, value, callback) => {
+      console.log(Number(value));
+      if (Number(value) > 5000) {
+        callback(new Error("免审数量不能超出5000"));
+      } else {
+        callback();
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -198,22 +206,22 @@ export default {
           placeholder: "请选择免审类型"
         },
         {
-          type: "input",
+          type: "select",
           label: "移动通道编号",
           key: "ctPassageway",
-          placeholder: "请输入移动通道编号"
+          optionData: []
         },
         {
-          type: "input",
+          type: "select",
           label: "联通通道编号",
           key: "cuPassageway",
-          placeholder: "请输入联通通道编号"
+          optionData: []
         },
         {
-          type: "input",
+          type: "select",
           label: "电信通道编号",
           key: "cmPassageway",
-          placeholder: "请输入电信通道编号"
+          optionData: []
         },
         {
           type: "select",
@@ -429,6 +437,10 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
+              trigger: "blur"
+            },
+            {
+              validator: validatorNum,
               trigger: "blur"
             }
           ]
@@ -648,6 +660,17 @@ export default {
             res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
+              item.optionData.push(t);
+            });
+          }
+        });
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
+          if (key == keys) {
+            item.optionData = [];
+            res.data.forEach(t => {
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.id);
               item.optionData.push(t);
             });
           }

@@ -179,8 +179,7 @@ export default {
               key: "聚通达",
               value: "聚通达"
             }
-          ],
-          placeholder: "请选择是否已付款"
+          ]
         },
         {
           type: "daterange",

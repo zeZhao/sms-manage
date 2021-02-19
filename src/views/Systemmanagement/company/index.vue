@@ -41,7 +41,7 @@
       style="width: 100%"
     >
       <!--登录账户	姓名	手机号	状态	操作-->
-      <el-table-column prop="userName" label="企业名" />
+      <el-table-column prop="corpName" label="企业名" />
       <el-table-column prop="userId" label="用户ID" />
       <el-table-column prop="loginName" label="登录账号" />
       <el-table-column prop="password" label="密码" />
@@ -135,7 +135,7 @@ export default {
       searchForm: {
         roleName: "",
         userId: "",
-        corpId: "",
+        corpId: ""
       },
       productId: "",
       contactMobile: "",
@@ -152,7 +152,7 @@ export default {
       setRoleMenu: false,
       defaultProps: {
         children: "childMenu",
-        label: "name",
+        label: "name"
       },
       navList: [],
       navListId: [],
@@ -163,10 +163,10 @@ export default {
         number: "",
         name: "",
         mobile: "",
-        state: "",
+        state: ""
       },
       updateFormRules: {
-        contactMobile: [{ validator: validatePhone, trigger: "blur" }],
+        contactMobile: [{ validator: validatePhone, trigger: "blur" }]
       },
       companyOptions: [], // 企业全称下拉项
       pickerOptions: {
@@ -178,7 +178,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
-            },
+            }
           },
           {
             text: "最近一个月",
@@ -187,7 +187,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
-            },
+            }
           },
           {
             text: "最近三个月",
@@ -196,17 +196,17 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
-            },
-          },
-        ],
-      },
+            }
+          }
+        ]
+      }
     };
   },
   mounted() {
     this.orderList();
   },
   filters: {
-    formatDate: function (value) {
+    formatDate: function(value) {
       // var val = JSON.parse(value)
       var date = new Date(value); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
       var Y = date.getFullYear() + "-";
@@ -224,7 +224,7 @@ export default {
       var s =
         date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
       return Y + M + D + h + m + s;
-    },
+    }
   },
   methods: {
     checkPermission,
@@ -243,20 +243,20 @@ export default {
       this.orderList(); // 确定当前页面后刷新页面
     },
     // 列表
-    orderList: function () {
+    orderList: function() {
       const { loginName, userId, corpId } = this.searchForm;
       const params = {
         data: {
           webUser: {
             loginName: loginName,
             userId: userId,
-            corpId: corpId,
+            corpId: corpId
           },
           pageNumber: this.cur_page,
-          pageSize: this.pageNum,
-        },
+          pageSize: this.pageNum
+        }
       };
-      this.$http.company.queryWebUserByPage(params).then((res) => {
+      this.$http.company.queryWebUserByPage(params).then(res => {
         if (res.code == "200") {
           this.dataList = res.data.list;
           this.totalCount = Number(res.data.total);
@@ -277,8 +277,9 @@ export default {
       this.roleId = id;
       let params = {
         roleType: 1,
+        status: 1
       };
-      this.$http.role.getRoleByType(params).then((res) => {
+      this.$http.role.getRoleByType(params).then(res => {
         if (res.code == "200") {
           this.navList = res.data;
         } else {
@@ -290,14 +291,14 @@ export default {
       this.setRoleMenu = true;
       let params = {
         userId: this.userId,
-        roleId: this.addRoleId,
+        roleId: this.addRoleId
       };
-      this.$http.company.addOrUpdate(params).then((res) => {
+      this.$http.company.addOrUpdate(params).then(res => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "绑定成功",
-            type: "success",
+            type: "success"
           });
           this.setRoleMenu = false;
           this.orderList();
@@ -316,10 +317,9 @@ export default {
           this.treeDataTranslate(item.childMenu);
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
