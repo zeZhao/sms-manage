@@ -298,9 +298,13 @@ class managePlugin {
       inserted(el, binding) {
         el.addEventListener('click', () => {
           el.style.pointerEvents = 'none';
+          el.style.backgroundColor = "rgba(215, 215, 215, 1)"
+          el.style.borderColor = "rgba(215, 215, 215, 1)"
           if (!el.disabled) {
             setTimeout(() => {
               el.style.pointerEvents = 'auto';
+              el.style.backgroundColor = "#1890ff"
+              el.style.borderColor = "#1890ff"
             }, binding.value || 5000);
           }
         });
