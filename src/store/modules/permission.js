@@ -62,6 +62,8 @@ export function filePath(item) {
         path = `ChannelManagement${item.linkUrl}`
     } else if (item.parentId === 3600) {
         path = `FinanceManagement${item.linkUrl}`
+    } else if (item.parentId === 4600) {
+        path = `Alertmanagement${item.linkUrl}`
     } else if (item.parentId === 4900) {
         path = `SalesManagement${item.linkUrl}`
     }
