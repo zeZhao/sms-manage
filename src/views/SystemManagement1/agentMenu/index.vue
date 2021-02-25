@@ -13,7 +13,9 @@
         <!--<el-button type="primary" @click="queryOrderList">查询</el-button>-->
         <!--</el-form-item>-->
         <el-form-item style="float: right">
-          <el-button type="primary" @click="customerAddInfo = true">新增目录</el-button>
+          <el-button type="primary" @click="customerAddInfo = true"
+            >新增目录</el-button
+          >
         </el-form-item>
       </el-form>
     </el-col>
@@ -28,7 +30,9 @@
       <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type == "1" ? "前端" : "后端" }}</span>
+          <span v-if="scope.row.type == 1">前端</span>
+          <span v-if="scope.row.type == 2">后端</span>
+          <span v-if="scope.row.type == 3">代理商</span>
         </template>
       </el-table-column>
       <el-table-column label="菜单路径">
@@ -38,7 +42,9 @@
       </el-table-column>
       <el-table-column label="排序" width="250">
         <template slot-scope="scope">
-          <span v-if="!scope.row.sortState">{{ scope.row.sort ? scope.row.sort : "---" }}</span>
+          <span v-if="!scope.row.sortState">{{
+            scope.row.sort ? scope.row.sort : "---"
+          }}</span>
           <el-input-number
             style="width:130px"
             v-if="scope.row.sortState"
@@ -46,7 +52,12 @@
             :min="1"
             label="排序位置"
           ></el-input-number>
-          <el-button size="small" @click="editSort(scope.row)" v-if="scope.row.sortState">修改</el-button>
+          <el-button
+            size="small"
+            @click="editSort(scope.row)"
+            v-if="scope.row.sortState"
+            >修改</el-button
+          >
         </template>
       </el-table-column>
       <el-table-column label="启用">
@@ -68,9 +79,14 @@
             @click="AddShow(scope.row)"
             type="text"
             size="small"
-          >新增</el-button>
-          <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="deleteCustomer(scope.row)" type="text" size="small">删除</el-button>
+            >新增</el-button
+          >
+          <el-button @click="infoShow(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button @click="deleteCustomer(scope.row)" type="text" size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -80,23 +96,42 @@
       :close-on-click-modal="false"
       style="margin: 0 auto"
     >
-      <el-form ref="addForm" label-width="120px" :model="addInfo" class="demo-ruleForm">
+      <el-form
+        ref="addForm"
+        label-width="120px"
+        :model="addInfo"
+        class="demo-ruleForm"
+      >
         <el-form-item label="目录名称">
-          <el-input v-model="addInfo.funcName" clearable placeholder="目录名称" />
+          <el-input
+            v-model="addInfo.funcName"
+            clearable
+            placeholder="目录名称"
+          />
         </el-form-item>
         <el-form-item label="目录路径">
-          <el-input v-model="addInfo.funcUrl" clearable placeholder="目录路径" />
+          <el-input
+            v-model="addInfo.funcUrl"
+            clearable
+            placeholder="目录路径"
+          />
         </el-form-item>
-        <el-form-item label="请选择目录类型">
+        <!-- <el-form-item label="请选择目录类型">
           <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="排序">
-          <el-input-number v-model="addInfo.seqNum" :min="1" label="排序"></el-input-number>
+          <el-input-number
+            v-model="addInfo.seqNum"
+            :min="1"
+            label="排序"
+          ></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addNavInfo('addForm', 'catalog')">新增</el-button>
+        <el-button type="primary" @click="addNavInfo('addForm', 'catalog')"
+          >新增</el-button
+        >
         <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -107,26 +142,50 @@
       :close-on-click-modal="false"
       style="margin: 0 auto"
     >
-      <el-form ref="addForm" label-width="120px" :model="addInfo" class="demo-ruleForm">
+      <el-form
+        ref="addForm"
+        label-width="120px"
+        :model="addInfo"
+        class="demo-ruleForm"
+      >
         <el-form-item label="目录名称">
-          <el-input v-model="addInfo.funcName" disabled clearable placeholder="目录名称" />
+          <el-input
+            v-model="addInfo.funcName"
+            disabled
+            clearable
+            placeholder="目录名称"
+          />
         </el-form-item>
         <el-form-item label="菜单名称">
-          <el-input v-model="addInfo.funcChName" clearable placeholder="菜单名称" />
+          <el-input
+            v-model="addInfo.funcChName"
+            clearable
+            placeholder="菜单名称"
+          />
         </el-form-item>
         <el-form-item label="目录路径">
-          <el-input v-model="addInfo.funcUrl" clearable placeholder="目录路径" />
+          <el-input
+            v-model="addInfo.funcUrl"
+            clearable
+            placeholder="目录路径"
+          />
         </el-form-item>
-        <el-form-item label="请选择目录类型">
+        <!-- <el-form-item label="请选择目录类型">
           <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="排序">
-          <el-input-number v-model="addInfo.seqNum" :min="1" label="排序"></el-input-number>
+          <el-input-number
+            v-model="addInfo.seqNum"
+            :min="1"
+            label="排序"
+          ></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addNavInfo('addForm', 'menu')">新增</el-button>
+        <el-button type="primary" @click="addNavInfo('addForm', 'menu')"
+          >新增</el-button
+        >
         <el-button @click.native="addNavList = false">取消</el-button>
       </div>
     </el-dialog>
@@ -137,7 +196,12 @@
       :close-on-click-modal="false"
       style="margin: 0 auto"
     >
-      <el-form ref="updateCustomForm" label-width="120px" :model="setInfo" class="demo-ruleForm">
+      <el-form
+        ref="updateCustomForm"
+        label-width="120px"
+        :model="setInfo"
+        class="demo-ruleForm"
+      >
         <!--<el-form-item label="目录名称">-->
         <!--<el-input v-model="setInfo.funcName" disabled clearable placeholder="目录名称" />-->
         <!--</el-form-item>-->
@@ -145,18 +209,33 @@
           <el-input v-model="setInfo.name" clearable placeholder="菜单名称" />
         </el-form-item>
         <el-form-item label="目录路径">
-          <el-input v-model="setInfo.linkUrl" clearable placeholder="目录路径" />
+          <el-input
+            v-model="setInfo.linkUrl"
+            clearable
+            placeholder="目录路径"
+          />
         </el-form-item>
-        <el-form-item label="请选择目录类型">
-          <el-radio v-model="setInfo.type" :label="1" :disabled="setInfo.type === 2">前端</el-radio>
+        <!-- <el-form-item label="请选择目录类型">
+          <el-radio
+            v-model="setInfo.type"
+            :label="1"
+            :disabled="setInfo.type === 2"
+            >前端</el-radio
+          >
           <el-radio v-model="setInfo.type" :label="2">后端</el-radio>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="排序">
-          <el-input-number v-model="setInfo.sort" :min="1" label="排序"></el-input-number>
+          <el-input-number
+            v-model="setInfo.sort"
+            :min="1"
+            label="排序"
+          ></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')">保存</el-button>
+        <el-button type="primary" @click="setCustomerInfo('updateCustomForm')"
+          >保存</el-button
+        >
         <el-button @click.native="customerInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -181,7 +260,7 @@ export default {
         funcUrl: "",
         funcCode: "",
         seqNum: "",
-        isEnabled: "",
+        isEnabled: ""
       },
       addInfo: {
         funcName: "",
@@ -191,16 +270,16 @@ export default {
         funcUrl: "",
         funcCode: "",
         seqNum: "",
-        isEnabled: "",
+        isEnabled: ""
       },
       value: [],
       optionProps: {
         value: "funcId",
         label: "funcName",
         children: "children",
-        checkStrictly: true,
+        checkStrictly: true
       },
-      options: [],
+      options: []
     };
   },
   mounted() {
@@ -216,13 +295,14 @@ export default {
     editSort(row) {
       let params = {
         ...row,
+        type: 3
       };
-      this.$http.nav.addOrUpdate(params).then((res) => {
+      this.$http.nav.addOrUpdate(params).then(res => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "修改成功",
-            type: "success",
+            type: "success"
           });
           this.getNavList();
           row.sortState = false;
@@ -234,9 +314,9 @@ export default {
     getNavList() {
       let params = {
         status: "",
-        type: "",
+        type: 3
       };
-      this.$http.nav.selectMenuList(params).then((res) => {
+      this.$http.nav.selectMenuList(params).then(res => {
         if (res.code == "200") {
           this.navList = res.data;
           this.setSortState(this.navList);
@@ -248,7 +328,7 @@ export default {
     },
     // 设置修改排序状态字段
     setSortState(list) {
-      list.forEach((item) => {
+      list.forEach(item => {
         if (item.childMenu && item.childMenu.length > 0) {
           this.setSortState(item.childMenu);
         }
@@ -259,14 +339,14 @@ export default {
     changSwitch(e, id) {
       let params = {
         menuId: id,
-        status: e,
+        status: e
       };
-      this.$http.nav.updateStatus(params).then((res) => {
+      this.$http.nav.updateStatus(params).then(res => {
         if (res.code == "200") {
           this.$message({
             showClose: true,
             message: "修改成功",
-            type: "success",
+            type: "success"
           });
           this.getNavList();
         } else {
@@ -297,12 +377,12 @@ export default {
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning",
+          type: "warning"
         }
       )
         .then(() => {
           let params = { menuId: row.menuId };
-          this.$http.nav.delete(params).then((res) => {
+          this.$http.nav.delete(params).then(res => {
             if (res.code == "200") {
               this.$message.success("删除成功");
               this.getNavList();
@@ -313,9 +393,9 @@ export default {
         })
         .catch(() => {});
     },
-    addNavInfo: function (formName, type) {
+    addNavInfo: function(formName, type) {
       console.log(this.addInfo.parentId);
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           if (type == "catalog") {
             console.log(1);
@@ -328,6 +408,7 @@ export default {
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
               status: 1,
+              type: 3
             };
           } else {
             console.log(2);
@@ -340,24 +421,26 @@ export default {
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
               status: 1,
+              type: 3
             };
           }
-          this.$http.nav.addOrUpdate(params).then((res) => {
+          this.$http.nav.addOrUpdate(params).then(res => {
             if (res.code == "200") {
               this.$message({
                 showClose: true,
                 message: "新增成功",
-                type: "success",
+                type: "success"
               });
               this.customerAddInfo = false;
               this.addNavList = false;
-              (this.addInfo.funcName = ""),
-                (this.addInfo.radio = ""),
-                (this.addInfo.parentId = []),
-                (this.addInfo.funcUrl = ""),
-                (this.addInfo.funcCode = ""),
-                (this.addInfo.seqNum = ""),
-                (this.addInfo.isEnabled = "");
+              this.addInfo.funcName = "";
+              this.addInfo.funcChName = "";
+              this.addInfo.radio = "";
+              this.addInfo.parentId = [];
+              this.addInfo.funcUrl = "";
+              this.addInfo.funcCode = "";
+              this.addInfo.seqNum = "";
+              this.addInfo.isEnabled = "";
               this.getNavList();
             } else {
               this.$message.error(res.msg);
@@ -370,7 +453,7 @@ export default {
       });
     },
     setCustomerInfo(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           console.log(this.setInfo);
           let params = {
@@ -382,13 +465,14 @@ export default {
             sort: this.setInfo.sort,
             type: this.setInfo.type,
             status: this.setInfo.status,
+            type: 3
           };
-          this.$http.nav.addOrUpdate(params).then((res) => {
+          this.$http.nav.addOrUpdate(params).then(res => {
             if (res.code == "200") {
               this.$message({
                 showClose: true,
                 message: "修改成功",
-                type: "success",
+                type: "success"
               });
               this.customerInfo = false;
               this.setInfo = {};
@@ -426,8 +510,8 @@ export default {
       this.navList = res;
       console.log(this.navList);
       return res;
-    },
-  },
+    }
+  }
 };
 </script>
 

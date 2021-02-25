@@ -292,7 +292,8 @@ export default {
     //修改排序确定提交
     editSort(row) {
       let params = {
-        ...row
+        ...row,
+        type: 2
       };
       this.$http.nav.addOrUpdate(params).then(res => {
         if (res.code == "200") {
@@ -311,7 +312,7 @@ export default {
     getNavList() {
       let params = {
         status: "",
-        type: ""
+        type: 2
       };
       this.$http.nav.selectMenuList(params).then(res => {
         if (res.code == "200") {
@@ -404,7 +405,8 @@ export default {
               node: "2",
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
-              status: 1
+              status: 1,
+              type: 2
             };
           } else {
             console.log(2);
@@ -416,7 +418,8 @@ export default {
               node: "1",
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
-              status: 1
+              status: 1,
+              type: 2
             };
           }
           this.$http.nav.addOrUpdate(params).then(res => {
@@ -428,13 +431,14 @@ export default {
               });
               this.customerAddInfo = false;
               this.addNavList = false;
-              (this.addInfo.funcName = ""),
-                (this.addInfo.radio = ""),
-                (this.addInfo.parentId = []),
-                (this.addInfo.funcUrl = ""),
-                (this.addInfo.funcCode = ""),
-                (this.addInfo.seqNum = ""),
-                (this.addInfo.isEnabled = "");
+              this.addInfo.funcName = "";
+              this.addInfo.funcChName = "";
+              this.addInfo.radio = "";
+              this.addInfo.parentId = [];
+              this.addInfo.funcUrl = "";
+              this.addInfo.funcCode = "";
+              this.addInfo.seqNum = "";
+              this.addInfo.isEnabled = "";
               this.getNavList();
             } else {
               this.$message.error(res.msg);
@@ -458,7 +462,8 @@ export default {
             node: this.setInfo.node,
             sort: this.setInfo.sort,
             type: this.setInfo.type,
-            status: this.setInfo.status
+            status: this.setInfo.status,
+            type: 2
           };
           this.$http.nav.addOrUpdate(params).then(res => {
             if (res.code == "200") {

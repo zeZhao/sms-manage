@@ -80,7 +80,7 @@ export function generaMenu(routes, data, linkUrl = "") {
         const menu = {
             path: item.node === 2 ? item.menuId + 'list' : item.linkUrl,
             component: item.node === 2 ? Layout : (resolve) =>
-                require([`@/views/${filePath(item)}`], resolve),
+                require([`@/views/${linkUrl}${item.linkUrl}`], resolve),
             alwaysShow: item.node === 2 ? true : false,
             // component: () => import('@/views/outList'),
             children: [],
