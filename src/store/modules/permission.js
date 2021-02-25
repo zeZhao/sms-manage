@@ -74,14 +74,14 @@ export function filePath(item) {
  * 后台查询的菜单数据拼装成路由格式的数据
  * @param routes
  */
-export function generaMenu(routes, data) {
+export function generaMenu(routes, data, linkUrl = "") {
     data.forEach(item => {
-
+        //node 1为菜单 2为目录
         const menu = {
-            path: item.linkUrl === '#' ? item.menuId + 'list' : item.linkUrl,
-            component: item.linkUrl === '#' ? Layout : (resolve) =>
+            path: item.node === 2 ? item.menuId + 'list' : item.linkUrl,
+            component: item.node === 2 ? Layout : (resolve) =>
                 require([`@/views/${filePath(item)}`], resolve),
-            alwaysShow: item.linkUrl === '#' ? true : false,
+            alwaysShow: item.node === 2 ? true : false,
             // component: () => import('@/views/outList'),
             children: [],
             name: item.name,
@@ -93,7 +93,7 @@ export function generaMenu(routes, data) {
             }
         }
         if (item.childMenu) {
-            generaMenu(menu.children, item.childMenu)
+            generaMenu(menu.children, item.childMenu, item.linkUrl)
         }
         routes.push(menu)
     })
