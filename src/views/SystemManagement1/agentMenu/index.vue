@@ -7,7 +7,7 @@
         <!--<el-input v-model="custName" clearable placeholder="客户名称" />-->
         <!--</el-form-item>-->
         <!--<el-form-item>-->
-        <!--<el-input v-model="companyFullName" clearable placeholder="企业全称" />-->
+        <!--<el-input v-model="companyFullName" clearable placeholder="商户全称" />-->
         <!--</el-form-item>-->
         <!--<el-form-item>-->
         <!--<el-button type="primary" @click="queryOrderList">查询</el-button>-->
@@ -30,8 +30,8 @@
       <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
-          <span v-if="scope.row.type == 1">前端</span>
-          <span v-if="scope.row.type == 2">后端</span>
+          <span v-if="scope.row.type == 1">商戶端</span>
+          <span v-if="scope.row.type == 2">运营端</span>
           <span v-if="scope.row.type == 3">代理商</span>
         </template>
       </el-table-column>
@@ -117,8 +117,8 @@
           />
         </el-form-item>
         <!-- <el-form-item label="请选择目录类型">
-          <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
-          <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number
@@ -171,8 +171,8 @@
           />
         </el-form-item>
         <!-- <el-form-item label="请选择目录类型">
-          <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
-          <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number
@@ -220,9 +220,9 @@
             v-model="setInfo.type"
             :label="1"
             :disabled="setInfo.type === 2"
-            >前端</el-radio
+            >商戶端</el-radio
           >
-          <el-radio v-model="setInfo.type" :label="2">后端</el-radio>
+          <el-radio v-model="setInfo.type" :label="2">运营端</el-radio>
         </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number

@@ -23,7 +23,7 @@ export default {
     listSysProvinceCity(params) {
         return post("/sysProvinceCity/listSysProvinceCity", params);
     },
-    // 企业和用户列表
+    // 商户和用户列表
     queryMainInfo(params) {
         return fetch("/corpUser/queryMainInfo", params);
     },
@@ -132,34 +132,34 @@ export default {
         },
     },
     corp: {
-        // 下拉企业列表
+        // 下拉商户列表
         queryAllCorp(params) {
             return fetch("/corp/queryAllCorp", params);
         },
-        // 企业列表
+        // 商户列表
         queryByPage(params) {
             return post("/corp/queryByPage", params);
         },
-        // 企业状态
+        // 商户状态
         updateStatus(params) {
             return post("/corp/updateStatus", params);
         },
-        // 新增企业
+        // 新增商户
         addOrUpdate(params) {
             return post("/corp/addOrUpdate", params);
         },
     },
-    //企业用户
+    //商户用户
     corpUser: {
-        // 企业用户列表
+        // 商户用户列表
         queryByPage(params) {
             return post("/corpUser/queryByPage", params);
         },
-        // 新增企业用户
+        // 新增商户用户
         addOrUpdate(params) {
             return post("/corpUser/addOrUpdate", params);
         },
-        // 修改企业用户状态
+        // 修改商户用户状态
         updateStatus(params) {
             return post("/corpUser/updateStatus", params);
         },
@@ -167,7 +167,7 @@ export default {
         check(params) {
             return post("/corpUser/check", params);
         },
-        // 企业和用户列表
+        // 商户和用户列表
         queryMainInfo(params) {
             return post("/corpUser/queryMainInfo", params);
         },
@@ -435,7 +435,7 @@ export default {
             return post("/userBalanceDaily/listBalanceDailyByPage", params)
         }
     },
-    //企业月账单
+    //商户月账单
     sysPrepaidCard: {
         listCorporateBillByPage(params) {
             return post("/sysPrepaidCard/listCorporateBillByPage", params)

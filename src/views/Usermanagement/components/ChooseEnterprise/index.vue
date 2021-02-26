@@ -1,7 +1,7 @@
 <template>
   <div class="ChooseEnterprise">
     <el-dialog
-      title="选择企业"
+      title="选择商户"
       :visible.sync="isEnterprise"
       top="45px"
       width="60%"
@@ -9,23 +9,37 @@
     >
       <el-row :gutter="20">
         <el-col :span="10">
-          <span class="label">企业ID：</span>
-          <el-input placeholder="请输入企业ID" v-model="corpId" clearable></el-input>
+          <span class="label">商户编号：</span>
+          <el-input
+            placeholder="请输入商户编号"
+            v-model="corpId"
+            clearable
+          ></el-input>
         </el-col>
         <el-col :span="10">
-          <span class="label">企业名称：</span>
-          <el-input placeholder="请输入企业名称" v-model="corpName" clearable></el-input>
+          <span class="label">商户名称：</span>
+          <el-input
+            placeholder="请输入商户名称"
+            v-model="corpName"
+            clearable
+          ></el-input>
         </el-col>
         <el-col :span="4">
           <el-button @click="search">查询</el-button>
         </el-col>
       </el-row>
-      <el-table :data="dataList" highlight-current-row style="width: 100%;margin-top: 20px">
-        <el-table-column prop="corpId" label="企业ID" />
-        <el-table-column prop="corpName" label="企业名称" />
+      <el-table
+        :data="dataList"
+        highlight-current-row
+        style="width: 100%;margin-top: 20px"
+      >
+        <el-table-column prop="corpId" label="商户编号" />
+        <el-table-column prop="corpName" label="商户名称" />
         <el-table-column fixed="right" label="操作" width="200">
           <template slot-scope="scope">
-            <el-button @click="selected(scope.row)" type="text" size="small">选中</el-button>
+            <el-button @click="selected(scope.row)" type="text" size="small"
+              >选中</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -120,11 +134,11 @@ export default {
     }
   },
   watch: {
-      isEnterprise:{
-          handler(v){
-              this.init();
-          }
+    isEnterprise: {
+      handler(v) {
+        this.init();
       }
+    }
   }
 };
 </script>

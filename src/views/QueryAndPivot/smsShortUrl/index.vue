@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="客户ID" />
+      <el-table-column prop="userId" label="客户编号" />
       <el-table-column prop="activityName" label="活动名称" />
       <el-table-column prop="content" label="短信内容" show-overflow-tooltip />
       <el-table-column
@@ -52,7 +52,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsShortUrl",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "shortUrl",
@@ -62,34 +62,34 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户编号"
         },
         {
           type: "inputNum",
-          label: "任务ID",
+          label: "任务编号",
           key: "taskId",
-          placeholder: "请输入任务ID",
+          placeholder: "请输入任务编号"
         },
         {
           type: "input",
           label: "内容",
           key: "content",
-          placeholder: "请输入内容",
+          placeholder: "请输入内容"
         },
         {
           type: "daterange",
           label: "时间",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
   computed: {},
   methods: {},
-  watch: {},
+  watch: {}
 };
 </script>
 

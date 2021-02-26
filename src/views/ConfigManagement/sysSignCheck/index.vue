@@ -1,55 +1,55 @@
 <template>
   <!--签名管理-->
   <div class="sysSignCheck">
-    <Search :searchFormConfig="searchFormConfig"
-            @search="_mxDoSearch"
-            :add="false"></Search>
-    <el-table :data="listData"
-              highlight-current-row
-              style="width: 100%"
-              v-loading="loading">
-      <el-table-column prop="userId"
-                       label="用户ID" />
-      <el-table-column prop="sign"
-                       label="签名" />
-      <el-table-column prop="code"
-                       label="签名特服号" />
-      <el-table-column prop="licenceUrl"
-                       label="营业执照">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
+      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="sign" label="签名" />
+      <el-table-column prop="code" label="签名特服号" />
+      <el-table-column prop="licenceUrl" label="营业执照">
         <template slot-scope="scope">
-          <a style="color: #1890ff"
-             :href="`${origin}/${scope.row.licenceUrl}`"
-             target="_blank"
-             v-if="scope.row.licenceUrl">点击查看</a>
+          <a
+            style="color: #1890ff"
+            :href="`${origin}/${scope.row.licenceUrl}`"
+            target="_blank"
+            v-if="scope.row.licenceUrl"
+            >点击查看</a
+          >
           <span v-else>暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cardUrl"
-                       label="法人身份证">
+      <el-table-column prop="cardUrl" label="法人身份证">
         <template slot-scope="scope">
-          <a style="color: #1890ff"
-             :href="`${origin}/${scope.row.cardUrl}`"
-             target="_blank"
-             v-if="scope.row.cardUrl">点击查看</a>
+          <a
+            style="color: #1890ff"
+            :href="`${origin}/${scope.row.cardUrl}`"
+            target="_blank"
+            v-if="scope.row.cardUrl"
+            >点击查看</a
+          >
           <span v-else>暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime"
-                       label="申请时间"
-                       width="150">
+      <el-table-column prop="createTime" label="申请时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="checkTime"
-                       label="审核时间"
-                       width="150">
+      <el-table-column prop="checkTime" label="审核时间" width="150">
         <template slot-scope="scope">{{
           scope.row.checkTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="status"
-                       label="状态">
+      <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{
             scope.row.status === 1
@@ -62,30 +62,38 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作"
-                       width="100">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)"
-                     type="text"
-                     size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('signCheckId', scope.row.signCheckId)"
-                     type="text"
-                     size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('signCheckId', scope.row.signCheckId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj"
-          @handleSizeChange="handleSizeChange"
-          @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit"
-               :visible.sync="addChannel"
-               :close-on-click-modal="false"
-               top="45px">
-      <FormItem ref="formItem"
-                :formConfig="formConfig"
-                :btnTxt="formTit"
-                @submit="submit"
-                @cancel="cancel"></FormItem>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="submit"
+        @cancel="cancel"
+      ></FormItem>
     </el-dialog>
   </div>
 </template>
@@ -95,7 +103,7 @@ import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       formTit: "新增",
       addChannel: false,
@@ -113,9 +121,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "select",
@@ -134,7 +142,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           disabled: true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -159,10 +167,10 @@ export default {
       origin: window.location.origin
     };
   },
-  mounted () { },
+  mounted() {},
   computed: {},
   methods: {
-    submit (form) {
+    submit(form) {
       let params = {};
       if (this.formTit == "新增") {
       } else {
@@ -183,14 +191,14 @@ export default {
         });
       }
     },
-    create () {
+    create() {
       this.addChannel = true;
       this.formTit = "新增";
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
     },
-    edit (row) {
+    edit(row) {
       this.signCheckId = row.signCheckId;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
@@ -208,7 +216,7 @@ export default {
       }, 0);
       this.addChannel = true;
     },
-    cancel () {
+    cancel() {
       this.addChannel = false;
     }
   },

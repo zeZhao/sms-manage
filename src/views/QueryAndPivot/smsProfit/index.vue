@@ -13,9 +13,9 @@
       v-loading="loading"
     >
       <el-table-column prop="createDate" label="日期" width="100" />
-      <el-table-column prop="corpId" label="企业ID" />
+      <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="corpName" label="公司全称" show-overflow-tooltip />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="客户全称" show-overflow-tooltip />
       <el-table-column prop="cardUnit" label="客户单价(分)" width="110" />
       <el-table-column prop="reductModel" label="计费方式" width="110">
@@ -71,7 +71,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsProfit",
-        list: "queryByPage",
+        list: "queryByPage"
       },
       // 列表参数
       namespace: "smsProfit",
@@ -81,52 +81,52 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入商户编号"
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "input",
-          label: "企业名称",
+          label: "商户名称",
           key: "corpName",
-          placeholder: "请输入企业名称",
+          placeholder: "请输入商户名称"
         },
         {
           type: "inputNum",
           label: "通道编号",
           key: "gateway",
-          placeholder: "通道编号",
+          placeholder: "通道编号"
         },
         {
           type: "input",
           label: "通道名称",
           key: "gatewayName",
-          placeholder: "通道名称",
+          placeholder: "通道名称"
         },
         {
           type: "input",
           label: "销售",
           key: "saleMan",
-          placeholder: "请输入销售",
+          placeholder: "请输入销售"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
@@ -134,15 +134,15 @@ export default {
   methods: {
     //修改表格数据
     _mxFormListData(data) {
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.createDate) {
           item.createDate = new Date(item.createDate).Format("yyyy-MM-dd");
         }
       });
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
