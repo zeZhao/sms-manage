@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" />
@@ -81,15 +81,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入商户编号"
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",

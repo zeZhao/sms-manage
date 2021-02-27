@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="企业ID" />
-      <el-table-column prop="userId" label="账号ID" />
+      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="userId" label="账号编号" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
           <span>
@@ -56,7 +56,7 @@
       </el-table-column>
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == 1 ? "用户计费" : "企业计费" }}</span>
+          <span>{{ scope.row.reductType == 1 ? "用户计费" : "商户计费" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="操作类型" />
@@ -139,9 +139,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "账号ID",
+          label: "账号编号",
           key: "userId",
-          placeholder: "请输入账号ID"
+          placeholder: "请输入账号编号"
         },
         {
           type: "select",
@@ -167,9 +167,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入商户编号"
         },
 
         {
@@ -214,7 +214,7 @@ export default {
         title: "审核",
         message: h("div", null, [
           /*  h("p", null, [
-            h("span", null, "充值卡ID"),
+            h("span", null, "充值卡编号"),
             h("el-input", {
               props: {
                 value: cardId
@@ -255,7 +255,7 @@ export default {
         title: "驳回",
         message: h("div", null, [
           // h("p", null, [
-          //   h("span", null, "充值卡ID"),
+          //   h("span", null, "充值卡编号"),
           //   h("el-input", {
           //     props: {
           //       value: id

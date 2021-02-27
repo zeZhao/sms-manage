@@ -1,5 +1,5 @@
 <template>
-  <!--企业月账单-->
+  <!--商户月账单-->
   <div class="sysPrepaidCard">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="企业ID" />
-      <el-table-column prop="corporateName" label="企业名称" />
+      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="corporateName" label="商户名称" />
       <el-table-column prop="cardCount" label="条数" />
       <el-table-column prop="cardMoney" label="金额(元)" />
       <el-table-column prop="directCount" label="直连条数" />
@@ -68,7 +68,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId"
         },
         {

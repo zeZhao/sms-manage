@@ -3,33 +3,49 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true">
-        <el-form-item label="商户ID">
-          <el-input v-model="search.corpId" clearable placeholder="商户ID" />
+        <el-form-item label="商户编号">
+          <el-input v-model="search.corpId" clearable placeholder="商户编号" />
         </el-form-item>
-        <el-form-item label="用户ID">
-          <el-input v-model="search.userId" clearable placeholder="用户ID" />
+        <el-form-item label="用户编号">
+          <el-input v-model="search.userId" clearable placeholder="用户编号" />
         </el-form-item>
         <el-form-item label="用户名称">
-          <el-input v-model="search.userName" clearable placeholder="用户名称" />
+          <el-input
+            v-model="search.userName"
+            clearable
+            placeholder="用户名称"
+          />
         </el-form-item>
         <el-form-item label="用户特服号">
           <el-input v-model="search.code" clearable placeholder="用户特服号" />
         </el-form-item>
         <el-form-item label="是否为直客">
-          <el-select v-model="search.isDirectUser" placeholder="请选择" clearable>
+          <el-select
+            v-model="search.isDirectUser"
+            placeholder="请选择"
+            clearable
+          >
             <el-option value="1" label="直客" />
             <el-option value="2" label="同行" />
           </el-select>
         </el-form-item>
         <el-form-item label="业务类型">
-          <el-select v-model="search.accountType" placeholder="计费模式" clearable>
+          <el-select
+            v-model="search.accountType"
+            placeholder="计费模式"
+            clearable
+          >
             <el-option value="1" label="行业" />
             <el-option value="2" label="营销" />
             <el-option value="3" label="vip" />
           </el-select>
         </el-form-item>
         <el-form-item label="产品">
-          <el-select v-model="search.productType" placeholder="计费模式" clearable>
+          <el-select
+            v-model="search.productType"
+            placeholder="计费模式"
+            clearable
+          >
             <el-option value="1" label="短信" />
             <!-- <el-option value="2" label="彩信" /> -->
             <el-option value="3" label="屏信" />
@@ -38,14 +54,18 @@
         </el-form-item>
         <el-form-item label="产品类型">
           <el-select v-model="search.proType" placeholder="计费模式" clearable>
-            <el-option value="1" label="web前端" />
+            <el-option value="1" label="web商戶端" />
             <el-option value="2" label="http接口" />
             <el-option value="3" label="cmpp接口" />
             <el-option value="7" label="音频接口" />
           </el-select>
         </el-form-item>
         <el-form-item label="计费方式">
-          <el-select v-model="search.reductModel" placeholder="计费模式" clearable>
+          <el-select
+            v-model="search.reductModel"
+            placeholder="计费模式"
+            clearable
+          >
             <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
             <el-option value="1" label="预付提交计费" />
             <el-option value="2" label="预付成功计费" />
@@ -55,9 +75,13 @@
         </el-form-item>
 
         <el-form-item label="计费类型">
-          <el-select v-model="search.reductType" placeholder="计费模式" clearable>
+          <el-select
+            v-model="search.reductType"
+            placeholder="计费模式"
+            clearable
+          >
             <el-option value="1" label="为用户id计费" />
-            <el-option value="2" label="为企业id计费" />
+            <el-option value="2" label="为商户id计费" />
           </el-select>
         </el-form-item>
         <el-form-item label="销售人员">
@@ -66,8 +90,16 @@
           </el-select>
         </el-form-item>
         <el-form-item label="创建时间">
-          <el-date-picker type="date" placeholder="选择日期" v-model="search.startDate"></el-date-picker>
-          <el-date-picker type="date" placeholder="选择日期" v-model="search.endDate"></el-date-picker>
+          <el-date-picker
+            type="date"
+            placeholder="选择日期"
+            v-model="search.startDate"
+          ></el-date-picker>
+          <el-date-picker
+            type="date"
+            placeholder="选择日期"
+            v-model="search.endDate"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="queryOrderList">查询</el-button>
@@ -77,16 +109,27 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row height="680" style="width: 100%;">
-      <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业/代理ID" />
-      <el-table-column prop="userId" label="用户ID" />
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      height="680"
+      style="width: 100%;"
+    >
+      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <el-table-column prop="corpId" label="商户/代理编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="loginName" label="用户登录名" />
       <el-table-column prop="password" label="密码" />
       <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.accountType == '1'?'行业':( scope.row.accountType == '2'?'营销':"vip")}}</span>
+          <span>{{
+            scope.row.accountType == "1"
+              ? "行业"
+              : scope.row.accountType == "2"
+              ? "营销"
+              : "vip"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
@@ -94,27 +137,67 @@
       <el-table-column prop="longCode" label="长号码" />
       <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
-          <span>{{ scope.row.productType == '1'?'短信':( scope.row.productType == '2'?'彩信':( scope.row.productType == '3'?'屏信':'语音'))}}</span>
+          <span>{{
+            scope.row.productType == "1"
+              ? "短信"
+              : scope.row.productType == "2"
+              ? "彩信"
+              : scope.row.productType == "3"
+              ? "屏信"
+              : "语音"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.proType == '1'?'web前端':( scope.row.proType == '2'?'http接口':( scope.row.proType == '3'?'cmpp接口':'音频接口'))}}</span>
+          <span>{{
+            scope.row.proType == "1"
+              ? "web商戶端"
+              : scope.row.proType == "2"
+              ? "http接口"
+              : scope.row.proType == "3"
+              ? "cmpp接口"
+              : "音频接口"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="发送运营商">
         <template slot-scope="scope">
-          <span>{{ scope.row.sendType == '1'?'移动':( scope.row.reductModel == '2'?'联通 ':( scope.row.reductModel == '3'?'电信': (scope.row.reductModel == "4" ? '三网':(scope.row.reductModel == "5" ? '移动联通' : (scope.row.reductModel == "6"?'移动电信':'联通电信')))))}}</span>
+          <span>{{
+            scope.row.sendType == "1"
+              ? "移动"
+              : scope.row.reductModel == "2"
+              ? "联通 "
+              : scope.row.reductModel == "3"
+              ? "电信"
+              : scope.row.reductModel == "4"
+              ? "三网"
+              : scope.row.reductModel == "5"
+              ? "移动联通"
+              : scope.row.reductModel == "6"
+              ? "移动电信"
+              : "联通电信"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductModel == '1'?'预付提交计费':( scope.row.reductModel == '2'?'预付成功计费':( scope.row.reductModel == '3'?'后付提交计费':'后付成功计费'))}}</span>
+          <span>{{
+            scope.row.reductModel == "1"
+              ? "预付提交计费"
+              : scope.row.reductModel == "2"
+              ? "预付成功计费"
+              : scope.row.reductModel == "3"
+              ? "后付提交计费"
+              : "后付成功计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == '1'?'为用户id计费':'为企业id计费'}}</span>
+          <span>{{
+            scope.row.reductType == "1" ? "为用户id计费" : "为商户id计费"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsBalance" label="短信余额" />
@@ -122,32 +205,47 @@
       <el-table-column prop="cardUnit" label="单价（分）"></el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.status == '0'?'删除':( scope.row.status == '1'?'待审核':( scope.row.status == '2'?'正常':'停用'))}}</span>
+          <span>{{
+            scope.row.status == "0"
+              ? "删除"
+              : scope.row.status == "1"
+              ? "待审核"
+              : scope.row.status == "2"
+              ? "正常"
+              : "停用"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="messageShow(scope.row)" type="text" size="small">信息</el-button>
-          <el-button @click="infoShow(scope.row)" type="text" size="small">修改</el-button>
+          <el-button @click="messageShow(scope.row)" type="text" size="small"
+            >信息</el-button
+          >
+          <el-button @click="infoShow(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
           <el-button
-            :disabled="scope.row.status == '2'||scope.row.status == '3'"
-            @click="setType(scope.row,'init','2')"
+            :disabled="scope.row.status == '2' || scope.row.status == '3'"
+            @click="setType(scope.row, 'init', '2')"
             type="text"
             size="small"
-          >审核</el-button>
+            >审核</el-button
+          >
           <el-button
             v-if="scope.row.status == 2"
-            @click="setType(scope.row,'disable','3')"
+            @click="setType(scope.row, 'disable', '3')"
             style="color: #ec5858"
             type="text"
             size="small"
-          >停用</el-button>
+            >停用</el-button
+          >
           <el-button
             v-if="scope.row.status == 3"
-            @click="setType(scope.row,'enabled','2')"
+            @click="setType(scope.row, 'enabled', '2')"
             type="text"
             size="small"
-          >启用</el-button>
+            >启用</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -177,12 +275,21 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="企业ID" prop="corpId">
-          <el-input v-model="addInfo.corpId" disabled placeholder="请选择企业ID" style="width: 130px" />
-          <el-button @click="selectCompany">请选择父企业</el-button>
+        <el-form-item label="商户编号" prop="corpId">
+          <el-input
+            v-model="addInfo.corpId"
+            disabled
+            placeholder="请选择商户编号"
+            style="width: 130px"
+          />
+          <el-button @click="selectCompany">请选择父商户</el-button>
         </el-form-item>
-        <el-form-item label="用户ID" prop="userId" style="display: none">
-          <el-input v-model="addInfo.userId" clearable placeholder="请输入用户ID" />
+        <el-form-item label="用户编号" prop="userId" style="display: none">
+          <el-input
+            v-model="addInfo.userId"
+            clearable
+            placeholder="请输入用户编号"
+          />
         </el-form-item>
         <el-form-item label="用户名" prop="userName">
           <el-input
@@ -203,7 +310,12 @@
           />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="addInfo.password" clearable placeholder="请输入密码" />
+          <el-input
+            type="password"
+            v-model="addInfo.password"
+            clearable
+            placeholder="请输入密码"
+          />
         </el-form-item>
         <el-form-item label="用户特服号" prop="code">
           <el-input
@@ -231,7 +343,7 @@
             popper-class="select-option"
           >
             <el-option value="1" label="为用户id计费" />
-            <el-option value="2" label="为企业id计费" />
+            <el-option value="2" label="为商户id计费" />
           </el-select>
         </el-form-item>
         <el-form-item label="计费方式" prop="reductModel">
@@ -247,7 +359,11 @@
             <el-option value="4" label="后付成功计费" />
           </el-select>
         </el-form-item>
-        <el-form-item label="返还类型" prop="returnBalance" v-if="addInfo.reductModel === '2'">
+        <el-form-item
+          label="返还类型"
+          prop="returnBalance"
+          v-if="addInfo.reductModel === '2'"
+        >
           <el-select
             style="width: 100%"
             v-model="addInfo.returnBalance"
@@ -297,7 +413,7 @@
             placeholder="请选择产品类型"
             popper-class="select-option"
           >
-            <el-option value="1" label="web前端" />
+            <el-option value="1" label="web商戶端" />
             <el-option value="2" label="http接口" />
             <el-option value="3" label="cmpp接口" />
             <el-option value="7" label="音频接口" />
@@ -341,16 +457,32 @@
           </el-select>
         </el-form-item>
         <el-form-item label="推动报告地址" prop="reportUrl">
-          <el-input v-model="addInfo.reportUrl" clearable placeholder="请输入推动报告地址" />
+          <el-input
+            v-model="addInfo.reportUrl"
+            clearable
+            placeholder="请输入推动报告地址"
+          />
         </el-form-item>
         <el-form-item label="推送上行地址" prop="moUrl">
-          <el-input v-model="addInfo.moUrl" clearable placeholder="请输入推送上行地址" />
+          <el-input
+            v-model="addInfo.moUrl"
+            clearable
+            placeholder="请输入推送上行地址"
+          />
         </el-form-item>
         <el-form-item label="客户IP地址" prop="userIp">
-          <el-input v-model="addInfo.userIp" clearable placeholder="请输入客户IP地址" />
+          <el-input
+            v-model="addInfo.userIp"
+            clearable
+            placeholder="请输入客户IP地址"
+          />
         </el-form-item>
         <el-form-item label="备份IP" prop="userIpBak">
-          <el-input v-model="addInfo.userIpBak" clearable placeholder="请输入备份IP" />
+          <el-input
+            v-model="addInfo.userIpBak"
+            clearable
+            placeholder="请输入备份IP"
+          />
         </el-form-item>
         <el-form-item label="客户联系人" prop="contact">
           <el-input
@@ -362,7 +494,12 @@
           />
         </el-form-item>
         <el-form-item label="客户联系人电话" prop="mobile">
-          <el-input maxlength="11" v-model="addInfo.mobile" clearable placeholder="请输入客户联系人电话" />
+          <el-input
+            maxlength="11"
+            v-model="addInfo.mobile"
+            clearable
+            placeholder="请输入客户联系人电话"
+          />
         </el-form-item>
         <el-form-item label="账号类型" prop="accountType">
           <el-select
@@ -439,7 +576,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addCustomerInfo('addForm')">{{formBtn}}</el-button>
+        <el-button type="primary" @click="addCustomerInfo('addForm')">{{
+          formBtn
+        }}</el-button>
         <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
@@ -449,14 +588,20 @@
       :close-on-click-modal="false"
       width="30%"
     >
-      <span>{{information}}</span>
-      <p v-show=" dialogTit === '停用' " style="color: #EC5858">停用后将无法使用，请谨慎操作！</p>
+      <span>{{ information }}</span>
+      <p v-show="dialogTit === '停用'" style="color: #EC5858">
+        停用后将无法使用，请谨慎操作！
+      </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateStatus">确 定</el-button>
       </span>
     </el-dialog>
-    <ChooseEnterprise :isEnterprise="isEnterprise" @cancel="cancel" @getCorpId="getCorpId"></ChooseEnterprise>
+    <ChooseEnterprise
+      :isEnterprise="isEnterprise"
+      @cancel="cancel"
+      @getCorpId="getCorpId"
+    ></ChooseEnterprise>
   </section>
 </template>
 <script>
@@ -500,7 +645,7 @@ export default {
         startDate: "",
         endDate: ""
       },
-      // 新增企业
+      // 新增商户
       addInfo: {
         userId: "",
         // mqIp:"",
@@ -600,7 +745,7 @@ export default {
           { required: true, message: "必填项不能为空", trigger: "blur" }
         ]
       },
-      formTit: "新增企业用户",
+      formTit: "新增商户用户",
       formBtn: "新增",
       // 初始/停用/启用 公共弹窗
       dialogVisible: false,
@@ -608,7 +753,7 @@ export default {
       information: "",
       dialogType: "disable",
       currentRowData: {},
-      //选择企业
+      //选择商户
       isEnterprise: false,
       status: "",
       blackLevel: ["系统级", "客户级"]
@@ -670,12 +815,12 @@ export default {
     newEnterprise() {
       this.customerAddInfo = true;
       this.formBtn = "新增";
-      this.formTit = "新增企业用户";
+      this.formTit = "新增商户用户";
       setTimeout(() => {
         this.$refs.addForm.resetFields();
       }, 0);
     },
-    //新增企业
+    //新增商户
     addCustomerInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -700,7 +845,7 @@ export default {
     },
     infoShow(row) {
       this.formBtn = "修改";
-      this.formTit = "修改企业用户";
+      this.formTit = "修改商户用户";
       this.customerAddInfo = true;
       if (row.isDirectUser) {
         row.isDirectUser = row.isDirectUser.toString();
@@ -747,15 +892,15 @@ export default {
       switch (type) {
         case "disable":
           str.title = "停用";
-          str.information = "您确定要停用企业吗？";
+          str.information = "您确定要停用商户吗？";
           break;
         case "init":
           str.title = "审核";
-          str.information = "审核后，企业将正常使用，您确认要审核吗？";
+          str.information = "审核后，商户将正常使用，您确认要审核吗？";
           break;
         case "enabled":
           str.title = "启用";
-          str.information = "启用后企业将正常使用，您确定要启用企业吗？";
+          str.information = "启用后商户将正常使用，您确定要启用商户吗？";
           break;
       }
       this.dialogTit = str.title;
@@ -787,7 +932,7 @@ export default {
     createElement(h, row) {
       switch (row.proType) {
         case 1:
-          row.proType = "web前端";
+          row.proType = "web商戶端";
           break;
         case 2:
           row.proType = "http接口";
@@ -796,14 +941,14 @@ export default {
           row.proType = "cmpp接口";
           break;
       }
-      if (row.proType === "web前端") {
+      if (row.proType === "web商戶端") {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),
             h("span", null, `${row.proType}`)
           ]),
           h("p", null, [
-            h("span", null, "企业名称: "),
+            h("span", null, "商户名称: "),
             h("span", null, `${row.userName}`)
           ]),
           h("p", null, [
@@ -827,7 +972,7 @@ export default {
             h("span", null, `${row.proType}`)
           ]),
           h("p", null, [
-            h("span", null, "企业名称: "),
+            h("span", null, "商户名称: "),
             h("span", null, `${row.userName}`)
           ]),
           h("p", null, [
@@ -855,7 +1000,7 @@ export default {
             h("span", null, `${row.proType}`)
           ]),
           h("p", null, [
-            h("span", null, "企业名称: "),
+            h("span", null, "商户名称: "),
             h("span", null, `${row.userName}`)
           ]),
           h("p", null, [
@@ -895,5 +1040,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

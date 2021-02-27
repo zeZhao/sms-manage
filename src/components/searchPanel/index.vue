@@ -138,6 +138,12 @@
           >
           <el-button
             type="primary"
+            @click="_mxHandleReset()"
+            style="margin-left: 15px"
+            >重置</el-button
+          >
+          <el-button
+            type="primary"
             v-if="add && searchFormConfig.length"
             @click="create"
             >新建</el-button
@@ -184,6 +190,15 @@ export default {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
+    },
+    //重置筛选条件
+    _mxHandleReset() {
+      let form = this.form;
+      for (let key in form) {
+        form[key] = "";
+      }
+      this.form = form;
+      // this.$emit("search", this.form);
     },
 
     initComponent() {

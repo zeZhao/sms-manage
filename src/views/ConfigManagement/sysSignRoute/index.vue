@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
@@ -22,8 +22,8 @@
             scope.row.type === 1
               ? "特服号"
               : scope.row.type === 2
-              ? "用户ID"
-              : "企业ID"
+              ? "用户编号"
+              : "商户编号"
           }}</span>
         </template>
       </el-table-column>
@@ -116,15 +116,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入商户编号"
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
@@ -155,11 +155,11 @@ export default {
             },
             {
               key: 2,
-              value: "用户ID"
+              value: "用户编号"
             },
             {
               key: 3,
-              value: "企业ID"
+              value: "商户编号"
             }
           ],
           placeholder: "请选择类型"
@@ -187,7 +187,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -204,7 +204,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId",
           disabled: true,
           defaultValue: "",
@@ -261,11 +261,11 @@ export default {
             },
             {
               key: 2,
-              value: "用户ID"
+              value: "用户编号"
             },
             {
               key: 3,
-              value: "企业ID"
+              value: "商户编号"
             }
           ]
         },

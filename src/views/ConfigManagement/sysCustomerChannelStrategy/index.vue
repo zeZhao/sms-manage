@@ -21,12 +21,12 @@
               ? "特服号级"
               : scope.row.strategyLevel === 3
               ? "客户级"
-              : "企业级"
+              : "商户级"
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="corpId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="cmPassageway" label="移动通道" />
@@ -142,14 +142,14 @@ export default {
             { key: "1", value: "系统级" },
             { key: "2", value: "特服号级" },
             { key: "3", value: "客户级" },
-            { key: "4", value: "企业级" }
+            { key: "4", value: "商户级" }
           ]
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
@@ -180,13 +180,13 @@ export default {
             { key: 1, value: "系统级" },
             { key: 2, value: "特服号级" },
             { key: 3, value: "客户级" },
-            { key: 4, value: "企业级" }
+            { key: 4, value: "商户级" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           btnTxt: "选择用户",
           btnDisabled: false,
@@ -197,7 +197,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业ID",
+          label: "商户编号",
           key: "corpId",
           disabled: true,
           defaultValue: "",

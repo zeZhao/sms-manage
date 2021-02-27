@@ -14,8 +14,8 @@
     </Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <!-- <el-table-column type="selection" width="55" /> -->
-      <el-table-column prop="corpId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <!-- <el-table-column prop="gatewayType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
@@ -131,9 +131,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
@@ -190,7 +190,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           disabled: true,
           defaultValue: "",

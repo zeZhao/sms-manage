@@ -8,7 +8,7 @@
             v-model="roleIdSearch"
             type="number"
             clearable
-            placeholder="角色ID"
+            placeholder="角色编号"
           />
         </el-form-item>
         <el-form-item>
@@ -16,8 +16,8 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="roleType" placeholder="角色类型" clearable>
-            <el-option value="1" label="前端角色" />
-            <el-option value="2" label="后端角色" />
+            <el-option value="1" label="商戶端角色" />
+            <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -41,12 +41,14 @@
       height="680"
       style="width: 100%"
     >
-      <!--角色id 	角色名称 角色类型 1是前端角色 2是后端角色 描述-->
-      <el-table-column prop="roleId" label="ID" />
+      <!--角色id 	角色名称 角色类型 1是商戶端角色 2是运营端角色 描述-->
+      <el-table-column prop="roleId" label="编号" />
       <el-table-column prop="roleName" label="角色名称" />
       <el-table-column label="角色类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.roleType == "1" ? "前端角色" : "后端角色" }}</span>
+          <span>{{
+            scope.row.roleType == "1" ? "商戶端角色" : "运营端角色"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态">
@@ -117,8 +119,8 @@
             placeholder="角色类型"
             clearable
           >
-            <el-option value="1" label="前端角色" />
-            <el-option value="2" label="后端角色" />
+            <el-option value="1" label="商戶端角色" />
+            <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>
         <el-form-item label="菜单">
@@ -175,8 +177,8 @@
             placeholder="角色类型"
             disabled
           >
-            <el-option value="1" label="前端角色" />
-            <el-option value="2" label="后端角色" />
+            <el-option value="1" label="商戶端角色" />
+            <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>
         <el-form-item label="菜单">
@@ -300,7 +302,7 @@ export default {
       updateFormRules: {
         contactMobile: [{ validator: validatePhone, trigger: "blur" }]
       },
-      companyOptions: [], // 企业全称下拉项
+      companyOptions: [], // 商户全称下拉项
       pickerOptions: {
         shortcuts: [
           {

@@ -1,5 +1,5 @@
 <template>
-  <!--企业用户-->
+  <!--商户用户-->
   <div class="corpUser">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -7,9 +7,9 @@
       @create="_mxCreate"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
-      <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业ID" width="100" />
-      <el-table-column prop="userId" label="用户ID" />
+      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <el-table-column prop="corpId" label="商户编号" width="100" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column
         prop="userName"
         label="用户名"
@@ -97,7 +97,7 @@
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType == "1" ? "用户id计费" : "企业id计费"
+            scope.row.reductType == "1" ? "用户id计费" : "商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -243,9 +243,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corpId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入商户编号"
         },
         {
           type: "inputNum",
@@ -328,7 +328,7 @@ export default {
           key: "reductType",
           optionData: [
             { key: "1", value: "用户id计费" },
-            { key: "2", value: "企业id计费" }
+            { key: "2", value: "商户id计费" }
           ],
           placeholder: "请选择计费类型"
         },
@@ -360,7 +360,7 @@ export default {
       formConfig: [
         {
           type: "select",
-          label: "企业名称",
+          label: "商户名称",
           key: "corpId",
           optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -437,7 +437,7 @@ export default {
           key: "reductType",
           optionData: [
             { key: 1, value: "用户id计费" },
-            { key: 2, value: "企业id计费" }
+            { key: 2, value: "商户id计费" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -860,7 +860,7 @@ export default {
       });
       console.log(row.proType, "--------------");
     },
-    //获取所有企业
+    //获取所有商户
     getAllCorp() {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
@@ -922,15 +922,15 @@ export default {
       switch (type) {
         case "disable":
           str.title = "停用";
-          str.information = "您确定要停用企业吗？";
+          str.information = "您确定要停用商户吗？";
           break;
         case "init":
           str.title = "审核";
-          str.information = "审核后，企业将正常使用，您确认要审核吗？";
+          str.information = "审核后，商户将正常使用，您确认要审核吗？";
           break;
         case "enabled":
           str.title = "启用";
-          str.information = "启用后企业将正常使用，您确定要启用企业吗？";
+          str.information = "启用后商户将正常使用，您确定要启用商户吗？";
           break;
       }
       this.dialogTit = str.title;
@@ -1000,7 +1000,7 @@ export default {
             h("span", null, `${strType || ""}`)
           ]),
           h("p", null, [
-            h("span", null, "企业名称: "),
+            h("span", null, "商户名称: "),
             h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
@@ -1024,7 +1024,7 @@ export default {
             h("span", null, `${strType}`)
           ]),
           h("p", null, [
-            h("span", null, "企业名称: "),
+            h("span", null, "商户名称: "),
             h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
@@ -1052,7 +1052,7 @@ export default {
             h("span", null, `${strType}`)
           ]),
           h("p", null, [
-            h("span", null, "企业名称: "),
+            h("span", null, "商户名称: "),
             h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [

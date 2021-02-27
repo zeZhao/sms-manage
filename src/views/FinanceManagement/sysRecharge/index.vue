@@ -16,8 +16,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="企业ID" />
-      <el-table-column prop="userId" label="账号ID" />
+      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="userId" label="账号编号" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
           <span>
@@ -48,7 +48,7 @@
       <el-table-column prop="reductModel" label="计费类型" width="110">
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">用户id计费</span>
-          <span v-if="scope.row.reductType === 2">企业id计费</span>
+          <span v-if="scope.row.reductType === 2">商户id计费</span>
           <!-- <span>；
             {{
               scope.row.reductModel == 1
@@ -198,9 +198,9 @@ export default {
         // },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "select",
@@ -226,9 +226,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId",
-          placeholder: "请输入企业ID"
+          placeholder: "请输入商户编号"
         },
 
         {
@@ -278,13 +278,13 @@ export default {
           defaultValue: "",
           optionData: [
             { key: 1, value: "用户id计费" },
-            { key: 2, value: "企业id计费" }
+            { key: 2, value: "商户id计费" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -301,7 +301,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业ID",
+          label: "商户编号",
           key: "corporateId",
           disabled: true,
           isShow: true,
@@ -421,7 +421,7 @@ export default {
         },
         {
           type: "input",
-          label: "转移用户ID",
+          label: "转移用户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -439,7 +439,7 @@ export default {
         // },
         {
           type: "input",
-          label: "接收用户ID",
+          label: "接收用户编号",
           key: "userIdTo",
           btnTxt: "选择用户",
           disabled: true,
@@ -599,7 +599,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      //设置企业显示
+      //设置商户显示
       this._setDisplayShow(this.formConfig, "corporateId", true);
       // 初始上传文件为空
       this.formConfig.forEach(item => {

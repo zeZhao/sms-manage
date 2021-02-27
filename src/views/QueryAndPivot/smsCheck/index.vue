@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="counter" label="手机个数" show-overflow-tooltip />
@@ -47,7 +47,7 @@
           <span v-if="scope.row.source == '7'">组合超时</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
+      <el-table-column prop="cid" label="C编号" show-overflow-tooltip />
       <el-table-column
         prop="mobile"
         label="手机号"
@@ -124,9 +124,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
@@ -136,9 +136,9 @@ export default {
         },
         {
           type: "input",
-          label: "CID",
+          label: "C编号",
           key: "cId",
-          placeholder: "请输入CID"
+          placeholder: "请输入C编号"
         },
         {
           type: "input",

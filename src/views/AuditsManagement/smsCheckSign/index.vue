@@ -7,7 +7,7 @@
       :add="false"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">
         <template slot-scope="scope">
@@ -107,16 +107,16 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         }
       ],
       // 表单配置
       formConfig: [
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           disabled: true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -154,10 +154,10 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    _mxEdit(row, ID) {
+    _mxEdit(row, 编号) {
       row = this._mxArrangeEditData(row);
-      this.id = row[ID];
-      this.editId = ID;
+      this.id = row[编号];
+      this.editId = 编号;
       this.formTit = "审核";
       this.formConfig.forEach(item => {
         for (let key in row) {

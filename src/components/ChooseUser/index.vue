@@ -26,14 +26,14 @@
         :add="false"
       ></Search>
       <el-table :data="listData" highlight-current-row style="width: 100%">
-        <el-table-column align="center" prop="corpId" label="企业ID" />
+        <el-table-column align="center" prop="corpId" label="商户编号" />
         <el-table-column
           align="center"
           prop="corpName"
           show-overflow-tooltip
-          label="企业名"
+          label="商户名"
         />
-        <el-table-column align="center" prop="userId" label="用户ID" />
+        <el-table-column align="center" prop="userId" label="用户编号" />
         <el-table-column align="center" prop="userName" label="用户名" />
         <el-table-column align="center" prop="code" label="特服号" />
         <el-table-column align="center" fixed="right" label="操作">
@@ -60,8 +60,8 @@ export default {
   props: {
     isChooseUser: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   mixins: [listMixin],
   data() {
@@ -69,7 +69,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "corpUser",
-        list: "queryMainInfo",
+        list: "queryMainInfo"
       },
       // 列表参数
       namespace: "corpUser",
@@ -79,29 +79,29 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corpId",
-          placeholder: "请输入企业ID",
+          placeholder: "请输入商户编号"
         },
         {
           type: "input",
-          label: "企业名称",
+          label: "商户名称",
           key: "corpName",
-          placeholder: "请输入企业名称",
+          placeholder: "请输入商户名称"
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
-        },
-      ],
+          placeholder: "请输入用户名称"
+        }
+      ]
     };
   },
   mounted() {},
@@ -121,9 +121,9 @@ export default {
         this.$refs.search.resetForm();
       });
       this.$emit("cancel", false);
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
