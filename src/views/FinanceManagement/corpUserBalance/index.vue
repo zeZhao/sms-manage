@@ -12,10 +12,10 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="企业/用户ID" />
+      <el-table-column prop="userId" label="商户/用户编号" />
       <el-table-column
         prop="userName"
-        label="企业/用户名称"
+        label="商户/用户名称"
         show-overflow-tooltip
       />
       <el-table-column prop="smsBalance" label="短信余额" />
@@ -26,7 +26,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "用户id计费" : "企业id计费"
+            scope.row.reductType === 1 ? "用户id计费" : "商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -65,14 +65,14 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业/用户ID",
+          label: "商户/用户编号",
           key: "userId"
         },
         {
           type: "input",
-          label: "企业/用户名称",
+          label: "商户/用户名称",
           key: "userName",
-          placeholder: "请输入企业/用户名称"
+          placeholder: "请输入商户/用户名称"
         },
         {
           type: "select",
@@ -90,7 +90,7 @@ export default {
             },
             {
               key: 1,
-              value: "企业"
+              value: "商户"
             }
           ],
           placeholder: "请选择类型"

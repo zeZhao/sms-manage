@@ -7,7 +7,7 @@
       @create="create"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="notSubmitMin" label="未提交报警时间间隔(分)" />
       <el-table-column prop="sucCrate" label="低于设定成功率报警" />
       <el-table-column prop="returnRate" label="低于设定返回率报警" />
@@ -85,7 +85,7 @@ export default {
       searchAPI: {
         namespace: "sysUserAlarm",
         list: "listUserAlarmByPage",
-        detele: "deleteUserAlarm",
+        detele: "deleteUserAlarm"
       },
       // 列表参数
       namespace: "userAlarm",
@@ -95,25 +95,25 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
-        },
+          placeholder: "请输入手机号"
+        }
       ],
       // 表单配置
       formConfig: [
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -122,35 +122,35 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否",
+              value: "否"
             },
             {
               key: 1,
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "低于设定成功率报警",
           key: "sucCrate",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "低于设定返回率报警",
           key: "returnRate",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "cmpp断链次数",
           key: "cmppDisCount",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -159,28 +159,28 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否",
+              value: "否"
             },
             {
               key: 1,
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "预警用户",
           key: "adminUser",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
@@ -190,17 +190,17 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "否",
+              value: "否"
             },
             {
               key: 1,
-              value: "是",
-            },
+              value: "是"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        },
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
       ],
-      alarmId: "",
+      alarmId: ""
     };
   },
   mounted() {},
@@ -211,10 +211,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysUserAlarm.addUserAlarm(params).then((res) => {
+        this.$http.sysUserAlarm.addUserAlarm(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -227,10 +227,10 @@ export default {
         params = {
           data: {
             alarmId: this.alarmId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysUserAlarm.updateUserAlarm(params).then((res) => {
+        this.$http.sysUserAlarm.updateUserAlarm(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -251,7 +251,7 @@ export default {
     edit(row) {
       this.alarmId = row.alarmId;
       this.formTit = "修改";
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -268,9 +268,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

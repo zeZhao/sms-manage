@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="groupId" label="通道组ID" />
+      <el-table-column prop="groupId" label="通道组编号" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />
       <el-table-column prop="notes" label="备注" />
@@ -51,7 +51,7 @@
         <div slot="Other">
           <el-button @click="addGatewayGroup">添加通道</el-button>
           <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
-            <el-table-column prop="gateway" label="通道ID">
+            <el-table-column prop="gateway" label="通道编号">
               <template slot-scope="scope">
                 <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
                 <el-select v-model="scope.row.gateway">
@@ -173,7 +173,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "通道组ID",
+          label: "通道组编号",
           key: "groupId",
           maxlength: "4",
           rules: [

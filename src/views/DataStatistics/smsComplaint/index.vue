@@ -16,7 +16,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userid" label="用户ID" />
+      <el-table-column prop="userid" label="用户编号" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="code" label="通道码号" />
       <el-table-column prop="count" label="投诉条数" />
@@ -90,7 +90,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysComplaint",
-        list: "queryStatisticByPage",
+        list: "queryStatisticByPage"
       },
       // 列表参数
       namespace: "",
@@ -101,25 +101,25 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userid",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户编号"
         },
         {
           type: "inputNum",
           label: "通道编号",
-          key: "gateway",
+          key: "gateway"
         },
         {
           type: "input",
           label: "通道码号",
-          key: "code",
+          key: "code"
         },
         {
           type: "daterange",
           label: "投诉日期",
-          key: ["", "startdate", "enddate"],
-        },
+          key: ["", "startdate", "enddate"]
+        }
       ],
       statistics: {},
       tableData: [],
@@ -136,8 +136,8 @@ export default {
         trafficking: "",
         SMSFraud: "",
         fishing: "",
-        rest: "",
-      },
+        rest: ""
+      }
     };
   },
   mounted() {
@@ -157,14 +157,14 @@ export default {
       this.statisticsDate = new Date(this.statisticsDate).Format("yyyy-MM-dd");
       this.$http.sysComplaint
         .TypeStatistic({ createdate: this.statisticsDate })
-        .then((res) => {
+        .then(res => {
           const {
             qltsList,
             wxfList,
             yhjList,
             yxtsList,
             zsList,
-            count,
+            count
           } = res.data;
           this.count = count;
           //投诉统计数据处理
@@ -184,7 +184,7 @@ export default {
     },
     // 获取统计
     queryUserSendDetailAll() {
-      this.$http.sendReportStatistics.sendReportTotal({}).then((res) => {
+      this.$http.sendReportStatistics.sendReportTotal({}).then(res => {
         this.statistics = Object.assign({}, res.data);
         console.log(this.statistics);
       });
@@ -207,7 +207,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach((item) => {
+      rows.forEach(item => {
         const { sendNum } = item;
         let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
         // if (!succCount) {
@@ -221,11 +221,10 @@ export default {
 
       // if()
       return rows;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

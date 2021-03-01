@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="企业ID" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="accountType" label="用户类型">
         <template slot-scope="scope">
@@ -77,12 +77,12 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业ID",
+          label: "商户编号",
           key: "corpId"
         },
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId"
         },
         {
@@ -129,7 +129,7 @@ export default {
           key: "groupBy",
           optionData: [
             { key: "1", value: "日期" },
-            { key: "2", value: "企业ID" },
+            { key: "2", value: "商户编号" },
             { key: "3", value: "运营商" },
             { key: "4", value: "用户类型" }
           ]

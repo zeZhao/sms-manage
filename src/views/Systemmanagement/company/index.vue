@@ -15,7 +15,7 @@
             v-model="searchForm.userId"
             type="number"
             clearable
-            placeholder="用户ID"
+            placeholder="用户编号"
           />
         </el-form-item>
         <el-form-item>
@@ -23,7 +23,7 @@
             v-model="searchForm.corpId"
             type="number"
             clearable
-            placeholder="企业ID"
+            placeholder="商户编号"
           />
         </el-form-item>
         <el-form-item>
@@ -41,8 +41,8 @@
       style="width: 100%"
     >
       <!--登录账户	姓名	手机号	状态	操作-->
-      <el-table-column prop="corpName" label="企业名" />
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="corpName" label="商户名" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="loginName" label="登录账号" />
       <el-table-column prop="password" label="密码" />
       <el-table-column fixed="right" label="操作" width="200">
@@ -168,7 +168,7 @@ export default {
       updateFormRules: {
         contactMobile: [{ validator: validatePhone, trigger: "blur" }]
       },
-      companyOptions: [], // 企业全称下拉项
+      companyOptions: [], // 商户全称下拉项
       pickerOptions: {
         shortcuts: [
           {

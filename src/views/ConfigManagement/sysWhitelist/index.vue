@@ -17,7 +17,7 @@
           <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="modifyUser" label="修改人">
         <template slot-scope="scope">
@@ -103,9 +103,9 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID"
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
@@ -152,7 +152,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
           btnTxt: "选择用户",
           // disabled: true,
@@ -162,7 +162,7 @@ export default {
         },
         {
           type: "select",
-          label: "通道ID",
+          label: "通道编号",
           key: "userId",
           isShow: true,
           defaultValue: "",
@@ -191,11 +191,11 @@ export default {
     selectChange({ val, item }) {
       if (item.key === "type") {
         if (val === 2) {
-          this._setLabelDisplayShow(this.formConfig, "通道ID", false);
-          this._setLabelDisplayShow(this.formConfig, "用户ID", true);
+          this._setLabelDisplayShow(this.formConfig, "通道编号", false);
+          this._setLabelDisplayShow(this.formConfig, "用户编号", true);
         } else {
-          this._setLabelDisplayShow(this.formConfig, "通道ID", true);
-          this._setLabelDisplayShow(this.formConfig, "用户ID", false);
+          this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+          this._setLabelDisplayShow(this.formConfig, "用户编号", false);
         }
       }
     },
@@ -249,8 +249,8 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      this._setLabelDisplayShow(this.formConfig, "通道ID", true);
-      this._setLabelDisplayShow(this.formConfig, "用户ID", false);
+      this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+      this._setLabelDisplayShow(this.formConfig, "用户编号", false);
     },
     edit(row) {
       this.whiteId = row.whiteId;
@@ -266,11 +266,11 @@ export default {
         }
         if (item.key === "type") {
           if (item.defaultValue === 2) {
-            this._setLabelDisplayShow(this.formConfig, "通道ID", false);
-            this._setLabelDisplayShow(this.formConfig, "用户ID", true);
+            this._setLabelDisplayShow(this.formConfig, "通道编号", false);
+            this._setLabelDisplayShow(this.formConfig, "用户编号", true);
           } else {
-            this._setLabelDisplayShow(this.formConfig, "通道ID", true);
-            this._setLabelDisplayShow(this.formConfig, "用户ID", false);
+            this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+            this._setLabelDisplayShow(this.formConfig, "用户编号", false);
           }
         }
       });
@@ -314,7 +314,7 @@ export default {
         this.formConfig.forEach(item => {
           const { label } = item;
 
-          if (label === "通道ID") {
+          if (label === "通道编号") {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
               this.$set(t, "value", t.gateway);

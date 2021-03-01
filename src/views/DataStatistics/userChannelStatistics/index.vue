@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="用户ID" />
+      <el-table-column prop="userId" label="用户编号" />
       <el-table-column prop="userName" label="用户名称" show-overflow-tooltip />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
@@ -44,7 +44,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "userChannelStatistics",
-        list: "queryList",
+        list: "queryList"
       },
       // 列表参数
       namespace: "userChannelStatistics",
@@ -54,25 +54,25 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户ID",
+          label: "用户编号",
           key: "userId",
-          placeholder: "请输入用户ID",
+          placeholder: "请输入用户编号"
         },
         {
           type: "input",
           label: "用户名称",
           key: "userName",
-          placeholder: "请输入用户名称",
+          placeholder: "请输入用户名称"
         },
         {
           type: "inputNum",
           label: "通道编号",
-          key: "gatewayId",
+          key: "gatewayId"
         },
         {
           type: "input",
           label: "通道名称",
-          key: "gatewayName",
+          key: "gatewayName"
         },
         {
           type: "select",
@@ -81,18 +81,18 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "短信",
-            },
+              value: "短信"
+            }
           ],
-          placeholder: "请选择通道类型",
+          placeholder: "请选择通道类型"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"],
-        },
+          key: ["", "startTime", "endTime"]
+        }
       ],
-      statistics: 0,
+      statistics: 0
     };
   },
   mounted() {
@@ -104,7 +104,7 @@ export default {
     queryChannelSuccNum(searchParam) {
       this.$http.userChannelStatistics
         .queryChannelSuccNum(searchParam)
-        .then((res) => {
+        .then(res => {
           this.statistics = res.data;
           console.log(this.statistics);
         });
@@ -124,14 +124,13 @@ export default {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd");
       }
       this.queryChannelSuccNum({
-        data: { userChannelStatistics: { ...data } },
+        data: { userChannelStatistics: { ...data } }
       });
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

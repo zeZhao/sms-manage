@@ -637,7 +637,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业代码",
+          label: "商户代码",
           key: "msgSrc"
         },
         {
@@ -746,7 +746,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业代码",
+          label: "商户代码",
           key: "msgSrc"
         }
       ],

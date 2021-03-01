@@ -8,14 +8,14 @@
             v-model="search.corpId"
             type="number"
             clearable
-            placeholder="企业ID"
+            placeholder="商户编号"
           />
         </el-form-item>
         <el-form-item>
           <el-input
             v-model="search.corpName"
             clearable
-            placeholder="企业名称"
+            placeholder="商户名称"
           />
         </el-form-item>
         <el-form-item>
@@ -47,16 +47,16 @@
         </el-form-item>
         <el-form-item style="float: right">
           <el-button type="primary" @click="newEnterprise"
-            >新增企业信息</el-button
+            >新增商户信息</el-button
           >
         </el-form-item>
       </el-form>
     </el-col>
     <el-table :data="dataList" highlight-current-row style="width: 100%">
-      <!--企业ID 特服号 用户企业名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业ID" />
+      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="corpName" label="用户企业名称" />
+      <el-table-column prop="corpName" label="用户商户名称" />
       <el-table-column prop="contact" label="客户联系人姓名" />
       <el-table-column prop="mobile" label="客户联系人电话" />
       <el-table-column prop="sublong" label="扩展位数" />
@@ -144,13 +144,13 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="企业名" prop="corpName">
+        <el-form-item label="商户名" prop="corpName">
           <el-input
             maxlength="30"
             show-word-limit
             v-model="addInfo.corpName"
             clearable
-            placeholder="请输入企业名称"
+            placeholder="请输入商户名称"
           />
         </el-form-item>
         <!-- <el-form-item label="密码" prop="pwd">
@@ -240,9 +240,9 @@
             placeholder="请输入备注开户行信息"
           />
         </el-form-item>
-        <el-form-item label="父企业ID" prop="root">
+        <el-form-item label="父商户编号" prop="root">
           <el-button v-if="!addInfo.root" @click="selectCompany"
-            >请选择父企业</el-button
+            >请选择父商户</el-button
           >
           <span v-else>{{ addInfo.root }}</span>
           <span>
@@ -333,7 +333,7 @@ export default {
       },
       navList: [],
       navListId: [],
-      // 新增企业
+      // 新增商户
       addInfo: {
         corpName: "",
         // pwd: "",
@@ -348,10 +348,10 @@ export default {
         bankAccount: "",
         root: ""
       },
-      //新增企业验证
+      //新增商户验证
       updateFormRules: {
         corpName: [
-          { required: true, message: "请输入企业名称", trigger: "blur" }
+          { required: true, message: "请输入商户名称", trigger: "blur" }
         ],
         // pwd: [{ required: true, message: "请输入8-16位密码", trigger: "blur" }],
         code: [
@@ -381,7 +381,7 @@ export default {
           { validator: validatePhone, trigger: "blur" }
         ]
       },
-      formTit: "新增企业",
+      formTit: "新增商户",
       formBtn: "新增",
       // 初始/禁用/启用 公共弹窗
       dialogVisible: false,
@@ -389,7 +389,7 @@ export default {
       information: "",
       dialogType: "disable",
       currentRowData: {},
-      //选择企业
+      //选择商户
       isEnterprise: false,
       status: ""
     };
@@ -465,12 +465,12 @@ export default {
         this.$refs["addForm"].clearValidate();
       });
       this.formBtn = "新增";
-      this.formTit = "新增企业";
+      this.formTit = "新增商户";
       //   setTimeout(() => {
       //     this.$refs.addForm.resetFields();
       //   }, 0);
     },
-    //新增企业
+    //新增商户
     addCustomerInfo(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -493,7 +493,7 @@ export default {
     },
     infoShow(row) {
       this.formBtn = "修改";
-      this.formTit = "修改企业";
+      this.formTit = "修改商户";
       this.customerAddInfo = true;
       if (row.isDirectUser) {
         row.isDirectUser = row.isDirectUser.toString();
@@ -517,15 +517,15 @@ export default {
       switch (type) {
         case "disable":
           str.title = "禁用";
-          str.information = "您确定要禁用企业吗？";
+          str.information = "您确定要禁用商户吗？";
           break;
         case "init":
           str.title = "初始";
-          str.information = "初始后，企业将正常使用，您确认要初始吗？";
+          str.information = "初始后，商户将正常使用，您确认要初始吗？";
           break;
         case "enabled":
           str.title = "启用";
-          str.information = "启用后企业将正常使用，您确定要启用企业吗？";
+          str.information = "启用后商户将正常使用，您确定要启用商户吗？";
           break;
       }
       this.dialogTit = str.title;
