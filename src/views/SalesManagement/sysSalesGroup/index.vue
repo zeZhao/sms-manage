@@ -12,7 +12,7 @@
       style="width: 100%;"
       v-loading="loading"
     >
-      <el-table-column prop="sid" label="ID" />
+      <el-table-column prop="sid" label="编号" />
       <el-table-column prop="groupName" label="组名称" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifyTime" label="修改时间">

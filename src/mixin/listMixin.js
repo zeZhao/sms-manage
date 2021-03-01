@@ -138,7 +138,7 @@ function queryData() {
         list = res.data;
       }
       //使用钩子再次格式化数据
-      this.listData = this._mxFormListData(list);
+      this.listData = this._mxFormListData(this._mxlistDataNull(list));
     } else if (res.code === 500 || res.code === "500") {
       this.$message.error(res.data || res.msg || "获取数据失败");
     }
@@ -277,6 +277,23 @@ export default {
           }
         });
       });
+    },
+    /**
+     * 表格数据为空用“-”展示
+     * @param list
+     * @returns {*}
+     * @private
+     */
+    _mxlistDataNull(list) {
+      list.forEach(item => {
+        for (let key in item) {
+          if (item[key] === "" || item[key] === null) {
+            item[key] = "-"
+          }
+        }
+      })
+      console.log(list, '--------list')
+      return list
     },
 
     /**

@@ -156,7 +156,7 @@ export const asyncRoutes = [
     //         name: 'enterprise',
     //         meta: {
     //             keepAlive: false,
-    //             title: '企业信息'
+    //             title: '商户信息'
     //         }
     //     },
     //     {
@@ -426,7 +426,7 @@ export const asyncRoutes = [
     //         name: 'sysPrepaidCard',
     //         meta: {
     //             keepAlive: false,
-    //             title: '企业月账单'
+    //             title: '商户月账单'
     //         }
     //     },
     //     {

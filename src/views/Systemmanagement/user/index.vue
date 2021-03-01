@@ -37,7 +37,7 @@
       style="width: 100%"
     >
       <!--登录账户	姓名	手机号	状态	操作-->
-      <el-table-column prop="suId" label="ID" />
+      <el-table-column prop="suId" label="编号" />
       <el-table-column prop="account" label="账号" />
       <el-table-column prop="name" label="姓名" />
       <el-table-column prop="mobile" label="手机号" />
@@ -56,7 +56,7 @@
       </el-table-column>
       <!--<el-table-column label="运营账号类型">-->
       <!--<template slot-scope="scope">-->
-      <!--<span>{{scope.row.roleType == '1'?'前端运营账号':'后端运营账号'}}</span>-->
+      <!--<span>{{scope.row.roleType == '1'?'商戶端运营账号':'运营端运营账号'}}</span>-->
       <!--</template>-->
       <!--</el-table-column>-->
       <!--<el-table-column prop="memo" label="描述" />-->
@@ -308,7 +308,7 @@ export default {
       updateFormRules: {
         contactMobile: [{ validator: validatePhone, trigger: "blur" }]
       },
-      companyOptions: [], // 企业全称下拉项
+      companyOptions: [], // 商户全称下拉项
       pickerOptions: {
         shortcuts: [
           {

@@ -7,7 +7,7 @@
         <!--<el-input v-model="custName" clearable placeholder="客户名称" />-->
         <!--</el-form-item>-->
         <!--<el-form-item>-->
-        <!--<el-input v-model="companyFullName" clearable placeholder="企业全称" />-->
+        <!--<el-input v-model="companyFullName" clearable placeholder="商户全称" />-->
         <!--</el-form-item>-->
         <!--<el-form-item>-->
         <!--<el-button type="primary" @click="queryOrderList">查询</el-button>-->
@@ -30,7 +30,7 @@
       <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type == "1" ? "前端" : "后端" }}</span>
+          <span>{{ scope.row.type == "1" ? "商戶端" : "运营端" }}</span>
         </template>
       </el-table-column>
       <el-table-column label="菜单路径">
@@ -115,8 +115,8 @@
           />
         </el-form-item>
         <!-- <el-form-item label="请选择目录类型">
-          <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
-          <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number
@@ -169,8 +169,8 @@
           />
         </el-form-item>
         <!-- <el-form-item label="请选择目录类型">
-          <el-radio v-model="addInfo.isEnabled" label="1">前端</el-radio>
-          <el-radio v-model="addInfo.isEnabled" label="2">后端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number
@@ -218,9 +218,9 @@
             v-model="setInfo.type"
             :label="1"
             :disabled="setInfo.type === 2"
-            >前端</el-radio
+            >商戶端</el-radio
           >
-          <el-radio v-model="setInfo.type" :label="2">后端</el-radio>
+          <el-radio v-model="setInfo.type" :label="2">运营端</el-radio>
         </el-form-item> -->
         <el-form-item label="排序">
           <el-input-number
@@ -292,7 +292,8 @@ export default {
     //修改排序确定提交
     editSort(row) {
       let params = {
-        ...row
+        ...row,
+        type: 2
       };
       this.$http.nav.addOrUpdate(params).then(res => {
         if (res.code == "200") {
@@ -311,7 +312,7 @@ export default {
     getNavList() {
       let params = {
         status: "",
-        type: ""
+        type: 2
       };
       this.$http.nav.selectMenuList(params).then(res => {
         if (res.code == "200") {
@@ -404,7 +405,8 @@ export default {
               node: "2",
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
-              status: 1
+              status: 1,
+              type: 2
             };
           } else {
             console.log(2);
@@ -416,7 +418,8 @@ export default {
               node: "1",
               sort: this.addInfo.seqNum,
               type: this.addInfo.isEnabled,
-              status: 1
+              status: 1,
+              type: 2
             };
           }
           this.$http.nav.addOrUpdate(params).then(res => {
@@ -428,13 +431,14 @@ export default {
               });
               this.customerAddInfo = false;
               this.addNavList = false;
-              (this.addInfo.funcName = ""),
-                (this.addInfo.radio = ""),
-                (this.addInfo.parentId = []),
-                (this.addInfo.funcUrl = ""),
-                (this.addInfo.funcCode = ""),
-                (this.addInfo.seqNum = ""),
-                (this.addInfo.isEnabled = "");
+              this.addInfo.funcName = "";
+              this.addInfo.funcChName = "";
+              this.addInfo.radio = "";
+              this.addInfo.parentId = [];
+              this.addInfo.funcUrl = "";
+              this.addInfo.funcCode = "";
+              this.addInfo.seqNum = "";
+              this.addInfo.isEnabled = "";
               this.getNavList();
             } else {
               this.$message.error(res.msg);
@@ -458,7 +462,8 @@ export default {
             node: this.setInfo.node,
             sort: this.setInfo.sort,
             type: this.setInfo.type,
-            status: this.setInfo.status
+            status: this.setInfo.status,
+            type: 2
           };
           this.$http.nav.addOrUpdate(params).then(res => {
             if (res.code == "200") {

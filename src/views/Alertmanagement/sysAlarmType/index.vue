@@ -53,7 +53,7 @@
       />
       <el-table-column
         prop="wetTempId"
-        label="微信模板ID"
+        label="微信模板编号"
         show-overflow-tooltip
       />
       <el-table-column prop="des" label="描述" />
@@ -107,7 +107,7 @@ export default {
       searchAPI: {
         namespace: "sysAlarmType",
         list: "listAlarmTypeByPage",
-        detele: "deleteAlarmType",
+        detele: "deleteAlarmType"
       },
       // 列表参数
       namespace: "alarmType",
@@ -119,25 +119,25 @@ export default {
           type: "inputNum",
           label: "错误码",
           key: "errNum",
-          placeholder: "错误码",
+          placeholder: "错误码"
         },
         {
           type: "input",
           label: "应用模块",
           key: "useModule",
-          placeholder: "请输入应用模块",
+          placeholder: "请输入应用模块"
         },
         {
           type: "input",
           label: "手机号",
           key: "mobile",
-          placeholder: "请输入手机号",
+          placeholder: "请输入手机号"
         },
         {
           type: "input",
           label: "报警类型",
           key: "alerType",
-          placeholder: "请输入报警类型",
+          placeholder: "请输入报警类型"
         },
         {
           type: "select",
@@ -147,22 +147,22 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "提醒",
+              value: "提醒"
             },
             {
               key: 1,
-              value: "一般",
+              value: "一般"
             },
             {
               key: 2,
-              value: "重要",
+              value: "重要"
             },
             {
               key: 3,
-              value: "严重",
-            },
-          ],
-        },
+              value: "严重"
+            }
+          ]
+        }
       ],
       // 表单配置
       formConfig: [
@@ -170,21 +170,21 @@ export default {
           type: "input",
           label: "错误码",
           key: "errNum",
-          defaultValue: "",
+          defaultValue: ""
         },
         {
           type: "input",
           label: "应用模块",
           key: "useModule",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "报警类型",
           key: "alerType",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -192,14 +192,14 @@ export default {
           key: "mobile",
           defaultValue: "",
           placeholder: "填写多个手机号请用逗号填写",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "预警用户",
           key: "adminUser",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -208,22 +208,22 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "提醒",
+              value: "提醒"
             },
             {
               key: 1,
-              value: "一般",
+              value: "一般"
             },
             {
               key: 2,
-              value: "重要",
+              value: "重要"
             },
             {
               key: 3,
-              value: "严重",
-            },
+              value: "严重"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -234,43 +234,43 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "短信",
+              value: "短信"
             },
             {
               key: "2",
-              value: "微信",
+              value: "微信"
             },
             {
               key: "3",
-              value: "弹窗",
-            },
-          ],
+              value: "弹窗"
+            }
+          ]
         },
         {
           type: "textarea",
           label: "短信报警模版",
           key: "smsContentTemp",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
           label: "微信报警模版",
           key: "wetContentTemp",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
-          label: "微信模板ID",
+          label: "微信模板编号",
           key: "wetTempId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
           label: "描述",
-          key: "des",
-        },
+          key: "des"
+        }
       ],
-      typeId: "",
+      typeId: ""
     };
   },
   mounted() {},
@@ -281,10 +281,10 @@ export default {
       if (this.formTit == "新增") {
         params = {
           data: {
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysAlarmType.addAlarmType(params).then((res) => {
+        this.$http.sysAlarmType.addAlarmType(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -297,10 +297,10 @@ export default {
         params = {
           data: {
             typeId: this.typeId,
-            ...form,
-          },
+            ...form
+          }
         };
-        this.$http.sysAlarmType.updateAlarmType(params).then((res) => {
+        this.$http.sysAlarmType.updateAlarmType(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -329,7 +329,7 @@ export default {
         // "".substring;
         let length = row.alarmMode.length;
         row.alarmMode = row.alarmMode.substring(1, length - 1).split(",");
-        row.alarmMode = row.alarmMode.map((item) => {
+        row.alarmMode = row.alarmMode.map(item => {
           return item.substring(1, 2);
         });
       }
@@ -340,7 +340,7 @@ export default {
       this.typeId = row.typeId;
       this.formTit = "修改";
 
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
             this.$set(item, "defaultValue", row[key]);
@@ -357,9 +357,9 @@ export default {
     },
     cancel() {
       this.addChannel = false;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 
