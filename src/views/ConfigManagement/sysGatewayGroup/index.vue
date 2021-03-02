@@ -300,7 +300,7 @@ export default {
           this.$set(item, "disabled", true);
         }
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

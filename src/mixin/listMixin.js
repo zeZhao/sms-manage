@@ -292,7 +292,7 @@ export default {
           }
         }
       })
-      console.log(list, '--------list')
+      // console.log(list, '--------list')
       return list
     },
 
@@ -352,7 +352,7 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

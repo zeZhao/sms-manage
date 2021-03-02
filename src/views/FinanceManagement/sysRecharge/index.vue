@@ -7,7 +7,7 @@
       @create="_mxCreate"
     >
       <template slot="Other">
-        <!-- <el-button type="primary" @click="transfers">账号互转</el-button> -->
+        <el-button type="primary" @click="transfers">账号互转</el-button>
       </template>
     </Search>
     <el-table
@@ -30,9 +30,16 @@
       <el-table-column prop="afterBalance" label="操作后的条数" />
       <el-table-column prop="cardUnit" label="当前操作单价(分)" />
       <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="paidWay" label="付款状态">
+      <el-table-column prop="paidWay" label="操作类型">
         <template slot-scope="scope">
-          <span>
+          <span v-if="scope.row.paidWay == 0">充值</span>
+          <span v-if="scope.row.paidWay == 1">借款</span>
+          <span v-if="scope.row.paidWay == 2">余额-</span>
+          <span v-if="scope.row.paidWay == 3">还款</span>
+          <span v-if="scope.row.paidWay == 4">清授信</span>
+          <span v-if="scope.row.paidWay == 5">账号转移充值</span>
+          <span v-if="scope.row.paidWay == 6">余额+</span>
+          <!-- <span>
             {{
               scope.row.paidWay == 0
                 ? "充值"
@@ -42,7 +49,7 @@
                 ? "扣款"
                 : "还款"
             }}
-          </span>
+          </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费类型" width="110">
@@ -62,7 +69,7 @@
           </span> -->
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="操作类型" />
+      <el-table-column prop="direction" label="到款方式" />
       <el-table-column prop="isBill" label="账单类型">
         <template slot-scope="scope">
           <span>
@@ -86,6 +93,12 @@
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="creater" label="操作账号" />
       <el-table-column prop="createTime" label="创建时间" width="150">
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
+      </el-table-column>
+      <el-table-column prop="modifier" label="审核人" />
+      <el-table-column prop="modifyTime" label="审核时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -429,14 +442,14 @@ export default {
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "input",
-        //   label: "当前转移的用户名",
-        //   key: "userName",
-        //   disabled: true,
-        //   defaultValue: "",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "input",
+          label: "当前转移的用户名",
+          key: "userName",
+          // disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "input",
           label: "接收用户编号",
@@ -447,14 +460,14 @@ export default {
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "input",
-        //   label: "当前接收的用户名",
-        //   key: "userNameTo",
-        //   disabled: true,
-        //   defaultValue: "",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "input",
+          label: "当前接收的用户名",
+          key: "userNameTo",
+          // disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "input",
           label: "转移条数",
