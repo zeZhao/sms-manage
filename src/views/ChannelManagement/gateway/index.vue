@@ -67,10 +67,28 @@
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
+            @click="addTag(scope.row, 'gatewayId')"
+            type="text"
+            size="small"
+            >添加标签</el-button
+          >
+          <el-button
+            @click="editTag(scope.row, 'gatewayId')"
+            type="text"
+            size="small"
+            >修改标签</el-button
+          >
+          <el-button
             @click="_mxEdit(scope.row, 'gatewayId')"
             type="text"
             size="small"
             >修改</el-button
+          >
+          <el-button
+            @click="closePassageway(scope.row, 'gatewayId')"
+            type="text"
+            size="small"
+            >关闭</el-button
           >
           <el-button
             @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
@@ -128,6 +146,24 @@
         @cancel="cancelConfig"
       ></FormItem>
     </el-dialog>
+
+    <el-dialog
+      :title="tagStatusTitle"
+      :visible.sync="tagStatus"
+      :close-on-click-modal="false"
+      top="45px"
+      width="30%"
+    >
+      <FormItem
+        :colSpan="24"
+        :labelWidth="50"
+        ref="formItem"
+        :formConfig="tagsData"
+        btnTxt="确定"
+        @submit="submitTags"
+        @cancel="tagStatus = false"
+      ></FormItem>
+    </el-dialog>
   </div>
 </template>
 
@@ -141,6 +177,8 @@ export default {
       formTit: "新增",
       addChannel: false,
       configDialog: false,
+      tagStatusTitle: undefined,
+      tagStatus: false,
       // 接口地址
       searchAPI: {
         namespace: "gateway",
@@ -229,6 +267,18 @@ export default {
           label: "发送内容",
           key: "conRequirements",
           placeholder: "请输入发送内容"
+        },
+        {
+          type: "input",
+          label: "标签",
+          key: "gateway",
+          placeholder: "请输入标签"
+        },
+        {
+          type: "input",
+          label: "通道价格",
+          key: "gateway",
+          placeholder: "请输入通道价格"
         }
       ],
       // 表单配置
@@ -699,6 +749,11 @@ export default {
               trigger: "change"
             }
           ]
+        },
+        {
+          type: "input",
+          label: "配置速率",
+          key: "profile1",
         }
       ],
       //选择配置
@@ -750,6 +805,20 @@ export default {
           key: "msgSrc"
         }
       ],
+      //添加/修改标签数据
+      tagsData: [
+        {
+          type: "checkbox",
+          key: "serverIp",
+          defaultValue: [],
+          optionData: [
+            { key: 0, value: "标签1" },
+            { key: 2, value: "标签2" },
+            { key: 3, value: "标签3" },
+            { key: 4, value: "标签4" }
+          ]
+        }
+      ],
       ProvinceList: [], // 省份列表
       gatewayId: ""
     };
@@ -759,6 +828,34 @@ export default {
   },
   computed: {},
   methods: {
+    //关闭通道
+    closePassageway() {
+      this.$confirm('您确定要关闭吗？通道关闭后将影响用户的短信发送，请谨慎操作', '关闭', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });          
+      });
+    },
+    //添加标签
+    addTag() {
+      this.tagStatusTitle = '添加标签'
+      this.tagStatus = true
+    },
+    //修改标签
+    editTag() {
+      this.tagStatusTitle = '修改标签'
+      this.tagStatus = true
+    },
     //配置
     config(gatewayId) {
       this.gatewayId = gatewayId;
@@ -790,6 +887,10 @@ export default {
     //配置关闭
     cancelConfig() {
       this.configDialog = false;
+    },
+    //提交选择标签
+    submitTags() {
+
     },
     //开启关闭通道
     switchChange(val, gateway) {
