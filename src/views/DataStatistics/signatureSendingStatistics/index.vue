@@ -5,7 +5,13 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
-    ></Search>
+    >
+      <template slot="Other">
+        <el-button type="primary" @click="exportExe()" style="margin-left: 15px"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -13,45 +19,24 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
-      <el-table-column prop="userName" label="用户名" />
-      <el-table-column
-        prop="code"
-        label="特服号"
-        v-if="searchParam.showCode === '1'"
-      />
-      <el-table-column prop="smsType" label="类型">
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.smsType === 1
-              ? "短信"
-              : scope.row.smsType === 2
-              ? "彩信"
-              : scope.row.smsType === 3
-              ? "屏信"
-              : "语音"
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="gateway"
-        label="通道"
-        v-if="searchParam.showGateway === '1'"
-      />
-      <el-table-column prop="reportNum" label="返回条数" />
-      <!-- <el-table-column prop="reportNum" label="返回条数" /> -->
-      <el-table-column prop="successNum" label="成功条数" />
-      <el-table-column prop="failNum" label="失败条数" />
-      <el-table-column
-        prop="countDate"
-        label="统计日期"
-        v-if="searchParam.showDate === '1'"
-      />
+      <el-table-column prop="userId" label="商户名称" />
+      <el-table-column prop="corpId" label="账户编号" />
+      <el-table-column prop="userId" label="账户名称" />
+      <el-table-column prop="userName" label="签名" />
+      <el-table-column prop="userName" label="销售姓名" />
+      <el-table-column prop="userName" label="省份" />
+      <el-table-column prop="userName" label="发送条数" />
+      <el-table-column prop="userName" label="成功数" />
+      <el-table-column prop="userName" label="失败数" />
+      <el-table-column prop="userName" label="未知数" />
+      <el-table-column prop="userName" label="成功率" />
     </el-table>
     <p style="color: red">
-      总数: {{ statistics.returnNum }}&nbsp;&nbsp;成功数:
+      发送条数: {{ statistics.returnNum }}&nbsp;&nbsp;成功数:
       {{ statistics.successNum }}&nbsp;&nbsp;失败数:
-      {{ statistics.failNum }}&nbsp;&nbsp;
+      {{ statistics.failNum }}&nbsp;&nbsp;到达失败总数:
+      {{ statistics.failNum }}&nbsp;&nbsp;未知数:
+      {{ statistics.failNum }}
     </p>
     <Page
       :pageObj="pageObj"
@@ -62,7 +47,7 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
+import listMixin from '@/mixin/listMixin'
 
 export default {
   mixins: [listMixin],
@@ -70,11 +55,11 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: "returnReportStatistics",
-        list: "returnReportStatistics"
+        namespace: 'returnReportStatistics',
+        list: 'returnReportStatistics',
       },
       // 列表参数
-      namespace: "",
+      namespace: '',
       isParamsNotData: true,
       //搜索框数据
       searchParam: {
@@ -85,97 +70,72 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corpId",
-          placeholder: "请输入商户编号"
+          type: 'inputNum',
+          label: '商户编号',
+          key: 'corpId',
+          placeholder: '请输入商户编号',
         },
         {
-          type: "inputNum",
-          label: "用户编号",
-          key: "userId",
-          placeholder: "请输入用户编号"
+          type: 'input',
+          label: '商户名称',
+          key: 'userName',
+          placeholder: '请输入商户名称',
         },
         {
-          type: "input",
-          label: "用户名称",
-          key: "userName",
-          placeholder: "请输入用户名称"
+          type: 'inputNum',
+          label: '账户编号',
+          key: 'corpId',
+          placeholder: '请输入账户编号',
         },
         {
-          type: "inputNum",
-          label: "通道",
-          key: "gateway"
+          type: 'input',
+          label: '账户名称',
+          key: 'userName',
+          placeholder: '请输入账户名称',
         },
         {
-          type: "select",
-          label: "运营商",
-          key: "operaId",
+          type: 'input',
+          label: '销售经理',
+          key: 'userName',
+          placeholder: '请输入销售经理',
+        },
+        {
+          type: 'input',
+          label: '签名',
+          key: 'userName',
+          placeholder: '请输入签名',
+        },
+        {
+          type: 'select',
+          label: '所属类型',
+          key: 'showDate',
+          defaultValue: '',
           optionData: [
-            {
-              key: "0",
-              value: "全部"
-            },
-            {
-              key: 1,
-              value: "移动"
-            },
-            {
-              key: 2,
-              value: "联通"
-            },
-            {
-              key: 3,
-              value: "电信"
-            },
-            {
-              key: 4,
-              value: "非法"
-            }
+            { key: '0', value: '类型1' },
+            { key: '1', value: '类型2' },
           ],
-          placeholder: "请选择类型"
         },
         {
-          type: "select",
-          label: "是否显示日期",
-          key: "showDate",
-          defaultValue: "1",
+          type: 'select',
+          label: '通道',
+          key: 'showGateway',
+          defaultValue: '',
           optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+            { key: '0', value: '通道1' },
+            { key: '1', value: '通道2' },
+          ],
         },
         {
-          type: "select",
-          label: "显示特服号",
-          key: "showCode",
-          defaultValue: "0",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          type: 'daterange',
+          label: '提交时间',
+          key: ['', 'countDate', 'endDate'],
         },
-        {
-          type: "select",
-          label: "是否显示通道",
-          key: "showGateway",
-          defaultValue: "0",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
-        },
-        {
-          type: "daterange",
-          label: "统计日期",
-          key: ["", "countDate", "endDate"]
-        }
       ],
-      statistics: {}
-    };
+      statistics: {},
+    }
   },
   mounted() {
-    this.queryUserSendDetailAll();
+    this.queryUserSendDetailAll()
   },
   computed: {},
   methods: {
@@ -183,22 +143,22 @@ export default {
     queryUserSendDetailAll(searchParam) {
       this.$http.returnReportStatistics
         .returnReportTotal({ ...searchParam })
-        .then(res => {
-          this.statistics = Object.assign({}, res.data);
-        });
+        .then((res) => {
+          this.statistics = Object.assign({}, res.data)
+        })
     },
     // 修改搜索参数
     _formatRequestData(data) {
-      const { countDate, endDate } = data;
+      const { countDate, endDate } = data
       if (countDate) {
-        data.countDate = new Date(countDate).Format("yyyy-MM-dd");
+        data.countDate = new Date(countDate).Format('yyyy-MM-dd')
       }
       if (endDate) {
-        data.endDate = new Date(endDate).Format("yyyy-MM-dd");
+        data.endDate = new Date(endDate).Format('yyyy-MM-dd')
       }
-      this.queryUserSendDetailAll(data);
-      console.log(this.searchParam, "searchParam");
-      return data;
+      this.queryUserSendDetailAll(data)
+      console.log(this.searchParam, 'searchParam')
+      return data
     },
     /**
      * 对表格数据进行自定义调整
@@ -207,24 +167,28 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach(item => {
-        const { sendNum } = item;
-        let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
+      rows.forEach((item) => {
+        const { sendNum } = item
+        let proportion = parseInt((sendNum / this.statistics.sendNum) * 100)
         // if (!succCount) {
         //   item.succCount = 0;
         // }
         // if (!foreignPrice) {
         //   item.foreignPrice = 0;
         // }
-        this.$set(item, "proportion", `${proportion}%`);
-      });
+        this.$set(item, 'proportion', `${proportion}%`)
+      })
 
       // if()
-      return rows;
-    }
+      return rows
+    },
+
+    //导出
+    exportExe() {},
   },
-  watch: {}
-};
+  watch: {},
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

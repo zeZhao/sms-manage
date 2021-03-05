@@ -44,6 +44,12 @@ function DynamicKey(key, val) {
     params.data[key] = {
       ...val
     };
+
+    //短信通道筛选标签的特殊格式
+    if (params.data[key]['labelName']) {
+      params.data['labelName'] = params.data[key]['labelName'];
+      delete params.data[key]['labelName'];
+    }
   } else {
     params = {
       pageIndex: this.pageObj.currentPage,
@@ -292,7 +298,7 @@ export default {
           }
         }
       })
-      console.log(list, '--------list')
+      // console.log(list, '--------list')
       return list
     },
 

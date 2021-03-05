@@ -67,13 +67,15 @@
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
-            @click="addTag(scope.row, 'gatewayId')"
+            v-if="!scope.row.smsTags.length"
+            @click="addTag(scope.row.gatewayId)"
             type="text"
             size="small"
             >添加标签</el-button
           >
           <el-button
-            @click="editTag(scope.row, 'gatewayId')"
+            v-if="scope.row.smsTags.length"
+            @click="editTag(scope.row.gatewayId, scope.row.smsTags)"
             type="text"
             size="small"
             >修改标签</el-button
@@ -179,6 +181,7 @@ export default {
       configDialog: false,
       tagStatusTitle: undefined,
       tagStatus: false,
+      id: undefined,
       // 接口地址
       searchAPI: {
         namespace: "gateway",
@@ -271,13 +274,13 @@ export default {
         {
           type: "input",
           label: "标签",
-          key: "gateway",
+          key: "labelName",
           placeholder: "请输入标签"
         },
         {
           type: "input",
           label: "通道价格",
-          key: "gateway",
+          key: "unitPrice",
           placeholder: "请输入通道价格"
         }
       ],
@@ -753,7 +756,7 @@ export default {
         {
           type: "input",
           label: "配置速率",
-          key: "profile1",
+          key: "sendSpeed",
         }
       ],
       //选择配置
@@ -809,14 +812,9 @@ export default {
       tagsData: [
         {
           type: "checkbox",
-          key: "serverIp",
+          key: "smsTags",
           defaultValue: [],
-          optionData: [
-            { key: 0, value: "标签1" },
-            { key: 2, value: "标签2" },
-            { key: 3, value: "标签3" },
-            { key: 4, value: "标签4" }
-          ]
+          optionData: []
         }
       ],
       ProvinceList: [], // 省份列表
@@ -825,9 +823,20 @@ export default {
   },
   mounted() {
     this.listSysProvince();
+    this.listTag();
   },
   computed: {},
   methods: {
+    //获取所有标签
+    listTag() {
+      this.$http.smsTagController.listTag({pageNumber: 1, pageSize: 9999}).then(res => {
+        if (resOk(res) && res.data.records.length) {
+          this.tagsData[0].optionData = res.data.records.map(v => {
+            return  { key: v.id, value: v.name };
+          })
+        }
+      })
+    },
     //关闭通道
     closePassageway() {
       this.$confirm('您确定要关闭吗？通道关闭后将影响用户的短信发送，请谨慎操作', '关闭', {
@@ -847,12 +856,16 @@ export default {
       });
     },
     //添加标签
-    addTag() {
+    addTag(id) {
+      this.id = id
+      this.tagsData[0].defaultValue = []
       this.tagStatusTitle = '添加标签'
       this.tagStatus = true
     },
     //修改标签
-    editTag() {
+    editTag(id, arr) {
+      this.id = id
+      this.tagsData[0].defaultValue = arr.map(v => v.id)
       this.tagStatusTitle = '修改标签'
       this.tagStatus = true
     },
@@ -889,8 +902,15 @@ export default {
       this.configDialog = false;
     },
     //提交选择标签
-    submitTags() {
-
+    submitTags(data) {
+      this.$http.smsChannelTagController.batchSave({channelId: this.id, tagIds: data.smsTags}).then(res => {
+        if (resOk(res)) {
+          this.tagStatus = false
+          const msg = this.tagStatusTitle === '添加标签' ? '添加成功' : '修改成功'
+          this.$message.success(msg);
+          this._mxGetList();
+        }
+      })
     },
     //开启关闭通道
     switchChange(val, gateway) {

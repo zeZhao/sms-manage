@@ -416,7 +416,7 @@ export default {
     },
     //回显input下列提示
     returnContentTips(value) {
-      return `已输入${value ? value.length : 0}字符,将按1条计费，计费条数仅供参考，以实际扣费为准！`;
+      return `已输入${value ? value.length : 0}字符，将按1条计费，计费条数仅供参考，以实际扣费为准！`;
     }
   },
   watch: {

@@ -1702,5 +1702,19 @@ export default {
             return post("/smsSendTask/send", params);
         },
     },
+    //标签管理
+    smsTagController: {
+        // 分页查询列表
+        listTag(params) {
+            return fetch("/sms/tag", params);
+        }
+    },
+    //批量保存渠道标签
+    smsChannelTagController: {
+        // 短信通道添加/修改标签
+        batchSave(params) {
+            return post("/sms/channel/tag/batch-save", params);
+        }
+    }
 
 }
