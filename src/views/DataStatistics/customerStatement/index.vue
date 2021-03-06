@@ -148,7 +148,7 @@ export default {
         {
           type: 'input',
           label: '单价',
-          key: 'cardUnit',
+          key: 'cardUnitStr',
           defaultValue: '',
           disabled: true,
           placeholder: ' ',
@@ -156,15 +156,15 @@ export default {
         {
           type: 'input',
           label: '结算金额',
-          key: 'balanceAmount',
+          key: 'balanceAmountStr',
           defaultValue: '',
           disabled: true,
           placeholder: ' ',
         },
         {
-          type: 'inputNum',
+          type: 'input',
           label: '实付金额',
-          key: 'actualAmount',
+          key: 'actualAmountStr',
           defaultValue: '',
           rules: [
             {
@@ -226,11 +226,15 @@ export default {
       this.addChannel = true
     },
     submit(value) {
+      if (value.actualAmountStr && !Number(value.actualAmountStr)) {
+        this.$message.error('实付金额必须为数值')
+        return
+      }
       this.$http.customerStatement
         .updateMoney({
           data: {
             billId: this.id,
-            actualAmount: value.actualAmount,
+            actualAmountStr: Number(value.actualAmountStr),
             remark: value.remark,
           },
         })
@@ -247,5 +251,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped></style>
