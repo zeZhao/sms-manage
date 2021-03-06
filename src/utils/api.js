@@ -1715,6 +1715,21 @@ export default {
         batchSave(params) {
             return post("/sms/channel/tag/batch-save", params);
         }
+    },
+    //客户对账单
+    customerStatement: {
+        // 修改实付金额
+        updateMoney(params) {
+            return post("/userBalanceMonthBill/updateMoney", params);
+        },
+        // 修改账单状态
+        updateStatus(params) {
+            return post("/userBalanceMonthBill/updateStatus", params);
+        },
+        // 客户对账单查询
+        userBalanceMonthBillList(params) {
+            return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
+        }
     }
 
 }
