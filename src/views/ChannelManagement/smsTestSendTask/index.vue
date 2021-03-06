@@ -87,13 +87,15 @@ export default {
           label: "手机号",
           key: "mobile",
           placeholder: '请输入手机号，多手机号请用","分割',
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          mobileTips: true
         },
         {
           type: "textarea",
           label: "短信内容",
           key: "content",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          contentTips: true
         }
       ]
     };
