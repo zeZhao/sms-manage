@@ -17,7 +17,7 @@
           <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="modifyUser" label="修改人">
         <template slot-scope="scope">
@@ -103,9 +103,9 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "input",
@@ -152,7 +152,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           btnTxt: "选择用户",
           // disabled: true,
@@ -192,10 +192,10 @@ export default {
       if (item.key === "type") {
         if (val === 2) {
           this._setLabelDisplayShow(this.formConfig, "通道编号", false);
-          this._setLabelDisplayShow(this.formConfig, "用户编号", true);
+          this._setLabelDisplayShow(this.formConfig, "用户计费", true);
         } else {
           this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-          this._setLabelDisplayShow(this.formConfig, "用户编号", false);
+          this._setLabelDisplayShow(this.formConfig, "用户计费", false);
         }
       }
     },
@@ -250,7 +250,7 @@ export default {
         this.$refs.formItem.resetForm();
       }, 0);
       this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-      this._setLabelDisplayShow(this.formConfig, "用户编号", false);
+      this._setLabelDisplayShow(this.formConfig, "用户计费", false);
     },
     edit(row) {
       this.whiteId = row.whiteId;
@@ -267,10 +267,10 @@ export default {
         if (item.key === "type") {
           if (item.defaultValue === 2) {
             this._setLabelDisplayShow(this.formConfig, "通道编号", false);
-            this._setLabelDisplayShow(this.formConfig, "用户编号", true);
+            this._setLabelDisplayShow(this.formConfig, "用户计费", true);
           } else {
             this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-            this._setLabelDisplayShow(this.formConfig, "用户编号", false);
+            this._setLabelDisplayShow(this.formConfig, "用户计费", false);
           }
         }
       });

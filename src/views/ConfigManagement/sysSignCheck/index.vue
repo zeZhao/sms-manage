@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="code" label="签名特服号" />
       <el-table-column prop="licenceUrl" label="营业执照">
@@ -121,9 +121,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "select",
@@ -142,7 +142,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           disabled: true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

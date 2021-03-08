@@ -14,7 +14,7 @@
     >
       <el-table-column
         prop="userId"
-        label="用户编号"
+        label="用户计费"
         v-if="searchParam.showUser === '1'"
       />
       <el-table-column
@@ -145,15 +145,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
-          placeholder: "请输入商户编号"
+          placeholder: "请输入企业计费"
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "input",

@@ -1,5 +1,5 @@
 <template>
-  <!--财务审核-->
+  <!--运营审核-->
   <div class="sysRecharge">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -133,7 +133,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysRecharge",
-        list: "listPrepaidCardExamineByPage",
+        list: "listPrepaidCardOperationByPage",
         detele: "",
         add: "addPrepaidCard",
         edit: "updatePrepaidCard"
@@ -155,10 +155,13 @@ export default {
           label: "操作类型",
           key: "paidWay",
           optionData: [
-            { key: "0", value: "充值" },
-            // { key: "1", value: "借款" },
-            // { key: "2", value: "扣款" },
-            { key: "3", value: "还款" }
+            // { key: "0", value: "充值" },
+            { key: "1", value: "借款" },
+            { key: "2", value: "余额-" },
+            // { key: "3", value: "还款" },
+            { key: "4", value: "清授信" },
+            { key: "5", value: "充值(账号转移)" },
+            { key: "6", value: "余额+" }
           ],
           placeholder: "类型"
         },
@@ -184,11 +187,14 @@ export default {
           label: "账单类型",
           key: "isBill",
           optionData: [
-            { key: "0", value: "充值记录" },
+            // { key: "0", value: "充值记录" },
             { key: "1", value: "月度账单" },
-            // { key: "2", value: "退款记录" },
-            // { key: "3", value: "借款记录" },
-            { key: "4", value: "补款记录" }
+            { key: "2", value: "退款记录" },
+            { key: "3", value: "借款记录" },
+            // { key: "4", value: "补款记录" }
+            { key: "5", value: "转移记录" },
+            { key: "6", value: "清授信记录" },
+            { key: "7", value: "余额+记录" }
             // { key: "5", value: "转移记录" }
           ]
         },

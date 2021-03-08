@@ -510,6 +510,14 @@ export default {
         listPrepaidCardByPage(params) {
             return post("/sysPrepaidCard/listPrepaidCardByPage", params)
         },
+        // 财务列表
+        listPrepaidCardExamineByPage(params) {
+            return post("/sysPrepaidCard/listPrepaidCardExamineByPage", params)
+        },
+        // 运营列表
+        listPrepaidCardOperationByPage(params) {
+            return post("/sysPrepaidCard/listPrepaidCardOperationByPage", params)
+        },
         // 新增
         addPrepaidCard(params) {
             return post("/sysPrepaidCard/addPrepaidCard", params)

@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="corpId" label="企业计费" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
@@ -26,7 +26,7 @@
               : scope.row.exemptReviewType === 2
               ? "客户编号"
               : scope.row.exemptReviewType === 3
-              ? "商户编号"
+              ? "企业计费"
               : ""
           }}</span>
         </template>
@@ -90,15 +90,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
-          placeholder: "请输入商户编号"
+          placeholder: "请输入企业计费"
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "input",
@@ -120,7 +120,7 @@ export default {
             // { key: "0", value: "需要审核" },
             { key: "1", value: "特服号" },
             { key: "2", value: "客户编号" }
-            // { key: "3", value: "商户编号" },
+            // { key: "3", value: "企业计费" },
           ],
           placeholder: "请选择类型"
         },

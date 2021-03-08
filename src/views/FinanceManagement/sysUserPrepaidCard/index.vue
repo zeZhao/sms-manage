@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="cardNum" label="卡号" show-overflow-tooltip />
-      <el-table-column prop="userId" label="账号编号" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
           <span>{{
@@ -128,9 +128,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "账号编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入账号编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "select",

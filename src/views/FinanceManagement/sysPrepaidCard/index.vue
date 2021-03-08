@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="corporateId" label="企业计费" />
       <el-table-column prop="corporateName" label="商户名称" />
       <el-table-column prop="cardCount" label="条数" />
       <el-table-column prop="cardMoney" label="金额(元)" />
@@ -68,7 +68,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corporateId"
         },
         {
