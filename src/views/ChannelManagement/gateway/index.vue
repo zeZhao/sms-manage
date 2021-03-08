@@ -87,12 +87,6 @@
             >修改</el-button
           >
           <el-button
-            @click="closePassageway(scope.row, 'gatewayId')"
-            type="text"
-            size="small"
-            >关闭</el-button
-          >
-          <el-button
             @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
             type="text"
             size="small"
@@ -752,11 +746,6 @@ export default {
               trigger: "change"
             }
           ]
-        },
-        {
-          type: "input",
-          label: "配置速率",
-          key: "sendSpeed",
         }
       ],
       //选择配置
@@ -837,24 +826,6 @@ export default {
         }
       })
     },
-    //关闭通道
-    closePassageway() {
-      this.$confirm('您确定要关闭吗？通道关闭后将影响用户的短信发送，请谨慎操作', '关闭', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        });          
-      });
-    },
     //添加标签
     addTag(id) {
       this.id = id
@@ -914,7 +885,6 @@ export default {
     },
     //开启关闭通道
     switchChange(val, gateway) {
-      console.log(val, "-----val");
       if (val) {
         this.$http.gateway
           .startGateway({
@@ -1051,12 +1021,6 @@ export default {
       });
       return list;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.gateway {
-}
-</style>
