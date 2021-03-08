@@ -249,7 +249,7 @@ export default {
      * @param id
      * @private
      */
-    _mxDeleteItem(key, id) {
+    _mxDeleteItem(key, id, isData = true) {
       const h = this.$createElement;
       this.$msgbox({
         title: "删除",
@@ -263,17 +263,24 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       }).then(action => {
-        const params = {
-          data: {}
-        };
-        params.data[key] = id.toString();
+
+        let params = {};
+        if (isData) {
+          params = {
+            data: {}
+          };
+          params.data[key] = id.toString();
+        } else {
+          params[key] = id.toString();
+        }
+
         const { namespace, detele } = this.searchAPI;
         this.$http[namespace][detele](params).then(res => {
           if (resOk(res)) {
-            this.$message.info("删除成功！");
+            this.$message.success("删除成功！");
             this._mxGetList();
           } else {
-            this.$message.info("删除失败！");
+            this.$message.error("删除失败！");
           }
         });
       });
