@@ -1702,5 +1702,28 @@ export default {
             return post("/smsSendTask/send", params);
         },
     },
+    //代理商
+    agent: {
+        // 分页查询列表
+        queryByPage(params) {
+            return post("/agent/queryByPage", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/agent/delete", params);
+        },
+        // 添加/修改
+        addOrUpdate(params) {
+            return post("/agent/addOrUpdate", params);
+        },
+        // 修改代理商状态
+        updateStatus(params) {
+            return post("/agent/updateStatus", params);
+        },
+        // 查询有效代理商
+        queryAgent(params) {
+            return post("/agent/queryAgent", params);
+        },
+    },
 
 }
