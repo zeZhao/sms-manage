@@ -198,7 +198,7 @@ export default {
       //   });
       this.captcha =
         process.env.VUE_APP_BASE_API +
-        "/api/sysLogin/captcha?uuId=" +
+        "/sysLogin/captcha?uuId=" +
         this.loginForm.uuid +
         "&num=" +
         num;
