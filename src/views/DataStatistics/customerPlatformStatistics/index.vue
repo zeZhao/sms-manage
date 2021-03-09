@@ -80,7 +80,7 @@ export default {
         .then((res) => {
           const aLink = document.createElement('a')
           aLink.style.display = 'none'
-          aLink.setAttribute('download', '月成本统计.xlsx')
+          aLink.setAttribute('download', '客户平台统计.xlsx')
           const blob = new Blob([res.data], {
             type: 'application/vnd.ms-excel;charset=utf-8',
           })

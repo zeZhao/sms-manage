@@ -42,6 +42,7 @@
                 @click="chooses(item)"
                 >{{ item.btnTxt }}</el-button
               >
+              <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
 
             <!--多文本输入框-->
