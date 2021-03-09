@@ -211,7 +211,7 @@ export default {
         },
         {
           type: 'input',
-          label: '日成功量提醒:',
+          label: '日成功量提醒',
           key: 'daySendAlarm',
           defaultValue: '',
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

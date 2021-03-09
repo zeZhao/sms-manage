@@ -169,6 +169,7 @@ class managePlugin {
   installFilter(Vue) {
     Vue.filter('timeFormat', function (time) {
       if (time) {
+        if (time === '-') return '-'
         return new Date(time).Format('yyyy-MM-dd hh:mm:ss')
       }
     })

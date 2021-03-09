@@ -143,25 +143,12 @@ export default {
   },
   methods: {
     exportData(form) {
-      const flag = {
-        responseType: 'blob',
-        headers: { token: window.localStorage.getItem('token') },
-      }
       this.$axios
-        .post('/smsProfit/exportSmsProfit', { data: { smsProfit: form } }, flag)
+        .post('/smsProfit/exportSmsProfit', { data: { smsProfit: form } })
         .then((res) => {
-          const aLink = document.createElement('a')
-          aLink.style.display = 'none'
-          aLink.setAttribute('download', '月成本统计.xlsx')
-          const blob = new Blob([res.data], {
-            type: 'application/vnd.ms-excel;charset=utf-8',
-          })
-          const url = window.URL.createObjectURL(blob)
-          aLink.href = url
-          document.body.appendChild(aLink)
-          aLink.click()
-          document.body.removeChild(aLink)
-          window.URL.revokeObjectURL(url)
+          if (res.data.code === 200) {
+            this.$message.success('提交下载成功，请到下载中心下载')
+          }
         })
     },
     exportExe() {
