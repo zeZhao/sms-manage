@@ -146,9 +146,7 @@ export default {
       this.$axios
         .post('/smsProfit/exportSmsProfit', { data: { smsProfit: form } })
         .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success('提交下载成功，请到下载中心下载')
-          }
+          if (res.data.code === 200) this.$exportToast()
         })
     },
     exportExe() {

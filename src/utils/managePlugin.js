@@ -4,12 +4,11 @@ import FormItem from "@/components/FormItem"
 import ChooseUser from "@/components/ChooseUser"
 import Api from "@/utils/api.js";
 import Vue from "vue";
+import { Message } from 'element-ui';
 
 class managePlugin {
 
-  constructor() {
-
-  }
+  constructor() {}
 
   install(Vue, options) {
     this.installExtendsFunction();
@@ -175,15 +174,16 @@ class managePlugin {
     })
     Vue.filter('Format', function (time) {
       if (time) {
+        if (time === '-') return '-'
         return new Date(time).Format('yyyy-MM-dd')
       }
     })
     Vue.filter('FormatMonth', function (time) {
       if (time) {
+        if (time === '-') return '-'
         return new Date(time).Format('yyyy-MM')
       }
     })
-
   }
 
   /*------------------添加vue实例方法------------------*/
@@ -289,6 +289,12 @@ class managePlugin {
         }
         window.localStorage.setItem(key, value);
       }
+    };
+
+    //全局导出之后到下载中心的提示
+    const exportSuccessMsg = '数据生成中，请前往下载中心下载';
+    Vue.prototype.$exportToast = () => {
+      Message.success(exportSuccessMsg);
     };
   }
 
