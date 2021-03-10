@@ -32,16 +32,6 @@ export default {
   //   mixins: [listMixin],
   components: {},
   data() {
-    const checkPhone = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('请输入必填项'));
-      } else {
-        if (value.indexOf('，') !== -1) callback(new Error('手机号只能用英文逗号分隔'));
-        const arr = value.split(',');
-        const idx = arr.findIndex(v => !(/^1[3-9]\d{9}$/.test(v)));
-        idx === -1 ? callback() : arr[arr.length - 1] === '' ? callback() : callback(new Error(`第${idx + 1}个手机号格式不正确`));
-      }
-    }
     return {
       isChooseUser: false,
       formTit: "确认发送",
@@ -97,7 +87,7 @@ export default {
           label: "手机号",
           key: "mobile",
           placeholder: '请输入手机号，多手机号请用","分割',
-          rules: [{ required: true, validator: checkPhone, trigger: "blur" }],
+          rules: this.$publicValidators.phone,
           mobileTips: true
         },
         {

@@ -367,8 +367,8 @@ export default {
       return item.clearable !== false;
     },
     selectChange(val, item) {
-      this.$emit("selectChange", { val, item });
       this._setDefaultVal(val, item);
+      this.$emit("selectChange", { val, item });
     },
 
     //设置默认值
