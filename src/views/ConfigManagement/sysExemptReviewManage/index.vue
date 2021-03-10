@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="corpId" label="企业计费" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
@@ -23,7 +23,7 @@
               ? "特服号"
               : scope.row.exemptReviewType === 2
               ? "客户编号"
-              : "商户编号"
+              : "企业计费"
           }}</span>
         </template>
       </el-table-column>
@@ -151,15 +151,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
-          placeholder: "请输入商户编号"
+          placeholder: "请输入企业计费"
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "input",
@@ -188,7 +188,7 @@ export default {
             },
             {
               key: "3",
-              value: "商户编号"
+              value: "企业计费"
             }
           ],
           placeholder: "请选择类型"
@@ -290,7 +290,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -301,7 +301,7 @@ export default {
         },
         {
           type: "input",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
           disabled: true,
           defaultValue: "",
@@ -341,7 +341,7 @@ export default {
             },
             {
               key: 3,
-              value: "商户编号"
+              value: "企业计费"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -737,7 +737,7 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

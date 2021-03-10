@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="商户/用户编号" />
+      <el-table-column prop="userId" label="商户/用户计费" />
       <el-table-column
         prop="userName"
         label="商户/用户名称"
@@ -65,7 +65,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户/用户编号",
+          label: "商户/用户计费",
           key: "userId"
         },
         {

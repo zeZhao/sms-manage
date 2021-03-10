@@ -54,14 +54,19 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
+                :autosize="{ minRows: 3, maxRows: 4 }"
                 @input="
                   val => {
                     onChange(val, item);
                   }
                 "
               />
-              <div v-if="item.mobileTips" class="item-tips">{{returnMobileTips(formData[item.key])}}</div>
-              <div v-if="item.contentTips" class="item-tips">{{returnContentTips(formData[item.key])}}</div>
+              <div v-if="item.mobileTips" class="item-tips">
+                {{ returnMobileTips(formData[item.key]) }}
+              </div>
+              <div v-if="item.contentTips" class="item-tips">
+                {{ returnContentTips(formData[item.key]) }}
+              </div>
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
@@ -192,6 +197,24 @@
                 "
               ></el-time-picker>
             </template>
+            <template v-if="item.type === 'switch'">
+              <el-switch
+                style="display: block"
+                v-model="formData[item.key]"
+                @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+                :active-color="item.activeColor || '#13ce66'"
+                :inactive-color="item.inactiveColor || '#ff4949'"
+                :active-text="item.activeText"
+                :inactive-text="item.inactiveText"
+                :active-value="item.activeValue || '1'"
+                :inactive-value="item.inactiveValue || '0'"
+              >
+              </el-switch>
+            </template>
             <!--上传-->
             <template v-if="item.type === 'upload'">
               <el-upload
@@ -206,14 +229,39 @@
                   }
                 "
                 :on-error="handleError"
-                :limit="item.limit"
-                :file-list="item.defaultFileList"
+                :limit="item.limit || 1"
+                :file-list="item.defaultFileList || []"
                 :on-exceed="handleExceed"
               >
-                <el-button size="small" type="primary">{{
-                  item.btnTxt
-                }}</el-button>
-                <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+                <div v-if="!item.defaultValue">
+                  <el-button size="small" type="primary">{{
+                    item.btnTxt ? item.btnTxt : "上传文件"
+                  }}</el-button>
+                  <div slot="tip" class="el-upload__tip">
+                    {{ item.tip }}
+                  </div>
+                </div>
+                <div v-else>
+                  <img
+                    class="el-upload-list__item-thumbnail"
+                    :src="`${href}/${item.defaultValue}`"
+                    alt=""
+                  />
+                  <span class="el-upload-list__item-actions">
+                    <span
+                      class="el-upload-list__item-preview"
+                      @click="handlePictureCardPreview(item.defaultValue)"
+                    >
+                      <i class="el-icon-zoom-in"></i>
+                    </span>
+                    <span
+                      class="el-upload-list__item-delete"
+                      @click="handleRemoveImg(item)"
+                    >
+                      <i class="el-icon-delete"></i>
+                    </span>
+                  </span>
+                </div>
               </el-upload>
             </template>
           </el-form-item>
@@ -235,6 +283,9 @@
         </div>
       </el-row>
     </el-form>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="`${href}/${dialogImageUrl}`" alt="" />
+    </el-dialog>
   </div>
 </template>
 
@@ -273,7 +324,10 @@ export default {
       action: "/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken()
-      }
+      },
+      href: window.location.origin,
+      dialogVisible: false,
+      dialogImageUrl: ""
     };
   },
   mounted() {
@@ -341,7 +395,11 @@ export default {
               item.defaultValue = [];
               this.formData[key] = [];
             }
-          } else if (type === "select" || type === "radio") {
+          } else if (
+            type === "select" ||
+            type === "radio" ||
+            type === "switch"
+          ) {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
             } else {
@@ -405,18 +463,33 @@ export default {
     handleExceed(files, fileList) {
       this.$emit("handleExceed", { files, fileList });
     },
+    //删除图片
+    handleRemoveImg(item) {
+      // console.log(file);
+      item.defaultValue = "";
+    },
+    //查看图片
+    handlePictureCardPreview(file) {
+      console.log(file);
+      this.dialogImageUrl = file;
+      this.dialogVisible = true;
+    },
 
     //回显input下列提示
     returnMobileTips(value) {
-      if (!value) return '已输入0个手机号';
+      if (!value) return "已输入0个手机号";
       const arr = value.split(",");
       let num = 0;
-      arr.forEach(item => { if (item) num ++ });
+      arr.forEach(item => {
+        if (item) num++;
+      });
       return `已输入${num}个手机号`;
     },
     //回显input下列提示
     returnContentTips(value) {
-      return `已输入${value ? value.length : 0}字符，将按1条计费，计费条数仅供参考，以实际扣费为准！`;
+      return `已输入${
+        value ? value.length : 0
+      }字符，将按1条计费，计费条数仅供参考，以实际扣费为准！`;
     }
   },
   watch: {

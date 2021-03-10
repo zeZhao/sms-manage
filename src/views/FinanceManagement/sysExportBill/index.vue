@@ -9,7 +9,7 @@
     <h3>按照筛选条件导出多月账单</h3>
     <el-row>
       <el-form v-model="searchData" :inline="true" label-width="120px">
-        <el-form-item label="用户编号">
+        <el-form-item label="用户计费">
           <el-input v-model="searchData.userId"></el-input>
         </el-form-item>
         <el-form-item label="通道编号">
@@ -47,8 +47,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="corpId" label="企业计费" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="gateway" label="通道id" />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
@@ -121,12 +121,12 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId"
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId"
         },
         {

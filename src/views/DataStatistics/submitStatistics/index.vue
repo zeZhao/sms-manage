@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="corpId" label="企业计费" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="accountType" label="用户类型">
         <template slot-scope="scope">
@@ -102,15 +102,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
-          placeholder: "请输入商户编号"
+          placeholder: "请输入企业计费"
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "input",

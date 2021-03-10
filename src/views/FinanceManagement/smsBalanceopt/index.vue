@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="corpId" label="企业计费" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="beforeBalance" label="操作前的余额" />
       <el-table-column prop="afterBalance" label="操作后的余额" />
@@ -114,7 +114,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId"
         },
         {
@@ -181,7 +181,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -190,7 +190,7 @@ export default {
         },
         {
           type: "input",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
           disabled: true,
           defaultValue: "",
@@ -327,7 +327,7 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

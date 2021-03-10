@@ -9,9 +9,9 @@
     >
       <el-row :gutter="20">
         <el-col :span="10">
-          <span class="label">商户编号：</span>
+          <span class="label">企业计费：</span>
           <el-input
-            placeholder="请输入商户编号"
+            placeholder="请输入企业计费"
             v-model="corpId"
             clearable
           ></el-input>
@@ -33,7 +33,7 @@
         highlight-current-row
         style="width: 100%;margin-top: 20px"
       >
-        <el-table-column prop="corpId" label="商户编号" />
+        <el-table-column prop="corpId" label="企业计费" />
         <el-table-column prop="corpName" label="商户名称" />
         <el-table-column fixed="right" label="操作" width="200">
           <template slot-scope="scope">

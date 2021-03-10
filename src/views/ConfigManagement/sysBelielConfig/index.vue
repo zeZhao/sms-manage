@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户/代理编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="optimizeType" label="优化类型">
@@ -119,12 +119,12 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corporateId"
         },
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId"
         },
         {
@@ -161,7 +161,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           btnTxt: "选择用户",
           btnDisabled: false,
@@ -171,7 +171,7 @@ export default {
         },
         {
           type: "input",
-          label: "商户编号",
+          label: "企业计费",
           key: "corporateId",
           disabled: true,
           defaultValue: "",
@@ -314,7 +314,7 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

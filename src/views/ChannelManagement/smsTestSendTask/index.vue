@@ -38,7 +38,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "商户/用户编号",
+          label: "商户/用户计费",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,

@@ -510,6 +510,14 @@ export default {
         listPrepaidCardByPage(params) {
             return post("/sysPrepaidCard/listPrepaidCardByPage", params)
         },
+        // 财务列表
+        listPrepaidCardExamineByPage(params) {
+            return post("/sysPrepaidCard/listPrepaidCardExamineByPage", params)
+        },
+        // 运营列表
+        listPrepaidCardOperationByPage(params) {
+            return post("/sysPrepaidCard/listPrepaidCardOperationByPage", params)
+        },
         // 新增
         addPrepaidCard(params) {
             return post("/sysPrepaidCard/addPrepaidCard", params)
@@ -1701,6 +1709,47 @@ export default {
         send(params) {
             return post("/smsSendTask/send", params);
         },
+    },
+    //代理商
+    agent: {
+        // 分页查询列表
+        queryByPage(params) {
+            return post("/agent/queryByPage", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/agent/delete", params);
+        },
+        // 添加/修改
+        addOrUpdate(params) {
+            return post("/agent/addOrUpdate", params);
+        },
+        // 修改代理商状态
+        updateStatus(params) {
+            return post("/agent/updateStatus", params);
+        },
+        // 查询有效代理商
+        queryAgent(params) {
+            return post("/agent/queryAgent", params);
+        },
+    },
+    tags: {
+        //查询列表
+        tagList(params) {
+            return fetch("/sms/tag", params)
+        },
+        //新增
+        submitTag(params) {
+            return post("/sms/tag", params)
+        },
+        //修改
+        editTag(params) {
+            return put("/sms/tag", params)
+        },
+        //删除
+        delTag(id) {
+            return del(`/sms/tag/${id}`)
+        }
     },
     //标签管理
     smsTagController: {
