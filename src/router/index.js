@@ -79,6 +79,28 @@ export const constantRoutes = [{
         }
     }]
 },
+{
+    path: '/UserMonitoringConfiguration',
+    component: Layout,
+    hidden: true,
+    children: [{
+        path: 'UserMonitoringConfigurationType',
+        name: 'UserMonitoringConfigurationType',
+        meta: { title: '' },
+        component: () => import('@/views/Alertmanagement/UserMonitoringConfiguration/type'),
+        beforeEnter (to, from, next) {
+            const { type } = to.query
+            if (type === '1') {
+                constantRoutes[5].children[0].meta.title = '发送监控配置'
+            } else if (type === '2') {
+                constantRoutes[5].children[0].meta.title = '到达率监控配置'
+            } else if (type === '3') {
+                constantRoutes[5].children[0].meta.title = '余额监控配置'
+            }
+            next()
+        }
+    }]
+},
 ]
 
 /**
@@ -1009,7 +1031,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher // reset router
 }

@@ -1,4 +1,4 @@
-// 手机号码验证
+// 手机号码验证(多个用逗号隔开)
 const validatePhone = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入必填项'));
@@ -9,7 +9,7 @@ const validatePhone = (rule, value, callback) => {
     idx === -1 ? callback() : arr[arr.length - 1] === '' ? callback() : callback(new Error(`第${idx + 1}个手机号格式不正确`));
   }
 }
-// 邮箱的正则
+// 邮箱验证(多个用逗号隔开)
 const validateEmail = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入必填项'));
