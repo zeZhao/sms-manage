@@ -1750,6 +1750,35 @@ export default {
         delTag(id) {
             return del(`/sms/tag/${id}`)
         }
+    },
+    //标签管理
+    smsTagController: {
+        // 分页查询列表
+        listTag(params) {
+            return fetch("/sms/tag", params);
+        }
+    },
+    //批量保存渠道标签
+    smsChannelTagController: {
+        // 短信通道添加/修改标签
+        batchSave(params) {
+            return post("/sms/channel/tag/batch-save", params);
+        }
+    },
+    //客户对账单
+    customerStatement: {
+        // 修改实付金额
+        updateMoney(params) {
+            return post("/userBalanceMonthBill/updateMoney", params);
+        },
+        // 修改账单状态
+        updateStatus(params) {
+            return post("/userBalanceMonthBill/updateStatus", params);
+        },
+        // 客户对账单查询
+        userBalanceMonthBillList(params) {
+            return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
+        }
     }
 
 }
