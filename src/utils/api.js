@@ -1733,5 +1733,23 @@ export default {
             return post("/agent/queryAgent", params);
         },
     },
+    tags: {
+        //查询列表
+        tagList(params) {
+            return fetch("/sms/tag", params)
+        },
+        //新增
+        submitTag(params) {
+            return post("/sms/tag", params)
+        },
+        //修改
+        editTag(params) {
+            return put("/sms/tag", params)
+        },
+        //删除
+        delTag(id) {
+            return del(`/sms/tag/${id}`)
+        }
+    }
 
 }
