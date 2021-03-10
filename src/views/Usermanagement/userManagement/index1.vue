@@ -7,9 +7,9 @@
       @create="_mxCreate"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
-      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="商户编号" width="100" />
-      <el-table-column prop="userId" label="用户编号" />
+      <!--企业计费 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <el-table-column prop="corpId" label="企业计费" width="100" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column
         prop="userName"
         label="用户名"
@@ -243,9 +243,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
-          placeholder: "请输入商户编号"
+          placeholder: "请输入企业计费"
         },
         {
           type: "inputNum",

@@ -180,7 +180,11 @@ export default {
       //节流阀-查询接口任务
       queryTask: null,
       //列表请求是否需要data包起来
-      isParamsNotData: true
+      isParamsNotData: true,
+      // 修改保存时参数是否需要data包含
+      submitParamsIsData: true,
+      // 删除时参数是否需要data包含
+      deleteParamsIsData: true,
     };
   },
 
@@ -247,14 +251,16 @@ export default {
     /**
      * 删除列表中项目
      * @param id
+     * @param isData 参数是否需要data包含
+     * @param isQuery  参数是否拼接在路径上
      * @private
      */
-    _mxDeleteItem(key, id, isData = true) {
+    _mxDeleteItem(key, id, isData = true, isQuery = false, tip = "您确定要删除此项吗？") {
       const h = this.$createElement;
       this.$msgbox({
         title: "删除",
         message: h("div", null, [
-          h("p", null, "您确定要删除此项吗？")
+          h("p", null, tip)
           // h('p', {
           //     style: 'color: red'
           // }, '删除后，将不再执行重发，请谨慎操作')
@@ -263,16 +269,21 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       }).then(action => {
-
         let params = {};
-        if (isData) {
-          params = {
-            data: {}
-          };
-          params.data[key] = id.toString();
+        if (!isQuery) {
+
+          if (isData) {
+            params = {
+              data: {}
+            };
+            params.data[key] = id.toString();
+          } else {
+            params[key] = id.toString();
+          }
         } else {
-          params[key] = id.toString();
+          params = id.toString()
         }
+
 
         const { namespace, detele } = this.searchAPI;
         this.$http[namespace][detele](params).then(res => {
@@ -408,7 +419,7 @@ export default {
       const { namespace, add, edit } = this.searchAPI;
       let params = {};
 
-      if (hasData) {
+      if (hasData && this.submitParamsIsData) {
         params = {
           data: {
             ...form
@@ -425,7 +436,7 @@ export default {
           this._mxSuccess(res);
         });
       } else {
-        if (hasData) {
+        if (hasData && this.submitParamsIsData) {
           params.data = Object.assign(params.data, {
             [editId]: this.id
           });

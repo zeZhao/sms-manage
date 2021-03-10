@@ -23,8 +23,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="corpId" label="企业计费" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
@@ -99,15 +99,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户编号",
+          label: "企业计费",
           key: "corpId",
-          placeholder: "商户编号"
+          placeholder: "企业计费"
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "用户编号"
+          placeholder: "用户计费"
         },
         {
           type: "input",
@@ -161,7 +161,7 @@ export default {
       formConfigContent: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -192,7 +192,7 @@ export default {
       formConfigGateway: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId"
         },
         {

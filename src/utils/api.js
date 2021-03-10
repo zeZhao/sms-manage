@@ -510,6 +510,14 @@ export default {
         listPrepaidCardByPage(params) {
             return post("/sysPrepaidCard/listPrepaidCardByPage", params)
         },
+        // 财务列表
+        listPrepaidCardExamineByPage(params) {
+            return post("/sysPrepaidCard/listPrepaidCardExamineByPage", params)
+        },
+        // 运营列表
+        listPrepaidCardOperationByPage(params) {
+            return post("/sysPrepaidCard/listPrepaidCardOperationByPage", params)
+        },
         // 新增
         addPrepaidCard(params) {
             return post("/sysPrepaidCard/addPrepaidCard", params)
@@ -1725,5 +1733,23 @@ export default {
             return post("/agent/queryAgent", params);
         },
     },
+    tags: {
+        //查询列表
+        tagList(params) {
+            return fetch("/sms/tag", params)
+        },
+        //新增
+        submitTag(params) {
+            return post("/sms/tag", params)
+        },
+        //修改
+        editTag(params) {
+            return put("/sms/tag", params)
+        },
+        //删除
+        delTag(id) {
+            return del(`/sms/tag/${id}`)
+        }
+    }
 
 }

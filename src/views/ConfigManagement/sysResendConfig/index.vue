@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="status" label="不重发状态" />
@@ -93,9 +93,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入用户计费"
         },
         {
           type: "input",
@@ -126,7 +126,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "用户计费",
           key: "userId",
           btnTxt: "选择用户",
           btnDisabled: false,

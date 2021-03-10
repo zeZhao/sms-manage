@@ -3,11 +3,11 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
       <el-form :inline="true">
-        <el-form-item label="商户编号">
-          <el-input v-model="search.corpId" clearable placeholder="商户编号" />
+        <el-form-item label="企业计费">
+          <el-input v-model="search.corpId" clearable placeholder="企业计费" />
         </el-form-item>
-        <el-form-item label="用户编号">
-          <el-input v-model="search.userId" clearable placeholder="用户编号" />
+        <el-form-item label="用户计费">
+          <el-input v-model="search.userId" clearable placeholder="用户计费" />
         </el-form-item>
         <el-form-item label="用户名称">
           <el-input
@@ -115,9 +115,9 @@
       height="680"
       style="width: 100%;"
     >
-      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <!--企业计费 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户/代理编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="用户计费" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="loginName" label="用户登录名" />
       <el-table-column prop="password" label="密码" />
@@ -275,20 +275,20 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="商户编号" prop="corpId">
+        <el-form-item label="企业计费" prop="corpId">
           <el-input
             v-model="addInfo.corpId"
             disabled
-            placeholder="请选择商户编号"
+            placeholder="请选择企业计费"
             style="width: 130px"
           />
           <el-button @click="selectCompany">请选择父商户</el-button>
         </el-form-item>
-        <el-form-item label="用户编号" prop="userId" style="display: none">
+        <el-form-item label="用户计费" prop="userId" style="display: none">
           <el-input
             v-model="addInfo.userId"
             clearable
-            placeholder="请输入用户编号"
+            placeholder="请输入用户计费"
           />
         </el-form-item>
         <el-form-item label="用户名" prop="userName">
