@@ -11,37 +11,37 @@
       height="650"
       style="width: 100%"
     >
-      <el-table-column prop="errNum" label="商户编号" />
-      <el-table-column prop="errNum" label="账户编号" />
-      <el-table-column prop="errNum" label="账户名" />
-      <el-table-column prop="alarmLevel" label="到达率监控">
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名" />
+      <el-table-column prop="arrivalrate" label="到达率监控">
         <template slot-scope="scope">
-          {{ scope.row.alarmLevel === '0' ? '开启' : '关闭' }}
+          {{ scope.row.arrivalrate ? scope.row.arrivalrate : '-' }}
         </template>
       </el-table-column>
-      <el-table-column prop="alarmLevel" label="余额监控">
+      <el-table-column prop="balanceMonitor" label="余额监控">
         <template slot-scope="scope">
-          {{ scope.row.alarmLevel === '0' ? '开启' : '关闭' }}
+          {{ scope.row.balanceMonitor ? scope.row.balanceMonitor : '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="330" fixed="right">
+      <el-table-column label="操作" width="330">
         <template slot-scope="scope">
           <el-button
             type="text"
             size="small"
-            @click="monitoringConfig(scope.row, '1')"
+            @click="monitoringConfig(scope.row.userId, 1)"
             >发送监控配置</el-button
           >
           <el-button
             type="text"
             size="small"
-            @click="monitoringConfig(scope.row, '2')"
+            @click="monitoringConfig(scope.row.userId, 2)"
             >到达率监控配置</el-button
           >
           <el-button
             type="text"
             size="small"
-            @click="monitoringConfig(scope.row, '3')"
+            @click="monitoringConfig(scope.row.userId, 3)"
             >余额监控配置</el-button
           >
         </template>
@@ -63,11 +63,13 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'sysAlarmMessage',
-        list: 'listAlarmMessageStatisticsByPage',
+        namespace: 'sysAlarmUser',
+        list: 'queryAlarmUserByPage',
       },
       // 列表参数
-      namespace: 'alarmMessage',
+      // namespace: 'sysAlarmUser',
+      //删除列表传参所包含的data对象
+      isParamsNotData: false,
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -75,24 +77,24 @@ export default {
         {
           type: 'input',
           label: '商户编号',
-          key: 'num',
+          key: 'corpId',
         },
         {
           type: 'input',
           label: '账户编号',
-          key: 'num1',
+          key: 'userId',
         },
         {
           type: 'select',
           label: '到达率监控',
-          key: 'alarmLevel',
+          key: 'arrivalrate',
           optionData: [
             {
-              key: '0',
+              key: 1,
               value: '开启',
             },
             {
-              key: '1',
+              key: 0,
               value: '关闭',
             },
           ],
@@ -100,14 +102,14 @@ export default {
         {
           type: 'select',
           label: '余额监控',
-          key: 'alarmLevel1',
+          key: 'balanceMonitor',
           optionData: [
             {
-              key: '0',
+              key: 1,
               value: '开启',
             },
             {
-              key: '1',
+              key: 0,
               value: '关闭',
             },
           ],
@@ -117,10 +119,10 @@ export default {
   },
   methods: {
     //各个监控配置的处理
-    monitoringConfig(row, type) {
+    monitoringConfig(userId, userAlarmType) {
       this.$router.push({
         name: 'UserMonitoringConfigurationType',
-        query: { type },
+        query: { userId, userAlarmType },
       })
     },
   },

@@ -1730,6 +1730,21 @@ export default {
         userBalanceMonthBillList(params) {
             return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
         }
+    },
+    //用户监控配置管理
+    sysAlarmUser: {
+        // 查询用户监控配置数据(列表)
+        queryAlarmUserByPage(params) {
+            return post("/sysAlarmUser/queryAlarmUserByPage", params);
+        },
+        // 根据用户id，报警类型查询数据
+        queryOneAlarmUserByUserID(params) {
+            return post("/sysAlarmUser/queryOneAlarmUserByUserID", params);
+        },
+        // 保存用户监控配置数据
+        saveAlarmUser(params) {
+            return put("/sysAlarmUser/saveAlarmUser", params);
+        }
     }
 
 }
