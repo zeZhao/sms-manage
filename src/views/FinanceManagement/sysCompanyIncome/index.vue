@@ -13,10 +13,10 @@
       v-loading="loading"
     >
       <el-table-column type="index" label="序号" />
-      <el-table-column prop="corporateId" label="企业计费" />
+      <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column
         prop="userId"
-        label="用户计费"
+        label="账户编号"
         v-if="searchParam.isDetail === 2"
       />
       <el-table-column
@@ -195,9 +195,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业计费",
+          label: "商户编号",
           key: "corporateId",
-          placeholder: "请输入企业计费"
+          placeholder: "请输入商户编号"
         },
         {
           type: "month",
@@ -302,7 +302,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -311,7 +311,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业计费",
+          label: "商户编号",
           key: "corporateId",
           disabled: true,
           defaultValue: "",

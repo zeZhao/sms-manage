@@ -13,11 +13,11 @@
       v-loading="loading"
     >
       <el-table-column prop="cardNum" label="卡号" show-overflow-tooltip />
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "用户id计费" : "商户id计费"
+            scope.row.reductType === 1 ? "账户计费" : "商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -128,9 +128,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "select",

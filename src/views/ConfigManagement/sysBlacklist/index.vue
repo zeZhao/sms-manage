@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名" />
 
       <el-table-column prop="blackType" label="黑名单类型">
@@ -157,9 +157,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
@@ -224,7 +224,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -235,7 +235,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业计费",
+          label: "商户编号",
           key: "corporateId",
           disabled: true,
           isShow: true,

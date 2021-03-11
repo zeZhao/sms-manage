@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="taskId" label="任务编号" width="100" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="count" label="数量" />
@@ -110,7 +110,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userid"
         },
         {
