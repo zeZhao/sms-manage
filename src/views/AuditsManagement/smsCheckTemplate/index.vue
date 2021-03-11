@@ -7,8 +7,8 @@
       :add="false"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="corpId" label="企业计费" />
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
@@ -18,7 +18,7 @@
               ? "特服号"
               : scope.row.type === "2"
               ? "客户编号"
-              : "企业计费"
+              : "商户编号"
           }}</span>
         </template>
       </el-table-column>
@@ -105,15 +105,15 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业计费",
+          label: "商户编号",
           key: "corpId",
-          placeholder: "请输入企业计费"
+          placeholder: "请输入商户编号"
         },
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "select",
@@ -136,7 +136,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
           //   btnTxt: "选择用户",
           disabled: true,
@@ -146,7 +146,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业计费",
+          label: "商户编号",
           key: "corpId",
           disabled: true,
           defaultValue: "",
@@ -176,7 +176,7 @@ export default {
             },
             {
               key: "3",
-              value: "企业计费"
+              value: "商户编号"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

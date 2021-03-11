@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="企业计费" />
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="beforeBalance" label="操作前的余额" />
       <el-table-column prop="afterBalance" label="操作后的余额" />
@@ -35,7 +35,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "用户id计费" : "商户id计费"
+            scope.row.reductType === 1 ? "账户计费" : "商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -114,7 +114,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId"
         },
         {
@@ -181,7 +181,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -190,7 +190,7 @@ export default {
         },
         {
           type: "input",
-          label: "企业计费",
+          label: "商户编号",
           key: "corpId",
           disabled: true,
           defaultValue: "",
@@ -203,7 +203,7 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "用户id计费"
+              value: "账户计费"
             },
             {
               key: 2,

@@ -26,14 +26,14 @@
         :add="false"
       ></Search>
       <el-table :data="listData" highlight-current-row style="width: 100%">
-        <el-table-column align="center" prop="corpId" label="企业计费" />
+        <el-table-column align="center" prop="corpId" label="商户编号" />
         <el-table-column
           align="center"
           prop="corpName"
           show-overflow-tooltip
           label="商户名"
         />
-        <el-table-column align="center" prop="userId" label="用户计费" />
+        <el-table-column align="center" prop="userId" label="账户编号" />
         <el-table-column align="center" prop="userName" label="用户名" />
         <el-table-column align="center" prop="code" label="特服号" />
         <el-table-column align="center" fixed="right" label="操作">
@@ -79,9 +79,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "企业计费",
+          label: "商户编号",
           key: "corpId",
-          placeholder: "请输入企业计费"
+          placeholder: "请输入商户编号"
         },
         {
           type: "input",
@@ -91,9 +91,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",

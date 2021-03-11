@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="企业计费" />
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="countDate" label="日期" width="150">
         <template slot-scope="scope">{{
           scope.row.countDate | Format
@@ -53,9 +53,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "daterange",
