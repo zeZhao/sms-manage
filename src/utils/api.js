@@ -1779,6 +1779,15 @@ export default {
         userBalanceMonthBillList(params) {
             return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
         }
-    }
+    },
+    //客户对账单
+    sysDownLoadLog: {
+        // 分页列表
+        queryByPage(params) {
+            return post("/sysDownLoadLog/queryByPage", params);
+        },
+        
+    },
+
 
 }
