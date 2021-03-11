@@ -61,6 +61,12 @@
                   }
                 "
               />
+              <div v-if="item.mobileTips" class="item-tips">
+                {{ returnMobileTips(formData[item.key]) }}
+              </div>
+              <div v-if="item.contentTips" class="item-tips">
+                {{ returnContentTips(formData[item.key]) }}
+              </div>
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
@@ -467,6 +473,23 @@ export default {
       console.log(file);
       this.dialogImageUrl = file;
       this.dialogVisible = true;
+    },
+
+    //回显input下列提示
+    returnMobileTips(value) {
+      if (!value) return "已输入0个手机号";
+      const arr = value.split(",");
+      let num = 0;
+      arr.forEach(item => {
+        if (item) num++;
+      });
+      return `已输入${num}个手机号`;
+    },
+    //回显input下列提示
+    returnContentTips(value) {
+      return `已输入${
+        value ? value.length : 0
+      }字符，将按1条计费，计费条数仅供参考，以实际扣费为准！`;
     }
   },
   watch: {
@@ -492,6 +515,13 @@ export default {
   }
   .inputWid {
     width: 70%;
+  }
+  .item-tips {
+    color: #999999;
+    font-size: 12px;
+    line-height: 17px;
+    text-align: right;
+    margin-top: 6px;
   }
 }
 </style>

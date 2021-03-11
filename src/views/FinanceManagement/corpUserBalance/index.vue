@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="商户/用户计费" />
+      <el-table-column prop="userId" label="商户/账户编号" />
       <el-table-column
         prop="userName"
         label="商户/用户名称"
@@ -26,7 +26,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "用户id计费" : "商户id计费"
+            scope.row.reductType === 1 ? "账户计费" : "商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -65,7 +65,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户/用户计费",
+          label: "商户/账户编号",
           key: "userId"
         },
         {

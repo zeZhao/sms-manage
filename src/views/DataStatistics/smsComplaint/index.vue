@@ -16,7 +16,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userid" label="用户计费" />
+      <el-table-column prop="userid" label="账户编号" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="code" label="通道码号" />
       <el-table-column prop="count" label="投诉条数" />
@@ -101,9 +101,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userid",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "inputNum",

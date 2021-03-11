@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userName" label="登录名" />
+      <el-table-column prop="userName" label="登录账号" />
       <el-table-column prop="actualName" label="真实姓名" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="groupName" label="所属组" />
@@ -95,7 +95,7 @@ export default {
     const validatorUserName = (rule, value, callback) => {
       let regex = /^[a-zA-Z0-9]{2,15}$/;
       if (value == "") {
-        callback(new Error("登录名称不能为空"));
+        callback(new Error("登录账号称不能为空"));
       } else {
         if (!regex.test(value)) {
           callback(new Error("输入1-15位字符，支持数字、英文"));
@@ -156,9 +156,9 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "登录名",
+          label: "登录账号",
           key: "userName",
-          placeholder: "请输入登录名"
+          placeholder: "请输入登录账号"
         },
         {
           type: "input",
@@ -194,7 +194,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "登录名称",
+          label: "登录账号称",
           key: "userName",
           disabled: false,
           defaultValue: "",

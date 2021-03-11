@@ -67,10 +67,30 @@
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
+            v-if="!scope.row.smsTags.length"
+            @click="addTag(scope.row.gatewayId)"
+            type="text"
+            size="small"
+            >添加标签</el-button
+          >
+          <el-button
+            v-if="scope.row.smsTags.length"
+            @click="editTag(scope.row.gatewayId, scope.row.smsTags)"
+            type="text"
+            size="small"
+            >修改标签</el-button
+          >
+          <el-button
             @click="_mxEdit(scope.row, 'gatewayId')"
             type="text"
             size="small"
             >修改</el-button
+          >
+          <el-button
+            @click="closePassageway(scope.row, 'gatewayId')"
+            type="text"
+            size="small"
+            >关闭</el-button
           >
           <el-button
             @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
@@ -128,6 +148,24 @@
         @cancel="cancelConfig"
       ></FormItem>
     </el-dialog>
+
+    <el-dialog
+      :title="tagStatusTitle"
+      :visible.sync="tagStatus"
+      :close-on-click-modal="false"
+      top="45px"
+      width="30%"
+    >
+      <FormItem
+        :colSpan="24"
+        :labelWidth="50"
+        ref="formItem"
+        :formConfig="tagsData"
+        btnTxt="确定"
+        @submit="submitTags"
+        @cancel="tagStatus = false"
+      ></FormItem>
+    </el-dialog>
   </div>
 </template>
 
@@ -141,6 +179,9 @@ export default {
       formTit: "新增",
       addChannel: false,
       configDialog: false,
+      tagStatusTitle: undefined,
+      tagStatus: false,
+      id: undefined,
       // 接口地址
       searchAPI: {
         namespace: "gateway",
@@ -229,6 +270,18 @@ export default {
           label: "发送内容",
           key: "conRequirements",
           placeholder: "请输入发送内容"
+        },
+        {
+          type: "input",
+          label: "标签",
+          key: "labelName",
+          placeholder: "请输入标签"
+        },
+        {
+          type: "input",
+          label: "通道价格",
+          key: "unitPrice",
+          placeholder: "请输入通道价格"
         }
       ],
       // 表单配置
@@ -699,6 +752,11 @@ export default {
               trigger: "change"
             }
           ]
+        },
+        {
+          type: "input",
+          label: "配置速率",
+          key: "sendSpeed",
         }
       ],
       //选择配置
@@ -750,15 +808,67 @@ export default {
           key: "msgSrc"
         }
       ],
+      //添加/修改标签数据
+      tagsData: [
+        {
+          type: "checkbox",
+          key: "smsTags",
+          defaultValue: [],
+          optionData: []
+        }
+      ],
       ProvinceList: [], // 省份列表
       gatewayId: ""
     };
   },
   mounted() {
     this.listSysProvince();
+    this.listTag();
   },
   computed: {},
   methods: {
+    //获取所有标签
+    listTag() {
+      this.$http.smsTagController.listTag({pageNumber: 1, pageSize: 9999}).then(res => {
+        if (resOk(res) && res.data.records.length) {
+          this.tagsData[0].optionData = res.data.records.map(v => {
+            return  { key: v.id, value: v.name };
+          })
+        }
+      })
+    },
+    //关闭通道
+    closePassageway() {
+      this.$confirm('您确定要关闭吗？通道关闭后将影响用户的短信发送，请谨慎操作', '关闭', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });          
+      });
+    },
+    //添加标签
+    addTag(id) {
+      this.id = id
+      this.tagsData[0].defaultValue = []
+      this.tagStatusTitle = '添加标签'
+      this.tagStatus = true
+    },
+    //修改标签
+    editTag(id, arr) {
+      this.id = id
+      this.tagsData[0].defaultValue = arr.map(v => v.id)
+      this.tagStatusTitle = '修改标签'
+      this.tagStatus = true
+    },
     //配置
     config(gatewayId) {
       this.gatewayId = gatewayId;
@@ -790,6 +900,17 @@ export default {
     //配置关闭
     cancelConfig() {
       this.configDialog = false;
+    },
+    //提交选择标签
+    submitTags(data) {
+      this.$http.smsChannelTagController.batchSave({channelId: this.id, tagIds: data.smsTags}).then(res => {
+        if (resOk(res)) {
+          this.tagStatus = false
+          const msg = this.tagStatusTitle === '添加标签' ? '添加成功' : '修改成功'
+          this.$message.success(msg);
+          this._mxGetList();
+        }
+      })
     },
     //开启关闭通道
     switchChange(val, gateway) {

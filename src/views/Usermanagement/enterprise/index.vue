@@ -8,7 +8,7 @@
             v-model="search.corpId"
             type="number"
             clearable
-            placeholder="企业计费"
+            placeholder="商户编号"
           />
         </el-form-item>
         <el-form-item>
@@ -53,8 +53,8 @@
       </el-form>
     </el-col>
     <el-table :data="dataList" highlight-current-row style="width: 100%">
-      <!--企业计费 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="企业计费" />
+      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
+      <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="corpName" label="用户商户名称" />
       <el-table-column prop="contact" label="客户联系人姓名" />
@@ -240,7 +240,7 @@
             placeholder="请输入备注开户行信息"
           />
         </el-form-item>
-        <el-form-item label="父企业计费" prop="root">
+        <el-form-item label="父商户编号" prop="root">
           <el-button v-if="!addInfo.root" @click="selectCompany"
             >请选择父商户</el-button
           >

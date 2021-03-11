@@ -7,7 +7,7 @@
       @create="create"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="userId" label="用户计费" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="notSubmitMin" label="未提交报警时间间隔(分)" />
       <el-table-column prop="sucCrate" label="低于设定成功率报警" />
       <el-table-column prop="returnRate" label="低于设定返回率报警" />
@@ -95,9 +95,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户计费"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
@@ -110,7 +110,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户计费",
+          label: "账户编号",
           key: "userId",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
