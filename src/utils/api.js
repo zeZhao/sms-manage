@@ -1759,7 +1759,14 @@ export default {
         // 导出签名发送统计
         exportSignSendTotal(params) {
             return post("/report/exportSignSendTotal", params);
+        },
+        // 查询到达延时统计分页列表
+        queryArrivalDelayStatic(params) {
+            return post("/report/queryArrivalDelayStatic", params);
+        },
+        // 导出到达延时统计分页列表
+        exportArrivalDelayStatic(params) {
+            return post("/report/exportArrivalDelayStatic", params);
         }
-    }
-
+    },
 }
