@@ -1767,6 +1767,14 @@ export default {
         // 导出到达延时统计分页列表
         exportArrivalDelayStatic(params) {
             return post("/report/exportArrivalDelayStatic", params);
+        },
+        // 查询商户月发送统计分页列表
+        queryMerchSendSuccStatistics(params) {
+            return post("/report/queryMerchSendSuccStatistics", params);
+        },
+        // 导出商户月发送统计分页列表
+        exportMerchSendSuccStatistics(params) {
+            return post("/report/exportMerchSendSuccStatistics", params);
         }
     },
 }

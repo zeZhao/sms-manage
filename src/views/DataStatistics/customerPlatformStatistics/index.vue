@@ -21,8 +21,8 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="stProfit" label="发送成功总数" />
-      <el-table-column prop="createDate" label="发送时间" />
+      <el-table-column prop="sendSuccNum" label="发送成功总数" />
+      <el-table-column prop="countDate" label="统计月份" />
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -40,13 +40,14 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'smsProfit',
-        list: 'queryByPage',
+        namespace: 'reports',
+        list: 'queryMerchSendSuccStatistics',
       },
       // 列表参数
-      namespace: 'smsProfit',
+      namespace: '',
       //搜索框数据
-      // searchParam: {},
+      searchParam: {},
+      isParamsNotData: false,
       //搜索框配置
       searchFormConfig: [
         {
@@ -63,46 +64,24 @@ export default {
         },
         {
           type: 'date',
-          label: '发送时间',
-          key: 'time',
+          label: '统计月份',
+          key: 'countDate',
         },
       ],
     }
   },
   methods: {
     exportData(form) {
-      const flag = {
-        responseType: 'blob',
-        headers: { token: window.localStorage.getItem('token') },
-      }
+      const data = { ...this.pageObj, ...form }
+      delete data.total
       this.$axios
-        .post('/smsProfit/exportSmsProfit', { data: { smsProfit: form } }, flag)
+        .post('/report/exportMerchSendSuccStatistics', data)
         .then((res) => {
-          const aLink = document.createElement('a')
-          aLink.style.display = 'none'
-          aLink.setAttribute('download', '客户平台统计.xlsx')
-          const blob = new Blob([res.data], {
-            type: 'application/vnd.ms-excel;charset=utf-8',
-          })
-          const url = window.URL.createObjectURL(blob)
-          aLink.href = url
-          document.body.appendChild(aLink)
-          aLink.click()
-          document.body.removeChild(aLink)
-          window.URL.revokeObjectURL(url)
+          if (res.data.code === 200) this.$exportToast()
         })
     },
     exportExe() {
       this.$refs.Search.handleExport()
-    },
-    //格式化表格数据且初始化数据
-    _mxFormListData(data) {
-      data.forEach((item) => {
-        if (item.createDate) {
-          item.createDate = new Date(item.createDate).Format('yyyy-MM-dd')
-        }
-      })
-      return data
     },
   },
 }
