@@ -117,6 +117,10 @@ export default {
       ],
     }
   },
+  //从配置页面返回过来重新刷新列表
+  activated() {
+    this._mxGetList()
+  },
   methods: {
     //各个监控配置的处理
     monitoringConfig(userId, userAlarmType) {

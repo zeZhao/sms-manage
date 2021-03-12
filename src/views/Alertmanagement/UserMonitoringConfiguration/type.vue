@@ -93,7 +93,7 @@
             placeholder="请输入间隔时间"
             clearable
             style="width: 50%"
-          /><span>分钟</span>
+          /><span>&nbsp;分钟</span>
         </el-form-item>
       </div>
       <el-form-item label="手机号：" prop="alarmMobile">
