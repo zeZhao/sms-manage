@@ -1,13 +1,14 @@
 <template>
-  <!--返回报告统计-->
-  <div class="userDailyBill">
+  <div>
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
+      @exportData="exportData"
       :add="false"
     >
       <template slot="Other">
-        <el-button type="primary" @click="exportExe()" style="margin-left: 15px"
+        <el-button type="primary" @click="exportExe" style="margin-left: 15px"
           >导出</el-button
         >
       </template>
@@ -19,24 +20,28 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="商户名称" />
-      <el-table-column prop="corpId" label="账户编号" />
-      <el-table-column prop="userId" label="账户名称" />
-      <el-table-column prop="userName" label="签名" />
-      <el-table-column prop="userName" label="销售姓名" />
-      <el-table-column prop="userName" label="省份" />
-      <el-table-column prop="userName" label="发送条数" />
-      <el-table-column prop="userName" label="成功数" />
-      <el-table-column prop="userName" label="失败数" />
-      <el-table-column prop="userName" label="未知数" />
-      <el-table-column prop="userName" label="成功率" />
+      <el-table-column prop="corpName" label="商户名称" />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="sign" label="签名" />
+      <el-table-column prop="submitCount" label="提交数" />
+      <el-table-column prop="sendCount" label="发送数" />
+      <el-table-column prop="succCount" label="成功数" />
+      <el-table-column prop="failCount" label="失败数" />
+      <el-table-column prop="sendUnknownCount" label="未知数" />
+      <el-table-column prop="sendSuccPercen" label="成功率" />
     </el-table>
     <p style="color: red">
-      发送条数: {{ statistics.returnNum }}&nbsp;&nbsp;成功数:
-      {{ statistics.successNum }}&nbsp;&nbsp;失败数:
-      {{ statistics.failNum }}&nbsp;&nbsp;到达失败总数:
-      {{ statistics.failNum }}&nbsp;&nbsp;未知数:
-      {{ statistics.failNum }}
+      提交数: {{ tabBottomData.submitCount || 0 }}&nbsp;&nbsp; 发送数:{{
+        tabBottomData.sendCount || 0
+      }}&nbsp;&nbsp; 成功数:{{ tabBottomData.succCount || 0 }}&nbsp;&nbsp;
+      失败数:{{ tabBottomData.failCount || 0 }}&nbsp;&nbsp; 未知数:{{
+        tabBottomData.sendUnknownCount || 0
+      }}&nbsp;&nbsp; 成功率:{{
+        tabBottomData.sendSuccPercen !== 'NaN'
+          ? tabBottomData.sendSuccPercen || 0
+          : 0
+      }}
     </p>
     <Page
       :pageObj="pageObj"
@@ -48,25 +53,22 @@
 
 <script>
 import listMixin from '@/mixin/listMixin'
-
 export default {
   mixins: [listMixin],
   data() {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'returnReportStatistics',
-        list: 'returnReportStatistics',
+        namespace: 'reports',
+        list: 'querySignSendStatic',
+        tabBottomDataUrl: 'querySignSendTotal',
       },
       // 列表参数
       namespace: '',
-      isParamsNotData: true,
+      // isParamsNotData: true,
+      isParamsNotData: false,
       //搜索框数据
-      searchParam: {
-        // showDate: "1",
-        // showCode: "1",
-        // showGateway: "1",
-      },
+      searchParam: {},
       //搜索框配置
       searchFormConfig: [
         {
@@ -78,13 +80,13 @@ export default {
         {
           type: 'input',
           label: '商户名称',
-          key: 'userName',
+          key: 'corpName',
           placeholder: '请输入商户名称',
         },
         {
           type: 'inputNum',
           label: '账户编号',
-          key: 'corpId',
+          key: 'userId',
           placeholder: '请输入账户编号',
         },
         {
@@ -95,100 +97,42 @@ export default {
         },
         {
           type: 'input',
-          label: '销售经理',
-          key: 'userName',
-          placeholder: '请输入销售经理',
-        },
-        {
-          type: 'input',
           label: '签名',
-          key: 'userName',
+          key: 'sign',
           placeholder: '请输入签名',
         },
         {
           type: 'select',
           label: '所属类型',
-          key: 'showDate',
+          key: 'accountType',
           defaultValue: '',
           optionData: [
-            { key: '0', value: '类型1' },
-            { key: '1', value: '类型2' },
-          ],
-        },
-        {
-          type: 'select',
-          label: '通道',
-          key: 'showGateway',
-          defaultValue: '',
-          optionData: [
-            { key: '0', value: '通道1' },
-            { key: '1', value: '通道2' },
+            { key: 1, value: '行业客户' },
+            { key: 2, value: '营销客户' },
+            { key: 3, value: 'vip客户' },
           ],
         },
         {
           type: 'daterange',
           label: '提交时间',
-          key: ['', 'countDate', 'endDate'],
+          key: ['', 'startTime', 'endTime'],
         },
       ],
-      statistics: {},
+      //请求表格下方展示数据的接口凭证
+      tabBottomData: {},
     }
   },
-  mounted() {
-    this.queryUserSendDetailAll()
-  },
-  computed: {},
   methods: {
-    // 获取统计
-    queryUserSendDetailAll(searchParam) {
-      this.$http.returnReportStatistics
-        .returnReportTotal({ ...searchParam })
-        .then((res) => {
-          this.statistics = Object.assign({}, res.data)
-        })
-    },
-    // 修改搜索参数
-    _formatRequestData(data) {
-      const { countDate, endDate } = data
-      if (countDate) {
-        data.countDate = new Date(countDate).Format('yyyy-MM-dd')
-      }
-      if (endDate) {
-        data.endDate = new Date(endDate).Format('yyyy-MM-dd')
-      }
-      this.queryUserSendDetailAll(data)
-      console.log(this.searchParam, 'searchParam')
-      return data
-    },
-    /**
-     * 对表格数据进行自定义调整
-     * @param rows
-     * @returns {*}
-     * @private
-     */
-    _mxFormListData(rows) {
-      rows.forEach((item) => {
-        const { sendNum } = item
-        let proportion = parseInt((sendNum / this.statistics.sendNum) * 100)
-        // if (!succCount) {
-        //   item.succCount = 0;
-        // }
-        // if (!foreignPrice) {
-        //   item.foreignPrice = 0;
-        // }
-        this.$set(item, 'proportion', `${proportion}%`)
+    exportData(form) {
+      const data = { ...this.pageObj, ...form }
+      delete data.total
+      this.$axios.post('/report/exportSignSendTotal', data).then((res) => {
+        if (res.data.code === 200) this.$exportToast()
       })
-
-      // if()
-      return rows
     },
-
-    //导出
-    exportExe() {},
+    exportExe() {
+      this.$refs.Search.handleExport()
+    },
   },
-  watch: {},
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

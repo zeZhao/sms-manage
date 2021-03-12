@@ -1745,6 +1745,21 @@ export default {
         saveAlarmUser(params) {
             return put("/sysAlarmUser/saveAlarmUser", params);
         }
+    },
+    //签名发送
+    reports: {
+        // 签名发送统计分页查询
+        querySignSendStatic(params) {
+            return post("/report/querySignSendStatic", params);
+        },
+        // 签名发送统计数据查询
+        querySignSendTotal(params) {
+            return post("/report/querySignSendTotal", params);
+        },
+        // 导出签名发送统计
+        exportSignSendTotal(params) {
+            return post("/report/exportSignSendTotal", params);
+        }
     }
 
 }
