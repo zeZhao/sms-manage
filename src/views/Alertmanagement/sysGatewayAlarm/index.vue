@@ -17,11 +17,7 @@
           <span>{{ scope.row.submitFail === 0 ? '否' : '是' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="alarmStaus" label="失败状态" min-width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.alarmStaus === 0 ? '否' : '是' }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="alarmStaus" label="失败状态" min-width="100" />
       <el-table-column
         prop="mobile"
         label="手机号"
@@ -93,6 +89,7 @@
         ref="formItem"
         :labelWidth="180"
         :formConfig="formConfig"
+        @onChange="onChange"
         :btnTxt="formTit"
         @submit="submit"
         @cancel="cancel"
@@ -136,7 +133,7 @@ export default {
         {
           type: 'input',
           label: '邮箱',
-          key: 'mobile',
+          key: 'email',
         },
       ],
       // 表单配置
@@ -164,8 +161,21 @@ export default {
           rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
         },
         {
-          type: 'select',
+          type: 'input',
           label: '失败状态',
+          key: 'alarmStaus',
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+        },
+        {
+          type: 'input',
+          label: '低于设定的成功率报警',
+          key: 'sucCrate',
+          defaultValue: '',
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+        },
+        {
+          type: 'select',
+          label: '连不上通道报警',
           key: 'disconnectFail',
           optionData: [
             {
@@ -177,44 +187,21 @@ export default {
               value: '是',
             },
           ],
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: 'input',
-          label: '低于设定的成功率报警',
-          key: 'sucCrate',
-          defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
-        },
-        {
-          type: 'select',
-          label: '连不上网关报警',
-          key: 'alarmStaus',
-          optionData: [
-            {
-              key: '0',
-              value: '否',
-            },
-            {
-              key: '1',
-              value: '是',
-            },
-          ],
           rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
         },
-        {
-          type: 'input',
-          label: '投诉率报警',
-          key: 'complaintRate',
-          defaultValue: '',
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: 'input',
+        //   label: '投诉率报警',
+        //   key: 'complaintRate',
+        //   defaultValue: '',
+        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: 'input',
           label: '日成功量提醒',
           key: 'daySendAlarm',
           defaultValue: '',
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
         },
         {
           type: 'select',
@@ -240,10 +227,10 @@ export default {
           rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
         },
         {
-          type: 'radio',
+          type: 'checkbox',
           label: '报警方式',
-          key: 'errStatusNum1',
-          defaultValue: '',
+          key: 'alarmModes',
+          defaultValue: [],
           optionData: [
             {
               key: 1,
@@ -251,6 +238,10 @@ export default {
             },
             {
               key: 2,
+              value: '微信',
+            },
+            {
+              key: 4,
               value: '邮箱',
             },
           ],
@@ -261,20 +252,42 @@ export default {
           label: '手机号',
           key: 'mobile',
           tips: '多个用英文逗号分隔',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [{ required: false, trigger: 'blur', validator: null }],
         },
         {
           type: 'input',
           label: '邮箱',
-          key: 'mobile1',
+          key: 'email',
           tips: '多个用英文逗号分隔',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [{ required: false, trigger: 'blur', validator: null }],
         },
       ],
       alarmId: '',
     }
   },
   methods: {
+    onChange({ val, item }) {
+      if (item.label === '报警方式') {
+        if (val.includes(1)) {
+          this.formConfig[
+            this.formConfig.length - 2
+          ].rules = this.$publicValidators.phone
+        } else {
+          this.formConfig[this.formConfig.length - 2].rules = [
+            { required: false, trigger: 'blur', validator: null },
+          ]
+        }
+        if (val.includes(4)) {
+          this.formConfig[
+            this.formConfig.length - 1
+          ].rules = this.$publicValidators.email
+        } else {
+          this.formConfig[this.formConfig.length - 1].rules = [
+            { required: false, trigger: 'blur', validator: null },
+          ]
+        }
+      }
+    },
     submit(form) {
       let params = {}
       if (this.formTit == '新增') {

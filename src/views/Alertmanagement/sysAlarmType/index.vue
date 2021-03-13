@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="create"
+      :add="false"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="errNum" label="错误码" />
@@ -17,7 +18,7 @@
         show-overflow-tooltip
       />
       <el-table-column
-        prop="mobile"
+        prop="email"
         label="邮箱"
         width="115"
         show-overflow-tooltip
@@ -35,15 +36,9 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="alarmMode" label="报警方式">
+      <el-table-column prop="alarmModes" label="报警方式">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.alarmMode === '1'
-              ? '短信'
-              : scope.row.alarmMode === '2'
-              ? '微信'
-              : '弹窗'
-          }}</span>
+          {{ renderAlarmModes(scope.row.alarmModes) }}
         </template>
       </el-table-column>
       <el-table-column
@@ -57,7 +52,7 @@
         show-overflow-tooltip
       />
       <el-table-column
-        prop="wetTempId"
+        prop="emailContentTemp"
         label="邮件报警模板"
         show-overflow-tooltip
       />
@@ -138,9 +133,9 @@ export default {
         },
         {
           type: 'select',
-          label: '预警级别',
+          label: '报警级别',
           key: 'alarmLevel',
-          placeholder: '请选择预警级别',
+          placeholder: '请选择报警级别',
           optionData: [
             {
               key: 0,
@@ -192,7 +187,7 @@ export default {
         },
         {
           type: 'select',
-          label: '预警级别',
+          label: '报警级别',
           key: 'alarmLevel',
           optionData: [
             {
@@ -223,19 +218,19 @@ export default {
         {
           type: 'checkbox',
           label: '报警方式',
-          key: 'alarmMode',
+          key: 'alarmModes',
           defaultValue: [],
           optionData: [
             {
-              key: '1',
+              key: 1,
               value: '短信',
             },
             {
-              key: '2',
+              key: 2,
               value: '微信',
             },
             {
-              key: '3',
+              key: 4,
               value: '邮箱',
             },
           ],
@@ -252,20 +247,16 @@ export default {
           label: '手机号',
           key: 'mobile',
           defaultValue: '',
-          placeholder: '多个用英文逗号分隔',
-          rules: [
-            { required: false, message: '请输入必填项', trigger: 'blur' },
-          ],
+          tips: '多个用英文逗号分隔',
+          rules: [{ required: false, trigger: 'blur', validator: null }],
         },
         {
           type: 'input',
           label: '邮箱',
-          key: 'mobile',
+          key: 'email',
           defaultValue: '',
-          placeholder: '多个用英文逗号分隔',
-          rules: [
-            { required: false, message: '请输入必填项', trigger: 'blur' },
-          ],
+          tips: '多个用英文逗号分隔',
+          rules: [{ required: false, trigger: 'blur', validator: null }],
         },
         {
           type: 'textarea',
@@ -288,7 +279,7 @@ export default {
         {
           type: 'textarea',
           label: '邮件报警模板',
-          key: 'wetTempId',
+          key: 'emailContentTemp',
           disabled: true,
           rules: [
             { required: false, message: '请输入必填项', trigger: 'blur' },
@@ -299,21 +290,40 @@ export default {
     }
   },
   methods: {
+    renderAlarmModes(arr) {
+      const str = arr.reduce((pre, cur) => {
+        return pre + this.formatStr(cur) + '，'
+      }, '')
+      return str.substring(0, str.length - 1)
+    },
+    formatStr(v) {
+      if (v === 1) {
+        return '短信'
+      } else if (v === 2) {
+        return '微信'
+      } else {
+        return '邮箱'
+      }
+    },
     //接受子组件传过来的值来更改必填项校验
     onChange({ value, item }) {
       if (item.label === '报警方式') {
         //短信
-        if (item.defaultValue.includes('1')) {
+        if (item.defaultValue.includes(1)) {
           this.formConfig[this.formConfig.length - 3].disabled = false
           this.formConfig[this.formConfig.length - 3].rules[0].required = true
-          this.formConfig[this.formConfig.length - 5].rules[0].required = true
+          this.formConfig[
+            this.formConfig.length - 5
+          ].rules = this.$publicValidators.phone
         } else {
           this.formConfig[this.formConfig.length - 3].disabled = true
           this.formConfig[this.formConfig.length - 3].rules[0].required = false
-          this.formConfig[this.formConfig.length - 5].rules[0].required = false
+          this.formConfig[this.formConfig.length - 5].rules = [
+            { required: false, trigger: 'blur', validator: null },
+          ]
         }
         //微信
-        if (item.defaultValue.includes('2')) {
+        if (item.defaultValue.includes(2)) {
           this.formConfig[this.formConfig.length - 2].disabled = false
           this.formConfig[this.formConfig.length - 2].rules[0].required = true
         } else {
@@ -321,14 +331,18 @@ export default {
           this.formConfig[this.formConfig.length - 2].rules[0].required = false
         }
         //邮箱
-        if (item.defaultValue.includes('3')) {
+        if (item.defaultValue.includes(4)) {
           this.formConfig[this.formConfig.length - 1].disabled = false
           this.formConfig[this.formConfig.length - 1].rules[0].required = true
-          this.formConfig[this.formConfig.length - 4].rules[0].required = true
+          this.formConfig[
+            this.formConfig.length - 4
+          ].rules = this.$publicValidators.email
         } else {
           this.formConfig[this.formConfig.length - 1].disabled = true
           this.formConfig[this.formConfig.length - 1].rules[0].required = false
-          this.formConfig[this.formConfig.length - 4].rules[0].required = false
+          this.formConfig[this.formConfig.length - 4].rules = [
+            { required: false, trigger: 'blur', validator: null },
+          ]
         }
       }
     },
@@ -392,7 +406,7 @@ export default {
       return row
     },
     edit(row) {
-      row = this._mxArrangeEditData(row)
+      // row = this._mxArrangeEditData(row)
       this.typeId = row.typeId
       this.formTit = '修改'
 
