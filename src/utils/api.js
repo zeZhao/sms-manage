@@ -1833,5 +1833,24 @@ export default {
         exportMerchSendSuccStatistics(params) {
             return post("/report/exportMerchSendSuccStatistics", params);
         }
+    },
+    //彩信账号网关初始配置
+    MMSgatewayInitial: {
+        // 彩信账号网关初始配置列表分页查询
+        queryByPage(params) {
+            return post("/mmsInitUserGateway/queryByPage", params);
+        },
+        // 根据用户id查
+        selectMmsInitUserGatewayByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayByUserID", params);
+        },
+        // 根据运营商查询彩信网关
+        selectMmsInitUserGatewayDtoByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayDtoByUserID", params);
+        },
+        // 修改彩信账号网关初始配置
+        update(params) {
+            return post("/mmsInitUserGateway/update", params);
+        }
     }
 }
