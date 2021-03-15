@@ -26,6 +26,7 @@ export default {
   /* 50= navbar  50  */
   min-height: calc(100vh - 50px);
   width: 100%;
+  background: #f0f2f5;
   position: relative;
   overflow: hidden;
 }
@@ -64,5 +65,10 @@ export default {
     //   padding-left: 18px;
     // }
   }
+}
+
+.el-form .el-form-item .el-form-item__label,
+.el-table .cell {
+  color: #303133 !important;
 }
 </style>

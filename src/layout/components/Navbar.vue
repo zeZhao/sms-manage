@@ -121,7 +121,7 @@ export default {
 
 <style lang="scss" scoped>
 .fontColor {
-  color: #606266;
+  color: #303133;
   font-size: 14px;
 }
 .fontRed {

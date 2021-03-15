@@ -4,12 +4,11 @@ import FormItem from "@/components/FormItem"
 import ChooseUser from "@/components/ChooseUser"
 import Api from "@/utils/api.js";
 import Vue from "vue";
+import { Message } from 'element-ui';
 
 class managePlugin {
 
-  constructor() {
-
-  }
+  constructor() {}
 
   install(Vue, options) {
     this.installExtendsFunction();
@@ -184,7 +183,6 @@ class managePlugin {
         return new Date(time).Format('yyyy-MM')
       }
     })
-
   }
 
   /*------------------添加vue实例方法------------------*/
@@ -291,6 +289,12 @@ class managePlugin {
         window.localStorage.setItem(key, value);
       }
     };
+
+    //全局导出之后到下载中心的提示
+    const exportSuccessMsg = '数据生成中，请前往下载中心下载';
+    Vue.prototype.$exportToast = () => {
+      Message.success(exportSuccessMsg);
+    };
   }
 
   /*------------------安装指令方法------------------*/
@@ -307,7 +311,7 @@ class managePlugin {
               el.style.pointerEvents = 'auto';
               el.style.backgroundColor = "#1890ff"
               el.style.borderColor = "#1890ff"
-            }, binding.value || 5000);
+            }, binding.value || 1000);
           }
         });
       }
