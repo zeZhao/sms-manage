@@ -6,8 +6,8 @@
         <el-form-item label="商户编号">
           <el-input v-model="search.corpId" clearable placeholder="商户编号" />
         </el-form-item>
-        <el-form-item label="用户编号">
-          <el-input v-model="search.userId" clearable placeholder="用户编号" />
+        <el-form-item label="账户编号">
+          <el-input v-model="search.userId" clearable placeholder="账户编号" />
         </el-form-item>
         <el-form-item label="用户名称">
           <el-input
@@ -80,7 +80,7 @@
             placeholder="计费模式"
             clearable
           >
-            <el-option value="1" label="为用户id计费" />
+            <el-option value="1" label="为账户计费" />
             <el-option value="2" label="为商户id计费" />
           </el-select>
         </el-form-item>
@@ -117,9 +117,9 @@
     >
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户/代理编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="loginName" label="用户登录名" />
+      <el-table-column prop="loginName" label="用户登录账号" />
       <el-table-column prop="password" label="密码" />
       <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
@@ -196,7 +196,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType == "1" ? "为用户id计费" : "为商户id计费"
+            scope.row.reductType == "1" ? "为账户计费" : "为商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -284,11 +284,11 @@
           />
           <el-button @click="selectCompany">请选择父商户</el-button>
         </el-form-item>
-        <el-form-item label="用户编号" prop="userId" style="display: none">
+        <el-form-item label="账户编号" prop="userId" style="display: none">
           <el-input
             v-model="addInfo.userId"
             clearable
-            placeholder="请输入用户编号"
+            placeholder="请输入账户编号"
           />
         </el-form-item>
         <el-form-item label="用户名" prop="userName">
@@ -300,13 +300,13 @@
             placeholder="请输入用户名"
           />
         </el-form-item>
-        <el-form-item label="用户登录名" prop="loginName">
+        <el-form-item label="用户登录账号" prop="loginName">
           <el-input
             maxlength="30"
             show-word-limit
             v-model="addInfo.loginName"
             clearable
-            placeholder="请输入用户登录名"
+            placeholder="请输入用户登录账号"
           />
         </el-form-item>
         <el-form-item label="密码" prop="password">
@@ -342,7 +342,7 @@
             placeholder="请选择计费类型"
             popper-class="select-option"
           >
-            <el-option value="1" label="为用户id计费" />
+            <el-option value="1" label="为账户计费" />
             <el-option value="2" label="为商户id计费" />
           </el-select>
         </el-form-item>

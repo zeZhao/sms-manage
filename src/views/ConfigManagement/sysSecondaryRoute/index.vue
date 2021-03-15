@@ -14,7 +14,7 @@
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="code" label="客户特服号" />
       <el-table-column prop="gwcode" label="通道特服号" />
@@ -136,9 +136,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
@@ -175,7 +175,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -355,7 +355,7 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
           if (item.key === "userId") {

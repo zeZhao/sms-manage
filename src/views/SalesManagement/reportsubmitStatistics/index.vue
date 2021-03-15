@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="accountType" label="用户类型">
         <template slot-scope="scope">
@@ -82,7 +82,7 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId"
         },
         {

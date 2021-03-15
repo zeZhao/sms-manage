@@ -412,8 +412,8 @@ export default {
 
       this.formConfig.forEach((item) => {
         for (let key in row) {
-          if (item.key === key) {
-            this.$set(item, 'defaultValue', row[key])
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
           }
         }
         if (!Object.keys(row).includes(item.key)) {

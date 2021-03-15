@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="businessType" label="类型">
         <template slot-scope="scope">
@@ -119,9 +119,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
@@ -160,7 +160,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
@@ -285,7 +285,7 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

@@ -8,7 +8,7 @@
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
@@ -111,9 +111,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "select",
@@ -136,7 +136,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
           //   btnTxt: "选择用户",
           disabled: true,

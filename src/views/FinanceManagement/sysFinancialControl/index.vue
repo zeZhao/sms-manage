@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="账号编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
           <span>
@@ -29,15 +29,45 @@
       <el-table-column prop="fileUrl" label="付款截图">
         <template slot-scope="scope">
           <a
-            v-if="scope.row.fileUrl"
+            v-if="scope.row.fileUrl && scope.row.fileUrl !== '-'"
             style="color: #1890ff"
             :href="`${origin}/${scope.row.fileUrl}`"
             target="_blank"
             >点击查看</a
           >
+          <span v-else style="color:#C0C4CC">暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column prop="paidWay" label="付款状态">
+      <el-table-column prop="paidWay" label="操作类型">
+        <template slot-scope="scope">
+          <span v-if="scope.row.paidWay == 0">充值</span>
+          <span v-if="scope.row.paidWay == 1">借款</span>
+          <span v-if="scope.row.paidWay == 2">余额-</span>
+          <span v-if="scope.row.paidWay == 3">还款</span>
+          <span v-if="scope.row.paidWay == 4">清授信</span>
+          <span v-if="scope.row.paidWay == 5">账号转移充值</span>
+          <span v-if="scope.row.paidWay == 6">余额+</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="reductType" label="计费类型">
+        <template slot-scope="scope">
+          <span>{{ scope.row.reductType == 1 ? "账户编号" : "商户计费" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="direction" label="到款方式" />
+      <el-table-column prop="isBill" label="账单类型">
+        <template slot-scope="scope">
+          <span v-if="scope.row.isBill == 0">充值记录</span>
+          <span v-if="scope.row.isBill == 1">月度帐单</span>
+          <span v-if="scope.row.isBill == 2">退款记录</span>
+          <span v-if="scope.row.isBill == 3">借款记录</span>
+          <span v-if="scope.row.isBill == 4">补款记录</span>
+          <span v-if="scope.row.isBill == 5">转移记录</span>
+          <span v-if="scope.row.isBill == 6">清授信记录</span>
+          <span v-if="scope.row.isBill == 7">余额+记录</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="paidWay" label="付款状态">
         <template slot-scope="scope">
           <span>
             {{
@@ -53,40 +83,17 @@
             }}
           </span>
         </template>
-      </el-table-column>
-      <el-table-column prop="reductType" label="计费类型">
-        <template slot-scope="scope">
-          <span>{{ scope.row.reductType == 1 ? "用户计费" : "商户计费" }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="direction" label="操作类型" />
-      <el-table-column prop="isBill" label="账单类型">
-        <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.isBill == 0
-                ? "充值记录"
-                : scope.row.isBill == 1
-                ? "月度帐单"
-                : scope.row.isBill == 2
-                ? "退款记录"
-                : scope.row.isBill == 3
-                ? "借款记录"
-                : scope.row.isBill == 4
-                ? "补款记录"
-                : "转移记录"
-            }}
-          </span>
-        </template>
-      </el-table-column>
+      </el-table-column> -->
+
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="modifier" label="操作账号" />
-      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" />
       <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
+      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" />
+
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
@@ -126,7 +133,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysRecharge",
-        list: "listPrepaidCardByPage",
+        list: "listPrepaidCardExamineByPage",
         detele: "",
         add: "addPrepaidCard",
         edit: "updatePrepaidCard"
@@ -139,18 +146,18 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "账号编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入账号编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "select",
-          label: "付款状态",
+          label: "操作类型",
           key: "paidWay",
           optionData: [
             { key: "0", value: "充值" },
-            { key: "1", value: "借款" },
-            { key: "2", value: "扣款" },
+            // { key: "1", value: "借款" },
+            // { key: "2", value: "扣款" },
             { key: "3", value: "还款" }
           ],
           placeholder: "类型"
@@ -160,8 +167,8 @@ export default {
           label: "产品",
           key: "chargeType",
           optionData: [
-            { key: "1", value: "短信" }
-            // { key: "2", value: "彩信" }
+            { key: "1", value: "短信" },
+            { key: "2", value: "彩信" }
           ],
           placeholder: "类型"
         },
@@ -179,15 +186,15 @@ export default {
           optionData: [
             { key: "0", value: "充值记录" },
             { key: "1", value: "月度账单" },
-            { key: "2", value: "退款记录" },
-            { key: "3", value: "借款记录" },
-            { key: "4", value: "补款记录" },
-            { key: "5", value: "转移记录" }
+            // { key: "2", value: "退款记录" },
+            // { key: "3", value: "借款记录" },
+            { key: "4", value: "补款记录" }
+            // { key: "5", value: "转移记录" }
           ]
         },
         {
           type: "select",
-          label: "操作类型",
+          label: "到款方式",
           key: "direction",
           optionData: [
             { key: "对公付款", value: "对公付款" },

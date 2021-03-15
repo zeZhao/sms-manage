@@ -24,7 +24,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
@@ -105,9 +105,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "用户编号"
+          placeholder: "账户编号"
         },
         {
           type: "input",
@@ -161,7 +161,7 @@ export default {
       formConfigContent: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -192,7 +192,7 @@ export default {
       formConfigGateway: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId"
         },
         {

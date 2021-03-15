@@ -15,7 +15,7 @@
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <!-- <el-table-column prop="gatewayType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
@@ -131,9 +131,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
@@ -190,7 +190,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
           disabled: true,
           defaultValue: "",
@@ -299,7 +299,7 @@ export default {
     supperCheck(row) {
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

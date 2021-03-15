@@ -7,7 +7,7 @@
       :add="false"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">
         <template slot-scope="scope">
@@ -107,16 +107,16 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         }
       ],
       // 表单配置
       formConfig: [
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
           disabled: true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -161,7 +161,7 @@ export default {
       this.formTit = "审核";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key) {
+          if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
         }

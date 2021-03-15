@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账号编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="mobile" label="上行手机号" />
       <el-table-column prop="province" label="省份" />
@@ -72,9 +72,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "账号编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入账号编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",

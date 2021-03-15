@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="corpName" label="公司名称" />
       <el-table-column prop="countDateStr" label="月份" />
@@ -73,9 +73,9 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",

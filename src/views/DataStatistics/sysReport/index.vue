@@ -14,7 +14,7 @@
     >
       <el-table-column
         prop="userId"
-        label="用户编号"
+        label="账户编号"
         v-if="searchParam.showUser === '1'"
       />
       <el-table-column
@@ -151,9 +151,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",

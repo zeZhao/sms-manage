@@ -40,6 +40,7 @@ Vue.prototype.$ExportExcel = excelexport
 Vue.prototype.$Cookies = Cookies
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs;
+Vue.prototype.configFilePath = process.env.VUE_APP_HOST_URL
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 //定义全局变量
@@ -56,6 +57,7 @@ Vue.prototype.$httpPut = put;
  * Currently MockJs will be used in the production environment,
  * please remove it before going online! ! !
  */
+
 Vue.prototype.common = common
 // import { mockXHR } from '../mock'
 // if (process.env.NODE_ENV === 'production') {

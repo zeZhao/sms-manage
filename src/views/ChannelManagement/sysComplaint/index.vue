@@ -7,7 +7,7 @@
       @create="_mxCreate"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="userId" label="用户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="用户名称" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="code" label="通道码号" />
@@ -118,7 +118,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId"
         },
         {
@@ -210,7 +210,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户编号",
+          label: "账户编号",
           btnTxt: "选择用户",
           disabled: true,
           key: "userId",

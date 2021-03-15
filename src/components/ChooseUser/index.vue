@@ -33,7 +33,7 @@
           show-overflow-tooltip
           label="商户名"
         />
-        <el-table-column align="center" prop="userId" label="用户编号" />
+        <el-table-column align="center" prop="userId" label="账户编号" />
         <el-table-column align="center" prop="userName" label="用户名" />
         <el-table-column align="center" prop="code" label="特服号" />
         <el-table-column align="center" fixed="right" label="操作">
@@ -91,9 +91,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户编号",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户编号"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
