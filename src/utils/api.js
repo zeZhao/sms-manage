@@ -1780,6 +1780,14 @@ export default {
             return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
         }
     },
+    //客户对账单
+    sysDownLoadLog: {
+        // 分页列表
+        queryByPage(params) {
+            return post("/sysDownLoadLog/queryByPage", params);
+        },
+        
+    },
     //用户监控配置管理
     sysAlarmUser: {
         // 查询用户监控配置数据(列表)
@@ -1825,15 +1833,5 @@ export default {
         exportMerchSendSuccStatistics(params) {
             return post("/report/exportMerchSendSuccStatistics", params);
         }
-    },
-    //客户对账单
-    sysDownLoadLog: {
-        // 分页列表
-        queryByPage(params) {
-            return post("/sysDownLoadLog/queryByPage", params);
-        },
-        
-    },
-
-
+    }
 }
