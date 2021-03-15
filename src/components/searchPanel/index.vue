@@ -246,6 +246,10 @@ export default {
     //获取焦点触发事件
     _mxHandleFocus() {
       this.$emit("focus");
+    },
+    //导出功能，给父组件传form对象
+    handleExport() {
+      this.$emit("exportData", this.form);
     }
   },
   computed: {},

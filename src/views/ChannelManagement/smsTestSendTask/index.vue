@@ -87,7 +87,7 @@ export default {
           label: "手机号",
           key: "mobile",
           placeholder: '请输入手机号，多手机号请用","分割',
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: this.$publicValidators.phone,
           mobileTips: true
         },
         {
