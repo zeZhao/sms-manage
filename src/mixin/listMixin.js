@@ -149,6 +149,17 @@ function queryData() {
       this.$message.error(res.data || res.msg || "获取数据失败");
     }
   });
+
+  //请求表格下方展示数据的接口凭证
+  if (this.searchAPI.tabBottomDataUrl) {
+    this.$http[namespace][this.searchAPI.tabBottomDataUrl](params).then(res => {
+      if (resOk(res)) {
+        this.tabBottomData = res.data;
+      } else {
+        this.$message.error("获取底部数据失败");
+      }
+    });
+  }
 }
 
 export default {

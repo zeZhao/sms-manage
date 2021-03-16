@@ -1780,6 +1780,52 @@ export default {
             return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
         }
     },
+    //用户监控配置管理
+    sysAlarmUser: {
+        // 查询用户监控配置数据(列表)
+        queryAlarmUserByPage(params) {
+            return post("/sysAlarmUser/queryAlarmUserByPage", params);
+        },
+        // 根据用户id，报警类型查询数据
+        queryOneAlarmUserByUserID(params) {
+            return post("/sysAlarmUser/queryOneAlarmUserByUserID", params);
+        },
+        // 保存用户监控配置数据
+        saveAlarmUser(params) {
+            return put("/sysAlarmUser/saveAlarmUser", params);
+        }
+    },
+    //签名发送
+    reports: {
+        // 签名发送统计分页查询
+        querySignSendStatic(params) {
+            return post("/report/querySignSendStatic", params);
+        },
+        // 签名发送统计数据查询
+        querySignSendTotal(params) {
+            return post("/report/querySignSendTotal", params);
+        },
+        // 导出签名发送统计
+        exportSignSendTotal(params) {
+            return post("/report/exportSignSendTotal", params);
+        },
+        // 查询到达延时统计分页列表
+        queryArrivalDelayStatic(params) {
+            return post("/report/queryArrivalDelayStatic", params);
+        },
+        // 导出到达延时统计分页列表
+        exportArrivalDelayStatic(params) {
+            return post("/report/exportArrivalDelayStatic", params);
+        },
+        // 查询商户月发送统计分页列表
+        queryMerchSendSuccStatistics(params) {
+            return post("/report/queryMerchSendSuccStatistics", params);
+        },
+        // 导出商户月发送统计分页列表
+        exportMerchSendSuccStatistics(params) {
+            return post("/report/exportMerchSendSuccStatistics", params);
+        }
+    },
     //客户对账单
     sysDownLoadLog: {
         // 分页列表

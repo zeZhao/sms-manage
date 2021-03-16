@@ -42,6 +42,7 @@
                 @click="chooses(item)"
                 >{{ item.btnTxt }}</el-button
               >
+              <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
 
             <!--多文本输入框-->
@@ -424,8 +425,8 @@ export default {
       return item.clearable !== false;
     },
     selectChange(val, item) {
-      this.$emit("selectChange", { val, item });
       this._setDefaultVal(val, item);
+      this.$emit("selectChange", { val, item });
     },
 
     //设置默认值
@@ -487,9 +488,9 @@ export default {
     },
     //回显input下列提示
     returnContentTips(value) {
-      return `已输入${
-        value ? value.length : 0
-      }字符，将按1条计费，计费条数仅供参考，以实际扣费为准！`;
+      const num = 67; //67个文字算一条
+      const computeder = value ? value.length / num : 0;
+      return `已输入${value ? value.length : 0}字符，将按${value ? Math.ceil(computeder) : 1}条计费，计费条数仅供参考，以实际扣费为准！`;
     }
   },
   watch: {

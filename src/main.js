@@ -33,6 +33,9 @@ import {
 import axios from 'axios'
 import qs from 'qs'
 import excelexport from './utils/excelexport'
+import publicValidators from './utils/publicValidators' //多个手机号和邮箱的用逗号隔开的校验（公共）
+
+Vue.prototype.$publicValidators = publicValidators
 Vue.prototype.$ExportExcel = excelexport
 Vue.prototype.$Cookies = Cookies
 Vue.prototype.$axios = axios
