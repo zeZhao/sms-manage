@@ -1852,5 +1852,23 @@ export default {
         update(params) {
             return post("/mmsInitUserGateway/update", params);
         }
+    },
+    //彩信发送记录
+    mmsSendReturnReport: {
+        // 彩信发送记录列表分页查询
+        queryByPage(params) {
+            return post("/mmsSendReturnReport/queryByPage", params);
+        }
+    },
+    //彩信发送统计
+    mmsReportStatistic: {
+        // 彩信发送统计列表分页查询
+        queryByPage(params) {
+            return post("/mmsReportStatistic/queryByPage", params);
+        },
+        // 导出彩信发送统计
+        exportReportStatistic(params) {
+            return post("/mmsReportStatistic/exportReportStatistic", params);
+        }
     }
 }

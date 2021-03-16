@@ -182,10 +182,10 @@ export default {
       form: {}
     };
   },
-  created() {},
-  mounted() {
-    this.initComponent();
-  },
+  // 注释重复请求列表接口,只在监听searchFormConfig的时候请求即可
+  // mounted() {
+  //   this.initComponent();
+  // },
   methods: {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
@@ -204,16 +204,20 @@ export default {
     initComponent() {
       const form = {};
       this.searchFormConfig.forEach((item, index) => {
-        const { key, api, params, keys, defaultValue } = item;
+        const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          form[key] = item.defaultValue;
-          this._mxHandleSubmit();
+          if (type !== 'daterange') {
+            form[key] = item.defaultValue;
+          } else {
+            form[key[1]] = item.defaultValue[1]
+            form[key[2]] = item.defaultValue[2]
+          }
         }
         // if (api) {
-        //   this.$http[item.api]({ data: { ...params } }).then((res) => {
-        //     res.data.forEach((data) => {
-        //       let obj = {
-        //         key: data[keys[0]],
+          //   this.$http[item.api]({ data: { ...params } }).then((res) => {
+            //     res.data.forEach((data) => {
+              //       let obj = {
+                //         key: data[keys[0]],
         //         value: data[keys[1]],
         //       };
         //       item.optionData.push(obj);
@@ -222,6 +226,7 @@ export default {
         // }
       });
       this.form = form;
+      this._mxHandleSubmit();
     },
 
     /**
