@@ -1780,6 +1780,14 @@ export default {
             return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
         }
     },
+    //客户对账单
+    sysDownLoadLog: {
+        // 分页列表
+        queryByPage(params) {
+            return post("/sysDownLoadLog/queryByPage", params);
+        },
+        
+    },
     //用户监控配置管理
     sysAlarmUser: {
         // 查询用户监控配置数据(列表)
@@ -1826,14 +1834,41 @@ export default {
             return post("/report/exportMerchSendSuccStatistics", params);
         }
     },
-    //客户对账单
-    sysDownLoadLog: {
-        // 分页列表
+    //彩信账号网关初始配置
+    MMSgatewayInitial: {
+        // 彩信账号网关初始配置列表分页查询
         queryByPage(params) {
-            return post("/sysDownLoadLog/queryByPage", params);
+            return post("/mmsInitUserGateway/queryByPage", params);
         },
-        
+        // 根据用户id查
+        selectMmsInitUserGatewayByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayByUserID", params);
+        },
+        // 根据运营商查询彩信网关
+        selectMmsInitUserGatewayDtoByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayDtoByUserID", params);
+        },
+        // 修改彩信账号网关初始配置
+        update(params) {
+            return post("/mmsInitUserGateway/update", params);
+        }
     },
-
-
+    //彩信发送记录
+    mmsSendReturnReport: {
+        // 彩信发送记录列表分页查询
+        queryByPage(params) {
+            return post("/mmsSendReturnReport/queryByPage", params);
+        }
+    },
+    //彩信发送统计
+    mmsReportStatistic: {
+        // 彩信发送统计列表分页查询
+        queryByPage(params) {
+            return post("/mmsReportStatistic/queryByPage", params);
+        },
+        // 导出彩信发送统计
+        exportReportStatistic(params) {
+            return post("/mmsReportStatistic/exportReportStatistic", params);
+        }
+    }
 }
