@@ -47,7 +47,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名",
+          label: "账户名称",
           key: "userName",
           disabled: true,
           defaultValue: "",

@@ -200,7 +200,7 @@ export default {
         // },
         {
           type: "input",
-          label: "通道用户名",
+          label: "通道账户名称",
           key: "urlUserName"
         },
         {

@@ -8,7 +8,7 @@
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="code" label="通道码号" />
       <el-table-column prop="type" label="投诉类型" width="100" />
@@ -178,7 +178,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName"
         },
         {
@@ -218,7 +218,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           disabled: true,
           defaultValue: "",
           key: "userName"

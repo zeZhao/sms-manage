@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corporateId" label="商户/代理编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="optimizeType" label="优化类型">
         <template slot-scope="scope">
@@ -129,7 +129,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName"
         },
         {

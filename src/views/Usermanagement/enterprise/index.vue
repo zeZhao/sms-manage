@@ -283,7 +283,7 @@
 </template>
 <script>
 import Util from "@/utils/reg";
-import ChooseEnterprise from "../components/ChooseEnterprise";
+import ChooseEnterprise from "@/components/ChooseEnterprise";
 
 export default {
   components: { ChooseEnterprise },
