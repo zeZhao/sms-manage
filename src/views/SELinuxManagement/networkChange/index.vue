@@ -222,7 +222,11 @@ export default {
       var form = new FormData();
       form.append("file", this.file);
       this.$http.networkChange.importBatchAdd(form).then(res => {
-        console.log(res);
+        if (res.code == 200) {
+          this.$message.success("添加成功");
+          this.batchAddVisible = false;
+          (this.file = null), (this.fileList = []);
+        }
       });
     },
     handleSuccess(response, file, fileList) {
