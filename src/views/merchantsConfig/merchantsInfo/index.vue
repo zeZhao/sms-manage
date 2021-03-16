@@ -19,7 +19,11 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="search.contact" clearable placeholder="联系人" />
+          <el-input
+            v-model="search.contact"
+            clearable
+            placeholder="联系人姓名"
+          />
         </el-form-item>
         <el-form-item>
           <el-select
@@ -46,9 +50,7 @@
           <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-button type="primary" @click="newEnterprise"
-            >新增商户信息</el-button
-          >
+          <el-button type="primary" @click="newEnterprise">新增商户</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -56,9 +58,9 @@
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="corpName" label="用户商户名称" />
-      <el-table-column prop="contact" label="客户联系人姓名" />
-      <el-table-column prop="mobile" label="客户联系人电话" />
+      <el-table-column prop="corpName" label="商户名称" />
+      <el-table-column prop="contact" label="联系人姓名" />
+      <el-table-column prop="mobile" label="联系人电话" />
       <el-table-column prop="sublong" label="扩展位数" />
       <el-table-column prop="reductModel" label="计费方式">
         <template slot-scope="scope">
@@ -148,7 +150,7 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="商户名" prop="corpName">
+        <el-form-item label="商户名称" prop="corpName">
           <el-input
             maxlength="30"
             show-word-limit
@@ -271,7 +273,7 @@
     >
       <span>{{ information }}</span>
       <p v-show="dialogTit === '禁用'" style="color: #ec5858">
-        禁用后将无法使用，请谨慎操作！
+        禁用后所关联的下属账户不可用，请谨慎操作
       </p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>

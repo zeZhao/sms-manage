@@ -1786,7 +1786,73 @@ export default {
         queryByPage(params) {
             return post("/sysDownLoadLog/queryByPage", params);
         },
-        
+
+    },
+    //携号转网
+    networkChange: {
+        // 携号转网列表分页查询
+        queryByPage(params) {
+            return post("/networkChange/queryByPage", params);
+        },
+        // 批量导入携号转网
+        importBatchAdd(params) {
+            return post("/networkChange/importBatchAdd", params);
+        },
+        // 导出携号转网
+        export(params) {
+            return post("/networkChange/export", params);
+        },
+        // 删除携号转网
+        delete(params) {
+            return fetch("/networkChange/delete", params);
+        },
+        // 新增修改携号转网
+        addOrUpdate(params) {
+            return post("/networkChange/addOrUpdate", params);
+        },
+
+    },
+    //黑名单分类
+    smsBlackGroup: {
+        // 列表分页查询
+        listBlackGroupByPage(params) {
+            return post("/smsBlackGroup/listBlackGroupByPage", params);
+        },
+        // 列表全部查询
+        listBlackGroup(params) {
+            return post("/smsBlackGroup/listBlackGroup", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/smsBlackGroup/delete", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/smsBlackGroup/addOrUpdate", params);
+        },
+    },
+    // 号段管理
+    smsAppConfig: {
+        // 新增号段
+        addOrUpdate(params) {
+            return post("/smsAppConfig/addOrUpdate", params);
+        },
+        // 查询号段
+        getAppConfigList(params) {
+            return fetch("/smsAppConfig/getAppConfigList", params);
+        },
+
+    },
+    //黑名单分类
+    moSensitiveWord: {
+        // 列表分页查询
+        queryByPage(params) {
+            return post("/moSensitiveWord/queryByPage", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/moSensitiveWord/addOrUpdate", params);
+        },
     },
 
 

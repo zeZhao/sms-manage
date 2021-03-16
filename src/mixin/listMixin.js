@@ -245,8 +245,8 @@ export default {
     },
 
     //显示选择用户弹窗
-    choose() {
-      console.log(this.isChooseUser);
+    choose(item) {
+      console.log(item);
       this.isChooseUser = true;
     },
     //关闭选择用户弹窗
