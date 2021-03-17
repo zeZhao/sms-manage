@@ -1,12 +1,14 @@
 const state = {
   visitedViews: [],
-  cachedViews: []
+  cachedViews: [],
+  // 把部分弹窗的增/改功能改为页面，如果该数组有这个页面的路由name属性，则不添加meta.title或者no-name小标题
+  noTitlesArr: ['UserMonitoringConfigurationType', 'MMSchannelType']
 }
 
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
     if (state.visitedViews.some(v => v.path === view.path)) return
-    if (view.name === 'UserMonitoringConfigurationType') return
+    if (state.noTitlesArr.includes(view.name)) return
     state.visitedViews.push(
       Object.assign({}, view, {
         title: view.meta.title || 'no-name'

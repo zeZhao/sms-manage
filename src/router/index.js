@@ -90,6 +90,18 @@ export const constantRoutes = [{
             component: () => import('@/views/Alertmanagement/UserMonitoringConfiguration/type')
         }
     ]
+},
+{
+    path: '/MMSchannel',
+    component: Layout,
+    hidden: true,
+    children: [
+        {
+            path: 'MMSchannelType',
+            name: 'MMSchannelType',
+            component: () => import('@/views/MMSconfiguration/MMSchannel/type')
+        }
+    ]
 }
 ]
 

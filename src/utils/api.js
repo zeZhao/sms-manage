@@ -1702,6 +1702,14 @@ export default {
         addMmsGateway(params) {
             return post("/mmsGateway/addMmsGateway", params);
         },
+         // 修改彩信网关状态
+         setMmsGatewayStatus(params) {
+            return post("/mmsGateway/setMmsGatewayStatus", params);
+        },
+         // 彩信通道详情查询
+         detailMmsGateway(params) {
+            return fetch("/mmsGateway/detailMmsGateway", params);
+        },
     },
     //测试发送接口
     smsTestSendTask: {

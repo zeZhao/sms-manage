@@ -269,7 +269,7 @@
         </el-col>
         <div>
           <slot name="Other"></slot>
-          <div class="submitBtn">
+          <div class="submitBtn" :class="{ 'footer-text-center': footerIsCenter}">
             <slot name="Btn">
               <el-button
                 type="primary"
@@ -316,6 +316,13 @@ export default {
       type: [String, Number],
       default() {
         return 24;
+      }
+    },
+    //footer文字是否居中
+    footerIsCenter: {
+      type: Boolean,
+      default() {
+        return false;
       }
     }
   },
@@ -513,6 +520,11 @@ export default {
     // position: absolute;
     // right: 20px;
     // bottom: 20px;
+  }
+  .footer-text-center {
+    float: none;
+    margin-top: 20px;
+    text-align: center;
   }
   .inputWid {
     width: 70%;
