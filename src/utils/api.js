@@ -1703,13 +1703,17 @@ export default {
             return post("/mmsGateway/addMmsGateway", params);
         },
          // 修改彩信网关状态
-         setMmsGatewayStatus(params) {
+        setMmsGatewayStatus(params) {
             return post("/mmsGateway/setMmsGatewayStatus", params);
         },
          // 彩信通道详情查询
-         detailMmsGateway(params) {
+        detailMmsGateway(params) {
             return fetch("/mmsGateway/detailMmsGateway", params);
         },
+         // 小窗口登录验证接口
+        viewLogin(params) {
+            return post("/sysLogin/viewLogin", params);
+        }
     },
     //测试发送接口
     smsTestSendTask: {

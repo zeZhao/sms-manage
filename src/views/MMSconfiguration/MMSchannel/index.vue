@@ -1,10 +1,6 @@
 <template>
   <div>
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="createOrEdit('add')"
-    ></Search>
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="createOrEdit('add')"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="gatewayId" label="通道编号" />
       <el-table-column prop="name" label="通道名称" />
@@ -22,35 +18,15 @@
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button
-            @click="createOrEdit('edit', scope.row.gatewayId)"
-            type="text"
-            size="small"
-            >修改</el-button
-          >
-          <el-button
-            v-if="scope.row.status === 0"
-            @click="handleIsDisable(1, scope.row.gatewayId)"
-            type="text"
-            size="small"
-            >启用</el-button
-          >
-          <el-button
-            v-if="scope.row.status === 1"
-            @click="handleIsDisable(0, scope.row.gatewayId)"
-            type="text"
-            size="small"
-            style="color: #f56c6c"
-            >禁用</el-button
-          >
+          <el-button @click="createOrEdit('edit', scope.row.gatewayId)" type="text" size="small">修改</el-button>
+          <el-button v-if="scope.row.status === 0" @click="handleIsDisable(1, scope.row.gatewayId)" type="text"
+            size="small">启用</el-button>
+          <el-button v-if="scope.row.status === 1" @click="handleIsDisable(0, scope.row.gatewayId)" type="text"
+            size="small" style="color: #f56c6c">禁用</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
+    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
   </div>
 </template>
 
@@ -58,7 +34,7 @@
 import listMixin from '@/mixin/listMixin';
 export default {
   mixins: [listMixin],
-  data() {
+  data () {
     return {
       // 接口地址
       searchAPI: {
@@ -118,16 +94,14 @@ export default {
       ]
     };
   },
+  activated () { this._mxGetList() },
   methods: {
     //创建或修改的页面跳转
-    createOrEdit(type, gatewayId) {
-      this.$router.push({
-        name: 'MMSchannelType',
-        query: { type, gatewayId }
-      });
+    createOrEdit (type, gatewayId) {
+      this.$router.push({ name: 'MMSchannelType', query: { type, gatewayId } });
     },
     //启用/禁用通道
-    handleIsDisable(status, gatewayId) {
+    handleIsDisable (status, gatewayId) {
       if (status === 1) {
         this.setStatus(status, gatewayId);
         return;
@@ -136,23 +110,22 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
-          this.setStatus(status, gatewayId);
-        })
-        .catch(() => {});
+      }).then(() => {
+        this.setStatus(status, gatewayId);
+      }).catch(() => { });
     },
-    setStatus(status, gatewayId) {
+    setStatus (status, gatewayId) {
       const params = { data: { status, gatewayId } };
       this.$http.mmsGateway.setMmsGatewayStatus(params).then((res) => {
         if (res.code === 200) {
-          this.$message.success(res.msg);
+          this._mxGetList();
+          this.$message.success(status === 1 ? '启用成功' : '禁用成功');
         } else {
           this.$message.error(res.msg);
         }
       });
     },
-    renderOperator(v) {
+    renderOperator (v) {
       if (v === 0) {
         return '三网';
       } else if (v === 1) {
