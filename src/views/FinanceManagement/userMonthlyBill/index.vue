@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="corpName" label="公司名称" />
       <el-table-column prop="countDateStr" label="月份" />
       <el-table-column prop="saleman" label="销售名称" />
@@ -79,9 +79,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "daterange",

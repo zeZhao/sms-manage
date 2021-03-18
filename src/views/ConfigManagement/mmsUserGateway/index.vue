@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="cmGatewayId" label="移动通道" />
       <el-table-column prop="cuGatewayId" label="联通通道" />
@@ -114,15 +114,15 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code",
-          placeholder: "请输入用户特服号"
+          placeholder: "请输入账户特服号"
         },
         {
           type: "input",

@@ -256,8 +256,8 @@ export default {
     },
 
     //显示选择用户弹窗
-    choose() {
-      console.log(this.isChooseUser);
+    choose(item) {
+      console.log(item);
       this.isChooseUser = true;
     },
     //关闭选择用户弹窗
@@ -561,6 +561,20 @@ export default {
     _setDisplayShow(list, key, show) {
       list.forEach(item => {
         if (item.key === key) {
+          this.$set(item, "isShow", show);
+          // item.isShow = true
+        }
+      });
+    },
+    /**
+     * 通过tag设置表单项显示隐藏
+     * @param list 选择项
+     * @param key 选择项tag值
+     * @private
+     */
+    _setTagDisplayShow(list, tag, show) {
+      list.forEach(item => {
+        if (item.tag === tag) {
           this.$set(item, "isShow", show);
           // item.isShow = true
         }

@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="longCode" label="通道码号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
@@ -101,9 +101,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "date",

@@ -9,15 +9,15 @@
         <el-form-item label="账户编号">
           <el-input v-model="search.userId" clearable placeholder="账户编号" />
         </el-form-item>
-        <el-form-item label="用户名称">
+        <el-form-item label="账户名称">
           <el-input
             v-model="search.userName"
             clearable
-            placeholder="用户名称"
+            placeholder="账户名称"
           />
         </el-form-item>
-        <el-form-item label="用户特服号">
-          <el-input v-model="search.code" clearable placeholder="用户特服号" />
+        <el-form-item label="账户特服号">
+          <el-input v-model="search.code" clearable placeholder="账户特服号" />
         </el-form-item>
         <el-form-item label="是否为直客">
           <el-select
@@ -118,8 +118,8 @@
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户/代理编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" />
-      <el-table-column prop="loginName" label="用户登录账号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="loginName" label="登录账号" />
       <el-table-column prop="password" label="密码" />
       <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
@@ -291,22 +291,22 @@
             placeholder="请输入账户编号"
           />
         </el-form-item>
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item label="账户名称" prop="userName">
           <el-input
             v-model="addInfo.userName"
             maxlength="30"
             show-word-limit
             clearable
-            placeholder="请输入用户名"
+            placeholder="请输入账户名称"
           />
         </el-form-item>
-        <el-form-item label="用户登录账号" prop="loginName">
+        <el-form-item label="登录账号" prop="loginName">
           <el-input
             maxlength="30"
             show-word-limit
             v-model="addInfo.loginName"
             clearable
-            placeholder="请输入用户登录账号"
+            placeholder="请输入登录账号"
           />
         </el-form-item>
         <el-form-item label="密码" prop="password">
@@ -317,13 +317,13 @@
             placeholder="请输入密码"
           />
         </el-form-item>
-        <el-form-item label="用户特服号" prop="code">
+        <el-form-item label="账户特服号" prop="code">
           <el-input
             maxlength="21"
             show-word-limit
             v-model="addInfo.code"
             clearable
-            placeholder="请输入用户特服号"
+            placeholder="请输入账户特服号"
           />
         </el-form-item>
         <el-form-item label="可扩展的位数" prop="sublong">

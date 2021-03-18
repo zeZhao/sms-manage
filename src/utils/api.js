@@ -171,6 +171,10 @@ export default {
         queryMainInfo(params) {
             return post("/corpUser/queryMainInfo", params);
         },
+        // 配置提交速率
+        configureSubmitRate(params) {
+            return fetch("/corpUser/configureSubmitRate", params);
+        },
     },
     //通道重发配置
     sysResendConfig: {
@@ -1765,6 +1769,13 @@ export default {
             return post("/sms/channel/tag/batch-save", params);
         }
     },
+    //批量保存渠道标签
+    userTag: {
+        // 账户添加/修改标签
+        batchSave(params) {
+            return post("/userTag/batchSave", params);
+        }
+    },
     //客户对账单
     customerStatement: {
         // 修改实付金额
@@ -1786,7 +1797,7 @@ export default {
         queryByPage(params) {
             return post("/sysDownLoadLog/queryByPage", params);
         },
-        
+
     },
     //用户监控配置管理
     sysAlarmUser: {
@@ -1794,7 +1805,7 @@ export default {
         queryAlarmUserByPage(params) {
             return post("/sysAlarmUser/queryAlarmUserByPage", params);
         },
-        // 根据用户id，报警类型查询数据
+        // 根据账户编号，报警类型查询数据
         queryOneAlarmUserByUserID(params) {
             return post("/sysAlarmUser/queryOneAlarmUserByUserID", params);
         },
@@ -1839,6 +1850,73 @@ export default {
         // 彩信账号网关初始配置列表分页查询
         queryByPage(params) {
             return post("/mmsInitUserGateway/queryByPage", params);
+        },
+
+    },
+    //携号转网
+    networkChange: {
+        // 携号转网列表分页查询
+        queryByPage(params) {
+            return post("/networkChange/queryByPage", params);
+        },
+        // 批量导入携号转网
+        importBatchAdd(params) {
+            return post("/networkChange/importBatchAdd", params);
+        },
+        // 导出携号转网
+        export(params) {
+            return post("/networkChange/export", params);
+        },
+        // 删除携号转网
+        delete(params) {
+            return fetch("/networkChange/delete", params);
+        },
+        // 新增修改携号转网
+        addOrUpdate(params) {
+            return post("/networkChange/addOrUpdate", params);
+        },
+
+    },
+    //黑名单分类
+    smsBlackGroup: {
+        // 列表分页查询
+        listBlackGroupByPage(params) {
+            return post("/smsBlackGroup/listBlackGroupByPage", params);
+        },
+        // 列表全部查询
+        listBlackGroup(params) {
+            return post("/smsBlackGroup/listBlackGroup", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/smsBlackGroup/delete", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/smsBlackGroup/addOrUpdate", params);
+        },
+    },
+    // 号段管理
+    smsAppConfig: {
+        // 新增号段
+        addOrUpdate(params) {
+            return post("/smsAppConfig/addOrUpdate", params);
+        },
+        // 查询号段
+        getAppConfigList(params) {
+            return fetch("/smsAppConfig/getAppConfigList", params);
+        },
+
+    },
+    //黑名单分类
+    moSensitiveWord: {
+        // 列表分页查询
+        queryByPage(params) {
+            return post("/moSensitiveWord/queryByPage", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/moSensitiveWord/addOrUpdate", params);
         },
         // 根据用户id查
         selectMmsInitUserGatewayByUserID(params) {

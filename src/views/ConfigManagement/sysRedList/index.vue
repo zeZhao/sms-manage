@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="codeType" label="账号类型">
@@ -110,15 +110,15 @@ export default {
         },
         {
           type: "input",
-          label: "用户id",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户id"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         }
       ],
       // 表单配置

@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="userName" label="账户名称" />
 
       <el-table-column prop="blackType" label="黑名单类型">
         <template slot-scope="scope">
@@ -163,9 +163,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         }
       ],
       // 表单配置

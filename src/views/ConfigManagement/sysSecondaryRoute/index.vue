@@ -15,7 +15,7 @@
       <el-table-column type="selection" width="55" />
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="客户特服号" />
       <el-table-column prop="gwcode" label="通道特服号" />
       <el-table-column prop="gateway" label="通道编号" />
@@ -142,9 +142,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "inputNum",
@@ -202,7 +202,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           disabled: true,
           key: "userName",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

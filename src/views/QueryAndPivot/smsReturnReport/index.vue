@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
       <el-table-column
         prop="mobile"

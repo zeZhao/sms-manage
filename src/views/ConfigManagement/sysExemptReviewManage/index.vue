@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
@@ -163,9 +163,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名"
+          placeholder: "请输入账户名称"
         },
         {
           type: "input",

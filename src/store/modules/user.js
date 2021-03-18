@@ -69,7 +69,7 @@ const actions = {
     })
   },
 
-  // 用户名登录
+  // 账户名称登录
   LoginByUsername({
     commit
   }, userInfo) {

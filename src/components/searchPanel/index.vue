@@ -149,7 +149,7 @@
             >新建</el-button
           >
         </slot>
-        <slot name="Other"></slot>
+        <slot name="Other" :form="form"></slot>
       </el-row>
     </el-form>
   </div>
@@ -190,6 +190,10 @@ export default {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
+    },
+    //传值
+    _mxHandleSendData() {
+      this.$;
     },
     //重置筛选条件
     _mxHandleReset() {

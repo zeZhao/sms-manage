@@ -15,7 +15,7 @@
       <el-table-column prop="userId" label="商户/账户编号" />
       <el-table-column
         prop="userName"
-        label="商户/用户名称"
+        label="商户/账户名称"
         show-overflow-tooltip
       />
       <el-table-column prop="smsBalance" label="短信余额" />
@@ -70,9 +70,9 @@ export default {
         },
         {
           type: "input",
-          label: "商户/用户名称",
+          label: "商户/账户名称",
           key: "userName",
-          placeholder: "请输入商户/用户名称"
+          placeholder: "请输入商户/账户名称"
         },
         {
           type: "select",

@@ -322,7 +322,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "/api/sysPrepaidCard/uploadFile",
+      action: "/api/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken()
       },
@@ -490,7 +490,9 @@ export default {
     returnContentTips(value) {
       const num = 67; //67个文字算一条
       const computeder = value ? value.length / num : 0;
-      return `已输入${value ? value.length : 0}字符，将按${value ? Math.ceil(computeder) : 1}条计费，计费条数仅供参考，以实际扣费为准！`;
+      return `已输入${value ? value.length : 0}字符，将按${
+        value ? Math.ceil(computeder) : 1
+      }条计费，计费条数仅供参考，以实际扣费为准！`;
     }
   },
   watch: {

@@ -180,13 +180,13 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="账号">
+        <el-form-item label="登录账号">
           <el-input
             maxlength="15"
             show-word-limit
             v-model="setInfo.account"
             clearable
-            placeholder="账号"
+            placeholder="登录账号"
           />
         </el-form-item>
         <el-form-item label="密码">
@@ -197,21 +197,21 @@
             placeholder="密码"
           />
         </el-form-item>
-        <el-form-item label="姓名">
+        <el-form-item label="账户姓名">
           <el-input
             maxlength="15"
             show-word-limit
             v-model="setInfo.name"
             clearable
-            placeholder="姓名"
+            placeholder="账户姓名"
           />
         </el-form-item>
-        <el-form-item label="手机号">
+        <el-form-item label="账户手机号">
           <el-input
             v-model="setInfo.mobile"
             type="phone"
             clearable
-            placeholder="手机号"
+            placeholder="账户手机号"
           />
         </el-form-item>
         <el-form-item label="选择角色">
@@ -229,11 +229,11 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="启用状态">
           <el-select
             style="width: 100%"
             v-model="setInfo.state"
-            placeholder="状态"
+            placeholder="启用状态"
             clearable
           >
             <el-option :value="1" label="正常" />

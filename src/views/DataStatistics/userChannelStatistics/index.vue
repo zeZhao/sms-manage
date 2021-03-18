@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="longCode" label="通道长号码" />
@@ -60,9 +60,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "inputNum",
