@@ -134,7 +134,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code"
         },
         {

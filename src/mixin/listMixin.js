@@ -567,6 +567,20 @@ export default {
       });
     },
     /**
+     * 通过tag设置表单项显示隐藏
+     * @param list 选择项
+     * @param key 选择项tag值
+     * @private
+     */
+    _setTagDisplayShow(list, tag, show) {
+      list.forEach(item => {
+        if (item.tag === tag) {
+          this.$set(item, "isShow", show);
+          // item.isShow = true
+        }
+      });
+    },
+    /**
      * 通过label设置表单项显示隐藏
      * @param list 选择项
      * @param label 选择项label值

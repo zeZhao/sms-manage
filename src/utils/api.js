@@ -171,6 +171,10 @@ export default {
         queryMainInfo(params) {
             return post("/corpUser/queryMainInfo", params);
         },
+        // 配置提交速率
+        configureSubmitRate(params) {
+            return fetch("/corpUser/configureSubmitRate", params);
+        },
     },
     //通道重发配置
     sysResendConfig: {
@@ -1765,6 +1769,13 @@ export default {
             return post("/sms/channel/tag/batch-save", params);
         }
     },
+    //批量保存渠道标签
+    userTag: {
+        // 账户添加/修改标签
+        batchSave(params) {
+            return post("/userTag/batchSave", params);
+        }
+    },
     //客户对账单
     customerStatement: {
         // 修改实付金额
@@ -1786,7 +1797,7 @@ export default {
         queryAlarmUserByPage(params) {
             return post("/sysAlarmUser/queryAlarmUserByPage", params);
         },
-        // 根据用户id，报警类型查询数据
+        // 根据账户编号，报警类型查询数据
         queryOneAlarmUserByUserID(params) {
             return post("/sysAlarmUser/queryOneAlarmUserByUserID", params);
         },

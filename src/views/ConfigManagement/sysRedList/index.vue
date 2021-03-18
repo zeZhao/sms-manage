@@ -110,9 +110,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户id",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户id"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",

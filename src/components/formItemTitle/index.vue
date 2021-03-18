@@ -9,15 +9,16 @@
     >
       <el-row>
         <el-col
-          :span="colSpan"
           v-for="(item, index) in formConfig"
           :key="index"
+          :span="item.colSpan || 8"
         >
+          <h3 v-if="item.isTitle && !item.isShow">{{ item.title }}</h3>
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
             :rules="item.rules"
-            v-if="!item.isShow"
+            v-if="!item.isShow && !item.isTitle"
           >
             <!--输入框-->
             <template v-if="item.type === 'input'">
@@ -311,13 +312,13 @@ export default {
       default() {
         return 150;
       }
-    },
-    colSpan: {
-      type: [String, Number],
-      default() {
-        return 24;
-      }
     }
+    // colSpan: {
+    //   type: [String, Number],
+    //   default() {
+    //     return 24;
+    //   }
+    // }
   },
   data() {
     return {
@@ -425,6 +426,7 @@ export default {
       return item.clearable !== false;
     },
     selectChange(val, item) {
+      console.log(val, "----------");
       this._setDefaultVal(val, item);
       this.$emit("selectChange", { val, item });
     },
@@ -432,6 +434,8 @@ export default {
     //设置默认值
     _setDefaultVal(val, item) {
       if (item.hasOwnProperty("defaultValue")) {
+        if (item.type === "select") {
+        }
         item.defaultValue = val;
       } else {
         this.$set(item, "defaultValue", val);

@@ -249,9 +249,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户id",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户id"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
@@ -261,9 +261,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code",
-          placeholder: "请输入用户特服号"
+          placeholder: "请输入账户特服号"
         },
         {
           type: "select",
@@ -408,7 +408,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },

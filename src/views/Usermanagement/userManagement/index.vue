@@ -16,8 +16,8 @@
             placeholder="账户名称"
           />
         </el-form-item>
-        <el-form-item label="用户特服号">
-          <el-input v-model="search.code" clearable placeholder="用户特服号" />
+        <el-form-item label="账户特服号">
+          <el-input v-model="search.code" clearable placeholder="账户特服号" />
         </el-form-item>
         <el-form-item label="是否为直客">
           <el-select
@@ -317,13 +317,13 @@
             placeholder="请输入密码"
           />
         </el-form-item>
-        <el-form-item label="用户特服号" prop="code">
+        <el-form-item label="账户特服号" prop="code">
           <el-input
             maxlength="21"
             show-word-limit
             v-model="addInfo.code"
             clearable
-            placeholder="请输入用户特服号"
+            placeholder="请输入账户特服号"
           />
         </el-form-item>
         <el-form-item label="可扩展的位数" prop="sublong">
