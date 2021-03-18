@@ -75,7 +75,7 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
               ></el-date-picker
-              >-
+              > -
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择结束日期'"
@@ -95,7 +95,8 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
               ></el-time-picker
-              >-<el-time-picker
+              > -
+              <el-time-picker
                 :placeholder="item.placeholder || '选择结束时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"

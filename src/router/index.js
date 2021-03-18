@@ -102,6 +102,18 @@ export const constantRoutes = [{
             component: () => import('@/views/MMSconfiguration/MMSchannel/type')
         }
     ]
+},
+{
+    path: '/MMStemplateReview',
+    component: Layout,
+    hidden: true,
+    children: [
+        {
+            path: 'MMStemplateReviewType',
+            name: 'MMStemplateReviewType',
+            component: () => import('@/views/MMSconfiguration/MMStemplateReview/type')
+        }
+    ]
 }
 ]
 
