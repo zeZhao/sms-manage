@@ -1882,5 +1882,28 @@ export default {
         exportReportStatistic(params) {
             return post("/mmsReportStatistic/exportReportStatistic", params);
         }
+    },
+    //彩信模板提审/审核
+    mmsTemplateCheck: {
+        // 提审列表
+        listByPage(params) {
+            return post("/mmsTemplateCheck/listByPage", params);
+        },
+        // 模板提审
+        pushGatewayArraign(params) {
+            return fetch("/mmsTemplateCheck/pushGatewayArraign", params);
+        },
+        // 部分通过
+        partilyPass(params) {
+            return fetch("/mmsTemplateCheck/partilyPass", params);
+        },
+        // 驳回模板
+        refuseBasicArragin(params) {
+            return fetch("/mmsTemplateCheck/refuseBasicArragin", params);
+        },
+        // 通道配置
+        gatewayConfig(params) {
+            return post("/mmsTemplateCheck/gatewayConfig", params);
+        }
     }
 }

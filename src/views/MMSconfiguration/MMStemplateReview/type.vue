@@ -184,8 +184,8 @@ export default {
     },
     cancel () {
       this.$router.back();
-    },
-  },
+    }
+  }
 };
 </script>
 
