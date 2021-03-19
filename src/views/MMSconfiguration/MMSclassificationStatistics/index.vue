@@ -182,6 +182,10 @@ export default {
     //获取省份
     this.listProvince();
   },
+  activated () {
+    //从其他页面进来 默认统计类型为通道统计
+    this.formData.status = 1;
+  },
   methods: {
     forms (form) {
       this.formData = form;
