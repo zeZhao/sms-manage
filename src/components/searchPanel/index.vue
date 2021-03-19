@@ -228,6 +228,9 @@ export default {
       });
       this.form = form;
       this._mxHandleSubmit();
+
+      // 彩信分类统计特殊页面传该form引用类型数据
+      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) this.$emit("forms", this.form);
     },
 
     /**
