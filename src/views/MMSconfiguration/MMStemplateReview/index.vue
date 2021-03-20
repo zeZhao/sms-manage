@@ -13,25 +13,22 @@
         <template slot-scope="scope">{{ scope.row.submitTime | timeFormat }}</template>
       </el-table-column>
       <el-table-column prop="price" label="提交类型" />
-      <el-table-column prop="cmGatewayId" label="移动上游模板编号" min-width="150" />
+      <el-table-column prop="cmTemplateId" label="移动上游模板编号" min-width="150" />
       <el-table-column prop="cmGatewayId" label="移动通道编号" min-width="150" />
       <el-table-column prop="cmStatus" label="移动通道状态" min-width="150" />
-      <el-table-column prop="price" label="联通上游模板编号" min-width="150" />
+      <el-table-column prop="cuTemplateId" label="联通上游模板编号" min-width="150" />
       <el-table-column prop="cuGatewayId" label="联通通道编号" min-width="150" />
       <el-table-column prop="cuStatus" label="联通通道状态" min-width="150" />
-      <el-table-column prop="price" label="电信上游模板编号" min-width="150" />
+      <el-table-column prop="ctTemplateId" label="电信上游模板编号" min-width="150" />
       <el-table-column prop="ctGatewayId" label="电信通道编号" min-width="150" />
       <el-table-column prop="ctStatus" label="电信通道状态" min-width="150" />
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="viewsRow('views', scope.row.gatewayId)" type="text" size="small">预览</el-button>
+          <el-button @click="viewsRow('views', scope.row.arraignId)" type="text" size="small">预览</el-button>
           <el-button @click="bringToTrial(scope.row.arraignId)" type="text" size="small">提审</el-button>
           <el-button @click="partiallyPassed(scope.row.arraignId)" type="text" size="small">部分通过</el-button>
           <el-button @click="reject(scope.row.arraignId)" type="text" size="small">驳回</el-button>
-          <el-button
-            @click="channelConfig('channelConfig', scope.row.arraignId, scope.row.cmGatewayId,scope.row.cuGatewayId,scope.row.ctGatewayId)"
-            type="text" size="small">
-            通道配置</el-button>
+          <el-button @click="channelConfig('channelConfig', scope.row)" type="text" size="small">通道配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,12 +76,11 @@ export default {
       ]
     };
   },
-  activated () {
-    this._mxGetList();
-  },
+  //返回该页面刷新数据
+  activated () { this._mxGetList() },
   methods: {
     //预览
-    viewsRow (type, gatewayId) {
+    viewsRow (type, arraignId) {
       const rows = {
         frameArr: [
           {
@@ -132,7 +128,7 @@ export default {
           }
         ],
       }
-      this.$router.push({ name: "MMStemplateReviewType", query: { type, row: JSON.stringify(rows) } });
+      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, row: JSON.stringify(rows) } });
     },
     //提审
     bringToTrial (arraignId) {
@@ -184,8 +180,8 @@ export default {
       }).catch(() => { });
     },
     //通道配置
-    channelConfig (type, cmGatewayId, cuGatewayId, ctGatewayId) {
-      this.$router.push({ name: "MMStemplateReviewType", query: { type, cmGatewayId, cuGatewayId, ctGatewayId } });
+    channelConfig (type, row) {
+      this.$router.push({ name: "MMStemplateReviewType", query: { type, row: JSON.stringify(row) } });
     }
   }
 };
