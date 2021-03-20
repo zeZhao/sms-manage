@@ -17,7 +17,7 @@
           <span>{{ scope.row.submitFail === 0 ? '否' : '是' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="alarmStaus" label="失败状态" min-width="100" />
+      <el-table-column prop="alarmStatus" label="失败状态" min-width="100" />
       <el-table-column
         prop="mobile"
         label="手机号"
@@ -163,7 +163,7 @@ export default {
         {
           type: 'input',
           label: '失败状态',
-          key: 'alarmStaus',
+          key: 'alarmStatus',
           rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
         },
         {
@@ -203,22 +203,22 @@ export default {
           defaultValue: '',
           rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
         },
-        {
-          type: 'select',
-          label: '省份成功率低报警',
-          key: 'isProvinceSucc',
-          optionData: [
-            {
-              key: 0,
-              value: '否',
-            },
-            {
-              key: 1,
-              value: '是',
-            },
-          ],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
-        },
+        // {
+        //   type: 'select',
+        //   label: '省份成功率低报警',
+        //   key: 'isProvinceSucc',
+        //   optionData: [
+        //     {
+        //       key: 0,
+        //       value: '否',
+        //     },
+        //     {
+        //       key: 1,
+        //       value: '是',
+        //     },
+        //   ],
+        //   rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+        // },
         {
           type: 'input',
           label: '同一失败状态报警次数',
