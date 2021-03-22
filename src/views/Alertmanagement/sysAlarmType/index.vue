@@ -410,6 +410,43 @@ export default {
       this.typeId = row.typeId
       this.formTit = '修改'
 
+      //短信
+      if (row.alarmModes.includes(1)) {
+        this.formConfig[this.formConfig.length - 3].disabled = false
+        this.formConfig[this.formConfig.length - 3].rules[0].required = true
+        this.formConfig[
+          this.formConfig.length - 5
+        ].rules = this.$publicValidators.phone
+      } else {
+        this.formConfig[this.formConfig.length - 3].disabled = true
+        this.formConfig[this.formConfig.length - 3].rules[0].required = false
+        this.formConfig[this.formConfig.length - 5].rules = [
+          { required: false, trigger: 'blur', validator: null },
+        ]
+      }
+      //微信
+      if (row.alarmModes.includes(2)) {
+        this.formConfig[this.formConfig.length - 2].disabled = false
+        this.formConfig[this.formConfig.length - 2].rules[0].required = true
+      } else {
+        this.formConfig[this.formConfig.length - 2].disabled = true
+        this.formConfig[this.formConfig.length - 2].rules[0].required = false
+      }
+      //邮箱
+      if (row.alarmModes.includes(4)) {
+        this.formConfig[this.formConfig.length - 1].disabled = false
+        this.formConfig[this.formConfig.length - 1].rules[0].required = true
+        this.formConfig[
+          this.formConfig.length - 4
+        ].rules = this.$publicValidators.email
+      } else {
+        this.formConfig[this.formConfig.length - 1].disabled = true
+        this.formConfig[this.formConfig.length - 1].rules[0].required = false
+        this.formConfig[this.formConfig.length - 4].rules = [
+          { required: false, trigger: 'blur', validator: null },
+        ]
+      }
+
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
