@@ -2,21 +2,25 @@
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
-      <el-table-column prop="mmsId" label="上游模板编号" />
+      <el-table-column prop="gatewayMmsId" label="上游模板编号" min-width="120" />
       <el-table-column prop="mmsId" label="模板编号" />
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="title" label="彩信标题" />
-      <el-table-column prop="title" label="签名" />
-      <el-table-column prop="title" label="提交类型" />
-      <el-table-column prop="operaId" label="运营商">
+      <el-table-column prop="sign" label="签名" />
+      <el-table-column prop="type" label="提交类型" />
+      <el-table-column prop="operator" label="运营商" min-width="120">
         <template slot-scope="scope">
-          {{ renderOperaId(scope.row.operaId) }}
+          {{ renderOperator(scope.row.operator) }}
         </template>
       </el-table-column>
-      <el-table-column prop="province" label="通道编号" />
-      <el-table-column prop="status" label="审核状态" />
+      <el-table-column prop="gatewayId" label="通道编号" />
+      <el-table-column prop="checkStatus" label="审核状态">
+        <template slot-scope="scope">
+          {{ renderCheckStatus(scope.row.checkStatus) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" min-width="150">
         <template slot-scope="scope">
           {{ scope.row.submitTime | timeFormat }}
@@ -29,14 +33,28 @@
 
 <script>
 import listMixin from '@/mixin/listMixin';
+const operatorArr = [
+  { key: 2, value: '三网' },
+  { key: 3, value: '移动' },
+  { key: 4, value: '联通' },
+  { key: 5, value: '电信' },
+  { key: 6, value: '移动、联通' },
+  { key: 7, value: '移动、电信' },
+  { key: 8, value: '联通、电信' }
+];
+const checkStatusArr = [
+  { key: 1, value: '审核通过' },
+  { key: 2, value: '审核驳回' },
+  { key: 3, value: '已删除' }
+];
 export default {
   mixins: [listMixin],
   data () {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'mmsSendReturnReport',
-        list: 'queryByPage'
+        namespace: 'mmsTemplateCheckRecord',
+        list: 'listByPage'
       },
       // 列表参数
       namespace: '',
@@ -48,7 +66,7 @@ export default {
         {
           type: 'inputNum',
           label: '模板编号',
-          key: 'corpId'
+          key: 'mmsId'
         },
         {
           type: 'inputNum',
@@ -68,16 +86,8 @@ export default {
         {
           type: 'select',
           label: '运营商',
-          key: 'operaId',
-          optionData: [
-            { key: 0, value: '三网' },
-            { key: 1, value: '移动' },
-            { key: 2, value: '联通' },
-            { key: 3, value: '电信' },
-            { key: 4, value: '移动、联通' },
-            { key: 5, value: '移动、电信' },
-            { key: 6, value: '联通、电信' }
-          ]
+          key: 'operator',
+          optionData: operatorArr
         },
         {
           type: 'input',
@@ -87,40 +97,35 @@ export default {
         {
           type: 'input',
           label: '签名',
-          key: 'mobile'
+          key: 'sign'
         },
         {
           type: 'select',
           label: '审核状态',
-          key: 'province',
-          optionData: [
-            { key: 1, value: '审核通过' },
-            { key: 2, value: '审核驳回' },
-            { key: 3, value: '已删除' }
-          ]
+          key: 'checkStatus',
+          optionData: checkStatusArr
         },
         {
           type: 'daterange',
           label: '提交时间',
-          key: ['', 'startSubmitTime', 'endSubmitTime']
+          key: ['', 'submitStartTime', 'submitEndTime']
         }
       ]
     }
   },
   methods: {
-    renderOperaId (v) {
-      if (v === 0) {
-        return '非法';
-      } else if (v === 1) {
-        return '移动';
-      } else if (v === 2) {
-        return '联通';
-      } else if (v === 3) {
-        return '电信';
-      } else if (v === 4) {
-        return '国际';
-      } else if (v) {
-        return v;
+    renderOperator (v) {
+      if (v || v === 0) {
+        const idx = operatorArr.findIndex(item => v === item.key);
+        return idx !== -1 ? operatorArr[idx].value : '-';
+      } else {
+        return '-';
+      }
+    },
+    renderCheckStatus (v) {
+      if (v || v === 0) {
+        const idx = checkStatusArr.findIndex(item => v === item.key);
+        return idx !== -1 ? checkStatusArr[idx].value : '-';
       } else {
         return '-';
       }

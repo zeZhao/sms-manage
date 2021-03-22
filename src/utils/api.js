@@ -1994,5 +1994,23 @@ export default {
         gatewayConfig(params) {
             return post("/mmsTemplateCheck/gatewayConfig", params);
         }
+    },
+    //彩信分类统计
+    mmsClassificationStatistic: {
+        // 彩信分类统计列表
+        listByPage(params) {
+            return post("/mmsClassificationStatistic/listByPage", params);
+        },
+        // 彩信分类统计列表导出
+        exportData(params) {
+            return post("/mmsClassificationStatistic/exportData", params);
+        }
+    },
+    //彩信模板审核记录
+    mmsTemplateCheckRecord: {
+        // 彩信模板审核记录列表
+        listByPage(params) {
+            return post("/mmsTemplateCheckRecord/listByPage", params);
+        }
     }
 }

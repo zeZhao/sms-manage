@@ -60,6 +60,12 @@
     </el-table>
 
     <p style="color: red">
+      <span v-if="formData.startTime">
+        {{formData.startTime}}日
+      </span>
+      <span v-if="formData.endTime">
+        <span v-if="formData.startTime">至 </span>{{formData.endTime}}日
+      </span>
       发送数: {{ tabBottomData.countAll || 0 }}&nbsp;&nbsp; 成功数:{{
         tabBottomData.sucCountAll || 0
       }}&nbsp;&nbsp; 失败数:{{ tabBottomData.failCountAll || 0 }}&nbsp;&nbsp;
@@ -78,8 +84,8 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'mmsReportStatistic',
-        list: 'queryByPage'
+        namespace: 'mmsClassificationStatistic',
+        list: 'listByPage'
       },
       // 列表参数
       namespace: '',
@@ -111,16 +117,16 @@ export default {
         {
           type: 'daterange',
           label: '统计日期',
-          key: ['', 'startTime', 'endTime']
+          key: ['', 'createStartTime', 'createEndTime']
         },
         {
           type: 'select',
           label: '统计类型',
-          key: 'status',
+          key: 'statisticType',
           clearable: false,
           optionData: [
-            { key: 1, value: '通道统计' },
-            { key: 2, value: '运营商统计' },
+            { key: 2, value: '通道统计' },
+            { key: 1, value: '运营商统计' },
             { key: 3, value: '省份统计' }
           ],
           defaultValue: 1,
@@ -192,13 +198,11 @@ export default {
     },
     listProvince () {
       this.$http.listSysProvince({ data: { provinceName: '' } }).then(res => {
-        let arr;
+        let arr = [];
         if (res.data.length) {
           arr = res.data.map((v) => { return { key: v.provinceName, value: v.provinceName } });
-        } else {
-          arr = []
         }
-        this.provinceArr = arr
+        this.provinceArr = arr;
       });
     },
     renderSuccessRate (a, b) {
