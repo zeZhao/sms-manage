@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="operator" label="运营商">
         <template slot-scope="scope">

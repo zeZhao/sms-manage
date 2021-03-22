@@ -21,7 +21,7 @@
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="source" label="审核根源">

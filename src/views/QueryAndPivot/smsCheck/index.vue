@@ -14,7 +14,11 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="loginName" label="用户名" show-overflow-tooltip />
+      <el-table-column
+        prop="loginName"
+        label="账户名称"
+        show-overflow-tooltip
+      />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="counter" label="手机个数" show-overflow-tooltip />
       <el-table-column prop="cmCount" label="移动" />

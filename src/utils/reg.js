@@ -14,7 +14,7 @@
   }
 
  /**
-   * 判断用户名验证是否正确
+   * 判断账户名称验证是否正确
    * @param {中文} name
    */
   static isNameChinese(name){
