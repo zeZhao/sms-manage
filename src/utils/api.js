@@ -985,10 +985,27 @@ export default {
         stopCheck(params) {
             return post("/smsCheckWait/stopCheck", params);
         },
-        //  超审
-        supperCheck(params) {
-            return post("/smsCheckWait/supperCheck", params);
+        //  通过拒绝选择项
+        checkSms(params) {
+            return post("/smsCheckWait/checkSms", params);
         },
+
+    },
+    // 审核管理-免审核模板
+    smsAuditfreeTemplate: {
+        // 查询列表
+        list(params) {
+            return post("/smsAuditfreeTemplate/list", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/smsAuditfreeTemplate/delete", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/smsAuditfreeTemplate/addOrUpdate", params);
+        },
+
     },
     // 审核管理-待审模板
     smsCheckTemplate: {
@@ -1571,25 +1588,6 @@ export default {
         //  删除
         deleteExemptReviewManage(params) {
             return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
-        },
-    },
-    // 审核管理-待审
-    smsCheckWait: {
-        // 查询列表
-        listCheckWaitByPage(params) {
-            return post("/smsCheckWait/listCheckWaitByPage", params);
-        },
-        // 添加分配
-        addCheck(params) {
-            return post("/smsCheckWait/addCheck", params);
-        },
-        // 停止分配
-        stopCheck(params) {
-            return post("/smsCheckWait/stopCheck", params);
-        },
-        //  超审
-        supperCheck(params) {
-            return post("/smsCheckWait/supperCheck", params);
         },
     },
     // 审核管理-待审模板
