@@ -1978,6 +1978,10 @@ export default {
         listByPage(params) {
             return post("/mmsTemplateCheck/listByPage", params);
         },
+        // 模板预览
+        getTemplateDetail(params) {
+            return fetch("/mmsTemplateCheck/getTemplateDetail", params);
+        },
         // 模板提审
         pushGatewayArraign(params) {
             return fetch("/mmsTemplateCheck/pushGatewayArraign", params);
@@ -2000,6 +2004,10 @@ export default {
         // 彩信分类统计列表
         listByPage(params) {
             return post("/mmsClassificationStatistic/listByPage", params);
+        },
+        // 彩信分类统计总计
+        showStatistic(params) {
+            return post("/mmsClassificationStatistic/showStatistic", params);
         },
         // 彩信分类统计列表导出
         exportData(params) {

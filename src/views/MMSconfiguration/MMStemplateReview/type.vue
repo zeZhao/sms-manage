@@ -128,6 +128,10 @@ export default {
   },
   async mounted () {
     if (this.queryType === "views") {
+      const { mmsId } = this.$route.query;
+      this.$http.mmsTemplateCheck.getTemplateDetail({ mmsId }).then(res => {
+
+      })
       this.formViews = JSON.parse(this.$route.query.row);
     } else {
       this.formData = JSON.parse(this.$route.query.row);
