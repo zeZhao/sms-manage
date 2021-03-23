@@ -82,6 +82,12 @@
           </el-select>
         </template>
       </el-table-column>
+      <el-table-column prop="submitType" label="提交类型">
+        <template slot-scope="scope">
+          <span v-if="scope.row.submitType == 1">平台提交</span>
+          <span v-if="scope.row.submitType == 2">接口提交</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
@@ -187,6 +193,22 @@ export default {
             {
               key: "7",
               value: "组合超时"
+            }
+          ],
+          placeholder: "请选择类型"
+        },
+        {
+          type: "select",
+          label: "提交类型",
+          key: "submitType",
+          optionData: [
+            {
+              key: "1",
+              value: "平台提交"
+            },
+            {
+              key: "2",
+              value: "接口提交"
             }
           ],
           placeholder: "请选择类型"
@@ -313,8 +335,8 @@ export default {
      */
     _formatRequestData(data) {
       //待审列表分页查询,submitType 1是平台提交 2是接口提交
-      data.submitType = 1;
-      console.log(data, "-----");
+      // data.submitType = 1;
+      // console.log(data, "-----");
       return data;
     },
     /*
