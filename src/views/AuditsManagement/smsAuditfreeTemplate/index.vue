@@ -162,6 +162,7 @@ export default {
         }
       ],
       templateId: "",
+      isParamsNotData: false,
       submitParamsIsData: false
     };
   },
