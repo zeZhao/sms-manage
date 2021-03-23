@@ -296,13 +296,8 @@ export default {
       }
     },
     selectionChange(selection) {
-      let arr = [];
-      selection.forEach(item => {
-        const { checkWaitId, cmGateway, ctGateway, cuGateway } = item;
-        arr.push({ checkWaitId, cmGateway, ctGateway, cuGateway });
-      });
-      this.selection = arr;
-      console.log(this.selection, "----------selection");
+      this.selection = selection;
+      console.log(selection, "----------selection");
     },
     /**
      * 调整筛选条件提交的参数
@@ -313,7 +308,7 @@ export default {
      */
     _formatRequestData(data) {
       //待审列表分页查询,submitType 1是平台提交 2是接口提交
-      data.submitType = 1;
+      data.submitType = 2;
       console.log(data, "-----");
       return data;
     },
