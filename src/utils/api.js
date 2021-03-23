@@ -171,6 +171,10 @@ export default {
         queryMainInfo(params) {
             return post("/corpUser/queryMainInfo", params);
         },
+        // 配置提交速率
+        configureSubmitRate(params) {
+            return fetch("/corpUser/configureSubmitRate", params);
+        },
     },
     //通道重发配置
     sysResendConfig: {
@@ -981,10 +985,27 @@ export default {
         stopCheck(params) {
             return post("/smsCheckWait/stopCheck", params);
         },
-        //  超审
-        supperCheck(params) {
-            return post("/smsCheckWait/supperCheck", params);
+        //  通过拒绝选择项
+        checkSms(params) {
+            return post("/smsCheckWait/checkSms", params);
         },
+
+    },
+    // 审核管理-免审核模板
+    smsAuditfreeTemplate: {
+        // 查询列表
+        list(params) {
+            return post("/smsAuditfreeTemplate/list", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/smsAuditfreeTemplate/delete", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/smsAuditfreeTemplate/addOrUpdate", params);
+        },
+
     },
     // 审核管理-待审模板
     smsCheckTemplate: {
@@ -1569,25 +1590,6 @@ export default {
             return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
         },
     },
-    // 审核管理-待审
-    smsCheckWait: {
-        // 查询列表
-        listCheckWaitByPage(params) {
-            return post("/smsCheckWait/listCheckWaitByPage", params);
-        },
-        // 添加分配
-        addCheck(params) {
-            return post("/smsCheckWait/addCheck", params);
-        },
-        // 停止分配
-        stopCheck(params) {
-            return post("/smsCheckWait/stopCheck", params);
-        },
-        //  超审
-        supperCheck(params) {
-            return post("/smsCheckWait/supperCheck", params);
-        },
-    },
     // 审核管理-待审模板
     smsCheckTemplate: {
         // 查询列表
@@ -1702,6 +1704,18 @@ export default {
         addMmsGateway(params) {
             return post("/mmsGateway/addMmsGateway", params);
         },
+         // 修改彩信网关状态
+        setMmsGatewayStatus(params) {
+            return post("/mmsGateway/setMmsGatewayStatus", params);
+        },
+         // 彩信通道详情查询
+        detailMmsGateway(params) {
+            return fetch("/mmsGateway/detailMmsGateway", params);
+        },
+         // 小窗口登录验证接口
+        viewLogin(params) {
+            return post("/sysLogin/viewLogin", params);
+        }
     },
     //测试发送接口
     smsTestSendTask: {
@@ -1765,6 +1779,13 @@ export default {
             return post("/sms/channel/tag/batch-save", params);
         }
     },
+    //批量保存渠道标签
+    userTag: {
+        // 账户添加/修改标签
+        batchSave(params) {
+            return post("/userTag/batchSave", params);
+        }
+    },
     //客户对账单
     customerStatement: {
         // 修改实付金额
@@ -1780,13 +1801,21 @@ export default {
             return post("/userBalanceMonthBill/userBalanceMonthBillList", params);
         }
     },
+    //客户对账单
+    sysDownLoadLog: {
+        // 分页列表
+        queryByPage(params) {
+            return post("/sysDownLoadLog/queryByPage", params);
+        },
+
+    },
     //用户监控配置管理
     sysAlarmUser: {
         // 查询用户监控配置数据(列表)
         queryAlarmUserByPage(params) {
             return post("/sysAlarmUser/queryAlarmUserByPage", params);
         },
-        // 根据用户id，报警类型查询数据
+        // 根据账户编号，报警类型查询数据
         queryOneAlarmUserByUserID(params) {
             return post("/sysAlarmUser/queryOneAlarmUserByUserID", params);
         },
@@ -1826,14 +1855,142 @@ export default {
             return post("/report/exportMerchSendSuccStatistics", params);
         }
     },
-    //客户对账单
-    sysDownLoadLog: {
-        // 分页列表
+    //彩信账号网关初始配置
+    MMSgatewayInitial: {
+        // 彩信账号网关初始配置列表分页查询
         queryByPage(params) {
-            return post("/sysDownLoadLog/queryByPage", params);
+            return post("/mmsInitUserGateway/queryByPage", params);
         },
-        
+        // 根据用户id查
+        selectMmsInitUserGatewayByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayByUserID", params);
+        },
+        // 根据运营商查询彩信网关
+        selectMmsInitUserGatewayDtoByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayDtoByUserID", params);
+        },
+        // 修改彩信账号网关初始配置
+        update(params) {
+            return post("/mmsInitUserGateway/update", params);
+        }
     },
+    //携号转网
+    networkChange: {
+        // 携号转网列表分页查询
+        queryByPage(params) {
+            return post("/networkChange/queryByPage", params);
+        },
+        // 批量导入携号转网
+        importBatchAdd(params) {
+            return post("/networkChange/importBatchAdd", params);
+        },
+        // 导出携号转网
+        export(params) {
+            return post("/networkChange/export", params);
+        },
+        // 删除携号转网
+        delete(params) {
+            return fetch("/networkChange/delete", params);
+        },
+        // 新增修改携号转网
+        addOrUpdate(params) {
+            return post("/networkChange/addOrUpdate", params);
+        },
 
+    },
+    //黑名单分类
+    smsBlackGroup: {
+        // 列表分页查询
+        listBlackGroupByPage(params) {
+            return post("/smsBlackGroup/listBlackGroupByPage", params);
+        },
+        // 列表全部查询
+        listBlackGroup(params) {
+            return post("/smsBlackGroup/listBlackGroup", params);
+        },
+        // 删除
+        delete(params) {
+            return fetch("/smsBlackGroup/delete", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/smsBlackGroup/addOrUpdate", params);
+        },
+    },
+    // 号段管理
+    smsAppConfig: {
+        // 新增号段
+        addOrUpdate(params) {
+            return post("/smsAppConfig/addOrUpdate", params);
+        },
+        // 查询号段
+        getAppConfigList(params) {
+            return fetch("/smsAppConfig/getAppConfigList", params);
+        },
 
+    },
+    //黑名单分类
+    moSensitiveWord: {
+        // 列表分页查询
+        queryByPage(params) {
+            return post("/moSensitiveWord/queryByPage", params);
+        },
+        // 新增修改
+        addOrUpdate(params) {
+            return post("/moSensitiveWord/addOrUpdate", params);
+        },
+        // 根据用户id查
+        selectMmsInitUserGatewayByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayByUserID", params);
+        },
+        // 根据运营商查询彩信网关
+        selectMmsInitUserGatewayDtoByUserID(params) {
+            return fetch("/mmsInitUserGateway/selectMmsInitUserGatewayDtoByUserID", params);
+        },
+        // 修改彩信账号网关初始配置
+        update(params) {
+            return post("/mmsInitUserGateway/update", params);
+        }
+    },
+    //彩信发送记录
+    mmsSendReturnReport: {
+        // 彩信发送记录列表分页查询
+        queryByPage(params) {
+            return post("/mmsSendReturnReport/queryByPage", params);
+        }
+    },
+    //彩信发送统计
+    mmsReportStatistic: {
+        // 彩信发送统计列表分页查询
+        queryByPage(params) {
+            return post("/mmsReportStatistic/queryByPage", params);
+        },
+        // 导出彩信发送统计
+        exportReportStatistic(params) {
+            return post("/mmsReportStatistic/exportReportStatistic", params);
+        }
+    },
+    //彩信模板提审/审核
+    mmsTemplateCheck: {
+        // 提审列表
+        listByPage(params) {
+            return post("/mmsTemplateCheck/listByPage", params);
+        },
+        // 模板提审
+        pushGatewayArraign(params) {
+            return fetch("/mmsTemplateCheck/pushGatewayArraign", params);
+        },
+        // 部分通过
+        partilyPass(params) {
+            return fetch("/mmsTemplateCheck/partilyPass", params);
+        },
+        // 驳回模板
+        refuseBasicArragin(params) {
+            return fetch("/mmsTemplateCheck/refuseBasicArragin", params);
+        },
+        // 通道配置
+        gatewayConfig(params) {
+            return post("/mmsTemplateCheck/gatewayConfig", params);
+        }
+    }
 }

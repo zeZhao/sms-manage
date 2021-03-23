@@ -75,7 +75,7 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
               ></el-date-picker
-              >-
+              > -
               <el-date-picker
                 type="date"
                 :placeholder="item.placeholder || '选择结束日期'"
@@ -95,7 +95,8 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
               ></el-time-picker
-              >-<el-time-picker
+              > -
+              <el-time-picker
                 :placeholder="item.placeholder || '选择结束时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
@@ -149,7 +150,7 @@
             >新建</el-button
           >
         </slot>
-        <slot name="Other"></slot>
+        <slot name="Other" :form="form"></slot>
       </el-row>
     </el-form>
   </div>
@@ -182,14 +183,18 @@ export default {
       form: {}
     };
   },
-  created() {},
-  mounted() {
-    this.initComponent();
-  },
+  // 注释重复请求列表接口,只在监听searchFormConfig的时候请求即可
+  // mounted() {
+  //   this.initComponent();
+  // },
   methods: {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
+    },
+    //传值
+    _mxHandleSendData() {
+      this.$;
     },
     //重置筛选条件
     _mxHandleReset() {
@@ -204,16 +209,20 @@ export default {
     initComponent() {
       const form = {};
       this.searchFormConfig.forEach((item, index) => {
-        const { key, api, params, keys, defaultValue } = item;
+        const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          form[key] = item.defaultValue;
-          this._mxHandleSubmit();
+          if (type !== 'daterange') {
+            form[key] = item.defaultValue;
+          } else {
+            form[key[1]] = item.defaultValue[1]
+            form[key[2]] = item.defaultValue[2]
+          }
         }
         // if (api) {
-        //   this.$http[item.api]({ data: { ...params } }).then((res) => {
-        //     res.data.forEach((data) => {
-        //       let obj = {
-        //         key: data[keys[0]],
+          //   this.$http[item.api]({ data: { ...params } }).then((res) => {
+            //     res.data.forEach((data) => {
+              //       let obj = {
+                //         key: data[keys[0]],
         //         value: data[keys[1]],
         //       };
         //       item.optionData.push(obj);
@@ -222,6 +231,10 @@ export default {
         // }
       });
       this.form = form;
+      this._mxHandleSubmit();
+
+      // 彩信分类统计特殊页面传该form引用类型数据
+      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) this.$emit("forms", this.form);
     },
 
     /**

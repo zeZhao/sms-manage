@@ -83,7 +83,6 @@
             v-model="formData.balanceNum"
             placeholder="请输入余额报警阈值"
             clearable
-            style="width: 50%"
           />
         </el-form-item>
         <el-form-item label="间隔时间：" prop="balanceInterval">
@@ -92,8 +91,9 @@
             v-model="formData.balanceInterval"
             placeholder="请输入间隔时间"
             clearable
-            style="width: 50%"
-          /><span>&nbsp;分钟</span>
+            style="width: 90%"
+          /><span>&nbsp;小时</span>
+          <div class="item-tips">最低间隔时间为1小时</div>
         </el-form-item>
       </div>
       <el-form-item label="手机号：" prop="alarmMobile">
@@ -187,10 +187,10 @@ export default {
             required: true,
             trigger: 'blur',
             validator: (rule, value, callback) => {
-              if (value && value > 0) {
+              if (value && value >= 1) {
                 callback()
-              } else if (value && value <= 0) {
-                callback(new Error('间隔时间需大于0'))
+              } else if (value && value < 1) {
+                callback(new Error('最低间隔时间为1小时'))
               } else {
                 callback(new Error('请输入间隔时间'))
               }

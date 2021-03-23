@@ -14,7 +14,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="用户名" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="beforeBalance" label="操作前的余额" />
       <el-table-column prop="afterBalance" label="操作后的余额" />
       <el-table-column prop="optType" label="操作类型">
@@ -119,7 +119,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName"
         },
         {

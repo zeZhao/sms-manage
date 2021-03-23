@@ -10,9 +10,21 @@
         <!-- <el-button type="primary" @click="_mxCreate">超审</el-button> -->
         <el-button type="primary" @click="addCheck">增加分配</el-button>
         <el-button type="primary" @click="stopCheck">停止分配</el-button>
+        <el-button type="primary" @click="handleOption(2)"
+          >通过选择项</el-button
+        >
+        <el-button type="primary" @click="handleOption(3)"
+          >驳回选择项</el-button
+        >
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      @selection-change="selectionChange"
+    >
+      <el-table-column type="selection" width="55"> </el-table-column>
       <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -21,7 +33,7 @@
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="userName" label="用户名称" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="source" label="审核根源">
@@ -254,7 +266,8 @@ export default {
       ],
       gatewayCuList: [],
       gatewayCtList: [],
-      gatewayCmList: []
+      gatewayCmList: [],
+      selection: []
     };
   },
   created() {
@@ -265,6 +278,45 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    handleOption(type) {
+      if (this.selection && this.selection.length != 0) {
+        //2通过 3拒绝
+        let params = {
+          checkWaitList: this.selection,
+          status: type
+        };
+        this.$http.smsCheckWait.checkSms(params).then(res => {
+          if (res.code === 200) {
+            this.$message.success("操作成功");
+            this._mxGetList();
+          }
+        });
+      } else {
+        this.$message.error("请至少选择一个任务");
+      }
+    },
+    selectionChange(selection) {
+      let arr = [];
+      selection.forEach(item => {
+        const { checkWaitId, cmGateway, ctGateway, cuGateway } = item;
+        arr.push({ checkWaitId, cmGateway, ctGateway, cuGateway });
+      });
+      this.selection = arr;
+      console.log(this.selection, "----------selection");
+    },
+    /**
+     * 调整筛选条件提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      //待审列表分页查询,submitType 1是平台提交 2是接口提交
+      data.submitType = 1;
+      console.log(data, "-----");
+      return data;
+    },
     /*
      * 获取通道列表
      * */

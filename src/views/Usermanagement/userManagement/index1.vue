@@ -12,13 +12,13 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column
         prop="userName"
-        label="用户名"
+        label="账户名称"
         width="100"
         show-overflow-tooltip
       />
       <el-table-column
         prop="loginName"
-        label="用户登录账号"
+        label="登录账号"
         width="100"
         show-overflow-tooltip
       />
@@ -249,21 +249,21 @@ export default {
         },
         {
           type: "inputNum",
-          label: "用户id",
+          label: "账户编号",
           key: "userId",
-          placeholder: "请输入用户id"
+          placeholder: "请输入账户编号"
         },
         {
           type: "input",
-          label: "用户名",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名"
+          placeholder: "请输入账户名称"
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code",
-          placeholder: "请输入用户特服号"
+          placeholder: "请输入账户特服号"
         },
         {
           type: "select",
@@ -367,7 +367,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
           maxlength: "20",
           rules: [
@@ -381,7 +381,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户登录账号",
+          label: "登录账号",
           key: "loginName",
           maxlength: "20",
           rules: [
@@ -408,7 +408,7 @@ export default {
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -1004,7 +1004,7 @@ export default {
             h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
-            h("span", null, "用户登录账号: "),
+            h("span", null, "登录账号: "),
             h("span", null, `${row.loginName}`)
           ]),
           h("p", null, [
@@ -1028,7 +1028,7 @@ export default {
             h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
-            h("span", null, "用户登录账号: "),
+            h("span", null, "登录账号: "),
             h("span", null, `${row.loginName}`)
           ]),
           h("p", null, [
@@ -1056,7 +1056,7 @@ export default {
             h("span", null, `${row.corpName}`)
           ]),
           h("p", null, [
-            h("span", null, "用户登录账号: "),
+            h("span", null, "登录账号: "),
             h("span", null, `${row.loginName}`)
           ]),
           h("p", null, [

@@ -135,7 +135,7 @@ export default {
             { key: 4, value: "审核通过" },
             { key: 5, value: "审核拒绝" }
           ],
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         }
       ],
       // 表单配置

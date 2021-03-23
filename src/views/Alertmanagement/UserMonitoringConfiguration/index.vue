@@ -14,6 +14,11 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名" />
+      <el-table-column prop="sendMonitor" label="发送监控">
+        <template slot-scope="scope">
+          {{ scope.row.sendMonitor ? scope.row.sendMonitor : '-' }}
+        </template>
+      </el-table-column>
       <el-table-column prop="arrivalrate" label="到达率监控">
         <template slot-scope="scope">
           {{ scope.row.arrivalrate ? scope.row.arrivalrate : '-' }}

@@ -19,7 +19,7 @@
       />
       <el-table-column
         prop="userName"
-        label="用户名"
+        label="账户名称"
         v-if="searchParam.showUser === '1'"
       />
       <el-table-column
@@ -157,21 +157,21 @@ export default {
         },
         {
           type: "input",
-          label: "用户名称",
+          label: "账户名称",
           key: "userName",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "inputNum",
           label: "通道号",
           key: "gateway",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "inputNum",
           label: "特服号",
           key: "code",
-          placeholder: "请输入用户名称"
+          placeholder: "请输入账户名称"
         },
         {
           type: "select",

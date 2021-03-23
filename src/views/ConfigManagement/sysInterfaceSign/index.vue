@@ -125,9 +125,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户特服号",
+          label: "账户特服号",
           key: "code",
-          placeholder: "请输入用户特服号"
+          placeholder: "请输入账户特服号"
         },
         {
           type: "input",
