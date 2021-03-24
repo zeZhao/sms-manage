@@ -54,6 +54,7 @@
                 filterable
                 :clearable="isClearAble(item)"
                 @focus="_mxHandleFocus()"
+                @change="forceUpdate"
               >
                 <el-option
                   v-for="option in item.optionData"
@@ -191,6 +192,9 @@ export default {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
+      
+      // 彩信分类统计特殊页面搜索时展示时间功能
+      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) this.$emit("isChooseTime", this.form);
     },
     //传值
     _mxHandleSendData() {
@@ -199,12 +203,23 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
+      // 彩信分类统计特殊页面特殊重置
+      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
+        for (let key in form) {
+          form[key] = "";
+        }
+        form['statisticType'] = 2;
+        return;
+      }
+      
       for (let key in form) {
         form[key] = "";
       }
       this.form = form;
       // this.$emit("search", this.form);
     },
+    
+    forceUpdate() { this.$forceUpdate() }, //强制更新ui
 
     initComponent() {
       const form = {};
