@@ -132,7 +132,7 @@ export default {
       this.$http.mmsTemplateCheck.getTemplateDetail({ mmsId }).then(res => {
 
       })
-      this.formViews = JSON.parse(this.$route.query.row);
+      // this.formViews = JSON.parse(this.$route.query.row);
     } else {
       this.formData = JSON.parse(this.$route.query.row);
       await this.getTableSelectList(); //获取所有三网所有通道数据
