@@ -2,25 +2,46 @@
   <div>
     <h3>{{ renderTitle }}</h3>
     <div class="container">
-      <section v-if="queryType === 'views'">
+      <section v-if="queryType === 'views' && formObj">
+        <el-form :model="formObj" label-width="350px">
+          <el-form-item label="模板编号：">
+            <span>{{ formObj.mmsId }}</span>
+          </el-form-item>
+          <el-form-item label="彩信标题：">
+            <span>{{ formObj.title }}</span>
+          </el-form-item>
+          <el-form-item label="标签：">
+            <span>{{ formObj.sign }}</span>
+          </el-form-item>
+          <el-form-item label="彩信内容：" />
+        </el-form>
         <div class="sms-preview">
-          <div v-if="formViews.frameArr.length" class="mss-content">
-            <section v-for="item in formViews.frameArr" :key="item.name">
-              <p v-if="item.textarea" style="color: #909399">{{ item.textarea }}</p>
-              <img v-if="item.imageUrl" :src="item.imageUrl" style="width: 90%" class="preview-content views-pic"
-                @click="viewsPic(item.imageUrl)" />
-              <audio v-if="item.audioUrl" :src="item.audioUrl" controls="controls" class="preview-content">
-                您的浏览器不支持 audio 标签
-              </audio>
-              <video v-if="item.videoUrl" :src="item.videoUrl" controls="controls" class="preview-content">
-                您的浏览器不支持 video 标签
-              </video>
+          <div v-if="formViews.length" class="mss-content">
+            <section v-for="(item, index) in formViews" :key="index">
+              <div v-for="(it, idx) in item[index + 1]" :key="it.pageOrder">
+                <p v-if="it.pageType === 1 && it.pageMedia" style="color: #909399">{{ it.pageMedia }}</p>
+                <img v-if="it.pageType === 2 && it.pageMedia" :src="it.pageMedia" class="preview-content views-pic"
+                  @click="viewsPic(it.pageMedia)" />
+                <audio v-if="it.pageType === 4 && it.pageMedia" :src="it.pageMedia" controls="controls"
+                  class="preview-content">
+                  您的浏览器不支持 audio 标签
+                </audio>
+                <video v-if="it.pageType === 3 && it.pageMedia" :src="it.pageMedia" controls="controls"
+                  class="preview-content">
+                  您的浏览器不支持 video 标签
+                </video>
+              </div>
             </section>
           </div>
           <el-dialog :visible.sync="dialogVisible">
-            <img style="display: block; margin: auto; width: 50%" :src="dialogUrl" />
+            <img style="display: block; width: 50%; margin: auto" :src="dialogUrl" />
           </el-dialog>
         </div>
+        <el-form :model="formObj" label-width="350px">
+          <el-form-item label="驳回理由：">
+            <span>{{ formObj.refuseReason }}</span>
+          </el-form-item>
+        </el-form>
         <div class="footer">
           <el-button type="primary" @click="bringToTrial(queryArraignId)">通 过</el-button>
           <el-button type="primary" @click="reject(queryArraignId)">驳 回</el-button>
@@ -29,7 +50,7 @@
         </div>
       </section>
 
-      <section v-else style="width: 80%; margin: 50px auto">
+      <section v-if="queryType === 'channelConfig'" style="width: 80%; margin: 50px auto">
         <el-form :model="formData" label-width="150px">
           <el-row>
             <el-col :span="4">
@@ -85,7 +106,8 @@
 export default {
   data () {
     return {
-      formViews: { frameArr: [] },
+      formViews: [],
+      formObj: undefined,
       formData: {},
       tableData: [
         {
@@ -124,15 +146,19 @@ export default {
     renderTitle () {
       const viewTitle = "彩信模板提审/";
       return this.queryType === "views" ? `${viewTitle}预览` : `${viewTitle}通道配置`;
-    },
+    }
   },
   async mounted () {
     if (this.queryType === "views") {
       const { mmsId } = this.$route.query;
       this.$http.mmsTemplateCheck.getTemplateDetail({ mmsId }).then(res => {
-
-      })
-      // this.formViews = JSON.parse(this.$route.query.row);
+        if (res.code === 200) {
+          this.formObj = res.data;
+          this.formViews = this.typeConversion(res.data.mmsPages);
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
+      }).catch(err => { this.$message.error(err.data || err.msg) })
     } else {
       this.formData = JSON.parse(this.$route.query.row);
       await this.getTableSelectList(); //获取所有三网所有通道数据
@@ -251,6 +277,25 @@ export default {
       }
       return index;
     },
+    //格式化+排序 res数据
+    typeConversion (arr) {
+      const result = [];
+      const isForedPageNum = [];
+      for (let i = 0; i < arr.length; i++) {
+        const { pageNum } = arr[i];
+        if (isForedPageNum.indexOf(pageNum) === -1) {
+          const obj = {};
+          obj[pageNum] = arr.filter(v => pageNum === v.pageNum);
+          result.push(obj);
+          isForedPageNum.push(pageNum);
+        }
+      }
+      //按照pageOrder进行排序
+      result.forEach((it, idx) => {
+        it[idx + 1].sort((a, b) => a.pageOrder - b.pageOrder);
+      })
+      return result;
+    },
     cancel () { this.$router.back() }
   }
 };
@@ -261,11 +306,6 @@ export default {
   width: 100%;
   .sms-preview {
     width: 100%;
-    height: 700px;
-    margin: auto;
-    background: rgba(240, 242, 250, 1);
-    border-radius: 10px 0px 0px 10px;
-    padding: 27px 37px;
     position: relative;
 
     .preview-img {
@@ -273,18 +313,14 @@ export default {
     }
 
     .mss-content {
-      width: 80%;
-      height: 80%;
-      position: absolute;
-      top: 126px;
-      left: 50%;
-      transform: translateX(-50%);
-      // background-color: #00d1c3;
+      width: 50%;
+      max-height: 400px;
+      margin: auto;
+      margin-bottom: 20px;
       border-radius: 10px;
       padding: 9px 10px 10px 12px;
       font-size: 12px;
       color: #fff;
-      // line-height: 18px;
       word-break: break-all;
       overflow-y: auto;
 
@@ -299,7 +335,6 @@ export default {
       }
 
       section {
-        // max-height: 335px;
         margin-top: 20px;
 
         .preview-content {
@@ -309,6 +344,7 @@ export default {
         }
 
         .views-pic {
+          width: 25%;
           cursor: pointer;
         }
       }
