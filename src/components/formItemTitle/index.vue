@@ -12,8 +12,14 @@
           v-for="(item, index) in formConfig"
           :key="index"
           :span="item.colSpan || 8"
+          :offset="item.offset"
         >
           <h3 v-if="item.isTitle && !item.isShow">{{ item.title }}</h3>
+          <el-button
+            v-if="item.isBtn && !item.isShow"
+            @click="handleClick(item)"
+            >{{ item.btnTxt }}</el-button
+          >
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
@@ -341,6 +347,9 @@ export default {
     onInputChange(val, item) {
       this._setDefaultVal(val, item);
       this.$emit("inpChange", { val, item });
+    },
+    handleClick(item) {
+      this.$emit("handleClick", item);
     },
     //  select 事件
     onChange(val, item) {

@@ -82,12 +82,6 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="submitType" label="提交类型">
-        <template slot-scope="scope">
-          <span v-if="scope.row.submitType == 1">平台提交</span>
-          <span v-if="scope.row.submitType == 2">接口提交</span>
-        </template>
-      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
@@ -198,22 +192,6 @@ export default {
           placeholder: "请选择类型"
         },
         {
-          type: "select",
-          label: "提交类型",
-          key: "submitType",
-          optionData: [
-            {
-              key: "1",
-              value: "平台提交"
-            },
-            {
-              key: "2",
-              value: "接口提交"
-            }
-          ],
-          placeholder: "请选择类型"
-        },
-        {
           type: "date",
           label: "提交时间",
           key: "submitTime",
@@ -318,13 +296,8 @@ export default {
       }
     },
     selectionChange(selection) {
-      let arr = [];
-      selection.forEach(item => {
-        const { checkWaitId, cmGateway, ctGateway, cuGateway } = item;
-        arr.push({ checkWaitId, cmGateway, ctGateway, cuGateway });
-      });
-      this.selection = arr;
-      console.log(this.selection, "----------selection");
+      this.selection = selection;
+      console.log(selection, "----------selection");
     },
     /**
      * 调整筛选条件提交的参数
@@ -335,8 +308,8 @@ export default {
      */
     _formatRequestData(data) {
       //待审列表分页查询,submitType 1是平台提交 2是接口提交
-      // data.submitType = 1;
-      // console.log(data, "-----");
+      data.submitType = 2;
+      console.log(data, "-----");
       return data;
     },
     /*
