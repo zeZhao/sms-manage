@@ -24,7 +24,7 @@
       <el-table-column prop="ctStatus" label="电信通道状态" min-width="150" />
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="viewsRow('views', scope.row.arraignId)" type="text" size="small">预览</el-button>
+          <el-button @click="viewsRow('views', scope.row.mmsId)" type="text" size="small">预览</el-button>
           <el-button @click="bringToTrial(scope.row.arraignId)" type="text" size="small">提审</el-button>
           <el-button @click="partiallyPassed(scope.row.arraignId)" type="text" size="small">部分通过</el-button>
           <el-button @click="reject(scope.row.arraignId)" type="text" size="small">驳回</el-button>
@@ -80,55 +80,8 @@ export default {
   activated () { this._mxGetList() },
   methods: {
     //预览
-    viewsRow (type, arraignId) {
-      const rows = {
-        frameArr: [
-          {
-            Pic: true,
-            Tex: true,
-            imageUrl:
-              'blob:http://localhost:3333/24aa77e6-8259-49c8-8202-042e906663a6',
-            isHide: true,
-            name: '1',
-            textarea: '1',
-          },
-          {
-            Audi: true,
-            Pic: true,
-            Tex: true,
-            Vide: true,
-            audioUrl:
-              'blob:http://localhost:3333/7bb3e4fa-9219-49f6-a2e8-2732ef8ad0f6',
-            imageUrl:
-              'blob:http://localhost:3333/34935cdf-7385-4345-9ae3-c5891b9eb098',
-            isHide: true,
-            isHide1: true,
-            isHide2: true,
-            name: '2',
-            textarea: '2',
-            videoUrl:
-              'blob:http://localhost:3333/27fb7996-9f4a-4153-acea-4bbfde37aed8',
-          },
-          {
-            Audi: true,
-            Pic: true,
-            Tex: true,
-            Vide: true,
-            audioUrl:
-              'blob:http://localhost:3333/7bb3e4fa-9219-49f6-a2e8-2732ef8ad0f6',
-            imageUrl:
-              'blob:http://localhost:3333/34935cdf-7385-4345-9ae3-c5891b9eb098',
-            isHide: true,
-            isHide1: true,
-            isHide2: true,
-            name: '3',
-            textarea: '2',
-            videoUrl:
-              'blob:http://localhost:3333/27fb7996-9f4a-4153-acea-4bbfde37aed8',
-          }
-        ],
-      }
-      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, row: JSON.stringify(rows) } });
+    viewsRow (type, mmsId) {
+      this.$router.push({ name: "MMStemplateReviewType", query: { type, mmsId } });
     },
     //提审
     bringToTrial (arraignId) {
