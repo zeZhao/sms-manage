@@ -1589,6 +1589,10 @@ export default {
         deleteExemptReviewManage(params) {
             return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
         },
+        // 推荐通道及通道组列表
+        listRecommendGatewayAndGroup(params) {
+            return post("/sysGatewayGroup/listRecommendGatewayAndGroup", params);
+        },
     },
     // 审核管理-待审模板
     smsCheckTemplate: {
@@ -1704,15 +1708,15 @@ export default {
         addMmsGateway(params) {
             return post("/mmsGateway/addMmsGateway", params);
         },
-         // 修改彩信网关状态
+        // 修改彩信网关状态
         setMmsGatewayStatus(params) {
             return post("/mmsGateway/setMmsGatewayStatus", params);
         },
-         // 彩信通道详情查询
+        // 彩信通道详情查询
         detailMmsGateway(params) {
             return fetch("/mmsGateway/detailMmsGateway", params);
         },
-         // 小窗口登录验证接口
+        // 小窗口登录验证接口
         viewLogin(params) {
             return post("/sysLogin/viewLogin", params);
         }
@@ -1976,6 +1980,10 @@ export default {
         listByPage(params) {
             return post("/mmsTemplateCheck/listByPage", params);
         },
+        // 模板预览
+        getTemplateDetail(params) {
+            return fetch("/mmsTemplateCheck/getTemplateDetail", params);
+        },
         // 模板提审
         pushGatewayArraign(params) {
             return fetch("/mmsTemplateCheck/pushGatewayArraign", params);
@@ -1991,6 +1999,28 @@ export default {
         // 通道配置
         gatewayConfig(params) {
             return post("/mmsTemplateCheck/gatewayConfig", params);
+        }
+    },
+    //彩信分类统计
+    mmsClassificationStatistic: {
+        // 彩信分类统计列表
+        listByPage(params) {
+            return post("/mmsClassificationStatistic/listByPage", params);
+        },
+        // 彩信分类统计总计
+        showStatistic(params) {
+            return post("/mmsClassificationStatistic/showStatistic", params);
+        },
+        // 彩信分类统计列表导出
+        exportData(params) {
+            return post("/mmsClassificationStatistic/exportData", params);
+        }
+    },
+    //彩信模板审核记录
+    mmsTemplateCheckRecord: {
+        // 彩信模板审核记录列表
+        listByPage(params) {
+            return post("/mmsTemplateCheckRecord/listByPage", params);
         }
     }
 }

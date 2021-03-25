@@ -16,7 +16,8 @@
       <el-table-column prop="type" label="导出类型">
         <template slot-scope="scope">
           <span v-if="scope.row.type == 1">.execl</span>
-          <span v-if="scope.row.type == 2">.txt</span>
+          <span v-else-if="scope.row.type == 2">.txt</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="downloadNum" label="导出条数" />
@@ -36,7 +37,13 @@
         </template>
       </el-table-column>
       <el-table-column prop="fileSize" label="导出文件大小" />
-      <el-table-column prop="status" label="处理状态" />
+      <el-table-column prop="status" label="处理状态">
+        <template slot-scope="{ row }">
+          <span v-if="row.status == 1">生成中</span>
+          <span v-if="row.status == 2">成功</span>
+          <span v-if="row.status == 3">失败</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button

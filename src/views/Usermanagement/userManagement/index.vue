@@ -56,8 +56,7 @@
           <el-select v-model="search.proType" placeholder="计费模式" clearable>
             <el-option value="1" label="web商戶端" />
             <el-option value="2" label="http接口" />
-            <el-option value="3" label="cmpp接口" />
-            <el-option value="7" label="音频接口" />
+            <el-option value="4" label="cmpp接口" />
           </el-select>
         </el-form-item>
         <el-form-item label="计费方式">
@@ -155,9 +154,9 @@
               ? "web商戶端"
               : scope.row.proType == "2"
               ? "http接口"
-              : scope.row.proType == "3"
+              : scope.row.proType == "4"
               ? "cmpp接口"
-              : "音频接口"
+              : ""
           }}</span>
         </template>
       </el-table-column>
@@ -415,8 +414,7 @@
           >
             <el-option value="1" label="web商戶端" />
             <el-option value="2" label="http接口" />
-            <el-option value="3" label="cmpp接口" />
-            <el-option value="7" label="音频接口" />
+            <el-option value="4" label="cmpp接口" />
           </el-select>
         </el-form-item>
         <el-form-item label="协议端口" prop="directPort">
@@ -937,7 +935,7 @@ export default {
         case 2:
           row.proType = "http接口";
           break;
-        case 3:
+        case 4:
           row.proType = "cmpp接口";
           break;
       }

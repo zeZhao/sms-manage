@@ -112,6 +112,34 @@
                 />
               </el-select>
             </template>
+            <!--下拉列表分组-->
+            <template v-if="item.type === 'selectGroup'">
+              <el-select
+                style="width: 100%"
+                v-model="formData[item.key]"
+                clearable
+                :placeholder="item.placeholder || `请选择${item.label}`"
+                @change="
+                  val => {
+                    selectChange(val, item);
+                  }
+                "
+              >
+                <el-option-group
+                  v-for="group in item.optionData"
+                  :key="group.label"
+                  :label="group.label"
+                >
+                  <el-option
+                    v-for="item in group.options"
+                    :key="item.key"
+                    :label="item.value"
+                    :value="item.key"
+                  >
+                  </el-option>
+                </el-option-group>
+              </el-select>
+            </template>
 
             <!--多选框-->
             <template v-if="item.type === 'checkbox'">
@@ -269,7 +297,10 @@
         </el-col>
         <div>
           <slot name="Other"></slot>
-          <div class="submitBtn" :class="{ 'footer-text-center': footerIsCenter}">
+          <div
+            class="submitBtn"
+            :class="{ 'footer-text-center': footerIsCenter }"
+          >
             <slot name="Btn">
               <el-button
                 type="primary"
@@ -329,7 +360,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "/api/api/sysPrepaidCard/uploadFile",
+      action: "/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken()
       },
