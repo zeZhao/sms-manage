@@ -62,10 +62,8 @@
               ? "web端"
               : scope.row.proType === 2
               ? "http接口"
-              : scope.row.proType === 3
+              : scope.row.proType === 4
               ? "cmpp接口"
-              : scope.row.proType === 7
-              ? "音频接口"
               : ""
           }}</span>
         </template>
@@ -305,8 +303,7 @@ export default {
           optionData: [
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
-            { key: "3", value: "cmpp接口" },
-            { key: "7", value: "音频接口" }
+            { key: "4", value: "cmpp接口" }
           ],
           placeholder: "请选择产品类型"
         },
@@ -524,7 +521,7 @@ export default {
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
-            { key: 3, value: "cmpp接口" }
+            { key: 4, value: "cmpp接口" }
             // { key: 7, value: "音频接口" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -989,7 +986,7 @@ export default {
         case 2:
           strType = "http接口";
           break;
-        case 3:
+        case 4:
           strType = "cmpp接口";
           break;
       }

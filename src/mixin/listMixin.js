@@ -497,13 +497,18 @@ export default {
       let arr = []
       list.forEach(item => {
         if (item.key === key) {
-          data.forEach(t => {
-            let obj = {
-              key: t[optionKey],
-              value: t[optionVal]
-            };
-            item.optionData.push(obj);
-          });
+          if (item.type === 'select') {
+            data.forEach(t => {
+              let obj = {
+                key: t[optionKey],
+                value: t[optionVal]
+              };
+              item.optionData.push(obj);
+            });
+          } else if (item.type === 'input') {
+            item.defaultValue = optionKey
+          }
+
         }
       });
     },
@@ -547,7 +552,12 @@ export default {
     _deleteDefaultValue(list, key) {
       list.forEach(item => {
         if (item.key === key) {
-          item.optionData = [];
+          if (item.type === 'select') {
+            item.optionData = [];
+          } else if (item.type === 'input') {
+            item.defaultValue = ''
+          }
+
         }
       });
     },

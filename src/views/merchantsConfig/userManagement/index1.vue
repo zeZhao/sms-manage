@@ -81,10 +81,8 @@
               ? "web端"
               : scope.row.proType === 2
               ? "http接口"
-              : scope.row.proType === 3
+              : scope.row.proType === 4
               ? "cmpp接口"
-              : scope.row.proType === 7
-              ? "音频接口"
               : ""
           }}</span>
         </template>
@@ -1577,7 +1575,7 @@ export default {
         case 2:
           strType = "http接口";
           break;
-        case 3:
+        case 4:
           strType = "cmpp接口";
           break;
       }
