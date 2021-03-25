@@ -28,10 +28,14 @@
         <template slot-scope="scope">
           <el-button @click="viewsRow('views',scope.row.arraignId, scope.row.mmsId)" type="text" size="small">预览
           </el-button>
-          <el-button @click="bringToTrial(scope.row.arraignId)" type="text" size="small">提审</el-button>
-          <el-button @click="partiallyPassed(scope.row.arraignId)" type="text" size="small">部分通过</el-button>
-          <el-button @click="reject(scope.row.arraignId)" type="text" size="small">驳回</el-button>
-          <el-button @click="channelConfig('channelConfig', scope.row)" type="text" size="small">通道配置</el-button>
+          <el-button v-if="scope.row.auditStatus === 1" @click="bringToTrial(scope.row.arraignId)" type="text"
+            size="small">提审</el-button>
+          <el-button v-if="scope.row.auditStatus === 3" @click="partiallyPassed(scope.row.arraignId)" type="text"
+            size="small">部分通过</el-button>
+          <el-button v-if="scope.row.auditStatus === 1" @click="reject(scope.row.arraignId)" type="text" size="small">驳回
+          </el-button>
+          <el-button v-if="[1,3,5,6,7].includes(scope.row.auditStatus)"
+            @click="channelConfig('channelConfig', scope.row)" type="text" size="small">通道配置</el-button>
         </template>
       </el-table-column>
     </el-table>
