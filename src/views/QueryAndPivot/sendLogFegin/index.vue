@@ -23,10 +23,8 @@
                 ? "web端"
                 : scope.row.proType === 2
                 ? "http接口"
-                : scope.row.proType === 3
+                : scope.row.proType === 4
                 ? "cmpp接口"
-                : scope.row.proType === 7
-                ? "音频接口"
                 : ""
             }}
           </span>

@@ -1589,6 +1589,10 @@ export default {
         deleteExemptReviewManage(params) {
             return post("/sysExemptReviewManage/deleteExemptReviewManage", params);
         },
+        // 推荐通道及通道组列表
+        listRecommendGatewayAndGroup(params) {
+            return post("/sysGatewayGroup/listRecommendGatewayAndGroup", params);
+        },
     },
     // 审核管理-待审模板
     smsCheckTemplate: {
@@ -1704,15 +1708,15 @@ export default {
         addMmsGateway(params) {
             return post("/mmsGateway/addMmsGateway", params);
         },
-         // 修改彩信网关状态
+        // 修改彩信网关状态
         setMmsGatewayStatus(params) {
             return post("/mmsGateway/setMmsGatewayStatus", params);
         },
-         // 彩信通道详情查询
+        // 彩信通道详情查询
         detailMmsGateway(params) {
             return fetch("/mmsGateway/detailMmsGateway", params);
         },
-         // 小窗口登录验证接口
+        // 小窗口登录验证接口
         viewLogin(params) {
             return post("/sysLogin/viewLogin", params);
         }
