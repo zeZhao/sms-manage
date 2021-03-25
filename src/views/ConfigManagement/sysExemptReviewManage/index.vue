@@ -52,6 +52,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="update_by" label="修改人" />
+      <el-table-column prop="configuration" label="配置方式">
+        <template slot-scope="scope">
+          <span v-if="scope.row.configuration == 0">自定义</span>
+          <span v-if="scope.row.configuration == 1">系统推荐</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="update_time" label="修改时间" width="150">
         <template slot-scope="scope">{{
           scope.row.update_time | timeFormat
@@ -284,6 +290,25 @@ export default {
             }
           ],
           placeholder: "请选择特殊需求"
+        },
+        {
+          type: "select",
+          label: "配置方式",
+          key: "configuration",
+          optionData: [
+            {
+              key: "",
+              value: "全部"
+            },
+            {
+              key: "0",
+              value: "自定义"
+            },
+            {
+              key: "1",
+              value: "系统推荐"
+            }
+          ]
         }
       ],
       // 表单配置
@@ -359,7 +384,7 @@ export default {
           ]
         },
         {
-          type: "select",
+          type: "selectGroup",
           label: "移动通道",
           key: "cmPassageway",
           optionData: [],
@@ -374,7 +399,7 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
-          type: "select",
+          type: "selectGroup",
           label: "联通通道",
           key: "cuPassageway",
           optionData: [],
@@ -389,7 +414,7 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
-          type: "select",
+          type: "selectGroup",
           label: "电信通道",
           optionData: [],
           key: "ctPassageway",
@@ -539,6 +564,34 @@ export default {
   },
   computed: {},
   methods: {
+    async listRecommendGatewayAndGroup(status) {
+      /*
+      status	string
+      运营商 1.移动 2.联通 3.电信
+      orderStatus	string
+      排序字段 1.单价 2.网关号 3.网关名
+      isAdvice	boolean
+      是否为推荐
+      */
+      let arr = [];
+      let params = {
+        isAdvice: true,
+        orderStatus: "1",
+        status: status
+      };
+      await this.$http.sysExemptReviewManage
+        .listRecommendGatewayAndGroup(params)
+        .then(res => {
+          if (res.code === 200) {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.name);
+              arr.push(t);
+            });
+          }
+        });
+      return arr;
+    },
     // 单选通道排序操作
     onChange({ val, item }) {
       console.log(val, item);
@@ -555,25 +608,29 @@ export default {
         key === "ctPassageway" ||
         key === "cmPassageway"
       ) {
-        optionData.forEach(t => {
-          if (t.key === val) {
-            if (t.status === "1") {
-              this.formConfig.forEach(item => {
-                if (item.key === "isGatewayGroup") {
-                  item.defaultValue = "0";
-                }
-              });
-              this.isGatewayGroup = "0";
-            } else {
-              this.formConfig.forEach(item => {
-                if (item.key === "isGatewayGroup") {
-                  item.defaultValue = "1";
-                }
-              });
-              this.isGatewayGroup = "1";
+        console.log(optionData, "------------optionData");
+        optionData.forEach(el => {
+          el.options.forEach(t => {
+            if (t.key === val) {
+              if (t.status === "1") {
+                this.formConfig.forEach(item => {
+                  if (item.key === "isGatewayGroup") {
+                    item.defaultValue = "0";
+                  }
+                });
+                this.isGatewayGroup = "0";
+              } else {
+                this.formConfig.forEach(item => {
+                  if (item.key === "isGatewayGroup") {
+                    item.defaultValue = "1";
+                  }
+                });
+                this.isGatewayGroup = "1";
+              }
             }
-          }
+          });
         });
+        // optionData[1].options
       }
     },
     //显示选择用户弹窗
@@ -653,15 +710,28 @@ export default {
       };
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(item => {
+        this.formConfig.forEach(async item => {
           const { key } = item;
           if (key == keys) {
-            item.optionData = [];
+            //获取系统推荐通道
+            let systemGateway = [];
+            await this.listRecommendGatewayAndGroup(status).then(res => {
+              systemGateway = res;
+              console.log(systemGateway, "------------systemGateway");
+            });
+
+            let gateway = [];
+            // item.options = [];
             res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
-              item.optionData.push(t);
+              gateway.push(t);
             });
+            let options = [
+              { label: "系统推荐:", options: systemGateway },
+              { label: "", options: gateway }
+            ];
+            item.optionData = options;
           }
         });
         this.searchFormConfig.forEach(item => {
