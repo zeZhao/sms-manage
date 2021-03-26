@@ -12,7 +12,9 @@
       <el-table-column prop="submitTime" label="提交时间" min-width="150">
         <template slot-scope="scope">{{ scope.row.submitTime | timeFormat }}</template>
       </el-table-column>
-      <el-table-column prop="price" label="提交类型" />
+      <el-table-column prop="submitType" label="提交类型">
+        <template slot-scope="scope">{{ renderSubmitType(scope.row.submitType) }}</template>
+      </el-table-column>
       <el-table-column prop="cmTemplateId" label="移动上游模板编号" min-width="150" />
       <el-table-column prop="cmGatewayId" label="移动通道编号" min-width="150" />
       <el-table-column prop="cmStatus" label="移动通道状态" min-width="150" />
@@ -24,11 +26,16 @@
       <el-table-column prop="ctStatus" label="电信通道状态" min-width="150" />
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="viewsRow('views', scope.row.mmsId)" type="text" size="small">预览</el-button>
-          <el-button @click="bringToTrial(scope.row.arraignId)" type="text" size="small">提审</el-button>
-          <el-button @click="partiallyPassed(scope.row.arraignId)" type="text" size="small">部分通过</el-button>
-          <el-button @click="reject(scope.row.arraignId)" type="text" size="small">驳回</el-button>
-          <el-button @click="channelConfig('channelConfig', scope.row)" type="text" size="small">通道配置</el-button>
+          <el-button @click="viewsRow('views',scope.row.arraignId, scope.row.mmsId)" type="text" size="small">预览
+          </el-button>
+          <el-button v-if="scope.row.auditStatus === 1" @click="bringToTrial(scope.row.arraignId)" type="text"
+            size="small">提审</el-button>
+          <el-button v-if="scope.row.auditStatus === 3" @click="partiallyPassed(scope.row.arraignId)" type="text"
+            size="small">部分通过</el-button>
+          <el-button v-if="scope.row.auditStatus === 1" @click="reject(scope.row.arraignId)" type="text" size="small">驳回
+          </el-button>
+          <el-button v-if="[1,3,5,6,7].includes(scope.row.auditStatus)"
+            @click="channelConfig('channelConfig', scope.row)" type="text" size="small">通道配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,8 +87,8 @@ export default {
   activated () { this._mxGetList() },
   methods: {
     //预览
-    viewsRow (type, mmsId) {
-      this.$router.push({ name: "MMStemplateReviewType", query: { type, mmsId } });
+    viewsRow (type, arraignId, mmsId) {
+      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, mmsId } });
     },
     //提审
     bringToTrial (arraignId) {
@@ -135,6 +142,15 @@ export default {
     //通道配置
     channelConfig (type, row) {
       this.$router.push({ name: "MMStemplateReviewType", query: { type, row: JSON.stringify(row) } });
+    },
+    renderSubmitType (v) {
+      if (v === 0) {
+        return 'web提交';
+      } else if (v === 1) {
+        return 'http提交';
+      } else {
+        return '-';
+      }
     }
   }
 };
