@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="blackGroupName" label="黑名单组" />
+      <el-table-column prop="blackGroupName" label="黑名单组1" />
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat }}</span>
