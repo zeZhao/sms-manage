@@ -162,9 +162,9 @@
           <span
             style="padding-right:10px"
             v-for="(item, index) in scope.row.smsTags"
-            :key="index"
-            >{{ item.name }}</span
-          >
+            :key="index">
+            {{ item ? item.name : "" }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column
