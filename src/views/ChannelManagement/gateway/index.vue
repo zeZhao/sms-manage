@@ -819,8 +819,8 @@ export default {
     //获取所有标签
     listTag() {
       this.$http.smsTagController.listTag({pageNumber: 1, pageSize: 9999}).then(res => {
-        if (resOk(res) && res.data.records.length) {
-          this.tagsData[0].optionData = res.data.records.map(v => {
+        if (resOk(res) && res.data.list.length) {
+          this.tagsData[0].optionData = res.data.list.map(v => {
             return  { key: v.id, value: v.name };
           })
         }
