@@ -17,17 +17,17 @@
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.proType === 1
+          <div v-for="(item, index) in scope.row.proTypes" :key="index">
+            <span>{{
+              item === 1
                 ? "web端"
-                : scope.row.proType === 2
+                : item === 2
                 ? "http接口"
-                : scope.row.proType === 4
+                : item === 4
                 ? "cmpp接口"
                 : ""
-            }}
-          </span>
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />

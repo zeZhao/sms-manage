@@ -12,7 +12,7 @@
       <el-table-column prop="licenceUrl" label="营业执照">
         <template slot-scope="scope">
           <a
-            style="color: #1890ff"
+            style="color: #0964FF"
             :href="`${origin}${scope.row.licenceUrl}`"
             target="_blank"
             v-if="scope.row.licenceUrl"
@@ -24,7 +24,7 @@
       <el-table-column prop="cardUrl" label="法人身份证">
         <template slot-scope="scope">
           <a
-            style="color: #1890ff"
+            style="color: #0964FF"
             :href="`${origin}${scope.row.cardUrl}`"
             target="_blank"
             v-if="scope.row.cardUrl"

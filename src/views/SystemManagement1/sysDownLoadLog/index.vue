@@ -46,10 +46,7 @@
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button
-            @click="install(scope.row.filePath)"
-            type="text"
-            size="small"
+          <el-button @click="install(scope.row)" type="text" size="small"
             >下载</el-button
           >
         </template>
@@ -130,8 +127,30 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    install(filePath) {
-      this.downloadFileByUrl(`${this.configFilePath}/${filePath}`);
+    install({ filePath, downloadContent }) {
+      this.$http.sysDownLoadLog.download({ path: filePath }).then(res => {
+        let blob = new Blob([res], {
+          type: "application/vnd.ms-excel;charset=utf-8"
+        });
+        let url = window.URL.createObjectURL(blob);
+        let aLink = document.createElement("a");
+        aLink.style.display = "none";
+        aLink.href = url;
+        aLink.setAttribute("download", `${downloadContent}`);
+        document.body.appendChild(aLink);
+        aLink.click();
+        document.body.removeChild(aLink);
+        window.URL.revokeObjectURL(url);
+        // if (res.data.type == "application/octet-stream") {
+
+        // } else {
+        //   this.$message.error("下载失败");
+        // }
+        // this.downloadFileByFile("get", "/sysDownLoadLog/download", {}, "123");
+        // location.href = res;
+        // console.log(res);
+      });
+      // this.downloadFileByUrl(`${this.configFilePath}/${filePath}`);
     }
   },
   watch: {}

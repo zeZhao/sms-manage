@@ -74,17 +74,19 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="proType" label="短信产品类型">
+      <el-table-column prop="proTypes" label="短信产品类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.proType === 1
-              ? "web端"
-              : scope.row.proType === 2
-              ? "http接口"
-              : scope.row.proType === 4
-              ? "cmpp接口"
-              : ""
-          }}</span>
+          <div v-for="(item, index) in scope.row.proTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="短信运营商" width="100">
