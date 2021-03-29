@@ -409,6 +409,13 @@ export default {
       // row = this._mxArrangeEditData(row)
       this.typeId = row.typeId
       this.formTit = '修改'
+      
+      //编辑时  前四个默认不可修改
+      let indexSymbol = 3;
+      while (indexSymbol >= 0) {
+        this.formConfig[indexSymbol].disabled = true;
+        indexSymbol --;
+      }
 
       //短信
       if (row.alarmModes.includes(1)) {
