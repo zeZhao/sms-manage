@@ -154,7 +154,13 @@ export default {
       this.$http.mmsTemplateCheck.getTemplateDetail({ mmsId }).then(res => {
         if (res.code === 200) {
           this.formObj = res.data;
-          this.formViews = this.typeConversion(res.data.mmsPages);
+          const data = this.typeConversion(res.data.mmsPages);
+          data.forEach((item, index) => {
+            item[index + 1].forEach(it => {
+              it.pageMedia = '/api' + it.pageMedia;
+            })
+          })
+          this.formViews = data;
         } else {
           this.$message.error(res.data || res.msg);
         }
