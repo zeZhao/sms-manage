@@ -1,7 +1,7 @@
 import {
     post,
     fetch,
-    patch,
+    downLoadGet,
     put,
     del
 } from './http'
@@ -1813,7 +1813,7 @@ export default {
         },
         // 下载文件
         download(params) {
-            return fetch("/sysDownLoadLog/download", params);
+            return downLoadGet("/sysDownLoadLog/download", params);
         },
 
     },
