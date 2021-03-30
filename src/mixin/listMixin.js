@@ -497,7 +497,7 @@ export default {
       let arr = []
       list.forEach(item => {
         if (item.key === key) {
-          if (item.type === 'select') {
+          if (item.type === 'select' || item.type === 'checkbox') {
             data.forEach(t => {
               let obj = {
                 key: t[optionKey],
