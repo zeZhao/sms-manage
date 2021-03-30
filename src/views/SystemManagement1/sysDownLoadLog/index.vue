@@ -15,7 +15,7 @@
       <el-table-column type="index" label="序号" />
       <el-table-column prop="type" label="导出类型">
         <template slot-scope="scope">
-          <span v-if="scope.row.type == 1">.execl</span>
+          <span v-if="scope.row.type == 1">.excel</span>
           <span v-else-if="scope.row.type == 2">.txt</span>
           <span v-else>-</span>
         </template>
@@ -46,7 +46,11 @@
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="install(scope.row)" type="text" size="small"
+          <el-button
+            @click="install(scope.row)"
+            type="text"
+            size="small"
+            :disabled="scope.row.status == 1 || scope.row.status == 3"
             >下载</el-button
           >
         </template>

@@ -247,8 +247,8 @@ export default {
           label: "描述",
           key: "remark",
           maxlength: 300,
-          placeholder: "备注信息不能超过300字",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          placeholder: "备注信息不能超过300字"
+          // rules: [{ trigger: "blur", validator: validatorRemark }]
         }
       ],
       blackId: "",

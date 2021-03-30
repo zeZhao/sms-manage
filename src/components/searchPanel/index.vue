@@ -208,10 +208,19 @@ export default {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
+      this.searchFormConfig.forEach(item => {
+        if (item.hasOwnProperty("isSpecial")) {
+          this.$emit("isChooseTime", this.form);
+        }
+      });
 
       // 彩信分类统计特殊页面搜索时展示时间功能
-      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial)
-        this.$emit("isChooseTime", this.form);
+      // if (
+      //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
+      //     "hasOwnProperty"
+      //   )
+      // )
+      //   this.$emit("isChooseTime", this.form);
     },
     //传值
     _mxHandleSendData() {
@@ -220,18 +229,25 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
+      console.log(form, "------------");
       // 彩信分类统计特殊页面特殊重置
-      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
-        for (let key in form) {
-          form[key] = "";
-        }
-        form["statisticType"] = 2;
-        return;
-      }
+      // if(){
+      // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
+      //   for (let key in form) {
+      //     form[key] = "";
+      //   }
+      //   form["statisticType"] = 2;
+      //   return;
+      // }
+      // }
 
       for (let key in form) {
         form[key] = "";
+        if (key === "statisticType") {
+          form["statisticType"] = 2;
+        }
       }
+
       this.form = form;
       // this.$emit("search", this.form);
     },
@@ -268,8 +284,17 @@ export default {
       this._mxHandleSubmit();
 
       // 彩信分类统计特殊页面传该form引用类型数据
-      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial)
-        this.$emit("forms", this.form);
+      this.searchFormConfig.forEach(item => {
+        if (item.hasOwnProperty("isSpecial")) {
+          this.$emit("forms", this.form);
+        }
+      });
+      // if (
+      //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
+      //     "isSpecial"
+      //   )
+      // )
+      //   this.$emit("forms", this.form);
     },
 
     /**

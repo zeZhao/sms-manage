@@ -1,5 +1,5 @@
 <template>
-  <!--红名单管理-->
+  <!--优化比例配置-->
   <div class="sysBelielConfig">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -221,7 +221,7 @@ export default {
           key: "noOptimizeTemplate",
           placeholder: "多个关键词请用'|'隔开",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            // { required: true, message: "请输入必填项", trigger: "blur" },
             {
               trigger: "change",
               validator: validatorTemplate
@@ -234,7 +234,7 @@ export default {
           key: "optimizeTemplate",
           placeholder: "多个关键词请用'|'隔开",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            // { required: true, message: "请输入必填项", trigger: "blur" },
             {
               trigger: "change",
               validator: validatorTemplate
