@@ -164,7 +164,8 @@
           <span
             style="padding-right:10px"
             v-for="(item, index) in scope.row.smsTags"
-            :key="index">
+            :key="index"
+          >
             {{ item ? item.name : "" }}
           </span>
         </template>
@@ -851,10 +852,10 @@ export default {
           defaultValue: [0, 2],
           key: "blackLevel",
           optionData: [
-            { key: 0, value: "系统级" },
-            { key: 2, value: "用户级" },
-            { key: 3, value: "营销级" },
-            { key: 4, value: "BSATS级" }
+            // { key: 0, value: "系统级" },
+            // { key: 2, value: "用户级" },
+            // { key: 3, value: "营销级" },
+            // { key: 4, value: "BSATS级" }
           ],
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -989,10 +990,10 @@ export default {
           key: "mmsBlackLevel",
           tag: "mms",
           optionData: [
-            { key: 0, value: "系统级" },
-            { key: 2, value: "用户级" },
-            { key: 3, value: "营销级" },
-            { key: 4, value: "BSATS级" }
+            // { key: 0, value: "系统级" },
+            // { key: 2, value: "用户级" },
+            // { key: 3, value: "营销级" },
+            // { key: 4, value: "BSATS级" }
           ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -1076,6 +1077,7 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
+    this.getBlackFroup();
   },
   computed: {},
   methods: {
@@ -1096,6 +1098,26 @@ export default {
           this.$message.success("操作成功");
           this._mxGetList();
         }
+      });
+    },
+    //获取黑名单类型
+    getBlackFroup() {
+      this.$http.smsBlackGroup.listBlackGroup().then(res => {
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "blackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "mmsBlackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+        console.log(res, "listBlackGroup-------------");
       });
     },
     //获取所有标签
