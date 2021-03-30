@@ -246,7 +246,7 @@
             placeholder="请输入备注开户行信息"
           />
         </el-form-item>
-        <el-form-item label="父商户编号" prop="root">
+        <!-- <el-form-item label="父商户编号" prop="root">
           <el-button v-if="!addInfo.root" @click="selectCompany"
             >请选择父商户</el-button
           >
@@ -256,7 +256,7 @@
               >修改</el-button
             >
           </span>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addCustomerInfo('addForm')">{{
