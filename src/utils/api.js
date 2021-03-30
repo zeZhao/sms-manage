@@ -1811,6 +1811,10 @@ export default {
         queryByPage(params) {
             return post("/sysDownLoadLog/queryByPage", params);
         },
+        // 下载文件
+        download(params) {
+            return fetch("/sysDownLoadLog/download", params);
+        },
 
     },
     //用户监控配置管理

@@ -16,8 +16,8 @@ export default {
     },
     key() {
       return this.$route.path;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -26,7 +26,7 @@ export default {
   /* 50= navbar  50  */
   min-height: calc(100vh - 50px);
   width: 100%;
-  background: #f0f2f5;
+  background: #e9eaf1;
   position: relative;
   overflow: hidden;
 }
@@ -55,7 +55,7 @@ export default {
   }
 }
 .sidebar-container .is-active > .el-submenu__title > i {
-  color: #1890ff !important;
+  color: #0964ff !important;
 }
 .hideSidebar {
   .el-tooltip,

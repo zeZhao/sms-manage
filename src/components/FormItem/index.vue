@@ -25,6 +25,7 @@
                 :class="{ inputWid: item.btnTxt }"
                 v-model="formData[item.key]"
                 clearable
+                size="small"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
@@ -36,7 +37,7 @@
                 "
               />
               <el-button
-                style="border-color: #1890ff"
+                style="border-color: #0964FF"
                 v-if="item.btnTxt"
                 :disabled="item.btnDisabled"
                 @click="chooses(item)"

@@ -74,17 +74,19 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="proType" label="短信产品类型">
+      <el-table-column prop="proTypes" label="短信产品类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.proType === 1
-              ? "web端"
-              : scope.row.proType === 2
-              ? "http接口"
-              : scope.row.proType === 4
-              ? "cmpp接口"
-              : ""
-          }}</span>
+          <div v-for="(item, index) in scope.row.proTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="短信运营商" width="100">
@@ -1567,112 +1569,77 @@ export default {
     //   return formData;
     // },
     createElement(h, row) {
-      let strType = "";
-      switch (row.proType) {
-        case 1:
-          strType = "web端";
-          break;
-        case 2:
-          strType = "http接口";
-          break;
-        case 4:
-          strType = "cmpp接口";
-          break;
-      }
-      if (row.proType === 1) {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${strType || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.corpName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
-          ]),
-          h("p", null, [
-            h("span", null, "网址: "),
-            h("span", null, "https://user.sms.jvtd.cn")
-          ])
-        ]);
-      }
-      if (row.proType === 2) {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${strType}`)
-          ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.corpName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
-          ]),
-          h("p", null, [
-            h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "接口地址: "),
-            h("span", null, `${row.mmsAuditCallBack || ""}`)
-          ])
-        ]);
-      }
-      if (row.proType === 3) {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${strType}`)
-          ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.corpName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
-          ]),
-          h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
-          h("p", null, [
-            h("span", null, "协议端口: "),
-            h("span", null, `${row.directPort || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "协议: "),
-            h("span", null, `${row.directPort}`)
-          ]),
-          h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
-          h("p", null, [
-            h("span", null, "客户IP地址: "),
-            h("span", null, `${row.userIp || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "链接路数: "),
-            h("span", null, `${row.maxSession || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "通道速率: "),
-            h("span", null, `${row.alertBalance || ""}`)
-          ])
-        ]);
-      }
+      let arr = row.proTypes;
+      let proType = [];
+      arr.forEach(item => {
+        if (item == 1) {
+          proType.push("web端");
+        } else if (item == 2) {
+          proType.push("http接口");
+        } else if (item == 4) {
+          proType.push("cmpp接口");
+        }
+      });
+      // let strType = "";
+      // switch (row.proType) {
+      //   case 1:
+      //     strType = "web端";
+      //     break;
+      //   case 2:
+      //     strType = "http接口";
+      //     break;
+      //   case 4:
+      //     strType = "cmpp接口";
+      //     break;
+      // }
+      let strType = proType.join("、");
+      return h("div", null, [
+        h("p", null, [
+          h("span", null, "产品类型: "),
+          h("span", null, `${strType || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "商户名称: "),
+          h("span", null, `${row.corpName}`)
+        ]),
+        h("p", null, [
+          h("span", null, "登录账号: "),
+          h("span", null, `${row.loginName}`)
+        ]),
+        h("p", null, [
+          h("span", null, "密码: "),
+          h("span", null, `${row.password}`)
+        ]),
+        h("p", null, [
+          h("span", null, "网址: "),
+          h("span", null, "https://user.sms.jvtd.cn")
+        ]),
+        h("p", null, [
+          h("span", null, "客户端IP: "),
+          h("span", null, `${row.userIp || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "接口地址: "),
+          h("span", null, `${row.mmsAuditCallBack || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "协议端口: "),
+          h("span", null, `${row.directPort || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "协议: "),
+          h("span", null, `${row.directPort}`)
+        ]),
+        h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
+        h("p", null, [
+          h("span", null, "链接路数: "),
+          h("span", null, `${row.maxSession || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "通道速率: "),
+          h("span", null, `${row.submitSpeed || ""}`)
+        ])
+      ]);
     }
   },
   watch: {}

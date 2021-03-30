@@ -1,7 +1,12 @@
 <template>
-  <div class="sidebar-logo-container" :class="{'collapse':collapse}">
+  <div class="sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
+      <router-link
+        v-if="collapse"
+        key="collapse"
+        class="sidebar-logo-link"
+        to="/"
+      >
         <img style="width: auto" v-if="logo" :src="logo" class="sidebar-logo" />
         <h1 v-else class="sidebar-title">{{ title }}</h1>
       </router-link>
@@ -46,7 +51,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #1890ff;
+  background: #0964ff;
   text-align: center;
   overflow: hidden;
 

@@ -22,7 +22,7 @@ export default {
   font-size: 14px;
 }
 .app-main {
-  padding: 20px;
+  padding: 16px;
 }
 .remind {
   line-height: 16px;
@@ -43,4 +43,3 @@ export default {
   width: inherit;
 }
 </style>
-
