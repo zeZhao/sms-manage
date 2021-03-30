@@ -149,15 +149,17 @@
       </el-table-column>
       <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.proType == "1"
-              ? "web商戶端"
-              : scope.row.proType == "2"
-              ? "http接口"
-              : scope.row.proType == "4"
-              ? "cmpp接口"
-              : ""
-          }}</span>
+          <div v-for="(item, index) in scope.row.proTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="发送运营商">

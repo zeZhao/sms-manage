@@ -1,18 +1,18 @@
 <template>
   <div class="navbar">
-    <hamburger
+    <!-- <hamburger
       id="hamburger-container"
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
 
     <div class="right-menu">
-      <span class="el-breadcrumb__item fontColor"
+      <!-- <span class="el-breadcrumb__item fontColor"
         >账户名称：{{ custName }}&nbsp;&nbsp;/&nbsp;&nbsp;</span
-      >
+      > -->
       <template v-if="device !== 'mobile'">
         <!-- <search id="header-search" class="right-menu-item" /> -->
 
@@ -21,20 +21,21 @@
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
       </template>
 
+      <div class="right-menu-item split ">
+        <span class="line"></span>
+      </div>
+
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
         trigger="click"
+        placement="bottom"
       >
         <div class="avatar-wrapper">
-          <img
-            style="width: 70px"
-            src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=277220192,2833800326&fm=58&s=2FC3EE1690F07982046C9CF203000031&bpow=121&bpoh=75"
-            class="user-avatar"
-          />
+          {{ custName }}
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item divided>
+          <el-dropdown-item>
             <span
               style="
                 display: block;
@@ -70,17 +71,17 @@ export default {
     ErrorLog,
     Screenfull,
     SizeSelect,
-    Search,
+    Search
   },
   data() {
     return {
       custName: window.localStorage.getItem("userName"),
       balance: "",
-      creditLine: "",
+      creditLine: ""
     };
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "device"]),
+    ...mapGetters(["sidebar", "avatar", "device"])
   },
   mounted() {
     // this.userInfo()
@@ -95,7 +96,7 @@ export default {
       this.$store.dispatch("user/logout").then(() => {
         this.$message({
           message: "退出成功！",
-          type: "success",
+          type: "success"
         });
         Cookies.remove("Admin-Token");
         Cookies.remove("token");
@@ -103,19 +104,19 @@ export default {
         window.location.reload();
       });
     },
-    userInfo: function () {
+    userInfo: function() {
       this.$axios
         .get("/manage/sys/user/info", {
-          headers: { token: window.localStorage.getItem("token") },
+          headers: { token: window.localStorage.getItem("token") }
         })
-        .then((res) => {
+        .then(res => {
           if (res.data.code == 200) {
             this.custName = res.data.result.userName;
           } else {
           }
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -131,7 +132,8 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: #0f1b2e;
+  // background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
@@ -182,14 +184,26 @@ export default {
         }
       }
     }
+    .split {
+      color: #ffffff;
+      padding: 0 16px;
+      .line {
+        width: 1px;
+        height: 8px;
+        background: #fff;
+        display: inline-block;
+      }
+    }
 
     .avatar-container {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
+        // margin-top: 5px;
         position: relative;
-
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff;
         .user-avatar {
           cursor: pointer;
           width: 40px;
@@ -201,7 +215,7 @@ export default {
           cursor: pointer;
           position: absolute;
           right: -20px;
-          top: 25px;
+          top: 20px;
           font-size: 12px;
         }
       }

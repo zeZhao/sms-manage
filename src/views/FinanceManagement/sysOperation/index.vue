@@ -30,7 +30,7 @@
         <template slot-scope="scope">
           <a
             v-if="scope.row.fileUrl && scope.row.fileUrl !== '-'"
-            style="color: #1890ff"
+            style="color: #0964FF"
             :href="`${origin}/${scope.row.fileUrl}`"
             target="_blank"
             >点击查看</a

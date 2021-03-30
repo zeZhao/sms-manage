@@ -69,7 +69,7 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
 }
 
@@ -81,4 +81,13 @@
 // to fix el-date-picker css style
 .el-range-separator {
   box-sizing: content-box;
+}
+
+.el-input--medium,
+.el-input__inner {
+  // height: 32px !important;
+  // line-height: 32px !important;
+}
+.el-form-item--medium .el-form-item__label {
+  line-height: 32px !important;
 }
