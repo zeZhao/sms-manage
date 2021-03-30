@@ -85,6 +85,30 @@ export function fetch(url, params = {}) {
       })
   })
 }
+/**
+ * 封装get请求下载文件方法
+ * @param url
+ * @param data
+ * @returns {Promise}
+ */
+
+export function downLoadGet(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, {
+      params: params,
+      responseType: 'blob',
+    })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(err => {
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
+      })
+  })
+}
 
 
 /**
@@ -97,6 +121,26 @@ export function fetch(url, params = {}) {
 export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
     axios.post(url, data)
+      .then(response => {
+        resolve(response.data);
+      }, err => {
+        Message({
+          message: '系统异常，请联系管理员',
+          type: 'error',
+        })
+      })
+  })
+}
+/**
+ * 封装post请求下载文件
+ * @param url
+ * @param data
+ * @returns {Promise}
+ */
+
+export function downLoadPost(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.post(url, data, { responseType: 'blob' })
       .then(response => {
         resolve(response.data);
       }, err => {

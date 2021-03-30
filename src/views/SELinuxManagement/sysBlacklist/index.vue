@@ -15,8 +15,8 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
 
-      <el-table-column prop="blackType" label="黑名单类型">
-        <template slot-scope="scope">
+      <el-table-column prop="blackGroupName" label="黑名单类型">
+        <!-- <template slot-scope="scope">
           <span>
             {{
               scope.row.blackType === "0"
@@ -30,7 +30,7 @@
                 : "BSATS级"
             }}
           </span>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column prop="mobile" label="手机号码" />
       <!-- <el-table-column prop="gateway" label="通道" /> -->
@@ -368,9 +368,10 @@ export default {
       }, 0);
     },
     edit(row) {
+      row.blackType = row.groupId;
       const { blackId, blackType } = row;
       this.blackId = blackId;
-      console.log(blackType);
+      console.log(blackType, "----------");
       if (blackType === "1") {
         this._setDisplayShow(this.formConfig, "gateway", false);
         this._setDisplayShow(this.formConfig, "userId", true);

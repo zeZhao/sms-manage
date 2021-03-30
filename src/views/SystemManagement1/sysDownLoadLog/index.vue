@@ -133,14 +133,12 @@ export default {
   methods: {
     install({ filePath, downloadContent }) {
       this.$http.sysDownLoadLog.download({ path: filePath }).then(res => {
-        let blob = new Blob([res], {
-          type: "application/vnd.ms-excel;charset=utf-8"
-        });
+        let blob = new Blob([res]);
         let url = window.URL.createObjectURL(blob);
         let aLink = document.createElement("a");
         aLink.style.display = "none";
         aLink.href = url;
-        aLink.setAttribute("download", `${downloadContent}`);
+        aLink.setAttribute("download", `${downloadContent}.xlsx`);
         document.body.appendChild(aLink);
         aLink.click();
         document.body.removeChild(aLink);
