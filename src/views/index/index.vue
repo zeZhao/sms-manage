@@ -6,6 +6,33 @@
         alt="天气"
     /></span>
     <b>欢迎进入短信管理平台</b> -->
+    <!-- <div style="background-color: rgb(24, 33, 49);width:500px;height:40px">
+      <svg-icon icon-class="1" />
+      <svg-icon icon-class="2" />
+
+      <svg-icon icon-class="3" />
+      <svg-icon icon-class="4" />
+
+      <svg-icon icon-class="5" />
+      <svg-icon icon-class="10" />
+
+      <svg-icon icon-class="11" />
+      <svg-icon icon-class="6" />
+
+      <svg-icon icon-class="15" />
+      <svg-icon icon-class="9" />
+
+      <svg-icon icon-class="16" />
+      <svg-icon icon-class="7" />
+
+      <svg-icon icon-class="13" />
+      <svg-icon icon-class="14" />
+
+      <svg-icon icon-class="8" />
+      <svg-icon icon-class="index" />
+      <svg-icon icon-class="12" /> 
+    </div> -->
+
     <el-row>
       <el-col :span="12" style="border-right:1px solid gray">
         <el-row>
@@ -265,6 +292,10 @@ export default {
 </script>
 
 <style scoped>
+.welinfo {
+  background: #fff;
+  padding: 24px;
+}
 #chart_operator,
 #chart_send {
   display: block;

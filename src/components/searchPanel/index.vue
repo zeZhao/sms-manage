@@ -1,10 +1,15 @@
 <style scoped lang="scss">
 .el-form-item {
-  margin-bottom: 5px;
+  height: 32px;
+  margin-bottom: 24px;
 }
 .searchPanel {
   background: #fff;
-  padding: 24px;
+  padding-bottom: 24px;
+  .btnStyle {
+    float: right;
+  }
+  // padding: 24px;
 }
 </style>
 
@@ -144,30 +149,37 @@
           </el-form-item>
         </el-col>
         <slot name="Btn">
-          <el-button
-            type="primary"
-            @click="_mxHandleSubmit()"
-            style="margin-left: 15px"
-            size="small"
-            v-throttle
-            >查询</el-button
-          >
-          <el-button
-            type="primary"
-            size="small"
-            @click="_mxHandleReset()"
-            style="margin-left: 15px"
-            >重置</el-button
-          >
-          <el-button
+          <div class="btnStyle">
+            <el-button
+              type="primary"
+              @click="_mxHandleSubmit()"
+              style="margin-right: 15px"
+              size="small"
+              v-throttle
+              >查询</el-button
+            >
+            <el-button
+              size="small"
+              @click="_mxHandleReset()"
+              style="margin-right: 15px"
+              >重置</el-button
+            >
+          </div>
+        </slot>
+
+        <slot name="Other" :form="form"></slot>
+      </el-row>
+      <el-row>
+        <el-col
+          ><el-button
             type="primary"
             v-if="add && searchFormConfig.length"
             @click="create"
             size="small"
+            icon="el-icon-plus"
             >新建</el-button
-          >
-        </slot>
-        <slot name="Other" :form="form"></slot>
+          ></el-col
+        >
       </el-row>
     </el-form>
   </div>

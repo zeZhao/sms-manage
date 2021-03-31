@@ -1,22 +1,35 @@
 <template>
   <section class="app-main">
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <tags-view v-if="needTagsView" />
+    <div class="content">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </div>
   </section>
 </template>
 
 <script>
+import TagsView from "./TagsView/index.vue";
+// import ResizeMixin from "../mixin/ResizeHandler";
+import { mapState } from "vuex";
 export default {
   name: "AppMain",
+  // mixins: [ResizeMixin],
+  components: {
+    TagsView
+  },
   computed: {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews;
     },
     key() {
       return this.$route.path;
-    }
+    },
+    ...mapState({
+      needTagsView: state => state.settings.tagsView
+    })
   }
 };
 </script>
@@ -24,7 +37,7 @@ export default {
 <style lang="scss" scoped>
 .app-main {
   /* 50= navbar  50  */
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 122px);
   width: 100%;
   background: #e9eaf1;
   position: relative;
@@ -32,17 +45,23 @@ export default {
 }
 
 .fixed-header + .app-main {
-  padding-top: 50px;
+  padding-top: 122px;
 }
 
 .hasTagsView {
   .app-main {
-    /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
+    /* 84 = navbar + tags-view = 50 + 40 + 32 */
+    min-height: calc(100vh - 122px);
   }
 
   .fixed-header + .app-main {
-    padding-top: 84px;
+    padding-top: 122px;
+  }
+
+  .content {
+    background: #fff;
+    padding: 24px;
+    min-height: calc(100vh - 122px);
   }
 }
 </style>
