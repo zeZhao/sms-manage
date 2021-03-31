@@ -7,8 +7,12 @@
       @create="_mxCreate"
     >
       <template v-slot:Other="form">
-        <el-button type="primary" @click="exported(form)">导出</el-button>
-        <el-button type="primary" @click="handleAdd">批量添加</el-button>
+        <el-button type="primary" @click="exported(form)" size="small"
+          >导出</el-button
+        >
+        <el-button type="primary" @click="handleAdd" size="small"
+          >批量添加</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -122,6 +126,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getToken } from "@/utils/auth";
+import { phone } from "@/utils/validator";
 
 export default {
   mixins: [listMixin],
@@ -178,7 +183,10 @@ export default {
           maxlength: 11,
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { validator: phone, trigger: "change" }
+          ]
         },
         {
           type: "select",
@@ -260,7 +268,6 @@ export default {
     },
     exported(form) {
       console.log({ ...form.form }, "----------");
-      // console.log(this.searchParam);
       this.$http.networkChange.export({ ...form.form }).then(res => {
         if (res.code === 200) {
           this.$message.success("提交下载成功，请前往下载中心下载文件。");
