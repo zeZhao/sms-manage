@@ -19,14 +19,14 @@
           <div v-if="formViews.length" class="mss-content">
             <section v-for="(item, index) in formViews" :key="index">
               <div v-for="(it, idx) in item[index + 1]" :key="it.pageOrder">
-                <p v-if="it.pageType == '0' && it.pageMedia" style="color: #909399">{{ it.pageMedia }}</p>
-                <img v-if="it.pageType == '1' && it.pageMedia" :src="it.pageMedia" class="preview-content views-pic"
+                <p v-if="it.pageType === 0 && it.pageMedia" style="color: #909399">{{ it.pageMedia }}</p>
+                <img v-if="it.pageType === 1 && it.pageMedia" :src="it.pageMedia" class="preview-content views-pic"
                   @click="viewsPic(it.pageMedia)" />
-                <audio v-if="it.pageType == '2' && it.pageMedia" :src="it.pageMedia" controls="controls"
+                <audio v-if="it.pageType === 2 && it.pageMedia" :src="it.pageMedia" controls="controls"
                   class="preview-content">
                   您的浏览器不支持 audio 标签
                 </audio>
-                <video v-if="it.pageType == '3' && it.pageMedia" :src="it.pageMedia" controls="controls"
+                <video v-if="it.pageType === 3 && it.pageMedia" :src="it.pageMedia" controls="controls"
                   class="preview-content">
                   您的浏览器不支持 video 标签
                 </video>
@@ -157,7 +157,7 @@ export default {
           const data = this.typeConversion(res.data.mmsPages);
           data.forEach((item, index) => {
             item[index + 1].forEach(it => {
-              it.pageMedia = '/api' + it.pageMedia;
+              if (it.pageType !== 0) it.pageMedia = '/api' + it.pageMedia;
             })
           })
           this.formViews = data;
