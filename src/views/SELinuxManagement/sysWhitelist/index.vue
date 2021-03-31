@@ -82,6 +82,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { phone } from "@/utils/validator";
 
 export default {
   mixins: [listMixin],
@@ -174,7 +175,10 @@ export default {
           label: "手机号码",
           key: "mobile",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { validator: phone, trigger: "change" }
+          ]
         }
       ],
       whiteId: "",
