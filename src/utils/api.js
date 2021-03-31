@@ -1,7 +1,7 @@
 import {
     post,
     fetch,
-    patch,
+    downLoadGet,
     put,
     del
 } from './http'
@@ -989,6 +989,10 @@ export default {
         checkSms(params) {
             return post("/smsCheckWait/checkSms", params);
         },
+        //  超审
+        supperCheck(params) {
+            return post("/smsCheckWait/supperCheck", params);
+        },
 
     },
     // 审核管理-免审核模板
@@ -1813,7 +1817,7 @@ export default {
         },
         // 下载文件
         download(params) {
-            return fetch("/sysDownLoadLog/download", params);
+            return downLoadGet("/sysDownLoadLog/download", params);
         },
 
     },

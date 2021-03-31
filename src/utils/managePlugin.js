@@ -206,14 +206,14 @@ class managePlugin {
      */
     Vue.prototype.downloadFileByFile = function (method, url, params, fileName) {
       this.$axios
-      [`${method}`](
-        url,
-        { ...params },
-        {
-          responseType: "blob",
-          headers: { token: window.localStorage.getItem("token") }
-        }
-      )
+        .post(
+          url,
+          { ...params },
+          {
+            responseType: "blob",
+            headers: { token: window.localStorage.getItem("token") }
+          }
+        )
         .then(res => {
           if (res.data.type == "application/octet-stream") {
             let blob = new Blob([res.data], {
@@ -225,7 +225,7 @@ class managePlugin {
             aLink.href = url;
             aLink.setAttribute(
               "download",
-              `${fileName}`
+              `${fileName}.xlsx`
             );
             document.body.appendChild(aLink);
             aLink.click();
