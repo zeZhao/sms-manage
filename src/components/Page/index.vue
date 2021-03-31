@@ -8,50 +8,56 @@
         :page-sizes="pageObj.pageSizes"
         :page-size="pageObj.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="pageObj.total">
+        :total="pageObj.total"
+      >
       </el-pagination>
     </el-col>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "index",
-    props: {
-      pageObj: {
-        type: Object,
-        default: () => {
-          return {
-            pageObj: {
-              currentPage: 0,
-              total: 0,
-              pageSize: 10,
-              pageSizes: [10, 20, 30, 40, 50]
-            }
+export default {
+  name: "index",
+  props: {
+    pageObj: {
+      type: Object,
+      default: () => {
+        return {
+          pageObj: {
+            currentPage: 0,
+            total: 0,
+            pageSize: 10,
+            pageSizes: [10, 20, 30, 40, 50]
           }
-        }
+        };
       }
+    }
+  },
+  data() {
+    return {};
+  },
+  mounted() {},
+  computed: {},
+  methods: {
+    handleSizeChange(pageSize) {
+      this.$emit("handleSizeChange", pageSize);
     },
-    data() {
-      return {}
-    },
-    mounted() {
-    },
-    computed: {},
-    methods: {
-      handleSizeChange(pageSize) {
-        this.$emit("handleSizeChange", pageSize)
-      },
-      handleCurrentChange(currentPage) {
-        this.$emit("handleCurrentChange", currentPage)
-      }
-    },
-    watch: {},
-  }
+    handleCurrentChange(currentPage) {
+      this.$emit("handleCurrentChange", currentPage);
+    }
+  },
+  watch: {}
+};
 </script>
 
 <style scoped>
-  .page {
-    margin-top: 20px;
-  }
+.page {
+  /* margin-top: 20px; */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 100%;
+  background: #fff;
+  text-align: right;
+  overflow: hidden;
+}
 </style>

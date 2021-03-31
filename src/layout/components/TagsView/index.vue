@@ -205,45 +205,44 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 32px;
   width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  background: #e9eaf1;
+  // border-bottom: 1px solid #d8dce5;
+  // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   .tags-view-wrapper {
     .tags-view-item {
+      min-width: 88px;
+      text-align: center;
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid #d8dce5;
+      height: 32px;
+      line-height: 21px;
+      // border: 1px solid #d8dce5;
       color: #495060;
-      background: #fff;
-      padding: 0 8px;
-      font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
-      &:first-of-type {
-        margin-left: 15px;
-      }
+      background: #f9f9f9;
+      padding: 6px 12px;
+      font-size: 14px;
+      // margin-left: 5px;
+      // margin-top: 4px;
       &:last-of-type {
         margin-right: 15px;
       }
       &.active {
-        background-color: #0964ff;
-        color: #fff;
-        border-color: #0964ff;
-        &::before {
-          content: "";
-          background: #fff;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 2px;
-        }
+        background-color: #fff;
+        color: #0964ff;
+        border-color: #fff;
+        // &::before {
+        //   content: "";
+        //   background: #fff;
+        //   display: inline-block;
+        //   width: 8px;
+        //   height: 8px;
+        //   border-radius: 50%;
+        //   position: relative;
+        //   margin-right: 2px;
+        // }
       }
     }
   }
@@ -284,9 +283,9 @@ export default {
       transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
       transform-origin: 100% 50%;
       &:before {
-        transform: scale(0.6);
+        transform: scale(0.8);
         display: inline-block;
-        vertical-align: -3px;
+        vertical-align: -1px;
       }
       &:hover {
         background-color: #b4bccc;

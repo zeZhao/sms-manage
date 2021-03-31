@@ -10,7 +10,7 @@
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
         <nav-menu />
-        <tags-view v-if="needTagsView" />
+        <!-- <tags-view v-if="needTagsView" /> -->
       </div>
       <app-main />
       <right-panel v-if="showSettings">
@@ -79,7 +79,6 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
-
   &.mobile.openSidebar {
     position: fixed;
     top: 0;

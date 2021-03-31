@@ -596,7 +596,7 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: 1, value: "账户计费" },
+            { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
