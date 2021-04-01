@@ -14,7 +14,7 @@
       <el-table-column prop="agentName" label="代理商名称" />
       <el-table-column prop="contact" label="联系人" />
       <el-table-column prop="mobile" label="联系电话" />
-      <el-table-column prop="saleMan" label="销售" />
+      <el-table-column prop="actualName" label="销售" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 1">正常</span>
@@ -267,12 +267,20 @@ export default {
           label: "状态",
           key: "status",
           defaultValue: "1",
-          initDefaultValue: "1"
+          initDefaultValue: "1",
+          activeValue: "1",
+          inactiveValue: "2"
         },
         {
           type: "upload",
           label: "logo",
-          key: "logo"
+          btnTxt: "上传LOGO",
+          key: "logo",
+          limit: 1,
+          defaultValue: "",
+          tip: "支持jpg/jpeg/png,大小在1M之内",
+          defaultFileList: [],
+          isShow: false
         }
       ],
       bId: "",

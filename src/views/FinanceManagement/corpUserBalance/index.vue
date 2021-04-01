@@ -90,7 +90,7 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "用户"
+              value: "账户"
             }
             // {
             //   key: 1,

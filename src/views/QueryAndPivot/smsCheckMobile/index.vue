@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="cid" label="C编号" />
+      <el-table-column prop="cid" label="CID编号" />
       <el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
       <el-table-column prop="type" label="号码类型">
         <template slot-scope="scope">

@@ -268,7 +268,6 @@
                     <i class="el-icon-zoom-in"></i>
                   </span>
                   <span
-                    class="el-upload-list__item-delete"
                     style="display: inline-block;"
                     @click="handleRemoveImg(item)"
                   >
@@ -335,7 +334,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "/api/api/sysPrepaidCard/uploadFile",
+      action: "/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken()
       },

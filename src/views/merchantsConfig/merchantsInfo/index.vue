@@ -41,9 +41,10 @@
         <el-form-item>
           <el-select v-model="search.status" placeholder="状态" clearable>
             <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
-            <el-option value="1" label="初始" />
+            <!-- <el-option value="1" label="初始" /> -->
             <el-option value="2" label="正常" />
             <el-option value="3" label="禁用" />
+            <el-option value="1" label="启用" />
           </el-select>
         </el-form-item>
         <el-form-item>

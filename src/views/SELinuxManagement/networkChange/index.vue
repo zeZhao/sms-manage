@@ -98,7 +98,7 @@
         请先<el-button type="text">下载模板</el-button> ，再进行
         <el-upload
           class="upload-demo"
-          action="/api/api/sysPrepaidCard/uploadFile"
+          action="/api/sysPrepaidCard/uploadFile"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
           :before-remove="beforeRemove"

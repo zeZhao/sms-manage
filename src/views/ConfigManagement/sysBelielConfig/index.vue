@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户/代理编号" />
+      <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
