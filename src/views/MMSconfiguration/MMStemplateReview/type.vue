@@ -43,9 +43,11 @@
           </el-form-item>
         </el-form>
         <div class="footer">
-          <el-button type="primary" @click="bringToTrial(queryArraignId)">通 过</el-button>
-          <el-button type="primary" @click="reject(queryArraignId)">驳 回</el-button>
-          <el-button type="primary" @click="partiallyPassed(queryArraignId)">部分通过</el-button>
+          <el-button v-if="queryAuditStatus == 1" type="primary" @click="bringToTrial(queryArraignId)">通 过
+          </el-button>
+          <el-button v-if="queryAuditStatus == 1" type="primary" @click="reject(queryArraignId)">驳 回</el-button>
+          <el-button v-if="queryAuditStatus == 3" type="primary" @click="partiallyPassed(queryArraignId)">部分通过
+          </el-button>
           <el-button @click="cancel">关 闭</el-button>
         </div>
       </section>
@@ -142,6 +144,9 @@ export default {
     },
     queryArraignId () {
       return this.$route.query.arraignId;
+    },
+    queryAuditStatus () {
+      return this.$route.query.auditStatus;
     },
     renderTitle () {
       const viewTitle = "彩信模板提审/";
