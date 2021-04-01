@@ -24,7 +24,7 @@
               : scope.row.exemptReviewType === 1
               ? "特服号"
               : scope.row.exemptReviewType === 2
-              ? "客户编号"
+              ? "账户编号"
               : scope.row.exemptReviewType === 3
               ? "商户编号"
               : ""
@@ -119,7 +119,7 @@ export default {
           optionData: [
             // { key: "0", value: "需要审核" },
             { key: "1", value: "特服号" },
-            { key: "2", value: "客户编号" }
+            { key: "2", value: "账户编号" }
             // { key: "3", value: "商户编号" },
           ],
           placeholder: "请选择类型"

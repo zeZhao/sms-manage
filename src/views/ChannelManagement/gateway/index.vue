@@ -220,9 +220,16 @@ export default {
           label: "运营商",
           key: "gatewayType",
           optionData: [
+            // { key: "1", value: "移动" },
+            // { key: "2", value: "联通" },
+            // { key: "3", value: "电信" }
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" }
+            { key: "3", value: "电信" },
+            { key: "4", value: "三网" },
+            { key: "5", value: "移动,联通" },
+            { key: "6", value: "电信,联通" },
+            { key: "7", value: "移动,电信" }
           ]
         },
         {
@@ -818,27 +825,29 @@ export default {
   methods: {
     //获取所有标签
     listTag() {
-      this.$http.smsTagController.listTag({pageNumber: 1, pageSize: 9999}).then(res => {
-        if (resOk(res) && res.data.list.length) {
-          this.tagsData[0].optionData = res.data.list.map(v => {
-            return  { key: v.id, value: v.name };
-          })
-        }
-      })
+      this.$http.smsTagController
+        .listTag({ pageNumber: 1, pageSize: 9999 })
+        .then(res => {
+          if (resOk(res) && res.data.list.length) {
+            this.tagsData[0].optionData = res.data.list.map(v => {
+              return { key: v.id, value: v.name };
+            });
+          }
+        });
     },
     //添加标签
     addTag(id) {
-      this.id = id
-      this.tagsData[0].defaultValue = []
-      this.tagStatusTitle = '添加标签'
-      this.tagStatus = true
+      this.id = id;
+      this.tagsData[0].defaultValue = [];
+      this.tagStatusTitle = "添加标签";
+      this.tagStatus = true;
     },
     //修改标签
     editTag(id, arr) {
-      this.id = id
-      this.tagsData[0].defaultValue = arr.map(v => v.id)
-      this.tagStatusTitle = '修改标签'
-      this.tagStatus = true
+      this.id = id;
+      this.tagsData[0].defaultValue = arr.map(v => v.id);
+      this.tagStatusTitle = "修改标签";
+      this.tagStatus = true;
     },
     //配置
     config(gatewayId) {
@@ -874,14 +883,17 @@ export default {
     },
     //提交选择标签
     submitTags(data) {
-      this.$http.smsChannelTagController.batchSave({channelId: this.id, tagIds: data.smsTags}).then(res => {
-        if (resOk(res)) {
-          this.tagStatus = false
-          const msg = this.tagStatusTitle === '添加标签' ? '添加成功' : '修改成功'
-          this.$message.success(msg);
-          this._mxGetList();
-        }
-      })
+      this.$http.smsChannelTagController
+        .batchSave({ channelId: this.id, tagIds: data.smsTags })
+        .then(res => {
+          if (resOk(res)) {
+            this.tagStatus = false;
+            const msg =
+              this.tagStatusTitle === "添加标签" ? "添加成功" : "修改成功";
+            this.$message.success(msg);
+            this._mxGetList();
+          }
+        });
     },
     //开启关闭通道
     switchChange(val, gateway) {

@@ -154,7 +154,8 @@ export default {
         industryNum: 0,
         marketingNum: 0,
         vipNum: 0
-      }
+      },
+      isParamsNotData: false
     };
   },
   mounted() {
