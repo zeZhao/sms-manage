@@ -123,8 +123,17 @@
       ></el-table-column>
       <el-table-column prop="mmsProType" label="彩信产品类型">
         <template slot-scope="scope">
-          <span v-if="scope.row.mmsProType == 1">web前端</span>
-          <span v-if="scope.row.mmsProType == 2">http接口</span>
+          <div v-for="(item, index) in scope.row.mmsProTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="mmsSendType" label="彩信运营商" width="100">
@@ -1088,6 +1097,10 @@ export default {
       this.speedVal = submitSpeed;
     },
     submitSpeeds() {
+      if (Number(this.speedVal) > 1000) {
+        this.$message.error("最大不能超过1000");
+        return;
+      }
       let params = {
         userId: this.userId,
         submitSpeed: this.speedVal
@@ -1133,7 +1146,7 @@ export default {
               this.searchFormConfig,
               res.data.list,
               "tag",
-              "id",
+              "name",
               "name"
             );
           }

@@ -105,7 +105,7 @@ export default {
       let params = {};
       const { groupName } = form;
       this.$http.sysSensitiveWordGroup
-        .checkSensitiveWordGroup({ data: { groupName } })
+        .checkSensitiveWordGroup({ data: { groupName, groupId: this.groupId } })
         .then(res => {
           if (res.data === 1) {
             this.$message.error("敏感词类别存在！");

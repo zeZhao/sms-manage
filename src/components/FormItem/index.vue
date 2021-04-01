@@ -249,6 +249,7 @@
             <!--上传-->
             <template v-if="item.type === 'upload'">
               <el-upload
+                v-if="!item.defaultValue"
                 ref="uploadFile"
                 :action="action"
                 :headers="header"
@@ -264,7 +265,7 @@
                 :file-list="item.defaultFileList || []"
                 :on-exceed="handleExceed"
               >
-                <div v-if="!item.defaultValue">
+                <div>
                   <el-button size="small" type="primary">{{
                     item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
@@ -272,28 +273,29 @@
                     {{ item.tip }}
                   </div>
                 </div>
-                <div v-else>
-                  <img
-                    class="el-upload-list__item-thumbnail"
-                    :src="`${href}/${item.defaultValue}`"
-                    alt=""
-                  />
-                  <span class="el-upload-list__item-actions">
-                    <span
-                      class="el-upload-list__item-preview"
-                      @click="handlePictureCardPreview(item.defaultValue)"
-                    >
-                      <i class="el-icon-zoom-in"></i>
-                    </span>
-                    <span
-                      class="el-upload-list__item-delete"
-                      @click="handleRemoveImg(item)"
-                    >
-                      <i class="el-icon-delete"></i>
-                    </span>
-                  </span>
-                </div>
               </el-upload>
+              <div v-else>
+                <img
+                  class="el-upload-list__item-thumbnail"
+                  :src="`${href}/${item.defaultValue}`"
+                  alt=""
+                  style="width: 100px;height: 75px;"
+                />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-preview"
+                    @click="handlePictureCardPreview(item.defaultValue)"
+                  >
+                    <i class="el-icon-zoom-in"></i>
+                  </span>
+                  <span
+                    style="display: inline-block;"
+                    @click="handleRemoveImg(item)"
+                  >
+                    <i class="el-icon-delete"></i>
+                  </span>
+                </span>
+              </div>
             </template>
           </el-form-item>
         </el-col>
@@ -509,6 +511,7 @@ export default {
     handleRemoveImg(item) {
       // console.log(file);
       item.defaultValue = "";
+      item.defaultFileList = [];
     },
     //查看图片
     handlePictureCardPreview(file) {

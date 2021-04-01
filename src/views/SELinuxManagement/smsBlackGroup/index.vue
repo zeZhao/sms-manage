@@ -26,7 +26,7 @@
             :disabled="
               scope.row.blackGroupName == 'BSATS级' ||
                 scope.row.blackGroupName == '营销级' ||
-                scope.row.blackGroupName == '客户级' ||
+                scope.row.blackGroupName == '账户级' ||
                 scope.row.blackGroupName == '系统级'
             "
             type="text"
@@ -37,7 +37,7 @@
             :disabled="
               scope.row.blackGroupName == 'BSATS级' ||
                 scope.row.blackGroupName == '营销级' ||
-                scope.row.blackGroupName == '客户级' ||
+                scope.row.blackGroupName == '账户级' ||
                 scope.row.blackGroupName == '系统级'
             "
             @click="

@@ -586,10 +586,10 @@ export default {
     selectChange({ val, item }) {
       // console.log(val);
       if (item.key === "chargeType") {
-        this._deleteDefaultValue(this.formConfig, "userId");
-        this._deleteDefaultValue(this.formConfig, "userName");
-        this._deleteDefaultValue(this.formConfig, "corporateId");
-        this._deleteDefaultValue(this.formConfig, "cardUnit");
+        // this._deleteDefaultValue(this.formConfig, "userId");
+        // this._deleteDefaultValue(this.formConfig, "userName");
+        // this._deleteDefaultValue(this.formConfig, "corporateId");
+        // this._deleteDefaultValue(this.formConfig, "cardUnit");
         if (val === 1) {
           this.formConfig.forEach(item => {
             if (item.isTitle) {

@@ -151,6 +151,13 @@ export default {
               key: 3,
               value: "同CID同手机号"
             }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: "blur"
+            }
           ]
         },
         {

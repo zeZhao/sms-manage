@@ -411,6 +411,8 @@ export default {
           if (item.key === key) {
             if (row[key] === 0) {
               this.$set(item, "defaultValue", "0");
+            } else if (row[key] === "-") {
+              this.$set(item, "defaultValue", "");
             } else {
               this.$set(item, "defaultValue", row[key]);
             }

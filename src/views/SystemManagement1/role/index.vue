@@ -477,7 +477,7 @@ export default {
               this.orderList();
             } else {
               console.log(res);
-              this.$message.error(res.data);
+              this.$message.error(res.data || res.msg);
             }
           });
         })
@@ -551,7 +551,7 @@ export default {
           this.customerInfo = false;
           this.orderList();
         } else {
-          this.$message.error(res.msg);
+          this.$message.error(res.data);
         }
       });
     },
