@@ -162,9 +162,8 @@
             <el-button size="small" @click="_mxHandleReset()">重置</el-button>
             <!-- </div> -->
           </slot>
+          <slot name="Other" :form="form"></slot>
         </div>
-
-        <slot name="Other" :form="form"></slot>
       </el-row>
       <el-row>
         <el-col

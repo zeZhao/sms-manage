@@ -41,10 +41,8 @@
         <el-form-item>
           <el-select v-model="search.status" placeholder="状态" clearable>
             <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
-            <!-- <el-option value="1" label="初始" /> -->
             <el-option value="2" label="正常" />
             <el-option value="3" label="禁用" />
-            <el-option value="1" label="启用" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -76,7 +74,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsBalance" label="短信余额" />
+      <!-- <el-table-column prop="smsBalance" label="短信余额" /> -->
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 0">删除</span>
@@ -489,7 +487,7 @@ export default {
               this.customerAddInfo = false;
               this.$refs[formName].resetFields();
             } else {
-              this.$message.error(data);
+              this.$message.error(msg);
             }
           });
         } else {

@@ -20,11 +20,11 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="modifyUser" label="修改人">
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <span>{{
             scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser
           }}</span>
-        </template>
+        </template> -->
       </el-table-column>
       <el-table-column prop="modifyTime" label="修改时间" />
       <!-- <template slot-scope="scope">

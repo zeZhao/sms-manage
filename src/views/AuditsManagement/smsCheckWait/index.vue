@@ -8,12 +8,16 @@
     >
       <template slot="Other">
         <!-- <el-button type="primary" @click="_mxCreate">超审</el-button> -->
-        <el-button type="primary" @click="addCheck">增加分配</el-button>
-        <el-button type="primary" @click="stopCheck">停止分配</el-button>
-        <el-button type="primary" @click="handleOption(2)"
+        <el-button type="primary" size="small" @click="addCheck"
+          >增加分配</el-button
+        >
+        <el-button type="primary" size="small" @click="stopCheck"
+          >停止分配</el-button
+        >
+        <el-button type="primary" size="small" @click="handleOption(2)"
           >通过选择项</el-button
         >
-        <el-button type="primary" @click="handleOption(3)"
+        <el-button type="primary" size="small" @click="handleOption(3)"
           >驳回选择项</el-button
         >
       </template>

@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="客户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="activityName" label="活动名称" />
       <el-table-column prop="content" label="短信内容" show-overflow-tooltip />
       <el-table-column
@@ -32,7 +32,7 @@
           scope.row.defineTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作" />
+      <!-- <el-table-column label="操作" /> -->
     </el-table>
     <Page
       :pageObj="pageObj"

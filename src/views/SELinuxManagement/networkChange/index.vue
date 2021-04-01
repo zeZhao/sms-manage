@@ -182,6 +182,7 @@ export default {
           label: "手机号",
           maxlength: 11,
           key: "mobile",
+          disabled: false,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -226,6 +227,55 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "mobile") {
+          item.disabled = false;
+        }
+      });
+    },
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "mobile") {
+          item.disabled = true;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
     importBatchAdd() {
       var form = new FormData();
       form.append("file", this.file);

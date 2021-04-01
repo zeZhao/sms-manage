@@ -7,7 +7,9 @@
       @create="_mxCreate"
     >
       <template slot="Other">
-        <el-button type="primary" @click="transfers">账号互转</el-button>
+        <el-button type="primary" @click="transfers" size="small"
+          >账号互转</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -454,6 +456,7 @@ export default {
           defaultFileList: [],
           tag: "recharge",
           isShow: false,
+          accept: ["png", "jpg", "jpeg"],
           rules: [
             { required: true, message: "请上传余额变动凭证", trigger: "blur" }
           ]

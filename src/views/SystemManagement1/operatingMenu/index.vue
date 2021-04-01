@@ -28,7 +28,7 @@
       :tree-props="{ children: 'childMenu', hasChildren: 'hasChildren' }"
       @cell-dblclick="dblclick"
     >
-      <el-table-column prop="name" label="菜单名称222"></el-table-column>
+      <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type == "1" ? "商戶端" : "运营端" }}</span>

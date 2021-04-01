@@ -197,6 +197,16 @@
           }}</span>
         </template>
       </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="150">
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
+      </el-table-column>
+      <el-table-column prop="updateTime" label="修改时间" width="150">
+        <template slot-scope="scope">{{
+          scope.row.updateTime | timeFormat
+        }}</template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="300">
         <template slot-scope="scope">
           <el-button
@@ -334,7 +344,11 @@
       top="45px"
       width="30%"
     >
-      <el-input v-model="speedVal" placeholder="请输入提交速率">
+      <el-input
+        v-model="speedVal"
+        maxlength="1000"
+        placeholder="请输入提交速率"
+      >
         <template slot="prepend">提交速率</template>
         <template slot="append">每分</template>
       </el-input>
@@ -433,8 +447,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: "1", value: "账户计费" },
-            { key: "2", value: "商户计费" }
+            { key: "1", value: "账户计费" }
+            // { key: "2", value: "商户计费" }
           ]
         },
         {
@@ -1110,6 +1124,8 @@ export default {
           this.speedVisible = false;
           this.$message.success("操作成功");
           this._mxGetList();
+        } else {
+          this.$message.error(res.data);
         }
       });
     },
