@@ -26,7 +26,8 @@
       <el-table-column prop="ctStatus" label="电信通道状态" min-width="150" />
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="viewsRow('views',scope.row.arraignId, scope.row.mmsId)" type="text" size="small">预览
+          <el-button @click="viewsRow('views',scope.row.arraignId, scope.row.mmsId, scope.row.auditStatus)" type="text"
+            size="small">预览
           </el-button>
           <el-button v-if="scope.row.auditStatus === 1" @click="bringToTrial(scope.row.arraignId)" type="text"
             size="small">提审</el-button>
@@ -87,8 +88,8 @@ export default {
   activated () { this._mxGetList() },
   methods: {
     //预览
-    viewsRow (type, arraignId, mmsId) {
-      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, mmsId } });
+    viewsRow (type, arraignId, mmsId, auditStatus) {
+      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, mmsId, auditStatus } });
     },
     //提审
     bringToTrial (arraignId) {
