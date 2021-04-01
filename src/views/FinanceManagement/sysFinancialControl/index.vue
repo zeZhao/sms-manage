@@ -216,30 +216,10 @@ export default {
   methods: {
     audit(row) {
       const { corpName, cardId } = row;
-      const h = this.$createElement;
-      this.$msgbox({
-        title: "审核",
-        message: h("div", null, [
-          /*  h("p", null, [
-            h("span", null, "充值卡编号"),
-            h("el-input", {
-              props: {
-                value: cardId
-              }
-            })
-          ]), */
-          h("p", null, [
-            h("span", null, "付款公司名称"),
-            h("el-input", {
-              props: {
-                value: corpName
-              }
-            })
-          ])
-        ]),
-        showCancelButton: true,
+      this.$confirm("是否通过打款公司为“${row.corpName}”的提交记录", ``, {
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(action => {
         const params = {
           data: {
@@ -254,6 +234,32 @@ export default {
           }
         });
       });
+
+      // const h = this.$createElement;
+      // this.$msgbox({
+      //   title: "审核",
+      //   message: h("div", null, [
+      //     /*  h("p", null, [
+      //       h("span", null, "充值卡编号"),
+      //       h("el-input", {
+      //         props: {
+      //           value: cardId
+      //         }
+      //       })
+      //     ]), */
+      //     h("p", null, [
+      //       h("span", null, "付款公司名称"),
+      //       h("el-input", {
+      //         props: {
+      //           value: corpName
+      //         }
+      //       })
+      //     ])
+      //   ]),
+      //   showCancelButton: true,
+      //   confirmButtonText: "确定",
+      //   cancelButtonText: "取消"
+      // });
     },
     reject(row) {
       const { corpName, cardId } = row;

@@ -13,8 +13,8 @@
       v-loading="loading"
     >
       <el-table-column prop="name" label="标签名称" />
-      <el-table-column prop="groupName" label="创建时间" />
-      <el-table-column prop="groupName" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createUser" label="创建人" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
