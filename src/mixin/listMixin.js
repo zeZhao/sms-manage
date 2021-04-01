@@ -552,7 +552,7 @@ export default {
     _deleteDefaultValue(list, key) {
       list.forEach(item => {
         if (item.key === key) {
-          if (item.type === 'select') {
+          if (item.type === 'select' || item.type === 'checkbox') {
             item.optionData = [];
           } else if (item.type === 'input') {
             item.defaultValue = ''

@@ -17,6 +17,7 @@
           <h3 v-if="item.isTitle && !item.isShow">{{ item.title }}</h3>
           <el-button
             v-if="item.isBtn && !item.isShow"
+            size="small"
             @click="handleClick(item)"
             >{{ item.btnTxt }}</el-button
           >
@@ -47,6 +48,7 @@
                 v-if="item.btnTxt"
                 :disabled="item.btnDisabled"
                 @click="chooses(item)"
+                size="small"
                 >{{ item.btnTxt }}</el-button
               >
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
@@ -285,10 +287,11 @@
                 type="primary"
                 @click="onSubmit('form')"
                 v-throttle="3000"
+                size="small"
               >
                 {{ btnTxt }}
               </el-button>
-              <el-button @click="cancel">取消</el-button>
+              <el-button @click="cancel" size="small">取消</el-button>
             </slot>
           </div>
         </div>

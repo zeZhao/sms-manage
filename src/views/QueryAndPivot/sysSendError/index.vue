@@ -6,15 +6,13 @@
       @search="_mxDoSearch"
       :add="false"
     >
-      <template slot="Btn">
-        <el-button
-          type="primary"
-          @click="_mxDoSearch()"
-          style="margin-left: 15px"
-          >查询</el-button
+      <template v-slot:Other="form">
+        <el-button type="primary" size="small" @click="editContent"
+          >修改内容</el-button
         >
-        <el-button type="primary" @click="editContent">修改内容</el-button>
-        <el-button type="primary" @click="editGateway">修改通道</el-button>
+        <el-button type="primary" size="small" @click="editGateway"
+          >修改通道</el-button
+        >
       </template>
     </Search>
     <el-table
