@@ -173,16 +173,7 @@ export default {
           type: "select",
           label: "销售",
           key: "saleMan",
-          optionData: [
-            {
-              key: "1",
-              value: "正常发送"
-            },
-            {
-              key: "2",
-              value: "拦截"
-            }
-          ],
+          optionData: [],
           placeholder: "请选择匹配类型"
         },
         {

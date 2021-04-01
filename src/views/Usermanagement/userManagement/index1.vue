@@ -191,8 +191,10 @@
         停用后将无法使用，请谨慎操作！
       </p>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateStatus">确 定</el-button>
+        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="updateStatus" size="small"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
