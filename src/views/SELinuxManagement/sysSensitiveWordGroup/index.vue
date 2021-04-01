@@ -13,7 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="groupId" label="编号" />
-      <el-table-column prop="groupName" label="敏感词类别名" />
+      <el-table-column prop="groupName" label="类别名称" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
@@ -71,18 +71,17 @@ export default {
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
-        {
-          type: "inputNum",
-          label: "敏感词组编号",
-          key: "groupId",
+        // {
+        //   type: "inputNum",
+        //   label: "敏感词组编号",
+        //   key: "groupId",
 
-          placeholder: "请输入类别编号"
-        },
+        //   placeholder: "请输入类别编号"
+        // },
         {
           type: "input",
-          label: "敏感词组名称",
-          key: "groupName",
-          placeholder: "请输入类别名称"
+          label: "类别名称",
+          key: "groupName"
         }
       ],
       // 表单配置
