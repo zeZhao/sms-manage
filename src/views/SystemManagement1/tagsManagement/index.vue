@@ -77,7 +77,7 @@ export default {
         add: "submitTag"
       },
       // 列表参数
-      namespace: "keyWordGroup",
+      namespace: "",
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -100,7 +100,7 @@ export default {
         }
       ],
       id: "",
-      submitParamsIsData: false
+      isParamsNotData: false
     };
   },
   mounted() {},

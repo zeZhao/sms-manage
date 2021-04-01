@@ -148,23 +148,18 @@
             </template>
           </el-form-item>
         </el-col>
-        <slot name="Btn">
-          <div class="btnStyle">
-            <el-button
-              type="primary"
-              @click="_mxHandleSubmit()"
-              style="margin-right: 15px"
-              size="small"
-              v-throttle
-              >查询</el-button
-            >
-            <el-button
-              size="small"
-              @click="_mxHandleReset()"
-              style="margin-right: 15px"
-              >重置</el-button
-            >
-          </div>
+        <slot name="Btn" class="btnStyle">
+          <!-- <div> -->
+          <el-button
+            type="primary"
+            @click="_mxHandleSubmit()"
+            style="margin-left: 15px"
+            size="small"
+            v-throttle
+            >查询</el-button
+          >
+          <el-button size="small" @click="_mxHandleReset()">重置</el-button>
+          <!-- </div> -->
         </slot>
 
         <slot name="Other" :form="form"></slot>
