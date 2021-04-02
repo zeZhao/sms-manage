@@ -38,11 +38,11 @@
           <span>{{ scope.row.disconnectFail === 0 ? '否' : '是' }}</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="complaintRate"
         label="投诉率报警"
         min-width="100"
-      />
+      /> -->
       <el-table-column
         prop="daySendAlarm"
         label="日成功量提醒"
