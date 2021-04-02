@@ -139,15 +139,18 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: 'input',
+          type: 'select',
           label: '通道编号',
           key: 'gateway',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          defaultValue: '',
+          optionData: [],
+          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
         },
         {
           type: 'select',
           label: '提交失败报警',
           key: 'submitFail',
+          defaultValue: '',
           optionData: [
             {
               key: 0,
@@ -177,6 +180,7 @@ export default {
           type: 'select',
           label: '连不上通道报警',
           key: 'disconnectFail',
+          defaultValue: '',
           optionData: [
             {
               key: 0,
@@ -265,7 +269,32 @@ export default {
       alarmId: '',
     }
   },
+  mounted() {
+    this.gatewayList();
+  },
   methods: {
+    gatewayList() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        let i = 0;
+        while(i < this.formConfig.length) {
+          if(this.formConfig[i].key === 'gateway') {
+            this.formConfig[i].optionData = res.data.map(v => {
+              return { key: v.gatewayId, value: v.gatewayId };
+            })
+          }
+          break;
+        }
+      });
+    },
     onChange({ val, item }) {
       if (item.label === '报警方式') {
         if (val.includes(1)) {
