@@ -124,7 +124,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"

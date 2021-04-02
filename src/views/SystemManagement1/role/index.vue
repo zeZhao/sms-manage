@@ -35,12 +35,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table
-      :data="dataList"
-      highlight-current-row
-      height="680"
-      style="width: 100%"
-    >
+    <el-table :data="dataList" highlight-current-row style="width: 100%">
       <!--角色id 	角色名称 角色类型 1是商戶端角色 2是运营端角色 描述-->
       <el-table-column prop="roleId" label="角色编号" />
       <el-table-column prop="roleName" label="角色名称" />
@@ -65,7 +60,7 @@
         </template>
       </el-table-column>
       <!--<el-table-column prop="des" label="描述" />-->
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="infoShow(scope.row)" type="text" size="small"
             >修改</el-button
@@ -78,7 +73,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"

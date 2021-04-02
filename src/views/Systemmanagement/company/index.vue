@@ -34,18 +34,13 @@
         <!--</el-form-item>-->
       </el-form>
     </el-col>
-    <el-table
-      :data="dataList"
-      highlight-current-row
-      height="680"
-      style="width: 100%"
-    >
+    <el-table :data="dataList" highlight-current-row style="width: 100%">
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="corpName" label="商户名" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="登录账号" />
       <el-table-column prop="password" label="密码" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="infoShow(scope.row)" type="text" size="small"
             >绑定权限</el-button
@@ -54,7 +49,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"
@@ -70,6 +65,7 @@
       title="绑定权限"
       :visible.sync="setRoleMenu"
       :close-on-click-modal="false"
+      width="420px"
       style="margin: 0 auto"
     >
       <el-form
@@ -95,10 +91,10 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button @click.native="setRoleMenu = false">取消</el-button>
         <el-button type="primary" @click="setNavuserList('updateCustomForm')"
           >保存</el-button
         >
-        <el-button @click.native="setRoleMenu = false">取消</el-button>
       </div>
     </el-dialog>
   </section>
