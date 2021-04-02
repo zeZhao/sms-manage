@@ -92,7 +92,7 @@ export default {
         add: "addOrUpdate"
       },
       // 列表参数
-      namespace: "auditfreeTemplateVo",
+      namespace: "",
       //搜索框数据
       searchParam: {},
       //搜索框配置

@@ -239,6 +239,11 @@
                     handleSuccess(item, res, file, fileList);
                   }
                 "
+                :on-progress="
+                  (event, file, fileList) => {
+                    handleProgress(item, event, file, fileList);
+                  }
+                "
                 :on-error="handleError"
                 :limit="item.limit || 1"
                 :file-list="item.defaultFileList || []"
@@ -268,7 +273,6 @@
                     <i class="el-icon-zoom-in"></i>
                   </span>
                   <span
-                    class="el-upload-list__item-delete"
                     style="display: inline-block;"
                     @click="handleRemoveImg(item)"
                   >
@@ -335,7 +339,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "/api/api/sysPrepaidCard/uploadFile",
+      action: "/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken()
       },
@@ -464,6 +468,19 @@ export default {
         this.$message.error(response.data);
         item.defaultFileList = [];
         // fileList = [];
+      }
+    },
+    //  文件上传时的钩子
+    handleProgress(item, event, file, fileList) {
+      const { accept, size } = item;
+      let fileType = file.raw.name.split(".")[1];
+      let fileSize = file.size;
+      let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
+      if (accept && accept.lenght != 0) {
+        if (!accept.includes(fileType) || fileSize > isLt1M) {
+          this.$message.error("支持jpg/jpeg/png,大小在1M之内");
+          return;
+        }
       }
     },
     //  文件上传失败时的钩子

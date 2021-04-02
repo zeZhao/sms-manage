@@ -194,7 +194,7 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "登录账号称",
+          label: "登录账号",
           key: "userName",
           disabled: false,
           defaultValue: "",

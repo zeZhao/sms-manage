@@ -22,7 +22,7 @@
               scope.row.businessType == 1
                 ? "特服号"
                 : scope.row.businessType == 2
-                ? "客户编号"
+                ? "账户编号"
                 : "商户编号"
             }}
           </span>
@@ -146,7 +146,7 @@ export default {
             },
             {
               key: "2",
-              value: "客户编号"
+              value: "账户编号"
             },
             {
               key: "3",
@@ -213,7 +213,7 @@ export default {
             },
             {
               key: 2,
-              value: "客户编号"
+              value: "账户编号"
             },
             {
               key: 3,

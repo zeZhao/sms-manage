@@ -197,7 +197,8 @@ export default {
           key: ["", "countDate", "endDate"]
         }
       ],
-      statistics: {}
+      statistics: {},
+      isParamsNotData: false
     };
   },
   mounted() {

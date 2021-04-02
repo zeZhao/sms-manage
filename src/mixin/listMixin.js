@@ -308,7 +308,7 @@ export default {
             this.$message.success("删除成功！");
             this._mxGetList();
           } else {
-            this.$message.error("删除失败！");
+            this.$message.error(res.msg || "删除失败！");
           }
         });
       });

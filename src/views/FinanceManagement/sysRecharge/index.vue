@@ -7,7 +7,9 @@
       @create="_mxCreate"
     >
       <template slot="Other">
-        <el-button type="primary" @click="transfers">账号互转</el-button>
+        <el-button type="primary" @click="transfers" size="small"
+          >账号互转</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -454,6 +456,7 @@ export default {
           defaultFileList: [],
           tag: "recharge",
           isShow: false,
+          accept: ["png", "jpg", "jpeg"],
           rules: [
             { required: true, message: "请上传余额变动凭证", trigger: "blur" }
           ]
@@ -586,10 +589,10 @@ export default {
     selectChange({ val, item }) {
       // console.log(val);
       if (item.key === "chargeType") {
-        this._deleteDefaultValue(this.formConfig, "userId");
-        this._deleteDefaultValue(this.formConfig, "userName");
-        this._deleteDefaultValue(this.formConfig, "corporateId");
-        this._deleteDefaultValue(this.formConfig, "cardUnit");
+        // this._deleteDefaultValue(this.formConfig, "userId");
+        // this._deleteDefaultValue(this.formConfig, "userName");
+        // this._deleteDefaultValue(this.formConfig, "corporateId");
+        // this._deleteDefaultValue(this.formConfig, "cardUnit");
         if (val === 1) {
           this.formConfig.forEach(item => {
             if (item.isTitle) {
