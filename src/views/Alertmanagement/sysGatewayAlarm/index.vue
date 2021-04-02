@@ -146,7 +146,7 @@ export default {
         },
         {
           type: 'select',
-          label: '是否提交失败报警',
+          label: '提交失败报警',
           key: 'submitFail',
           optionData: [
             {
