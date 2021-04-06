@@ -57,15 +57,17 @@
       </el-table-column>
       <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.proType === 1
-              ? "web端"
-              : scope.row.proType === 2
-              ? "http接口"
-              : scope.row.proType === 4
-              ? "cmpp接口"
-              : ""
-          }}</span>
+          <div v-for="(item, index) in scope.row.proTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="发送运营商" width="100">
@@ -189,8 +191,10 @@
         停用后将无法使用，请谨慎操作！
       </p>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateStatus">确 定</el-button>
+        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="updateStatus" size="small"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>

@@ -41,7 +41,6 @@
         <el-form-item>
           <el-select v-model="search.status" placeholder="状态" clearable>
             <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
-            <el-option value="1" label="初始" />
             <el-option value="2" label="正常" />
             <el-option value="3" label="禁用" />
           </el-select>
@@ -75,7 +74,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsBalance" label="短信余额" />
+      <!-- <el-table-column prop="smsBalance" label="短信余额" /> -->
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 0">删除</span>
@@ -125,7 +124,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"
@@ -246,7 +245,7 @@
             placeholder="请输入备注开户行信息"
           />
         </el-form-item>
-        <el-form-item label="父商户编号" prop="root">
+        <!-- <el-form-item label="父商户编号" prop="root">
           <el-button v-if="!addInfo.root" @click="selectCompany"
             >请选择父商户</el-button
           >
@@ -256,7 +255,7 @@
               >修改</el-button
             >
           </span>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addCustomerInfo('addForm')">{{
@@ -488,7 +487,7 @@ export default {
               this.customerAddInfo = false;
               this.$refs[formName].resetFields();
             } else {
-              this.$message.error(data);
+              this.$message.error(msg);
             }
           });
         } else {

@@ -95,8 +95,8 @@ export default {
         {
           type: 'daterange',
           label: '统计日期',
-          key: ['', 'startTime', 'endTime'],
-          defaultValue: ['', this.initDate(), this.initDate()]
+          key: ['', 'startTime', 'endTime']
+          // defaultValue: ['', this.initDate(), this.initDate()]
         }
       ],
       tabBottomData: {}

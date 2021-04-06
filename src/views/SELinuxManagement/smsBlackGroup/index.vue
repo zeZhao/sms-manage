@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="blackGroupName" label="黑名单组1" />
+      <el-table-column prop="blackGroupName" label="黑名单组" />
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat }}</span>
@@ -26,7 +26,7 @@
             :disabled="
               scope.row.blackGroupName == 'BSATS级' ||
                 scope.row.blackGroupName == '营销级' ||
-                scope.row.blackGroupName == '客户级' ||
+                scope.row.blackGroupName == '账户级' ||
                 scope.row.blackGroupName == '系统级'
             "
             type="text"
@@ -37,7 +37,7 @@
             :disabled="
               scope.row.blackGroupName == 'BSATS级' ||
                 scope.row.blackGroupName == '营销级' ||
-                scope.row.blackGroupName == '客户级' ||
+                scope.row.blackGroupName == '账户级' ||
                 scope.row.blackGroupName == '系统级'
             "
             @click="

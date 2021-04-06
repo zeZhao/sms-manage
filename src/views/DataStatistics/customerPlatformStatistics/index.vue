@@ -63,7 +63,7 @@ export default {
           placeholder: '请输入商户名称',
         },
         {
-          type: 'date',
+          type: 'month',
           label: '统计月份',
           key: 'countDate',
         },

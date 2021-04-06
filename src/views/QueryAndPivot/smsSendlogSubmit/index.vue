@@ -103,7 +103,7 @@ export default {
       },
       // 列表参数
       namespace: "",
-      isParamsNotData: true,
+      isParamsNotData: false,
       // 搜索框数据
       searchParam: {},
       // 搜索框配置

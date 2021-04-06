@@ -5,7 +5,13 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
-    ></Search>
+    >
+      <template v-slot:Other="form">
+        <el-button type="primary" @click="exported(form)" size="small"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -18,10 +24,12 @@
         label="商户/账户名称"
         show-overflow-tooltip
       />
-      <el-table-column prop="smsBalance" label="短信余额" />
-      <!-- <el-table-column prop="mmsBalance" label="彩信余额" /> -->
-      <el-table-column prop="debt" label="借款" />
-      <el-table-column prop="unitPrice" label="单价(分)" />
+      <el-table-column prop="smsBalance" label="短信余额(条)" />
+      <el-table-column prop="debt" label="短信借款(条)" />
+      <el-table-column prop="unitPrice" label="短信单价(分)" />
+      <el-table-column prop="mmsBalance" label="彩信余额(条)" />
+      <el-table-column prop="mmsDebt" label="彩信借款(条)" />
+      <el-table-column prop="mmsCardUnit" label="彩信单价(分)" />
       <el-table-column prop="saleMan" label="销售" />
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
@@ -78,20 +86,16 @@ export default {
           type: "select",
           label: "类型",
           key: "selectType",
-          defaultValue: "",
+          defaultValue: 0,
           optionData: [
             {
-              key: "",
-              value: "请选择"
-            },
-            {
               key: 0,
-              value: "用户"
-            },
-            {
-              key: 1,
-              value: "商户"
+              value: "账户"
             }
+            // {
+            //   key: 1,
+            //   value: "商户"
+            // }
           ],
           placeholder: "请选择类型"
         }
@@ -100,7 +104,27 @@ export default {
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    /**
+     * 调整筛选条件提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData(data) {
+      data.selectType = 0;
+      return data;
+    },
+    exported(form) {
+      console.log({ ...form.form }, "----------");
+      this.$http.networkChange.export({ ...form.form }).then(res => {
+        if (res.code === 200) {
+          this.$message.success("提交下载成功，请前往下载中心下载文件。");
+        }
+      });
+    }
+  },
   watch: {}
 };
 </script>

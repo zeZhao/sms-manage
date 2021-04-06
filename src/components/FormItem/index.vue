@@ -25,6 +25,7 @@
                 :class="{ inputWid: item.btnTxt }"
                 v-model="formData[item.key]"
                 clearable
+                size="small"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
@@ -36,10 +37,11 @@
                 "
               />
               <el-button
-                style="border-color: #1890ff"
+                style="border-color: #0964FF"
                 v-if="item.btnTxt"
                 :disabled="item.btnDisabled"
                 @click="chooses(item)"
+                size="small"
                 >{{ item.btnTxt }}</el-button
               >
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
@@ -247,6 +249,7 @@
             <!--上传-->
             <template v-if="item.type === 'upload'">
               <el-upload
+                v-if="!item.defaultValue"
                 ref="uploadFile"
                 :action="action"
                 :headers="header"
@@ -262,7 +265,7 @@
                 :file-list="item.defaultFileList || []"
                 :on-exceed="handleExceed"
               >
-                <div v-if="!item.defaultValue">
+                <div>
                   <el-button size="small" type="primary">{{
                     item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
@@ -270,28 +273,29 @@
                     {{ item.tip }}
                   </div>
                 </div>
-                <div v-else>
-                  <img
-                    class="el-upload-list__item-thumbnail"
-                    :src="`${href}/${item.defaultValue}`"
-                    alt=""
-                  />
-                  <span class="el-upload-list__item-actions">
-                    <span
-                      class="el-upload-list__item-preview"
-                      @click="handlePictureCardPreview(item.defaultValue)"
-                    >
-                      <i class="el-icon-zoom-in"></i>
-                    </span>
-                    <span
-                      class="el-upload-list__item-delete"
-                      @click="handleRemoveImg(item)"
-                    >
-                      <i class="el-icon-delete"></i>
-                    </span>
-                  </span>
-                </div>
               </el-upload>
+              <div v-else>
+                <img
+                  class="el-upload-list__item-thumbnail"
+                  :src="`${href}/${item.defaultValue}`"
+                  alt=""
+                  style="width: 100px;height: 75px;"
+                />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-preview"
+                    @click="handlePictureCardPreview(item.defaultValue)"
+                  >
+                    <i class="el-icon-zoom-in"></i>
+                  </span>
+                  <span
+                    style="display: inline-block;"
+                    @click="handleRemoveImg(item)"
+                  >
+                    <i class="el-icon-delete"></i>
+                  </span>
+                </span>
+              </div>
             </template>
           </el-form-item>
         </el-col>
@@ -302,14 +306,17 @@
             :class="{ 'footer-text-center': footerIsCenter }"
           >
             <slot name="Btn">
+              <el-button @click="cancel" size="small" v-if="isCancel"
+                >取消</el-button
+              >
               <el-button
                 type="primary"
                 @click="onSubmit('form')"
                 v-throttle="3000"
+                size="small"
               >
                 {{ btnTxt }}
               </el-button>
-              <el-button @click="cancel">取消</el-button>
             </slot>
           </div>
         </div>
@@ -335,6 +342,12 @@ export default {
       type: String,
       default() {
         return "新增";
+      }
+    },
+    isCancel: {
+      type: Boolean,
+      default() {
+        return true;
       }
     },
     labelWidth: {
@@ -506,6 +519,7 @@ export default {
     handleRemoveImg(item) {
       // console.log(file);
       item.defaultValue = "";
+      item.defaultFileList = [];
     },
     //查看图片
     handlePictureCardPreview(file) {

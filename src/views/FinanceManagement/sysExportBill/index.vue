@@ -158,49 +158,51 @@ export default {
   methods: {
     //导出
     exportMonthData(type, row) {
-      console.log(row, "------row");
       let params = {};
       if (type === "scope") {
         params = { ...row };
       } else if (type === "all") {
         params = { ...this.searchData };
       }
+      let fileName = `${row ? row.billDate : ""}月账单.xlsx`;
+
+      this.downloadFileByFile("post", "/bill/export/", params, fileName);
       // if()
       // this.$http.sysExportBill.export({ userId }).then((res) => {
       //   let blob = new Blob([res.data], {
       //     type: "application/vnd.ms-excel;charset=utf-8",
       //   });
       // console.log(this.searchData, "---this.searchData ");
-      this.$axios
-        .post(
-          "/bill/export/",
-          { ...params },
-          {
-            responseType: "blob",
-            headers: { token: window.localStorage.getItem("token") }
-          }
-        )
-        .then(res => {
-          if (res.data.type == "application/octet-stream") {
-            let blob = new Blob([res.data], {
-              type: "application/vnd.ms-excel;charset=utf-8"
-            });
-            let url = window.URL.createObjectURL(blob);
-            let aLink = document.createElement("a");
-            aLink.style.display = "none";
-            aLink.href = url;
-            aLink.setAttribute(
-              "download",
-              `${row ? row.billDate : ""}月账单.xlsx`
-            );
-            document.body.appendChild(aLink);
-            aLink.click();
-            document.body.removeChild(aLink);
-            window.URL.revokeObjectURL(url);
-          } else {
-            this.$message.error("没有符合条件的账单");
-          }
-        });
+      // this.$axios
+      //   .post(
+      //     "/bill/export/",
+      //     { ...params },
+      //     {
+      //       responseType: "blob",
+      //       headers: { token: window.localStorage.getItem("token") }
+      //     }
+      //   )
+      //   .then(res => {
+      //     if (res.data.type == "application/octet-stream") {
+      //       let blob = new Blob([res.data], {
+      //         type: "application/vnd.ms-excel;charset=utf-8"
+      //       });
+      //       let url = window.URL.createObjectURL(blob);
+      //       let aLink = document.createElement("a");
+      //       aLink.style.display = "none";
+      //       aLink.href = url;
+      //       aLink.setAttribute(
+      //         "download",
+      //         `${row ? row.billDate : ""}月账单.xlsx`
+      //       );
+      //       document.body.appendChild(aLink);
+      //       aLink.click();
+      //       document.body.removeChild(aLink);
+      //       window.URL.revokeObjectURL(url);
+      //     } else {
+      //       this.$message.error("没有符合条件的账单");
+      //     }
+      //   });
     },
     // 修改搜索参数
     _formatRequestData(data) {

@@ -28,7 +28,7 @@
       :tree-props="{ children: 'childMenu', hasChildren: 'hasChildren' }"
       @cell-dblclick="dblclick"
     >
-      <el-table-column prop="name" label="菜单名称222"></el-table-column>
+      <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type == "1" ? "商戶端" : "运营端" }}</span>
@@ -90,7 +90,7 @@
       </el-table-column>
     </el-table>
     <el-dialog
-      title="新增目录"
+      title="新增运营端菜单"
       :visible.sync="customerAddInfo"
       :close-on-click-modal="false"
       style="margin: 0 auto"
@@ -101,18 +101,18 @@
         :model="addInfo"
         class="demo-ruleForm"
       >
-        <el-form-item label="目录名称">
+        <el-form-item label="菜单名称">
           <el-input
             v-model="addInfo.funcName"
             clearable
-            placeholder="目录名称"
+            placeholder="菜单名称"
           />
         </el-form-item>
-        <el-form-item label="目录路径">
+        <el-form-item label="菜单路径">
           <el-input
             v-model="addInfo.funcUrl"
             clearable
-            placeholder="目录路径"
+            placeholder="菜单路径"
           />
         </el-form-item>
         <!-- <el-form-item label="请选择目录类型">
@@ -128,15 +128,15 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button @click.native="customerAddInfo = false">关闭</el-button>
         <el-button type="primary" @click="addNavInfo('addForm', 'catalog')"
-          >新增</el-button
+          >确认</el-button
         >
-        <el-button @click.native="customerAddInfo = false">取消</el-button>
       </div>
     </el-dialog>
 
     <el-dialog
-      title="新增菜单"
+      title="新增子菜单"
       :visible.sync="addNavList"
       :close-on-click-modal="false"
       style="margin: 0 auto"
@@ -147,26 +147,26 @@
         :model="addInfo"
         class="demo-ruleForm"
       >
-        <el-form-item label="目录名称">
+        <el-form-item label="菜单名称">
           <el-input
             v-model="addInfo.funcName"
             disabled
             clearable
-            placeholder="目录名称"
-          />
-        </el-form-item>
-        <el-form-item label="菜单名称">
-          <el-input
-            v-model="addInfo.funcChName"
-            clearable
             placeholder="菜单名称"
           />
         </el-form-item>
-        <el-form-item label="目录路径">
+        <el-form-item label="子菜单名称">
+          <el-input
+            v-model="addInfo.funcChName"
+            clearable
+            placeholder="子菜单名称"
+          />
+        </el-form-item>
+        <el-form-item label="菜单路径">
           <el-input
             v-model="addInfo.funcUrl"
             clearable
-            placeholder="目录路径"
+            placeholder="菜单路径"
           />
         </el-form-item>
         <!-- <el-form-item label="请选择目录类型">
@@ -182,10 +182,10 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button @click.native="addNavList = false">关闭</el-button>
         <el-button type="primary" @click="addNavInfo('addForm', 'menu')"
-          >新增</el-button
+          >确认</el-button
         >
-        <el-button @click.native="addNavList = false">取消</el-button>
       </div>
     </el-dialog>
 
@@ -369,10 +369,10 @@ export default {
       this.$confirm(
         row.parentId == 0
           ? "删除后子级菜单也将被删除，请谨慎操作"
-          : "删除后子级菜单将不存在，请谨慎操作",
+          : "删除后将不可找回，请谨慎操作",
         row.parentId == 0
-          ? "您确定要删除父级目录吗？"
-          : "您确定要删除子级菜单吗？",
+          ? `您确定要删除“${row.name}”父级菜单吗？`
+          : `您确定要删除“${row.name}”菜单吗？`,
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",

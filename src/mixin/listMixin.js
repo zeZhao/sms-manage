@@ -308,7 +308,7 @@ export default {
             this.$message.success("删除成功！");
             this._mxGetList();
           } else {
-            this.$message.error("删除失败！");
+            this.$message.error(res.msg || "删除失败！");
           }
         });
       });
@@ -497,7 +497,7 @@ export default {
       let arr = []
       list.forEach(item => {
         if (item.key === key) {
-          if (item.type === 'select') {
+          if (item.type === 'select' || item.type === 'checkbox') {
             data.forEach(t => {
               let obj = {
                 key: t[optionKey],
@@ -552,7 +552,7 @@ export default {
     _deleteDefaultValue(list, key) {
       list.forEach(item => {
         if (item.key === key) {
-          if (item.type === 'select') {
+          if (item.type === 'select' || item.type === 'checkbox') {
             item.optionData = [];
           } else if (item.type === 'input') {
             item.defaultValue = ''

@@ -7,8 +7,12 @@
       @create="_mxCreate"
     >
       <template v-slot:Other="form">
-        <el-button type="primary" @click="exported(form)">导出</el-button>
-        <el-button type="primary" @click="handleAdd">批量添加</el-button>
+        <el-button type="primary" @click="exported(form)" size="small"
+          >导出</el-button
+        >
+        <el-button type="primary" @click="handleAdd" size="small"
+          >批量添加</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -94,7 +98,7 @@
         请先<el-button type="text">下载模板</el-button> ，再进行
         <el-upload
           class="upload-demo"
-          action="/api/api/sysPrepaidCard/uploadFile"
+          action="/api/sysPrepaidCard/uploadFile"
           :on-preview="handlePreview"
           :on-remove="handleRemove"
           :before-remove="beforeRemove"
@@ -122,6 +126,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getToken } from "@/utils/auth";
+import { phone } from "@/utils/validator";
 
 export default {
   mixins: [listMixin],
@@ -177,8 +182,12 @@ export default {
           label: "手机号",
           maxlength: 11,
           key: "mobile",
+          disabled: false,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            { validator: phone, trigger: "change" }
+          ]
         },
         {
           type: "select",
@@ -218,6 +227,55 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /**
+     * 创建表单
+     * @param row  当前行数据
+     * @param id  当前行ID
+     * @private
+     */
+
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "mobile") {
+          item.disabled = false;
+        }
+      });
+    },
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "mobile") {
+          item.disabled = true;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
     importBatchAdd() {
       var form = new FormData();
       form.append("file", this.file);
@@ -260,7 +318,6 @@ export default {
     },
     exported(form) {
       console.log({ ...form.form }, "----------");
-      // console.log(this.searchParam);
       this.$http.networkChange.export({ ...form.form }).then(res => {
         if (res.code === 200) {
           this.$message.success("提交下载成功，请前往下载中心下载文件。");

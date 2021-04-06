@@ -1,5 +1,5 @@
 <template>
-  <!--红名单管理-->
+  <!--优化比例配置-->
   <div class="sysBelielConfig">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -12,7 +12,7 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户/代理编号" />
+      <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
@@ -221,7 +221,7 @@ export default {
           key: "noOptimizeTemplate",
           placeholder: "多个关键词请用'|'隔开",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            // { required: true, message: "请输入必填项", trigger: "blur" },
             {
               trigger: "change",
               validator: validatorTemplate
@@ -234,7 +234,7 @@ export default {
           key: "optimizeTemplate",
           placeholder: "多个关键词请用'|'隔开",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            // { required: true, message: "请输入必填项", trigger: "blur" },
             {
               trigger: "change",
               validator: validatorTemplate

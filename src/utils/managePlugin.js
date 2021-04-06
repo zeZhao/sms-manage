@@ -8,7 +8,7 @@ import { Message } from 'element-ui';
 
 class managePlugin {
 
-  constructor() {}
+  constructor() { }
 
   install(Vue, options) {
     this.installExtendsFunction();
@@ -201,9 +201,44 @@ class managePlugin {
         document.title = title;
       }
     };
+    /**
+     * 根据数据流下载文件
+     */
+    Vue.prototype.downloadFileByFile = function (method, url, params, fileName) {
+      this.$axios
+        .post(
+          url,
+          { ...params },
+          {
+            responseType: "blob",
+            headers: { token: window.localStorage.getItem("token") }
+          }
+        )
+        .then(res => {
+          if (res.data.type == "application/octet-stream") {
+            let blob = new Blob([res.data], {
+              type: "application/vnd.ms-excel;charset=utf-8"
+            });
+            let url = window.URL.createObjectURL(blob);
+            let aLink = document.createElement("a");
+            aLink.style.display = "none";
+            aLink.href = url;
+            aLink.setAttribute(
+              "download",
+              `${fileName}.xlsx`
+            );
+            document.body.appendChild(aLink);
+            aLink.click();
+            document.body.removeChild(aLink);
+            window.URL.revokeObjectURL(url);
+          } else {
+            this.$message.error("下载失败");
+          }
+        });
+    };
 
     /**
-     * 下载文件
+     * 根据连接下载文件
      * @param url
      * @param fileName
      */
@@ -313,8 +348,8 @@ class managePlugin {
           if (!el.disabled) {
             setTimeout(() => {
               el.style.pointerEvents = 'auto';
-              el.style.backgroundColor = "#1890ff"
-              el.style.borderColor = "#1890ff"
+              el.style.backgroundColor = "#0964FF"
+              el.style.borderColor = "#0964FF"
             }, binding.value || 1000);
           }
         });

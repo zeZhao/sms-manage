@@ -6,7 +6,7 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" width="100" />
       <el-table-column prop="userId" label="账户编号" />
@@ -74,17 +74,19 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="proType" label="短信产品类型">
+      <el-table-column prop="proTypes" label="短信产品类型">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.proType === 1
-              ? "web端"
-              : scope.row.proType === 2
-              ? "http接口"
-              : scope.row.proType === 4
-              ? "cmpp接口"
-              : ""
-          }}</span>
+          <div v-for="(item, index) in scope.row.proTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="短信运营商" width="100">
@@ -121,8 +123,17 @@
       ></el-table-column>
       <el-table-column prop="mmsProType" label="彩信产品类型">
         <template slot-scope="scope">
-          <span v-if="scope.row.mmsProType == 1">web前端</span>
-          <span v-if="scope.row.mmsProType == 2">http接口</span>
+          <div v-for="(item, index) in scope.row.mmsProTypes" :key="index">
+            <span>{{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : ""
+            }}</span>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="mmsSendType" label="彩信运营商" width="100">
@@ -162,7 +173,8 @@
           <span
             style="padding-right:10px"
             v-for="(item, index) in scope.row.smsTags"
-            :key="index">
+            :key="index"
+          >
             {{ item ? item.name : "" }}
           </span>
         </template>
@@ -184,6 +196,16 @@
               : "停用"
           }}</span>
         </template>
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="150">
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
+      </el-table-column>
+      <el-table-column prop="updateTime" label="修改时间" width="150">
+        <template slot-scope="scope">{{
+          scope.row.updateTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="300">
         <template slot-scope="scope">
@@ -322,7 +344,7 @@
       top="45px"
       width="30%"
     >
-      <el-input v-model="speedVal" placeholder="请输入提交速率">
+      <el-input v-model="speedVal" maxlength="100" placeholder="请输入提交速率">
         <template slot="prepend">提交速率</template>
         <template slot="append">每分</template>
       </el-input>
@@ -421,8 +443,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: "1", value: "账户计费" },
-            { key: "2", value: "商户计费" }
+            { key: "1", value: "账户计费" }
+            // { key: "2", value: "商户计费" }
           ]
         },
         {
@@ -593,8 +615,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           optionData: [
-            { key: 1, value: "账户计费" },
-            { key: 2, value: "商户id计费" }
+            { key: 1, value: "账户计费" }
+            // { key: 2, value: "商户id计费" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -849,10 +871,10 @@ export default {
           defaultValue: [0, 2],
           key: "blackLevel",
           optionData: [
-            { key: 0, value: "系统级" },
-            { key: 2, value: "用户级" },
-            { key: 3, value: "营销级" },
-            { key: 4, value: "BSATS级" }
+            // { key: 0, value: "系统级" },
+            // { key: 2, value: "用户级" },
+            // { key: 3, value: "营销级" },
+            // { key: 4, value: "BSATS级" }
           ],
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -987,10 +1009,10 @@ export default {
           key: "mmsBlackLevel",
           tag: "mms",
           optionData: [
-            { key: 0, value: "系统级" },
-            { key: 2, value: "用户级" },
-            { key: 3, value: "营销级" },
-            { key: 4, value: "BSATS级" }
+            // { key: 0, value: "系统级" },
+            // { key: 2, value: "用户级" },
+            // { key: 3, value: "营销级" },
+            // { key: 4, value: "BSATS级" }
           ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -1074,6 +1096,7 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
+    this.getBlackFroup();
   },
   computed: {},
   methods: {
@@ -1084,6 +1107,10 @@ export default {
       this.speedVal = submitSpeed;
     },
     submitSpeeds() {
+      if (Number(this.speedVal) > 1000) {
+        this.$message.error("最大不能超过1000");
+        return;
+      }
       let params = {
         userId: this.userId,
         submitSpeed: this.speedVal
@@ -1093,7 +1120,29 @@ export default {
           this.speedVisible = false;
           this.$message.success("操作成功");
           this._mxGetList();
+        } else {
+          this.$message.error(res.data);
         }
+      });
+    },
+    //获取黑名单类型
+    getBlackFroup() {
+      this.$http.smsBlackGroup.listBlackGroup().then(res => {
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "blackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "mmsBlackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+        console.log(res, "listBlackGroup-------------");
       });
     },
     //获取所有标签
@@ -1109,7 +1158,7 @@ export default {
               this.searchFormConfig,
               res.data.list,
               "tag",
-              "id",
+              "name",
               "name"
             );
           }
@@ -1172,6 +1221,10 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
+        if (item.key === "productType") {
+          console.log(item, "----------------产品------------------");
+          // item.defaultValue = []
+        }
         if (item.key == "proType") {
           this.$set(item, "disabled", false);
         }
@@ -1183,6 +1236,9 @@ export default {
         }
       });
       this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -1194,6 +1250,9 @@ export default {
       console.log(lineData, "------------lineData");
       lineData = this._mxArrangeEditData(lineData);
       this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
       this.id = lineData[ID];
       this.editId = ID;
       this.formTit = "修改";
@@ -1519,9 +1578,11 @@ export default {
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setDisplayShow(this.formConfig, "returnBalance", true);
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
@@ -1567,112 +1628,77 @@ export default {
     //   return formData;
     // },
     createElement(h, row) {
-      let strType = "";
-      switch (row.proType) {
-        case 1:
-          strType = "web端";
-          break;
-        case 2:
-          strType = "http接口";
-          break;
-        case 4:
-          strType = "cmpp接口";
-          break;
-      }
-      if (row.proType === 1) {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${strType || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.corpName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
-          ]),
-          h("p", null, [
-            h("span", null, "网址: "),
-            h("span", null, "https://user.sms.jvtd.cn")
-          ])
-        ]);
-      }
-      if (row.proType === 2) {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${strType}`)
-          ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.corpName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
-          ]),
-          h("p", null, [
-            h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "接口地址: "),
-            h("span", null, `${row.mmsAuditCallBack || ""}`)
-          ])
-        ]);
-      }
-      if (row.proType === 3) {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${strType}`)
-          ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.corpName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
-          ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
-          ]),
-          h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
-          h("p", null, [
-            h("span", null, "协议端口: "),
-            h("span", null, `${row.directPort || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "协议: "),
-            h("span", null, `${row.directPort}`)
-          ]),
-          h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
-          h("p", null, [
-            h("span", null, "客户IP地址: "),
-            h("span", null, `${row.userIp || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "链接路数: "),
-            h("span", null, `${row.maxSession || ""}`)
-          ]),
-          h("p", null, [
-            h("span", null, "通道速率: "),
-            h("span", null, `${row.alertBalance || ""}`)
-          ])
-        ]);
-      }
+      let arr = row.proTypes;
+      let proType = [];
+      arr.forEach(item => {
+        if (item == 1) {
+          proType.push("web端");
+        } else if (item == 2) {
+          proType.push("http接口");
+        } else if (item == 4) {
+          proType.push("cmpp接口");
+        }
+      });
+      // let strType = "";
+      // switch (row.proType) {
+      //   case 1:
+      //     strType = "web端";
+      //     break;
+      //   case 2:
+      //     strType = "http接口";
+      //     break;
+      //   case 4:
+      //     strType = "cmpp接口";
+      //     break;
+      // }
+      let strType = proType.join("、");
+      return h("div", null, [
+        h("p", null, [
+          h("span", null, "产品类型: "),
+          h("span", null, `${strType || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "商户名称: "),
+          h("span", null, `${row.corpName}`)
+        ]),
+        h("p", null, [
+          h("span", null, "登录账号: "),
+          h("span", null, `${row.loginName}`)
+        ]),
+        h("p", null, [
+          h("span", null, "密码: "),
+          h("span", null, `${row.password}`)
+        ]),
+        h("p", null, [
+          h("span", null, "网址: "),
+          h("span", null, "https://user.sms.jvtd.cn")
+        ]),
+        h("p", null, [
+          h("span", null, "客户端IP: "),
+          h("span", null, `${row.userIp || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "接口地址: "),
+          h("span", null, `${row.mmsAuditCallBack || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "协议端口: "),
+          h("span", null, `${row.directPort || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "协议: "),
+          h("span", null, `${row.directPort}`)
+        ]),
+        h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
+        h("p", null, [
+          h("span", null, "链接路数: "),
+          h("span", null, `${row.maxSession || ""}`)
+        ]),
+        h("p", null, [
+          h("span", null, "通道速率: "),
+          h("span", null, `${row.submitSpeed || ""}`)
+        ])
+      ]);
     }
   },
   watch: {}

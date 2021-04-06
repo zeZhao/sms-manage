@@ -4,10 +4,10 @@
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
         <el-form-item>
-          <el-input v-model="roleId" clearable placeholder="账户账号" />
+          <el-input v-model="roleId" clearable placeholder="登录账号" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="roleName" clearable placeholder="账户姓名" />
+          <el-input v-model="roleName" clearable placeholder="账户名称" />
         </el-form-item>
         <el-form-item>
           <el-select v-model="roleType" placeholder="启用状态" clearable>
@@ -30,16 +30,11 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table
-      :data="dataList"
-      highlight-current-row
-      height="680"
-      style="width: 100%"
-    >
+    <el-table :data="dataList" highlight-current-row style="width: 100%">
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="账户编号" />
       <el-table-column prop="account" label="登录账号" />
-      <el-table-column prop="name" label="账户姓名" />
+      <el-table-column prop="name" label="账户名称" />
       <el-table-column prop="mobile" label="账户手机号" />
       <el-table-column prop="roleName" label="角色" />
       <el-table-column label="启用状态">
@@ -61,7 +56,7 @@
       <!--</template>-->
       <!--</el-table-column>-->
       <!--<el-table-column prop="memo" label="描述" />-->
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="infoShow(scope.row)" type="text" size="small"
             >修改</el-button
@@ -73,7 +68,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"
@@ -476,9 +471,7 @@ export default {
         return this.$message.error("请填写账号");
       } else if (this.addInfo.pwd == "") {
         return this.$message.error("请填写密码");
-      } else if (
-        !/^[\d0-9a-zA-Z-*/+.~!@#$%^&*()]{8,16}$/.test(this.addInfo.pwd)
-      ) {
+      } else if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.addInfo.pwd)) {
         return this.$message.error("密码为8-16位，数字、字母、英文符号");
       } else if (this.addInfo.name == "") {
         return this.$message.error("请填写姓名");

@@ -19,10 +19,10 @@
           <div v-if="formViews.length" class="mss-content">
             <section v-for="(item, index) in formViews" :key="index">
               <div v-for="(it, idx) in item[index + 1]" :key="it.pageOrder">
-                <p v-if="it.pageType === 1 && it.pageMedia" style="color: #909399">{{ it.pageMedia }}</p>
-                <img v-if="it.pageType === 2 && it.pageMedia" :src="it.pageMedia" class="preview-content views-pic"
+                <p v-if="it.pageType === 0 && it.pageMedia" style="color: #909399">{{ it.pageMedia }}</p>
+                <img v-if="it.pageType === 1 && it.pageMedia" :src="it.pageMedia" class="preview-content views-pic"
                   @click="viewsPic(it.pageMedia)" />
-                <audio v-if="it.pageType === 4 && it.pageMedia" :src="it.pageMedia" controls="controls"
+                <audio v-if="it.pageType === 2 && it.pageMedia" :src="it.pageMedia" controls="controls"
                   class="preview-content">
                   您的浏览器不支持 audio 标签
                 </audio>
@@ -43,9 +43,11 @@
           </el-form-item>
         </el-form>
         <div class="footer">
-          <el-button type="primary" @click="bringToTrial(queryArraignId)">通 过</el-button>
-          <el-button type="primary" @click="reject(queryArraignId)">驳 回</el-button>
-          <el-button type="primary" @click="partiallyPassed(queryArraignId)">部分通过</el-button>
+          <el-button v-if="queryAuditStatus == 1" type="primary" @click="bringToTrial(queryArraignId)">通 过
+          </el-button>
+          <el-button v-if="queryAuditStatus == 1" type="primary" @click="reject(queryArraignId)">驳 回</el-button>
+          <el-button v-if="queryAuditStatus == 3" type="primary" @click="partiallyPassed(queryArraignId)">部分通过
+          </el-button>
           <el-button @click="cancel">关 闭</el-button>
         </div>
       </section>
@@ -143,6 +145,9 @@ export default {
     queryArraignId () {
       return this.$route.query.arraignId;
     },
+    queryAuditStatus () {
+      return this.$route.query.auditStatus;
+    },
     renderTitle () {
       const viewTitle = "彩信模板提审/";
       return this.queryType === "views" ? `${viewTitle}预览` : `${viewTitle}通道配置`;
@@ -157,7 +162,7 @@ export default {
           const data = this.typeConversion(res.data.mmsPages);
           data.forEach((item, index) => {
             item[index + 1].forEach(it => {
-              it.pageMedia = '/api' + it.pageMedia;
+              if (it.pageType !== 0) it.pageMedia = '/api' + it.pageMedia;
             })
           })
           this.formViews = data;

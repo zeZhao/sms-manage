@@ -12,9 +12,9 @@
       style="width: 100%"
       v-loading="loading"
     >
+      <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
@@ -23,7 +23,7 @@
               scope.row.type == 1
                 ? "特服号"
                 : scope.row.type == 2
-                ? "客户编号"
+                ? "账户编号"
                 : "商户编号"
             }}
           </span>
@@ -164,7 +164,7 @@ export default {
           placeholder: "请选择类型",
           optionData: [
             { key: "1", value: "特服号" },
-            { key: "2", value: "客户编号" },
+            { key: "2", value: "账户编号" },
             { key: "3", value: "商户编号" }
           ]
         },
@@ -209,7 +209,7 @@ export default {
           key: "type",
           optionData: [
             { key: 1, value: "特服号" },
-            { key: 2, value: "客户编号" },
+            { key: 2, value: "账户编号" },
             { key: 3, value: "商户编号" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -411,6 +411,8 @@ export default {
           if (item.key === key) {
             if (row[key] === 0) {
               this.$set(item, "defaultValue", "0");
+            } else if (row[key] === "-") {
+              this.$set(item, "defaultValue", "");
             } else {
               this.$set(item, "defaultValue", row[key]);
             }

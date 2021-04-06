@@ -1,18 +1,27 @@
 <style scoped lang="scss">
 .el-form-item {
-  margin-bottom: 5px;
+  height: 32px;
+  margin-bottom: 24px;
+}
+.searchPanel {
+  background: #fff;
+  padding-bottom: 24px;
+  .btnStyle {
+    float: right;
+  }
+  // padding: 24px;
 }
 </style>
 
 <template>
-  <div>
+  <div class="searchPanel">
     <el-form
       ref="form"
       :model="form"
       label-width="120px"
       v-if="searchFormConfig.length"
     >
-      <el-row style="margin-bottom: 10px">
+      <el-row>
         <el-col
           :sm="12"
           :md="8"
@@ -21,13 +30,14 @@
           :key="index"
         >
           <el-form-item
-            :label="item.label ? `${item.label}：` : ``"
+            :label="item.label ? `${item.label}` : ``"
             :class="item.label ? `` : `empty-label-item`"
           >
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
                 v-model="form[item.key]"
+                size="small"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
               ></el-input>
@@ -38,6 +48,7 @@
               <el-input
                 v-model="form[item.key]"
                 type="number"
+                size="small"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
               ></el-input>
@@ -52,6 +63,7 @@
                 v-model="form[item.key]"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 filterable
+                size="small"
                 :clearable="isClearAble(item)"
                 @focus="_mxHandleFocus()"
                 @change="forceUpdate"
@@ -70,15 +82,17 @@
               <!-- @change="_mxHandleSubmit()" -->
               <el-date-picker
                 type="date"
+                size="small"
                 :placeholder="item.placeholder || '选择开始日期'"
                 style="width: 45%"
                 value-format="yyyy-MM-dd"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
-              ></el-date-picker
-              > -
+              ></el-date-picker>
+              -
               <el-date-picker
                 type="date"
+                size="small"
                 :placeholder="item.placeholder || '选择结束日期'"
                 style="width: 45%"
                 value-format="yyyy-MM-dd"
@@ -91,13 +105,15 @@
             <template v-if="item.type === 'timerange'">
               <!-- @change="_mxHandleSubmit()" -->
               <el-time-picker
+                size="small"
                 :placeholder="item.placeholder || '选择开始时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key[1]]"
-              ></el-time-picker
-              > -
+              ></el-time-picker>
+              -
               <el-time-picker
+                size="small"
                 :placeholder="item.placeholder || '选择结束时间'"
                 style="width: 45%"
                 :clearable="isClearAble(item)"
@@ -109,6 +125,7 @@
               <!-- @change="_mxHandleSubmit()" -->
               <el-date-picker
                 style="width: 100%"
+                size="small"
                 type="date"
                 value-format="yyyy-MM-dd"
                 :placeholder="item.placeholder || '选择日期'"
@@ -121,6 +138,7 @@
               <!-- @change="_mxHandleSubmit()" -->
               <el-date-picker
                 style="width: 100%"
+                size="small"
                 type="month"
                 value-format="yyyy-MM"
                 :placeholder="item.placeholder || '选择月份'"
@@ -130,28 +148,34 @@
             </template>
           </el-form-item>
         </el-col>
-        <slot name="Btn">
-          <el-button
-            type="primary"
-            @click="_mxHandleSubmit()"
-            style="margin-left: 15px"
-            v-throttle
-            >查询</el-button
-          >
-          <el-button
-            type="primary"
-            @click="_mxHandleReset()"
-            style="margin-left: 15px"
-            >重置</el-button
-          >
-          <el-button
+        <div class="btnStyle">
+          <slot name="Btn">
+            <!-- <div> -->
+            <el-button
+              type="primary"
+              @click="_mxHandleSubmit()"
+              style="margin-left: 15px"
+              size="small"
+              v-throttle
+              >查询</el-button
+            >
+            <el-button size="small" @click="_mxHandleReset()">重置</el-button>
+            <!-- </div> -->
+          </slot>
+          <slot name="Other" :form="form"></slot>
+        </div>
+      </el-row>
+      <el-row>
+        <el-col
+          ><el-button
             type="primary"
             v-if="add && searchFormConfig.length"
             @click="create"
+            size="small"
+            icon="el-icon-plus"
             >新建</el-button
-          >
-        </slot>
-        <slot name="Other" :form="form"></slot>
+          ></el-col
+        >
       </el-row>
     </el-form>
   </div>
@@ -192,9 +216,19 @@ export default {
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
-      
+      this.searchFormConfig.forEach(item => {
+        if (item.hasOwnProperty("isSpecial")) {
+          this.$emit("isChooseTime", this.form);
+        }
+      });
+
       // 彩信分类统计特殊页面搜索时展示时间功能
-      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) this.$emit("isChooseTime", this.form);
+      // if (
+      //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
+      //     "hasOwnProperty"
+      //   )
+      // )
+      //   this.$emit("isChooseTime", this.form);
     },
     //传值
     _mxHandleSendData() {
@@ -203,41 +237,50 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
+      console.log(form, "------------");
       // 彩信分类统计特殊页面特殊重置
-      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
-        for (let key in form) {
-          form[key] = "";
-        }
-        form['statisticType'] = 2;
-        return;
-      }
-      
+      // if(){
+      // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
+      //   for (let key in form) {
+      //     form[key] = "";
+      //   }
+      //   form["statisticType"] = 2;
+      //   return;
+      // }
+      // }
+
       for (let key in form) {
         form[key] = "";
+        if (key === "statisticType") {
+          form["statisticType"] = 2;
+        }
       }
+
       this.form = form;
       // this.$emit("search", this.form);
     },
-    
-    forceUpdate() { this.$forceUpdate() }, //强制更新ui
+
+    forceUpdate() {
+      this.$forceUpdate();
+    }, //强制更新ui
 
     initComponent() {
       const form = {};
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (type !== 'daterange') {
+          if (type !== "daterange") {
             form[key] = item.defaultValue;
           } else {
-            form[key[1]] = item.defaultValue[1]
-            form[key[2]] = item.defaultValue[2]
+            form[key[1]] = item.defaultValue[1];
+            form[key[2]] = item.defaultValue[2];
           }
         }
         // if (api) {
-          //   this.$http[item.api]({ data: { ...params } }).then((res) => {
-            //     res.data.forEach((data) => {
-              //       let obj = {
-                //         key: data[keys[0]],
+        //   this.$http[item.api]({ data: { ...params } }).then((res) => {
+        //     res.data.forEach((data) => {
+        //       let obj = {
+        //         key: data[keys[0]],
         //         value: data[keys[1]],
         //       };
         //       item.optionData.push(obj);
@@ -249,7 +292,17 @@ export default {
       this._mxHandleSubmit();
 
       // 彩信分类统计特殊页面传该form引用类型数据
-      if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) this.$emit("forms", this.form);
+      this.searchFormConfig.forEach(item => {
+        if (item.hasOwnProperty("isSpecial")) {
+          this.$emit("forms", this.form);
+        }
+      });
+      // if (
+      //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
+      //     "isSpecial"
+      //   )
+      // )
+      //   this.$emit("forms", this.form);
     },
 
     /**

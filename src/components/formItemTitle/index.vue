@@ -17,6 +17,7 @@
           <h3 v-if="item.isTitle && !item.isShow">{{ item.title }}</h3>
           <el-button
             v-if="item.isBtn && !item.isShow"
+            size="small"
             @click="handleClick(item)"
             >{{ item.btnTxt }}</el-button
           >
@@ -43,10 +44,11 @@
                 "
               />
               <el-button
-                style="border-color: #1890ff"
+                style="border-color: #0964FF"
                 v-if="item.btnTxt"
                 :disabled="item.btnDisabled"
                 @click="chooses(item)"
+                size="small"
                 >{{ item.btnTxt }}</el-button
               >
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
@@ -226,6 +228,7 @@
             <!--上传-->
             <template v-if="item.type === 'upload'">
               <el-upload
+                v-if="!item.defaultValue"
                 ref="uploadFile"
                 :action="action"
                 :headers="header"
@@ -236,12 +239,17 @@
                     handleSuccess(item, res, file, fileList);
                   }
                 "
+                :on-progress="
+                  (event, file, fileList) => {
+                    handleProgress(item, event, file, fileList);
+                  }
+                "
                 :on-error="handleError"
                 :limit="item.limit || 1"
                 :file-list="item.defaultFileList || []"
                 :on-exceed="handleExceed"
               >
-                <div v-if="!item.defaultValue">
+                <div>
                   <el-button size="small" type="primary">{{
                     item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
@@ -249,28 +257,29 @@
                     {{ item.tip }}
                   </div>
                 </div>
-                <div v-else>
-                  <img
-                    class="el-upload-list__item-thumbnail"
-                    :src="`${href}/${item.defaultValue}`"
-                    alt=""
-                  />
-                  <span class="el-upload-list__item-actions">
-                    <span
-                      class="el-upload-list__item-preview"
-                      @click="handlePictureCardPreview(item.defaultValue)"
-                    >
-                      <i class="el-icon-zoom-in"></i>
-                    </span>
-                    <span
-                      class="el-upload-list__item-delete"
-                      @click="handleRemoveImg(item)"
-                    >
-                      <i class="el-icon-delete"></i>
-                    </span>
-                  </span>
-                </div>
               </el-upload>
+              <div v-else>
+                <img
+                  class="el-upload-list__item-thumbnail"
+                  :src="`${href}/${item.defaultValue}`"
+                  alt=""
+                  style="width: 100px;height: 75px;"
+                />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-preview"
+                    @click="handlePictureCardPreview(item.defaultValue)"
+                  >
+                    <i class="el-icon-zoom-in"></i>
+                  </span>
+                  <span
+                    style="display: inline-block;"
+                    @click="handleRemoveImg(item)"
+                  >
+                    <i class="el-icon-delete"></i>
+                  </span>
+                </span>
+              </div>
             </template>
           </el-form-item>
         </el-col>
@@ -282,16 +291,17 @@
                 type="primary"
                 @click="onSubmit('form')"
                 v-throttle="3000"
+                size="small"
               >
                 {{ btnTxt }}
               </el-button>
-              <el-button @click="cancel">取消</el-button>
+              <el-button @click="cancel" size="small">取消</el-button>
             </slot>
           </div>
         </div>
       </el-row>
     </el-form>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" :modal="false">
       <img width="100%" :src="`${href}/${dialogImageUrl}`" alt="" />
     </el-dialog>
   </div>
@@ -460,6 +470,19 @@ export default {
         // fileList = [];
       }
     },
+    //  文件上传时的钩子
+    handleProgress(item, event, file, fileList) {
+      const { accept, size } = item;
+      let fileType = file.raw.name.split(".")[1];
+      let fileSize = file.size;
+      let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
+      if (accept && accept.lenght != 0) {
+        if (!accept.includes(fileType) || fileSize > isLt1M) {
+          this.$message.error("支持jpg/jpeg/png,大小在1M之内");
+          return;
+        }
+      }
+    },
     //  文件上传失败时的钩子
     handleError(err, file, fileList) {
       this.$emit("handleError", { err, file, fileList });
@@ -481,6 +504,7 @@ export default {
     handleRemoveImg(item) {
       // console.log(file);
       item.defaultValue = "";
+      item.defaultFileList = [];
     },
     //查看图片
     handlePictureCardPreview(file) {

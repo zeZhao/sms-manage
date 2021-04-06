@@ -38,7 +38,6 @@
     <el-table
       :data="dataList"
       highlight-current-row
-      height="680"
       style="width: 100%"
     >
       <!--角色id 	角色名称 角色类型 1是商戶端角色 2是运营端角色 描述-->
@@ -78,7 +77,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"

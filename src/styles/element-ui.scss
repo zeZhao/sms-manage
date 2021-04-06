@@ -69,7 +69,7 @@
 // dropdown
 .el-dropdown-menu {
   a {
-    display: block
+    display: block;
   }
 }
 
@@ -81,4 +81,31 @@
 // to fix el-date-picker css style
 .el-range-separator {
   box-sizing: content-box;
+}
+
+.el-input--medium,
+.el-input__inner {
+  // height: 32px !important;
+  // line-height: 32px !important;
+}
+.el-form-item--medium .el-form-item__label {
+  line-height: 32px !important;
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+.el-table .el-table__header-wrapper th {
+  background: rgba(0, 0, 0, 0.02);
 }
