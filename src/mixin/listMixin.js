@@ -503,7 +503,7 @@ export default {
                 key: t[optionKey],
                 value: t[optionVal]
               };
-              item.optionData.push(obj);
+              item.optionData.push(obj)
             });
           } else if (item.type === 'input') {
             item.defaultValue = optionKey
@@ -551,9 +551,14 @@ export default {
      */
     _deleteDefaultValue(list, key) {
       list.forEach(item => {
-        if (item.key === key) {
+        if (item.key === key || item.tag === key) {
           if (item.type === 'select' || item.type === 'checkbox') {
-            item.optionData = [];
+            // item.optionData = [];
+            if (item.initDefaultValue) {
+              this.$set(item, "defaultValue", item.initDefaultValue);
+            } else {
+              item.defaultValue = []
+            }
           } else if (item.type === 'input') {
             item.defaultValue = ''
           }
