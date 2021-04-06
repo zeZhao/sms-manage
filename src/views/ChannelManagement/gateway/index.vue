@@ -221,7 +221,7 @@ export default {
         {
           type: "select",
           label: "运营商",
-          key: "gatewayType",
+          key: "sendTo",
           optionData: [
             // { key: "1", value: "移动" },
             // { key: "2", value: "联通" },

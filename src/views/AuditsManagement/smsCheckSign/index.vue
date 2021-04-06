@@ -15,7 +15,7 @@
             style="color: #0964FF"
             :href="`${origin}${scope.row.licenceUrl}`"
             target="_blank"
-            v-if="scope.row.licenceUrl"
+            v-if="scope.row.licenceUrl || scope.row.licenceUrl !== '-'"
             >点击查看</a
           >
           <span v-else>暂无图片</span>
@@ -27,7 +27,7 @@
             style="color: #0964FF"
             :href="`${origin}${scope.row.cardUrl}`"
             target="_blank"
-            v-if="scope.row.cardUrl"
+            v-if="scope.row.cardUrl || scope.row.cardUrl !== '-'"
             >点击查看</a
           >
           <span v-else>暂无图片</span>

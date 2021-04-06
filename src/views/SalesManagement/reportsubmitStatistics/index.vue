@@ -172,8 +172,8 @@ export default {
             this.searchFormConfig,
             res.data,
             "saleUserName",
-            "userName",
-            "userName"
+            "actualName",
+            "actualName"
           );
         }
       });

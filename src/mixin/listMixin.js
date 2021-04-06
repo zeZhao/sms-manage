@@ -572,7 +572,6 @@ export default {
       list.forEach(item => {
         if (item.key === key) {
           this.$set(item, "isShow", show);
-          // item.isShow = true
         }
       });
     },
@@ -586,7 +585,6 @@ export default {
       list.forEach(item => {
         if (item.tag === tag) {
           this.$set(item, "isShow", show);
-          // item.isShow = true
         }
       });
     },
@@ -600,7 +598,6 @@ export default {
       list.forEach(item => {
         if (item.label === label) {
           this.$set(item, "isShow", show);
-          // item.isShow = true
         }
       });
     }
