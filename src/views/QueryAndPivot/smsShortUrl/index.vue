@@ -66,12 +66,12 @@ export default {
           key: "userId",
           placeholder: "请输入账户编号"
         },
-        {
-          type: "inputNum",
-          label: "任务编号",
-          key: "taskId",
-          placeholder: "请输入任务编号"
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "任务编号",
+        //   key: "taskId",
+        //   placeholder: "请输入任务编号"
+        // },
         {
           type: "input",
           label: "内容",

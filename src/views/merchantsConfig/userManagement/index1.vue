@@ -202,9 +202,9 @@
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="updateTime" label="修改时间" width="150">
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.updateTime | timeFormat
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="300">
@@ -452,9 +452,9 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: "1", value: "行业" },
-            { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
+            { key: "1", value: "行业" }
+            // { key: "2", value: "营销" },
+            // { key: "3", value: "VIP" }
           ]
         },
         // {
@@ -658,9 +658,9 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: 1, value: "行业" },
-            { key: 2, value: "营销" },
-            { key: 3, value: "VIP" }
+            { key: 1, value: "行业" }
+            // { key: 2, value: "营销" },
+            // { key: 3, value: "VIP" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

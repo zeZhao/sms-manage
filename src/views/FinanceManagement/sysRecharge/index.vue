@@ -19,7 +19,9 @@
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
           <span>
@@ -81,12 +83,12 @@
                 : scope.row.isBill == 1
                 ? "月度帐单"
                 : scope.row.isBill == 2
-                ? "转移记录"
+                ? "互转记录"
                 : scope.row.isBill == 3
                 ? "借款记录"
                 : scope.row.isBill == 4
-                ? "补款记录"
-                : "转移记录"
+                ? "还款记录"
+                : "互转记录"
             }}
           </span>
         </template>
@@ -215,21 +217,23 @@ export default {
         // },
         {
           type: "inputNum",
-          label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          label: "商户编号",
+          key: "corporateId"
         },
         {
-          type: "select",
-          label: "付款状态",
-          key: "paidWay",
-          optionData: [
-            { key: "0", value: "充值" },
-            { key: "1", value: "借款" },
-            { key: "2", value: "扣款" },
-            { key: "3", value: "还款" }
-          ],
-          placeholder: "类型"
+          type: "inputNum",
+          label: "商户名称",
+          key: "corpName"
+        },
+        {
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId"
+        },
+        {
+          type: "inputNum",
+          label: "账户名称",
+          key: "userName"
         },
         {
           type: "select",
@@ -238,14 +242,22 @@ export default {
           optionData: [
             { key: "1", value: "短信" }
             // { key: "2", value: "彩信" }
-          ],
-          placeholder: "类型"
+          ]
         },
         {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corporateId",
-          placeholder: "请输入商户编号"
+          type: "select",
+          label: "操作类型",
+          key: "paidWay",
+          optionData: [
+            { key: "0", value: "充值" },
+            // { key: 2, value: "扣款" },
+            // { key: 1, value: "借款" },
+            { key: 3, value: "还款" },
+            { key: 1, value: "授信" },
+            { key: 4, value: "清授信" },
+            { key: 6, value: "余额+" },
+            { key: 2, value: "余额-" }
+          ]
         },
 
         {
@@ -257,8 +269,8 @@ export default {
             { key: "1", value: "月度账单" },
             { key: "2", value: "退款记录" },
             { key: "3", value: "借款记录" },
-            { key: "4", value: "补款记录" },
-            { key: "5", value: "转移记录" }
+            { key: "4", value: "还款记录" },
+            { key: "5", value: "互转记录" }
           ]
         },
         {

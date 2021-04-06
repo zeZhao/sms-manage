@@ -40,7 +40,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "为账户计费" : "商户id计费"
+            scope.row.reductType === 1 ? "账户计费" : "商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -112,12 +112,12 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "用户"
-            },
-            {
-              key: 2,
-              value: "商户"
+              value: "账户"
             }
+            // {
+            //   key: 2,
+            //   value: "商户"
+            // }
           ],
           placeholder: "请选择类型"
         },
