@@ -267,8 +267,11 @@ export default {
   },
   methods: {
     searchedGetTimes(form) {
-      if (form.createStartTime || form.createEndTime)
+      if (form.createStartTime || form.createEndTime) {
         this.isChooseTimeData = deepClone(form);
+      } else {
+        this.isChooseTimeData = {};
+      }
     },
     forms(form) {
       this.formData = form;

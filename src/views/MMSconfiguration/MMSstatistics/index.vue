@@ -6,6 +6,7 @@
       @search="_mxDoSearch"
       @exportData="exportData"
       :add="false"
+      @isChooseTime="searchedGetTimes"
     >
       <template slot="Other">
         <el-button type="primary" @click="exportExe" style="margin-left: 15px"
@@ -33,9 +34,26 @@
           {{ renderSuccessRate(scope.row.sucCount, scope.row.count) }}
         </template>
       </el-table-column>
-      <el-table-column prop="countDate" label="统计日期" min-width="150" />
+      <el-table-column prop="countDate" label="统计日期" min-width="150">
+        <template slot-scope="scope">
+          {{ scope.row.countDate | timeFormat }}
+        </template>
+      </el-table-column>
     </el-table>
     <p style="color: red">
+      <span
+        v-if="
+          isChooseTimeData.startTime || isChooseTimeData.endTime
+        "
+      >
+        <span v-if="isChooseTimeData.startTime">
+          {{ isChooseTimeData.startTime }}日
+        </span>
+        <span v-if="isChooseTimeData.endTime">
+          <span v-if="isChooseTimeData.startTime">至 </span
+          >{{ isChooseTimeData.endTime }}日
+        </span>
+      </span>
       发送数: {{ tabBottomData.countAll || 0 }}&nbsp;&nbsp; 成功数:{{
         tabBottomData.sucCountAll || 0
       }}&nbsp;&nbsp; 失败数:{{ tabBottomData.failCountAll || 0 }}&nbsp;&nbsp;
@@ -51,6 +69,7 @@
 
 <script>
 import listMixin from '@/mixin/listMixin';
+import { deepClone } from "@/utils";
 export default {
   mixins: [listMixin],
   data() {
@@ -95,11 +114,14 @@ export default {
         {
           type: 'daterange',
           label: '统计日期',
-          key: ['', 'startTime', 'endTime']
+          key: ['', 'startTime', 'endTime'],
+          isSpecial: true
           // defaultValue: ['', this.initDate(), this.initDate()]
         }
       ],
-      tabBottomData: {}
+      tabBottomData: {},
+      //对象为引用类型 需要深度clone //搜索的时候重新获取一下
+      isChooseTimeData: {}
     };
   },
   watch: {
@@ -108,6 +130,13 @@ export default {
     }
   },
   methods: {
+    searchedGetTimes(form) {
+      if (form.startTime || form.endTime) {
+        this.isChooseTimeData = deepClone(form);
+      } else {
+        this.isChooseTimeData = {};
+      }
+    },
     //今日日期的初始化以及时间不满足补0
     initDate() {
       const date = new Date().toLocaleDateString().split('/');

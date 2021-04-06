@@ -26,10 +26,7 @@
         <el-form-item style="float: right">
           <el-button
             type="primary"
-            @click="
-              customerAddInfo = true;
-              getNavList();
-            "
+            @click="addRoles"
             >新增角色</el-button
           >
         </el-form-item>
@@ -104,14 +101,14 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="角色名称">
+        <el-form-item label="角色名称" prop="custName">
           <el-input
             v-model="addInfo.custName"
             clearable
             placeholder="角色名称"
           />
         </el-form-item>
-        <el-form-item label="角色类型">
+        <el-form-item label="角色类型" prop="roleType">
           <el-select
             style="width: 100%"
             @change="getNavList"
@@ -163,14 +160,14 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="角色名称">
+        <el-form-item label="角色名称" prop="custName">
           <el-input
             v-model="setInfo.custName"
             clearable
             placeholder="角色名称"
           />
         </el-form-item>
-        <el-form-item label="角色类型">
+        <el-form-item label="角色类型" prop="roleType">
           <el-select
             style="width: 100%"
             v-model="setInfo.roleType"
@@ -300,6 +297,8 @@ export default {
         des: ""
       },
       updateFormRules: {
+        custName: [{required: true, message: '请输入必填项', trigger: "blur"}],
+        roleType: [{required: true, message: '请选择必选项', trigger: "change"}],
         contactMobile: [{ validator: validatePhone, trigger: "blur" }]
       },
       companyOptions: [], // 商户全称下拉项
@@ -362,6 +361,13 @@ export default {
   },
   methods: {
     checkPermission,
+    addRoles(){
+      this.customerAddInfo = true;
+      this.getNavList();
+      this.$nextTick(() => {
+        this.$refs.addForm.clearValidate();
+      })
+    },
     queryOrderList() {
       this.cur_page = 1;
       this.orderList();
@@ -483,39 +489,45 @@ export default {
         })
         .catch(() => {});
     },
-    addCustomerInfo() {
-      let params = {
-        roleName: this.addInfo.custName,
-        roleType: this.addInfo.roleType,
-        status: "1"
-      };
-      if (this.addInfo.custName == "") {
-        return this.$message.error("请填写角色名称");
-      } else if (this.addInfo.roleType == "") {
-        return this.$message.error("请选择角色类型");
-      }
-      this.$http.role.addOrUpdate(params).then(res => {
-        if (res.code == "200") {
-          this.$message({
-            showClose: true,
-            message: "新增成功",
-            type: "success"
-          });
-          this.addInfo.roleName = "";
-          this.addInfo.roleType = "1";
-          this.addInfo.custName = "";
+    addCustomerInfo(form) {
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          let params = {
+            roleName: this.addInfo.custName,
+            roleType: this.addInfo.roleType,
+            status: "1"
+          };
+          if (this.addInfo.custName == "") {
+            return this.$message.error("请填写角色名称");
+          } else if (this.addInfo.roleType == "") {
+            return this.$message.error("请选择角色类型");
+          }
+          this.$http.role.addOrUpdate(params).then(res => {
+            if (res.code == "200") {
+              this.$message({
+                showClose: true,
+                message: "新增成功",
+                type: "success"
+              });
+              this.addInfo.roleName = "";
+              this.addInfo.roleType = "1";
+              this.addInfo.custName = "";
 
-          this.setNavuserList(res.data, 1);
-          this.customerAddInfo = false;
-          this.orderList();
-        } else {
-          this.$message.error(res.msg);
+              this.setNavuserList(res.data, 1);
+              this.customerAddInfo = false;
+              this.orderList();
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
         }
-      });
+      })
     },
     infoShow(row) {
-      console.log(row);
       this.customerInfo = true;
+      this.$nextTick(() => {
+        this.$refs.updateCustomForm.clearValidate();
+      })
       this.navListId = [];
       this.setInfo.custId = row.roleId;
       this.setInfo.custName = row.roleName;
@@ -523,37 +535,41 @@ export default {
       this.setInfo.des = row.des;
       this.deleteCustomer(this.setInfo.custId, this.setInfo.roleType);
     },
-    setCustomerInfo(formName) {
+    setCustomerInfo(form) {
       this.customerInfo = true;
-      let params = {
-        roleId: this.setInfo.custId,
-        roleName: this.setInfo.custName,
-        roleType: this.setInfo.roleType,
-        des: this.setInfo.des
-      };
-      if (this.setInfo.roleName == "") {
-        return this.$message.error("请填写角色名称");
-      } else if (this.setInfo.roleType == "") {
-        return this.$message.error("请选择角色类型");
-      }
-      this.$http.role.addOrUpdate(params).then(res => {
-        if (res.code == "200") {
-          this.$message({
-            showClose: true,
-            message: "修改成功",
-            type: "success"
+      this.$refs[form].validate((valid) => {
+        if (valid) {
+          let params = {
+            roleId: this.setInfo.custId,
+            roleName: this.setInfo.custName,
+            roleType: this.setInfo.roleType,
+            des: this.setInfo.des
+          };
+          if (this.setInfo.roleName == "") {
+            return this.$message.error("请填写角色名称");
+          } else if (this.setInfo.roleType == "") {
+            return this.$message.error("请选择角色类型");
+          }
+          this.$http.role.addOrUpdate(params).then(res => {
+            if (res.code == "200") {
+              this.$message({
+                showClose: true,
+                message: "修改成功",
+                type: "success"
+              });
+              this.setInfo.custId = "";
+              this.setInfo.custName = "";
+              this.setInfo.roleType = "";
+              this.setInfo.des = "";
+              this.setNavuserList(res.data, 2);
+              this.customerInfo = false;
+              this.orderList();
+            } else {
+              this.$message.error(res.data);
+            }
           });
-          this.setInfo.custId = "";
-          this.setInfo.custName = "";
-          this.setInfo.roleType = "";
-          this.setInfo.des = "";
-          this.setNavuserList(res.data, 2);
-          this.customerInfo = false;
-          this.orderList();
-        } else {
-          this.$message.error(res.data);
         }
-      });
+      })
     },
     deleteCustomer(id, type) {
       this.roleId = id;
