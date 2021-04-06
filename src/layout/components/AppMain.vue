@@ -79,6 +79,8 @@ export default {
 .hideSidebar {
   .el-tooltip,
   .el-submenu__title {
+    height: 48px !important;
+    line-height: 48px !important;
     text-align: center;
     // i {
     //   padding-left: 18px;
