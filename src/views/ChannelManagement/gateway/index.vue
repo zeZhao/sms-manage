@@ -113,8 +113,8 @@
       top="45px"
       width="80%"
     >
-      <FormItem
-        :colSpan="8"
+      <FormItemTitle
+        :colSpan="12"
         :labelWidth="170"
         ref="formItem"
         :formConfig="formConfig"
@@ -122,7 +122,8 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
-      ></FormItem>
+        @handleClick="handleClick"
+      ></FormItemTitle>
     </el-dialog>
 
     <el-dialog
@@ -165,9 +166,11 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import FormItemTitle from "@/components/formItemTitle";
 
 export default {
   mixins: [listMixin],
+  components: { FormItemTitle },
   data() {
     return {
       formTit: "新增",
@@ -288,6 +291,11 @@ export default {
       // 表单配置
       formConfig: [
         {
+          isTitle: true,
+          title: "基本信息",
+          colSpan: 24
+        },
+        {
           type: "input",
           label: "通道编号",
           key: "gateway",
@@ -335,12 +343,7 @@ export default {
           key: "ip",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "通道端口",
-          key: "port",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+
         {
           type: "select",
           label: "发送对象",
@@ -376,41 +379,17 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
-          label: "通道长号码",
-          key: "longCode",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
           type: "select",
-          label: "是否直连",
-          key: "isDerect",
-          defaultValue: "",
+          label: "运营状态",
+          key: "operateStatus",
           optionData: [
-            {
-              key: 1,
-              value: "非直连"
-            },
-            {
-              key: 2,
-              value: "直连"
-            }
-          ],
-          // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "省份",
-          key: "province",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "落地市",
-          key: "city",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+            { key: 1, value: "使用中" },
+            { key: 2, value: "测试中" },
+            { key: 3, value: "暂停使用" },
+            { key: 4, value: "关停" },
+            { key: 5, value: "弃用" },
+            { key: 6, value: "全部" }
+          ]
         },
         {
           type: "select",
@@ -422,6 +401,43 @@ export default {
             { key: "1", value: "是" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+
+        {
+          isTitle: true,
+          title: "业务信息",
+          colSpan: 24
+        },
+        {
+          type: "select",
+          label: "是否取路由",
+          key: "isTwoRoute",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "不取" },
+            { key: "1", value: "取" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "二次路由编号",
+          key: "twoRouteNo"
+        },
+        {
+          type: "select",
+          label: "是否报备",
+          key: "isReportRemarks",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
+        },
+        {
+          type: "input",
+          label: "目标通道",
+          key: "targetGateway"
         },
         {
           type: "select",
@@ -459,74 +475,76 @@ export default {
         },
         {
           type: "select",
-          label: "是否取路由",
-          key: "isTwoRoute",
+          label: "是否直连",
+          key: "isDerect",
           defaultValue: "",
           optionData: [
-            { key: "0", value: "不取" },
-            { key: "1", value: "取" }
+            {
+              key: 1,
+              value: "非直连"
+            },
+            {
+              key: 2,
+              value: "直连"
+            }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "服务端ip",
-          key: "serverIp",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "服务端端口",
-          key: "serverPort",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "滑动窗口",
-          key: "slideWindow",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "账号",
-          key: "clientId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "密码",
-          key: "sharedSecret",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "通道端口号",
-          key: "srcId",
+          // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
-          label: "运营状态",
-          key: "operateStatus",
-          optionData: [
-            { key: 1, value: "使用中" },
-            { key: 2, value: "测试中" },
-            { key: 3, value: "暂停使用" },
-            { key: 4, value: "关停" },
-            { key: 5, value: "弃用" },
-            { key: 6, value: "全部" }
-          ],
-          placeholder: "请选择运营状态"
+          label: "落地省份",
+          key: "province",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+        {
+          type: "input",
+          label: "落地市",
+          key: "city",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "textarea",
+          label: "通道参数",
+          key: "parameter"
+        },
+        {
+          type: "textarea",
+          label: "屏蔽省份",
+          key: "shieldProvince"
+        },
+        {
+          type: "textarea",
+          label: "备注",
+          key: "remark",
+          maxlength: "300"
+        },
+        {
+          isBtn: true,
+          btnTxt: "隐藏附加信息",
+          colSpan: 24
+        },
+        {
+          isTitle: true,
+          title: "附加信息",
+          colSpan: 24
+        },
+
         {
           type: "input",
           label: "发送内容",
           key: "conRequirements"
         },
         {
-          type: "input",
-          label: "发送速度",
-          key: "sendSpeed"
+          type: "select",
+          label: "是否支持长短信",
+          key: "isLong",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
         },
         {
           type: "input",
@@ -554,6 +572,48 @@ export default {
             }
           ]
         },
+        {
+          type: "input",
+          label: "单条字数",
+          key: "singleLength"
+        },
+
+        {
+          type: "select",
+          label: "是否专用",
+          key: "isExclusive",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
+        },
+        {
+          type: "select",
+          label: "是否带签名",
+          key: "hasSign",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
+        },
+        {
+          type: "select",
+          label: "是否需要白名单",
+          key: "isWhite",
+          defaultValue: "",
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
+        },
+        {
+          type: "input",
+          label: "发送速度",
+          key: "sendSpeed"
+        },
+
         {
           type: "input",
           label: "投诉率指标",
@@ -593,61 +653,57 @@ export default {
           label: "通道余额",
           key: "balance"
         },
+
         {
           type: "input",
-          label: "单条字数",
-          key: "singleLength"
+          label: "通道端口",
+          key: "port",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "是否报备",
-          key: "isReportRemarks",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          type: "input",
+          label: "通道长号码",
+          key: "longCode",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+
+        {
+          type: "input",
+          label: "服务端ip",
+          key: "serverIp",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "是否专用",
-          key: "isExclusive",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          type: "input",
+          label: "服务端端口",
+          key: "serverPort",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "是否带签名",
-          key: "hasSign",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          type: "input",
+          label: "滑动窗口",
+          key: "slideWindow",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "是否需要白名单",
-          key: "isWhite",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          type: "input",
+          label: "账号",
+          key: "clientId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "是否支持长短信",
-          key: "isLong",
-          defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          type: "input",
+          label: "密码",
+          key: "sharedSecret",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+        {
+          type: "input",
+          label: "通道端口号",
+          key: "srcId",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+
         {
           type: "select",
           label: "是否支持上行",
@@ -694,31 +750,13 @@ export default {
           label: "商户代码",
           key: "msgSrc"
         },
-        {
-          type: "input",
-          label: "二次路由编号",
-          key: "twoRouteNo"
-        },
-        {
-          type: "textarea",
-          label: "屏蔽省份",
-          key: "shieldProvince"
-        },
-        {
-          type: "input",
-          label: "目标通道",
-          key: "targetGateway"
-        },
+
         {
           type: "input",
           label: "接口协议",
           key: "protocol"
         },
-        {
-          type: "textarea",
-          label: "通道参数",
-          key: "parameter"
-        },
+
         {
           type: "input",
           label: "绑定主IP",
@@ -728,18 +766,6 @@ export default {
           type: "input",
           label: "绑定从IP",
           key: "zyIvIce"
-        },
-        {
-          type: "textarea",
-          label: "特殊设置",
-          key: "collocation",
-          maxlength: "300"
-        },
-        {
-          type: "textarea",
-          label: "备注",
-          key: "remark",
-          maxlength: "300"
         },
         {
           type: "input",
@@ -753,6 +779,12 @@ export default {
               trigger: "change"
             }
           ]
+        },
+        {
+          type: "textarea",
+          label: "特殊设置",
+          key: "collocation",
+          maxlength: "300"
         }
       ],
       //选择配置
@@ -823,6 +855,17 @@ export default {
   },
   computed: {},
   methods: {
+    handleClick(item) {
+      this.formConfig.forEach(item => {
+        if (item.tag === "content") {
+          if (item.defaultValue) {
+            item.defaultValue = `${item.defaultValue}{x}`;
+          } else {
+            item.defaultValue = `{x}`;
+          }
+        }
+      });
+    },
     //获取所有标签
     listTag() {
       this.$http.smsTagController

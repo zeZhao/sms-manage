@@ -344,11 +344,7 @@
       top="45px"
       width="30%"
     >
-      <el-input
-        v-model="speedVal"
-        maxlength="1000"
-        placeholder="请输入提交速率"
-      >
+      <el-input v-model="speedVal" maxlength="100" placeholder="请输入提交速率">
         <template slot="prepend">提交速率</template>
         <template slot="append">每分</template>
       </el-input>
@@ -1225,6 +1221,10 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
+        if (item.key === "productType") {
+          console.log(item, "----------------产品------------------");
+          // item.defaultValue = []
+        }
         if (item.key == "proType") {
           this.$set(item, "disabled", false);
         }
@@ -1578,9 +1578,11 @@ export default {
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setDisplayShow(this.formConfig, "returnBalance", true);
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
