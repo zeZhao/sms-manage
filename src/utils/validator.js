@@ -103,3 +103,18 @@ export const positiveInteger = (rule, value, callback) => {
     }
   }
 };
+
+// 固定电话座机或者手机号的正则
+export const checkFixedPhoneOrPhone = (rule, value, callback) => {
+  if (value) {
+    const regFixedPhone = /^\d{3}-\d{8}|\d{4}-\d{7}$/;
+    const regPhone = /^1[3-9]\d{9}$/;
+    if (regFixedPhone.test(value) || regPhone.test(value)) {
+      callback();
+    } else {
+      callback(new Error("请输入正确的手机号码或座机号码"));
+    }
+  } else {
+    callback(new Error("请输入手机号码或座机号码"));
+  }
+};

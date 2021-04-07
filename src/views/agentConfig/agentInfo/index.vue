@@ -122,7 +122,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { phoneTell, password, character, character1 } from "@/utils/validator";
+import { checkFixedPhoneOrPhone, password, character, character1 } from "@/utils/validator";
 
 export default {
   mixins: [listMixin],
@@ -251,7 +251,7 @@ export default {
           key: "mobile",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: phoneTell, trigger: "change" }
+            { validator: checkFixedPhoneOrPhone, trigger: "blur" }
           ]
         },
         {
