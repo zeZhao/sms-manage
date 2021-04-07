@@ -1579,14 +1579,19 @@ export default {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "mms");
+
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
             this._setDisplayShow(this.formConfig, "returnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "sms");
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
+          this._deleteDefaultValue(this.formConfig, "mms");
+          this._deleteDefaultValue(this.formConfig, "sms");
         }
       }
       if (item.key === "reductModel") {
