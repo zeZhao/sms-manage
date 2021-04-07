@@ -362,8 +362,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           colSpan: 12,
-          // initDefaultValue: 2,
-          defaultValue: "",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }

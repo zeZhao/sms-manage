@@ -614,6 +614,8 @@ export default {
           type: "select",
           label: "计费类型",
           key: "reductType",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
@@ -1580,7 +1582,6 @@ export default {
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
             this._deleteDefaultValue(this.formConfig, "mms");
-
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
