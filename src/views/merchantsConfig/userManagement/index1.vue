@@ -272,7 +272,7 @@
     ></Page>
     <el-dialog
       :title="formTit"
-      :visible.sync="addChannel"
+      :visible="addChannel"
       :close-on-click-modal="false"
       top="45px"
       width="80%"
@@ -1089,7 +1089,8 @@ export default {
       ],
       submitSpeedTit: "配置提交速率",
       speedVisible: false,
-      speedVal: null
+      speedVal: null,
+      saleList: []
     };
   },
   mounted() {
@@ -1215,6 +1216,13 @@ export default {
         }
         if (key === "productType") {
           row["productType"] = row["productTypes"];
+        }
+        if (key === "saleMan") {
+          this.saleList.forEach(item => {
+            if (item.actualName === row[key]) {
+              row[key] = item.userName;
+            }
+          });
         }
       }
       return row;
@@ -1404,7 +1412,7 @@ export default {
     },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
-      let form = formData;
+      let form = Object.assign({},formData);
       for (let key in form) {
         if (key === "blackLevel" || key === "mmsBlackLevel") {
           form[key] = form[key].join(",");
@@ -1423,7 +1431,7 @@ export default {
               return prev + curr;
             });
           } else {
-            form[key] = "";
+            form[key] = null;
           }
         }
       }
@@ -1471,6 +1479,7 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.saleList = res.data;
           this._setDefaultValue(
             this.formConfig,
             res.data,

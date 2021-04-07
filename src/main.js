@@ -65,6 +65,9 @@ Vue.prototype.common = common
 // }
 Vue.use(managePlugin)
 Vue.use(echarts)
+
+//全局修改弹窗遮罩层不插入至 body 元素上
+Element.Dialog.props.modalAppendToBody.default = false;
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })

@@ -558,7 +558,7 @@ export default {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
             } else {
-              item.defaultValue = []
+              item.defaultValue = null
             }
           } else if (item.type === 'input') {
             item.defaultValue = ''
