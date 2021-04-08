@@ -25,7 +25,7 @@
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
             :rules="item.rules"
-            v-if="!item.isShow && !item.isTitle"
+            v-if="!item.isShow && !item.isTitle && !item.isBtn"
           >
             <!--输入框-->
             <template v-if="item.type === 'input'">

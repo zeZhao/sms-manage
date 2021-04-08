@@ -154,8 +154,6 @@ export default {
     },
     //敏感词组
     async listSensitiveWordGroup() {
-      this._deleteDefaultValue(this.searchFormConfig, "groupId");
-      this._deleteDefaultValue(this.formConfig, "groupId");
       await this.$http.sysSensitiveWordGroup
         .listSensitiveWordGroup({})
         .then(res => {

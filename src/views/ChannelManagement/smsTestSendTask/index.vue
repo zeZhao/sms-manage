@@ -5,6 +5,7 @@
       ref="formItem"
       :formConfig="formConfig"
       :btnTxt="formTit"
+      :isCancel="false"
       @submit="submit"
       @cancel="cancel"
       @choose="choose"
@@ -12,7 +13,7 @@
       <template slot="Other">
         <el-button
           style="float: right;margin-left: 15px"
-          type="primary"
+          size="small"
           @click="resetForm"
           >重置</el-button
         >

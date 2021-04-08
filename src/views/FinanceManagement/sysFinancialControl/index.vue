@@ -262,10 +262,10 @@ export default {
      */
     _formatRequestData(row) {
       if (row.endTime) {
-        row.endTime = `${row.endTime} 23:59:59`;
+        row.endTime = `${row.endTime}`;
       }
       if (row.startTime) {
-        row.startTime = `${row.startTime} 00:00:01`;
+        row.startTime = `${row.startTime}`;
       }
       return row;
     }

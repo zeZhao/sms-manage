@@ -306,6 +306,9 @@
             :class="{ 'footer-text-center': footerIsCenter }"
           >
             <slot name="Btn">
+              <el-button @click="cancel" size="small" v-if="isCancel"
+                >取消</el-button
+              >
               <el-button
                 type="primary"
                 @click="onSubmit('form')"
@@ -314,13 +317,12 @@
               >
                 {{ btnTxt }}
               </el-button>
-              <el-button @click="cancel" size="small">取消</el-button>
             </slot>
           </div>
         </div>
       </el-row>
     </el-form>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" :modal="false">
       <img width="100%" :src="`${href}/${dialogImageUrl}`" alt="" />
     </el-dialog>
   </div>
@@ -340,6 +342,12 @@ export default {
       type: String,
       default() {
         return "新增";
+      }
+    },
+    isCancel: {
+      type: Boolean,
+      default() {
+        return true;
       }
     },
     labelWidth: {

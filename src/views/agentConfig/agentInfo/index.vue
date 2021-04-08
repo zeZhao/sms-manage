@@ -173,8 +173,7 @@ export default {
           type: "select",
           label: "销售",
           key: "saleMan",
-          optionData: [],
-          placeholder: "请选择匹配类型"
+          optionData: []
         },
         {
           type: "select",
@@ -391,14 +390,14 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "userName",
+            "actualName",
             "actualName"
           );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
             "saleMan",
-            "userName",
+            "actualName",
             "actualName"
           );
         }

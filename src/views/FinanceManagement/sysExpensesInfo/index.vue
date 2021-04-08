@@ -191,20 +191,20 @@ export default {
       formConfig: [
         {
           type: "input",
-          label: "编号",
+          label: "下单编号",
           key: "no",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
+          type: "input",
           label: "账单所属公司",
           key: "corporateName",
-          optionData: [
-            {
-              key: "聚通达",
-              value: "聚通达"
-            }
-          ],
+          // optionData: [
+          //   {
+          //     key: "聚通达",
+          //     value: "聚通达"
+          //   }
+          // ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -228,8 +228,9 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+
         {
-          type: "input",
+          type: "textarea",
           label: "摘要",
           key: "summary",
           defaultValue: "",
@@ -287,6 +288,7 @@ export default {
           type: "input",
           label: "票号",
           isShow: false,
+          maxlength: "30",
           key: "ticketNumber",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -309,7 +311,7 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "textarea",
           label: "备注",
           key: "remarks",
           maxlength: "300",
@@ -320,6 +322,7 @@ export default {
           type: "input",
           label: "开票类型",
           key: "billingType",
+          maxlength: "30",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }

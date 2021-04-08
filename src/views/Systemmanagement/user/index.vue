@@ -30,12 +30,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table
-      :data="dataList"
-      highlight-current-row
-      height="680"
-      style="width: 100%"
-    >
+    <el-table :data="dataList" highlight-current-row style="width: 100%">
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="编号" />
       <el-table-column prop="account" label="账号" />
@@ -72,7 +67,7 @@
       </el-table-column>
     </el-table>
     <!--分页-->
-    <el-col :span="24" class="toolbar">
+    <el-col :span="24" class="toolbar page">
       <el-pagination
         class="pull-right clearfix"
         :current-page="cur_page"

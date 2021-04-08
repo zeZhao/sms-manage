@@ -202,9 +202,9 @@
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="updateTime" label="修改时间" width="150">
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.updateTime | timeFormat
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="300">
@@ -272,7 +272,7 @@
     ></Page>
     <el-dialog
       :title="formTit"
-      :visible.sync="addChannel"
+      :visible="addChannel"
       :close-on-click-modal="false"
       top="45px"
       width="80%"
@@ -344,11 +344,7 @@
       top="45px"
       width="30%"
     >
-      <el-input
-        v-model="speedVal"
-        maxlength="1000"
-        placeholder="请输入提交速率"
-      >
+      <el-input v-model="speedVal" maxlength="100" placeholder="请输入提交速率">
         <template slot="prepend">提交速率</template>
         <template slot="append">每分</template>
       </el-input>
@@ -456,9 +452,9 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: "1", value: "行业" },
-            { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
+            { key: "1", value: "行业" }
+            // { key: "2", value: "营销" },
+            // { key: "3", value: "VIP" }
           ]
         },
         // {
@@ -618,6 +614,8 @@ export default {
           type: "select",
           label: "计费类型",
           key: "reductType",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
@@ -662,9 +660,9 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: 1, value: "行业" },
-            { key: 2, value: "营销" },
-            { key: 3, value: "VIP" }
+            { key: 1, value: "行业" }
+            // { key: 2, value: "营销" },
+            // { key: 3, value: "VIP" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -1091,7 +1089,8 @@ export default {
       ],
       submitSpeedTit: "配置提交速率",
       speedVisible: false,
-      speedVal: null
+      speedVal: null,
+      saleList: []
     };
   },
   mounted() {
@@ -1218,6 +1217,13 @@ export default {
         if (key === "productType") {
           row["productType"] = row["productTypes"];
         }
+        if (key === "saleMan") {
+          this.saleList.forEach(item => {
+            if (item.actualName === row[key]) {
+              row[key] = item.userName;
+            }
+          });
+        }
       }
       return row;
     },
@@ -1225,6 +1231,10 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
+        if (item.key === "productType") {
+          console.log(item, "----------------产品------------------");
+          // item.defaultValue = []
+        }
         if (item.key == "proType") {
           this.$set(item, "disabled", false);
         }
@@ -1402,7 +1412,7 @@ export default {
     },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
-      let form = formData;
+      let form = Object.assign({},formData);
       for (let key in form) {
         if (key === "blackLevel" || key === "mmsBlackLevel") {
           form[key] = form[key].join(",");
@@ -1421,7 +1431,7 @@ export default {
               return prev + curr;
             });
           } else {
-            form[key] = "";
+            form[key] = null;
           }
         }
       }
@@ -1469,6 +1479,7 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.saleList = res.data;
           this._setDefaultValue(
             this.formConfig,
             res.data,
@@ -1578,13 +1589,19 @@ export default {
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "mms");
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setDisplayShow(this.formConfig, "returnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "sms");
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
+          this._deleteDefaultValue(this.formConfig, "mms");
+          this._deleteDefaultValue(this.formConfig, "sms");
         }
       }
       if (item.key === "reductModel") {
