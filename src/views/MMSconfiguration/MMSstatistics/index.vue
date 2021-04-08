@@ -24,7 +24,7 @@
       <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="saleMan" label="销售员" />
+      <!-- <el-table-column prop="saleMan" label="销售员" /> -->
       <el-table-column prop="count" label="发送数" />
       <el-table-column prop="sucCount" label="成功数" />
       <el-table-column prop="failCount" label="失败数" />
@@ -106,11 +106,11 @@ export default {
           label: '账户名称',
           key: 'userName'
         },
-        {
-          type: 'input',
-          label: '销售员',
-          key: 'saleMan'
-        },
+        // {
+        //   type: 'input',
+        //   label: '销售员',
+        //   key: 'saleMan'
+        // },
         {
           type: 'daterange',
           label: '统计日期',

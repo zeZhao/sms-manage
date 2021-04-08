@@ -118,3 +118,21 @@ export const checkFixedPhoneOrPhone = (rule, value, callback) => {
     callback(new Error("请输入手机号码或座机号码"));
   }
 };
+
+// 限制菜单名称
+export const limitMenuName = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入必填项'));
+  } else {
+    if (value.length < 2 || value.length > 8) {
+      callback(new Error('菜单名称长度限制为2~8个'));
+    } else {
+      const reg = /^[\u4e00-\u9fa5]+$/i;
+      if (reg.test(value)) {
+        callback();
+      } else {
+        callback(new Error('菜单名称仅支持输入汉字'));
+      }
+    }
+  }
+};
