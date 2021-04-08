@@ -598,10 +598,12 @@ export default {
   methods: {
     //文件上传成功
     handleSuccess({ response, file, fileList }) {
+      console.log(response);
       if (response.code == 200) {
         this.formConfig.forEach(item => {
           if (item.key === "fileUrl") {
             item.defaultValue = response.data;
+            item.defaultFileList = response.data;
             console.log(item.defaultFileList);
           }
         });
@@ -613,6 +615,7 @@ export default {
       this.formConfig.forEach(item => {
         if (item.key === "fileUrl") {
           item.defaultValue = "";
+          item.defaultFileList = "";
         }
       });
     },
@@ -796,14 +799,14 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
           this._setDefaultValue(
             this.formConfigTransfers,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
         }

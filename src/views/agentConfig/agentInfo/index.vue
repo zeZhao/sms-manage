@@ -14,7 +14,7 @@
       <el-table-column prop="agentName" label="代理商名称" />
       <el-table-column prop="contact" label="联系人" />
       <el-table-column prop="mobile" label="联系电话" />
-      <el-table-column prop="actualName" label="销售" />
+      <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 1">正常</span>
@@ -390,14 +390,14 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
         }

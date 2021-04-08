@@ -29,7 +29,7 @@
         show-overflow-tooltip
       />
       <el-table-column
-        prop="saleMan"
+        prop="saleName"
         label="销售员"
         width="100"
         show-overflow-tooltip
@@ -1217,13 +1217,13 @@ export default {
         if (key === "productType") {
           row["productType"] = row["productTypes"];
         }
-        if (key === "saleMan") {
-          this.saleList.forEach(item => {
-            if (item.actualName === row[key]) {
-              row[key] = item.userName;
-            }
-          });
-        }
+        // if (key === "saleMan") {
+        //   this.saleList.forEach(item => {
+        //     if (item.actualName === row[key]) {
+        //       row[key] = item.userName;
+        //     }
+        //   });
+        // }
       }
       return row;
     },
@@ -1412,7 +1412,7 @@ export default {
     },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
-      let form = Object.assign({},formData);
+      let form = Object.assign({}, formData);
       for (let key in form) {
         if (key === "blackLevel" || key === "mmsBlackLevel") {
           form[key] = form[key].join(",");
