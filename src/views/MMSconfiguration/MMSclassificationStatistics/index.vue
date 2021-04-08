@@ -27,7 +27,11 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gatewayName" label="通道名称" />
-      <el-table-column prop="gatewayRatio" label="通道占比" />
+      <el-table-column prop="gatewayRatio" label="通道占比">
+        <template slot-scope="scope">
+          {{ renderSuccessRatio(scope.row.gatewayRatio) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
@@ -58,11 +62,11 @@
           {{ renderOperaId(scope.row.operaId) }}
         </template>
       </el-table-column>
-      <el-table-column
-        prop="operatorRatio"
-        label="运营商占比"
-        min-width="100"
-      />
+      <el-table-column prop="operatorRatio" label="运营商占比" min-width="100">
+        <template slot-scope="scope">
+          {{ renderSuccessRatio(scope.row.operatorRatio) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
@@ -87,7 +91,11 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="province" label="省份名称" />
-      <el-table-column prop="provinceRatio" label="省份占比" />
+      <el-table-column prop="provinceRatio" label="省份占比">
+         <template slot-scope="scope">
+          {{ renderSuccessRatio(scope.row.provinceRatio) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
@@ -267,8 +275,11 @@ export default {
   },
   methods: {
     searchedGetTimes(form) {
-      if (form.createStartTime || form.createEndTime)
+      if (form.createStartTime || form.createEndTime) {
         this.isChooseTimeData = deepClone(form);
+      } else {
+        this.isChooseTimeData = {};
+      }
     },
     forms(form) {
       this.formData = form;
@@ -289,7 +300,7 @@ export default {
       return idx !== -1 ? operaIdArr[idx].value : "-";
     },
     renderSuccessRatio(x) {
-      return x ? x * 100 + "%" : "-";
+      return (x && x !== '-') ? ((x * 100).toFixed(2) + "%") : "-";
     },
     exportExe() {
       this.$refs.Search.handleExport();

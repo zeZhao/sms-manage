@@ -575,7 +575,9 @@ export default {
         }
       } else if (this.setInfo.state == "") {
         return this.$message.error("请选择状态");
-      } else if (this.setInfo.mobile == "") {
+      } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {
+        return this.$message.error("请选择角色");
+      } if (this.setInfo.mobile == "") {
         return this.$message.error("请填写手机号");
       } else if (!Util.isPoneAvailable(this.setInfo.mobile)) {
         this.$message.error("手机号码规则错误");
@@ -609,8 +611,7 @@ export default {
           this.customerAddInfo = false;
           this.orderList();
         } else {
-          console.log(res);
-          this.$message.error(res.data);
+          this.$message.error(res.msg);
         }
       });
     },

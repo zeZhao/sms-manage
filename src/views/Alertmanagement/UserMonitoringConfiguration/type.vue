@@ -52,11 +52,12 @@
             style="width: 30%"
           />
           <el-input
+            type="number"
             v-model="formData.returnSuccRate"
             placeholder="到达成功率"
             clearable
             style="width: 40%"
-          />
+          />&nbsp;%
           <div class="item-tips">
             {{ formData.returnSuccMin }}分钟内到达成功率小于配置阀值则告警
           </div>
