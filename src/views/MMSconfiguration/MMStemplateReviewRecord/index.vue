@@ -9,7 +9,11 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="title" label="彩信标题" />
       <el-table-column prop="sign" label="签名" />
-      <el-table-column prop="type" label="提交类型" />
+      <el-table-column prop="type" label="提交类型">
+        <template slot-scope="scope">
+          {{ renderType(scope.row.type) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="operator" label="运营商" min-width="120">
         <template slot-scope="scope">
           {{ renderOperator(scope.row.operator) }}
@@ -126,6 +130,15 @@ export default {
       if (v || v === 0) {
         const idx = checkStatusArr.findIndex(item => v === item.key);
         return idx !== -1 ? checkStatusArr[idx].value : '-';
+      } else {
+        return '-';
+      }
+    },
+    renderType (v) {
+      if (v === 1) {
+        return '平台提交';
+      } else if (v === 2) {
+        return '接口提交';
       } else {
         return '-';
       }
