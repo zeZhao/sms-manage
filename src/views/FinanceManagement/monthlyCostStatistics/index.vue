@@ -180,16 +180,10 @@ export default {
     },
     //格式化表格数据且初始化数据
     _mxFormListData(data) {
-      if (data.length) {
-        this.obj = data[0]
-      } else {
-        this.obj = {
-          succcAll: 0,
-          shouRuAll: 0,
-          chengBenAll: 0,
-          profitAll: 0,
-        }
-      }
+      const params = { data: { smsProfit: this.searchParam } }
+      this.$http.smsProfit.queryAll(params).then(res => {
+        res.code === 200 ? this.obj = res.data : this.$message.error(res.msg);
+      });
       data.forEach((item) => {
         if (item.createDate) {
           item.createDate = new Date(item.createDate).Format('yyyy-MM-dd')

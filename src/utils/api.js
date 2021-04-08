@@ -1615,6 +1615,10 @@ export default {
         queryByPage(params) {
             return post("/smsProfit/queryByPage", params);
         },
+        // 查询table下方数据
+        queryAll(params) {
+            return post("/smsProfit/queryAll", params);
+        }
     },
     // 定时统计
     sysTimeTasklistStatistics: {
