@@ -57,26 +57,26 @@ import listMixin from "@/mixin/listMixin";
 * 0,待提审 1,审核中(运营未提审) 2,审核中(运营已提审) 3,审核中(提审未全过)
 * 4,审核驳回(运营未提审) 5,审核驳回(提审全驳回) 6,审核通过(提审全通过) 7,部分通过
 */
-const allReviewType = [
-  { key: 0, value: "待提审" },
-  { key: 1, value: "审核中" },
+// const allReviewType = [
+//   { key: 0, value: "待提审" },
+//   { key: 1, value: "审核中" },
+//   { key: 2, value: "审核中" },
+//   { key: 3, value: "审核中" },
+//   { key: 4, value: "审核驳回" },
+//   { key: 5, value: "审核驳回" },
+//   { key: 6, value: "审核通过" },
+//   { key: 7, value: "部分通过" }
+// ];
+const reviewType = [
+  { key: 1, value: "待提审" },
   { key: 2, value: "审核中" },
-  { key: 3, value: "审核中" },
+  { key: 3, value: "审核通过" },
   { key: 4, value: "审核驳回" },
-  { key: 5, value: "审核驳回" },
-  { key: 6, value: "审核通过" },
-  { key: 7, value: "部分通过" }
+  { key: 5, value: "异常" }
 ];
 export default {
   mixins: [listMixin],
   data () {
-    const reviewType = [
-      { key: 1, value: "待提审" },
-      { key: 2, value: "审核中" },
-      { key: 3, value: "审核通过" },
-      { key: 4, value: "审核驳回" },
-      { key: 5, value: "异常" }
-    ];
     return {
       // 接口地址
       searchAPI: {
@@ -177,8 +177,8 @@ export default {
     //返回各个运营商的不同状态
     renderAllTypes (item) {
       if (typeof item !== 'number') return '-';
-      const idx = allReviewType.findIndex(v => v.key === item);
-      return allReviewType[idx].value;
+      const idx = reviewType.findIndex(v => v.key === item);
+      return reviewType[idx].value;
     }
   }
 };
