@@ -43,7 +43,7 @@
           scope.row.sendTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="cid" label="C编号" show-overflow-tooltip />
+      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
       <el-table-column prop="seqId" label="SEQ编号" />
       <!-- <el-table-column prop="reductModel" label="计费类型">
         <template slot-scope="scope">

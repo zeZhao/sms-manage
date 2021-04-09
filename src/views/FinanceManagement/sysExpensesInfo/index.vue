@@ -127,8 +127,7 @@ export default {
               key: "未回",
               value: "未回"
             }
-          ],
-          placeholder: "请选择是否回票"
+          ]
         },
         {
           type: "select",
@@ -143,8 +142,7 @@ export default {
               key: "2",
               value: "否"
             }
-          ],
-          placeholder: "请选择是否已付款"
+          ]
         },
         {
           type: "input",
@@ -427,6 +425,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+>>> .el-input__suffix {
+  height: 90% !important;
+}
 .sysExpensesInfo {
 }
 </style>

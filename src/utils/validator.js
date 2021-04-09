@@ -49,7 +49,7 @@ export const phoneTell = (rule, value, callback) => {
 };
 // 密码验证
 export const password = (rule, value, callback) => {
-  let regex = new RegExp("^[\d0-9a-zA-Z-*/+.~!@#$%^&*()]{8,16}$");
+  let regex = new RegExp("^[\d0-9a-zA-Z!@#$%^&*~=+-]{8,16}$");
   if (value) {
     if (!regex.test(value)) {
       callback(new Error("密码为8-16位，数字、字母、英文符号"));

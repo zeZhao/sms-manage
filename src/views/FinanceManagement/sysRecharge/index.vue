@@ -24,9 +24,8 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
-          <span>
-            {{ scope.row.chargeType == 1 ? "短信" : "彩信" }}
-          </span>
+          <span v-if="scope.row.chargeType == 1">短信</span>
+          <span v-if="scope.row.chargeType == 2">彩信</span>
         </template>
       </el-table-column>
       <el-table-column prop="beforeBalance" label="操作前的条数" />
@@ -37,23 +36,12 @@
       <el-table-column prop="paidWay" label="操作类型">
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
-          <span v-if="scope.row.paidWay == 1">借款</span>
+          <span v-if="scope.row.paidWay == 1">授信</span>
           <span v-if="scope.row.paidWay == 2">余额-</span>
           <span v-if="scope.row.paidWay == 3">还款</span>
           <span v-if="scope.row.paidWay == 4">清授信</span>
-          <span v-if="scope.row.paidWay == 5">账号转移充值</span>
+          <span v-if="scope.row.paidWay == 5">账号互转</span>
           <span v-if="scope.row.paidWay == 6">余额+</span>
-          <!-- <span>
-            {{
-              scope.row.paidWay == 0
-                ? "充值"
-                : scope.row.paidWay == 1
-                ? "借款"
-                : scope.row.paidWay == 2
-                ? "扣款"
-                : "还款"
-            }}
-          </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费类型" width="110">
@@ -70,30 +58,35 @@
                 ? "后付提交计费"
                 : "后付成功计费"
             }}
+            {
+          type: "select",
+          label: "账单类型",
+          key: "isBill",
+          optionData: [
+            { key: "0", value: "充值记录" },
+            { key: "1", value: "月度账单" },
+            { key: "2", value: "退款记录" },
+            { key: "3", value: "借款记录" },
+            { key: "4", value: "还款记录" },
+            { key: "5", value: "互转记录" }
+          ]
+        },
           </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="到款方式" />
       <el-table-column prop="isBill" label="账单类型">
         <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.isBill == 0
-                ? "充值记录"
-                : scope.row.isBill == 1
-                ? "月度帐单"
-                : scope.row.isBill == 2
-                ? "互转记录"
-                : scope.row.isBill == 3
-                ? "借款记录"
-                : scope.row.isBill == 4
-                ? "还款记录"
-                : "互转记录"
-            }}
-          </span>
+          <span v-if="scope.row.isBill == 0">充值记录</span>
+          <span v-if="scope.row.isBill == 1">月度账单</span>
+          <span v-if="scope.row.isBill == 2">余额-记录</span>
+          <span v-if="scope.row.isBill == 3">授信记录</span>
+          <span v-if="scope.row.isBill == 4">还款记录</span>
+          <span v-if="scope.row.isBill == 5">互转记录</span>
+          <span v-if="scope.row.isBill == 6">清授信记录</span>
+          <span v-if="scope.row.isBill == 7">余额+记录</span>
         </template>
       </el-table-column>
-
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="creater" label="操作账号" />
       <el-table-column prop="createTime" label="创建时间" width="150">
@@ -104,7 +97,7 @@
       <el-table-column prop="modifier" label="审核人" />
       <el-table-column prop="modifyTime" label="审核时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核">
@@ -245,8 +238,8 @@ export default {
           label: "产品",
           key: "chargeType",
           optionData: [
-            { key: "1", value: "短信" }
-            // { key: "2", value: "彩信" }
+            { key: "1", value: "短信" },
+            { key: "2", value: "彩信" }
           ]
         },
         {
@@ -261,7 +254,9 @@ export default {
             { key: 1, value: "授信" },
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" }
+            { key: 2, value: "余额-" },
+
+            { key: 5, value: "账号互转" }
           ]
         },
 
@@ -272,10 +267,12 @@ export default {
           optionData: [
             { key: "0", value: "充值记录" },
             { key: "1", value: "月度账单" },
-            { key: "2", value: "退款记录" },
-            { key: "3", value: "借款记录" },
+            { key: "2", value: "余额-记录" },
+            { key: "3", value: "授信记录" },
             { key: "4", value: "还款记录" },
-            { key: "5", value: "互转记录" }
+            { key: "5", value: "互转记录" },
+            { key: "6", value: "清授信记录" },
+            { key: "7", value: "余额+记录" }
           ]
         },
         {
@@ -307,12 +304,13 @@ export default {
           optionData: [
             { key: "0", value: "充值" },
             // { key: 2, value: "扣款" },
-            // { key: 1, value: "借款" },
+            // { key: 1, value: "授信" },
             { key: 3, value: "还款" },
             { key: 1, value: "授信" },
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" }
+            { key: 2, value: "余额-" },
+            { key: 5, value: "账号互转" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -350,7 +348,7 @@ export default {
         },
         {
           type: "input",
-          label: "当前卡对应账户名称",
+          label: "账户名称",
           key: "userName",
           disabled: true,
           colSpan: 12,
@@ -597,14 +595,28 @@ export default {
   computed: {},
   methods: {
     //文件上传成功
-    handleSuccess({ response, file, fileList }) {
-      console.log(response);
+    handleSuccess({ response, file, fileList, item }) {
       if (response.code == 200) {
+        const { accept, size } = item;
+        let fileType = file.raw.name.split(".")[1];
+        let fileSize = file.size;
+        let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
+        if (accept && accept.lenght != 0) {
+          if (!accept.includes(fileType) || fileSize > isLt1M) {
+            this.$message.error("支持jpg/jpeg/png,大小在1M之内");
+            this.formConfig.forEach(item => {
+              if (item.key === "fileUrl") {
+                item.defaultValue = "";
+                item.defaultFileList = [];
+              }
+            });
+            return false;
+          }
+        }
         this.formConfig.forEach(item => {
           if (item.key === "fileUrl") {
             item.defaultValue = response.data;
             item.defaultFileList = response.data;
-            console.log(item.defaultFileList);
           }
         });
       } else {
@@ -647,6 +659,7 @@ export default {
           });
         }
       }
+      // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
       if (item.key === "paidWay") {
         this._deleteDefaultValue(this.formConfig, "cardMoney");
         this.formConfig.forEach(item => {
@@ -658,7 +671,7 @@ export default {
                 }
               } else if (val === 3) {
                 if (item.key === "cardMoney") {
-                  item.label = "借款金额(元)";
+                  item.label = "还款金额(元)";
                 }
               }
               this._setDisplayShow(this.formConfig, "cardMoney", false);
@@ -750,6 +763,12 @@ export default {
             this._setDisplayShow(this.formConfig, "corporateId", true);
           }
         }
+        if (item.key !== "remark" && item.key !== "saleMan") {
+          this.$set(item, "disabled", true);
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        }
         // if(item.key === "reductType")
       });
       setTimeout(() => {
@@ -772,10 +791,17 @@ export default {
       }, 0);
       //设置商户显示
       this._setDisplayShow(this.formConfig, "corporateId", true);
+      this._setDisplayShow(this.formConfig, "cardMoney", false);
+      this._setDisplayShow(this.formConfig, "direction", false);
+      this._setDisplayShow(this.formConfig, "factcardMoney", false);
+      this._setDisplayShow(this.formConfig, "fileUrl", false);
       // 初始上传文件为空
       this.formConfig.forEach(item => {
         if (item.key === "fileUrl") {
           item.defaultFileList = [];
+        }
+        if (item.key === "cardMoney") {
+          item.label = "充值金额(元)";
         }
       });
     },

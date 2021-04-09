@@ -471,7 +471,7 @@ export default {
         return this.$message.error("请填写账号");
       } else if (this.addInfo.pwd == "") {
         return this.$message.error("请填写密码");
-      } else if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.addInfo.pwd)) {
+      } else if (!/^[\d0-9a-zA-Z!@#$%^&*~=+-]{8,16}$/.test(this.addInfo.pwd)) {
         return this.$message.error("密码为8-16位，数字、字母、英文符号");
       } else if (this.addInfo.name == "") {
         return this.$message.error("请填写姓名");
@@ -544,7 +544,8 @@ export default {
     },
     deleteCustomer(id) {
       let params = {
-        roleType: 2
+        roleType: 2,
+        status: 1
       };
       this.$http.role.getRoleByType(params).then(res => {
         if (res.code == "200") {
@@ -570,7 +571,7 @@ export default {
       } else if (this.setInfo.name == "") {
         return this.$message.error("请填写姓名");
       } else if (this.setInfo.pwd) {
-        if (!/^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/.test(this.setInfo.pwd)) {
+        if (!/^[\d0-9a-zA-Z!@#$%^&*~=+-]{8,16}$/.test(this.setInfo.pwd)) {
           return this.$message.error("密码为8-16位，数字、字母、标点符号");
         }
       } else if (this.setInfo.state == "") {

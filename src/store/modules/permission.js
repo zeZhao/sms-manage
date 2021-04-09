@@ -64,7 +64,7 @@ export function generaMenu(routes, data, linkUrl = "") {
                 title: item.name,
                 id: item.menuId,
                 icon: item.icon,
-                keepAlive: true,
+                keepAlive: false,
             }
         }
         if (item.childMenu) {

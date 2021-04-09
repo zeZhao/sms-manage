@@ -71,9 +71,9 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "C编号",
+          label: "CID",
           key: "cid",
-          placeholder: "请输入C编号"
+          placeholder: "请输入CID"
         },
         {
           type: "input",

@@ -195,9 +195,18 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "select",
           label: "发送对象",
           key: "sendTo",
+          optionData: [
+            { key: "移动", value: "移动" },
+            { key: "联通", value: "联通" },
+            { key: "电信", value: "电信" },
+            { key: "三网", value: "三网" },
+            { key: "移动,联通", value: "移动,联通" },
+            { key: "移动,电信", value: "移动,电信" },
+            { key: "联通,电信", value: "联通,电信" }
+          ],
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             { trigger: "blur", validator: validatorSendTo }

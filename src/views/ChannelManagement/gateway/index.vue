@@ -48,7 +48,7 @@
       <el-table-column prop="charger" label="通道负责人" width="90" />
       <el-table-column prop="priority" label="优先级" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="remark" label="通道状态">
+      <!-- <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.serverStatus"
@@ -63,7 +63,7 @@
             "
           ></el-switch>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button

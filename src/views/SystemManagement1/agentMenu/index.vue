@@ -369,7 +369,7 @@ export default {
     },
     deleteCustomer(row) {
       console.log(row, "------------row");
-      
+
       this.$confirm(
         row.parentId == 0
           ? "删除后子级菜单也将被删除，请谨慎操作"
@@ -481,7 +481,7 @@ export default {
               this.setInfo = {};
               this.getNavList();
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.msg);
             }
           });
         } else {
