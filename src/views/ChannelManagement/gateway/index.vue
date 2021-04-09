@@ -229,10 +229,10 @@ export default {
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
-            { key: "4", value: "三网" },
-            { key: "5", value: "移动,联通" },
-            { key: "6", value: "电信,联通" },
-            { key: "7", value: "移动,电信" }
+            { key: "三网", value: "三网" },
+            { key: "移动,联通", value: "移动,联通" },
+            { key: "电信,联通", value: "电信,联通" },
+            { key: "移动,电信", value: "移动,电信" }
           ]
         },
         {

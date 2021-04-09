@@ -113,10 +113,10 @@ export default {
           key: "operaId",
           placeholder: "请选择运营商",
           optionData: [
-            {
-              key: "0",
-              value: "非法"
-            },
+            // {
+            //   key: "0",
+            //   value: "非法"
+            // },
             {
               key: "1",
               value: "移动"
@@ -182,10 +182,10 @@ export default {
           label: "运营商",
           key: "operaId",
           optionData: [
-            {
-              key: "0",
-              value: "不限"
-            },
+            // {
+            //   key: "0",
+            //   value: "不限"
+            // },
             {
               key: 1,
               value: "移动"
