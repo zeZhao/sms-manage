@@ -61,7 +61,6 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
   data() {
@@ -80,6 +79,8 @@ export default {
       namespace: "",
       //搜索框数据
       searchParam: {},
+      isParamsNotData: false,
+      submitParamsIsData: false,
       //搜索框配置
       searchFormConfig: [
         {
@@ -93,24 +94,14 @@ export default {
         {
           type: "input",
           label: "标签名称",
-          maxlength: 50,
+          maxlength: 15,
           key: "name",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
-      id: "",
-      isParamsNotData: false
-    };
-  },
-  mounted() {},
-  computed: {},
-  methods: {},
-  watch: {}
-};
-</script>
-
-<style lang="scss" scoped>
-.sysSensitiveWordGroup {
+      id: ""
+    }
+  }
 }
-</style>
+</script>

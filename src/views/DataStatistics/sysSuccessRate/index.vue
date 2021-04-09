@@ -86,6 +86,7 @@ export default {
       isParamsNotData: true,
       //搜索框数据
       searchParam: {},
+      isParamsNotData: false,
       //搜索框配置
       searchFormConfig: [
         {
@@ -127,6 +128,7 @@ export default {
           type: "select",
           label: "类型",
           key: "smsType",
+          defaultValue: "1",
           optionData: [
             { key: "1", value: "短信" }
             // { key: "2", value: "彩信" },

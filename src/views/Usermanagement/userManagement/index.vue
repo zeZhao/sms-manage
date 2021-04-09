@@ -79,7 +79,7 @@
             placeholder="计费模式"
             clearable
           >
-            <el-option value="1" label="为账户计费" />
+            <el-option value="1" label="账户计费" />
             <el-option value="2" label="为商户id计费" />
           </el-select>
         </el-form-item>
@@ -192,7 +192,7 @@
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType == "1" ? "为账户计费" : "为商户id计费"
+            scope.row.reductType == "1" ? "账户计费" : "为商户id计费"
           }}</span>
         </template>
       </el-table-column>
@@ -338,7 +338,7 @@
             placeholder="请选择计费类型"
             popper-class="select-option"
           >
-            <el-option value="1" label="为账户计费" />
+            <el-option value="1" label="账户计费" />
             <el-option value="2" label="为商户id计费" />
           </el-select>
         </el-form-item>

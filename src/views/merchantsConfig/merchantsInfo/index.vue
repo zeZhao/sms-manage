@@ -210,7 +210,7 @@
         </el-form-item>
         <el-form-item label="短信的单价" prop="cardUnit">
           <el-input
-            maxlength="10"
+            maxlength="5"
             show-word-limit
             v-model="addInfo.cardUnit"
             clearable
@@ -219,7 +219,7 @@
         </el-form-item>
         <el-form-item label="客户联系人" prop="contact">
           <el-input
-            maxlength="20"
+            maxlength="10"
             show-word-limit
             v-model="addInfo.contact"
             type="phone"
@@ -311,8 +311,8 @@ export default {
       }
     };
     var validate = (rule, value, callback) => {
-      if (value && !/^\d+(\.\d{1,2})?$/.test(value)) {
-        callback(new Error("必须为正数，最多2位小数"));
+      if (!value) {
+        callback(new Error("请输入短信单价"));
       } else if (value <= 0) {
         callback(new Error("短信单价必须大于0"));
       } else {
@@ -378,7 +378,7 @@ export default {
         ],
         cardUnit: [
           { required: true, message: "请输入短信单价", trigger: "blur" },
-          { validator: validate, trigger: "change" }
+          { validator: validate, trigger: "blur" }
         ],
         contact: [{ required: true, message: "请输入联系人", trigger: "blur" }],
         mobile: [
@@ -444,6 +444,13 @@ export default {
       this.$http.corp.queryByPage(params).then(res => {
         if (res.code == "200") {
           this.dataList = res.data.list;
+          this.dataList.forEach(item => {
+            for (let key in item) {
+              if (!item[key]) {
+                item[key] = "-";
+              }
+            }
+          });
           this.totalCount = Number(res.data.total);
         } else {
           this.$message.error(res.msg);
@@ -487,7 +494,7 @@ export default {
               this.customerAddInfo = false;
               this.$refs[formName].resetFields();
             } else {
-              this.$message.error(msg);
+              this.$message.error(data);
             }
           });
         } else {

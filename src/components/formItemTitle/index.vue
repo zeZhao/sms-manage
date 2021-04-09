@@ -25,7 +25,7 @@
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
             :rules="item.rules"
-            v-if="!item.isShow && !item.isTitle"
+            v-if="!item.isShow && !item.isTitle && !item.isBtn"
           >
             <!--输入框-->
             <template v-if="item.type === 'input'">
@@ -239,6 +239,11 @@
                     handleSuccess(item, res, file, fileList);
                   }
                 "
+                :before-upload="
+                  file => {
+                    beforeUpload(item, file);
+                  }
+                "
                 :on-progress="
                   (event, file, fileList) => {
                     handleProgress(item, event, file, fileList);
@@ -273,6 +278,7 @@
                     <i class="el-icon-zoom-in"></i>
                   </span>
                   <span
+                    v-if="!item.disabled"
                     style="display: inline-block;"
                     @click="handleRemoveImg(item)"
                   >
@@ -339,7 +345,7 @@ export default {
   data() {
     return {
       formData: {},
-      action: "/api/sysPrepaidCard/uploadFile",
+      action: "/api/api/sysPrepaidCard/uploadFile",
       header: {
         token: getToken()
       },
@@ -463,26 +469,17 @@ export default {
     //  文件上传成功时的钩子
     handleSuccess(item, response, file, fileList) {
       if (response.code == 200) {
-        this.$emit("handleSuccess", { response, file, fileList });
+        this.$emit("handleSuccess", { response, file, fileList, item });
       } else {
         this.$message.error(response.data);
         item.defaultFileList = [];
         // fileList = [];
       }
     },
+    //上传前
+    beforeUpload(item, file) {},
     //  文件上传时的钩子
-    handleProgress(item, event, file, fileList) {
-      const { accept, size } = item;
-      let fileType = file.raw.name.split(".")[1];
-      let fileSize = file.size;
-      let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
-      if (accept && accept.lenght != 0) {
-        if (!accept.includes(fileType) || fileSize > isLt1M) {
-          this.$message.error("支持jpg/jpeg/png,大小在1M之内");
-          return;
-        }
-      }
-    },
+    handleProgress(item, event, file, fileList) {},
     //  文件上传失败时的钩子
     handleError(err, file, fileList) {
       this.$emit("handleError", { err, file, fileList });

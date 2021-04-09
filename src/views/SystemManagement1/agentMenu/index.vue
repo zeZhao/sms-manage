@@ -102,8 +102,9 @@
         label-width="120px"
         :model="addInfo"
         class="demo-ruleForm"
+        :rules="rules"
       >
-        <el-form-item label="菜单名称">
+        <el-form-item label="菜单名称" prop="funcName">
           <el-input
             v-model="addInfo.funcName"
             clearable
@@ -148,8 +149,9 @@
         label-width="120px"
         :model="addInfo"
         class="demo-ruleForm"
+        :rules="rules"
       >
-        <el-form-item label="菜单名称">
+        <el-form-item label="菜单名称" prop="funcName">
           <el-input
             v-model="addInfo.funcName"
             disabled
@@ -157,7 +159,7 @@
             placeholder="菜单名称"
           />
         </el-form-item>
-        <el-form-item label="子菜单名称">
+        <el-form-item label="子菜单名称" prop="funcChName">
           <el-input
             v-model="addInfo.funcChName"
             clearable
@@ -202,11 +204,12 @@
         label-width="120px"
         :model="setInfo"
         class="demo-ruleForm"
+         :rules="rules"
       >
         <!--<el-form-item label="目录名称">-->
         <!--<el-input v-model="setInfo.funcName" disabled clearable placeholder="目录名称" />-->
         <!--</el-form-item>-->
-        <el-form-item label="菜单名称">
+        <el-form-item label="菜单名称" prop="name">
           <el-input v-model="setInfo.name" clearable placeholder="菜单名称" />
         </el-form-item>
         <el-form-item label="目录路径">
@@ -244,6 +247,7 @@
 </template>
 
 <script>
+import { limitMenuName } from '@/utils/validator';
 export default {
   data() {
     return {
@@ -280,7 +284,12 @@ export default {
         children: "children",
         checkStrictly: true
       },
-      options: []
+      options: [],
+      rules: {
+        funcName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
+        funcChName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
+        name: [ { required: true, validator: limitMenuName, trigger: "blur" } ]
+      }
     };
   },
   mounted() {
@@ -369,7 +378,7 @@ export default {
     },
     deleteCustomer(row) {
       console.log(row, "------------row");
-      
+
       this.$confirm(
         row.parentId == 0
           ? "删除后子级菜单也将被删除，请谨慎操作"
@@ -481,7 +490,7 @@ export default {
               this.setInfo = {};
               this.getNavList();
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.msg);
             }
           });
         } else {

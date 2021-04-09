@@ -296,13 +296,19 @@ export default {
     },
     //修改状态
     updateStatus(row, status) {
-      const { id, userName } = row;
-      this.$http.sysSales.updateStatus({ id, status, userName }).then(res => {
-        if (res.code == 200) {
-          this.$message.success("修改成功");
-          this._mxGetList();
-        }
-      });
+      this.$confirm(`此操作将立即${status === '2' ? '停用' : '启用'}, 是否继续?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const { id, userName } = row;
+        this.$http.sysSales.updateStatus({ id, status, userName }).then(res => {
+          if (res.code == 200) {
+            this.$message.success("修改成功");
+            this._mxGetList();
+          }
+        });
+      }).catch(() => {});
     },
     submit(form) {
       console.log(form, "--------form");
@@ -382,13 +388,13 @@ export default {
       this.addChannel = false;
     },
     _mxFormListData(data) {
-      data.forEach(item => {
-        if (item.modifyTime) {
-          item.modifyTime = new Date(item.modifyTime).Format(
-            "yyyy-MM-dd hh:mm:ss"
-          );
-        }
-      });
+      // data.forEach(item => {
+      //   if (item.modifyTime) {
+      //     item.modifyTime = new Date(item.modifyTime).Format(
+      //       "yyyy-MM-dd hh:mm:ss"
+      //     );
+      //   }
+      // });
       return data;
     }
   },

@@ -14,7 +14,7 @@
       <el-table-column prop="agentName" label="代理商名称" />
       <el-table-column prop="contact" label="联系人" />
       <el-table-column prop="mobile" label="联系电话" />
-      <el-table-column prop="actualName" label="销售" />
+      <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 1">正常</span>
@@ -122,7 +122,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { phoneTell, password, character, character1 } from "@/utils/validator";
+import { checkFixedPhoneOrPhone, password, character, character1 } from "@/utils/validator";
 
 export default {
   mixins: [listMixin],
@@ -173,8 +173,7 @@ export default {
           type: "select",
           label: "销售",
           key: "saleMan",
-          optionData: [],
-          placeholder: "请选择匹配类型"
+          optionData: []
         },
         {
           type: "select",
@@ -211,7 +210,7 @@ export default {
           key: "agentName",
           // disabled: true,
           defaultValue: "",
-          maxlength: 30,
+          maxlength: 15,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             { validator: character, trigger: "change" }
@@ -223,7 +222,7 @@ export default {
           // disabled: true,
           key: "loginName",
           defaultValue: "",
-          maxlength: 10,
+          maxlength: 15,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             { validator: character1, trigger: "change" }
@@ -251,7 +250,7 @@ export default {
           key: "mobile",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: phoneTell, trigger: "change" }
+            { validator: checkFixedPhoneOrPhone, trigger: "blur" }
           ]
         },
         {

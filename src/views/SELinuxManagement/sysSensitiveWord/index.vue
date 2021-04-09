@@ -107,7 +107,7 @@ export default {
           type: "input",
           label: "敏感词",
           key: "wordName",
-          maxlength: 50,
+          maxlength: 30,
           defaultValue: "",
           disabled: false,
           rules: [
@@ -115,6 +115,12 @@ export default {
               required: true,
               message: "请输入必填项",
               trigger: "blur"
+            },
+            {
+              min: 2,
+              max: 30,
+              trigger: "blur",
+              message: '长度在 2 到 30 个字符',
             }
           ]
         },
@@ -126,7 +132,7 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
+              message: "请选择必选项",
               trigger: "blur"
             }
           ]
@@ -136,7 +142,7 @@ export default {
           label: "备注信息",
           key: "remark",
           maxlength: "300",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          // rules: [{ trigger: "blur", validator: validatorRemark }]
         }
       ],
       wordId: "",
@@ -154,8 +160,6 @@ export default {
     },
     //敏感词组
     async listSensitiveWordGroup() {
-      this._deleteDefaultValue(this.searchFormConfig, "groupId");
-      this._deleteDefaultValue(this.formConfig, "groupId");
       await this.$http.sysSensitiveWordGroup
         .listSensitiveWordGroup({})
         .then(res => {

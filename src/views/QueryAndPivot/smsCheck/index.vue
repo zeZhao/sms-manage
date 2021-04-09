@@ -51,7 +51,7 @@
           <span v-if="scope.row.source == '7'">组合超时</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cid" label="C编号" show-overflow-tooltip />
+      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
       <el-table-column
         prop="mobile"
         label="手机号"
@@ -107,10 +107,10 @@ export default {
           label: "审核状态",
           key: "checkStatus",
           optionData: [
-            {
-              key: "0",
-              value: "待审"
-            },
+            // {
+            //   key: "0",
+            //   value: "待审"
+            // },
             {
               key: "1",
               value: "正在审核"
@@ -140,9 +140,9 @@ export default {
         },
         {
           type: "input",
-          label: "C编号",
+          label: "CID",
           key: "cId",
-          placeholder: "请输入C编号"
+          placeholder: "请输入CID"
         },
         {
           type: "input",

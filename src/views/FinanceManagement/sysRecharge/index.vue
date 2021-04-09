@@ -19,12 +19,13 @@
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
-          <span>
-            {{ scope.row.chargeType == 1 ? "短信" : "彩信" }}
-          </span>
+          <span v-if="scope.row.chargeType == 1">短信</span>
+          <span v-if="scope.row.chargeType == 2">彩信</span>
         </template>
       </el-table-column>
       <el-table-column prop="beforeBalance" label="操作前的条数" />
@@ -35,23 +36,12 @@
       <el-table-column prop="paidWay" label="操作类型">
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
-          <span v-if="scope.row.paidWay == 1">借款</span>
+          <span v-if="scope.row.paidWay == 1">授信</span>
           <span v-if="scope.row.paidWay == 2">余额-</span>
           <span v-if="scope.row.paidWay == 3">还款</span>
           <span v-if="scope.row.paidWay == 4">清授信</span>
-          <span v-if="scope.row.paidWay == 5">账号转移充值</span>
+          <span v-if="scope.row.paidWay == 5">账号互转</span>
           <span v-if="scope.row.paidWay == 6">余额+</span>
-          <!-- <span>
-            {{
-              scope.row.paidWay == 0
-                ? "充值"
-                : scope.row.paidWay == 1
-                ? "借款"
-                : scope.row.paidWay == 2
-                ? "扣款"
-                : "还款"
-            }}
-          </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费类型" width="110">
@@ -68,30 +58,35 @@
                 ? "后付提交计费"
                 : "后付成功计费"
             }}
+            {
+          type: "select",
+          label: "账单类型",
+          key: "isBill",
+          optionData: [
+            { key: "0", value: "充值记录" },
+            { key: "1", value: "月度账单" },
+            { key: "2", value: "退款记录" },
+            { key: "3", value: "借款记录" },
+            { key: "4", value: "还款记录" },
+            { key: "5", value: "互转记录" }
+          ]
+        },
           </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="到款方式" />
       <el-table-column prop="isBill" label="账单类型">
         <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.isBill == 0
-                ? "充值记录"
-                : scope.row.isBill == 1
-                ? "月度帐单"
-                : scope.row.isBill == 2
-                ? "转移记录"
-                : scope.row.isBill == 3
-                ? "借款记录"
-                : scope.row.isBill == 4
-                ? "补款记录"
-                : "转移记录"
-            }}
-          </span>
+          <span v-if="scope.row.isBill == 0">充值记录</span>
+          <span v-if="scope.row.isBill == 1">月度账单</span>
+          <span v-if="scope.row.isBill == 2">余额-记录</span>
+          <span v-if="scope.row.isBill == 3">授信记录</span>
+          <span v-if="scope.row.isBill == 4">还款记录</span>
+          <span v-if="scope.row.isBill == 5">互转记录</span>
+          <span v-if="scope.row.isBill == 6">清授信记录</span>
+          <span v-if="scope.row.isBill == 7">余额+记录</span>
         </template>
       </el-table-column>
-
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="creater" label="操作账号" />
       <el-table-column prop="createTime" label="创建时间" width="150">
@@ -102,7 +97,7 @@
       <el-table-column prop="modifier" label="审核人" />
       <el-table-column prop="modifyTime" label="审核时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核">
@@ -163,15 +158,20 @@
       :visible.sync="transfersDialog"
       :close-on-click-modal="false"
       style="margin: 0 auto"
+      top="45px"
+      width="80%"
     >
-      <FormItem
+      <FormItemTitle
         ref="formItems"
+        :colSpan="12"
         :formConfig="formConfigTransfers"
         btnTxt="确认转移"
         @submit="transfersSubmit"
         @cancel="transfersCancel"
         @choose="choose"
-      ></FormItem>
+        @selectChange="selectChangeShift"
+        @inpChange="inpChangeShift"
+      ></FormItemTitle>
     </el-dialog>
     <ChooseUser
       :isChooseUser="isChooseUser"
@@ -215,37 +215,49 @@ export default {
         // },
         {
           type: "inputNum",
-          label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          label: "商户编号",
+          key: "corporateId"
         },
         {
-          type: "select",
-          label: "付款状态",
-          key: "paidWay",
-          optionData: [
-            { key: "0", value: "充值" },
-            { key: "1", value: "借款" },
-            { key: "2", value: "扣款" },
-            { key: "3", value: "还款" }
-          ],
-          placeholder: "类型"
+          type: "inputNum",
+          label: "商户名称",
+          key: "corpName"
+        },
+        {
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId"
+        },
+        {
+          type: "inputNum",
+          label: "账户名称",
+          key: "userName"
         },
         {
           type: "select",
           label: "产品",
           key: "chargeType",
           optionData: [
-            { key: "1", value: "短信" }
-            // { key: "2", value: "彩信" }
-          ],
-          placeholder: "类型"
+            { key: "1", value: "短信" },
+            { key: "2", value: "彩信" }
+          ]
         },
         {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corporateId",
-          placeholder: "请输入商户编号"
+          type: "select",
+          label: "操作类型",
+          key: "paidWay",
+          optionData: [
+            { key: "0", value: "充值" },
+            // { key: 2, value: "扣款" },
+            // { key: 1, value: "借款" },
+            { key: 3, value: "还款" },
+            { key: 1, value: "授信" },
+            { key: 4, value: "清授信" },
+            { key: 6, value: "余额+" },
+            { key: 2, value: "余额-" },
+
+            { key: 5, value: "账号互转" }
+          ]
         },
 
         {
@@ -255,10 +267,12 @@ export default {
           optionData: [
             { key: "0", value: "充值记录" },
             { key: "1", value: "月度账单" },
-            { key: "2", value: "退款记录" },
-            { key: "3", value: "借款记录" },
-            { key: "4", value: "补款记录" },
-            { key: "5", value: "转移记录" }
+            { key: "2", value: "余额-记录" },
+            { key: "3", value: "授信记录" },
+            { key: "4", value: "还款记录" },
+            { key: "5", value: "互转记录" },
+            { key: "6", value: "清授信记录" },
+            { key: "7", value: "余额+记录" }
           ]
         },
         {
@@ -290,12 +304,13 @@ export default {
           optionData: [
             { key: "0", value: "充值" },
             // { key: 2, value: "扣款" },
-            // { key: 1, value: "借款" },
+            // { key: 1, value: "授信" },
             { key: 3, value: "还款" },
             { key: 1, value: "授信" },
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" }
+            { key: 2, value: "余额-" },
+            { key: 5, value: "账号互转" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -333,7 +348,7 @@ export default {
         },
         {
           type: "input",
-          label: "当前卡对应账户名称",
+          label: "账户名称",
           key: "userName",
           disabled: true,
           colSpan: 12,
@@ -345,8 +360,8 @@ export default {
           label: "计费类型",
           key: "reductType",
           colSpan: 12,
-          // initDefaultValue: 2,
-          defaultValue: "",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
@@ -465,12 +480,26 @@ export default {
       formConfigTransfers: [
         {
           type: "select",
-          label: "产品类型",
+          label: "转移产品",
           key: "chargeType",
+          colSpan: 12,
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             { key: 1, value: "短信" },
             { key: 2, value: "彩信" }
           ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "接收账户编号",
+          key: "userIdTo",
+          btnTxt: "选择用户",
+          disabled: true,
+          colSpan: 12,
+          defaultValue: "",
+          // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -480,55 +509,72 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
+          colSpan: 12,
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "当前转移的账户名称",
-          key: "userName",
-          // disabled: true,
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "接收账户编号",
-          key: "userIdTo",
-          btnTxt: "选择用户",
-          disabled: true,
-          defaultValue: "",
-          // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "当前接收的账户名称",
+          label: "当前接收账户名称",
           key: "userNameTo",
+          colSpan: 12,
           // disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "当前转移账户名称",
+          key: "userName",
+          colSpan: 12,
+          // disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+
+        {
+          type: "select",
+          label: "销售员签名",
+          key: "saleMan",
+          colSpan: 12,
+          optionData: []
+        },
+        {
+          type: "textarea",
+          label: "备注",
+          maxlength: 300,
+          colSpan: 12,
+          key: "remark"
+        },
+        {
+          isTitle: true,
+          title: "短信",
+          colSpan: 24
         },
         {
           type: "input",
           label: "转移条数",
-          key: "cardCount"
+          key: "cardCount",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "转移方单价(分)",
+          disabled: true,
           key: "cardUnit",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "转移金额",
+          label: "转移金额(元)",
           key: "cardMoney",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+
         {
           type: "input",
           label: "接收方单价(分)",
+          disabled: true,
           key: "cardUnitTo",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -537,17 +583,6 @@ export default {
           label: "接收条数",
           key: "cardCountTo",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "备注",
-          key: "remark"
-        },
-        {
-          type: "select",
-          label: "销售员的名字",
-          key: "saleMan",
-          optionData: []
         }
       ],
       isChooseUser: false,
@@ -560,12 +595,28 @@ export default {
   computed: {},
   methods: {
     //文件上传成功
-    handleSuccess({ response, file, fileList }) {
+    handleSuccess({ response, file, fileList, item }) {
       if (response.code == 200) {
+        const { accept, size } = item;
+        let fileType = file.raw.name.split(".")[1];
+        let fileSize = file.size;
+        let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
+        if (accept && accept.lenght != 0) {
+          if (!accept.includes(fileType) || fileSize > isLt1M) {
+            this.$message.error("支持jpg/jpeg/png,大小在1M之内");
+            this.formConfig.forEach(item => {
+              if (item.key === "fileUrl") {
+                item.defaultValue = "";
+                item.defaultFileList = [];
+              }
+            });
+            return false;
+          }
+        }
         this.formConfig.forEach(item => {
           if (item.key === "fileUrl") {
             item.defaultValue = response.data;
-            console.log(item.defaultFileList);
+            item.defaultFileList = response.data;
           }
         });
       } else {
@@ -576,6 +627,7 @@ export default {
       this.formConfig.forEach(item => {
         if (item.key === "fileUrl") {
           item.defaultValue = "";
+          item.defaultFileList = "";
         }
       });
     },
@@ -607,6 +659,7 @@ export default {
           });
         }
       }
+      // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
       if (item.key === "paidWay") {
         this._deleteDefaultValue(this.formConfig, "cardMoney");
         this.formConfig.forEach(item => {
@@ -618,7 +671,7 @@ export default {
                 }
               } else if (val === 3) {
                 if (item.key === "cardMoney") {
-                  item.label = "借款金额(元)";
+                  item.label = "还款金额(元)";
                 }
               }
               this._setDisplayShow(this.formConfig, "cardMoney", false);
@@ -655,6 +708,23 @@ export default {
       //     this._setDisplayShow(this.formConfig, "corporateId", true);
       //   }
       // }
+    },
+    selectChangeShift({ val, item }) {
+      if (item.key === "chargeType") {
+        if (val === 1) {
+          this.formConfigTransfers.forEach(item => {
+            if (item.isTitle) {
+              item.title = "短信";
+            }
+          });
+        } else {
+          this.formConfigTransfers.forEach(item => {
+            if (item.isTitle) {
+              item.title = "彩信";
+            }
+          });
+        }
+      }
     },
     /**
      * 编辑表单
@@ -693,6 +763,12 @@ export default {
             this._setDisplayShow(this.formConfig, "corporateId", true);
           }
         }
+        if (item.key !== "remark" && item.key !== "saleMan") {
+          this.$set(item, "disabled", true);
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        }
         // if(item.key === "reductType")
       });
       setTimeout(() => {
@@ -715,10 +791,17 @@ export default {
       }, 0);
       //设置商户显示
       this._setDisplayShow(this.formConfig, "corporateId", true);
+      this._setDisplayShow(this.formConfig, "cardMoney", false);
+      this._setDisplayShow(this.formConfig, "direction", false);
+      this._setDisplayShow(this.formConfig, "factcardMoney", false);
+      this._setDisplayShow(this.formConfig, "fileUrl", false);
       // 初始上传文件为空
       this.formConfig.forEach(item => {
         if (item.key === "fileUrl") {
           item.defaultFileList = [];
+        }
+        if (item.key === "cardMoney") {
+          item.label = "充值金额(元)";
         }
       });
     },
@@ -742,14 +825,14 @@ export default {
             this.formConfig,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
           this._setDefaultValue(
             this.formConfigTransfers,
             res.data,
             "saleMan",
-            "actualName",
+            "userName",
             "actualName"
           );
         }
@@ -821,6 +904,57 @@ export default {
         }
       }
     },
+    // input输入事件
+    inpChangeShift(data) {
+      const { val, item } = data;
+      // 单价 金额 条数 相互计算
+      // 权重为 单价>条数>金额
+      let cardMoney = ""; //金额
+      let cardUnit = ""; //单价
+      let cardUnitTo = ""; //接收方单价
+      let cardCount = ""; //条数
+      if (item.key === "cardMoney" || item.key === "cardCount") {
+        this.formConfigTransfers.forEach(el => {
+          // 获取默认值
+          if (el.key === "cardUnit") {
+            cardUnit = el.defaultValue;
+          } else if (el.key === "cardMoney") {
+            cardMoney = el.defaultValue;
+          } else if (el.key === "cardCount") {
+            cardCount = el.defaultValue;
+          } else if (el.key === "cardUnitTo") {
+            cardUnitTo = el.defaultValue;
+          }
+        });
+      }
+
+      if (item.key === "cardMoney") {
+        if (cardUnit && cardUnitTo) {
+          let num = Math.round((cardMoney * 100) / cardUnit);
+          this._setDefaultValue(this.formConfigTransfers, [], "cardCount", num);
+          let count = parseInt((cardMoney * 100) / cardUnitTo);
+          this._setDefaultValue(
+            this.formConfigTransfers,
+            [],
+            "cardCountTo",
+            count
+          );
+        }
+      }
+      if (item.key === "cardCount") {
+        if (cardUnit && cardUnitTo) {
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
+          this._setDefaultValue(this.formConfigTransfers, [], "cardMoney", num);
+          let count = parseInt((num * 100) / cardUnitTo);
+          this._setDefaultValue(
+            this.formConfigTransfers,
+            [],
+            "cardCountTo",
+            count
+          );
+        }
+      }
+    },
     //显示选择用户弹窗
     choose(item) {
       this.chooseKey = item.key;
@@ -828,7 +962,6 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      console.log(data, "------------");
       let chargeType = "";
       this.formConfig.map(t => {
         const { key } = t;
@@ -845,11 +978,31 @@ export default {
           chargeType = t.defaultValue;
         }
         if (key === "cardUnit") {
-          t.defaultValue = chargeType == 1 ? data.cardUnit : data.mmsCardUnit;
+          if (chargeType == 2) {
+            t.defaultValue =
+              data.mmsCardUnit && data.mmsCardUnit !== "-"
+                ? data.mmsCardUnit
+                : "";
+          } else {
+            t.defaultValue =
+              data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+          }
+          // t.defaultValue =
+          //   chargeType == 2
+          //     ? data.mmsCardUnit || data.mmsCardUnit !== "-"
+          //       ? data.mmsCardUnit
+          //       : ""
+          //     : data.cardUnit || data.cardUnit !== "-"
+          //     ? data.cardUnit
+          //     : "";
         }
       });
       this.formConfigTransfers.map(t => {
         const { key } = t;
+        let chargeType = "";
+        if (key === "chargeType") {
+          chargeType = t.defaultValue;
+        }
         if (this.chooseKey === "userId") {
           if (key === "userId") {
             t.defaultValue = data.userId;
@@ -857,12 +1010,34 @@ export default {
           if (key === "userName") {
             t.defaultValue = data.userName;
           }
+          if (key === "cardUnit") {
+            if (chargeType == 2) {
+              t.defaultValue =
+                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                  ? data.mmsCardUnit
+                  : "";
+            } else {
+              t.defaultValue =
+                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+            }
+          }
         } else if (this.chooseKey === "userIdTo") {
           if (key === "userIdTo") {
             t.defaultValue = data.userId;
           }
           if (key === "userNameTo") {
             t.defaultValue = data.userName;
+          }
+          if (key === "cardUnitTo") {
+            if (chargeType == 2) {
+              t.defaultValue =
+                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                  ? data.mmsCardUnit
+                  : "";
+            } else {
+              t.defaultValue =
+                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+            }
           }
         }
       });

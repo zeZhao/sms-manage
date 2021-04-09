@@ -167,21 +167,21 @@ class managePlugin {
   /*------------------添加vue过滤器------------------*/
   installFilter(Vue) {
     Vue.filter('timeFormat', function (time) {
-      if (time && time !== '-') {
+      if (time && time !== '-' && time !== null) {
         return new Date(time).Format('yyyy-MM-dd hh:mm:ss')
       } else {
         return '-'
       }
     })
     Vue.filter('Format', function (time) {
-      if (time && time !== '-') {
+      if (time && time !== '-' && time !== null) {
         return new Date(time).Format('yyyy-MM-dd')
       } else {
         return '-'
       }
     })
     Vue.filter('FormatMonth', function (time) {
-      if (time && time !== '-') {
+      if (time && time !== '-' && time !== null) {
         return new Date(time).Format('yyyy-MM')
       } else {
         return '-'

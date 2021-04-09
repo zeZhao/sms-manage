@@ -83,6 +83,9 @@
         <template slot-scope="scope">
           <span v-if="scope.row.isBilling == '1'">已开</span>
           <span v-if="scope.row.isBilling == '2'">未开</span>
+          <span v-if="scope.row.isBilling == '2' && scope.row.isBilling == '1'"
+            >-</span
+          >
         </template>
       </el-table-column>
       <el-table-column
@@ -93,6 +96,9 @@
         <template slot-scope="scope">
           <span v-if="scope.row.toPublic == '1'">对公</span>
           <span v-if="scope.row.toPublic == '2'">对私</span>
+          <span v-if="scope.row.toPublic !== '2' && scope.row.toPublic == '1'"
+            >-</span
+          >
         </template>
       </el-table-column>
       <el-table-column
@@ -220,47 +226,47 @@ export default {
               value: "是"
             }
           ]
-        },
-        {
-          type: "select",
-          label: "排序类型",
-          key: "sortType",
-          placeholder: "请选择查询类型",
-          optionData: [
-            {
-              key: 0,
-              value: "条数"
-            },
-            {
-              key: 1,
-              value: "应收款"
-            },
-            {
-              key: 2,
-              value: "实收款"
-            },
-            {
-              key: 3,
-              value: "欠收款"
-            }
-          ]
-        },
-        {
-          type: "select",
-          label: "排序方式",
-          key: "sort",
-          placeholder: "请选择排序方式",
-          optionData: [
-            {
-              key: 0,
-              value: "正序"
-            },
-            {
-              key: 1,
-              value: "倒序"
-            }
-          ]
         }
+        // {
+        //   type: "select",
+        //   label: "排序类型",
+        //   key: "sortType",
+        //   placeholder: "请选择查询类型",
+        //   optionData: [
+        //     {
+        //       key: 0,
+        //       value: "条数"
+        //     },
+        //     {
+        //       key: 1,
+        //       value: "应收款"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "实收款"
+        //     },
+        //     {
+        //       key: 3,
+        //       value: "欠收款"
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: "select",
+        //   label: "排序方式",
+        //   key: "sort",
+        //   placeholder: "请选择排序方式",
+        //   optionData: [
+        //     {
+        //       key: 0,
+        //       value: "正序"
+        //     },
+        //     {
+        //       key: 1,
+        //       value: "倒序"
+        //     }
+        //   ]
+        // }
       ],
       // 表单配置
       formConfig: [

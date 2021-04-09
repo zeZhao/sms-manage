@@ -322,7 +322,7 @@
         </div>
       </el-row>
     </el-form>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" :modal="false">
       <img width="100%" :src="`${href}/${dialogImageUrl}`" alt="" />
     </el-dialog>
   </div>

@@ -20,7 +20,15 @@
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('groupId', scope.row.groupId)"
+            @click="
+              _mxDeleteItem(
+                'groupId',
+                scope.row.groupId,
+                true,
+                false,
+                '当前类别下有敏感词信息，请删除此类别下的敏感词后再删除此类别'
+              )
+            "
             type="text"
             size="small"
             >删除</el-button
@@ -89,10 +97,17 @@ export default {
         {
           type: "input",
           label: "敏感词组",
-          maxlength: 50,
+          maxlength: 30,
           key: "groupName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" }, 
+            {
+              min: 2,
+              max: 30,
+              trigger: "blur",
+              message: '长度在 2 到 30 个字符',
+            }]
         }
       ],
       groupId: ""

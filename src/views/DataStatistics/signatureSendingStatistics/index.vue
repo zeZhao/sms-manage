@@ -29,7 +29,9 @@
       <el-table-column prop="succCount" label="成功数" />
       <el-table-column prop="failCount" label="失败数" />
       <el-table-column prop="sendUnknownCount" label="未知数" />
-      <el-table-column prop="sendSuccPercen" label="成功率" />
+      <el-table-column prop="sendSuccPercen" label="成功率">
+        <template slot-scope="{row}">{{ row.sendSuccPercen ? parseFloat(row.sendSuccPercen).toFixed(2) : '-' }}</template>
+      </el-table-column>
     </el-table>
     <p style="color: red">
       提交数: {{ tabBottomData.submitCount || 0 }}&nbsp;&nbsp; 发送数:{{
@@ -37,10 +39,9 @@
       }}&nbsp;&nbsp; 成功数:{{ tabBottomData.succCount || 0 }}&nbsp;&nbsp;
       失败数:{{ tabBottomData.failCount || 0 }}&nbsp;&nbsp; 未知数:{{
         tabBottomData.sendUnknownCount || 0
-      }}&nbsp;&nbsp; 成功率:{{
-        tabBottomData.sendSuccPercen !== 'NaN'
-          ? tabBottomData.sendSuccPercen || 0
-          : 0
+      }}&nbsp;&nbsp; 成功率:
+      {{
+        tabBottomData.sendSuccPercen && tabBottomData.sendSuccPercen !== 'NaN' ? (parseFloat(tabBottomData.sendSuccPercen).toFixed(2) || 0) : 0
       }}
     </p>
     <Page

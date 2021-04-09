@@ -254,29 +254,29 @@ export default {
           type: "select",
           label: "移动通道",
           key: "cm",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          optionData: []
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "联通通道",
           key: "cu",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          optionData: []
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "电信通道",
           key: "ct",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          optionData: []
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "radio",
           label: "审核状态",
           key: "checkStatus",
           initDefaultValue: "2",
-          defaultValue: "",
+          defaultValue: "2",
           optionData: [
             {
               key: "2",
@@ -304,31 +304,25 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    handleOption(type) {
+    handleOption(status) {
       if (this.selection && this.selection.length != 0) {
+        const checkWaitList = this.selection.map(v => {
+          const { checkWaitId, cmGateway, ctGateway, cuGateway } = v;
+          return { checkWaitId, cmGateway, ctGateway, cuGateway };
+        })
         //2通过 3拒绝
-        let params = {
-          checkWaitList: this.selection,
-          status: type
-        };
-        this.$http.smsCheckWait.checkSms(params).then(res => {
+        this.$http.smsCheckWait.checkSms({ status, checkWaitList }).then(res => {
           if (res.code === 200) {
-            this.$message.success("操作成功");
             this._mxGetList();
+            this.$message.success("操作成功");
           }
         });
       } else {
         this.$message.error("请至少选择一个任务");
       }
     },
-    selectionChange(selection) {
-      let arr = [];
-      selection.forEach(item => {
-        const { checkWaitId, cmGateway, ctGateway, cuGateway } = item;
-        arr.push({ checkWaitId, cmGateway, ctGateway, cuGateway });
-      });
+    selectionChange(arr) {
       this.selection = arr;
-      console.log(this.selection, "----------selection");
     },
     /**
      * 调整筛选条件提交的参数
@@ -391,9 +385,16 @@ export default {
       this.addChannel = true;
     },
     submit(form) {
-      this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
-        this._mxSuccess(res);
-      });
+      if (form.checkStatus == "2") {
+        if (!form.ct || !form.cm || !form.cu) {
+          this.$message.error("请选择通道");
+          return;
+        }
+      }
+      console.log(1);
+      // this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
+      //   this._mxSuccess(res);
+      // });
     },
     addCheck() {
       this.$http.smsCheckWait.addCheck().then(res => {

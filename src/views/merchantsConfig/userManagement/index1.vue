@@ -29,7 +29,7 @@
         show-overflow-tooltip
       />
       <el-table-column
-        prop="saleMan"
+        prop="saleName"
         label="销售员"
         width="100"
         show-overflow-tooltip
@@ -202,9 +202,9 @@
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="updateTime" label="修改时间" width="150">
+      <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.updateTime | timeFormat
+          scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="300">
@@ -272,7 +272,7 @@
     ></Page>
     <el-dialog
       :title="formTit"
-      :visible.sync="addChannel"
+      :visible="addChannel"
       :close-on-click-modal="false"
       top="45px"
       width="80%"
@@ -346,7 +346,7 @@
     >
       <el-input v-model="speedVal" maxlength="100" placeholder="请输入提交速率">
         <template slot="prepend">提交速率</template>
-        <template slot="append">每分</template>
+        <template slot="append">每秒</template>
       </el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="speedVisible = false">取 消</el-button>
@@ -452,9 +452,9 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: "1", value: "行业" },
-            { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
+            { key: "1", value: "行业" }
+            // { key: "2", value: "营销" },
+            // { key: "3", value: "VIP" }
           ]
         },
         // {
@@ -614,6 +614,8 @@ export default {
           type: "select",
           label: "计费类型",
           key: "reductType",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
@@ -658,9 +660,9 @@ export default {
           label: "业务类型",
           key: "accountType",
           optionData: [
-            { key: 1, value: "行业" },
-            { key: 2, value: "营销" },
-            { key: 3, value: "VIP" }
+            { key: 1, value: "行业" }
+            // { key: 2, value: "营销" },
+            // { key: 3, value: "VIP" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -910,9 +912,9 @@ export default {
           disabled: false,
 
           optionData: [
-            { key: 1, value: "web端" },
-            { key: 2, value: "http接口" },
-            { key: 4, value: "cmpp接口" }
+            { key: 1, value: "web端" }
+            // { key: 2, value: "http接口" },
+            // { key: 4, value: "cmpp接口" }
             // { key: 7, value: "音频接口" }
           ],
           tag: "mms",
@@ -1009,8 +1011,8 @@ export default {
           key: "mmsBlackLevel",
           tag: "mms",
           optionData: [
-            // { key: 0, value: "系统级" },
-            // { key: 2, value: "用户级" },
+            { key: 0, value: "系统级" },
+            { key: 2, value: "账户级" }
             // { key: 3, value: "营销级" },
             // { key: 4, value: "BSATS级" }
           ]
@@ -1087,7 +1089,8 @@ export default {
       ],
       submitSpeedTit: "配置提交速率",
       speedVisible: false,
-      speedVal: null
+      speedVal: null,
+      saleList: []
     };
   },
   mounted() {
@@ -1107,6 +1110,10 @@ export default {
       this.speedVal = submitSpeed;
     },
     submitSpeeds() {
+      if (!Number(this.speedVal)) {
+        this.$message.error("只输入数字！");
+        return;
+      }
       if (Number(this.speedVal) > 1000) {
         this.$message.error("最大不能超过1000");
         return;
@@ -1135,13 +1142,13 @@ export default {
           "groupId",
           "blackGroupName"
         );
-        this._setDefaultValue(
-          this.formConfig,
-          res.data,
-          "mmsBlackLevel",
-          "groupId",
-          "blackGroupName"
-        );
+        // this._setDefaultValue(
+        //   this.formConfig,
+        //   res.data,
+        //   "mmsBlackLevel",
+        //   "groupId",
+        //   "blackGroupName"
+        // );
         console.log(res, "listBlackGroup-------------");
       });
     },
@@ -1158,7 +1165,7 @@ export default {
               this.searchFormConfig,
               res.data.list,
               "tag",
-              "name",
+              "id",
               "name"
             );
           }
@@ -1214,6 +1221,13 @@ export default {
         if (key === "productType") {
           row["productType"] = row["productTypes"];
         }
+        // if (key === "saleMan") {
+        //   this.saleList.forEach(item => {
+        //     if (item.actualName === row[key]) {
+        //       row[key] = item.userName;
+        //     }
+        //   });
+        // }
       }
       return row;
     },
@@ -1402,7 +1416,7 @@ export default {
     },
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
-      let form = formData;
+      let form = Object.assign({}, formData);
       for (let key in form) {
         if (key === "blackLevel" || key === "mmsBlackLevel") {
           form[key] = form[key].join(",");
@@ -1421,7 +1435,7 @@ export default {
               return prev + curr;
             });
           } else {
-            form[key] = "";
+            form[key] = null;
           }
         }
       }
@@ -1469,6 +1483,7 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.saleList = res.data;
           this._setDefaultValue(
             this.formConfig,
             res.data,
@@ -1579,14 +1594,18 @@ export default {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "mms");
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
             this._setDisplayShow(this.formConfig, "returnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "sms");
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
+          this._deleteDefaultValue(this.formConfig, "mms");
+          this._deleteDefaultValue(this.formConfig, "sms");
         }
       }
       if (item.key === "reductModel") {
@@ -1671,7 +1690,7 @@ export default {
         ]),
         h("p", null, [
           h("span", null, "网址: "),
-          h("span", null, "https://user.sms.jvtd.cn")
+          h("span", null, "http://user.sms.jvtdtest.top")
         ]),
         h("p", null, [
           h("span", null, "客户端IP: "),

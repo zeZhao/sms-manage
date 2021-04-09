@@ -17,13 +17,19 @@
       </el-table-column>
       <el-table-column prop="cmTemplateId" label="移动上游模板编号" min-width="150" />
       <el-table-column prop="cmGatewayId" label="移动通道编号" min-width="150" />
-      <el-table-column prop="cmStatus" label="移动通道状态" min-width="150" />
+      <el-table-column prop="cmStatus" label="移动通道状态" min-width="150">
+        <template slot-scope="{row}">{{ renderAllTypes(row.cmStatus) }}</template>
+      </el-table-column>
       <el-table-column prop="cuTemplateId" label="联通上游模板编号" min-width="150" />
       <el-table-column prop="cuGatewayId" label="联通通道编号" min-width="150" />
-      <el-table-column prop="cuStatus" label="联通通道状态" min-width="150" />
+      <el-table-column prop="cuStatus" label="联通通道状态" min-width="150">
+        <template slot-scope="{row}">{{ renderAllTypes(row.cuStatus) }}</template>
+      </el-table-column>
       <el-table-column prop="ctTemplateId" label="电信上游模板编号" min-width="150" />
       <el-table-column prop="ctGatewayId" label="电信通道编号" min-width="150" />
-      <el-table-column prop="ctStatus" label="电信通道状态" min-width="150" />
+      <el-table-column prop="ctStatus" label="电信通道状态" min-width="150">
+        <template slot-scope="{row}">{{ renderAllTypes(row.ctStatus) }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
           <el-button @click="viewsRow('views',scope.row.arraignId, scope.row.mmsId, scope.row.auditStatus)" type="text"
@@ -46,16 +52,31 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+/**
+* 商户端审核状态
+* 0,待提审 1,审核中(运营未提审) 2,审核中(运营已提审) 3,审核中(提审未全过)
+* 4,审核驳回(运营未提审) 5,审核驳回(提审全驳回) 6,审核通过(提审全通过) 7,部分通过
+*/
+// const allReviewType = [
+//   { key: 0, value: "待提审" },
+//   { key: 1, value: "审核中" },
+//   { key: 2, value: "审核中" },
+//   { key: 3, value: "审核中" },
+//   { key: 4, value: "审核驳回" },
+//   { key: 5, value: "审核驳回" },
+//   { key: 6, value: "审核通过" },
+//   { key: 7, value: "部分通过" }
+// ];
+const reviewType = [
+  { key: 1, value: "待提审" },
+  { key: 2, value: "审核中" },
+  { key: 3, value: "审核通过" },
+  { key: 4, value: "审核驳回" },
+  { key: 5, value: "异常" }
+];
 export default {
   mixins: [listMixin],
   data () {
-    const reviewType = [
-      { key: 1, value: "待提审" },
-      { key: 2, value: "审核中" },
-      { key: 3, value: "审核通过" },
-      { key: 4, value: "审核驳回" },
-      { key: 5, value: "异常" }
-    ];
     return {
       // 接口地址
       searchAPI: {
@@ -152,6 +173,12 @@ export default {
       } else {
         return '-';
       }
+    },
+    //返回各个运营商的不同状态
+    renderAllTypes (item) {
+      if (typeof item !== 'number') return '-';
+      const idx = reviewType.findIndex(v => v.key === item);
+      return reviewType[idx].value;
     }
   }
 };
