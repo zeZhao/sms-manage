@@ -97,10 +97,17 @@ export default {
         {
           type: "input",
           label: "敏感词组",
-          maxlength: 50,
+          maxlength: 30,
           key: "groupName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" }, 
+            {
+              min: 2,
+              max: 30,
+              trigger: "blur",
+              message: '长度在 2 到 30 个字符',
+            }]
         }
       ],
       groupId: ""
