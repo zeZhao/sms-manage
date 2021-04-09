@@ -297,7 +297,7 @@ export default {
     },
     onChange({ val, item }) {
       if (item.label === '报警方式') {
-        if (val.includes(1)) {
+        if (val.includes(1) || val.includes(2)) {
           this.formConfig[
             this.formConfig.length - 2
           ].rules = this.$publicValidators.phone

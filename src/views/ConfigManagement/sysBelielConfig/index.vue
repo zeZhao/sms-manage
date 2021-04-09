@@ -76,19 +76,28 @@ export default {
   mixins: [listMixin],
   data() {
     const validatorSign = (rule, value, callback) => {
-      let regex = new RegExp("^([0]|[1-9][0-9]*)$");
-      if (value === "") {
-        callback(new Error("此项不能为空"));
+      // let regex = new RegExp("^([0]|[1-9][0-9]*)$");
+      // if (value === "") {
+      //   callback(new Error("此项不能为空"));
+      // } else {
+      //   if (!regex.test(value)) {
+      //     callback(new Error("请输入不超过100的数字"));
+      //   } else {
+      //     if (value > 100 || value < 0) {
+      //       callback(new Error("请输入不超过100的数字"));
+      //     } else {
+      //       callback();
+      //     }
+      //   }
+      // }
+      if (!value && value !== 0) {
+        callback(new Error('请输入必填项'));
       } else {
-        if (!regex.test(value)) {
-          callback(new Error("请输入不超过100的数字"));
-        } else {
-          if (value > 100 || value < 0) {
-            callback(new Error("请输入不超过100的数字"));
-          } else {
-            callback();
-          }
+        if (value == 100) {
+          callback();
         }
+        const reg = new RegExp("^([1-9]|[1-9][0-9])$");
+        reg.test(value) ? callback() : callback(new Error("请输入大于0且不超过100的整数"));
       }
     };
     const validatorTemplate = (rule, value, callback) => {
@@ -210,10 +219,10 @@ export default {
           label: "优化比例",
           key: "optimizePercent",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              trigger: "change",
-              validator: validatorSign
+              required: true,
+              validator: validatorSign,
+              trigger: "blur"
             }
           ]
         },
