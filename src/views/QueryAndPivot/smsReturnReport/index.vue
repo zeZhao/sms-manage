@@ -118,9 +118,9 @@ export default {
         },
         {
           type: "input",
-          label: "C编号",
+          label: "CID",
           key: "cid",
-          placeholder: "请输入C编号"
+          placeholder: "请输入CID"
         },
         {
           type: "select",
@@ -139,7 +139,7 @@ export default {
         },
         {
           type: "timerange",
-          label: "返回状态报告时间",
+          label: "返回报告时间",
           key: ["", "startTime", "endTime"]
         }
         // {

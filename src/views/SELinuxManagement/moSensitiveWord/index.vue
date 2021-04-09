@@ -20,7 +20,7 @@
           <span>{{ scope.row.createTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyUser" label="操作人" />
+      <el-table-column prop="createUser" label="操作人" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"

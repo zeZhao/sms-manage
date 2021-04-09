@@ -204,13 +204,6 @@ export default {
       this.addChannel = false;
     },
     _mxFormListData(data) {
-      data.forEach(item => {
-        if (item.modifyTime) {
-          item.modifyTime = new Date(item.modifyTime).Format(
-            "yyyy-MM-dd hh:mm:ss"
-          );
-        }
-      });
       return data;
     }
   },

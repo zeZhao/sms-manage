@@ -488,7 +488,7 @@ export default {
               this.setInfo = {};
               this.getNavList();
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.msg);
             }
           });
         } else {

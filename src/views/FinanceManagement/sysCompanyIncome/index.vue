@@ -226,47 +226,47 @@ export default {
               value: "是"
             }
           ]
-        },
-        {
-          type: "select",
-          label: "排序类型",
-          key: "sortType",
-          placeholder: "请选择查询类型",
-          optionData: [
-            {
-              key: 0,
-              value: "条数"
-            },
-            {
-              key: 1,
-              value: "应收款"
-            },
-            {
-              key: 2,
-              value: "实收款"
-            },
-            {
-              key: 3,
-              value: "欠收款"
-            }
-          ]
-        },
-        {
-          type: "select",
-          label: "排序方式",
-          key: "sort",
-          placeholder: "请选择排序方式",
-          optionData: [
-            {
-              key: 0,
-              value: "正序"
-            },
-            {
-              key: 1,
-              value: "倒序"
-            }
-          ]
         }
+        // {
+        //   type: "select",
+        //   label: "排序类型",
+        //   key: "sortType",
+        //   placeholder: "请选择查询类型",
+        //   optionData: [
+        //     {
+        //       key: 0,
+        //       value: "条数"
+        //     },
+        //     {
+        //       key: 1,
+        //       value: "应收款"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "实收款"
+        //     },
+        //     {
+        //       key: 3,
+        //       value: "欠收款"
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: "select",
+        //   label: "排序方式",
+        //   key: "sort",
+        //   placeholder: "请选择排序方式",
+        //   optionData: [
+        //     {
+        //       key: 0,
+        //       value: "正序"
+        //     },
+        //     {
+        //       key: 1,
+        //       value: "倒序"
+        //     }
+        //   ]
+        // }
       ],
       // 表单配置
       formConfig: [

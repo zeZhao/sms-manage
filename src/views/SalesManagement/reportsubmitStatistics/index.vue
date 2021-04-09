@@ -41,7 +41,7 @@
       <el-table-column prop="failNum" label="失败条数" />
       <el-table-column prop="unknownNum" label="未知条数" />
       <el-table-column prop="percentage" label="提交占比" />
-      <el-table-column prop="saleUserName" label="销售" />
+      <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p style="color: red">
@@ -172,7 +172,7 @@ export default {
             this.searchFormConfig,
             res.data,
             "saleUserName",
-            "actualName",
+            "userName",
             "actualName"
           );
         }
