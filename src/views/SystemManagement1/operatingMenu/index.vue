@@ -120,7 +120,7 @@
           <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="seqNum">
           <el-input-number
             v-model="addInfo.seqNum"
             :min="1"
@@ -175,7 +175,7 @@
           <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="seqNum">
           <el-input-number
             v-model="addInfo.seqNum"
             :min="1"
@@ -210,7 +210,7 @@
         <el-form-item label="菜单名称" prop="name">
           <el-input v-model="setInfo.name" clearable placeholder="菜单名称" />
         </el-form-item>
-        <el-form-item label="目录路径">
+        <el-form-item label="目录路径" prop="linkUrl">
           <el-input
             v-model="setInfo.linkUrl"
             clearable
@@ -226,7 +226,7 @@
           >
           <el-radio v-model="setInfo.type" :label="2">运营端</el-radio>
         </el-form-item> -->
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="sort">
           <el-input-number
             v-model="setInfo.sort"
             :min="1"
@@ -245,7 +245,7 @@
 </template>
 
 <script>
-import { limitMenuName } from '@/utils/validator';
+import { limitMenuName, limitMenuPath, limitMenuSort } from '@/utils/validator';
 import { deepClone } from '@/utils';
 export default {
   data() {
@@ -288,7 +288,10 @@ export default {
         funcName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
         funcChName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
         name: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
-        // funcUrl: [ { required: true, validator: limitMenuName, trigger: "blur" } ]
+        funcUrl: [ { required: true, validator: limitMenuPath, trigger: "blur" } ],
+        linkUrl: [ { required: true, validator: limitMenuPath, trigger: "blur" } ],
+        seqNum: [ { required: true, validator: limitMenuSort, trigger: "blur" } ],
+        sort: [ { required: true, validator: limitMenuSort, trigger: "blur" } ]
       }
     };
   },
