@@ -111,7 +111,7 @@
             placeholder="菜单名称"
           />
         </el-form-item>
-        <el-form-item label="菜单路径">
+        <el-form-item label="菜单路径" prop="funcUrl">
           <el-input
             v-model="addInfo.funcUrl"
             clearable
@@ -122,7 +122,7 @@
           <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="seqNum">
           <el-input-number
             v-model="addInfo.seqNum"
             :min="1"
@@ -166,7 +166,7 @@
             placeholder="子菜单名称"
           />
         </el-form-item>
-        <el-form-item label="菜单路径">
+        <el-form-item label="菜单路径" prop="funcUrl">
           <el-input
             v-model="addInfo.funcUrl"
             clearable
@@ -177,7 +177,7 @@
           <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item> -->
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="seqNum">
           <el-input-number
             v-model="addInfo.seqNum"
             :min="1"
@@ -204,7 +204,7 @@
         label-width="120px"
         :model="setInfo"
         class="demo-ruleForm"
-         :rules="rules"
+        :rules="rules"
       >
         <!--<el-form-item label="目录名称">-->
         <!--<el-input v-model="setInfo.funcName" disabled clearable placeholder="目录名称" />-->
@@ -212,7 +212,7 @@
         <el-form-item label="菜单名称" prop="name">
           <el-input v-model="setInfo.name" clearable placeholder="菜单名称" />
         </el-form-item>
-        <el-form-item label="目录路径">
+        <el-form-item label="目录路径" prop="linkUrl">
           <el-input
             v-model="setInfo.linkUrl"
             clearable
@@ -228,7 +228,7 @@
           >
           <el-radio v-model="setInfo.type" :label="2">运营端</el-radio>
         </el-form-item> -->
-        <el-form-item label="排序">
+        <el-form-item label="排序" prop="sort">
           <el-input-number
             v-model="setInfo.sort"
             :min="1"
@@ -247,7 +247,8 @@
 </template>
 
 <script>
-import { limitMenuName } from '@/utils/validator';
+import { limitMenuName, limitMenuPath, limitMenuSort } from '@/utils/validator';
+import { deepClone } from '@/utils';
 export default {
   data() {
     return {
@@ -288,7 +289,11 @@ export default {
       rules: {
         funcName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
         funcChName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
-        name: [ { required: true, validator: limitMenuName, trigger: "blur" } ]
+        name: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
+        funcUrl: [ { required: true, validator: limitMenuPath, trigger: "blur" } ],
+        linkUrl: [ { required: true, validator: limitMenuPath, trigger: "blur" } ],
+        seqNum: [ { required: true, validator: limitMenuSort, trigger: "blur" } ],
+        sort: [ { required: true, validator: limitMenuSort, trigger: "blur" } ]
       }
     };
   },
@@ -374,7 +379,7 @@ export default {
       console.log(row);
       this.setTitle = row.parentId == "0" ? "目录修改" : "菜单修改";
       this.customerInfo = true;
-      this.setInfo = row;
+      this.setInfo = deepClone(row);
     },
     deleteCustomer(row) {
       console.log(row, "------------row");

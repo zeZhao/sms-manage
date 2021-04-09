@@ -136,3 +136,38 @@ export const limitMenuName = (rule, value, callback) => {
     }
   }
 };
+
+// 限制菜单名称
+export const limitMenuPath = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入必填项'));
+  } else {
+    if (value.length > 30) {
+      callback(new Error('菜单路径长度限制为30以内'));
+    } else {
+      const reg = /^[a-zA-Z\/]+$/;
+      if (reg.test(value)) {
+        callback();
+      } else {
+        callback(new Error('菜单路径仅支持英文字母和“/”符号'));
+      }
+    }
+  }
+};
+
+// 限制排序大小
+export const limitMenuSort = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error('请输入必填项'));
+  } else {
+    if (value > 100) {
+      callback(new Error('排序最大值为100'));
+    } else {
+      if ((value + '').indexOf('.') !== -1) {
+        callback(new Error('排序不可以输入小数'));
+      } else {
+        callback();
+      }
+    }
+  }
+};

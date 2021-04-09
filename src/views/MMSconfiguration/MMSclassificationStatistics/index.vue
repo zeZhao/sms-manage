@@ -204,11 +204,7 @@ export default {
           type: "select",
           label: "通道",
           key: "gatewayId",
-          optionData: [
-            { key: 1, value: "通道1" },
-            { key: 2, value: "通道2" },
-            { key: 3, value: "通道3" }
-          ]
+          optionData: []
         }
       ],
       tabBottomData: {},
@@ -216,7 +212,8 @@ export default {
       //省份数组
       provinceArr: [],
       //对象为引用类型 需要深度clone //搜索的时候重新获取一下
-      isChooseTimeData: {}
+      isChooseTimeData: {},
+      mmsGatewayArr: [] //彩信所有的通道
     };
   },
   watch: {
@@ -232,11 +229,7 @@ export default {
             type: "select",
             label: "通道",
             key: "gatewayId",
-            optionData: [
-              { key: 1, value: "通道1" },
-              { key: 2, value: "通道2" },
-              { key: 3, value: "通道3" }
-            ]
+            optionData: this.mmsGatewayArr
           };
           this.formData.operaId = "";
           this.formData.province = "";
@@ -266,6 +259,8 @@ export default {
     }
   },
   mounted() {
+    //获取彩信通道
+    this.listMmsGateway();
     //获取省份
     this.listProvince();
   },
@@ -283,6 +278,16 @@ export default {
     },
     forms(form) {
       this.formData = form;
+    },
+    listMmsGateway() {
+      this.$http.mmsGateway.listMmsGatewayByPage({ data: { pageNumber:1, pageSize: 99999, mmsGateway: {}} }).then(res => {
+        if (res.data.list.length) {
+          this.mmsGatewayArr = res.data.list.map(v => {
+            return { key: v.gatewayId, value: v.name };
+          });
+          this.searchFormConfig[this.searchFormConfig.length - 1].optionData = this.mmsGatewayArr;
+        }
+      });
     },
     listProvince() {
       this.$http.listSysProvince({ data: { provinceName: "" } }).then(res => {
