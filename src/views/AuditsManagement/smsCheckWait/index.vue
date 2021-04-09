@@ -304,31 +304,25 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    handleOption(type) {
+    handleOption(status) {
       if (this.selection && this.selection.length != 0) {
+        const checkWaitList = this.selection.map(v => {
+          const { checkWaitId, cmGateway, ctGateway, cuGateway } = v;
+          return { checkWaitId, cmGateway, ctGateway, cuGateway };
+        })
         //2通过 3拒绝
-        let params = {
-          checkWaitList: this.selection,
-          status: type
-        };
-        this.$http.smsCheckWait.checkSms(params).then(res => {
+        this.$http.smsCheckWait.checkSms({ status, checkWaitList }).then(res => {
           if (res.code === 200) {
-            this.$message.success("操作成功");
             this._mxGetList();
+            this.$message.success("操作成功");
           }
         });
       } else {
         this.$message.error("请至少选择一个任务");
       }
     },
-    selectionChange(selection) {
-      let arr = [];
-      selection.forEach(item => {
-        const { checkWaitId, cmGateway, ctGateway, cuGateway } = item;
-        arr.push({ checkWaitId, cmGateway, ctGateway, cuGateway });
-      });
+    selectionChange(arr) {
       this.selection = arr;
-      console.log(this.selection, "----------selection");
     },
     /**
      * 调整筛选条件提交的参数
