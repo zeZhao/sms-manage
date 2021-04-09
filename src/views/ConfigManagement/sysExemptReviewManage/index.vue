@@ -214,7 +214,7 @@ export default {
         {
           type: "select",
           label: "移动通道编号",
-          key: "ctPassageway",
+          key: "cmPassageway",
           optionData: []
         },
         {
@@ -226,7 +226,7 @@ export default {
         {
           type: "select",
           label: "电信通道编号",
-          key: "cmPassageway",
+          key: "ctPassageway",
           optionData: []
         },
         {
@@ -522,26 +522,26 @@ export default {
           key: "isCombination",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "特殊需求",
-          key: "specialNeeds",
-          optionData: [
-            {
-              key: "扩展位数",
-              value: "扩展位数"
-            },
-            {
-              key: "显示号码",
-              value: "显示号码"
-            },
-            {
-              key: "特殊内容",
-              value: "特殊内容"
-            }
-          ],
-          placeholder: "请选择特殊需求"
-        },
+        // {
+        //   type: "select",
+        //   label: "特殊需求",
+        //   key: "specialNeeds",
+        //   optionData: [
+        //     {
+        //       key: "扩展位数",
+        //       value: "扩展位数"
+        //     },
+        //     {
+        //       key: "显示号码",
+        //       value: "显示号码"
+        //     },
+        //     {
+        //       key: "特殊内容",
+        //       value: "特殊内容"
+        //     }
+        //   ],
+        //   placeholder: "请选择特殊需求"
+        // },
         {
           type: "textarea",
           label: "备注信息",

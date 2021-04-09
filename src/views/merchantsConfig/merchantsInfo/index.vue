@@ -219,7 +219,7 @@
         </el-form-item>
         <el-form-item label="客户联系人" prop="contact">
           <el-input
-            maxlength="20"
+            maxlength="10"
             show-word-limit
             v-model="addInfo.contact"
             type="phone"
@@ -444,6 +444,13 @@ export default {
       this.$http.corp.queryByPage(params).then(res => {
         if (res.code == "200") {
           this.dataList = res.data.list;
+          this.dataList.forEach(item => {
+            for (let key in item) {
+              if (!item[key]) {
+                item[key] = "-";
+              }
+            }
+          });
           this.totalCount = Number(res.data.total);
         } else {
           this.$message.error(res.msg);

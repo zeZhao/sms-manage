@@ -48,7 +48,7 @@
       <el-table-column prop="charger" label="通道负责人" width="90" />
       <el-table-column prop="priority" label="优先级" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="remark" label="通道状态">
+      <!-- <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.serverStatus"
@@ -63,7 +63,7 @@
             "
           ></el-switch>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
@@ -229,10 +229,10 @@ export default {
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },
-            { key: "4", value: "三网" },
-            { key: "5", value: "移动,联通" },
-            { key: "6", value: "电信,联通" },
-            { key: "7", value: "移动,电信" }
+            { key: "三网", value: "三网" },
+            { key: "移动,联通", value: "移动,联通" },
+            { key: "电信,联通", value: "电信,联通" },
+            { key: "移动,电信", value: "移动,电信" }
           ]
         },
         {
@@ -415,7 +415,8 @@ export default {
           defaultValue: "",
           optionData: [
             { key: "0", value: "不取" },
-            { key: "1", value: "取" }
+            { key: "1", value: "强制取" },
+            { key: "2", value: "非强制取" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -522,18 +523,21 @@ export default {
         },
         {
           isBtn: true,
-          btnTxt: "隐藏附加信息",
-          colSpan: 24
+          btnTxt: "附加信息",
+          colSpan: 24,
+          show: true
         },
         {
           isTitle: true,
           title: "附加信息",
-          colSpan: 24
+          colSpan: 24,
+          tag: "addition"
         },
 
         {
           type: "input",
           label: "发送内容",
+          tag: "addition",
           key: "conRequirements"
         },
         {
@@ -541,6 +545,7 @@ export default {
           label: "是否支持长短信",
           key: "isLong",
           defaultValue: "",
+          tag: "addition",
           optionData: [
             { key: "0", value: "否" },
             { key: "1", value: "是" }
@@ -550,6 +555,7 @@ export default {
           type: "input",
           label: "联系人",
           key: "linkman",
+          tag: "addition",
           maxlength: "10",
           rules: [
             {
@@ -563,6 +569,7 @@ export default {
           type: "input",
           label: "联系方式",
           maxlength: "11",
+          tag: "addition",
           key: "linkmanMobile",
           rules: [
             {
@@ -575,6 +582,7 @@ export default {
         {
           type: "input",
           label: "单条字数",
+          tag: "addition",
           key: "singleLength"
         },
 
@@ -582,6 +590,7 @@ export default {
           type: "select",
           label: "是否专用",
           key: "isExclusive",
+          tag: "addition",
           defaultValue: "",
           optionData: [
             { key: "0", value: "否" },
@@ -591,6 +600,7 @@ export default {
         {
           type: "select",
           label: "是否带签名",
+          tag: "addition",
           key: "hasSign",
           defaultValue: "",
           optionData: [
@@ -602,6 +612,7 @@ export default {
           type: "select",
           label: "是否需要白名单",
           key: "isWhite",
+          tag: "addition",
           defaultValue: "",
           optionData: [
             { key: "0", value: "否" },
@@ -611,23 +622,27 @@ export default {
         {
           type: "input",
           label: "发送速度",
+          tag: "addition",
           key: "sendSpeed"
         },
 
         {
           type: "input",
           label: "投诉率指标",
+          tag: "addition",
           key: "complaintRate"
         },
         {
           type: "input",
           label: "套餐",
+          tag: "addition",
           key: "packages"
         },
         {
           type: "input",
           label: "结算公司",
           key: "clearIngcorp",
+          tag: "addition",
           maxlength: "50",
           rules: [
             {
@@ -641,72 +656,84 @@ export default {
         {
           type: "input",
           label: "通道负责人",
+          tag: "addition",
           key: "charger"
         },
         {
           type: "input",
           label: "优先级",
+          tag: "addition",
           key: "priority"
         },
         {
           type: "input",
           label: "通道余额",
+          tag: "addition",
           key: "balance"
         },
 
         {
           type: "input",
           label: "通道端口",
-          key: "port",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "port"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "通道长号码",
-          key: "longCode",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "longCode"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
           type: "input",
           label: "服务端ip",
-          key: "serverIp",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "serverIp"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "服务端端口",
-          key: "serverPort",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "serverPort"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "滑动窗口",
-          key: "slideWindow",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "slideWindow"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "账号",
-          key: "clientId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "clientId"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "密码",
-          key: "sharedSecret",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "sharedSecret"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "通道端口号",
-          key: "srcId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "addition",
+          key: "srcId"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
         {
           type: "select",
           label: "是否支持上行",
+          tag: "addition",
           key: "isMo",
           defaultValue: "",
           optionData: [
@@ -717,6 +744,7 @@ export default {
         {
           type: "select",
           label: "是否支持报告",
+          tag: "addition",
           key: "isReport",
           defaultValue: "",
           optionData: [
@@ -727,6 +755,7 @@ export default {
         {
           type: "select",
           label: "是否支持扩展",
+          tag: "addition",
           key: "isSub",
           defaultValue: "",
           optionData: [
@@ -737,40 +766,47 @@ export default {
         {
           type: "input",
           label: "可扩展位数",
+          tag: "addition",
           key: "isSub"
         },
 
         {
           type: "input",
           label: "业务代码",
+          tag: "addition",
           key: "serviceId"
         },
         {
           type: "input",
           label: "商户代码",
+          tag: "addition",
           key: "msgSrc"
         },
 
         {
           type: "input",
           label: "接口协议",
+          tag: "addition",
           key: "protocol"
         },
 
         {
           type: "input",
           label: "绑定主IP",
+          tag: "addition",
           key: "zyIpMaster"
         },
         {
           type: "input",
           label: "绑定从IP",
+          tag: "addition",
           key: "zyIvIce"
         },
         {
           type: "input",
           label: "通道环境",
           key: "profile",
+          tag: "addition",
           maxlength: "30",
           rules: [
             {
@@ -783,6 +819,7 @@ export default {
         {
           type: "textarea",
           label: "特殊设置",
+          tag: "addition",
           key: "collocation",
           maxlength: "300"
         }
@@ -855,16 +892,23 @@ export default {
   },
   computed: {},
   methods: {
+    //隐藏附加信息
     handleClick(item) {
-      this.formConfig.forEach(item => {
-        if (item.tag === "content") {
-          if (item.defaultValue) {
-            item.defaultValue = `${item.defaultValue}{x}`;
-          } else {
-            item.defaultValue = `{x}`;
+      if (item.show) {
+        this._setTagDisplayShow(this.formConfig, "addition", true);
+        this.formConfig.forEach(items => {
+          if (items.isBtn) {
+            items.show = false;
           }
-        }
-      });
+        });
+      } else {
+        this._setTagDisplayShow(this.formConfig, "addition", false);
+        this.formConfig.forEach(items => {
+          if (items.isBtn) {
+            items.show = true;
+          }
+        });
+      }
     },
     //获取所有标签
     listTag() {

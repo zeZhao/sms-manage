@@ -15,19 +15,11 @@
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="proType" label="产品类型">
+      <el-table-column prop="submitType" label="产品类型">
         <template slot-scope="scope">
-          <div v-for="(item, index) in scope.row.proTypes" :key="index">
-            <span>{{
-              item === 1
-                ? "web端"
-                : item === 2
-                ? "http接口"
-                : item === 4
-                ? "cmpp接口"
-                : ""
-            }}</span>
-          </div>
+          <span v-if="scope.row.submitType == 1">web端</span>
+          <span v-if="scope.row.submitType == 2">http接口</span>
+          <span v-if="scope.row.submitType == 3">cmpp接口</span>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
