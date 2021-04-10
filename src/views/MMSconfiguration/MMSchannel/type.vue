@@ -50,21 +50,40 @@ export default {
           label: "通道名称",
           key: "name",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: 30,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }],
         },
         {
           type: "input",
           label: "通道公司名称",
           key: "corpName",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: 30,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }],
         },
         {
           type: "input",
           label: "通道单价(分)",
           key: "price",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: 5,
+          rules: [{ 
+            required: true, 
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (isNaN(value)) {
+                  callback(new Error('通道单价必须为数值'));
+                } else if (value <= 0) {
+                  callback(new Error('通道单价需大于0'));
+                } else {
+                  callback();
+                }
+              }
+            }
+          }],
         },
         {
           type: "checkbox",
@@ -93,13 +112,14 @@ export default {
           key: "routeMap",
           defaultValue: "",
           disabled: this.isDisabled(),
+          maxlength: 30,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
         {
           type: "radio",
           label: "是否可用",
           key: "status",
-          defaultValue: "",
+          defaultValue: 1,
           optionData: [
             {
               key: 1,
@@ -125,6 +145,8 @@ export default {
           label: "备注",
           key: "remark",
           defaultValue: "",
+          maxlength: 300,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
         },
       ],
       dialogVisible: false,
