@@ -287,7 +287,19 @@ export default {
               value: "拒绝"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { 
+              required: true, 
+              trigger: "blur", 
+              validator: (rule, value, callback) => {
+                if (!value || value == "1") {
+                  callback(new Error('请选择审核状态'));
+                } else {
+                  callback();
+                }
+              } 
+            }
+          ]
         }
       ],
       gatewayCuList: [],
@@ -391,10 +403,9 @@ export default {
           return;
         }
       }
-      console.log(1);
-      // this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
-      //   this._mxSuccess(res);
-      // });
+      this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
+        this._mxSuccess(res);
+      });
     },
     addCheck() {
       this.$http.smsCheckWait.addCheck().then(res => {

@@ -12,9 +12,9 @@
       <el-table-column prop="submitTime" label="提交时间" min-width="150">
         <template slot-scope="scope">{{ scope.row.submitTime | timeFormat }}</template>
       </el-table-column>
-      <el-table-column prop="submitType" label="提交类型">
+      <!-- <el-table-column prop="submitType" label="提交类型">
         <template slot-scope="scope">{{ renderSubmitType(scope.row.submitType) }}</template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="cmTemplateId" label="移动上游模板编号" min-width="150" />
       <el-table-column prop="cmGatewayId" label="移动通道编号" min-width="150" />
       <el-table-column prop="cmStatus" label="移动通道状态" min-width="150">
@@ -165,15 +165,15 @@ export default {
     channelConfig (type, row) {
       this.$router.push({ name: "MMStemplateReviewType", query: { type, row: JSON.stringify(row) } });
     },
-    renderSubmitType (v) {
-      if (v === 0) {
-        return 'web提交';
-      } else if (v === 1) {
-        return 'http提交';
-      } else {
-        return '-';
-      }
-    },
+    // renderSubmitType (v) {
+    //   if (v === 0) {
+    //     return 'web提交';
+    //   } else if (v === 1) {
+    //     return 'http提交';
+    //   } else {
+    //     return '-';
+    //   }
+    // },
     //返回各个运营商的不同状态
     renderAllTypes (item) {
       if (typeof item !== 'number') return '-';

@@ -100,6 +100,7 @@
 
 <script>
 import listMixin from '@/mixin/listMixin'
+import { deepClone } from '@/utils'
 export default {
   mixins: [listMixin],
   data() {
@@ -359,7 +360,9 @@ export default {
         this.$refs.formItem.resetForm()
       }, 0)
     },
-    edit(row) {
+    edit(rows) {
+      const row = deepClone(rows)
+      console.log(row);
       this.alarmId = row.alarmId
       this.formTit = '修改'
       this.formConfig.forEach((item) => {
