@@ -39,6 +39,7 @@
             :preview-src-list="[scope.row.logo]"
           >
           </el-image>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150">
@@ -122,7 +123,12 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { checkFixedPhoneOrPhone, password, character, character1 } from "@/utils/validator";
+import {
+  checkFixedPhoneOrPhone,
+  password,
+  character,
+  character1
+} from "@/utils/validator";
 
 export default {
   mixins: [listMixin],

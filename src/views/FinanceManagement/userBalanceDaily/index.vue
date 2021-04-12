@@ -39,9 +39,12 @@
       <el-table-column prop="saleMan" label="销售" />
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{
+          <span v-if="scope.row.reductType === 1">账户计费</span>
+          <span v-else-if="scope.row.reductType === 2">商户计费</span>
+          <span v-else>-</span>
+          <!-- <span>{{
             scope.row.reductType === 1 ? "账户计费" : "商户id计费"
-          }}</span>
+          }}</span> -->
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式">
@@ -108,7 +111,7 @@ export default {
           type: "select",
           label: "类型",
           key: "reductType",
-          defaultValue: 2,
+          defaultValue: 1,
           optionData: [
             {
               key: 1,

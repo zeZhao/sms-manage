@@ -31,7 +31,7 @@
       </el-table-column>
       <el-table-column prop="operateStatus" label="运营状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.operateStatus === 1 ? "短信" : "" }}</span>
+          <span>{{ scope.row.operateStatus === 1 ? "短信" : "-" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="isDerect" label="直连">
@@ -64,6 +64,20 @@
           ></el-switch>
         </template>
       </el-table-column> -->
+      <el-table-column prop="smsTags" label="标签" width="100">
+        <template slot-scope="scope">
+          <div v-if="scope.row.smsTags.length">
+            <span
+              v-for="(item, index) in scope.row.smsTags"
+              :key="index"
+              style="padding-right:10px"
+            >
+              {{ item ? item.name : "-" }}
+            </span>
+          </div>
+          <div v-else>-</div>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button
@@ -223,16 +237,16 @@ export default {
           label: "运营商",
           key: "sendTo",
           optionData: [
-            // { key: "1", value: "移动" },
-            // { key: "2", value: "联通" },
-            // { key: "3", value: "电信" }
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" },
-            { key: "三网", value: "三网" },
-            { key: "移动,联通", value: "移动,联通" },
-            { key: "电信,联通", value: "电信,联通" },
-            { key: "移动,电信", value: "移动,电信" }
+            { key: "3", value: "电信" }
+            // { key: "移动", value: "移动" },
+            // { key: "联通", value: "联通" },
+            // { key: "电信", value: "电信" },
+            // { key: "三网", value: "三网" },
+            // { key: "移动,联通", value: "移动,联通" },
+            // { key: "电信,联通", value: "电信,联通" },
+            // { key: "移动,电信", value: "移动,电信" }
           ]
         },
         {
@@ -351,11 +365,11 @@ export default {
           optionData: [
             { key: "移动", value: "移动" },
             { key: "联通", value: "联通" },
-            { key: "电信", value: "电信" },
-            { key: "三网", value: "三网" },
-            { key: "移动,联通", value: "移动,联通" },
-            { key: "电信,联通", value: "电信,联通" },
-            { key: "移动,电信", value: "移动,电信" }
+            { key: "电信", value: "电信" }
+            // { key: "三网", value: "三网" },
+            // { key: "移动,联通", value: "移动,联通" },
+            // { key: "电信,联通", value: "电信,联通" },
+            // { key: "移动,电信", value: "移动,电信" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -382,6 +396,7 @@ export default {
           type: "select",
           label: "运营状态",
           key: "operateStatus",
+          defaultValue: "",
           optionData: [
             { key: 1, value: "使用中" },
             { key: 2, value: "测试中" },
@@ -389,7 +404,8 @@ export default {
             { key: 4, value: "关停" },
             { key: 5, value: "弃用" },
             { key: 6, value: "全部" }
-          ]
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -418,7 +434,7 @@ export default {
             { key: "1", value: "强制取" },
             { key: "2", value: "非强制取" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -449,7 +465,7 @@ export default {
             { key: "0", value: "否" },
             { key: "1", value: "是" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -460,19 +476,19 @@ export default {
             { key: "0", value: "否" },
             { key: "1", value: "是" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "低于成功率自动转",
           key: "succRate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "失败状态自动转",
           key: "fsAutoChange",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -490,20 +506,20 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
           label: "落地省份",
           key: "province",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "落地市",
           key: "city",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",

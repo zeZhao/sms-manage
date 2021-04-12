@@ -51,7 +51,9 @@
       </el-table-column>
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == 1 ? "账户编号" : "商户计费" }}</span>
+          <span v-if="scope.row.reductType == 1">账户计费</span>
+          <span v-else-if="scope.row.reductType == 2">商户计费</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="direction" label="到款方式" />
@@ -93,6 +95,14 @@
         }}</template>
       </el-table-column>
       <el-table-column prop="paymentCompany" label="打款公司名称" width="110" />
+      <el-table-column prop="cardStatus" label="审核状态">
+        <template slot-scope="scope">
+          <span v-if="scope.row.cardStatus == 0">未操作</span>
+          <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
+          <span v-else-if="scope.row.cardStatus == 2">审核驳回</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
 
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">

@@ -17,6 +17,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="queryOrderList">查询</el-button>
+          <el-button type="primary" @click="resetList">重置</el-button>
         </el-form-item>
         <el-form-item style="float: right">
           <el-button
@@ -368,6 +369,12 @@ export default {
       this.cur_page = 1;
       this.orderList();
     },
+    //重置
+    resetList() {
+      this.roleType = "";
+      this.roleName = "";
+      this.roleId = "";
+    },
     // 分页
     handleSizeChange(val) {
       this.page = val;
@@ -498,10 +505,10 @@ export default {
           this.addInfo.name = "";
           this.addInfo.mobile = "";
           this.setNavuserList(res.data, this.addInfo.roleId);
+          this.customerAddInfo = false;
         } else {
           this.$message.error(res.msg);
         }
-        this.customerAddInfo = false;
       });
     },
     infoShow(row) {
@@ -578,7 +585,8 @@ export default {
         return this.$message.error("请选择状态");
       } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {
         return this.$message.error("请选择角色");
-      } if (this.setInfo.mobile == "") {
+      }
+      if (this.setInfo.mobile == "") {
         return this.$message.error("请填写手机号");
       } else if (!Util.isPoneAvailable(this.setInfo.mobile)) {
         this.$message.error("手机号码规则错误");

@@ -14,7 +14,7 @@
         min-width="150"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.submitFail === 0 ? '否' : '是' }}</span>
+          <span>{{ scope.row.submitFail ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="alarmStatus" label="失败状态" min-width="100" />
@@ -35,7 +35,7 @@
         min-width="150"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.disconnectFail === 0 ? '否' : '是' }}</span>
+          <span>{{ scope.row.disconnectFail ? '是' : '否' }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column
@@ -100,6 +100,7 @@
 
 <script>
 import listMixin from '@/mixin/listMixin'
+import { deepClone } from '@/utils'
 export default {
   mixins: [listMixin],
   data() {
@@ -290,8 +291,9 @@ export default {
             this.formConfig[i].optionData = res.data.map(v => {
               return { key: v.gatewayId, value: v.gatewayId };
             })
+            break;
           }
-          break;
+          i++;
         }
       });
     },
@@ -359,7 +361,8 @@ export default {
         this.$refs.formItem.resetForm()
       }, 0)
     },
-    edit(row) {
+    edit(rows) {
+      const row = deepClone(rows)
       this.alarmId = row.alarmId
       this.formTit = '修改'
       this.formConfig.forEach((item) => {

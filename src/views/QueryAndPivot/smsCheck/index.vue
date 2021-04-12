@@ -44,7 +44,7 @@
       <el-table-column prop="checker" label="审核根源" width="130">
         <template slot-scope="scope">
           <span v-if="scope.row.source == '1'">没有配置免审</span>
-          <span v-if="scope.row.source == '2'">关键字</span>
+          <span v-if="scope.row.source == '2'">敏感词</span>
           <span v-if="scope.row.source == '3'">模板不匹配</span>
           <span v-if="scope.row.source == '5'">数量超标</span>
           <span v-if="scope.row.source == '6'">组合redis出错</span>

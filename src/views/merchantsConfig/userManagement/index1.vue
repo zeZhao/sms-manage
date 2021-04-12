@@ -84,7 +84,7 @@
                 ? "http接口"
                 : item === 4
                 ? "cmpp接口"
-                : ""
+                : "-"
             }}</span>
           </div>
         </template>
@@ -92,12 +92,13 @@
       <el-table-column prop="sendType" label="短信运营商" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.sendType === 1">移动</span>
-          <span v-if="scope.row.sendType === 2">联通</span>
-          <span v-if="scope.row.sendType === 3">电信</span>
-          <span v-if="scope.row.sendType === 4">三网</span>
-          <span v-if="scope.row.sendType === 5">移动联通</span>
-          <span v-if="scope.row.sendType === 6">移动电信</span>
-          <span v-if="scope.row.sendType === 7">联通电信</span>
+          <span v-else-if="scope.row.sendType === 2">联通</span>
+          <span v-else-if="scope.row.sendType === 3">电信</span>
+          <span v-else-if="scope.row.sendType === 4">三网</span>
+          <span v-else-if="scope.row.sendType === 5">移动联通</span>
+          <span v-else-if="scope.row.sendType === 6">移动电信</span>
+          <span v-else-if="scope.row.sendType === 7">联通电信</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="短信计费方式" width="110">
@@ -109,7 +110,8 @@
               ? "预付成功计费"
               : scope.row.reductModel == "3"
               ? "后付提交计费"
-              : "后付成功计费"
+              : scope.row.reductModel == "4" 
+              ? "后付成功计费" : "-"
           }}</span>
         </template>
       </el-table-column>
@@ -131,7 +133,7 @@
                 ? "http接口"
                 : item === 4
                 ? "cmpp接口"
-                : ""
+                : "-"
             }}</span>
           </div>
         </template>
@@ -139,20 +141,22 @@
       <el-table-column prop="mmsSendType" label="彩信运营商" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.mmsSendType === 1">移动</span>
-          <span v-if="scope.row.mmsSendType === 2">联通</span>
-          <span v-if="scope.row.mmsSendType === 3">电信</span>
-          <span v-if="scope.row.mmsSendType === 4">三网</span>
-          <span v-if="scope.row.mmsSendType === 5">移动联通</span>
-          <span v-if="scope.row.mmsSendType === 6">移动电信</span>
-          <span v-if="scope.row.mmsSendType === 7">联通电信</span>
+          <span v-else-if="scope.row.mmsSendType === 2">联通</span>
+          <span v-else-if="scope.row.mmsSendType === 3">电信</span>
+          <span v-else-if="scope.row.mmsSendType === 4">三网</span>
+          <span v-else-if="scope.row.mmsSendType === 5">移动联通</span>
+          <span v-else-if="scope.row.mmsSendType === 6">移动电信</span>
+          <span v-else-if="scope.row.mmsSendType === 7">联通电信</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="mmsReductModel" label="彩信计费方式" width="110">
         <template slot-scope="scope">
           <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
-          <span v-if="scope.row.mmsReductModel == 2">预付成功计费</span>
-          <span v-if="scope.row.mmsReductModel == 3">后付提交计费</span>
-          <span v-if="scope.row.mmsReductModel == 4">后付成功计费</span>
+          <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
+          <span v-else-if="scope.row.mmsReductModel == 3">后付提交计费</span>
+          <span v-else-if="scope.row.mmsReductModel == 4">后付成功计费</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
 
@@ -170,13 +174,16 @@
       ></el-table-column>
       <el-table-column prop="smsTags" label="标签" width="100">
         <template slot-scope="scope">
-          <span
-            style="padding-right:10px"
-            v-for="(item, index) in scope.row.smsTags"
-            :key="index"
-          >
-            {{ item ? item.name : "" }}
-          </span>
+          <div v-if="scope.row.smsTags.length">
+            <span
+              style="padding-right:10px"
+              v-for="(item, index) in scope.row.smsTags"
+              :key="index"
+            >
+              {{ item ? item.name : "-" }}
+            </span>
+          </div>
+          <div v-else>-</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -276,6 +283,7 @@
       :close-on-click-modal="false"
       top="45px"
       width="80%"
+      :before-close="beforeClose"
     >
       <FormItemTitle
         :colSpan="8"
@@ -359,7 +367,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
-
+import { deepClone } from "@/utils"
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -1103,6 +1111,9 @@ export default {
   },
   computed: {},
   methods: {
+    beforeClose() {
+      this.addChannel = false;
+    },
     handleSubmitSpeed(userId, submitSpeed) {
       this.speedVisible = true;
       this.submitSpeedTit = submitSpeed ? "修改提交速率" : "配置提交速率";
@@ -1259,9 +1270,7 @@ export default {
     },
     //修改
     _mxEdit(row, ID) {
-      let lineData = Object.assign({}, row);
-      console.log(this.listData, "------------listData");
-      console.log(lineData, "------------lineData");
+      let lineData = deepClone(row);
       lineData = this._mxArrangeEditData(lineData);
       this.getAllCorp();
       this.getRole();
@@ -1278,6 +1287,8 @@ export default {
             } else {
               this.$set(item, "defaultValue", lineData[keys]);
             }
+          } else if (item.key === keys && lineData[keys] === "-") {
+            this.$set(item, "defaultValue", "");
           }
         }
         if (item.key === "reductModel") {

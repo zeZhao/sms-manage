@@ -83,7 +83,8 @@
         <template slot-scope="scope">
           <span v-if="scope.row.isBilling == '1'">已开</span>
           <span v-if="scope.row.isBilling == '2'">未开</span>
-          <span v-if="scope.row.isBilling == '2' && scope.row.isBilling == '1'"
+          <span
+            v-if="scope.row.isBilling !== '2' && scope.row.isBilling !== '1'"
             >-</span
           >
         </template>
@@ -96,7 +97,7 @@
         <template slot-scope="scope">
           <span v-if="scope.row.toPublic == '1'">对公</span>
           <span v-if="scope.row.toPublic == '2'">对私</span>
-          <span v-if="scope.row.toPublic !== '2' && scope.row.toPublic == '1'"
+          <span v-if="scope.row.toPublic !== '2' && scope.row.toPublic !== '1'"
             >-</span
           >
         </template>
