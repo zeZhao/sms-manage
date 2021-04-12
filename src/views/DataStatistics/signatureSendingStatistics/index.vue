@@ -125,9 +125,7 @@ export default {
   },
   methods: {
     exportData(form) {
-      const data = { ...this.pageObj, ...form }
-      delete data.total
-      this.$axios.post('/report/exportSignSendTotal', data).then((res) => {
+      this.$axios.post('/report/exportSignSendTotal', form).then((res) => {
         if (res.data.code === 200) this.$exportToast()
       })
     },
