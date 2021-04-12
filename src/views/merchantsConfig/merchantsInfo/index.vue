@@ -565,4 +565,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+/deep/ .el-textarea .el-input__count {
+  bottom: -40px;
+}
+</style>

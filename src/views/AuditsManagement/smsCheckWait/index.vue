@@ -43,7 +43,7 @@
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
           <span v-if="scope.row.source === '1'">没有配置免审</span>
-          <span v-if="scope.row.source === '2'">关键字</span>
+          <span v-if="scope.row.source === '2'">敏感词</span>
           <span v-if="scope.row.source === '3'">模板不匹配</span>
           <span v-if="scope.row.source === '5'">免审数量超标</span>
           <span v-if="scope.row.source === '6'">组合redis出错</span>
@@ -180,7 +180,7 @@ export default {
             },
             {
               key: "2",
-              value: "关键字"
+              value: "敏感词"
             },
             {
               key: "3",
@@ -287,7 +287,19 @@ export default {
               value: "拒绝"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { 
+              required: true, 
+              trigger: "blur", 
+              validator: (rule, value, callback) => {
+                if (!value || value == "1") {
+                  callback(new Error('请选择审核状态'));
+                } else {
+                  callback();
+                }
+              } 
+            }
+          ]
         }
       ],
       gatewayCuList: [],

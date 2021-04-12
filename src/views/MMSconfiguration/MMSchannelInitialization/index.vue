@@ -272,4 +272,7 @@ export default {
 .dialog-footer {
   text-align: center;
 }
+/deep/ .el-form-item--medium .el-form-item__content {
+  line-height: 35px;
+}
 </style>
