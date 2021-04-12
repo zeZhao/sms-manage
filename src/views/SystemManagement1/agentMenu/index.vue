@@ -24,6 +24,7 @@
       :data="navList"
       style="width: 100%;margin-bottom: 20px;"
       row-key="menuId"
+      v-loading="loading"
       border
       :tree-props="{ children: 'childMenu', hasChildren: 'hasChildren' }"
       @cell-dblclick="dblclick"
@@ -247,8 +248,8 @@
 </template>
 
 <script>
-import { limitMenuName, limitMenuPath, limitMenuSort } from '@/utils/validator';
-import { deepClone } from '@/utils';
+import { limitMenuName, limitMenuPath, limitMenuSort } from "@/utils/validator";
+import { deepClone } from "@/utils";
 export default {
   data() {
     return {
@@ -257,6 +258,7 @@ export default {
       customerAddInfo: false,
       customerInfo: false,
       addNavList: false,
+      loading: false,
       setInfo: {
         Id: "",
         funcName: "",
@@ -287,13 +289,21 @@ export default {
       },
       options: [],
       rules: {
-        funcName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
-        funcChName: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
-        name: [ { required: true, validator: limitMenuName, trigger: "blur" } ],
-        funcUrl: [ { required: true, validator: limitMenuPath, trigger: "blur" } ],
-        linkUrl: [ { required: true, validator: limitMenuPath, trigger: "blur" } ],
-        seqNum: [ { required: true, validator: limitMenuSort, trigger: "blur" } ],
-        sort: [ { required: true, validator: limitMenuSort, trigger: "blur" } ]
+        funcName: [
+          { required: true, validator: limitMenuName, trigger: "blur" }
+        ],
+        funcChName: [
+          { required: true, validator: limitMenuName, trigger: "blur" }
+        ],
+        name: [{ required: true, validator: limitMenuName, trigger: "blur" }],
+        funcUrl: [
+          { required: true, validator: limitMenuPath, trigger: "blur" }
+        ],
+        linkUrl: [
+          { required: true, validator: limitMenuPath, trigger: "blur" }
+        ],
+        seqNum: [{ required: true, validator: limitMenuSort, trigger: "blur" }],
+        sort: [{ required: true, validator: limitMenuSort, trigger: "blur" }]
       }
     };
   },
@@ -327,6 +337,7 @@ export default {
       });
     },
     getNavList() {
+      this.loading = true;
       let params = {
         status: "",
         type: 3
@@ -339,6 +350,7 @@ export default {
         } else {
           this.$message.error(res.msg);
         }
+        this.loading = false;
       });
     },
     // 设置修改排序状态字段

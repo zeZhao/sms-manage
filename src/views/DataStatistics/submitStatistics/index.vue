@@ -155,15 +155,15 @@ export default {
             {
               key: 1,
               value: "行业"
-            },
-            {
-              key: 2,
-              value: "营销"
-            },
-            {
-              key: 3,
-              value: "vip"
             }
+            // {
+            //   key: 2,
+            //   value: "营销"
+            // },
+            // {
+            //   key: 3,
+            //   value: "vip"
+            // }
           ]
         },
         // {
