@@ -367,7 +367,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
-
+import { deepClone } from "@/utils"
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -1270,9 +1270,7 @@ export default {
     },
     //修改
     _mxEdit(row, ID) {
-      let lineData = Object.assign({}, row);
-      console.log(this.listData, "------------listData");
-      console.log(lineData, "------------lineData");
+      let lineData = deepClone(row);
       lineData = this._mxArrangeEditData(lineData);
       this.getAllCorp();
       this.getRole();
@@ -1289,6 +1287,8 @@ export default {
             } else {
               this.$set(item, "defaultValue", lineData[keys]);
             }
+          } else if (item.key === keys && lineData[keys] === "-") {
+            this.$set(item, "defaultValue", "");
           }
         }
         if (item.key === "reductModel") {

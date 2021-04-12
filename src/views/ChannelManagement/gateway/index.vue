@@ -31,7 +31,7 @@
       </el-table-column>
       <el-table-column prop="operateStatus" label="运营状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.operateStatus === 1 ? "短信" : "" }}</span>
+          <span>{{ scope.row.operateStatus === 1 ? "短信" : "-" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="isDerect" label="直连">
@@ -64,6 +64,20 @@
           ></el-switch>
         </template>
       </el-table-column> -->
+      <el-table-column prop="smsTags" label="标签" width="100">
+        <template slot-scope="scope">
+          <div v-if="scope.row.smsTags.length">
+            <span
+              v-for="(item, index) in scope.row.smsTags"
+              :key="index"
+              style="padding-right:10px"
+            >
+              {{ item ? item.name : "-" }}
+            </span>
+          </div>
+          <div v-else>-</div>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button

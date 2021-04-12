@@ -32,17 +32,19 @@
       </el-table-column>
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="viewsRow('views',scope.row.arraignId, scope.row.mmsId, scope.row.auditStatus)" type="text"
-            size="small">预览
+          <el-button
+            @click="viewsRow('views', scope.row.arraignId, scope.row.mmsId, scope.row.auditStatus, scope.row.cmGatewayId, scope.row.cuGatewayId, scope.row.ctGatewayId)"
+            type="text" size="small">预览
           </el-button>
-          <el-button v-if="scope.row.auditStatus === 1" @click="bringToTrial(scope.row.arraignId)" type="text"
-            size="small">提审</el-button>
+          <el-button v-if="scope.row.auditStatus === 1"
+            @click="bringToTrial(scope.row.arraignId, scope.row.cmGatewayId, scope.row.cuGatewayId, scope.row.ctGatewayId)"
+            type="text" size="small">提审</el-button>
           <el-button v-if="scope.row.auditStatus === 3" @click="partiallyPassed(scope.row.arraignId)" type="text"
             size="small">部分通过</el-button>
           <el-button v-if="scope.row.auditStatus === 1" @click="reject(scope.row.arraignId)" type="text" size="small">驳回
           </el-button>
-          <el-button v-if="[1,3,5,6,7].includes(scope.row.auditStatus)"
-            @click="channelConfig('channelConfig', scope.row)" type="text" size="small">通道配置</el-button>
+          <el-button v-if="[1, 3, 7].includes(scope.row.auditStatus)" @click="channelConfig('channelConfig', scope.row)"
+            type="text" size="small">通道配置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -109,11 +111,16 @@ export default {
   activated () { this._mxGetList() },
   methods: {
     //预览
-    viewsRow (type, arraignId, mmsId, auditStatus) {
-      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, mmsId, auditStatus } });
+    viewsRow (type, arraignId, mmsId, auditStatus, cm, cu, ct) {
+      this.$router.push({ name: "MMStemplateReviewType", query: { type, arraignId, mmsId, auditStatus, cm, cu, ct } });
     },
     //提审
-    bringToTrial (arraignId) {
+    bringToTrial (arraignId, cm, cu, ct) {
+      const flag = [cm, cu, ct].every(v => !v);
+      if (flag) {
+        this.$message.warning('该账户暂未配置通道，请先配置通道');
+        return;
+      }
       this.$http.mmsTemplateCheck.pushGatewayArraign({ arraignId }).then(res => {
         if (res.code === 200) {
           this._mxGetList();
