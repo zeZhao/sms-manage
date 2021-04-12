@@ -95,7 +95,8 @@
       top="45px"
     >
       <div>
-        请先<el-button type="text">下载模板</el-button> ，再进行
+        请先<el-button type="text" @click="download">下载模板</el-button>
+        ，再进行
         <el-upload
           class="upload-demo"
           action="/api/sysPrepaidCard/uploadFile"
@@ -127,6 +128,7 @@
 import listMixin from "@/mixin/listMixin";
 import { getToken } from "@/utils/auth";
 import { phone } from "@/utils/validator";
+import { Axis } from "echarts/lib/export";
 
 export default {
   mixins: [listMixin],
@@ -227,6 +229,26 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    download() {
+      this.$axios
+        .get("/sysDownLoadLog/download", {
+          responseType: "blob"
+        })
+        .then(res => {
+          let blob = new Blob([res.data], {
+            type: "application/vnd.ms-excel;charset=utf-8"
+          });
+          let url = window.URL.createObjectURL(blob);
+          let aLink = document.createElement("a");
+          aLink.style.display = "none";
+          aLink.href = url;
+          aLink.setAttribute("download", "模板.xlsx");
+          document.body.appendChild(aLink);
+          aLink.click();
+          document.body.removeChild(aLink);
+          window.URL.revokeObjectURL(url);
+        });
+    },
     /**
      * 创建表单
      * @param row  当前行数据

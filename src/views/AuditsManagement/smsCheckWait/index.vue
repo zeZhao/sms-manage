@@ -321,14 +321,16 @@ export default {
         const checkWaitList = this.selection.map(v => {
           const { checkWaitId, cmGateway, ctGateway, cuGateway } = v;
           return { checkWaitId, cmGateway, ctGateway, cuGateway };
-        })
-        //2通过 3拒绝
-        this.$http.smsCheckWait.checkSms({ status, checkWaitList }).then(res => {
-          if (res.code === 200) {
-            this._mxGetList();
-            this.$message.success("操作成功");
-          }
         });
+        //2通过 3拒绝
+        this.$http.smsCheckWait
+          .checkSms({ status, checkWaitList })
+          .then(res => {
+            if (res.code === 200) {
+              this._mxGetList();
+              this.$message.success("操作成功");
+            }
+          });
       } else {
         this.$message.error("请至少选择一个任务");
       }

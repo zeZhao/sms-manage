@@ -102,15 +102,10 @@
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核">
         <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.cardStatus == 0
-                ? "未操作"
-                : scope.row.cardStatus == 1
-                ? "审核通过"
-                : "审核驳回"
-            }}
-          </span>
+          <span v-if="scope.row.cardStatus == 0">未操作</span>
+          <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
+          <span v-else-if="scope.row.cardStatus == 2">审核驳回</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center" width="70">
@@ -277,7 +272,7 @@ export default {
         },
         {
           type: "select",
-          label: "操作类型",
+          label: "到款方式",
           key: "direction",
           optionData: [
             { key: "对公付款", value: "对公付款" },
@@ -309,8 +304,8 @@ export default {
             { key: 1, value: "授信" },
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" },
-            { key: 5, value: "账号互转" }
+            { key: 2, value: "余额-" }
+            // { key: 5, value: "账号互转" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

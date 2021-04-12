@@ -513,7 +513,12 @@ export default {
       if (row.reductModel) {
         row.reductModel = row.reductModel.toString();
       }
-      this.addInfo = Object.assign(this.addInfo, row);
+      for (let key in row) {
+        if (row[key] && row[key] !== "-") {
+          this.addInfo[key] = row[key];
+        }
+      }
+      // this.addInfo = Object.assign(this.addInfo, row);
     },
 
     //修改状态

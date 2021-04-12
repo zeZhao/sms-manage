@@ -24,11 +24,7 @@
           <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
         <el-form-item style="float: right">
-          <el-button
-            type="primary"
-            @click="addRoles"
-            >新增角色</el-button
-          >
+          <el-button type="primary" @click="addRoles">新增角色</el-button>
         </el-form-item>
       </el-form>
     </el-col>
@@ -292,8 +288,12 @@ export default {
         des: ""
       },
       updateFormRules: {
-        custName: [{required: true, message: '请输入必填项', trigger: "blur"}],
-        roleType: [{required: true, message: '请选择必选项', trigger: "change"}],
+        custName: [
+          { required: true, message: "请输入必填项", trigger: "blur" }
+        ],
+        roleType: [
+          { required: true, message: "请选择必选项", trigger: "change" }
+        ],
         contactMobile: [{ validator: validatePhone, trigger: "blur" }]
       },
       companyOptions: [], // 商户全称下拉项
@@ -356,12 +356,12 @@ export default {
   },
   methods: {
     checkPermission,
-    addRoles(){
+    addRoles() {
       this.customerAddInfo = true;
       this.getNavList();
       this.$nextTick(() => {
         this.$refs.addForm.clearValidate();
-      })
+      });
     },
     queryOrderList() {
       this.cur_page = 1;
@@ -485,7 +485,7 @@ export default {
         .catch(() => {});
     },
     addCustomerInfo(form) {
-      this.$refs[form].validate((valid) => {
+      this.$refs[form].validate(valid => {
         if (valid) {
           let params = {
             roleName: this.addInfo.custName,
@@ -512,17 +512,17 @@ export default {
               this.customerAddInfo = false;
               this.orderList();
             } else {
-              this.$message.error(res.msg);
+              this.$message.error(res.data);
             }
           });
         }
-      })
+      });
     },
     infoShow(row) {
       this.customerInfo = true;
       this.$nextTick(() => {
         this.$refs.updateCustomForm.clearValidate();
-      })
+      });
       this.navListId = [];
       this.setInfo.custId = row.roleId;
       this.setInfo.custName = row.roleName;
@@ -532,7 +532,7 @@ export default {
     },
     setCustomerInfo(form) {
       this.customerInfo = true;
-      this.$refs[form].validate((valid) => {
+      this.$refs[form].validate(valid => {
         if (valid) {
           let params = {
             roleId: this.setInfo.custId,
@@ -564,7 +564,7 @@ export default {
             }
           });
         }
-      })
+      });
     },
     deleteCustomer(id, type) {
       this.roleId = id;
