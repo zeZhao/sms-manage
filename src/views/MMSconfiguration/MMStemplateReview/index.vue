@@ -116,9 +116,12 @@ export default {
     },
     //提审
     bringToTrial (arraignId, cm, cu, ct) {
-      const flag = [cm, cu, ct].every(v => !v);
+      const flag = [cm, cu, ct].every(v => !v || v === '-');
       if (flag) {
-        this.$message.warning('该账户暂未配置通道，请先配置通道');
+        this.$alert('该账户暂未配置通道，请先配置通道', '提示', {
+          confirmButtonText: '确定',
+          callback: action => { }
+        });
         return;
       }
       this.$http.mmsTemplateCheck.pushGatewayArraign({ arraignId }).then(res => {
