@@ -221,6 +221,7 @@
                 v-model="formData[item.key]"
                 :value-format="item.format || 'HH:mm:ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
+                :picker-options="item.pickerOptions || ''"
                 @change="
                   val => {
                     onChange(val, item);

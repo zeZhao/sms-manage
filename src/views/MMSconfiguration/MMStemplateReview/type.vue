@@ -96,7 +96,7 @@
           </el-table-column>
         </el-table>
         <div class="footer">
-          <el-button type="primary" @click="channelReview">提 审</el-button>
+          <el-button type="primary" @click="channelReview" :disabled="diffDisabled">提 审</el-button>
           <el-button @click="cancel">取 消</el-button>
         </div>
       </section>
@@ -114,28 +114,29 @@ export default {
       tableData: [
         {
           type: '移动',
-          codeName: undefined,
+          codeName: "",
           options: [],
           loading: true,
           disabled: false
         },
         {
           type: '联通',
-          codeName: undefined,
+          codeName: "",
           options: [],
           loading: true,
           disabled: false
         },
         {
           type: '电信',
-          codeName: undefined,
+          codeName: "",
           options: [],
           loading: true,
           disabled: false
         }
       ],
       dialogVisible: false,
-      dialogUrl: undefined
+      dialogUrl: undefined,
+      diffObj: {} //比较的对象
     }
   },
   computed: {
@@ -151,6 +152,18 @@ export default {
     renderTitle () {
       const viewTitle = "彩信模板提审/";
       return this.queryType === "views" ? `${viewTitle}预览` : `${viewTitle}通道配置`;
+    },
+    diffDisabled () {
+      if (Object.keys(this.diffObj).length) {
+        const { cmGatewayId, cuGatewayId, ctGatewayId } = this.diffObj;
+        if (this.tableData[0].codeName === cmGatewayId && this.tableData[1].codeName === cuGatewayId && this.tableData[2].codeName === ctGatewayId) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
     }
   },
   async mounted () {
@@ -173,9 +186,15 @@ export default {
     } else {
       this.formData = JSON.parse(this.$route.query.row);
       await this.getTableSelectList(); //获取所有三网所有通道数据
-      this.tableData[0].codeName = this.formData.cmGatewayId;
-      this.tableData[1].codeName = this.formData.cuGatewayId;
-      this.tableData[2].codeName = this.formData.ctGatewayId;
+      this.tableData[0].codeName = this.formData.cmGatewayId === '-' ? "" : this.formData.cmGatewayId;
+      this.tableData[1].codeName = this.formData.cuGatewayId === '-' ? "" : this.formData.cuGatewayId;
+      this.tableData[2].codeName = this.formData.ctGatewayId === '-' ? "" : this.formData.ctGatewayId;
+      // 比较对象的赋值
+      this.diffObj = {
+        cmGatewayId: this.tableData[0].codeName,
+        cuGatewayId: this.tableData[1].codeName,
+        ctGatewayId: this.tableData[2].codeName
+      };
       const reviewType = [2, 3]; //2.审核中 3.审核通过
       this.tableData[0].disabled = reviewType.includes(this.formData.cmStatus);
       this.tableData[1].disabled = reviewType.includes(this.formData.cuStatus);
@@ -196,9 +215,15 @@ export default {
     },
     //提审
     bringToTrial (arraignId) {
+      const { cm, cu, ct } = this.$route.query;
+      const flag = [cm, cu, ct].every(v => !v);
+      if (flag) {
+        this.$message.warning('该账户暂未配置通道，请先配置通道');
+        return;
+      }
       this.$http.mmsTemplateCheck.pushGatewayArraign({ arraignId }).then(res => {
         if (res.code === 200) {
-          this.cancel()
+          this.cancel();
           this.$message.success('提审成功');
         } else {
           this.$message.error(res.msg);
@@ -390,5 +415,8 @@ export default {
     margin-top: 50px;
     text-align: center;
   }
+}
+/deep/ .el-form-item--medium .el-form-item__content {
+  line-height: 34px;
 }
 </style>

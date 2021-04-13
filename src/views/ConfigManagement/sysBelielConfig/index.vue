@@ -59,6 +59,7 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
+        @onChange="onChange"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -260,7 +261,7 @@ export default {
         },
         {
           type: "time",
-          label: "结束时间(时:分)	",
+          label: "结束时间(时:分)",
           key: "endTime"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
@@ -270,9 +271,17 @@ export default {
       isParamsNotData: false
     };
   },
-  mounted() {},
-  computed: {},
   methods: {
+    onChange({ val, item }) {
+      let time;
+      if (item.key === "startTime") {
+        time = { selectableRange: val ? `${val} - 23:59:59` : '' };
+        this.formConfig[this.formConfig.length - 1].pickerOptions = time;
+      } else if (item.key === "endTime") {
+        time = { selectableRange: val ? `00:00:00 - ${val}` : '' };
+        this.formConfig[this.formConfig.length - 2].pickerOptions = time;
+      }
+    },
     /**
      * 删除列表中项目
      * @param id
