@@ -103,14 +103,15 @@ export default {
     };
     const validatorCode = (rule, value, callback) => {
       let regex = /^[0-9]*$/;
-      if (value) {
-        console.log(Number(value).constructor);
+      if (Number(value)) {
         if (!regex.test(Number(value)) || value.toString().length !== 4) {
           callback(new Error("特服号仅支持4位数字"));
         } else {
           callback();
         }
         // callback(new Error("备注信息不能为空"));
+      } else {
+        callback(new Error("请输入必填项"));
       }
     };
     return {

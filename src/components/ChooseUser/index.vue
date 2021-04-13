@@ -36,6 +36,8 @@
         <el-table-column align="center" prop="userId" label="账户编号" />
         <el-table-column align="center" prop="userName" label="账户名称" />
         <el-table-column align="center" prop="code" label="特服号" />
+        <el-table-column align="center" prop="cardUnit" label="短信单价" />
+        <el-table-column align="center" prop="mmsCardUnit" label="彩信单价" />
         <el-table-column align="center" fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="selected(scope.row)" type="text" size="small"

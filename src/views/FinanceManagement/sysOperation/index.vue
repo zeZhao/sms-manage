@@ -237,6 +237,8 @@ export default {
           if (resOk(res)) {
             this.$message.success("操作成功");
             this._mxGetList();
+          } else {
+            this.$message.error(res.data);
           }
         });
       });
@@ -254,6 +256,8 @@ export default {
             if (resOk(res)) {
               this.$message.success("操作成功");
               this._mxGetList();
+            } else {
+              this.$message.error(res.data);
             }
           });
       });
