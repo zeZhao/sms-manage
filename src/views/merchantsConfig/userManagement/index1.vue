@@ -1127,7 +1127,7 @@ export default {
     },
     submitSpeeds() {
       if (!Number(this.speedVal)) {
-        this.$message.error("只输入数字！");
+        this.$message.error("提交速率只允许输入数字");
         return;
       }
       if (Number(this.speedVal) > 1000) {
