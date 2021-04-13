@@ -123,11 +123,11 @@ export default {
             {
               key: "1",
               value: "用户"
-            },
-            {
-              key: "2",
-              value: "通道"
             }
+            // {
+            //   key: "2",
+            //   value: "通道"
+            // }
           ]
         }
       ],

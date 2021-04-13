@@ -96,7 +96,7 @@
                 style="width: 100%"
                 v-model="formData[item.key]"
                 filterable
-                clearable
+                :clearable="item.clearable || true"
                 :multiple="item.multiple"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"

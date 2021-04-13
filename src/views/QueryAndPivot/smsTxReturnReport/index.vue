@@ -123,12 +123,12 @@ export default {
           key: "gateway",
           placeholder: "请输入通道编号"
         },
-        {
-          type: "input",
-          label: "SEQID",
-          key: "seqid",
-          placeholder: "请输入SEQID"
-        },
+        // {
+        //   type: "input",
+        //   label: "SEQID",
+        //   key: "seqid",
+        //   placeholder: "请输入SEQID"
+        // },
         {
           type: "input",
           label: "状态",

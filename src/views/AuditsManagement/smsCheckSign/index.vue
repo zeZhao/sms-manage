@@ -144,7 +144,9 @@ export default {
             { key: 4, value: "通过" },
             { key: 5, value: "拒绝" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            { required: true, message: "请选择审核状态", trigger: "blur" }
+          ]
         }
       ],
       signCheckId: "",
@@ -154,15 +156,18 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    _mxEdit(row, 编号) {
+    _mxEdit(row, ID) {
       row = this._mxArrangeEditData(row);
-      this.id = row[编号];
-      this.editId = 编号;
+      this.id = row[ID];
+      this.editId = ID;
       this.formTit = "审核";
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === "status") {
+            this.$set(item, "defaultValue", "");
           }
         }
       });
@@ -173,7 +178,7 @@ export default {
     },
     //调整提交的参数
     _formatRequestData(data) {
-      data["status"] = 1;
+      // data["status"] = 1;
       return data;
     }
   },

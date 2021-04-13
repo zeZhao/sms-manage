@@ -18,12 +18,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="商户/账户编号" />
-      <el-table-column
-        prop="userName"
-        label="商户/账户名称"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="smsBalance" label="短信余额(条)" />
       <el-table-column prop="debt" label="短信借款(条)" />
       <el-table-column prop="unitPrice" label="短信单价(分)" />
@@ -31,13 +27,13 @@
       <el-table-column prop="mmsDebt" label="彩信借款(条)" />
       <el-table-column prop="mmsCardUnit" label="彩信单价(分)" />
       <el-table-column prop="saleMan" label="销售" />
-      <el-table-column prop="reductType" label="计费类型">
+      <!-- <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductType === 1 ? "账户计费" : "商户id计费"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="operaName" label="操作人" />
       <el-table-column label="操作时间" width="155">
         <template slot-scope="scope">{{
@@ -73,32 +69,27 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户/账户编号",
+          label: "账户编号",
           key: "userId"
         },
         {
           type: "input",
-          label: "商户/账户名称",
-          key: "userName",
-          placeholder: "请输入商户/账户名称"
-        },
-        {
-          type: "select",
-          label: "类型",
-          key: "selectType",
-          defaultValue: 0,
-          optionData: [
-            {
-              key: 0,
-              value: "账户"
-            }
-            // {
-            //   key: 1,
-            //   value: "商户"
-            // }
-          ],
-          placeholder: "请选择类型"
+          label: "账户名称",
+          key: "userName"
         }
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "selectType",
+        //   defaultValue: 0,
+        //   optionData: [
+        //     {
+        //       key: 0,
+        //       value: "账户"
+        //     }
+        //   ],
+        //   placeholder: "请选择类型"
+        // }
       ]
     };
   },
