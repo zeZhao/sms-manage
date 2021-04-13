@@ -2,30 +2,30 @@
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
-      <el-table-column prop="gatewayMmsId" label="上游模板编号" min-width="120" />
-      <el-table-column prop="mmsId" label="模板编号" />
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="title" label="彩信标题" />
-      <el-table-column prop="sign" label="签名" />
-      <el-table-column prop="type" label="提交类型">
+      <el-table-column prop="gatewayMmsId" label="上游模板编号" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="mmsId" label="模板编号" show-overflow-tooltip />
+      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="title" label="彩信标题" show-overflow-tooltip />
+      <el-table-column prop="sign" label="签名" show-overflow-tooltip />
+      <el-table-column prop="type" label="提交类型" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderType(scope.row.type) }}
         </template>
       </el-table-column>
-      <el-table-column prop="operator" label="运营商" min-width="120">
+      <el-table-column prop="operator" label="运营商" min-width="120" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderOperator(scope.row.operator) }}
         </template>
       </el-table-column>
-      <el-table-column prop="gatewayId" label="通道编号" />
-      <el-table-column prop="checkStatus" label="审核状态">
+      <el-table-column prop="gatewayId" label="通道编号" show-overflow-tooltip />
+      <el-table-column prop="checkStatus" label="审核状态" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderCheckStatus(scope.row.checkStatus) }}
         </template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间" min-width="150">
+      <el-table-column prop="submitTime" label="提交时间" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.submitTime | timeFormat }}
         </template>

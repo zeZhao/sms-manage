@@ -40,7 +40,7 @@
         width="100"
         show-overflow-tooltip
       /> -->
-      <el-table-column prop="accountType" label="业务类型">
+      <el-table-column prop="accountType" label="业务类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{
             scope.row.accountType == "1"
@@ -51,15 +51,13 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="reductType" label="计费类型" width="100">
+      <el-table-column prop="code" label="特服号" show-overflow-tooltip />
+      <el-table-column prop="reductType" label="计费类型" width="100" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{
-            scope.row.reductType == "1" ? "账户计费" : "商户计费"
-          }}</span>
+          <span>{{ scope.row.reductType == "1" ? "账户计费" : "商户计费" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sublong" label="扩展位数" />
+      <el-table-column prop="sublong" label="扩展位数" show-overflow-tooltip/>
       <!-- <el-table-column prop="longCode" label="长号码" /> -->
       <!-- <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
@@ -74,34 +72,26 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="proTypes" label="短信产品类型">
+      <el-table-column prop="proTypes" label="短信产品类型" min-width="130" show-overflow-tooltip>
         <template slot-scope="scope">
-          <div v-for="(item, index) in scope.row.proTypes" :key="index">
-            <span>{{
-              item === 1
-                ? "web端"
-                : item === 2
-                ? "http接口"
-                : item === 4
-                ? "cmpp接口"
-                : "-"
-            }}</span>
-          </div>
+          <span v-for="(item, index) in scope.row.proTypes" :key="index">
+            {{ item === 1 ? "web端" : item === 2 ? "http接口" : item === 4 ? "cmpp接口" : "-" }}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendType" label="短信运营商" width="100">
+      <el-table-column prop="sendType" label="短信运营商" width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.sendType === 1">移动</span>
           <span v-else-if="scope.row.sendType === 2">联通</span>
           <span v-else-if="scope.row.sendType === 3">电信</span>
           <span v-else-if="scope.row.sendType === 4">三网</span>
-          <span v-else-if="scope.row.sendType === 5">移动联通</span>
-          <span v-else-if="scope.row.sendType === 6">移动电信</span>
-          <span v-else-if="scope.row.sendType === 7">联通电信</span>
+          <span v-else-if="scope.row.sendType === 5">移动 联通</span>
+          <span v-else-if="scope.row.sendType === 6">移动 电信</span>
+          <span v-else-if="scope.row.sendType === 7">联通 电信</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="短信计费方式" width="110">
+      <el-table-column prop="reductModel" label="短信计费方式" width="110" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -116,41 +106,34 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="smsBalance" label="短信余额" />
-      <el-table-column prop="debt" label="借款" />
+      <el-table-column prop="smsBalance" label="短信余额" show-overflow-tooltip/>
+      <el-table-column prop="debt" label="借款" show-overflow-tooltip/>
       <el-table-column
         prop="cardUnit"
         label="单价（分）"
         width="100"
+        show-overflow-tooltip
       ></el-table-column>
-      <el-table-column prop="mmsProType" label="彩信产品类型">
+      <el-table-column prop="mmsProType" label="彩信产品类型" min-width="130" show-overflow-tooltip>
         <template slot-scope="scope">
-          <div v-for="(item, index) in scope.row.mmsProTypes" :key="index">
-            <span>{{
-              item === 1
-                ? "web端"
-                : item === 2
-                ? "http接口"
-                : item === 4
-                ? "cmpp接口"
-                : "-"
-            }}</span>
-          </div>
+          <span v-for="(item, index) in scope.row.mmsProTypes" :key="index">
+            {{ item === 1 ? "web端" : item === 2 ? "http接口" : item === 4 ? "cmpp接口" : "-" }}
+          </span>
         </template>
       </el-table-column>
-      <el-table-column prop="mmsSendType" label="彩信运营商" width="100">
+      <el-table-column prop="mmsSendType" label="彩信运营商" width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.mmsSendType === 1">移动</span>
           <span v-else-if="scope.row.mmsSendType === 2">联通</span>
           <span v-else-if="scope.row.mmsSendType === 3">电信</span>
           <span v-else-if="scope.row.mmsSendType === 4">三网</span>
-          <span v-else-if="scope.row.mmsSendType === 5">移动联通</span>
-          <span v-else-if="scope.row.mmsSendType === 6">移动电信</span>
-          <span v-else-if="scope.row.mmsSendType === 7">联通电信</span>
+          <span v-else-if="scope.row.mmsSendType === 5">移动 联通</span>
+          <span v-else-if="scope.row.mmsSendType === 6">移动 电信</span>
+          <span v-else-if="scope.row.mmsSendType === 7">联通 电信</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mmsReductModel" label="彩信计费方式" width="110">
+      <el-table-column prop="mmsReductModel" label="彩信计费方式" width="110" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
           <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
@@ -160,38 +143,37 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="mmsBalance" label="彩信余额" />
-      <el-table-column prop="mmsDebt" label="借款" />
+      <el-table-column prop="mmsBalance" label="彩信余额" show-overflow-tooltip/>
+      <el-table-column prop="mmsDebt" label="借款" show-overflow-tooltip/>
       <el-table-column
         prop="mmsCardUnit"
         label="单价（分）"
         width="100"
+        show-overflow-tooltip
       ></el-table-column>
       <el-table-column
         prop="submitSpeed"
         label="提交速率"
         width="100"
+        show-overflow-tooltip
       ></el-table-column>
-      <el-table-column prop="smsTags" label="标签" width="100">
+      <el-table-column prop="smsTags" label="标签" min-width="120" show-overflow-tooltip>
         <template slot-scope="scope">
-          <div v-if="scope.row.smsTags.length">
-            <span
-              style="padding-right:10px"
-              v-for="(item, index) in scope.row.smsTags"
-              :key="index"
-            >
+          <span v-if="scope.row.smsTags.length">
+            <span v-for="(item, index) in scope.row.smsTags" :key="index">
               {{ item ? item.name : "-" }}
             </span>
-          </div>
-          <div v-else>-</div>
+          </span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="roleName"
         label="角色"
-        width="100"
+        min-width="100"
+        show-overflow-tooltip
       ></el-table-column>
-      <el-table-column prop="status" label="状态">
+      <el-table-column prop="status" label="状态" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{
             scope.row.status == "0"
@@ -204,12 +186,12 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" width="150">
+      <el-table-column prop="modifyTime" label="修改时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>

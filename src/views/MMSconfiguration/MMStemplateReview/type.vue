@@ -43,7 +43,7 @@
           </el-form-item>
         </el-form>
         <div class="footer">
-          <el-button v-if="queryAuditStatus == 1" type="primary" @click="bringToTrial(queryArraignId)">通 过
+          <el-button v-if="queryAuditStatus == 1" type="primary" @click="bringToTrial(queryArraignId)">提 审
           </el-button>
           <el-button v-if="queryAuditStatus == 1" type="primary" @click="reject(queryArraignId)">驳 回</el-button>
           <el-button v-if="queryAuditStatus == 3" type="primary" @click="partiallyPassed(queryArraignId)">部分通过

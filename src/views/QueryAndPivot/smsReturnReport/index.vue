@@ -38,11 +38,13 @@
       <el-table-column
         prop="gatewayTaking"
         label="通道耗时:秒"
+        min-width="110"
         show-overflow-tooltip
       />
       <el-table-column
         prop="totalTaking"
         label="总耗时:秒"
+        min-width="110"
         show-overflow-tooltip
       />
       <el-table-column prop="seqId" label="SEQID" show-overflow-tooltip />

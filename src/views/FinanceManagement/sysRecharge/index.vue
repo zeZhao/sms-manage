@@ -18,22 +18,22 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="chargeType" label="产品">
+      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="chargeType" label="产品" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.chargeType == 1">短信</span>
           <span v-if="scope.row.chargeType == 2">彩信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="beforeBalance" label="操作前的条数" />
-      <el-table-column prop="cardCount" label="当前操作条数" />
-      <el-table-column prop="afterBalance" label="操作后的条数" />
-      <el-table-column prop="cardUnit" label="当前操作单价(分)" />
-      <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="paidWay" label="操作类型">
+      <el-table-column prop="beforeBalance" label="操作前的条数" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="cardCount" label="当前操作条数" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip/>
+      <el-table-column prop="cardMoney" label="金额(元)" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="paidWay" label="操作类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
           <span v-if="scope.row.paidWay == 1">授信</span>
@@ -44,7 +44,7 @@
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="计费类型" width="110">
+      <el-table-column prop="reductModel" label="计费类型" width="110" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">账户计费</span>
           <span v-if="scope.row.reductType === 2">商户id计费</span>
@@ -74,8 +74,8 @@
           </span> -->
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="到款方式" />
-      <el-table-column prop="isBill" label="账单类型">
+      <el-table-column prop="direction" label="到款方式" show-overflow-tooltip />
+      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度账单</span>
@@ -88,19 +88,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="creater" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="creater" label="操作账号" show-overflow-tooltip />
+      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifier" label="审核人" />
-      <el-table-column prop="modifyTime" label="审核时间" width="150">
+      <el-table-column prop="modifier" label="审核人" show-overflow-tooltip />
+      <el-table-column prop="modifyTime" label="审核时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="cardStatus" label="财务审核">
+      <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.cardStatus == 0">未操作</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
