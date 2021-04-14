@@ -25,7 +25,7 @@
       >电信号段正则
       <!-- <el-button type="primary">恢复初始设置</el-button> -->
     </p>
-    <div style="width:900px;text-align:right;margin-top:50px">
+    <div style="width:900px;text-align:left;margin-top:50px">
       <el-button type="primary" @click="submit">保存</el-button>
     </div>
   </div>

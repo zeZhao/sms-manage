@@ -99,7 +99,7 @@
         <template slot-scope="scope">
           <span v-if="scope.row.cardStatus == 0">未操作</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
-          <span v-else-if="scope.row.cardStatus == 2">审核驳回</span>
+          <span v-else-if="scope.row.cardStatus == 3">审核驳回</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
