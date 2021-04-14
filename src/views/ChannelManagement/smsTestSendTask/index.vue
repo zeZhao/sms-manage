@@ -11,10 +11,7 @@
       @choose="choose"
     >
       <template slot="Other">
-        <el-button
-          style="float: right;margin-left: 15px"
-          size="small"
-          @click="resetForm"
+        <el-button style="margin-left: 8px" size="small" @click="resetForm"
           >重置</el-button
         >
       </template>
@@ -183,6 +180,9 @@ export default {
 .smsTestSendTask {
   width: 650px;
   margin: 0 auto;
+  /deep/.FormItem .submitBtn {
+    float: left;
+  }
   //   backgroundf;
 }
 </style>

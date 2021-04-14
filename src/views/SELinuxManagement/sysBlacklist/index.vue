@@ -15,7 +15,11 @@
       <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
 
-      <el-table-column prop="blackGroupName" label="黑名单类型" show-overflow-tooltip>
+      <el-table-column
+        prop="blackGroupName"
+        label="黑名单类型"
+        show-overflow-tooltip
+      >
         <!-- <template slot-scope="scope">
           <span>
             {{
@@ -35,7 +39,11 @@
       <el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
       <!-- <el-table-column prop="gateway" label="通道" show-overflow-tooltip /> -->
 
-      <el-table-column prop="modifyTime" label="修改日期" show-overflow-tooltip />
+      <el-table-column
+        prop="modifyTime"
+        label="修改日期"
+        show-overflow-tooltip
+      />
       <el-table-column prop="remark" label="描述" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" show-overflow-tooltip>
         <template slot-scope="scope">
@@ -313,6 +321,7 @@ export default {
 
     submit(form) {
       let params = {};
+      form = this._mxArrangeSubmitData(form);
       if (this.formTit == "新增") {
         params = {
           data: {
@@ -426,6 +435,18 @@ export default {
         }
       });
       return data;
+    },
+    /**
+     * 提交表单前调整表单内数据
+     * @param formData
+     * @private
+     */
+    _mxArrangeSubmitData(formData) {
+      if (formData.blackType != 2) {
+        formData.userId = "";
+        formData.corporateId = "";
+      }
+      return formData;
     }
   },
   watch: {}

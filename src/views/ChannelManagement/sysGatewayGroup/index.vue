@@ -208,8 +208,8 @@ export default {
             { key: "联通,电信", value: "联通,电信" }
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorSendTo }
+            { required: true, message: "请输入必填项", trigger: "blur" }
+            // { trigger: "blur", validator: validatorSendTo }
           ]
         },
         {
