@@ -13,7 +13,7 @@
         <!--<el-form-item>-->
         <!--<el-button type="primary" @click="queryOrderList">查询</el-button>-->
         <!--</el-form-item>-->
-        <el-form-item style="float: right">
+        <el-form-item style="float: left">
           <el-button type="primary" @click="customerAddInfo = true"
             >新增目录</el-button
           >

@@ -40,7 +40,11 @@
         width="100"
         show-overflow-tooltip
       /> -->
-      <el-table-column prop="accountType" label="业务类型" show-overflow-tooltip>
+      <el-table-column
+        prop="accountType"
+        label="业务类型"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span>{{
             scope.row.accountType == "1"
@@ -52,12 +56,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column prop="reductType" label="计费类型" width="100" show-overflow-tooltip>
+      <el-table-column
+        prop="reductType"
+        label="计费类型"
+        width="100"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == "1" ? "账户计费" : "商户计费" }}</span>
+          <span>{{
+            scope.row.reductType == "1" ? "账户计费" : "商户计费"
+          }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sublong" label="扩展位数" show-overflow-tooltip/>
+      <el-table-column prop="sublong" label="扩展位数" show-overflow-tooltip />
       <!-- <el-table-column prop="longCode" label="长号码" /> -->
       <!-- <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
@@ -72,14 +83,32 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="proTypes" label="短信产品类型" min-width="130" show-overflow-tooltip>
+      <el-table-column
+        prop="proTypes"
+        label="短信产品类型"
+        min-width="130"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-for="(item, index) in scope.row.proTypes" :key="index">
-            {{ item === 1 ? "web端" : item === 2 ? "http接口" : item === 4 ? "cmpp接口" : "-" }}
+            {{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : "-"
+            }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendType" label="短信运营商" width="100" show-overflow-tooltip>
+      <el-table-column
+        prop="sendType"
+        label="短信运营商"
+        width="100"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.sendType === 1">移动</span>
           <span v-else-if="scope.row.sendType === 2">联通</span>
@@ -91,7 +120,12 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="短信计费方式" width="110" show-overflow-tooltip>
+      <el-table-column
+        prop="reductModel"
+        label="短信计费方式"
+        width="110"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -107,22 +141,44 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="smsBalance" label="短信余额" show-overflow-tooltip/>
-      <el-table-column prop="debt" label="借款" show-overflow-tooltip/>
+      <el-table-column
+        prop="smsBalance"
+        label="短信余额"
+        show-overflow-tooltip
+      />
+      <el-table-column prop="debt" label="借款" show-overflow-tooltip />
       <el-table-column
         prop="cardUnit"
         label="单价（分）"
         width="100"
         show-overflow-tooltip
       ></el-table-column>
-      <el-table-column prop="mmsProType" label="彩信产品类型" min-width="130" show-overflow-tooltip>
+      <el-table-column
+        prop="mmsProType"
+        label="彩信产品类型"
+        min-width="130"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-for="(item, index) in scope.row.mmsProTypes" :key="index">
-            {{ item === 1 ? "web端" : item === 2 ? "http接口" : item === 4 ? "cmpp接口" : "-" }}
+            {{
+              item === 1
+                ? "web端"
+                : item === 2
+                ? "http接口"
+                : item === 4
+                ? "cmpp接口"
+                : "-"
+            }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="mmsSendType" label="彩信运营商" width="100" show-overflow-tooltip>
+      <el-table-column
+        prop="mmsSendType"
+        label="彩信运营商"
+        width="100"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.mmsSendType === 1">移动</span>
           <span v-else-if="scope.row.mmsSendType === 2">联通</span>
@@ -134,7 +190,12 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="mmsReductModel" label="彩信计费方式" width="110" show-overflow-tooltip>
+      <el-table-column
+        prop="mmsReductModel"
+        label="彩信计费方式"
+        width="110"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
           <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
@@ -144,8 +205,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="mmsBalance" label="彩信余额" show-overflow-tooltip/>
-      <el-table-column prop="mmsDebt" label="借款" show-overflow-tooltip/>
+      <el-table-column
+        prop="mmsBalance"
+        label="彩信余额"
+        show-overflow-tooltip
+      />
+      <el-table-column prop="mmsDebt" label="借款" show-overflow-tooltip />
       <el-table-column
         prop="mmsCardUnit"
         label="单价（分）"
@@ -158,7 +223,12 @@
         width="100"
         show-overflow-tooltip
       ></el-table-column>
-      <el-table-column prop="smsTags" label="标签" min-width="120" show-overflow-tooltip>
+      <el-table-column
+        prop="smsTags"
+        label="标签"
+        min-width="120"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -187,12 +257,22 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        width="150"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" width="150" show-overflow-tooltip>
+      <el-table-column
+        prop="modifyTime"
+        label="修改时间"
+        width="150"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>
@@ -271,7 +351,7 @@
       <FormItemTitle
         :colSpan="8"
         :labelWidth="150"
-        ref="formItem"
+        ref="formItemTit"
         :formConfig="formConfig"
         :btnTxt="formTit"
         @submit="_mxHandleSubmit"
@@ -683,7 +763,7 @@ export default {
           label: "产品",
           key: "productType",
           multiple: true,
-          clearable: false,
+          clearable: true,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
@@ -720,6 +800,7 @@ export default {
           key: "proType",
           multiple: true,
           disabled: false,
+          clearable: true,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
@@ -902,8 +983,8 @@ export default {
           label: "产品类型",
           key: "mmsProType",
           multiple: true,
+          clearable: true,
           disabled: false,
-
           optionData: [
             { key: 1, value: "web端" }
             // { key: 2, value: "http接口" },
@@ -1098,6 +1179,366 @@ export default {
   },
   computed: {},
   methods: {
+    //多选移除操作
+    removeTag({ val, item }) {
+      if (this.formTit == "修改") {
+        this.formConfig.forEach(el => {
+          if (item.key === "productType" && el.key === item.key) {
+            if (this.currentEditFormData.productType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.productType;
+              this.$message.error("不可修改！");
+              this.selectChange({ val: [val], item });
+              this.editFormConfigHandle(this.currentEditFormData);
+            }
+          }
+          if (item.key === "mmsProType" && el.key === item.key) {
+            if (this.currentEditFormData.mmsProType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.mmsProType;
+              this.$message.error("不可修改！");
+            }
+          }
+          if (item.key === "proType" && el.key === item.key) {
+            if (this.currentEditFormData.proType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.proType;
+              this.$message.error("不可修改！");
+            }
+          }
+        });
+      }
+    },
+
+    selectChange(data) {
+      const { val, item } = data;
+      let obj = {};
+
+      if (item.key === "productType") {
+        console.log(this.currentEditFormData, "--------currentEditFormData");
+        if (val && val.length != 0) {
+          //根据产品的选择动态显示表单及数据处理
+          if (val.includes(1) && val.includes(2)) {
+            this._setTagDisplayShow(this.formConfig, "sms", false);
+            this._setTagDisplayShow(this.formConfig, "mms", false);
+          } else if (val.includes(1)) {
+            this._setTagDisplayShow(this.formConfig, "sms", false);
+            this._setTagDisplayShow(this.formConfig, "mms", true);
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "mms");
+          } else if (val.includes(2)) {
+            this._setTagDisplayShow(this.formConfig, "mms", false);
+            this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setDisplayShow(this.formConfig, "returnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "sms");
+          }
+        } else {
+          this._setTagDisplayShow(this.formConfig, "sms", true);
+          this._setTagDisplayShow(this.formConfig, "mms", true);
+          this._deleteDefaultValue(this.formConfig, "mms");
+          this._deleteDefaultValue(this.formConfig, "sms");
+        }
+      }
+      if (item.key === "reductModel") {
+        //计费方式切换为：预付成功计费时，返还类型显示
+        if (val === 2) {
+          this._setDisplayShow(this.formConfig, "returnBalance", false);
+        } else {
+          this._setDisplayShow(this.formConfig, "returnBalance", true);
+        }
+      }
+      if (item.key === "mmsReductModel") {
+        //计费方式切换为：预付成功计费时，返还类型显示
+        this.$nextTick(() => {
+          if (item.defaultValue === 2) {
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", false);
+          } else {
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+          }
+        });
+      }
+      if (item.key === "proType") {
+        if (val === 1) {
+          this._setDefaultValueKeys("directPort", "无");
+        } else if (val === 2) {
+          this._setDefaultValueKeys("directPort", "8090");
+        } else if (val === 3) {
+          this._setDefaultValueKeys("directPort", "7890");
+        } else {
+          this._setDefaultValueKeys("directPort", "");
+        }
+      }
+    },
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (
+          item.key === "productType" ||
+          item.key === "mmsProType" ||
+          item.key === "proType"
+        ) {
+          item.optionData.forEach(el => {
+            this.$set(el, "disabled", false);
+          });
+          // console.log(item, "----------------产品------------------");
+          // item.defaultValue = []
+        }
+        if (item.key == "proType") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.tag === "sms" || item.tag === "mms") {
+          item.isShow = true;
+        }
+      });
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
+      setTimeout(() => {
+        this.$refs.formItemTit.resetForm();
+      }, 0);
+    },
+    //编辑对返回数据进行调整
+    _mxArrangeEditData(row) {
+      for (let key in row) {
+        //对黑名单做数据类型转换
+        if (key === "blackLevel" || key === "mmsBlackLevel") {
+          if (typeof row[key] === "string" && row[key] !== "-") {
+            let arr = row[key].split(",");
+            row[key] = arr.map(item => {
+              return Number(item);
+            });
+          } else {
+            row[key] = [];
+          }
+        }
+        if (key === "proType") {
+          row["proType"] = row["proTypes"];
+        }
+        if (key === "mmsProType") {
+          row["mmsProType"] = row["mmsProTypes"];
+        }
+        if (key === "productType") {
+          row["productType"] = row["productTypes"];
+        }
+      }
+      this.currentEditFormData = this.$deepClone(row);
+      return row;
+    },
+
+    //根据调整的数据 修改表单配置
+    editFormConfigHandle(lineData) {
+      this.formConfig.forEach(item => {
+        for (let keys in lineData) {
+          if (item.key === keys && lineData[keys] !== "-") {
+            if (lineData[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", lineData[keys]);
+            }
+          }
+        }
+        if (item.key === "reductModel") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === 2) {
+              this._setDisplayShow(this.formConfig, "returnBalance", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "returnBalance", true);
+            }
+          });
+        }
+        if (item.key === "mmsReductModel") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === 2) {
+              this._setDisplayShow(this.formConfig, "mmsReturnBalance", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            }
+          });
+        }
+        if (item.key === "productType") {
+          let val = item.defaultValue;
+          if (val && val.length != 0) {
+            if (val.includes(1) && val.includes(2)) {
+              this._setTagDisplayShow(this.formConfig, "sms", false);
+              this._setTagDisplayShow(this.formConfig, "mms", false);
+            } else if (val.includes(1)) {
+              this._setTagDisplayShow(this.formConfig, "sms", false);
+              this._setTagDisplayShow(this.formConfig, "mms", true);
+            } else if (val.includes(2)) {
+              this._setTagDisplayShow(this.formConfig, "mms", false);
+              this._setTagDisplayShow(this.formConfig, "sms", true);
+            }
+          } else {
+            this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setTagDisplayShow(this.formConfig, "mms", true);
+          }
+        }
+        if (
+          item.key === "productType" ||
+          item.key === "mmsProType" ||
+          item.key === "proType"
+        ) {
+          let val = item.defaultValue;
+          if (val && val.length !== 0) {
+            item.optionData.forEach(el => {
+              if (val.includes(el.key)) {
+                this.$set(el, "disabled", true);
+              } else {
+                this.$set(el, "disabled", false);
+              }
+            });
+          }
+        }
+        // if (item.key == "proType") {
+        //   this.$set(item, "disabled", true);
+        // }
+        // if (item.key == "mmsProType") {
+        //   this.$set(item, "disabled", true);
+        // }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", true);
+        }
+        if (!Object.keys(lineData).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+    },
+    //修改
+    _mxEdit(row, ID) {
+      this.currentEditFormData = {};
+      let lineData = this.$deepClone(row);
+      lineData = this._mxArrangeEditData(lineData);
+      this.id = lineData[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.editFormConfigHandle(lineData);
+      setTimeout(() => {
+        this.$refs.formItemTit.clearValidate();
+      }, 0);
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
+      this.addChannel = true;
+    },
+    // 审核
+    _mxCheck(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "审核";
+      this.formConfig.forEach(item => {
+        for (let keys in row) {
+          if (item.key === keys) {
+            if (row[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[keys]);
+            }
+          }
+        }
+      });
+      this.addChannel = true;
+    },
+    //提交表单前调整表单内数据
+    _mxArrangeSubmitData(formData) {
+      let form = Object.assign({}, formData);
+      for (let key in form) {
+        if (key === "blackLevel" || key === "mmsBlackLevel") {
+          form[key] = form[key].join(",");
+        }
+        if (
+          key === "productType" ||
+          key === "mmsProType" ||
+          key === "proType"
+        ) {
+          if (
+            form[key] &&
+            form[key].length != 0 &&
+            typeof form[key] !== "string"
+          ) {
+            form[key] = form[key].reduce(function(prev, curr) {
+              return prev + curr;
+            });
+          } else {
+            form[key] = null;
+          }
+        }
+      }
+      return form;
+    },
+    /**
+     * 提交表单操作
+     * @param form    表单数据
+     * @param editId        编辑修改id
+     * @private
+     */
+    _mxHandleSubmit(form = {}, editId = this.editId) {
+      form = this._mxArrangeSubmitData(form);
+      const { namespace, add, edit, check } = this.searchAPI;
+      let params = {
+        ...form
+      };
+      if (this.formTit == "新增") {
+        this.$http[namespace][add](params).then(res => {
+          this._mxSuccess(res, params);
+        });
+      } else if (this.formTit == "修改") {
+        params = Object.assign(params, {
+          [editId]: this.id
+        });
+        this.$http[namespace][edit](params).then(res => {
+          this._mxSuccess(res, params);
+        });
+      } else if (this.formTit == "审核") {
+        params = Object.assign(params, {
+          [editId]: this.id,
+          status: "2"
+        });
+        // params.data[editId] = this.id
+        // this.$set(params.data, editId, this.id)
+        this.$http[namespace][check](params).then(res => {
+          this._mxSuccess(res, params);
+        });
+      }
+    },
+
+    /**
+     * 提交成功后执行
+     * @param res
+     */
+    _mxSuccess(res, params) {
+      if (resOk(res)) {
+        this.$message.success(res.msg || res.data);
+        this._mxGetList();
+        this.addChannel = false;
+      } else {
+        this.formConfig.forEach(item => {
+          if (item.key === "blackLevel") {
+            let arr = params.blackLevel.split(",");
+            item.defaultValue = arr.map(item => Number(item));
+          }
+          if (item.key === "mmsBlackLevel") {
+            let arr = params.mmsBlackLevel.split(",");
+            item.defaultValue = arr.map(item => Number(item));
+          }
+        });
+        this.$message.error(res.data || res.msg);
+      }
+    },
+    /**
+     * 关闭弹窗
+     */
+    _mxCancel() {
+      this.addChannel = false;
+      setTimeout(() => {
+        this.$refs.formItemTit.resetForm();
+      }, 0);
+    },
     beforeClose() {
       this.addChannel = false;
     },
@@ -1197,252 +1638,7 @@ export default {
       this.tagStatusTitle = "修改标签";
       this.tagStatus = true;
     },
-    _mxArrangeEditData(row) {
-      for (let key in row) {
-        //对黑名单做数据类型转换
-        if (key === "blackLevel" || key === "mmsBlackLevel") {
-          if (typeof row[key] === "string" && row[key] !== "-") {
-            let arr = row[key].split(",");
-            row[key] = arr.map(item => {
-              return Number(item);
-            });
-          } else {
-            row[key] = [];
-          }
-        }
-        if (key === "proType") {
-          row["proType"] = row["proTypes"];
-        }
-        if (key === "mmsProType") {
-          row["mmsProType"] = row["mmsProTypes"];
-        }
-        if (key === "productType") {
-          row["productType"] = row["productTypes"];
-        }
-        // if (key === "saleMan") {
-        //   this.saleList.forEach(item => {
-        //     if (item.actualName === row[key]) {
-        //       row[key] = item.userName;
-        //     }
-        //   });
-        // }
-      }
-      this.currentEditFormData = this.$deepClone(row);
-      console.log(this.currentEditFormData, "----------currentEditFormData");
-      return row;
-    },
-    _mxCreate() {
-      this.addChannel = true;
-      this.formTit = "新增";
-      this.formConfig.forEach(item => {
-        if (item.key === "productType") {
-          console.log(item, "----------------产品------------------");
-          // item.defaultValue = []
-        }
-        if (item.key == "proType") {
-          this.$set(item, "disabled", false);
-        }
-        if (item.key == "corpId") {
-          this.$set(item, "disabled", false);
-        }
-        if (item.tag === "sms" || item.tag === "mms") {
-          item.isShow = true;
-        }
-      });
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
-      setTimeout(() => {
-        this.$refs.formItem.resetForm();
-      }, 0);
-    },
-    //修改表单配置
-    editFormConfigHandle(lineData) {
-      this.formConfig.forEach(item => {
-        for (let keys in lineData) {
-          if (item.key === keys && lineData[keys] !== "-") {
-            if (lineData[keys] === 0) {
-              this.$set(item, "defaultValue", "0");
-            } else {
-              this.$set(item, "defaultValue", lineData[keys]);
-            }
-          }
-        }
-        if (item.key === "reductModel") {
-          //计费方式切换为：预付成功计费时，返还类型显示
-          this.$nextTick(() => {
-            if (item.defaultValue === 2) {
-              this._setDisplayShow(this.formConfig, "returnBalance", false);
-            } else {
-              this._setDisplayShow(this.formConfig, "returnBalance", true);
-            }
-          });
-        }
-        if (item.key === "mmsReductModel") {
-          //计费方式切换为：预付成功计费时，返还类型显示
-          this.$nextTick(() => {
-            if (item.defaultValue === 2) {
-              this._setDisplayShow(this.formConfig, "mmsReturnBalance", false);
-            } else {
-              this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
-            }
-          });
-        }
-        if (item.key === "productType") {
-          let val = item.defaultValue;
-          if (val && val.length != 0) {
-            if (val.includes(1) && val.includes(2)) {
-              this._setTagDisplayShow(this.formConfig, "sms", false);
-              this._setTagDisplayShow(this.formConfig, "mms", false);
-            } else if (val.includes(1)) {
-              this._setTagDisplayShow(this.formConfig, "sms", false);
-              this._setTagDisplayShow(this.formConfig, "mms", true);
-            } else if (val.includes(2)) {
-              this._setTagDisplayShow(this.formConfig, "mms", false);
-              this._setTagDisplayShow(this.formConfig, "sms", true);
-            }
-          } else {
-            this._setTagDisplayShow(this.formConfig, "sms", true);
-            this._setTagDisplayShow(this.formConfig, "mms", true);
-          }
-        }
-        // if (item.key == "proType") {
-        //   this.$set(item, "disabled", true);
-        // }
-        // if (item.key == "mmsProType") {
-        //   this.$set(item, "disabled", true);
-        // }
-        if (item.key == "corpId") {
-          this.$set(item, "disabled", true);
-        }
-        if (!Object.keys(lineData).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
-        }
-      });
-    },
-    //修改
-    _mxEdit(row, ID) {
-      let lineData = this.$deepClone(row);
-      lineData = this._mxArrangeEditData(lineData);
-      this.id = lineData[ID];
-      this.editId = ID;
-      this.formTit = "修改";
-      this.editFormConfigHandle(lineData);
-      setTimeout(() => {
-        this.$refs.formItem.clearValidate();
-      }, 0);
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
-      this.addChannel = true;
-    },
-    // 审核
-    _mxCheck(row, ID) {
-      row = this._mxArrangeEditData(row);
-      this.id = row[ID];
-      this.editId = ID;
-      this.formTit = "审核";
-      this.formConfig.forEach(item => {
-        for (let keys in row) {
-          if (item.key === keys) {
-            if (row[keys] === 0) {
-              this.$set(item, "defaultValue", "0");
-            } else {
-              this.$set(item, "defaultValue", row[keys]);
-            }
-          }
-        }
-      });
-      this.addChannel = true;
-    },
-    /**
-     * 提交表单操作
-     * @param form    表单数据
-     * @param editId        编辑修改id
-     * @private
-     */
-    _mxHandleSubmit(form = {}, editId = this.editId) {
-      form = this._mxArrangeSubmitData(form);
-      const { namespace, add, edit, check } = this.searchAPI;
-      let params = {
-        ...form
-      };
-      if (this.formTit == "新增") {
-        this.$http[namespace][add](params).then(res => {
-          this._mxSuccess(res, params);
-        });
-      } else if (this.formTit == "修改") {
-        params = Object.assign(params, {
-          [editId]: this.id
-        });
-        this.$http[namespace][edit](params).then(res => {
-          this._mxSuccess(res, params);
-        });
-      } else if (this.formTit == "审核") {
-        params = Object.assign(params, {
-          [editId]: this.id,
-          status: "2"
-        });
-        // params.data[editId] = this.id
-        // this.$set(params.data, editId, this.id)
-        this.$http[namespace][check](params).then(res => {
-          this._mxSuccess(res, params);
-        });
-      }
-    },
 
-    /**
-     * 提交成功后执行
-     * @param res
-     */
-    _mxSuccess(res, params) {
-      if (resOk(res)) {
-        this.$message.success(res.msg || res.data);
-        this._mxGetList();
-        this.addChannel = false;
-      } else {
-        this.formConfig.forEach(item => {
-          if (item.key === "blackLevel") {
-            let arr = params.blackLevel.split(",");
-            item.defaultValue = arr.map(item => Number(item));
-          }
-          if (item.key === "mmsBlackLevel") {
-            let arr = params.mmsBlackLevel.split(",");
-            item.defaultValue = arr.map(item => Number(item));
-          }
-        });
-        this.$message.error(res.data || res.msg);
-      }
-    },
-    //提交表单前调整表单内数据
-    _mxArrangeSubmitData(formData) {
-      let form = Object.assign({}, formData);
-      for (let key in form) {
-        if (key === "blackLevel" || key === "mmsBlackLevel") {
-          form[key] = form[key].join(",");
-        }
-        if (
-          key === "productType" ||
-          key === "mmsProType" ||
-          key === "proType"
-        ) {
-          if (
-            form[key] &&
-            form[key].length != 0 &&
-            typeof form[key] !== "string"
-          ) {
-            form[key] = form[key].reduce(function(prev, curr) {
-              return prev + curr;
-            });
-          } else {
-            form[key] = null;
-          }
-        }
-      }
-      return form;
-    },
     //信息弹框
     messageShow(row) {
       const h = this.$createElement;
@@ -1582,100 +1778,7 @@ export default {
         });
       this.dialogVisible = false;
     },
-    //多选移除操作
-    removeTag({ val, item }) {
-      console.log(val, "----修改-----");
-      if (this.formTit == "修改") {
-        this.formConfig.forEach(el => {
-          if (item.key === "productType" && el.key === item.key) {
-            if (this.currentEditFormData.productType.includes(val)) {
-              el.defaultValue = this.currentEditFormData.productType;
-              this.$message.error("不可修改！");
-              this.selectChange({ val: [val], item });
-              this.editFormConfigHandle(this.currentEditFormData);
-            }
-          }
-          if (item.key === "mmsProType" && el.key === item.key) {
-            if (this.currentEditFormData.mmsProType.includes(val)) {
-              el.defaultValue = this.currentEditFormData.mmsProType;
-              this.$message.error("不可修改！");
-            }
-          }
-          if (item.key === "proType" && el.key === item.key) {
-            if (this.currentEditFormData.proType.includes(val)) {
-              el.defaultValue = this.currentEditFormData.proType;
-              this.$message.error("不可修改！");
-            }
-          }
-        });
-      }
-    },
 
-    selectChange(data) {
-      const { val, item } = data;
-      let obj = {};
-
-      if (item.key === "productType") {
-        if (val && val.length != 0) {
-          if (val.includes(1) && val.includes(2)) {
-            this._setTagDisplayShow(this.formConfig, "sms", false);
-            this._setTagDisplayShow(this.formConfig, "mms", false);
-          } else if (val.includes(1)) {
-            this._setTagDisplayShow(this.formConfig, "sms", false);
-            this._setTagDisplayShow(this.formConfig, "mms", true);
-            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
-            this._deleteDefaultValue(this.formConfig, "mms");
-          } else if (val.includes(2)) {
-            this._setTagDisplayShow(this.formConfig, "mms", false);
-            this._setTagDisplayShow(this.formConfig, "sms", true);
-            this._setDisplayShow(this.formConfig, "returnBalance", true);
-            this._deleteDefaultValue(this.formConfig, "sms");
-          }
-        } else {
-          this._setTagDisplayShow(this.formConfig, "sms", true);
-          this._setTagDisplayShow(this.formConfig, "mms", true);
-          this._deleteDefaultValue(this.formConfig, "mms");
-          this._deleteDefaultValue(this.formConfig, "sms");
-        }
-      }
-      if (item.key === "reductModel") {
-        //计费方式切换为：预付成功计费时，返还类型显示
-        if (val === 2) {
-          this._setDisplayShow(this.formConfig, "returnBalance", false);
-        } else {
-          this._setDisplayShow(this.formConfig, "returnBalance", true);
-        }
-      }
-      if (item.key === "mmsReductModel") {
-        //计费方式切换为：预付成功计费时，返还类型显示
-        this.$nextTick(() => {
-          if (item.defaultValue === 2) {
-            this._setDisplayShow(this.formConfig, "mmsReturnBalance", false);
-          } else {
-            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
-          }
-        });
-      }
-      if (item.key === "proType") {
-        if (val === 1) {
-          this._setDefaultValueKeys("directPort", "无");
-        } else if (val === 2) {
-          this._setDefaultValueKeys("directPort", "8090");
-        } else if (val === 3) {
-          this._setDefaultValueKeys("directPort", "7890");
-        } else {
-          this._setDefaultValueKeys("directPort", "");
-        }
-      }
-    },
-
-    //countMonth
-    // _mxArrangeSubmitData(formData) {
-    //   if (formData.countMonth) {
-    //     formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
-    //   }
-    //   return formData;
-    // },
     createElement(h, row) {
       let arr = row.proTypes;
       let proType = [];
@@ -1688,18 +1791,6 @@ export default {
           proType.push("cmpp接口");
         }
       });
-      // let strType = "";
-      // switch (row.proType) {
-      //   case 1:
-      //     strType = "web端";
-      //     break;
-      //   case 2:
-      //     strType = "http接口";
-      //     break;
-      //   case 4:
-      //     strType = "cmpp接口";
-      //     break;
-      // }
       let strType = proType.join("、");
       return h("div", null, [
         h("p", null, [

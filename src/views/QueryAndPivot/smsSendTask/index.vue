@@ -7,8 +7,10 @@
       :add="false"
     >
       <template slot="Other">
-        <el-button type="primary" @click="edit">批量修改通道</el-button>
-        <el-button type="primary" @click="ViewTheSummaryBtn"
+        <el-button type="primary" size="small" @click="edit"
+          >批量修改通道</el-button
+        >
+        <el-button type="primary" size="small" @click="ViewTheSummaryBtn"
           >查看汇总</el-button
         >
       </template>
@@ -64,7 +66,6 @@
     </el-dialog>
     <el-dialog title="批量修改通道" :visible.sync="editGateway" width="50%">
       <FormItem
-        :colSpan="12"
         ref="formItem"
         :formConfig="formConfig"
         btnTxt="修改"
@@ -84,6 +85,7 @@ export default {
     return {
       editGateway: false,
       ViewTheSummary: false,
+      date: new Date().Format("yyyy-MM-dd"),
       SummaryData: [],
       //接口地址
       searchAPI: {
@@ -92,6 +94,7 @@ export default {
       },
       // 列表参数
       namespace: "sendTask",
+
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -190,6 +193,8 @@ export default {
         {
           type: "date",
           label: "日期",
+          initDefaultValue: "",
+          defaultValue: "",
           key: "submitDate",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -233,6 +238,7 @@ export default {
   },
   mounted() {
     this.queryGatewayStockNum();
+    console.log(this.date, "------------date");
   },
   computed: {},
   methods: {
