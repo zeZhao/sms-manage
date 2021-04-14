@@ -369,7 +369,9 @@ export default {
           label: "销售员签名",
           colSpan: 12,
           key: "saleMan",
-          optionData: []
+          optionData: [],
+          defaultValue: '',
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
@@ -383,18 +385,26 @@ export default {
           title: "短信",
           colSpan: 24
         },
-
         {
           type: "input",
           label: "单价(分)",
           key: "cardUnit",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,4}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~4位的数值'))
+                  }
+                }
+              }
+            }},
           ]
         },
         {
@@ -404,26 +414,43 @@ export default {
           isShow: false,
           tag: "skype",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "change"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~10位的数值'))
+                  }
+                }
+              }
+            }},
           ]
         },
-
         {
           type: "input",
           label: "条数",
           key: "cardCount",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^\+?[1-9]\d*$/,
-              message: "请输入大于0的正整数",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,12}$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~12位的正整数'))
+                  }
+                }
+              }
+            }}
           ]
         },
         {
@@ -446,15 +473,23 @@ export default {
           tag: "recharge",
           isShow: false,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~10位数值'))
+                  }
+                }
+              }
+            }}
           ]
         },
-
         {
           type: "upload",
           label: "余额变动凭证",

@@ -71,7 +71,7 @@ export default {
             required: true,
             trigger: "blur",
             validator: (rule, value, callback) => {
-              if (!value) {
+              if (value === '' || value === undefined || value === null) {
                 callback(new Error('请输入必填项'));
               } else {
                 if (isNaN(value)) {
