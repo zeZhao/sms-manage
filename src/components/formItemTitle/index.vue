@@ -103,7 +103,7 @@
                 style="width: 100%"
                 v-model="formData[item.key]"
                 filterable
-                :clearable="item.clearable || true"
+                :clearable="!item.clearable ? true : false"
                 :multiple="item.multiple"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
@@ -123,6 +123,7 @@
                   :value="option.key"
                   :key="option.key"
                   :label="option.value"
+                  :disabled="option.disabled"
                 />
               </el-select>
             </template>
@@ -402,6 +403,9 @@ export default {
       this.formConfig.forEach(item => {
         const { key, defaultValue } = item;
         form[key] = item.defaultValue;
+        if (key === "mmsCardUnit") {
+          console.log(form[key], "WWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        }
       });
 
       this.formData = form;

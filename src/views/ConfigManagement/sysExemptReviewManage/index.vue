@@ -375,12 +375,12 @@ export default {
           type: "radio",
           label: "通道排序",
           key: "",
-          initDefaultValue: "1",
-          defaultValue: "1",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
-            { key: "1", value: "按价格排序" },
-            { key: "2", value: "按通道号排序" },
-            { key: "3", value: "按通道名称排序" }
+            { key: 1, value: "按价格排序" },
+            { key: 2, value: "按通道号排序" },
+            { key: 3, value: "按通道名称排序" }
           ]
         },
         {
@@ -564,41 +564,86 @@ export default {
   },
   computed: {},
   methods: {
-    async listRecommendGatewayAndGroup(status) {
-      /*
+    /*
       status	string
       运营商 1.移动 2.联通 3.电信
       orderStatus	string
       排序字段 1.单价 2.网关号 3.网关名
-      isAdvice	boolean
-      是否为推荐
       */
-      let arr = [];
+    listRecommendGatewayAndGroup(operator, orderStatus, userId) {
+      let recommend = [];
+      let noRecommend = [];
+      let status = 1;
+      if (operator === "cmPassageway") {
+        status = 1;
+      } else if (operator === "cuPassageway") {
+        status = 2;
+      } else if (operator === "ctPassageway") {
+        status = 3;
+      }
       let params = {
-        isAdvice: true,
-        orderStatus: "1",
-        status: status
+        orderStatus: orderStatus,
+        status: status,
+        userId: userId
       };
-      await this.$http.sysExemptReviewManage
+      this.$http.sysExemptReviewManage
         .listRecommendGatewayAndGroup(params)
         .then(res => {
           if (res.code === 200) {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.id);
-              this.$set(t, "value", t.name);
-              arr.push(t);
+            res.data.recommendGatewayAndGroupList.forEach(t => {
+              let obj = {
+                key: t.id,
+                value: t.name
+              };
+              recommend.push(obj);
             });
+            res.data.notRecommendGatewayAndGroupList.forEach(t => {
+              let obj = {
+                key: t.id,
+                value: t.name
+              };
+              noRecommend.push(obj);
+            });
+            this.setGateway(operator, recommend, noRecommend);
           }
         });
-      return arr;
+    },
+    setGateway(keys, systemGateway, gateway) {
+      this.formConfig.forEach(item => {
+        const { key } = item;
+        if (key == keys) {
+          let options = [
+            { label: "系统推荐:", options: systemGateway },
+            { label: "", options: gateway }
+          ];
+          item.optionData = options;
+        }
+      });
     },
     // 单选通道排序操作
     onChange({ val, item }) {
       console.log(val, item);
+
       if (item.label === "通道排序") {
-        this.gateway("cuPassageway", "2", val);
-        this.gateway("ctPassageway", "3", val);
-        this.gateway("cmPassageway", "1", val);
+        this.formConfig.forEach(item => {
+          if (item.key === "userId") {
+            this.listRecommendGatewayAndGroup(
+              "cmPassageway",
+              val,
+              item.defaultValue
+            );
+            this.listRecommendGatewayAndGroup(
+              "cuPassageway",
+              val,
+              item.defaultValue
+            );
+            this.listRecommendGatewayAndGroup(
+              "ctPassageway",
+              val,
+              item.defaultValue
+            );
+          }
+        });
       }
     },
     selectChange({ val, item }) {
@@ -644,7 +689,7 @@ export default {
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map(t => {
-        const { key } = t;
+        const { key, label } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
         }
@@ -659,7 +704,14 @@ export default {
           t.defaultValue =
             data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : 0;
         }
+        if (label === "通道排序") {
+          data.sort = t.defaultValue;
+        }
       });
+      let sort = data.sort ? data.sort : 1;
+      this.listRecommendGatewayAndGroup("cmPassageway", sort, data.userId);
+      this.listRecommendGatewayAndGroup("cuPassageway", sort, data.userId);
+      this.listRecommendGatewayAndGroup("ctPassageway", sort, data.userId);
     },
     //获取敏感词组
     getSensitiveWordGroup() {
@@ -712,30 +764,6 @@ export default {
       };
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
-        this.formConfig.forEach(async item => {
-          const { key } = item;
-          if (key == keys) {
-            //获取系统推荐通道
-            let systemGateway = [];
-            await this.listRecommendGatewayAndGroup(status).then(res => {
-              systemGateway = res;
-              console.log(systemGateway, "------------systemGateway");
-            });
-
-            let gateway = [];
-            // item.options = [];
-            res.data.forEach(t => {
-              this.$set(t, "key", t.id);
-              this.$set(t, "value", t.name);
-              gateway.push(t);
-            });
-            let options = [
-              { label: "系统推荐:", options: systemGateway },
-              { label: "", options: gateway }
-            ];
-            item.optionData = options;
-          }
-        });
         this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
@@ -823,6 +851,9 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
+      this.listRecommendGatewayAndGroup("cmPassageway", "1", row.userId);
+      this.listRecommendGatewayAndGroup("cuPassageway", "1", row.userId);
+      this.listRecommendGatewayAndGroup("ctPassageway", "1", row.userId);
       this.addChannel = true;
     },
     /**

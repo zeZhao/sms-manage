@@ -405,6 +405,9 @@ export default {
      */
     _mxCancel() {
       this.addChannel = false;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
 
     /**
