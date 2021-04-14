@@ -96,7 +96,6 @@
     >
       <div>
         请先<el-button type="text" @click="download">下载模板</el-button>
-        ，再进行
         <el-upload
           class="upload-demo"
           action="/api/sysPrepaidCard/uploadFile"
@@ -104,13 +103,14 @@
           :on-remove="handleRemove"
           :before-remove="beforeRemove"
           :on-success="handleSuccess"
+          :on-error="onError"
           multiple
           :limit="1"
           :on-exceed="handleExceed"
           :file-list="fileList"
           :headers="header"
         >
-          <el-button size="small" type="text">上传</el-button>
+          <el-button size="small" type="primary">选择上传</el-button>
           <div slot="tip" class="el-upload__tip">
             <!-- 只能上传jpg/png文件，且不超过500kb -->
           </div>
@@ -231,7 +231,7 @@ export default {
   methods: {
     download() {
       this.$axios
-        .get("/sysDownLoadLog/download", {
+        .get("/opt/sms-data/template/networkChange.xlsx", {
           responseType: "blob"
         })
         .then(res => {
@@ -305,9 +305,15 @@ export default {
         if (res.code == 200) {
           this.$message.success("添加成功");
           this.batchAddVisible = false;
-          (this.file = null), (this.fileList = []);
+          this.file = null
+          this.fileList = []
+        } else {
+          this.$message.error(res.msg)
         }
       });
+    },
+    onError(err) {
+      this.$message.error(err.msg || err.data)
     },
     handleSuccess(response, file, fileList) {
       if (response.code == 200) {
@@ -353,5 +359,8 @@ export default {
 
 <style lang="scss" scoped>
 .networkChange {
+  .upload-demo {
+    margin-top: 20px;
+  }
 }
 </style>
