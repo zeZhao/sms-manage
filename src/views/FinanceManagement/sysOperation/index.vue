@@ -245,6 +245,8 @@ export default {
           if (resOk(res)) {
             this.$message.success("操作成功");
             this._mxGetList();
+          } else {
+            this.$message.error(res.data)
           }
         });
       });
@@ -260,8 +262,10 @@ export default {
           .stopPrepaidCard({ data: { cardId, paymentCompany: corpName } })
           .then(res => {
             if (resOk(res)) {
-              this.$message.success("操作成功");
+              this.$message.success("驳回成功");
               this._mxGetList();
+            } else {
+              this.$message.error(res.data)
             }
           });
       });
