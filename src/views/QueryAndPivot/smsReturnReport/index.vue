@@ -108,9 +108,8 @@ export default {
         },
         {
           type: "input",
-          label: "SEQ编号",
-          key: "seqId",
-          placeholder: "请输入SEQ编号"
+          label: "SEQID",
+          key: "seqId"
         },
         {
           type: "input",

@@ -100,8 +100,9 @@
               ? "预付成功计费"
               : scope.row.reductModel == "3"
               ? "后付提交计费"
-              : scope.row.reductModel == "4" 
-              ? "后付成功计费" : "-"
+              : scope.row.reductModel == "4"
+              ? "后付成功计费"
+              : "-"
           }}</span>
         </template>
       </el-table-column>
@@ -261,7 +262,7 @@
     ></Page>
     <el-dialog
       :title="formTit"
-      :visible="addChannel"
+      :visible.sync="addChannel"
       :close-on-click-modal="false"
       top="45px"
       width="80%"
@@ -276,6 +277,7 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
+        @removeTag="removeTag"
       ></FormItemTitle>
     </el-dialog>
     <el-dialog
@@ -349,7 +351,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
-import { deepClone } from "@/utils"
+import { deepClone } from "@/utils";
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -681,6 +683,7 @@ export default {
           label: "产品",
           key: "productType",
           multiple: true,
+          clearable: false,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
@@ -1080,7 +1083,9 @@ export default {
       submitSpeedTit: "配置提交速率",
       speedVisible: false,
       speedVal: null,
-      saleList: []
+      saleList: [],
+      //临时存储修改数据
+      currentEditFormData: {}
     };
   },
   mounted() {
@@ -1104,7 +1109,7 @@ export default {
     },
     submitSpeeds() {
       if (!Number(this.speedVal)) {
-        this.$message.error("只输入数字！");
+        this.$message.error("提交速率只允许输入数字");
         return;
       }
       if (Number(this.speedVal) > 1000) {
@@ -1194,6 +1199,7 @@ export default {
     },
     _mxArrangeEditData(row) {
       for (let key in row) {
+        //对黑名单做数据类型转换
         if (key === "blackLevel" || key === "mmsBlackLevel") {
           if (typeof row[key] === "string" && row[key] !== "-") {
             let arr = row[key].split(",");
@@ -1206,7 +1212,6 @@ export default {
         }
         if (key === "proType") {
           row["proType"] = row["proTypes"];
-          console.log(row["proType"]);
         }
         if (key === "mmsProType") {
           row["mmsProType"] = row["mmsProTypes"];
@@ -1222,6 +1227,8 @@ export default {
         //   });
         // }
       }
+      this.currentEditFormData = this.$deepClone(row);
+      console.log(this.currentEditFormData, "----------currentEditFormData");
       return row;
     },
     _mxCreate() {
@@ -1250,17 +1257,8 @@ export default {
         this.$refs.formItem.resetForm();
       }, 0);
     },
-    //修改
-    _mxEdit(row, ID) {
-      let lineData = deepClone(row);
-      lineData = this._mxArrangeEditData(lineData);
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
-      this.id = lineData[ID];
-      this.editId = ID;
-      this.formTit = "修改";
+    //修改表单配置
+    editFormConfigHandle(lineData) {
       this.formConfig.forEach(item => {
         for (let keys in lineData) {
           if (item.key === keys && lineData[keys] !== "-") {
@@ -1269,8 +1267,6 @@ export default {
             } else {
               this.$set(item, "defaultValue", lineData[keys]);
             }
-          } else if (item.key === keys && lineData[keys] === "-") {
-            this.$set(item, "defaultValue", "");
           }
         }
         if (item.key === "reductModel") {
@@ -1320,13 +1316,26 @@ export default {
         if (item.key == "corpId") {
           this.$set(item, "disabled", true);
         }
-        if (!Object.keys(row).includes(item.key)) {
+        if (!Object.keys(lineData).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
       });
+    },
+    //修改
+    _mxEdit(row, ID) {
+      let lineData = this.$deepClone(row);
+      lineData = this._mxArrangeEditData(lineData);
+      this.id = lineData[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.editFormConfigHandle(lineData);
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
       this.addChannel = true;
     },
     // 审核
@@ -1496,7 +1505,7 @@ export default {
     },
     //获取代理商
     getAgent() {
-      this.$http.agent.queryAgent().then(res => {
+      this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
@@ -1572,6 +1581,34 @@ export default {
           }
         });
       this.dialogVisible = false;
+    },
+    //多选移除操作
+    removeTag({ val, item }) {
+      console.log(val, "----修改-----");
+      if (this.formTit == "修改") {
+        this.formConfig.forEach(el => {
+          if (item.key === "productType" && el.key === item.key) {
+            if (this.currentEditFormData.productType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.productType;
+              this.$message.error("不可修改！");
+              this.selectChange({ val: [val], item });
+              this.editFormConfigHandle(this.currentEditFormData);
+            }
+          }
+          if (item.key === "mmsProType" && el.key === item.key) {
+            if (this.currentEditFormData.mmsProType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.mmsProType;
+              this.$message.error("不可修改！");
+            }
+          }
+          if (item.key === "proType" && el.key === item.key) {
+            if (this.currentEditFormData.proType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.proType;
+              this.$message.error("不可修改！");
+            }
+          }
+        });
+      }
     },
 
     selectChange(data) {

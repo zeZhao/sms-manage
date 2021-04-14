@@ -389,6 +389,8 @@ export default {
           type: "input",
           label: "单价(分)",
           key: "cardUnit",
+          defaultValue: "",
+          maxlength: 4,
           rules: [
             { required: true, trigger: "blur", validator:(rule, value, callback) =>{
               if (value === '' || value === undefined || value === null) {
@@ -411,7 +413,8 @@ export default {
           type: "input",
           label: "充值金额(元)",
           key: "cardMoney",
-          isShow: false,
+          maxlength: 10,
+          defaultValue: "",
           tag: "skype",
           rules: [
             { required: true, trigger: "blur", validator:(rule, value, callback) =>{
@@ -434,7 +437,9 @@ export default {
         {
           type: "input",
           label: "条数",
+          maxlength: 12,
           key: "cardCount",
+          defaultValue: "",
           rules: [
             { required: true, trigger: "blur", validator:(rule, value, callback) =>{
               if (value === '' || value === undefined || value === null) {
@@ -470,6 +475,7 @@ export default {
           type: "input",
           label: "实际收款额度",
           key: "factcardMoney",
+          maxlength: 10,
           tag: "recharge",
           isShow: false,
           rules: [
@@ -671,10 +677,6 @@ export default {
     selectChange({ val, item }) {
       // console.log(val);
       if (item.key === "chargeType") {
-        // this._deleteDefaultValue(this.formConfig, "userId");
-        // this._deleteDefaultValue(this.formConfig, "userName");
-        // this._deleteDefaultValue(this.formConfig, "corporateId");
-        // this._deleteDefaultValue(this.formConfig, "cardUnit");
         if (val === 1) {
           this.formConfig.forEach(item => {
             if (item.isTitle) {
@@ -693,38 +695,37 @@ export default {
       if (item.key === "paidWay") {
         this._deleteDefaultValue(this.formConfig, "cardMoney");
         this.formConfig.forEach(item => {
-          if (val !== 6 && val !== 2) {
-            if (val === "0" || val === 3) {
-              if (val === "0") {
-                if (item.key === "cardMoney") {
-                  item.label = "充值金额(元)";
-                }
-              } else if (val === 3) {
-                if (item.key === "cardMoney") {
-                  item.label = "还款金额(元)";
-                }
+          if (val === "0" || val === 3) {
+            if (val === "0") {
+              if (item.key === "cardMoney") {
+                item.label = "充值金额(元)";
               }
-              this._setDisplayShow(this.formConfig, "cardMoney", false);
-              this._setDisplayShow(this.formConfig, "direction", false);
-              this._setDisplayShow(this.formConfig, "factcardMoney", false);
-              this._setDisplayShow(this.formConfig, "fileUrl", false);
-            } else {
-              if (val === 1) {
-                if (item.key === "cardMoney") {
-                  item.label = "授信金额(元)";
-                }
-              } else if (val === 4) {
-                if (item.key === "cardMoney") {
-                  item.label = "清授信金额(元)";
-                }
+            } else if (val === 3) {
+              if (item.key === "cardMoney") {
+                item.label = "还款金额(元)";
               }
-              this._setDisplayShow(this.formConfig, "cardMoney", false);
-              this._setDisplayShow(this.formConfig, "direction", true);
-              this._setDisplayShow(this.formConfig, "factcardMoney", true);
-              this._setDisplayShow(this.formConfig, "fileUrl", true);
             }
+            this._setDisplayShow(this.formConfig, "direction", false);
+            this._setDisplayShow(this.formConfig, "factcardMoney", false);
+            this._setDisplayShow(this.formConfig, "fileUrl", false);
           } else {
-            this._setDisplayShow(this.formConfig, "cardMoney", true);
+            if (val === 1) {
+              if (item.key === "cardMoney") {
+                item.label = "授信金额(元)";
+              }
+            } else if (val === 4) {
+              if (item.key === "cardMoney") {
+                item.label = "清授信金额(元)";
+              }
+            } else if (val === 6) {
+              if (item.key === "cardMoney") {
+                item.label = "余额+金额(元)";
+              }
+            } else if (val === 2) {
+              if (item.key === "cardMoney") {
+                item.label = "余额-金额(元)";
+              }
+            }
             this._setDisplayShow(this.formConfig, "direction", true);
             this._setDisplayShow(this.formConfig, "factcardMoney", true);
             this._setDisplayShow(this.formConfig, "fileUrl", true);
@@ -827,6 +828,12 @@ export default {
       this._setDisplayShow(this.formConfig, "fileUrl", false);
       // 初始上传文件为空
       this.formConfig.forEach(item => {
+        if (item.key !== "remark" && item.key !== "saleMan") {
+          this.$set(item, "disabled", false);
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", false);
+          }
+        }
         if (item.key === "fileUrl") {
           item.defaultFileList = [];
         }
@@ -897,39 +904,39 @@ export default {
         this.formConfig.forEach(el => {
           // 获取默认值
           if (el.key === "cardUnit") {
-            cardUnit = el.defaultValue;
+            cardUnit = Number(el.defaultValue);
           } else if (el.key === "cardMoney") {
-            cardMoney = el.defaultValue;
+            cardMoney = Number(el.defaultValue);
           } else if (el.key === "cardCount") {
-            cardCount = el.defaultValue;
+            cardCount = Number(el.defaultValue);
           }
         });
       }
 
       if (item.key === "cardMoney") {
         if (cardUnit) {
-          let num = Math.round((cardMoney * 100) / cardUnit);
+          let num = parseInt((cardMoney * 100) / cardUnit);
           this._setDefaultValue(this.formConfig, [], "cardCount", num);
         } else if (cardCount) {
-          let num = Math.round((cardMoney * 100) / cardCount);
+          let num = parseInt((cardMoney * 100) / cardCount);
           this._setDefaultValue(this.formConfig, [], "cardUnit", num);
         }
       }
       if (item.key === "cardUnit") {
         if (cardCount) {
-          let num = Math.round((cardUnit * cardCount) / 100);
-          this._setDefaultValue(this.formConfig, [], "cardMoney", num);
+          let cardMoney = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
+          this._setDefaultValue(this.formConfig, [], "cardMoney", cardMoney);
         } else if (cardMoney) {
-          let num = Math.round((cardMoney * 100) / cardUnit);
+          let num = parseInt((cardMoney * 100) / cardUnit);
           this._setDefaultValue(this.formConfig, [], "cardCount", num);
         }
       }
       if (item.key === "cardCount") {
         if (cardUnit) {
-          let num = Math.round((cardUnit * cardCount) / 100);
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
           this._setDefaultValue(this.formConfig, [], "cardMoney", num);
         } else if (cardMoney) {
-          let num = Math.round((cardMoney * 100) / cardCount);
+          let num = parseInt((cardMoney * 100) / cardCount);
           this._setDefaultValue(this.formConfig, [], "cardUnit", num);
         }
       }
@@ -993,6 +1000,7 @@ export default {
     //选择用户选取赋值
     chooseUserData(data) {
       let chargeType = "";
+      this._deleteDefaultValue(this.formConfig, "cardMoney");
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {

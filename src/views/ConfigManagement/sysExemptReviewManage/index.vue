@@ -655,7 +655,9 @@ export default {
           t.defaultValue = data.code;
         }
         if (key === "cardUnit") {
-          t.defaultValue = data.cardUnit;
+          // t.defaultValue = data.cardUnit;
+          t.defaultValue =
+            data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : 0;
         }
       });
     },

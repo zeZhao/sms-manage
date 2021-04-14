@@ -161,7 +161,7 @@
         <!-- <el-form-item label="密码" prop="pwd">
           <el-input v-model="addInfo.pwd" type="password" clearable placeholder="请输入8-16位密码" />
         </el-form-item>-->
-        <el-form-item label="特服号" prop="code">
+        <!-- <el-form-item label="特服号" prop="code">
           <el-input v-model="addInfo.code" placeholder="请输入特服号" />
         </el-form-item>
         <el-form-item label="可扩展位数" prop="sublong">
@@ -216,7 +216,7 @@
             clearable
             placeholder="以分为单位"
           />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="客户联系人" prop="contact">
           <el-input
             maxlength="10"
@@ -380,9 +380,9 @@ export default {
           { required: true, message: "请输入短信单价", trigger: "blur" },
           { validator: validate, trigger: "blur" }
         ],
-        contact: [{ required: true, message: "请输入联系人", trigger: "blur" }],
+        // contact: [{ required: true, message: "请输入联系人", trigger: "blur" }],
         mobile: [
-          { required: true, message: "请输入联系电话", trigger: "blur" },
+          // { required: true, message: "请输入联系电话", trigger: "blur" },
           { validator: validatePhone, trigger: "blur" }
         ]
       },

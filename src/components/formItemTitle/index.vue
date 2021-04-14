@@ -103,13 +103,18 @@
                 style="width: 100%"
                 v-model="formData[item.key]"
                 filterable
-                clearable
+                :clearable="item.clearable || true"
                 :multiple="item.multiple"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
                   val => {
                     selectChange(val, item);
+                  }
+                "
+                @remove-tag="
+                  val => {
+                    removeTag(val, item);
                   }
                 "
               >
@@ -398,6 +403,7 @@ export default {
         const { key, defaultValue } = item;
         form[key] = item.defaultValue;
       });
+
       this.formData = form;
     },
     /* 清除表单验证信息 */
@@ -455,12 +461,12 @@ export default {
       this._setDefaultVal(val, item);
       this.$emit("selectChange", { val, item });
     },
-
+    removeTag(val, item) {
+      this.$emit("removeTag", { val, item });
+    },
     //设置默认值
     _setDefaultVal(val, item) {
       if (item.hasOwnProperty("defaultValue")) {
-        if (item.type === "select") {
-        }
         item.defaultValue = val;
       } else {
         this.$set(item, "defaultValue", val);
