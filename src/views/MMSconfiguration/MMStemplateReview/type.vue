@@ -43,7 +43,7 @@
           </el-form-item>
         </el-form>
         <div class="footer">
-          <el-button v-if="queryAuditStatus == 1" type="primary" @click="bringToTrial(queryArraignId)">通 过
+          <el-button v-if="queryAuditStatus == 1" type="primary" @click="bringToTrial(queryArraignId)">提 审
           </el-button>
           <el-button v-if="queryAuditStatus == 1" type="primary" @click="reject(queryArraignId)">驳 回</el-button>
           <el-button v-if="queryAuditStatus == 3" type="primary" @click="partiallyPassed(queryArraignId)">部分通过
@@ -216,9 +216,12 @@ export default {
     //提审
     bringToTrial (arraignId) {
       const { cm, cu, ct } = this.$route.query;
-      const flag = [cm, cu, ct].every(v => !v);
+      const flag = [cm, cu, ct].every(v => !v || v === '-');
       if (flag) {
-        this.$message.warning('该账户暂未配置通道，请先配置通道');
+        this.$alert('该账户暂未配置通道，请先配置通道', '提示', {
+          confirmButtonText: '确定',
+          callback: action => { }
+        });
         return;
       }
       this.$http.mmsTemplateCheck.pushGatewayArraign({ arraignId }).then(res => {

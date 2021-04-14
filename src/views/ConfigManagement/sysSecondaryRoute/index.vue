@@ -102,16 +102,14 @@ export default {
       }
     };
     const validatorCode = (rule, value, callback) => {
-      let regex = /^[0-9]*$/;
-      if (Number(value)) {
-        if (!regex.test(Number(value)) || value.toString().length !== 4) {
-          callback(new Error("特服号仅支持4位数字"));
-        } else {
+      if (value) {
+        if (/^\d{4}$/.test(value)) {
           callback();
+        } else {
+          callback(new Error("特服号仅支持4位数字"));
         }
-        // callback(new Error("备注信息不能为空"));
       } else {
-        callback(new Error("请输入必填项"));
+        callback(new Error('请输入必填项'));
       }
     };
     return {
@@ -225,7 +223,7 @@ export default {
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "change", validator: validatorCode }
+            { trigger: "blur", validator: validatorCode }
           ]
         },
 

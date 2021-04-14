@@ -31,8 +31,9 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.operaId == '1'">移动</span>
-          <span v-if="scope.row.operaId == '2'">联通</span>
-          <span v-if="scope.row.operaId == '3'">电信</span>
+          <span v-else-if="scope.row.operaId == '2'">联通</span>
+          <span v-else-if="scope.row.operaId == '3'">电信</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="companyName" label="公司名称" />
@@ -47,9 +48,9 @@
         label="单价(分)	"
         v-if="searchParam.isDetail === 2"
       />
-      <el-table-column prop="receivableMoney" label="应收款(元)" />
-      <el-table-column prop="factMoney" label="	实收款(元)	" />
-      <el-table-column prop="poorMoney" label="欠收款(元)" />
+      <el-table-column prop="receivableMoney" label="应收款(元)" key="receivableMoney"/>
+      <el-table-column prop="factMoney" label="	实收款(元)" key="factMoney" />
+      <el-table-column prop="poorMoney" label="欠收款(元)" key="poorMoney" />
       <el-table-column
         prop="smsType"
         label="信息类型	"
@@ -57,10 +58,11 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.smsType == '1'">短信</span>
-          <span v-if="scope.row.smsType == '2'">彩信</span>
-          <span v-if="scope.row.smsType == '3'">屏信</span>
-          <span v-if="scope.row.smsType == '4'">语音</span>
-          <span v-if="scope.row.smsType == '5'">流量</span>
+          <span v-else-if="scope.row.smsType == '2'">彩信</span>
+          <span v-else-if="scope.row.smsType == '3'">屏信</span>
+          <span v-else-if="scope.row.smsType == '4'">语音</span>
+          <span v-else-if="scope.row.smsType == '5'">流量</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -70,9 +72,10 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.incomeType == '1'">预收</span>
-          <span v-if="scope.row.incomeType == '2'">平台月度账单</span>
-          <span v-if="scope.row.incomeType == '3'">直连月度账单</span>
-          <span v-if="scope.row.incomeType == '4'">返佣</span>
+          <span v-else-if="scope.row.incomeType == '2'">平台月度账单</span>
+          <span v-else-if="scope.row.incomeType == '3'">直连月度账单</span>
+          <span v-else-if="scope.row.incomeType == '4'">返佣</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -82,11 +85,8 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.isBilling == '1'">已开</span>
-          <span v-if="scope.row.isBilling == '2'">未开</span>
-          <span
-            v-if="scope.row.isBilling !== '2' && scope.row.isBilling !== '1'"
-            >-</span
-          >
+          <span v-else-if="scope.row.isBilling == '2'">未开</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -96,10 +96,8 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.toPublic == '1'">对公</span>
-          <span v-if="scope.row.toPublic == '2'">对私</span>
-          <span v-if="scope.row.toPublic !== '2' && scope.row.toPublic !== '1'"
-            >-</span
-          >
+          <span v-else-if="scope.row.toPublic == '2'">对私</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -109,10 +107,11 @@
       >
         <template slot-scope="scope">
           <span v-if="scope.row.paymentStatus == '1'">已收</span>
-          <span v-if="scope.row.paymentStatus == '2'">欠款</span>
-          <span v-if="scope.row.paymentStatus == '3'">欠收</span>
-          <span v-if="scope.row.paymentStatus == '4'">坏账</span>
-          <span v-if="scope.row.paymentStatus == '5'">其他</span>
+          <span v-else-if="scope.row.paymentStatus == '2'">欠款</span>
+          <span v-else-if="scope.row.paymentStatus == '3'">欠收</span>
+          <span v-else-if="scope.row.paymentStatus == '4'">坏账</span>
+          <span v-else-if="scope.row.paymentStatus == '5'">其他</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="countDateS" label="账单月">

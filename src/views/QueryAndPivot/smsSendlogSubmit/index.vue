@@ -12,17 +12,17 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
       <el-table-column prop="taskId" label="CID" width="100" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="count" label="数量" />
-      <el-table-column prop="mobilesCount" label="手机号数量" />
-      <el-table-column prop="submitTime" label="提交时间" width="100">
+      <el-table-column prop="mobilesCount" label="手机号数量" width="100"/>
+      <el-table-column prop="submitTime" label="提交时间" width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" width="100">
+      <el-table-column prop="definiteTime" label="定时时间" width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime }}</span>
         </template>

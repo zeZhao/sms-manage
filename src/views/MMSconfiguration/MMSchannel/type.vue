@@ -67,11 +67,11 @@ export default {
           key: "price",
           defaultValue: "",
           maxlength: 5,
-          rules: [{ 
-            required: true, 
+          rules: [{
+            required: true,
             trigger: "blur",
             validator: (rule, value, callback) => {
-              if (!value) {
+              if (value === '' || value === undefined || value === null) {
                 callback(new Error('请输入必填项'));
               } else {
                 if (isNaN(value)) {
@@ -214,6 +214,7 @@ export default {
     },
     submit (data) {
       const result = deepClone(data);
+      result.price = + result.price;
       result.operator = this.returnOperator(result.operator);
       const flag = this.queryType === "add" ? "addMmsGateway" : "updateMmsGateway";
       if (flag === "updateMmsGateway") {

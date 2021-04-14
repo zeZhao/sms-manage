@@ -12,21 +12,23 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="chargeType" label="产品">
+      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip/>
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip min-width="110"/>
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip min-width="110"/>
+      <el-table-column prop="chargeType" label="产品" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>
             {{ scope.row.chargeType == 1 ? "短信" : "彩信" }}
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="beforeBalance" label="操作前的条数" />
-      <el-table-column prop="cardCount" label="当前操作条数" />
-      <el-table-column prop="afterBalance" label="操作后的条数" />
-      <el-table-column prop="cardUnit" label="当前操作单价(分)" />
-      <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="fileUrl" label="付款截图">
+      <el-table-column prop="beforeBalance" label="操作前的条数" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="cardCount" label="当前操作条数" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip />
+      <el-table-column prop="cardMoney" label="金额(元)" show-overflow-tooltip />
+      <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
         <template slot-scope="scope">
           <a
             v-if="scope.row.fileUrl && scope.row.fileUrl !== '-'"
@@ -38,7 +40,7 @@
           <span v-else style="color:#C0C4CC">暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column prop="paidWay" label="操作类型">
+      <el-table-column prop="paidWay" label="操作类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
           <span v-if="scope.row.paidWay == 1">借款</span>
@@ -49,13 +51,13 @@
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductType" label="计费类型">
+      <el-table-column prop="reductType" label="计费类型" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.reductType == 1 ? "账户编号" : "商户计费" }}</span>
+          <span>{{ scope.row.reductType == 1 ? "账户计费" : "商户计费" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="到款方式" />
-      <el-table-column prop="isBill" label="账单类型">
+      <el-table-column prop="direction" label="到款方式" show-overflow-tooltip />
+      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度帐单</span>
@@ -85,15 +87,14 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="modifier" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip min-width="110"/>
+      <el-table-column prop="modifier" label="操作账号" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" />
-
+      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" show-overflow-tooltip />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
@@ -146,9 +147,33 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
+          label: "商户编号",
+          key: "corporateId",
+        },
+        {
+          type: "input",
+          label: "商户名称",
+          key: "corpName",
+        },
+        {
+          type: "inputNum",
           label: "账户编号",
           key: "userId",
-          placeholder: "请输入账户编号"
+        },
+        {
+          type: "input",
+          label: "账户名称",
+          key: "userName",
+        },
+        {
+          type: "select",
+          label: "产品",
+          key: "chargeType",
+          optionData: [
+            { key: "1", value: "短信" },
+            { key: "2", value: "彩信" }
+          ],
+          placeholder: "类型"
         },
         {
           type: "select",
@@ -165,23 +190,6 @@ export default {
           ],
           placeholder: "类型"
         },
-        {
-          type: "select",
-          label: "产品",
-          key: "chargeType",
-          optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" }
-          ],
-          placeholder: "类型"
-        },
-        {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corporateId",
-          placeholder: "请输入商户编号"
-        },
-
         {
           type: "select",
           label: "账单类型",
@@ -210,7 +218,7 @@ export default {
         },
         {
           type: "daterange",
-          label: "按时间查询",
+          label: "创建时间",
           key: ["", "startTime", "endTime"]
         }
       ],
@@ -238,7 +246,7 @@ export default {
             this.$message.success("操作成功");
             this._mxGetList();
           } else {
-            this.$message.error(res.data);
+            this.$message.error(res.data)
           }
         });
       });
@@ -254,10 +262,10 @@ export default {
           .stopPrepaidCard({ data: { cardId, paymentCompany: corpName } })
           .then(res => {
             if (resOk(res)) {
-              this.$message.success("操作成功");
+              this.$message.success("驳回成功");
               this._mxGetList();
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.data)
             }
           });
       });

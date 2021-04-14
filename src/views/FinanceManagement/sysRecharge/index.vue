@@ -18,22 +18,22 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="chargeType" label="产品">
+      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="chargeType" label="产品" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.chargeType == 1">短信</span>
           <span v-if="scope.row.chargeType == 2">彩信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="beforeBalance" label="操作前的条数" />
-      <el-table-column prop="cardCount" label="当前操作条数" />
-      <el-table-column prop="afterBalance" label="操作后的条数" />
-      <el-table-column prop="cardUnit" label="当前操作单价(分)" />
-      <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="paidWay" label="操作类型">
+      <el-table-column prop="beforeBalance" label="操作前的条数" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="cardCount" label="当前操作条数" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip/>
+      <el-table-column prop="cardMoney" label="金额(元)" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="paidWay" label="操作类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
           <span v-if="scope.row.paidWay == 1">授信</span>
@@ -44,7 +44,7 @@
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="计费类型" width="110">
+      <el-table-column prop="reductModel" label="计费类型" width="110" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">账户计费</span>
           <span v-if="scope.row.reductType === 2">商户id计费</span>
@@ -74,8 +74,8 @@
           </span> -->
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="到款方式" />
-      <el-table-column prop="isBill" label="账单类型">
+      <el-table-column prop="direction" label="到款方式" show-overflow-tooltip />
+      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度账单</span>
@@ -88,19 +88,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="creater" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="creater" label="操作账号" show-overflow-tooltip />
+      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifier" label="审核人" />
-      <el-table-column prop="modifyTime" label="审核时间" width="150">
+      <el-table-column prop="modifier" label="审核人" show-overflow-tooltip />
+      <el-table-column prop="modifyTime" label="审核时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="cardStatus" label="财务审核">
+      <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.cardStatus == 0">未操作</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
@@ -369,7 +369,9 @@ export default {
           label: "销售员签名",
           colSpan: 12,
           key: "saleMan",
-          optionData: []
+          optionData: [],
+          defaultValue: '',
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
@@ -383,7 +385,6 @@ export default {
           title: "短信",
           colSpan: 24
         },
-
         {
           type: "input",
           label: "单价(分)",
@@ -391,12 +392,21 @@ export default {
           defaultValue: "",
           maxlength: 4,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,4}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~4位的数值'))
+                  }
+                }
+              }
+            }},
           ]
         },
         {
@@ -407,15 +417,23 @@ export default {
           defaultValue: "",
           tag: "skype",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "change"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~10位的数值'))
+                  }
+                }
+              }
+            }},
           ]
         },
-
         {
           type: "input",
           label: "条数",
@@ -423,12 +441,21 @@ export default {
           key: "cardCount",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^\+?[1-9]\d*$/,
-              message: "请输入大于0的正整数",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,12}$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~12位的正整数'))
+                  }
+                }
+              }
+            }}
           ]
         },
         {
@@ -452,15 +479,23 @@ export default {
           tag: "recharge",
           isShow: false,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~10位数值'))
+                  }
+                }
+              }
+            }}
           ]
         },
-
         {
           type: "upload",
           label: "余额变动凭证",
