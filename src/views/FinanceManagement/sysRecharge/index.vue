@@ -18,22 +18,22 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="chargeType" label="产品">
+      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="chargeType" label="产品" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.chargeType == 1">短信</span>
           <span v-if="scope.row.chargeType == 2">彩信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="beforeBalance" label="操作前的条数" />
-      <el-table-column prop="cardCount" label="当前操作条数" />
-      <el-table-column prop="afterBalance" label="操作后的条数" />
-      <el-table-column prop="cardUnit" label="当前操作单价(分)" />
-      <el-table-column prop="cardMoney" label="金额(元)" />
-      <el-table-column prop="paidWay" label="操作类型">
+      <el-table-column prop="beforeBalance" label="操作前的条数" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="cardCount" label="当前操作条数" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip/>
+      <el-table-column prop="cardMoney" label="金额(元)" min-width="110" show-overflow-tooltip/>
+      <el-table-column prop="paidWay" label="操作类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
           <span v-if="scope.row.paidWay == 1">授信</span>
@@ -44,7 +44,7 @@
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="计费类型" width="110">
+      <el-table-column prop="reductModel" label="计费类型" width="110" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">账户计费</span>
           <span v-if="scope.row.reductType === 2">商户id计费</span>
@@ -74,8 +74,8 @@
           </span> -->
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="到款方式" />
-      <el-table-column prop="isBill" label="账单类型">
+      <el-table-column prop="direction" label="到款方式" show-overflow-tooltip />
+      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度账单</span>
@@ -88,19 +88,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="creater" label="操作账号" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="creater" label="操作账号" show-overflow-tooltip />
+      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifier" label="审核人" />
-      <el-table-column prop="modifyTime" label="审核时间" width="150">
+      <el-table-column prop="modifier" label="审核人" show-overflow-tooltip />
+      <el-table-column prop="modifyTime" label="审核时间" width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="cardStatus" label="财务审核">
+      <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.cardStatus == 0">未操作</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
@@ -369,7 +369,9 @@ export default {
           label: "销售员签名",
           colSpan: 12,
           key: "saleMan",
-          optionData: []
+          optionData: [],
+          defaultValue: '',
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
@@ -383,47 +385,77 @@ export default {
           title: "短信",
           colSpan: 24
         },
-
         {
           type: "input",
           label: "单价(分)",
           key: "cardUnit",
+          defaultValue: "",
+          maxlength: 4,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,4}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~4位的数值'))
+                  }
+                }
+              }
+            }},
           ]
         },
         {
           type: "input",
           label: "充值金额(元)",
           key: "cardMoney",
-          isShow: false,
+          maxlength: 10,
+          defaultValue: "",
           tag: "skype",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "change"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~10位的数值'))
+                  }
+                }
+              }
+            }},
           ]
         },
-
         {
           type: "input",
           label: "条数",
+          maxlength: 12,
           key: "cardCount",
+          defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^\+?[1-9]\d*$/,
-              message: "请输入大于0的正整数",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,12}$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~12位的正整数'))
+                  }
+                }
+              }
+            }}
           ]
         },
         {
@@ -443,18 +475,27 @@ export default {
           type: "input",
           label: "实际收款额度",
           key: "factcardMoney",
+          maxlength: 10,
           tag: "recharge",
           isShow: false,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[1-9]{1}[0-9]*$|^0{1}\.{1}[0-9]+$|^[1-9]{1}[0-9]*\.{1}[0-9]+$/,
-              message: "请输入大于0的数字",
-              trigger: "blur"
-            }
+            { required: true, trigger: "blur", validator:(rule, value, callback) =>{
+              if (value === '' || value === undefined || value === null) {
+                callback(new Error('请输入必填项'));
+              } else {
+                if (value <= 0) {
+                  callback(new Error('需大于0'));
+                } else {
+                  if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    callback();
+                  } else {
+                    callback(new Error('请输入1~10位数值'))
+                  }
+                }
+              }
+            }}
           ]
         },
-
         {
           type: "upload",
           label: "余额变动凭证",
@@ -636,10 +677,6 @@ export default {
     selectChange({ val, item }) {
       // console.log(val);
       if (item.key === "chargeType") {
-        // this._deleteDefaultValue(this.formConfig, "userId");
-        // this._deleteDefaultValue(this.formConfig, "userName");
-        // this._deleteDefaultValue(this.formConfig, "corporateId");
-        // this._deleteDefaultValue(this.formConfig, "cardUnit");
         if (val === 1) {
           this.formConfig.forEach(item => {
             if (item.isTitle) {
@@ -658,38 +695,37 @@ export default {
       if (item.key === "paidWay") {
         this._deleteDefaultValue(this.formConfig, "cardMoney");
         this.formConfig.forEach(item => {
-          if (val !== 6 && val !== 2) {
-            if (val === "0" || val === 3) {
-              if (val === "0") {
-                if (item.key === "cardMoney") {
-                  item.label = "充值金额(元)";
-                }
-              } else if (val === 3) {
-                if (item.key === "cardMoney") {
-                  item.label = "还款金额(元)";
-                }
+          if (val === "0" || val === 3) {
+            if (val === "0") {
+              if (item.key === "cardMoney") {
+                item.label = "充值金额(元)";
               }
-              this._setDisplayShow(this.formConfig, "cardMoney", false);
-              this._setDisplayShow(this.formConfig, "direction", false);
-              this._setDisplayShow(this.formConfig, "factcardMoney", false);
-              this._setDisplayShow(this.formConfig, "fileUrl", false);
-            } else {
-              if (val === 1) {
-                if (item.key === "cardMoney") {
-                  item.label = "授信金额(元)";
-                }
-              } else if (val === 4) {
-                if (item.key === "cardMoney") {
-                  item.label = "清授信金额(元)";
-                }
+            } else if (val === 3) {
+              if (item.key === "cardMoney") {
+                item.label = "还款金额(元)";
               }
-              this._setDisplayShow(this.formConfig, "cardMoney", false);
-              this._setDisplayShow(this.formConfig, "direction", true);
-              this._setDisplayShow(this.formConfig, "factcardMoney", true);
-              this._setDisplayShow(this.formConfig, "fileUrl", true);
             }
+            this._setDisplayShow(this.formConfig, "direction", false);
+            this._setDisplayShow(this.formConfig, "factcardMoney", false);
+            this._setDisplayShow(this.formConfig, "fileUrl", false);
           } else {
-            this._setDisplayShow(this.formConfig, "cardMoney", true);
+            if (val === 1) {
+              if (item.key === "cardMoney") {
+                item.label = "授信金额(元)";
+              }
+            } else if (val === 4) {
+              if (item.key === "cardMoney") {
+                item.label = "清授信金额(元)";
+              }
+            } else if (val === 6) {
+              if (item.key === "cardMoney") {
+                item.label = "余额+金额(元)";
+              }
+            } else if (val === 2) {
+              if (item.key === "cardMoney") {
+                item.label = "余额-金额(元)";
+              }
+            }
             this._setDisplayShow(this.formConfig, "direction", true);
             this._setDisplayShow(this.formConfig, "factcardMoney", true);
             this._setDisplayShow(this.formConfig, "fileUrl", true);
@@ -792,6 +828,12 @@ export default {
       this._setDisplayShow(this.formConfig, "fileUrl", false);
       // 初始上传文件为空
       this.formConfig.forEach(item => {
+        if (item.key !== "remark" && item.key !== "saleMan") {
+          this.$set(item, "disabled", false);
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", false);
+          }
+        }
         if (item.key === "fileUrl") {
           item.defaultFileList = [];
         }
@@ -862,39 +904,39 @@ export default {
         this.formConfig.forEach(el => {
           // 获取默认值
           if (el.key === "cardUnit") {
-            cardUnit = el.defaultValue;
+            cardUnit = Number(el.defaultValue);
           } else if (el.key === "cardMoney") {
-            cardMoney = el.defaultValue;
+            cardMoney = Number(el.defaultValue);
           } else if (el.key === "cardCount") {
-            cardCount = el.defaultValue;
+            cardCount = Number(el.defaultValue);
           }
         });
       }
 
       if (item.key === "cardMoney") {
         if (cardUnit) {
-          let num = Math.round((cardMoney * 100) / cardUnit);
+          let num = parseInt((cardMoney * 100) / cardUnit);
           this._setDefaultValue(this.formConfig, [], "cardCount", num);
         } else if (cardCount) {
-          let num = Math.round((cardMoney * 100) / cardCount);
+          let num = parseInt((cardMoney * 100) / cardCount);
           this._setDefaultValue(this.formConfig, [], "cardUnit", num);
         }
       }
       if (item.key === "cardUnit") {
         if (cardCount) {
-          let num = Math.round((cardUnit * cardCount) / 100);
-          this._setDefaultValue(this.formConfig, [], "cardMoney", num);
+          let cardMoney = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
+          this._setDefaultValue(this.formConfig, [], "cardMoney", cardMoney);
         } else if (cardMoney) {
-          let num = Math.round((cardMoney * 100) / cardUnit);
+          let num = parseInt((cardMoney * 100) / cardUnit);
           this._setDefaultValue(this.formConfig, [], "cardCount", num);
         }
       }
       if (item.key === "cardCount") {
         if (cardUnit) {
-          let num = Math.round((cardUnit * cardCount) / 100);
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
           this._setDefaultValue(this.formConfig, [], "cardMoney", num);
         } else if (cardMoney) {
-          let num = Math.round((cardMoney * 100) / cardCount);
+          let num = parseInt((cardMoney * 100) / cardCount);
           this._setDefaultValue(this.formConfig, [], "cardUnit", num);
         }
       }
@@ -958,6 +1000,7 @@ export default {
     //选择用户选取赋值
     chooseUserData(data) {
       let chargeType = "";
+      this._deleteDefaultValue(this.formConfig, "cardMoney");
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {

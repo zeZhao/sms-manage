@@ -507,9 +507,11 @@ export default {
               item.optionData.push(obj)
             });
           } else if (item.type === 'input') {
-            item.defaultValue = optionKey
+            this.$nextTick(() => {
+              this.$set(item, 'defaultValue', optionKey)
+              item.defaultValue = optionKey
+            })
           }
-
         }
       });
     },
@@ -561,7 +563,8 @@ export default {
               item.defaultValue = null
             }
           } else if (item.type === 'input') {
-            item.defaultValue = ''
+            this.$set(item, "defaultValue", '');
+            // item.defaultValue = ''
           }
 
         }

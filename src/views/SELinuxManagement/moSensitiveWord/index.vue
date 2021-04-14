@@ -12,15 +12,15 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账号编号" />
-      <el-table-column prop="sensitiveWord" label="敏感词" />
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账号编号" show-overflow-tooltip />
+      <el-table-column prop="sensitiveWord" label="敏感词" show-overflow-tooltip />
+      <el-table-column prop="createTime" label="创建时间" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createUser" label="操作人" />
+      <el-table-column prop="createUser" label="操作人" show-overflow-tooltip />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"

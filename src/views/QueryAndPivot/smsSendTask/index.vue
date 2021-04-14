@@ -64,6 +64,7 @@
     </el-dialog>
     <el-dialog title="批量修改通道" :visible.sync="editGateway" width="50%">
       <FormItem
+        :colSpan="12"
         ref="formItem"
         :formConfig="formConfig"
         btnTxt="修改"
@@ -153,14 +154,14 @@ export default {
         {
           type: "input",
           label: "账户编号",
-          key: "userId",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "userId"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "内容",
-          key: "content",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "content"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",

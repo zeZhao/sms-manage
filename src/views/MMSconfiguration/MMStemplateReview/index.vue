@@ -2,32 +2,32 @@
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
       <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
-      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="mmsId" label="模板编号" show-overflow-tooltip />
       <el-table-column prop="title" label="彩信标题" show-overflow-tooltip />
       <el-table-column prop="sign" label="签名" show-overflow-tooltip />
-      <el-table-column prop="submitTime" label="提交时间" min-width="150">
+      <el-table-column prop="submitTime" label="提交时间" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">{{ scope.row.submitTime | timeFormat }}</template>
       </el-table-column>
-      <!-- <el-table-column prop="submitType" label="提交类型">
+      <!-- <el-table-column prop="submitType" label="提交类型" show-overflow-tooltip>
         <template slot-scope="scope">{{ renderSubmitType(scope.row.submitType) }}</template>
       </el-table-column> -->
-      <el-table-column prop="cmTemplateId" label="移动上游模板编号" min-width="150" />
-      <el-table-column prop="cmGatewayId" label="移动通道编号" min-width="150" />
-      <el-table-column prop="cmStatus" label="移动通道状态" min-width="150">
+      <el-table-column prop="cmTemplateId" label="移动上游模板编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="cmGatewayId" label="移动通道编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="cmStatus" label="移动通道状态" min-width="150" show-overflow-tooltip>
         <template slot-scope="{row}">{{ renderAllTypes(row.cmStatus) }}</template>
       </el-table-column>
-      <el-table-column prop="cuTemplateId" label="联通上游模板编号" min-width="150" />
-      <el-table-column prop="cuGatewayId" label="联通通道编号" min-width="150" />
-      <el-table-column prop="cuStatus" label="联通通道状态" min-width="150">
+      <el-table-column prop="cuTemplateId" label="联通上游模板编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="cuGatewayId" label="联通通道编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="cuStatus" label="联通通道状态" min-width="150" show-overflow-tooltip>
         <template slot-scope="{row}">{{ renderAllTypes(row.cuStatus) }}</template>
       </el-table-column>
-      <el-table-column prop="ctTemplateId" label="电信上游模板编号" min-width="150" />
-      <el-table-column prop="ctGatewayId" label="电信通道编号" min-width="150" />
-      <el-table-column prop="ctStatus" label="电信通道状态" min-width="150">
+      <el-table-column prop="ctTemplateId" label="电信上游模板编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="ctGatewayId" label="电信通道编号" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="ctStatus" label="电信通道状态" min-width="150" show-overflow-tooltip>
         <template slot-scope="{row}">{{ renderAllTypes(row.ctStatus) }}</template>
       </el-table-column>
       <el-table-column label="操作" width="300" fixed="right">
@@ -39,10 +39,10 @@
           <el-button v-if="scope.row.auditStatus === 1"
             @click="bringToTrial(scope.row.arraignId, scope.row.cmGatewayId, scope.row.cuGatewayId, scope.row.ctGatewayId)"
             type="text" size="small">提审</el-button>
-          <el-button v-if="scope.row.auditStatus === 3" @click="partiallyPassed(scope.row.arraignId)" type="text"
-            size="small">部分通过</el-button>
           <el-button v-if="scope.row.auditStatus === 1" @click="reject(scope.row.arraignId)" type="text" size="small">驳回
           </el-button>
+          <el-button v-if="scope.row.auditStatus === 3" @click="partiallyPassed(scope.row.arraignId)" type="text"
+            size="small">部分通过</el-button>
           <el-button v-if="[1, 3, 7].includes(scope.row.auditStatus)" @click="channelConfig('channelConfig', scope.row)"
             type="text" size="small">通道配置</el-button>
         </template>
@@ -116,9 +116,12 @@ export default {
     },
     //提审
     bringToTrial (arraignId, cm, cu, ct) {
-      const flag = [cm, cu, ct].every(v => !v);
+      const flag = [cm, cu, ct].every(v => !v || v === '-');
       if (flag) {
-        this.$message.warning('该账户暂未配置通道，请先配置通道');
+        this.$alert('该账户暂未配置通道，请先配置通道', '提示', {
+          confirmButtonText: '确定',
+          callback: action => { }
+        });
         return;
       }
       this.$http.mmsTemplateCheck.pushGatewayArraign({ arraignId }).then(res => {

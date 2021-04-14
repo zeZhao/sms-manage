@@ -7,7 +7,7 @@
       @create="_mxCreate"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="gateway" label="编号" />
+      <el-table-column prop="gateway" label="编号" show-overflow-tooltip />
       <el-table-column
         prop="gatewayName"
         label="通道名称"
@@ -18,36 +18,36 @@
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="longCode" label="通道长号码" width="90" />
-      <el-table-column prop="provinceName" label="省份" />
-      <el-table-column prop="sendTo" label="发送对象" />
-      <el-table-column prop="unitPrice" label="通道价格(分)" width="100" />
-      <el-table-column prop="conRequirements" label="发送内容" />
-      <el-table-column prop="sendSpeed" label="速度" />
-      <el-table-column prop="isSub" label="扩展">
+      <el-table-column prop="longCode" label="通道长号码" width="90" show-overflow-tooltip />
+      <el-table-column prop="provinceName" label="省份" show-overflow-tooltip />
+      <el-table-column prop="sendTo" label="发送对象" show-overflow-tooltip />
+      <el-table-column prop="unitPrice" label="通道价格(分)" width="100" show-overflow-tooltip />
+      <el-table-column prop="conRequirements" label="发送内容" show-overflow-tooltip />
+      <el-table-column prop="sendSpeed" label="速度" show-overflow-tooltip />
+      <el-table-column prop="isSub" label="扩展" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.isSub ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="operateStatus" label="运营状态">
+      <el-table-column prop="operateStatus" label="运营状态" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.operateStatus === 1 ? "短信" : "-" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="isDerect" label="直连">
+      <el-table-column prop="isDerect" label="直连" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.isDerect === 1 ? "直连" : "非直连" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="可用">
+      <el-table-column prop="status" label="可用" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.status ? "可用" : "不可用" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="otherGateway" label="备用通道" />
-      <el-table-column prop="charger" label="通道负责人" width="90" />
-      <el-table-column prop="priority" label="优先级" />
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="otherGateway" label="备用通道" show-overflow-tooltip />
+      <el-table-column prop="charger" label="通道负责人" width="90" show-overflow-tooltip />
+      <el-table-column prop="priority" label="优先级" show-overflow-tooltip />
+      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <!-- <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
@@ -64,18 +64,14 @@
           ></el-switch>
         </template>
       </el-table-column> -->
-      <el-table-column prop="smsTags" label="标签" width="100">
+      <el-table-column prop="smsTags" label="标签" width="100" show-overflow-tooltip>
         <template slot-scope="scope">
-          <div v-if="scope.row.smsTags.length">
-            <span
-              v-for="(item, index) in scope.row.smsTags"
-              :key="index"
-              style="padding-right:10px"
-            >
+          <span v-if="scope.row.smsTags.length">
+            <span v-for="(item, index) in scope.row.smsTags" :key="index">
               {{ item ? item.name : "-" }}
             </span>
-          </div>
-          <div v-else>-</div>
+          </span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
@@ -237,16 +233,16 @@ export default {
           label: "运营商",
           key: "sendTo",
           optionData: [
-            { key: "1", value: "移动" },
-            { key: "2", value: "联通" },
-            { key: "3", value: "电信" }
-            // { key: "移动", value: "移动" },
-            // { key: "联通", value: "联通" },
-            // { key: "电信", value: "电信" },
-            // { key: "三网", value: "三网" },
-            // { key: "移动,联通", value: "移动,联通" },
-            // { key: "电信,联通", value: "电信,联通" },
-            // { key: "移动,电信", value: "移动,电信" }
+            // { key: "1", value: "移动" },
+            // { key: "2", value: "联通" },
+            // { key: "3", value: "电信" }
+            { key: "移动", value: "移动" },
+            { key: "联通", value: "联通" },
+            { key: "电信", value: "电信" },
+            { key: "三网", value: "三网" },
+            { key: "移动,联通", value: "移动,联通" },
+            { key: "电信,联通", value: "电信,联通" },
+            { key: "移动,电信", value: "移动,电信" }
           ]
         },
         {
@@ -365,11 +361,11 @@ export default {
           optionData: [
             { key: "移动", value: "移动" },
             { key: "联通", value: "联通" },
-            { key: "电信", value: "电信" }
-            // { key: "三网", value: "三网" },
-            // { key: "移动,联通", value: "移动,联通" },
-            // { key: "电信,联通", value: "电信,联通" },
-            // { key: "移动,电信", value: "移动,电信" }
+            { key: "电信", value: "电信" },
+            { key: "三网", value: "三网" },
+            { key: "移动,联通", value: "移动,联通" },
+            { key: "电信,联通", value: "电信,联通" },
+            { key: "移动,电信", value: "移动,电信" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },

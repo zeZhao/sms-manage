@@ -38,11 +38,13 @@
       <el-table-column
         prop="gatewayTaking"
         label="通道耗时:秒"
+        min-width="110"
         show-overflow-tooltip
       />
       <el-table-column
         prop="totalTaking"
         label="总耗时:秒"
+        min-width="110"
         show-overflow-tooltip
       />
       <el-table-column prop="seqId" label="SEQID" show-overflow-tooltip />
@@ -106,9 +108,8 @@ export default {
         },
         {
           type: "input",
-          label: "SEQ编号",
-          key: "seqId",
-          placeholder: "请输入SEQ编号"
+          label: "SEQID",
+          key: "seqId"
         },
         {
           type: "input",

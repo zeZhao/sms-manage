@@ -79,7 +79,7 @@ const actions = {
         console.log(data, '----data')
         if (data.code === 500) {
           Message({
-            message: data.data,
+            message: data.data || data.msg,
             // message: error.message,
             type: 'error',
           })

@@ -205,7 +205,7 @@ export default {
   },
   watch: {
     'formData.alarmModes'(cur) {
-      if (cur.includes(1)) {
+      if (cur.includes(1) || cur.includes(2)) {
         this.rules.alarmMobile = this.$publicValidators.phone
       } else {
         this.rules.alarmMobile = [
