@@ -315,6 +315,7 @@
                 @click="onSubmit('form')"
                 v-throttle="3000"
                 size="small"
+                class="submit"
               >
                 {{ btnTxt }}
               </el-button>
@@ -451,7 +452,10 @@ export default {
           } else if (
             type === "select" ||
             type === "radio" ||
-            type === "switch"
+            type === "switch" ||
+            type === "date" ||
+            type === "time" ||
+            type === "selectGroup" 
           ) {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);

@@ -36,12 +36,12 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间" width="150">
+      <el-table-column prop="submitTime" label="提交时间" min-width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendTime" label="发送时间" width="150">
+      <el-table-column prop="sendTime" label="发送时间" min-width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.sendTime | timeFormat }}</span>
         </template>

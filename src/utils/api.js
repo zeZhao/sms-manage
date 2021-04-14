@@ -1902,7 +1902,7 @@ export default {
         },
         // 导出携号转网
         export(params) {
-            return post("/networkChange/export", params);
+            return post("/corpUserBalance/downLoad", params);
         },
         // 删除携号转网
         delete(params) {

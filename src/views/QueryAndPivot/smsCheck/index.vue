@@ -65,12 +65,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="userName" label="审核人" />
-      <el-table-column prop="submitTime" label="提交时间" width="150">
+      <el-table-column prop="submitTime" label="提交时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="checkDate" label="审核时间" width="150">
+      <el-table-column prop="checkDate" label="审核时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.checkDate | timeFormat
         }}</template>

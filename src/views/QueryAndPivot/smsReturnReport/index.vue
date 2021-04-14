@@ -25,12 +25,12 @@
       <el-table-column prop="gateway" label="通道" show-overflow-tooltip />
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="error" label="错误描述" />
-      <el-table-column prop="returnTime" label="返回报告时间" width="150">
+      <el-table-column prop="returnTime" label="返回报告时间" min-width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.returnTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="receiveTime" label="手机接收时间" width="150">
+      <el-table-column prop="receiveTime" label="手机接收时间" min-width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.receiveTime | timeFormat }}</span>
         </template>

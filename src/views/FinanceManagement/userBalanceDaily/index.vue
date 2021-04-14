@@ -63,7 +63,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="sysName" label="操作人" />
-      <el-table-column prop="insertTime" label="统计时间" width="150">
+      <el-table-column prop="insertTime" label="统计时间" min-width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.insertTime | timeFormat }}</span>
         </template>

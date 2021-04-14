@@ -21,7 +21,7 @@
           <span v-if="scope.row.status == 2">禁用</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="创建时间" min-width="170">
         <template slot-scope="scope">
           <span v-if="scope.row.createTime">{{
             scope.row.createTime | timeFormat

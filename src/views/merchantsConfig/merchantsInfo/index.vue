@@ -45,15 +45,17 @@
             <el-option value="3" label="禁用" />
           </el-select>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="queryOrderList">查询</el-button>
-        </el-form-item>
         <el-form-item style="float: right">
-          <el-button type="primary" @click="newEnterprise">新增商户</el-button>
+          <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row style="width: 100%">
+    <el-button type="primary" @click="newEnterprise">新增商户</el-button>
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      style="width: 100%;margin-top:20px"
+    >
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="code" label="特服号" />

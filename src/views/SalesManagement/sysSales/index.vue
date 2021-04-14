@@ -29,7 +29,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" width="150">
+      <el-table-column prop="modifyTime" label="修改时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>

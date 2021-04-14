@@ -19,19 +19,21 @@
           <el-button type="primary" @click="queryOrderList">查询</el-button>
           <el-button type="primary" @click="resetList">重置</el-button>
         </el-form-item>
-        <el-form-item style="float: right">
-          <el-button
-            type="primary"
-            @click="
-              customerAddInfo = true;
-              deleteCustomer();
-            "
-            >新增运营账号</el-button
-          >
-        </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row style="width: 100%">
+    <el-button
+      type="primary"
+      @click="
+        customerAddInfo = true;
+        deleteCustomer();
+      "
+      >新增运营账号</el-button
+    >
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      style="width: 100%;margin-top:20px"
+    >
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="账户编号" />
       <el-table-column prop="account" label="登录账号" />

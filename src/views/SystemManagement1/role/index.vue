@@ -23,12 +23,14 @@
         <el-form-item>
           <el-button type="primary" @click="queryOrderList">查询</el-button>
         </el-form-item>
-        <el-form-item style="float: right">
-          <el-button type="primary" @click="addRoles">新增角色</el-button>
-        </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" highlight-current-row style="width: 100%">
+    <el-button type="primary" @click="addRoles">新增角色</el-button>
+    <el-table
+      :data="dataList"
+      highlight-current-row
+      style="width: 100%;margin-top:24px"
+    >
       <!--角色id 	角色名称 角色类型 1是商戶端角色 2是运营端角色 描述-->
       <el-table-column prop="roleId" label="角色编号" />
       <el-table-column prop="roleName" label="角色名称" />
@@ -231,6 +233,7 @@
 </template>
 <script>
 import checkPermission from "@/utils/permission";
+import router from "@/router";
 export default {
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -559,6 +562,10 @@ export default {
               this.setNavuserList(res.data, 2);
               this.customerInfo = false;
               this.orderList();
+              const accessRoutes = this.$store.dispatch(
+                "permission/generateRoutes"
+              );
+              router.addRoutes(accessRoutes);
             } else {
               this.$message.error(res.data);
             }
