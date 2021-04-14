@@ -23,7 +23,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="template" label="模板信息" show-overflow-tooltip />
-      <el-table-column prop="createdAt" label="创建时间" width="150">
+      <el-table-column prop="createdAt" label="创建时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.createdAt | timeFormat
         }}</template>

@@ -33,12 +33,12 @@
           <span v-if="scope.row.hasSend === '1'">已发送</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" width="150">
+      <el-table-column prop="definiteTime" label="定时时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.definiteTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间" width="150">
+      <el-table-column prop="submitTime" label="提交时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>

@@ -58,7 +58,7 @@
           <span v-if="scope.row.configuration == 1">系统推荐</span>
         </template>
       </el-table-column>
-      <el-table-column prop="update_time" label="修改时间" width="150">
+      <el-table-column prop="update_time" label="修改时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.update_time | timeFormat
         }}</template>
