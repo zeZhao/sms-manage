@@ -389,6 +389,7 @@ export default {
           label: "单价(分)",
           key: "cardUnit",
           defaultValue: "",
+          maxlength: 4,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -402,6 +403,7 @@ export default {
           type: "input",
           label: "充值金额(元)",
           key: "cardMoney",
+          maxlength: 10,
           defaultValue: "",
           tag: "skype",
           rules: [
@@ -417,6 +419,7 @@ export default {
         {
           type: "input",
           label: "条数",
+          maxlength: 12,
           key: "cardCount",
           defaultValue: "",
           rules: [
@@ -445,6 +448,7 @@ export default {
           type: "input",
           label: "实际收款额度",
           key: "factcardMoney",
+          maxlength: 10,
           tag: "recharge",
           isShow: false,
           rules: [

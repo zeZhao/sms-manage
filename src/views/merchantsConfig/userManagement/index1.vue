@@ -1523,7 +1523,7 @@ export default {
     },
     //获取代理商
     getAgent() {
-      this.$http.agent.queryAgent().then(res => {
+      this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
