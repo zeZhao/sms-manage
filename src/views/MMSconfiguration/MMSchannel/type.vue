@@ -66,7 +66,6 @@ export default {
           label: "通道单价(分)",
           key: "price",
           defaultValue: "",
-          maxlength: 5,
           rules: [{
             required: true,
             trigger: "blur",
@@ -77,7 +76,9 @@ export default {
                 if (isNaN(value)) {
                   callback(new Error('通道单价必须为数值'));
                 } else if (value <= 0) {
-                  callback(new Error('通道单价需大于0'));
+                  callback(new Error('通道单价必须大于0'));
+                } else if (!(/^\d{1,4}(\.\d{1,2})?$/.test(value))) {
+                  callback(new Error('通道单价可输入1~4位数值，最多可保留两位小数'));
                 } else {
                   callback();
                 }
