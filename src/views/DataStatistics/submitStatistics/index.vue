@@ -24,7 +24,7 @@
               ? "营销"
               : scope.row.smsType === 3
               ? "vip"
-              : ""
+              : "-"
           }}</span>
         </template>
       </el-table-column>
