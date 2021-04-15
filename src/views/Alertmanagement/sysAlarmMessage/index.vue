@@ -26,7 +26,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="occurTime" label="发生时间" width="150">
+      <el-table-column prop="occurTime" label="发生时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.occurTime | timeFormat
         }}</template>
