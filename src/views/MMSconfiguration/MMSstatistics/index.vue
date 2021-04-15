@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column prop="countDate" label="统计日期" min-width="150">
         <template slot-scope="scope">
-          {{ scope.row.countDate | timeFormat }}
+          {{ scope.row.countDate | Format }}
         </template>
       </el-table-column>
     </el-table>
