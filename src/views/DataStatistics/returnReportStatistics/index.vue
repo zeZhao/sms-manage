@@ -12,15 +12,16 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="corpId" label="商户编号" key="corpId" />
+      <el-table-column prop="userId" label="账户编号" key="userId" />
+      <el-table-column prop="userName" label="账户名称" key="userName" />
       <el-table-column
         prop="code"
         label="特服号"
         v-if="searchParam.showCode === '1'"
+        key="code"
       />
-      <el-table-column prop="smsType" label="类型">
+      <el-table-column prop="smsType" label="类型" key="smsType">
         <template slot-scope="scope">
           <span>{{
             scope.row.smsType === 1
@@ -37,15 +38,16 @@
         prop="gateway"
         label="通道"
         v-if="searchParam.showGateway === '1'"
+        key="gateway"
       />
-      <el-table-column prop="reportNum" label="返回条数" />
-      <!-- <el-table-column prop="reportNum" label="返回条数" /> -->
-      <el-table-column prop="successNum" label="成功条数" />
-      <el-table-column prop="failNum" label="失败条数" />
+      <el-table-column prop="reportNum" label="返回条数" key="reportNum" />
+      <el-table-column prop="successNum" label="成功条数" key="successNum" />
+      <el-table-column prop="failNum" label="失败条数" key="failNum" />
       <el-table-column
         prop="countDate"
         label="统计日期"
         v-if="searchParam.showDate === '1'"
+        key="countDate"
       />
     </el-table>
     <p style="color: red">
