@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column prop="countDate" label="统计日期" min-width="150">
         <template slot-scope="scope">
-          {{ scope.row.countDate | timeFormat }}
+          {{ scope.row.countDate | Format }}
         </template>
       </el-table-column>
     </el-table>
@@ -124,11 +124,6 @@ export default {
       isChooseTimeData: {}
     };
   },
-  watch: {
-    listData(cur) {
-      if (cur.length) this.tabBottomData = cur[0];
-    }
-  },
   methods: {
     searchedGetTimes(form) {
       if (form.startTime || form.endTime) {
@@ -153,6 +148,13 @@ export default {
       this.$http.mmsReportStatistic.exportReportStatistic(form).then((res) => {
         if (res.code === 200) this.$exportToast();
       });
+    },
+    //格式化表格数据且初始化数据
+    _mxFormListData(data) {
+      this.$http.mmsReportStatistic.queryAll(this.searchParam).then(res => {
+        res.code === 200 ? this.tabBottomData = res.data : this.$message.error(res.msg);
+      });
+      return data;
     }
   }
 };

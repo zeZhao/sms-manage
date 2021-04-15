@@ -52,10 +52,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="update_by" label="修改人" />
-      <el-table-column prop="configuration" label="配置方式">
+      <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
-          <span v-if="scope.row.configuration == 0">自定义</span>
-          <span v-if="scope.row.configuration == 1">系统推荐</span>
+          <span v-if="!scope.row.isadvice">自定义</span>
+          <span v-else-if="scope.row.isadvice">系统推荐</span>
+          <span v-else>-</span>
         </template>
       </el-table-column>
       <el-table-column prop="update_time" label="修改时间" min-width="170">
@@ -270,7 +271,7 @@ export default {
           key: "sensitiveWord",
           optionData: [],
           placeholder: "请选择敏感词类别"
-        },
+        }
         // {
         //   type: "select",
         //   label: "特殊需求",
@@ -291,25 +292,25 @@ export default {
         //   ],
         //   placeholder: "请选择特殊需求"
         // },
-        {
-          type: "select",
-          label: "配置方式",
-          key: "configuration",
-          optionData: [
-            {
-              key: "",
-              value: "全部"
-            },
-            {
-              key: "0",
-              value: "自定义"
-            },
-            {
-              key: "1",
-              value: "系统推荐"
-            }
-          ]
-        }
+        // {
+        //   type: "select",
+        //   label: "配置方式",
+        //   key: "configuration",
+        //   optionData: [
+        //     {
+        //       key: "",
+        //       value: "全部"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "自定义"
+        //     },
+        //     {
+        //       key: "1",
+        //       value: "系统推荐"
+        //     }
+        //   ]
+        // }
       ],
       // 表单配置
       formConfig: [

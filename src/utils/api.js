@@ -1984,6 +1984,10 @@ export default {
         // 导出彩信发送统计
         exportReportStatistic(params) {
             return post("/mmsReportStatistic/exportReportStatistic", params);
+        },
+        // 查询table下方数据
+        queryAll(params) {
+            return post("/mmsReportStatistic/queryAll", params);
         }
     },
     //彩信模板提审/审核
