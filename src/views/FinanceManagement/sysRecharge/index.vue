@@ -236,6 +236,11 @@ export default {
       formTit: "新增",
       addChannel: false,
       transfersDialog: false,
+      chooseData: {},
+      //选择转移用户信息
+      shiftChooseData: {},
+      //选择接收用户信息
+      chooseDataTo: {},
       //接口地址
       searchAPI: {
         namespace: "sysRecharge",
@@ -298,7 +303,6 @@ export default {
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
             { key: 2, value: "余额-" },
-
             { key: 5, value: "账号互转" }
           ]
         },
@@ -618,7 +622,7 @@ export default {
           label: "当前接收账户名称",
           key: "userNameTo",
           colSpan: 12,
-          // disabled: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -627,7 +631,7 @@ export default {
           label: "当前转移账户名称",
           key: "userName",
           colSpan: 12,
-          // disabled: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -739,18 +743,31 @@ export default {
 
     //选择控制
     selectChange({ val, item }) {
-      // console.log(val);
       if (item.key === "chargeType") {
+        this._deleteDefaultValue(this.formConfig, "cardMoney");
+        this._deleteDefaultValue(this.formConfig, "cardCount");
         if (val === 1) {
           this.formConfig.forEach(item => {
             if (item.isTitle) {
               item.title = "短信";
+            }
+            if (item.key === "cardUnit") {
+              let data = this.chooseData;
+              item.defaultValue =
+                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
             }
           });
         } else {
           this.formConfig.forEach(item => {
             if (item.isTitle) {
               item.title = "彩信";
+            }
+            if (item.key === "cardUnit") {
+              let data = this.chooseData;
+              item.defaultValue =
+                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                  ? data.mmsCardUnit
+                  : "";
             }
           });
         }
@@ -806,16 +823,42 @@ export default {
     },
     selectChangeShift({ val, item }) {
       if (item.key === "chargeType") {
+        this._deleteDefaultValue(this.formConfigTransfers, "cardCount");
         if (val === 1) {
           this.formConfigTransfers.forEach(item => {
             if (item.isTitle) {
               item.title = "短信";
             }
+            if (item.key === "cardUnit") {
+              let data = this.shiftChooseData;
+              item.defaultValue =
+                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+            }
+            if (item.key === "cardUnitTo") {
+              let data = this.chooseDataTo;
+              item.defaultValue =
+                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+            }
+            //shiftChooseData
           });
         } else {
           this.formConfigTransfers.forEach(item => {
             if (item.isTitle) {
               item.title = "彩信";
+            }
+            if (item.key === "cardUnit") {
+              let data = this.shiftChooseData;
+              item.defaultValue =
+                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                  ? data.mmsCardUnit
+                  : "";
+            }
+            if (item.key === "cardUnitTo") {
+              let data = this.chooseDataTo;
+              item.defaultValue =
+                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                  ? data.mmsCardUnit
+                  : "";
             }
           });
         }
@@ -890,6 +933,7 @@ export default {
       this._setDisplayShow(this.formConfig, "direction", false);
       this._setDisplayShow(this.formConfig, "factcardMoney", false);
       this._setDisplayShow(this.formConfig, "fileUrl", false);
+      this.chooseData = {};
       // 初始上传文件为空
       this.formConfig.forEach(item => {
         if (item.key !== "remark" && item.key !== "saleMan") {
@@ -1064,7 +1108,9 @@ export default {
     //选择用户选取赋值
     chooseUserData(data) {
       let chargeType = "";
+      let chargeTypeJs = "";
       this._deleteDefaultValue(this.formConfig, "cardMoney");
+      this.chooseData = data;
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -1101,11 +1147,12 @@ export default {
       });
       this.formConfigTransfers.map(t => {
         const { key } = t;
-        let chargeType = "";
+
         if (key === "chargeType") {
-          chargeType = t.defaultValue;
+          chargeTypeJs = t.defaultValue;
         }
         if (this.chooseKey === "userId") {
+          this.shiftChooseData = data;
           if (key === "userId") {
             t.defaultValue = data.userId;
           }
@@ -1113,7 +1160,7 @@ export default {
             t.defaultValue = data.userName;
           }
           if (key === "cardUnit") {
-            if (chargeType == 2) {
+            if (chargeTypeJs == 2) {
               t.defaultValue =
                 data.mmsCardUnit && data.mmsCardUnit !== "-"
                   ? data.mmsCardUnit
@@ -1124,6 +1171,7 @@ export default {
             }
           }
         } else if (this.chooseKey === "userIdTo") {
+          this.chooseDataTo = data;
           if (key === "userIdTo") {
             t.defaultValue = data.userId;
           }
@@ -1131,7 +1179,7 @@ export default {
             t.defaultValue = data.userName;
           }
           if (key === "cardUnitTo") {
-            if (chargeType == 2) {
+            if (chargeTypeJs == 2) {
               t.defaultValue =
                 data.mmsCardUnit && data.mmsCardUnit !== "-"
                   ? data.mmsCardUnit
@@ -1146,6 +1194,7 @@ export default {
     },
     transfers() {
       this.transfersDialog = true;
+      this.chooseData = {};
       setTimeout(() => {
         this.$refs.formItems.resetForm();
       }, 0);
