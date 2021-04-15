@@ -299,15 +299,21 @@ export default {
       this.addChannel = true;
     },
     importBatchAdd() {
-      var form = new FormData();
-      form.append("file", this.file);
-      this.$http.networkChange.importBatchAdd(form).then(res => {
-        if (res.code == 200) {
-          this.$message.success("添加成功");
-          this.batchAddVisible = false;
-          (this.file = null), (this.fileList = []);
-        }
-      });
+      if (this.file) {
+        var form = new FormData();
+        form.append("file", this.file);
+        this.$http.networkChange.importBatchAdd(form).then(res => {
+          if (res.code == 200) {
+            this.$message.success("添加成功");
+            this.batchAddVisible = false;
+            (this.file = null), (this.fileList = []);
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+      } else {
+        this.$message.error("请上传模板");
+      }
     },
     handleSuccess(response, file, fileList) {
       if (response.code == 200) {
@@ -326,20 +332,17 @@ export default {
       console.log(file);
     },
     handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      );
+      this.$message.error(`仅能上传一个模板`);
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
     handleAdd() {
       this.batchAddVisible = true;
+      this.fileList = [];
+      this.file = null;
     },
     exported(form) {
-      console.log({ ...form.form }, "----------");
       this.$http.networkChange.export({ ...form.form }).then(res => {
         if (res.code === 200) {
           this.$message.success("提交下载成功，请前往下载中心下载文件。");
