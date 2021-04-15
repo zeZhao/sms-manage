@@ -1212,7 +1212,6 @@ export default {
       let obj = {};
 
       if (item.key === "productType") {
-        console.log(this.currentEditFormData, "--------currentEditFormData");
         if (val && val.length != 0) {
           //根据产品的选择动态显示表单及数据处理
           if (val.includes(1) && val.includes(2)) {
@@ -1278,8 +1277,6 @@ export default {
           item.optionData.forEach(el => {
             this.$set(el, "disabled", false);
           });
-          // console.log(item, "----------------产品------------------");
-          // item.defaultValue = []
         }
         if (item.key == "proType") {
           this.$set(item, "disabled", false);
@@ -1588,7 +1585,6 @@ export default {
         //   "groupId",
         //   "blackGroupName"
         // );
-        console.log(res, "listBlackGroup-------------");
       });
     },
     //获取所有标签
@@ -1780,7 +1776,12 @@ export default {
     },
 
     createElement(h, row) {
-      let arr = row.proTypes;
+      let arr = [];
+      if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
+        arr = row.proTypes;
+      } else {
+        arr = row.mmsProTypes;
+      }
       let proType = [];
       arr.forEach(item => {
         if (item == 1) {

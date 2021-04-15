@@ -66,7 +66,13 @@
             </el-table-column>
             <el-table-column prop="ratio" label="分配比例">
               <template slot-scope="scope">
-                <el-input type="number" v-model="scope.row.ratio"></el-input>
+                <el-input-number
+                  style="width:160px"
+                  :step="1"
+                  step-strictly
+                  v-model="scope.row.ratio"
+                  controls-position="right"
+                ></el-input-number>
               </template>
             </el-table-column>
             <el-table-column prop="ratio" label="通道类型">
@@ -158,9 +164,8 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "通道组id",
-          key: "groupId",
-          placeholder: "请输入通道组id"
+          label: "通道组编号",
+          key: "groupId"
         },
         {
           type: "input",
