@@ -940,6 +940,10 @@ export default {
           this.$set(item, "disabled", false);
           if (item.key === "userId") {
             this.$set(item, "btnDisabled", false);
+            this.$set(item, "disabled", true);
+          }
+          if (item.key === "userName") {
+            this.$set(item, "disabled", true);
           }
         }
         if (item.key === "fileUrl") {
