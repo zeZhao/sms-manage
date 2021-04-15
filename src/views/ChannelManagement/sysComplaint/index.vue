@@ -204,8 +204,8 @@ export default {
           label: "用户类型",
           key: "userType",
           optionData: [
-            { key: "1", value: "用户" },
-            { key: "2", value: "商户" }
+            { key: "1", value: "用户" }
+            // { key: "2", value: "商户" }
           ]
         },
         {

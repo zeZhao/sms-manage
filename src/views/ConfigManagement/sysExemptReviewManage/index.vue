@@ -798,6 +798,13 @@ export default {
             obj[key] = "0";
           }
         }
+        if (key === "isGatewayGroup") {
+          if (Number(obj["exemptId"]) > 9000) {
+            obj[key] = "1";
+          } else {
+            obj[key] = "0";
+          }
+        }
         if (key === "sensitiveWord") {
           if (typeof obj[key] === "string") {
             let arr = obj[key].split(",");
