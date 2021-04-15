@@ -23,13 +23,19 @@
             <template v-if="item.type === 'input'">
               <el-input
                 :class="{ inputWid: item.btnTxt }"
-                v-model="formData[item.key]"
+                v-model.trim="formData[item.key]"
                 clearable
                 size="small"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
+                @keyup.native="
+                  $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
+                "
                 @input="
                   val => {
                     onInputChange(val, item);
@@ -455,7 +461,7 @@ export default {
             type === "switch" ||
             type === "date" ||
             type === "time" ||
-            type === "selectGroup" 
+            type === "selectGroup"
           ) {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
