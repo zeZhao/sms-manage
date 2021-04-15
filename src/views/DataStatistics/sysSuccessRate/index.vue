@@ -15,7 +15,7 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="gateway" label="通道" />
+      <!-- <el-table-column prop="gateway" label="通道" /> -->
       <el-table-column prop="operator" label="运营商">
         <template slot-scope="scope">
           <span>{{
@@ -33,7 +33,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsType" label="类型">
+      <!-- <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.smsType === "1"
@@ -47,7 +47,7 @@
               : ""
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="submitNum" label="提交数" />
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="successNum" label="成功数" />
@@ -106,11 +106,11 @@ export default {
         //   label: "特服号",
         //   key: "code",
         // },
-        {
-          type: "inputNum",
-          label: "通道",
-          key: "gateway"
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "通道",
+        //   key: "gateway"
+        // },
         {
           type: "select",
           label: "运营商",
@@ -124,19 +124,19 @@ export default {
           ],
           placeholder: "请选择运营商"
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "smsType",
-          defaultValue: "1",
-          optionData: [
-            { key: "1", value: "短信" }
-            // { key: "2", value: "彩信" },
-            // { key: "3", value: "屏信" },
-            // { key: "4", value: "语音" },
-          ],
-          placeholder: "请选择类型"
-        }
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "smsType",
+        //   defaultValue: "1",
+        //   optionData: [
+        //     { key: "1", value: "短信" }
+        //     // { key: "2", value: "彩信" },
+        //     // { key: "3", value: "屏信" },
+        //     // { key: "4", value: "语音" },
+        //   ],
+        //   placeholder: "请选择类型"
+        // }
       ]
     };
   },
