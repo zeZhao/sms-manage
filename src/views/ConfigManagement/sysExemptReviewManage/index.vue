@@ -52,13 +52,13 @@
         </template>
       </el-table-column>
       <el-table-column prop="update_by" label="修改人" />
-      <el-table-column prop="isadvice" label="配置方式">
+      <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
           <span v-else-if="scope.row.isadvice">系统推荐</span>
           <span v-else>-</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="update_time" label="修改时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.update_time | timeFormat
