@@ -184,14 +184,14 @@ export default {
         {
           type: "select",
           label: "优化类型",
-          initDefaultValue: 1,
-          defaultValue: 1,
+          initDefaultValue: 2,
+          defaultValue: 2,
           key: "type",
           optionData: [
-            {
-              key: 1,
-              value: "不优化"
-            },
+            // {
+            //   key: 1,
+            //   value: "不优化"
+            // },
             {
               key: 2,
               value: "特定通道"

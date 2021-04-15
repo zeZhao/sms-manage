@@ -12,15 +12,16 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="corpId" label="商户编号" key="corpId" />
+      <el-table-column prop="userId" label="账户编号" key="userId" />
+      <el-table-column prop="userName" label="账户名称" key="userName" />
       <el-table-column
         prop="code"
         label="特服号"
         v-if="searchParam.showCode === '1'"
+        key="code"
       />
-      <el-table-column prop="accountType" label="用户类型">
+      <el-table-column prop="accountType" label="用户类型" key="accountType">
         <template slot-scope="scope">
           <span>{{
             scope.row.smsType === 1
@@ -29,11 +30,11 @@
               ? "营销"
               : scope.row.smsType === 3
               ? "vip"
-              : ""
+              : "-"
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsType" label="类型">
+      <el-table-column prop="smsType" label="类型" key="smsType">
         <template slot-scope="scope">
           <span>{{
             scope.row.smsType === 1
@@ -50,12 +51,14 @@
         prop="gateway"
         label="通道"
         v-if="searchParam.showGateway === '1'"
+        key="gateway"
       />
-      <el-table-column prop="sendNum" label="条数" />
+      <el-table-column prop="sendNum" label="条数" key="sendNum" />
       <el-table-column
         prop="countDate"
         label="统计日期"
         v-if="searchParam.showDate === '1'"
+        key="countDate"
       />
     </el-table>
     <p style="color: red">
@@ -150,15 +153,15 @@ export default {
             {
               key: 1,
               value: "行业"
-            },
-            {
-              key: 2,
-              value: "营销"
-            },
-            {
-              key: 3,
-              value: "vip"
             }
+            // {
+            //   key: 2,
+            //   value: "营销"
+            // },
+            // {
+            //   key: 3,
+            //   value: "vip"
+            // }
           ]
         },
         {

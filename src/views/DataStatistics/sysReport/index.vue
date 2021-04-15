@@ -16,31 +16,37 @@
         prop="userId"
         label="账户编号"
         v-if="searchParam.showUser === '1'"
+        key="userId"
       />
       <el-table-column
         prop="userName"
         label="账户名称"
         v-if="searchParam.showUser === '1'"
+        key="userName"
       />
       <el-table-column
         prop="gateway"
         label="通道"
         v-if="searchParam.showGateway === '1'"
+        key="gateway"
       />
       <el-table-column
         prop="gatewayName"
         label="通道名称"
         v-if="searchParam.showGateway === '1'"
+        key="gatewayName"
       />
       <el-table-column
         prop="province"
         label="省份"
         v-if="searchParam.showProvince === '1'"
+        key="province"
       />
       <el-table-column
         prop="operaId"
         label="运营商"
         v-if="searchParam.showOpera === '1'"
+        key="operaId"
       >
         <template slot-scope="scope">
           <span>{{
@@ -60,8 +66,9 @@
         prop="code"
         label="特服号"
         v-if="searchParam.showCode === '1'"
+        key="code"
       />
-      <el-table-column prop="smsType" label="类型">
+      <el-table-column prop="smsType" label="类型" key="smsType">
         <template slot-scope="scope">
           <span>{{
             scope.row.smsType === 1
@@ -74,26 +81,26 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送条数" />
-      <el-table-column prop="successNum" label="成功数" />
-      <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column prop="successRate" label="成功率">
+      <el-table-column prop="sendNum" label="发送条数" key="sendNum" />
+      <el-table-column prop="successNum" label="成功数" key="successNum" />
+      <el-table-column prop="failNum" label="失败数" key="failNum" />
+      <el-table-column prop="unknownNum" label="未知数" key="unknownNum" />
+      <el-table-column prop="successRate" label="成功率" key="successRate">
         <template slot-scope="scope">
           <span>{{ Number(scope.row.successRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
-      <el-table-column prop="failRate" label="失败率">
+      <el-table-column prop="failRate" label="失败率" key="failRate">
         <template slot-scope="scope">
           <span>{{ Number(scope.row.failRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
-      <el-table-column prop="unknownRate" label="未知率">
+      <el-table-column prop="unknownRate" label="未知率" key="unknownRate">
         <template slot-scope="scope">
           <span>{{ Number(scope.row.unknownRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
-      <el-table-column prop="percentage" label="占比">
+      <el-table-column prop="percentage" label="占比" key="percentage">
         <template slot-scope="scope">
           <span>{{ Number(scope.row.percentage).toFixed(2) }}%</span>
         </template>
@@ -178,10 +185,10 @@ export default {
           label: "类型",
           key: "smsType",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
-            { key: "3", value: "屏信" },
-            { key: "4", value: "语音" }
+            { key: "1", value: "短信" }
+            // { key: "2", value: "彩信" },
+            // { key: "3", value: "屏信" },
+            // { key: "4", value: "语音" }
           ],
           placeholder: "请选择类型"
         },

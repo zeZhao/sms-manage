@@ -24,7 +24,7 @@
               ? "营销"
               : scope.row.smsType === 3
               ? "vip"
-              : ""
+              : "-"
           }}</span>
         </template>
       </el-table-column>
@@ -141,7 +141,7 @@ export default {
               value: "电信"
             },
             {
-              key: 4,
+              key: "0",
               value: "非法"
             }
           ],

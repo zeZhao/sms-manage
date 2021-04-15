@@ -31,12 +31,18 @@
             <template v-if="item.type === 'input'">
               <el-input
                 :class="{ inputWid: item.btnTxt }"
-                v-model="formData[item.key]"
+                v-model.trim="formData[item.key]"
                 clearable
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
+                @keyup.native="
+                  $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
+                "
                 @input="
                   val => {
                     onInputChange(val, item);
@@ -403,9 +409,6 @@ export default {
       this.formConfig.forEach(item => {
         const { key, defaultValue } = item;
         form[key] = item.defaultValue;
-        if (key === "mmsCardUnit") {
-          console.log(form[key], "WWWWWWWWWWWWWWWWWWWWWWWWWWW");
-        }
       });
 
       this.formData = form;
@@ -461,7 +464,6 @@ export default {
       return item.clearable !== false;
     },
     selectChange(val, item) {
-      console.log(val, "----------");
       this._setDefaultVal(val, item);
       this.$emit("selectChange", { val, item });
     },
