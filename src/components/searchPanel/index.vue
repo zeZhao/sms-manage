@@ -25,7 +25,7 @@
         <el-col
           :sm="12"
           :md="8"
-          :lg="item.type === 'daterange' || item.type === 'timerange' ? 12 : 6"
+          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' ? 12 : 6"
           v-for="(item, index) in searchFormConfig"
           :key="index"
         >
@@ -145,6 +145,30 @@
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
               ></el-date-picker>
+            </template>
+            <!--多个日期-选择具体到某天某时某秒-->
+            <template v-if="item.type === 'datetime'">
+              <!-- @change="_mxHandleSubmit()" -->
+              <el-date-picker
+                type="datetime"
+                size="small"
+                :placeholder="item.placeholder || '选择开始日期'"
+                style="width: 45%"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :clearable="isClearAble(item)"
+                v-model="form[item.key[1]]"
+              ></el-date-picker>
+              -
+              <el-date-picker
+                type="datetime"
+                size="small"
+                :placeholder="item.placeholder || '选择结束日期'"
+                style="width: 45%"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :clearable="isClearAble(item)"
+                v-model="form[item.key[2]]"
+              ></el-date-picker>
+              <!-- @change="_mxHandleSubmit()" -->
             </template>
           </el-form-item>
         </el-col>
