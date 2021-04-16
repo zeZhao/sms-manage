@@ -736,8 +736,6 @@ export default {
       });
     },
     handleExceed({ file, fileList }) {
-      console.log(file);
-      console.log(fileList);
       this.$message.error("仅允许上传一张！");
     },
 
