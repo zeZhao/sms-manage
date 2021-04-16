@@ -174,10 +174,14 @@ export default {
     handleClick(item) {
       this.formConfig.forEach(item => {
         if (item.key === "content") {
+          let variable = 1;
+          let x = `$(${variable++})`;
           if (item.defaultValue) {
-            item.defaultValue = `${item.defaultValue}{x}`;
+            variable = item.defaultValue.split(")").length;
+            x = `$(${variable++})`;
+            item.defaultValue = `${item.defaultValue}${x}`;
           } else {
-            item.defaultValue = `{x}`;
+            item.defaultValue = `${x}`;
           }
         }
       });

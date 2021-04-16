@@ -58,12 +58,12 @@
     >
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="code" label="特服号" />
+      <!-- <el-table-column prop="code" label="特服号" /> -->
       <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="contact" label="联系人姓名" />
       <el-table-column prop="mobile" label="联系人电话" />
-      <el-table-column prop="sublong" label="扩展位数" />
-      <el-table-column prop="reductModel" label="计费方式">
+      <!-- <el-table-column prop="sublong" label="扩展位数" /> -->
+      <!-- <el-table-column prop="reductModel" label="计费方式">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -75,7 +75,7 @@
               : "后付成功计费"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column prop="smsBalance" label="短信余额" /> -->
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
