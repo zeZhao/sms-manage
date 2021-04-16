@@ -52,7 +52,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'daterange',
+          type: 'datetime',
           label: '提交时间',
           key: ['', 'startSubmitTime', 'endSubmitTime']
         },

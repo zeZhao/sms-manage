@@ -38,13 +38,13 @@
 <script>
 import listMixin from '@/mixin/listMixin';
 const operatorArr = [
-  { key: 2, value: '三网' },
-  { key: 3, value: '移动' },
-  { key: 4, value: '联通' },
-  { key: 5, value: '电信' },
-  { key: 6, value: '移动、联通' },
-  { key: 7, value: '移动、电信' },
-  { key: 8, value: '联通、电信' }
+  { key: 0, value: '三网' },
+  { key: 1, value: '移动' },
+  { key: 2, value: '联通' },
+  { key: 3, value: '电信' },
+  { key: 4, value: '移动、联通' },
+  { key: 5, value: '移动、电信' },
+  { key: 6, value: '联通、电信' }
 ];
 const checkStatusArr = [
   { key: 1, value: '审核通过' },
