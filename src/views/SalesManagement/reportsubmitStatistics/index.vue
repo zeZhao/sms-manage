@@ -18,8 +18,9 @@
       <el-table-column prop="accountType" label="用户类型">
         <template slot-scope="scope">
           <span v-if="scope.row.accountType === 1">行业</span>
-          <span v-if="scope.row.accountType === 2">营销</span>
-          <span v-if="scope.row.accountType === 3">vip</span>
+          <span v-else>-</span>
+          <!-- <span v-if="scope.row.accountType === 2">营销</span>
+          <span v-if="scope.row.accountType === 3">vip</span> -->
         </template>
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
@@ -118,9 +119,9 @@ export default {
           label: "用户类型",
           key: "accountType",
           optionData: [
-            { key: "1", value: "行业" },
-            { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
+            { key: "1", value: "行业" }
+            // { key: "2", value: "营销" },
+            // { key: "3", value: "VIP" }
           ]
         },
         {

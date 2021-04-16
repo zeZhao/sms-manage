@@ -285,7 +285,8 @@ export default {
           defaultValue: "",
           tip: "支持jpg/jpeg/png,大小在1M之内",
           defaultFileList: [],
-          isShow: false
+          isShow: false,
+          accept: ["png", "jpg", "jpeg"],
         }
       ],
       bId: "",
@@ -363,13 +364,40 @@ export default {
       }, 0);
       this.addChannel = true;
     },
-    handleSuccess({ response, file, fileList }) {
-      console.log({ response, file, fileList });
-      this.formConfig.forEach(item => {
-        if (item.key === "logo") {
-          item.defaultValue = response.data;
+    handleSuccess({ response, file, fileList, item }) {
+      if (response.code == 200) {
+        const { accept, size } = item;
+        let fileType = file.raw.name.split(".")[1];
+        let fileSize = file.size;
+        let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
+        if (accept && accept.lenght != 0) {
+          if (!accept.includes(fileType) || fileSize > isLt1M) {
+            this.$message.error("支持jpg/jpeg/png,大小在1M之内");
+            this.formConfig.forEach(el => {
+              if (el.key === "logo") {
+                el.defaultValue = "";
+                el.defaultFileList = [];
+              }
+            });
+            return false;
+          }
         }
-      });
+        this.formConfig.forEach(el => {
+          if (el.key === "logo") {
+            el.defaultValue = response.data;
+            el.defaultFileList = response.data;
+          }
+        });
+      } else {
+        this.$message.error(response.data);
+      }
+
+      // console.log({ response, file, fileList });
+      // this.formConfig.forEach(item => {
+      //   if (item.key === "logo") {
+      //     item.defaultValue = response.data;
+      //   }
+      // });
     },
     handleStatus(statu, agentId) {
       this.statusVisible = true;

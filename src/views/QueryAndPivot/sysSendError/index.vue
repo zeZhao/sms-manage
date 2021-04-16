@@ -272,6 +272,7 @@ export default {
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || "修改成功！");
+          this._mxGetList();
           this.content = false;
         } else {
           this.$message.error(res.data || res.msg);
@@ -283,17 +284,18 @@ export default {
     },
 
     submitGateway(form) {
-      for (let key in form) {
-        if (key === "startTime") {
-          form[key] = new Date(form[key]).Format("yyyy-MM-dd hh:mm:ss");
-        }
-        if (key === "endTime") {
-          form[key] = new Date(form[key]).Format("yyyy-MM-dd 23:59:59");
-        }
-      }
+      // for (let key in form) {
+      //   if (key === "startTime") {
+      //     form[key] = new Date(form[key]).Format("yyyy-MM-dd hh:mm:ss");
+      //   }
+      //   if (key === "endTime") {
+      //     form[key] = new Date(form[key]).Format("yyyy-MM-dd 23:59:59");
+      //   }
+      // }
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || "修改成功！");
+          this._mxGetList();
           this.gateway = false;
         } else {
           this.$message.error(res.data || res.msg);

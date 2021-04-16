@@ -140,7 +140,11 @@ export default {
           key: "gateway",
           optionData: [],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: "blur"
+            }
           ]
         },
 
@@ -148,7 +152,15 @@ export default {
           type: "input",
           label: "不重发的状态",
           key: "status",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              whitespace: true,
+              message: "请输入必填项",
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "select",
@@ -156,7 +168,11 @@ export default {
           key: "destGateway",
           optionData: [],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "change" }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: "blur"
+            }
           ]
         }
       ],

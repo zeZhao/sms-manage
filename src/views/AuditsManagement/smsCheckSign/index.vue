@@ -57,6 +57,7 @@
             @click="_mxEdit(scope.row, 'signCheckId')"
             type="text"
             size="small"
+            :disabled="scope.row.status === 4 || scope.row.status === 5"
             >审核</el-button
           >
         </template>

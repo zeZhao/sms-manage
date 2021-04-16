@@ -185,10 +185,10 @@ export default {
           label: "类型",
           key: "smsType",
           optionData: [
-            { key: "1", value: "短信" },
-            { key: "2", value: "彩信" },
-            { key: "3", value: "屏信" },
-            { key: "4", value: "语音" }
+            { key: "1", value: "短信" }
+            // { key: "2", value: "彩信" },
+            // { key: "3", value: "屏信" },
+            // { key: "4", value: "语音" }
           ],
           placeholder: "请选择类型"
         },
