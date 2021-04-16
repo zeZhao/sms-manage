@@ -267,6 +267,16 @@
                     handleSuccess(item, res, file, fileList);
                   }
                 "
+                :before-upload="
+                  file => {
+                    beforeUpload(item, file);
+                  }
+                "
+                :on-progress="
+                  (event, file, fileList) => {
+                    handleProgress(item, event, file, fileList);
+                  }
+                "
                 :on-error="handleError"
                 :limit="item.limit || 1"
                 :file-list="item.defaultFileList || []"
@@ -502,13 +512,17 @@ export default {
     //  文件上传成功时的钩子
     handleSuccess(item, response, file, fileList) {
       if (response.code == 200) {
-        this.$emit("handleSuccess", { response, file, fileList });
+        this.$emit("handleSuccess", { response, file, fileList, item });
       } else {
         this.$message.error(response.data);
         item.defaultFileList = [];
         // fileList = [];
       }
     },
+    //上传前
+    beforeUpload(item, file) {},
+    //  文件上传时的钩子
+    handleProgress(item, event, file, fileList) {},
     //  文件上传失败时的钩子
     handleError(err, file, fileList) {
       this.$emit("handleError", { err, file, fileList });

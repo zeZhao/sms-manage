@@ -272,6 +272,7 @@ export default {
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || "修改成功！");
+          this._mxGetList();
           this.content = false;
         } else {
           this.$message.error(res.data || res.msg);
@@ -294,6 +295,7 @@ export default {
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || "修改成功！");
+          this._mxGetList();
           this.gateway = false;
         } else {
           this.$message.error(res.data || res.msg);

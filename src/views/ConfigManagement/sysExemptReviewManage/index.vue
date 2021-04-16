@@ -429,23 +429,23 @@ export default {
         //   optionData: [],
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
-        {
-          type: "select",
-          label: "是否包含通道组",
-          key: "isGatewayGroup",
-          disabled: true,
-          optionData: [
-            {
-              key: "0",
-              value: "否"
-            },
-            {
-              key: "1",
-              value: "是"
-            }
-          ]
-          // isShow: true
-        },
+        // {
+        //   type: "select",
+        //   label: "是否包含通道组",
+        //   key: "isGatewayGroup",
+        //   disabled: true,
+        //   optionData: [
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     },
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     }
+        //   ]
+        //   // isShow: true
+        // },
         {
           type: "checkbox",
           label: "关键字类别",
