@@ -48,7 +48,7 @@
       </el-table-column>
       <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
-          <span>{{ scope.row.isLoss === "1" ? "是" : "否" }}</span>
+          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss === "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="update_by" label="修改人" />
@@ -59,7 +59,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="update_time" label="修改时间" min-width="170">
+      <el-table-column prop="update_time" label="操作时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.update_time | timeFormat
         }}</template>
@@ -548,8 +548,8 @@ export default {
           label: "备注信息",
           maxlength: 300,
           key: "remarks",
-          placeholder: "备注信息不能超过300字",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          placeholder: "备注信息不能超过300字"
+          // rules: [{ trigger: "blur", validator: validatorRemark }]
         }
       ],
       GatewayList: [], // 通道列表
