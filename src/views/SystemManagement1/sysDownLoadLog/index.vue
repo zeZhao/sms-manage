@@ -37,7 +37,11 @@
           <span>{{ scope.row.generationTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="fileSize" label="导出文件大小" />
+      <el-table-column prop="fileSize" label="导出文件大小">
+        <template slot-scope="scope">
+          <span>{{ scope.row.fileSize }}KB</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="处理状态">
         <template slot-scope="{ row }">
           <span v-if="row.status == 1">生成中</span>
