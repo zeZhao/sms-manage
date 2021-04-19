@@ -306,6 +306,7 @@ export default {
         this.$http[namespace][detele](params).then(res => {
           if (resOk(res)) {
             this.$message.success("删除成功！");
+            this.pageObj.currentPage = 1;
             this._mxGetList();
           } else {
             this.$message.error(res.msg || "删除失败！");
