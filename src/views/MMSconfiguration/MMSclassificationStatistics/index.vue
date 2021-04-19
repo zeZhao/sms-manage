@@ -22,28 +22,28 @@
       highlight-current-row
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="gatewayName" label="通道名称" />
-      <el-table-column prop="gatewayRatio" label="通道占比">
+      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="gatewayName" label="通道名称" min-width="150" show-overflow-tooltip />
+      <el-table-column prop="gatewayRatio" label="通道占比" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.gatewayRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送数" />
-      <el-table-column prop="successNum" label="成功数" />
-      <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column label="成功率">
+      <el-table-column prop="sendNum" label="发送数" show-overflow-tooltip />
+      <el-table-column prop="successNum" label="成功数" show-overflow-tooltip />
+      <el-table-column prop="failNum" label="失败数" show-overflow-tooltip />
+      <el-table-column prop="unknownNum" label="未知数" show-overflow-tooltip />
+      <el-table-column label="成功率" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.successRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="统计日期" min-width="150">
+      <el-table-column prop="createTime" label="统计日期" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
-          {{ scope.row.createTime ? scope.row.createTime : "-" }}
+          {{ scope.row.createTime | Format }}
         </template>
       </el-table-column>
     </el-table>
@@ -53,32 +53,32 @@
       highlight-current-row
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="operaId" label="运营商">
+      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="operaId" label="运营商" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderOperaId(scope.row.operaId) }}
         </template>
       </el-table-column>
-      <el-table-column prop="operatorRatio" label="运营商占比" min-width="100">
+      <el-table-column prop="operatorRatio" label="运营商占比" min-width="100" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.operatorRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送数" />
-      <el-table-column prop="successNum" label="成功数" />
-      <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column label="成功率">
+      <el-table-column prop="sendNum" label="发送数" show-overflow-tooltip />
+      <el-table-column prop="successNum" label="成功数" show-overflow-tooltip />
+      <el-table-column prop="failNum" label="失败数" show-overflow-tooltip />
+      <el-table-column prop="unknownNum" label="未知数" show-overflow-tooltip />
+      <el-table-column label="成功率" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.successRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="统计日期" min-width="150">
+      <el-table-column prop="createTime" label="统计日期" min-width="150" show-overflow-tooltip>
         <template slot-scope="scope">
-          {{ scope.row.createTime ? scope.row.createTime : "-" }}
+          {{ scope.row.createTime | Format }}
         </template>
       </el-table-column>
     </el-table>
@@ -88,19 +88,19 @@
       highlight-current-row
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column prop="province" label="省份名称" />
-      <el-table-column prop="provinceRatio" label="省份占比">
+      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
+      <el-table-column prop="province" label="省份名称" show-overflow-tooltip />
+      <el-table-column prop="provinceRatio" label="省份占比" show-overflow-tooltip>
          <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.provinceRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送数" />
-      <el-table-column prop="successNum" label="成功数" />
-      <el-table-column prop="failNum" label="失败数" />
-      <el-table-column prop="unknownNum" label="未知数" />
-      <el-table-column label="成功率">
+      <el-table-column prop="sendNum" label="发送数" show-overflow-tooltip />
+      <el-table-column prop="successNum" label="成功数" show-overflow-tooltip />
+      <el-table-column prop="failNum" label="失败数" show-overflow-tooltip />
+      <el-table-column prop="unknownNum" label="未知数" show-overflow-tooltip />
+      <el-table-column label="成功率" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.successRatio) }}
         </template>
