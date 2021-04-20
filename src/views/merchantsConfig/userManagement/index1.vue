@@ -1334,6 +1334,8 @@ export default {
             } else {
               this.$set(item, "defaultValue", lineData[keys]);
             }
+          } else if (item.key === keys && lineData[keys] === "-") {
+            this.$set(item, "defaultValue", "");
           }
         }
         if (item.key === "reductModel") {
