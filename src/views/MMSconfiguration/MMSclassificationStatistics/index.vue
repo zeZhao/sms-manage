@@ -305,7 +305,7 @@ export default {
       return idx !== -1 ? operaIdArr[idx].value : "-";
     },
     renderSuccessRatio(x) {
-      return (x && x !== '-') ? ((x * 100).toFixed(2) + "%") : "-";
+      return ((x && x !== '-') || (x === 0)) ? ((x * 100).toFixed(2) + "%") : "-";
     },
     exportExe() {
       this.$refs.Search.handleExport();
