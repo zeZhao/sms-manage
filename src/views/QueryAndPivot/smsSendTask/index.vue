@@ -66,6 +66,7 @@
     </el-dialog>
     <el-dialog title="批量修改通道" :visible.sync="editGateway" width="50%">
       <FormItem
+        :colSpan="12"
         ref="formItem"
         :formConfig="formConfig"
         btnTxt="修改"
@@ -210,24 +211,24 @@ export default {
           key: "endTime",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "是否处理长短信",
-          initDefaultValue: "1",
-          defaultValue: "1",
-          optionData: [
-            {
-              key: "1",
-              value: "是"
-            },
-            {
-              key: "0",
-              value: "否"
-            }
-          ],
-          key: "udhi",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "是否处理长短信",
+        //   initDefaultValue: "1",
+        //   defaultValue: "1",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     }
+        //   ],
+        //   key: "udhi",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "input",
           label: "特服号",
