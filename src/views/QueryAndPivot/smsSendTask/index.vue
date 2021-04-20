@@ -26,7 +26,7 @@
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="mobile" label="手机号" min-width="120" show-overflow-tooltip />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
@@ -66,6 +66,7 @@
     </el-dialog>
     <el-dialog title="批量修改通道" :visible.sync="editGateway" width="50%">
       <FormItem
+        :colSpan="12"
         ref="formItem"
         :formConfig="formConfig"
         btnTxt="修改"
@@ -193,8 +194,8 @@ export default {
         {
           type: "date",
           label: "日期",
-          initDefaultValue: "",
-          defaultValue: "",
+          initDefaultValue: new Date(),
+          defaultValue: new Date(),
           key: "submitDate",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -202,32 +203,36 @@ export default {
           type: "time",
           label: "开始时间",
           key: "startTime",
+          initDefaultValue: '00:00:00',
+          defaultValue: '00:00:00',
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "time",
           label: "结束时间",
           key: "endTime",
+          initDefaultValue: '23:59:59',
+          defaultValue: '23:59:59',
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "是否处理长短信",
-          initDefaultValue: "1",
-          defaultValue: "1",
-          optionData: [
-            {
-              key: "1",
-              value: "是"
-            },
-            {
-              key: "0",
-              value: "否"
-            }
-          ],
-          key: "udhi",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "是否处理长短信",
+        //   initDefaultValue: "1",
+        //   defaultValue: "1",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     }
+        //   ],
+        //   key: "udhi",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "input",
           label: "特服号",

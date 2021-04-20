@@ -154,7 +154,7 @@ export default {
     },
     renderConsume(a, b, c) {
       const num = 10000
-      return ((a * num) / num) * ((b * num) / num) * ((c * num) / num)
+      return (((a * num) / num) * ((b * num) / num) * ((c * num) / num)).toFixed(3)
     },
     renderReductModel(item) {
       if (item == '1') {

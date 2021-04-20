@@ -290,7 +290,7 @@ export default {
           if (key === "province") {
             res.data.forEach(t => {
               let obj = {
-                key: t.provinceId,
+                key: t.provinceName,
                 value: t.provinceName
               };
               item.optionData.push(obj);
