@@ -454,7 +454,8 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    if (/^\d{1,4}(\.\d+)?$/.test(value)) {
+                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    if (/^\d{1,4}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
                       callback(new Error("请输入1~4位的数值"));
@@ -483,7 +484,8 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    if (/^\d{1,10}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
                       callback(new Error("请输入1~10位的数值"));
@@ -511,7 +513,8 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    if (/^\d{1,12}$/.test(value)) {
+                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    if (/^\d{1,12}$/.test(val)) {
                       callback();
                     } else {
                       callback(new Error("请输入1~12位的正整数"));
@@ -553,7 +556,8 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    if (/^\d{1,10}(\.\d+)?$/.test(value)) {
+                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    if (/^\d{1,10}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
                       callback(new Error("请输入1~10位数值"));

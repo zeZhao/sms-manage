@@ -515,7 +515,7 @@ export default {
               this.customerAddInfo = false;
               this.orderList();
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.data || res.msg);
             }
           });
         }
@@ -567,7 +567,7 @@ export default {
               );
               router.addRoutes(accessRoutes);
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.data || res.msg);
             }
           });
         }
@@ -604,7 +604,6 @@ export default {
       });
     },
     setNavuserList(id, type) {
-      console.log(id, type);
       if (type == 1) {
         let CheckedKeys = this.$refs.add.getCheckedKeys();
         let HalfCheckedKeys = this.$refs.add.getHalfCheckedKeys();
@@ -628,7 +627,7 @@ export default {
           this.customerInfo = false;
           this.orderList();
         } else {
-          this.$message.error(res.data);
+          this.$message.error(res.data || res.msg);
         }
       });
     },
