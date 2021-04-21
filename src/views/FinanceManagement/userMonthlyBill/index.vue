@@ -84,9 +84,18 @@ export default {
           placeholder: "请输入账户名称"
         },
         {
-          type: "daterange",
+          type: "month",
           label: "统计日期",
-          key: ["", "startTime", "endTime"]
+          key: "startTime",
+          clearable: false,
+          defaultValue: `${new Date().getFullYear()}-${new Date().getMonth() < 10 ? '0' + new Date().getMonth()  : new Date().getMonth()}`,
+          pickerOptions:  {
+            disabledDate(time) {
+              const t = new Date().getDate();
+              return time.getTime() > Date.now() - 8.64e7 * t;
+            }
+          }
+          // key: ["", "startTime", "endTime"]
         }
       ]
     };
@@ -95,16 +104,16 @@ export default {
   computed: {},
   methods: {
     // 修改搜索参数
-    _formatRequestData(data) {
-      const { startTime, endTime } = data;
-      if (startTime) {
-        data.startTime = new Date(startTime).Format("yyyy-MM-dd");
-      }
-      if (endTime) {
-        data.endTime = new Date(endTime).Format("yyyy-MM-dd");
-      }
-      return data;
-    }
+    // _formatRequestData(data) {
+    //   const { startTime, endTime } = data;
+    //   if (startTime) {
+    //     data.startTime = new Date(startTime).Format("yyyy-MM-dd");
+    //   }
+    //   if (endTime) {
+    //     data.endTime = new Date(endTime).Format("yyyy-MM-dd");
+    //   }
+    //   return data;
+    // }
     /**
      * 对表格数据进行自定义调整
      * @param rows
