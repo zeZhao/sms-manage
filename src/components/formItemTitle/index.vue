@@ -373,6 +373,7 @@ export default {
   methods: {
     //input Change事件
     onInputChange(val, item) {
+      val = val.trim();
       this._setDefaultVal(val, item);
       this.$emit("inpChange", { val, item });
     },
