@@ -144,6 +144,7 @@
                 :placeholder="item.placeholder || '选择月份'"
                 :clearable="isClearAble(item)"
                 v-model="form[item.key]"
+                :picker-options="item.pickerOptions || ''"
               ></el-date-picker>
             </template>
             <!--多个日期-选择具体到某天某时某秒-->

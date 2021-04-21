@@ -12,10 +12,10 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="商户/账户编号" />
+      <el-table-column prop="userId" label="账户编号" />
       <el-table-column
         prop="userName"
-        label="商户/账户名称"
+        label="账户名称"
         show-overflow-tooltip
       >
         <template slot-scope="scope">
@@ -97,7 +97,7 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
-          label: "商户/账户编号",
+          label: "账户编号",
           key: "userId",
           placeholder: "请输入账户编号"
         },

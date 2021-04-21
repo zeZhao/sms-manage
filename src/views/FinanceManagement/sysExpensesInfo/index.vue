@@ -12,36 +12,36 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column type="index" label="序号" />
+      <el-table-column type="index" label="序号" show-overflow-tooltip />
       <el-table-column prop="no" label="下单编号" show-overflow-tooltip />
-      <el-table-column prop="corporateName" label="所属公司" />
-      <el-table-column prop="orderMonth" label="下单月" width="95">
+      <el-table-column prop="corporateName" label="所属公司" show-overflow-tooltip />
+      <el-table-column prop="orderMonth" label="下单月" width="95" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.orderMonth | FormatMonth }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="theMonth" label="所属月" width="95">
+      <el-table-column prop="theMonth" label="所属月" width="95" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.theMonth | FormatMonth }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="dates" label="日期" width="95" />
+      <el-table-column prop="dates" label="日期" width="95" show-overflow-tooltip />
       <el-table-column prop="summary" label="摘要" show-overflow-tooltip />
       <el-table-column
         prop="collectionCompany"
         label="收款单位"
         show-overflow-tooltip
       />
-      <el-table-column prop="lender" label="付款金额" />
-      <el-table-column prop="ticketsPlusNotes" label="是否回票" />
+      <el-table-column prop="lender" label="付款金额" show-overflow-tooltip />
+      <el-table-column prop="ticketsPlusNotes" label="是否回票" show-overflow-tooltip />
       <el-table-column prop="ticketNumber" label="票号" show-overflow-tooltip />
-      <el-table-column prop="billingType" label="开票类型" />
-      <el-table-column prop="isPay" label="是否已付款">
+      <el-table-column prop="billingType" label="开票类型" show-overflow-tooltip />
+      <el-table-column prop="isPay" label="是否已付款" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.isPay === 1 ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remarks" label="备注" />
+      <el-table-column prop="remarks" label="备注" show-overflow-tooltip />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
