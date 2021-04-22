@@ -13,16 +13,16 @@
       v-loading="loading"
     >
       <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="type" label="号码类型">
         <template slot-scope="scope">
           <span>
             {{
-              scope.row.type === 1
+              scope.row.type == 1
                 ? "移动"
-                : scope.row.type === 2
+                : scope.row.type == 2
                 ? "联通"
-                : scope.row.type === 3
+                : scope.row.type == 3
                 ? "电信"
                 : "其他"
             }}
