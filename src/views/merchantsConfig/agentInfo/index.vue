@@ -238,7 +238,14 @@ export default {
           type: "input",
           label: "密码",
           key: "password",
-          rules: [{ validator: password, trigger: "change" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/,
+              message: "请输入8-16位，数字、字母、标点符号",
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "input",
@@ -315,11 +322,14 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
-        if (item.key === "password") {
-          item.rules = [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: password, trigger: "change" }
-          ];
+        // if (item.key === "password") {
+        //   item.rules = [
+        //     { required: true, message: "请输入必填项", trigger: "blur" },
+        //     { validator: password, trigger: "change" }
+        //   ];
+        // }
+        if (item.key === 'loginName') {
+          item.disabled = false;
         }
       });
       setTimeout(() => {
@@ -350,12 +360,15 @@ export default {
             }
           }
         }
-        if (item.key === "password") {
-          item.rules = [{ validator: password, trigger: "change" }];
-        }
+        // if (item.key === "password") {
+        //   item.rules = [{ validator: password, trigger: "change" }];
+        // }
 
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === 'loginName') {
+          item.disabled = true;
         }
       });
 
