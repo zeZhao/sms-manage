@@ -65,7 +65,7 @@
           <span v-if="scope.row.isBill == 1">月度帐单</span>
           <span v-if="scope.row.isBill == 2">退款记录</span>
           <span v-if="scope.row.isBill == 3">借款记录</span>
-          <span v-if="scope.row.isBill == 4">补款记录</span>
+          <span v-if="scope.row.isBill == 4">还款记录</span>
           <span v-if="scope.row.isBill == 5">转移记录</span>
           <span v-if="scope.row.isBill == 6">清授信记录</span>
           <span v-if="scope.row.isBill == 7">余额+记录</span>
@@ -207,7 +207,7 @@ export default {
             { key: "1", value: "月度账单" },
             // { key: "2", value: "退款记录" },
             // { key: "3", value: "借款记录" },
-            { key: "4", value: "补款记录" }
+            { key: "4", value: "还款记录" }
             // { key: "5", value: "转移记录" }
           ]
         },

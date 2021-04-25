@@ -425,7 +425,17 @@ export default {
     },
     selectChange(data) {}
   },
-  watch: {}
+  watch: {
+    listData(newArr) {
+      if (newArr.length) {
+        newArr.forEach(v => {
+          v.cuGateway = this.gatewayCuList.length ? this.gatewayCuList[0].id : '';
+          v.cmGateway = this.gatewayCmList.length ? this.gatewayCmList[0].id : '';
+          v.ctGateway = this.gatewayCtList.length ? this.gatewayCtList[0].id : '';
+        })
+      }
+    }
+  }
 };
 </script>
 
