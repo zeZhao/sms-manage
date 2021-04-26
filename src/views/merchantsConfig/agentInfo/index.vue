@@ -239,12 +239,29 @@ export default {
           label: "密码",
           key: "password",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/,
-              message: "请输入8-16位，数字、字母、标点符号",
-              trigger: "change"
-            }
+            { required: true, trigger: "blur", validator: (rule, value, callback) => {
+              if (this.renderFormTit === '新增') {
+                if (!value) {
+                  callback(new Error('请输入必填项'))
+                } else {
+                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
+                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  } else {
+                    callback()
+                  }
+                }
+              } else {
+                if (!value) {
+                  callback()
+                } else {
+                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
+                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  } else {
+                    callback()
+                  }
+                }
+              }
+            }}
           ]
         },
         {
@@ -309,7 +326,9 @@ export default {
   mounted() {
     this.getSaleman();
   },
-  computed: {},
+  computed: {
+    renderFormTit() { return this.formTit }
+  },
   methods: {
     /**
      * 创建表单
