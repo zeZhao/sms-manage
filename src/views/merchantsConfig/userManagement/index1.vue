@@ -663,7 +663,7 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/,
+              pattern: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/,
               message: "请输入8-16位，数字、字母、标点符号",
               trigger: "change"
             }
@@ -1287,6 +1287,9 @@ export default {
         if (item.tag === "sms" || item.tag === "mms") {
           item.isShow = true;
         }
+        if (item.key === 'loginName') {
+          item.disabled = false;
+        }
       });
       this.getAllCorp();
       this.getRole();
@@ -1422,6 +1425,11 @@ export default {
       this.getRole();
       this.getAgent();
       this.getSaleman();
+      this.formConfig.forEach(item => {
+        if (item.key === 'loginName') {
+          item.disabled = true;
+        }
+      })
       this.addChannel = true;
     },
     // 审核

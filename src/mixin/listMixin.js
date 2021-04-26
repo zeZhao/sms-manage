@@ -288,7 +288,6 @@ export default {
       }).then(action => {
         let params = {};
         if (!isQuery) {
-
           if (isData) {
             params = {
               data: {}
@@ -300,7 +299,6 @@ export default {
         } else {
           params = id.toString()
         }
-
 
         const { namespace, detele } = this.searchAPI;
         this.$http[namespace][detele](params).then(res => {
@@ -328,18 +326,17 @@ export default {
           }
         }
       })
-      // console.log(list, '--------list')
       return list
     },
 
     /**
      * 对表格数据进行自定义调整
-     * @param rows
+     * @param listData
      * @returns {*}
      * @private
      */
-    _mxFormListData(rows) {
-      return rows;
+    _mxFormListData(listData) {
+      return listData;
     },
 
     /**
