@@ -49,8 +49,8 @@
         @cancel="cancel"
       >
         <div slot="Other">
-          <el-button @click="addGatewayGroup">添加通道</el-button>
-          <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
+          <el-button class="m-b" @click="addGatewayGroup">添加通道</el-button>
+          <el-table class="m-b" :data="gatewayGroupList" v-if="gatewayGroupList.length">
             <el-table-column prop="gateway" label="通道编号">
               <template slot-scope="scope">
                 <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
@@ -368,5 +368,8 @@ export default {
 
 <style lang="scss" scoped>
 .sysGatewayGroup {
+}
+.m-b {
+  margin-bottom: 20px;
 }
 </style>
