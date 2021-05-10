@@ -256,6 +256,11 @@ export default {
       });
     },
     submit(form) {
+      const isDecimal = this.gatewayGroupList.every(v => v.ratio > 0 && v.ratio <= 100);
+      if (!isDecimal) {
+        this.$message.error('分配比例应该大于0且不得大于100');
+        return;
+      }
       let params = {};
       if (this.formTit == "新增") {
         params = {
