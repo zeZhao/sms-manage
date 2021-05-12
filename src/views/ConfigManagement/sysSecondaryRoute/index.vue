@@ -153,9 +153,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户签名",
+          label: "客户签名",
           key: "sign",
-          placeholder: "请输入用户签名"
+          placeholder: "请输入客户签名"
         },
         {
           type: "inputNum",
