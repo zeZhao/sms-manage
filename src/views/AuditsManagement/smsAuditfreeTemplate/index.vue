@@ -37,7 +37,7 @@
                 scope.row.templateId,
                 false,
                 false,
-                '您确定要删除标签吗？删除后标签将不可用'
+                '您确定要删除该模板吗？删除后该模板将不可用'
               )
             "
             type="text"
