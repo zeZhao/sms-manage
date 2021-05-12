@@ -357,6 +357,9 @@ export default {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
           }
+          if (item.key === key && (row[key] === "-" || !row[key])) {
+            this.$set(item, "defaultValue", "");
+          }
           if (item.key === "userId") {
             this.$set(item, "btnDisabled", true);
           }
