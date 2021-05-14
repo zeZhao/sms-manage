@@ -1556,12 +1556,21 @@ export default {
       this.speedVal = submitSpeed;
     },
     submitSpeeds() {
+      if (this.speedVal <= 0) {
+        this.$message.error("提交速率必须大于0");
+        return;
+      }
       if (!Number(this.speedVal)) {
         this.$message.error("提交速率只允许输入数字");
         return;
       }
       if (Number(this.speedVal) > 1000) {
         this.$message.error("最大不能超过1000");
+        return;
+      }
+      const str = typeof(this.speedVal) === 'string' ? this.speedVal : (this.speedVal + '');
+      if (str.indexOf('.') !== -1) {
+        this.$message.error("提交速率不允许有小数");
         return;
       }
       let params = {
