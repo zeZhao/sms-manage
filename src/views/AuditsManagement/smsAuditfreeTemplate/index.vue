@@ -67,6 +67,7 @@
         @cancel="_mxCancel"
         @selectChange="selectChange"
         @handleClick="handleClick"
+        @onChange="onChange"
       ></FormItemTitle>
     </el-dialog>
   </div>
@@ -152,6 +153,7 @@ export default {
           label: "生效日期",
           colSpan: 24,
           key: "effectiveTime",
+          disabledDate: null,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -159,6 +161,7 @@ export default {
           label: "失效日期",
           colSpan: 24,
           key: "invalidTime",
+          disabledDate: null,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
@@ -172,6 +175,26 @@ export default {
   },
   computed: {},
   methods: {
+    onChange({ val, item }) {
+      console.log(item);
+      const len = this.formConfig.length;
+      if (item.key === "effectiveTime") {
+        const data = {
+          disabledDate(time) {
+            return time < new Date(item.defaultValue).getTime();
+          }
+        };
+        this.formConfig[len - 1].disabledDate = item.defaultValue ? data : null;
+      }
+      if (item.key === "invalidTime") {
+        const data = {
+          disabledDate(time) {
+            return time > new Date(item.defaultValue).getTime();
+          }
+        }
+        this.formConfig[len - 2].disabledDate = item.defaultValue ? data : null;
+      }
+    },
     handleClick(item) {
       this.formConfig.forEach(item => {
         if (item.key === "content") {
