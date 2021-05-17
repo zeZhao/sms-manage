@@ -144,7 +144,8 @@ export default {
           key: "content",
           colSpan: 24,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          maxlength: 500
         },
         {
           type: "date",
@@ -180,6 +181,9 @@ export default {
             variable = item.defaultValue.split(")").length;
             x = `$(${variable++})`;
             item.defaultValue = `${item.defaultValue}${x}`;
+            if (item.defaultValue.length >= 500) {
+              item.defaultValue = item.defaultValue.substr(0, 500);
+            }
           } else {
             item.defaultValue = `${x}`;
           }
