@@ -304,10 +304,11 @@ export default {
         form.append("file", this.file);
         this.$http.networkChange.importBatchAdd(form).then(res => {
           if (res.code == 200) {
-            this.$message.success("添加成功");
             this.batchAddVisible = false;
             this.file = null;
             this.fileList = [];
+            this.$message.success("添加成功");
+            this._mxGetList();
           } else {
             this.$message.error(res.msg);
           }
