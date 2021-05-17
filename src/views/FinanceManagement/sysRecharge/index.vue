@@ -267,7 +267,7 @@ export default {
           key: "corporateId"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "商户名称",
           key: "corpName"
         },
@@ -277,7 +277,7 @@ export default {
           key: "userId"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "账户名称",
           key: "userName"
         },
