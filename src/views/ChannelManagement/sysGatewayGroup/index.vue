@@ -321,6 +321,8 @@ export default {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
+          } else if (item.key === key && row[key] === "-") {
+            this.$set(item, "defaultValue", "");
           }
         }
         if (!Object.keys(row).includes(item.key)) {
