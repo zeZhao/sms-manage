@@ -805,13 +805,19 @@ export default {
             obj[key] = "0";
           }
         }
-        if (key === "sensitiveWord") {
-          if (typeof obj[key] === "string") {
-            let arr = obj[key].split(",");
-            obj[key] = arr.map(item => {
-              return Number(item);
-            });
+        if(obj.hasOwnProperty('sensitiveWord')){
+          if (key === "sensitiveWord") {
+            if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
+              let arr = obj[key].split(",");
+              obj[key] = arr.map(item => {
+                return Number(item);
+              });
+            }else{
+              obj[key] = []
+            }
           }
+        }else{
+          obj['sensitiveWord'] = []
         }
       }
       return obj;
@@ -871,9 +877,13 @@ export default {
      */
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
-        if (key === "sensitiveWord") {
-          formData[key] = formData[key].join(",");
-        }
+        if(key === "sensitiveWord"){
+          if (formData['sensitiveWord'] && Array.isArray(formData['sensitiveWord'])) {
+            formData[key] = formData[key].join(",");
+          } else {
+            formData['sensitiveWord'] = [];
+          }
+        } 
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
