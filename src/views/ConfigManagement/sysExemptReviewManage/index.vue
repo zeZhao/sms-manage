@@ -51,7 +51,7 @@
           <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss === "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="update_by" label="修改人" />
+      <el-table-column prop="updateBy" label="修改人" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -59,9 +59,9 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="update_time" label="操作时间" min-width="170">
+      <el-table-column prop="updateTime" label="操作时间" min-width="170">
         <template slot-scope="scope">{{
-          scope.row.update_time | timeFormat
+          scope.row.updateTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">

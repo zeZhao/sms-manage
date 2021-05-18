@@ -28,7 +28,7 @@
       <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip />
       <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip />
       <el-table-column prop="cardMoney" label="金额(元)" show-overflow-tooltip />
-      <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
+      <!-- <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
         <template slot-scope="scope">
           <a
             v-if="scope.row.fileUrl && scope.row.fileUrl !== '-'"
@@ -39,7 +39,7 @@
           >
           <span v-else style="color:#C0C4CC">暂无图片</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="paidWay" label="操作类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>

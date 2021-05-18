@@ -14,7 +14,7 @@
       v-loading="loading"
     >
       <el-table-column prop="wordName" label="敏感词" show-overflow-tooltip />
-      <el-table-column prop="groupId" label="级别" show-overflow-tooltip />
+      <el-table-column prop="groupId" label="类别编号" show-overflow-tooltip />
       <el-table-column prop="groupName" label="敏感词组" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column label="操作" width="100">
