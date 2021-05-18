@@ -281,7 +281,7 @@ export default {
       } else {
         params = {
           data: {
-            id: this.id,
+            // id: this.id,
             ...form,
             sysGatewayDistributionList: [...this.gatewayGroupList]
           }
@@ -312,7 +312,7 @@ export default {
     },
     edit(row) {
       const { id, groupId } = row;
-      this.id = id;
+      // this.id = id;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         if (item.key == "groupId") {
