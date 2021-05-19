@@ -878,6 +878,8 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
+      const val = row.paidWay;
+      
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
@@ -909,7 +911,43 @@ export default {
             this.$set(item, "btnDisabled", true);
           }
         }
-        // if(item.key === "reductType")
+        
+        // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
+        if (val === "0" || val === 3) {
+          if (val === "0") {
+            if (item.key === "cardMoney") {
+              item.label = "充值金额(元)";
+            }
+          } else if (val === 3) {
+            if (item.key === "cardMoney") {
+              item.label = "还款金额(元)";
+            }
+          }
+          this._setDisplayShow(this.formConfig, "direction", false);
+          this._setDisplayShow(this.formConfig, "factcardMoney", false);
+          this._setDisplayShow(this.formConfig, "fileUrl", false);
+        } else {
+          if (val === 1) {
+            if (item.key === "cardMoney") {
+              item.label = "授信金额(元)";
+            }
+          } else if (val === 4) {
+            if (item.key === "cardMoney") {
+              item.label = "清授信金额(元)";
+            }
+          } else if (val === 6) {
+            if (item.key === "cardMoney") {
+              item.label = "余额+金额(元)";
+            }
+          } else if (val === 2) {
+            if (item.key === "cardMoney") {
+              item.label = "余额-金额(元)";
+            }
+          }
+          this._setDisplayShow(this.formConfig, "direction", true);
+          this._setDisplayShow(this.formConfig, "factcardMoney", true);
+          this._setDisplayShow(this.formConfig, "fileUrl", true);
+        }
       });
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
