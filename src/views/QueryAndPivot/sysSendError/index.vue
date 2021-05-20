@@ -118,13 +118,13 @@ export default {
           placeholder: "内容"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "手机号",
           key: "mobile",
           placeholder: "手机号"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "gateway",
           placeholder: "通道编号"
@@ -136,7 +136,7 @@ export default {
           placeholder: "错误码"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "CID",
           key: "cid",
           placeholder: "CID"
@@ -148,7 +148,7 @@ export default {
           placeholder: "错误描述"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "特服号",
           key: "code",
           placeholder: "特服号"
@@ -162,7 +162,7 @@ export default {
       // 修改内容表单配置
       formConfigContent: [
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId",
           defaultValue: "",
@@ -193,7 +193,7 @@ export default {
       // 修改通道表单配置
       formConfigGateway: [
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId"
         },
@@ -203,26 +203,26 @@ export default {
           key: "content"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "cid",
           key: "cid"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "原通道",
           key: "gateway",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "目标通道",
           key: "newGateway",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "手机号",
           key: "mobile"
         },
@@ -232,7 +232,7 @@ export default {
           key: "err"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "特服号",
           key: "code"
         },
