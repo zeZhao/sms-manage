@@ -156,7 +156,7 @@ export default {
       ],
       formConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -168,25 +168,25 @@ export default {
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "处理条数",
           key: "batchCount",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "CID",
           key: "cid",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "原通道",
           key: "gateway",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "目标通道",
           key: "newGateway",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -234,7 +234,7 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
-          type: "input",
+          type: "inputNum",
           label: "特服号",
           key: "code"
         }
