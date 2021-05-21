@@ -279,6 +279,10 @@ export default {
         if (key === "statisticType") {
           form["statisticType"] = 2;
         }
+
+        if (key === "reductType") {
+          form["reductType"] = 1;
+        }
       }
 
       this.form = form;
