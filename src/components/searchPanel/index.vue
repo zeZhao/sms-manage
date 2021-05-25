@@ -226,6 +226,11 @@ export default {
     reset: {
       type: Boolean,
       default: true
+    },
+    //默认进入该页面不查询
+    notSearch: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -318,7 +323,6 @@ export default {
         // }
       });
       this.form = form;
-      this._mxHandleSubmit();
 
       // 彩信分类统计特殊页面传该form引用类型数据
       this.searchFormConfig.forEach(item => {
@@ -326,6 +330,10 @@ export default {
           this.$emit("forms", this.form);
         }
       });
+
+      if (this.notSearch) return; //默认进入该页面不查询
+      this._mxHandleSubmit();
+      
       // if (
       //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
       //     "isSpecial"

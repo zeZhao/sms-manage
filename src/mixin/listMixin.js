@@ -208,6 +208,7 @@ export default {
   created() { },
 
   mounted() {
+    if (this.notSearch) return; //默认进入该页面不查询
     this._mxGetList();
   },
 
