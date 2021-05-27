@@ -239,42 +239,41 @@
             </template>
             <!--上传-->
             <template v-if="item.type === 'upload'">
-              <el-upload
-                v-if="!item.defaultValue"
-                ref="uploadFile"
-                :action="action"
-                :headers="header"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :on-success="
-                  (res, file, fileList) => {
-                    handleSuccess(item, res, file, fileList);
-                  }
-                "
-                :before-upload="
-                  file => {
-                    beforeUpload(item, file);
-                  }
-                "
-                :on-progress="
-                  (event, file, fileList) => {
-                    handleProgress(item, event, file, fileList);
-                  }
-                "
-                :on-error="handleError"
-                :limit="item.limit || 1"
-                :file-list="item.defaultFileList || []"
-                :on-exceed="handleExceed"
-              >
-                <div>
+              <div v-if="!item.defaultValue">
+                <el-upload
+                  ref="uploadFile"
+                  :action="action"
+                  :headers="header"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :on-success="
+                    (res, file, fileList) => {
+                      handleSuccess(item, res, file, fileList);
+                    }
+                  "
+                  :before-upload="
+                    file => {
+                      beforeUpload(item, file);
+                    }
+                  "
+                  :on-progress="
+                    (event, file, fileList) => {
+                      handleProgress(item, event, file, fileList);
+                    }
+                  "
+                  :on-error="handleError"
+                  :limit="item.limit || 1"
+                  :file-list="item.defaultFileList || []"
+                  :on-exceed="handleExceed"
+                >
                   <el-button size="small" type="primary">{{
                     item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
-                  <div slot="tip" class="el-upload__tip">
-                    {{ item.tip }}
-                  </div>
+                </el-upload>
+                <div slot="tip" class="el-upload__tip">
+                  {{ item.tip }}
                 </div>
-              </el-upload>
+              </div>
               <div v-else>
                 <img
                   class="el-upload-list__item-thumbnail"
