@@ -359,7 +359,7 @@ export default {
             { key: 2, value: "余额-" }
             // { key: 5, value: "账号互转" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -372,7 +372,7 @@ export default {
             { key: 1, value: "短信" },
             { key: 2, value: "彩信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -382,7 +382,7 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -391,7 +391,7 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -400,7 +400,7 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -413,7 +413,7 @@ export default {
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
 
         {
@@ -423,7 +423,7 @@ export default {
           key: "saleMan",
           optionData: [],
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "textarea",
@@ -446,7 +446,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: "blur",
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -476,7 +476,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: "blur",
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -505,7 +505,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: "blur",
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -536,7 +536,7 @@ export default {
             { key: "对私付款", value: "对私付款" },
             { key: "无", value: "无" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -548,7 +548,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: "blur",
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -581,7 +581,7 @@ export default {
           isShow: false,
           accept: ["png", "jpg", "jpeg"],
           rules: [
-            { required: true, message: "请上传余额变动凭证", trigger: "blur" }
+            { required: true, message: "请上传余额变动凭证", trigger: ['blur', 'change'] }
           ]
         }
       ],
@@ -597,7 +597,7 @@ export default {
             { key: 1, value: "短信" },
             { key: 2, value: "彩信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -608,7 +608,7 @@ export default {
           colSpan: 12,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -619,7 +619,7 @@ export default {
           defaultValue: "",
           colSpan: 12,
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -628,7 +628,7 @@ export default {
           colSpan: 12,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -637,7 +637,7 @@ export default {
           colSpan: 12,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
 
         {
@@ -663,20 +663,20 @@ export default {
           type: "input",
           label: "转移条数",
           key: "cardCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
           label: "转移方单价(分)",
           disabled: true,
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
           label: "转移金额(元)",
           key: "cardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
 
         {
@@ -684,14 +684,14 @@ export default {
           label: "接收方单价(分)",
           disabled: true,
           key: "cardUnitTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
           label: "接收条数",
           key: "cardCountTo",
           disabled: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         }
       ],
       isChooseUser: false,
@@ -1077,7 +1077,7 @@ export default {
       }
       if (item.key === "cardUnit") {
         if (cardCount) {
-          let cardMoney = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
+          let cardMoney = parseFloat((cardUnit * cardCount) / 100);
           this._setDefaultValue(this.formConfig, [], "cardMoney", cardMoney);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardUnit);
@@ -1086,7 +1086,7 @@ export default {
       }
       if (item.key === "cardCount") {
         if (cardUnit) {
-          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
+          let num = parseFloat((cardUnit * cardCount) / 100);
           this._setDefaultValue(this.formConfig, [], "cardMoney", num);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardCount);
@@ -1133,7 +1133,7 @@ export default {
       }
       if (item.key === "cardCount") {
         if (cardUnit && cardUnitTo) {
-          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(4);
+          let num = parseFloat((cardUnit * cardCount) / 100);
           this._setDefaultValue(this.formConfigTransfers, [], "cardMoney", num);
           let count = parseInt((num * 100) / cardUnitTo);
           this._setDefaultValue(
