@@ -48,7 +48,7 @@
       </el-table-column>
       <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
-          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss === "1" ? "是" : "否") : '-' }}</span>
+          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="updateBy" label="修改人" />
