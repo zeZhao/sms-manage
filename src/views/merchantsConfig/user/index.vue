@@ -23,10 +23,7 @@
     </el-col>
     <el-button
       type="primary"
-      @click="
-        customerAddInfo = true;
-        deleteCustomer();
-      "
+      @click="addAccont()"
       >新增运营账号</el-button
     >
     <el-table
@@ -97,7 +94,7 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="登录账号">
+        <el-form-item label="登录账号" prop="account">
           <el-input
             maxlength="15"
             show-word-limit
@@ -106,7 +103,7 @@
             placeholder="登录账号"
           />
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="pwd">
           <el-input
             v-model="addInfo.pwd"
             type="password"
@@ -114,7 +111,7 @@
             placeholder="密码"
           />
         </el-form-item>
-        <el-form-item label="账户姓名">
+        <el-form-item label="账户姓名" prop="name">
           <el-input
             maxlength="15"
             show-word-limit
@@ -123,7 +120,7 @@
             placeholder="账户姓名"
           />
         </el-form-item>
-        <el-form-item label="账户手机号">
+        <el-form-item label="账户手机号" prop="mobile">
           <el-input
             v-model="addInfo.mobile"
             type="phone"
@@ -131,7 +128,7 @@
             placeholder="账户手机号"
           />
         </el-form-item>
-        <el-form-item label="选择角色">
+        <el-form-item label="选择角色" prop="roleId">
           <el-select
             style="width: 100%"
             v-model="addInfo.roleId"
@@ -146,7 +143,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="启用状态">
+        <el-form-item label="启用状态" prop="state">
           <el-select
             style="width: 100%"
             v-model="addInfo.state"
@@ -178,7 +175,7 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="登录账号">
+        <el-form-item label="登录账号" prop="account">
           <el-input
             maxlength="15"
             show-word-limit
@@ -196,7 +193,7 @@
             placeholder="密码"
           />
         </el-form-item>
-        <el-form-item label="账户姓名">
+        <el-form-item label="账户姓名" prop="name">
           <el-input
             maxlength="15"
             show-word-limit
@@ -205,7 +202,7 @@
             placeholder="账户姓名"
           />
         </el-form-item>
-        <el-form-item label="账户手机号">
+        <el-form-item label="账户手机号" prop="mobile">
           <el-input
             v-model="setInfo.mobile"
             type="phone"
@@ -213,7 +210,7 @@
             placeholder="账户手机号"
           />
         </el-form-item>
-        <el-form-item label="选择角色">
+        <el-form-item label="选择角色" prop="roleId">
           <el-select
             style="width: 100%"
             v-model="setInfo.roleId"
@@ -228,7 +225,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="启用状态">
+        <el-form-item label="启用状态" prop="state">
           <el-select
             style="width: 100%"
             v-model="setInfo.state"
@@ -306,7 +303,12 @@ export default {
         roleId: ""
       },
       updateFormRules: {
-        contactMobile: [{ validator: validatePhone, trigger: "blur" }]
+        account: [{ required: true, message: '请输入必填项', trigger: "blur" }],
+        pwd: [{ required: true, message: '请输入必填项', trigger: "blur" }],
+        name: [{ required: true, message: '请输入必填项', trigger: "blur" }],
+        mobile: [{ required: true, message: '请输入必填项', trigger: "blur" }],
+        roleId: [{ required: true, message: '请选择必选项', trigger: "change" }],
+        state: [{ required: true, message: '请选择必选项', trigger: "change" }]
       },
       companyOptions: [], // 商户全称下拉项
       pickerOptions: {
@@ -371,6 +373,13 @@ export default {
     queryOrderList() {
       this.cur_page = 1;
       this.orderList();
+    },
+    addAccont() {
+      this.customerAddInfo = true;
+      this.$nextTick(() => {
+        this.deleteCustomer();
+        this.$refs.addForm.clearValidate();
+      })
     },
     //重置
     resetList() {
@@ -470,6 +479,7 @@ export default {
         });
     },
     addCustomerInfo() {
+      this.$refs.addForm.validate();
       let params = {
         account: this.addInfo.account,
         pwd: this.addInfo.pwd,
@@ -515,12 +525,14 @@ export default {
       });
     },
     infoShow(row) {
-      console.log(row);
       this.customerInfo = true;
-      this.deleteCustomer();
-      this.setInfo = Object.assign({}, row);
-      //   this.setInfo.state = row.state;
-      this.setInfo.pwd = "";
+      this.$nextTick(() => {
+        this.deleteCustomer();
+        this.setInfo = Object.assign({}, row);
+        //   this.setInfo.state = row.state;
+        this.setInfo.pwd = "";
+        this.$refs.updateCustomForm.clearValidate();
+      })
     },
     delUser(row) {
       this.$confirm(
@@ -566,8 +578,7 @@ export default {
       });
     },
     setCustomerInfo(formName) {
-      this.customerInfo = true;
-
+      this.$refs.updateCustomForm.validate();
       let params = {
         suId: this.setInfo.suId,
         account: this.setInfo.account,
@@ -640,5 +651,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>
