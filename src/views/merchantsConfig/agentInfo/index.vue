@@ -289,7 +289,7 @@ export default {
           key: "saleMan",
           defaultValue: "",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
         },
         {
           type: "switch",
