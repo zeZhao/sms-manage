@@ -120,7 +120,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'input',
+          type: 'inputNum',
           label: '通道编号',
           key: 'gateway',
           placeholder: '请输入通道编号',
@@ -175,7 +175,25 @@ export default {
           label: '低于设定的成功率报警',
           key: 'sucCrate',
           defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [
+            { required: true, message: '请输入必填项', trigger: 'blur' },
+            {
+              trigger: 'blur',
+              validator: (rule, value, callback) => {
+                const val = typeof(value) === 'string' ? value : value + '';
+                if (val.indexOf('.') !== -1) {
+                  callback (new Error('只允许输入正整数'));
+                }
+                if (isNaN(val)) {
+                  callback (new Error('只允许输入数字'));
+                }
+                if (val <= 0 || val > 100) {
+                  callback (new Error('只允许大于0且小于等于100'));
+                }
+                callback();
+              }
+            }
+          ],
         },
         {
           type: 'select',
@@ -206,7 +224,27 @@ export default {
           label: '日成功量提醒',
           key: 'daySendAlarm',
           defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [
+            { required: true, message: '请输入必填项', trigger: 'blur'}, 
+            { 
+              trigger: 'blur', 
+              validator: (rule, value, callback) => {
+                const val = typeof(value) === 'string' ? value : value + '';
+                if (val.indexOf('.') !== -1) {
+                  callback (new Error('只允许输入正整数'));
+                }
+                if (isNaN(val)) {
+                  callback (new Error('只允许输入数字'));
+                }
+                if (val < 0) {
+                  callback (new Error('不允许小于0'));
+                }
+                if (val.length > 10) {
+                  callback (new Error('长度最多10位'));
+                }
+                callback();
+              } 
+            }]
         },
         // {
         //   type: 'select',
@@ -229,7 +267,27 @@ export default {
           label: '同一失败状态报警次数',
           key: 'errStatusNum',
           defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [
+            { required: true, message: '请输入必填项', trigger: 'blur'},
+            { 
+              trigger: 'blur', 
+              validator: (rule, value, callback) => {
+                const val = typeof(value) === 'string' ? value : value + '';
+                if (val.indexOf('.') !== -1) {
+                  callback (new Error('只允许输入正整数'));
+                }
+                if (isNaN(val)) {
+                  callback (new Error('只允许输入数字'));
+                }
+                if (val < 0) {
+                  callback (new Error('不允许小于0'));
+                }
+                if (val.length > 10) {
+                  callback (new Error('长度最多10位'));
+                }
+                callback();
+              } 
+            }]
         },
         {
           type: 'checkbox',

@@ -335,7 +335,7 @@ $light_gray: #eee;
   background-color: #fff;
 }
 .loginFormStyle {
-  height: 500px;
+  height: 460px;
   border: 1px solid #cccccc;
   vertical-align: top;
   width: 45%;
@@ -349,7 +349,7 @@ $light_gray: #eee;
   width: 100%;
   float: left;
   text-align: left;
-  margin-top: 20px;
+  // margin-top: 20px;
   padding: 40px 35px 0;
   color: #666;
 }
@@ -471,6 +471,21 @@ $light_gray: #eee;
   @media only screen and (max-width: 470px) {
     .thirdparty-button {
       display: none;
+    }
+  }
+  @media only screen and (max-width: 1550px) {
+    .login_box {
+      transform: translateY(20%);
+    }
+  }
+  @media only screen and (max-width: 1311px) {
+    .login_box {
+      transform: translateY(10%);
+    }
+  }
+  @media only screen and (max-width: 1222px) {
+    .login_box {
+      transform: translateY(8%);
     }
   }
   .loginBut {

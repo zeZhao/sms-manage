@@ -33,8 +33,8 @@
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span v-if="scope.row.isTemplate === false">不需要</span>
-          <span v-if="scope.row.isTemplate === true">需要</span>
+          <span v-if="scope.row.isTemplate === 0">不需要</span>
+          <span v-if="scope.row.isTemplate === 1">需要</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -48,10 +48,10 @@
       </el-table-column>
       <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
-          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss === "1" ? "是" : "否") : '-' }}</span>
+          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="update_by" label="修改人" />
+      <el-table-column prop="updateBy" label="修改人" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -59,9 +59,9 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="update_time" label="操作时间" min-width="170">
+      <el-table-column prop="updateTime" label="操作时间" min-width="170">
         <template slot-scope="scope">{{
-          scope.row.update_time | timeFormat
+          scope.row.updateTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -805,13 +805,19 @@ export default {
             obj[key] = "0";
           }
         }
-        if (key === "sensitiveWord") {
-          if (typeof obj[key] === "string") {
-            let arr = obj[key].split(",");
-            obj[key] = arr.map(item => {
-              return Number(item);
-            });
+        if(obj.hasOwnProperty('sensitiveWord')){
+          if (key === "sensitiveWord") {
+            if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
+              let arr = obj[key].split(",");
+              obj[key] = arr.map(item => {
+                return Number(item);
+              });
+            }else{
+              obj[key] = []
+            }
           }
+        }else{
+          obj['sensitiveWord'] = []
         }
       }
       return obj;
@@ -871,9 +877,13 @@ export default {
      */
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
-        if (key === "sensitiveWord") {
-          formData[key] = formData[key].join(",");
-        }
+        if(key === "sensitiveWord"){
+          if (formData['sensitiveWord'] && Array.isArray(formData['sensitiveWord'])) {
+            formData[key] = formData[key].join(",");
+          } else {
+            formData['sensitiveWord'] = [];
+          }
+        } 
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;

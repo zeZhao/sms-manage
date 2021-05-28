@@ -153,9 +153,9 @@ export default {
         },
         {
           type: "input",
-          label: "用户签名",
+          label: "客户签名",
           key: "sign",
-          placeholder: "请输入用户签名"
+          placeholder: "请输入客户签名"
         },
         {
           type: "inputNum",
@@ -356,6 +356,9 @@ export default {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === key && (row[key] === "-" || !row[key])) {
+            this.$set(item, "defaultValue", "");
           }
           if (item.key === "userId") {
             this.$set(item, "btnDisabled", true);

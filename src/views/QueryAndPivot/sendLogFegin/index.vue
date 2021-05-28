@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -76,6 +77,8 @@ export default {
       namespace: "",
       //搜索框数据
       searchParam: {},
+      //默认进入该页面不查询
+      notSearch: true,
       //搜索框配置
       searchFormConfig: [
         {
@@ -130,7 +133,7 @@ export default {
     };
   },
   mounted() {
-    this.selectSendLogAllNum(this.searchParam);
+    // this.selectSendLogAllNum(this.searchParam);
   },
   computed: {},
   methods: {
@@ -144,7 +147,6 @@ export default {
         if (res.code === 200) {
           this.total = res.data;
         }
-        console.log(res);
       });
     },
     /**

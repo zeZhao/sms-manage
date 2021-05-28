@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false">
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false" :notSearch="notSearch">
     </Search>
     <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
       <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
@@ -49,6 +49,8 @@ export default {
       //搜索框数据
       searchParam: {},
       isParamsNotData: false,
+      //默认进入该页面不查询
+      notSearch: true,
       //搜索框配置
       searchFormConfig: [
         {

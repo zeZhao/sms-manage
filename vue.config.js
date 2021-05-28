@@ -54,6 +54,9 @@ module.exports = {
         //  http://manage.sms.jvtdtest.top测试环境
         //  http://10.10.0.4:82 开发环境
 
+        // target: 'http://10.10.0.4:82', //开发环境
+        //target: 'http://manage.sms.jvtdtest.top', //测试环境
+        // target: 'http://managesms.jvtd.cn', //正式环境
         // target: 'http://10.10.0.4:82',
         target: 'http://managesms.jvtd.cn',
         // target: 'http://manage.sms.jvtdtest.top',

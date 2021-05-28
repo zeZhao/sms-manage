@@ -133,7 +133,8 @@ export default {
           type: "input",
           label: "签名特服号",
           key: "code",
-          defaultValue: ""
+          defaultValue: "",
+          maxlength: 80
         },
         {
           type: "radio",
