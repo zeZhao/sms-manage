@@ -451,7 +451,9 @@ export default {
           }
         }
       });
-      this.clearValidate();
+      this.$nextTick(() => {
+        this.clearValidate();
+      })
       // this.$refs.form.resetFields();
     },
     cancel() {

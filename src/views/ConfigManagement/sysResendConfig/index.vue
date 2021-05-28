@@ -132,7 +132,7 @@ export default {
           btnDisabled: false,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -143,7 +143,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -158,7 +158,7 @@ export default {
               required: true,
               whitespace: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -171,7 +171,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         }
