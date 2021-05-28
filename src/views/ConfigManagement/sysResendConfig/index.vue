@@ -15,7 +15,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
-      <el-table-column prop="status" label="不重发状态" />
+      <el-table-column prop="status" label="不重发状态" show-overflow-tooltip/>
       <el-table-column prop="destGateway" label="重发目标通道" />
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间">
@@ -153,6 +153,7 @@ export default {
           label: "不重发的状态",
           key: "status",
           defaultValue: "",
+          maxlength: 30,
           rules: [
             {
               required: true,
