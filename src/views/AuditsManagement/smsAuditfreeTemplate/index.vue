@@ -176,23 +176,20 @@ export default {
   computed: {},
   methods: {
     onChange({ val, item }) {
-      console.log(item);
       const len = this.formConfig.length;
       if (item.key === "effectiveTime") {
-        const data = {
+        this.formConfig[len - 1].disabledDate = {
           disabledDate(time) {
-            return time < new Date(item.defaultValue).getTime();
-          }
-        };
-        this.formConfig[len - 1].disabledDate = item.defaultValue ? data : null;
-      }
-      if (item.key === "invalidTime") {
-        const data = {
-          disabledDate(time) {
-            return time > new Date(item.defaultValue).getTime();
+            return item.defaultValue ? time < new Date(item.defaultValue).getTime() : null;
           }
         }
-        this.formConfig[len - 2].disabledDate = item.defaultValue ? data : null;
+      }
+      if (item.key === "invalidTime") {
+        this.formConfig[len - 2].disabledDate = {
+          disabledDate(time) {
+            return item.defaultValue ? time > new Date(item.defaultValue).getTime() : null;
+          }
+        }
       }
     },
     handleClick(item) {
