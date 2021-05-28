@@ -185,11 +185,11 @@ export default {
           disabled: false,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
             {
               pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
               message: "手机号格式不对",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -221,14 +221,14 @@ export default {
             //   value: "BSATS级"
             // }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
           label: "通道编号",
           key: "gateway",
           isShow: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -239,7 +239,7 @@ export default {
           btnDisabled: false,
           isShow: true,
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -248,7 +248,7 @@ export default {
           disabled: true,
           isShow: true,
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "textarea",
@@ -256,7 +256,7 @@ export default {
           key: "remark",
           maxlength: 300,
           placeholder: "备注信息不能超过300字"
-          // rules: [{ trigger: "blur", validator: validatorRemark }]
+          // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
         }
       ],
       blackId: "",

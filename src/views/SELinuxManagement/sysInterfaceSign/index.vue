@@ -170,7 +170,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -184,7 +184,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -198,7 +198,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -224,7 +224,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -236,7 +236,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             },
             {
               trigger: "change",
