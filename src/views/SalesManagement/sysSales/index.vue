@@ -199,8 +199,8 @@ export default {
           disabled: false,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorUserName }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            { trigger: ['blur', 'change'], validator: validatorUserName }
           ]
         },
         {
@@ -208,7 +208,7 @@ export default {
           label: "登录密码",
           key: "password",
           defaultValue: "",
-          rules: [{ trigger: "blur", validator: validatorPassword }]
+          rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
         },
         {
           type: "input",
@@ -216,8 +216,8 @@ export default {
           key: "actualName",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorActualName }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            { trigger: ['blur', 'change'], validator: validatorActualName }
           ]
         },
         {
@@ -226,8 +226,8 @@ export default {
           key: "mobile",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorMobile }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            { trigger: ['blur', 'change'], validator: validatorMobile }
           ]
         },
         {
@@ -253,7 +253,7 @@ export default {
             //   value: "介绍人"
             // }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -345,7 +345,7 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
-      let rule = { required: true, message: "请输入必填项", trigger: "blur" };
+      let rule = { required: true, message: "请输入必填项", trigger: ['blur', 'change'] };
       this.formConfig.forEach(item => {
         if (item.key === "userName") {
           item.disabled = false;

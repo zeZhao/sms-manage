@@ -145,7 +145,7 @@ export default {
           key: 'gateway',
           defaultValue: '',
           optionData: [],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'select',
@@ -162,13 +162,13 @@ export default {
               value: '是',
             },
           ],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'input',
           label: '失败状态',
           key: 'alarmStatus',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请输入必填项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'input',
@@ -176,9 +176,9 @@ export default {
           key: 'sucCrate',
           defaultValue: '',
           rules: [
-            { required: true, message: '请输入必填项', trigger: 'blur' },
+            { required: true, message: '请输入必填项', trigger: ['blur', 'change'] },
             {
-              trigger: 'blur',
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
                 const val = typeof(value) === 'string' ? value : value + '';
                 if (val.indexOf('.') !== -1) {
@@ -210,14 +210,14 @@ export default {
               value: '是',
             },
           ],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         },
         // {
         //   type: 'input',
         //   label: '投诉率报警',
         //   key: 'complaintRate',
         //   defaultValue: '',
-        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   // rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: 'input',
@@ -225,9 +225,9 @@ export default {
           key: 'daySendAlarm',
           defaultValue: '',
           rules: [
-            { required: true, message: '请输入必填项', trigger: 'blur'}, 
+            { required: true, message: '请输入必填项', trigger: ['blur', 'change']}, 
             { 
-              trigger: 'blur', 
+              trigger: ['blur', 'change'], 
               validator: (rule, value, callback) => {
                 const val = typeof(value) === 'string' ? value : value + '';
                 if (val.indexOf('.') !== -1) {
@@ -260,7 +260,7 @@ export default {
         //       value: '是',
         //     },
         //   ],
-        //   rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+        //   rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         // },
         {
           type: 'input',
@@ -268,9 +268,9 @@ export default {
           key: 'errStatusNum',
           defaultValue: '',
           rules: [
-            { required: true, message: '请输入必填项', trigger: 'blur'},
+            { required: true, message: '请输入必填项', trigger: ['blur', 'change']},
             { 
-              trigger: 'blur', 
+              trigger: ['blur', 'change'], 
               validator: (rule, value, callback) => {
                 const val = typeof(value) === 'string' ? value : value + '';
                 if (val.indexOf('.') !== -1) {
@@ -308,21 +308,21 @@ export default {
               value: '邮箱',
             },
           ],
-          rules: [{ required: true, message: '请选择必选项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必选项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'input',
           label: '手机号',
           key: 'mobile',
           tips: '多个用英文逗号分隔',
-          rules: [{ required: false, trigger: 'blur', validator: null }],
+          rules: [{ required: false, trigger: ['blur', 'change'], validator: null }],
         },
         {
           type: 'input',
           label: '邮箱',
           key: 'email',
           tips: '多个用英文逗号分隔',
-          rules: [{ required: false, trigger: 'blur', validator: null }],
+          rules: [{ required: false, trigger: ['blur', 'change'], validator: null }],
         },
       ],
       alarmId: '',
@@ -363,7 +363,7 @@ export default {
           ].rules = this.$publicValidators.phone
         } else {
           this.formConfig[this.formConfig.length - 2].rules = [
-            { required: false, trigger: 'blur', validator: null },
+            { required: false, trigger: ['blur', 'change'], validator: null },
           ]
         }
         if (val.includes(4)) {
@@ -372,7 +372,7 @@ export default {
           ].rules = this.$publicValidators.email
         } else {
           this.formConfig[this.formConfig.length - 1].rules = [
-            { required: false, trigger: 'blur', validator: null },
+            { required: false, trigger: ['blur', 'change'], validator: null },
           ]
         }
       }

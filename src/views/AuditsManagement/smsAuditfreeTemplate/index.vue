@@ -123,7 +123,7 @@ export default {
           optionData: [],
 
           colSpan: 24,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -131,7 +131,7 @@ export default {
           key: "corpId",
           disabled: true,
           colSpan: 24,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           isBtn: true,
@@ -145,7 +145,7 @@ export default {
           key: "content",
           colSpan: 24,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
           maxlength: 500
         },
         {
@@ -154,7 +154,7 @@ export default {
           colSpan: 24,
           key: "effectiveTime",
           disabledDate: null,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "date",
@@ -162,7 +162,7 @@ export default {
           colSpan: 24,
           key: "invalidTime",
           disabledDate: null,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         }
       ],
       templateId: "",

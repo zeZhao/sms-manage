@@ -323,7 +323,7 @@ export default {
           btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -331,7 +331,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
 
         {
@@ -340,7 +340,7 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -348,7 +348,7 @@ export default {
           disabled: true,
           key: "cardUnit",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -370,7 +370,7 @@ export default {
               value: "商户编号"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "radio",
@@ -389,7 +389,7 @@ export default {
           label: "移动通道",
           key: "cmPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -397,14 +397,14 @@ export default {
         //   multiple: true,
         //   key: "spareCmPassagewayId",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: "selectGroup",
           label: "联通通道",
           key: "cuPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -412,14 +412,14 @@ export default {
         //   multiple: true,
         //   key: "spareCuPassagewayId",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: "selectGroup",
           label: "电信通道",
           optionData: [],
           key: "ctPassageway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -427,7 +427,7 @@ export default {
         //   multiple: true,
         //   key: "spareCtPassagewayId",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         // {
         //   type: "select",
@@ -459,15 +459,15 @@ export default {
           label: "免审数量",
           key: "exemptReviewNum",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             },
             {
               validator: validatorNum,
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -485,7 +485,7 @@ export default {
             }
           ],
           key: "isTemplate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -503,7 +503,7 @@ export default {
             }
           ],
           key: "isParallelDetection",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -521,7 +521,7 @@ export default {
             }
           ],
           key: "isCombination",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -549,7 +549,7 @@ export default {
           maxlength: 300,
           key: "remarks",
           placeholder: "备注信息不能超过300字"
-          // rules: [{ trigger: "blur", validator: validatorRemark }]
+          // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
         }
       ],
       GatewayList: [], // 通道列表

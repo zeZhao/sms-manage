@@ -182,7 +182,7 @@ export default {
           key: "groupId",
           maxlength: "4",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
             {
               pattern: /^9\d{3}$/,
               message: "9开头4位数",
@@ -195,8 +195,8 @@ export default {
           label: "通道组名称",
           key: "groupName",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorGroupName }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            { trigger: ['blur', 'change'], validator: validatorGroupName }
           ]
         },
         {
@@ -213,8 +213,8 @@ export default {
             { key: "联通,电信", value: "联通,电信" }
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" }
-            // { trigger: "blur", validator: validatorSendTo }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] }
+            // { trigger: ['blur', 'change'], validator: validatorSendTo }
           ]
         },
         {
@@ -222,7 +222,7 @@ export default {
           label: "备注",
           maxlength: 300,
           key: "notes"
-          // rules: [{ trigger: "blur", validator: validatorRemark }],
+          // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }],
         }
       ],
       id: "",
