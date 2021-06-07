@@ -16,7 +16,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="type" label="类型">
+      <!-- <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.type === 1
@@ -26,14 +26,17 @@
               : "商户编号"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="sign" label="签名" show-overflow-tooltip />
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
-      <!-- <el-table-column prop="updateTime" label="修改时间">
-            <template slot-scope="scope">{{scope.row.updateTime | timeFormat}}</template>
-        </el-table-column> -->
+      <el-table-column prop="modifier" label="修改人" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">
+          {{scope.row.modifyTime | timeFormat}}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
@@ -132,42 +135,42 @@ export default {
           placeholder: "请输入账户名称"
         },
         {
+          type: "inputNum",
+          label: "特服号",
+          key: "code",
+          placeholder: "请输入特服号"
+        },
+        {
           type: "input",
           label: "签名",
           key: "sign",
           placeholder: "请输入签名"
         },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: 3,
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   placeholder: "请选择类型"
+        // },
         {
           type: "inputNum",
-          label: "账户特服号",
-          key: "code",
-          placeholder: "请输入账户特服号"
-        },
-        {
-          type: "select",
-          label: "类型",
-          key: "type",
-          optionData: [
-            {
-              key: 1,
-              value: "特服号"
-            },
-            {
-              key: 2,
-              value: "账户编号"
-            },
-            {
-              key: 3,
-              value: "商户编号"
-            }
-          ],
-          placeholder: "请选择类型"
-        },
-        {
-          type: "inputNum",
-          label: "电信通道",
-          key: "ct",
-          placeholder: "请输入电信通道"
+          label: "移动通道",
+          key: "cm",
+          placeholder: "请输入移动通道"
         },
         {
           type: "inputNum",
@@ -177,9 +180,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "移动通道",
-          key: "cm",
-          placeholder: "请输入移动通道"
+          label: "电信通道",
+          key: "ct",
+          placeholder: "请输入电信通道"
         }
       ],
       // 表单配置
@@ -213,7 +216,8 @@ export default {
               message: "请输入必填项",
               trigger: ['blur', 'change']
             }
-          ]
+          ],
+          placeholder: "选择账户后自动识别"
         },
         {
           type: "input",
@@ -227,14 +231,15 @@ export default {
               message: "请输入必填项",
               trigger: ['blur', 'change']
             }
-          ]
+          ],
+          placeholder: "选择账户后自动识别"
         },
         {
           type: "textarea",
-          label: "商户签名",
+          label: "签名",
           key: "sign",
-          placeholder:
-            "可输入多个签名，用','隔开每个签名为2-8个字符，支持汉字、数字、英文",
+          placeholder: "可输入多个签名，用英文“,”隔开，每个签名2-8个字符，支持汉字、数字、英文",
+          maxlength: "100",
           rules: [
             {
               required: true,
@@ -247,27 +252,27 @@ export default {
             }
           ]
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "type",
-          initDefaultValue: 2,
-          defaultValue: 2,
-          optionData: [
-            {
-              key: 1,
-              value: "特服号"
-            },
-            {
-              key: 2,
-              value: "账户编号"
-            },
-            {
-              key: 3,
-              value: "商户编号"
-            }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   initDefaultValue: 2,
+        //   defaultValue: 2,
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: 3,
+        //       value: "商户编号"
+        //     }
+        //   ]
+        // },
         {
           type: "select",
           label: "移动通道",

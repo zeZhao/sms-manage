@@ -16,7 +16,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="type" label="类型">
+      <!-- <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>
             {{
@@ -28,17 +28,17 @@
             }}
           </span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="provinceName" label="省份" />
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
+      <el-table-column prop="modifier" label="修改人" />
       <el-table-column prop="modifyTime" label="修改时间" width="150">
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifier" label="修改人" />
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
@@ -128,6 +128,18 @@ export default {
           placeholder: "请输入账户编号"
         },
         {
+          type: "input",
+          label: "账户名称",
+          key: "userName",
+          placeholder: "请输入账户名称"
+        },
+        {
+          type: "inputNum",
+          label: "特服号",
+          key: "code",
+          placeholder: "请输入特服号"
+        },
+        {
           type: "select",
           label: "省份",
           key: "province",
@@ -151,29 +163,17 @@ export default {
           key: "route",
           optionData: []
         },
-        {
-          type: "input",
-          label: "账户名称",
-          key: "userName",
-          placeholder: "请输入账户名称"
-        },
-        {
-          type: "select",
-          label: "类型",
-          key: "type",
-          placeholder: "请选择类型",
-          optionData: [
-            { key: "1", value: "特服号" },
-            { key: "2", value: "账户编号" },
-            { key: "3", value: "商户编号" }
-          ]
-        },
-        {
-          type: "inputNum",
-          label: "特服号",
-          key: "code",
-          placeholder: "请输入特服号"
-        }
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   placeholder: "请选择类型",
+        //   optionData: [
+        //     { key: "1", value: "特服号" },
+        //     { key: "2", value: "账户编号" },
+        //     { key: "3", value: "商户编号" }
+        //   ]
+        // }
       ],
       // 表单配置
       formConfig: [
@@ -193,7 +193,8 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          placeholder: "选择账户后自动识别"
         },
         {
           type: "input",
@@ -201,19 +202,20 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          placeholder: "选择账户后自动识别"
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "type",
-          optionData: [
-            { key: 1, value: "特服号" },
-            { key: 2, value: "账户编号" },
-            { key: 3, value: "商户编号" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   optionData: [
+        //     { key: 1, value: "特服号" },
+        //     { key: 2, value: "账户编号" },
+        //     { key: 3, value: "商户编号" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        // },
         {
           type: "select",
           label: "省份",
@@ -242,13 +244,13 @@ export default {
           key: "ct",
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
-        {
-          type: "textarea",
-          label: "备注信息",
-          key: "remark",
-          maxlength: 300,
-          rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
-        }
+        // {
+        //   type: "textarea",
+        //   label: "备注信息",
+        //   key: "remark",
+        //   maxlength: 300,
+        //   rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
+        // }
       ],
       routeId: "",
       ProvinceList: [], //省列表

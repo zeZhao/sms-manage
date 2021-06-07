@@ -16,11 +16,12 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="通道编号" />
-      <el-table-column prop="codeType" label="账号类型">
+      <el-table-column prop="gatewayName" label="通道名称" />
+      <!-- <el-table-column prop="codeType" label="账号类型">
         <template slot-scope="scope">
           <span>{{ scope.row.codeType === 1 ? "用户" : "特服号" }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">{{
@@ -65,6 +66,7 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
+        @beforeUpload="beforeUpload"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -77,6 +79,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { fetchArticle } from '../../../api/article';
 
 export default {
   mixins: [listMixin],
@@ -97,19 +100,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
-          label: "红名单号码",
-          key: "mobile",
-          placeholder: "请输入红名单号码"
-        },
-        {
-          type: "select",
-          label: "通道编号",
-          key: "gateway",
-          optionData: []
-        },
-        {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId",
           placeholder: "请输入账户编号"
@@ -119,28 +110,40 @@ export default {
           label: "账户名称",
           key: "userName",
           placeholder: "请输入账户名称"
+        },
+        {
+          type: "inputNum",
+          label: "手机号",
+          key: "mobile",
+          placeholder: "请输入手机号"
+        },
+        {
+          type: "select",
+          label: "通道编号",
+          key: "gateway",
+          optionData: []
         }
       ],
       // 表单配置
       formConfig: [
-        {
-          type: "select",
-          label: "账号类型",
-          initDefaultValue: 1,
-          defaultValue: 1,
-          key: "codeType",
-          optionData: [
-            {
-              key: 1,
-              value: "用户"
-            },
-            {
-              key: 2,
-              value: "特服号"
-            }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "账号类型",
+        //   initDefaultValue: 1,
+        //   defaultValue: 1,
+        //   key: "codeType",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "用户"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "特服号"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "input",
           label: "账户编号",
@@ -157,7 +160,8 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          placeholder: "选择账户后自动识别"
         },
         {
           type: "input",
@@ -165,40 +169,51 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          placeholder: "选择账户后自动识别",
+          isShow: true
         },
         {
-          type: "input",
+          type: "textarea",
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
-              message: "手机号格式不对",
-              trigger: "blur"
-            }
-          ]
+          maxlength: "100",
+          placeholder: "可输入多个手机号，用英文“,”隔开",
+          rules: this.$publicValidators.phone,
+          rules: [{ required: true, message: "请添加手机号或者上传手机号文件", trigger: ['blur', 'change']}]
         },
         {
-          type: "select",
-          label: "优化类型",
-          initDefaultValue: 2,
-          defaultValue: 2,
-          key: "type",
-          optionData: [
-            // {
-            //   key: 1,
-            //   value: "不优化"
-            // },
-            {
-              key: 2,
-              value: "特定通道"
-            }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          type: "upload",
+          key: "mobileFile",
+          label: "上传手机号文件",
+          btnTxt: "导入",
+          limit: 1,
+          defaultValue: "",
+          tip: "支持txt、xls、xlsx文件，每行一个手机号",
+          defaultFileList: [],
+          isShow: false,
+          accept: ["text/plain", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+          rules: [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}]
         },
+        // {
+        //   type: "select",
+        //   label: "优化类型",
+        //   initDefaultValue: 2,
+        //   defaultValue: 2,
+        //   key: "type",
+        //   optionData: [
+        //     // {
+        //     //   key: 1,
+        //     //   value: "不优化"
+        //     // },
+        //     {
+        //       key: 2,
+        //       value: "特定通道"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "通道编号",
@@ -218,6 +233,15 @@ export default {
   },
   computed: {},
   methods: {
+    beforeUpload({ item, file }) {
+      console.log(item, file);
+      const { accept, tip } = item;
+      const { type, size } = file;
+      if (accept.indexOf(type) === -1) {
+        this.$message.error(tip);
+        return false;
+      }
+    },
     gateway() {
       const params = {
         data: {

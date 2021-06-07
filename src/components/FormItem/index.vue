@@ -267,11 +267,7 @@
                       handleSuccess(item, res, file, fileList);
                     }
                   "
-                  :before-upload="
-                    file => {
-                      beforeUpload(item, file);
-                    }
-                  "
+                  :before-upload="(file) => beforeUpload(item, file)"
                   :on-progress="
                     (event, file, fileList) => {
                       handleProgress(item, event, file, fileList);
@@ -521,7 +517,9 @@ export default {
       }
     },
     //上传前
-    beforeUpload(item, file) {},
+    beforeUpload(item, file) {
+      this.$emit("beforeUpload", { item, file });
+    },
     //  文件上传时的钩子
     handleProgress(item, event, file, fileList) {},
     //  文件上传失败时的钩子
