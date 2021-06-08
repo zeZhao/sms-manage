@@ -267,7 +267,11 @@
                       handleSuccess(item, res, file, fileList);
                     }
                   "
-                  :before-upload="(file) => beforeUpload(item, file)"
+                  :before-upload="
+                    file => {
+                      beforeUpload(item, file);
+                    }
+                  "
                   :on-progress="
                     (event, file, fileList) => {
                       handleProgress(item, event, file, fileList);
@@ -307,6 +311,44 @@
                     <i class="el-icon-delete"></i>
                   </span>
                 </span>
+              </div>
+            </template>
+            <!--上传xls、xlsx等-->
+            <template v-if="item.type === 'uploadXlsx'">
+              <div>
+                <el-upload
+                  ref="uploadFileXlsx"
+                  :action="action"
+                  :headers="header"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :on-success="
+                    (res, file, fileList) => {
+                      handleSuccess(item, res, file, fileList);
+                    }
+                  "
+                  :before-upload="
+                    file => {
+                      beforeUpload(item, file);
+                    }
+                  "
+                  :on-progress="
+                    (event, file, fileList) => {
+                      handleProgress(item, event, file, fileList);
+                    }
+                  "
+                  :on-error="handleError"
+                  :limit="item.limit || 1"
+                  :file-list="item.defaultFileList || []"
+                  :on-exceed="handleExceed"
+                >
+                  <el-button size="small" type="primary">{{
+                    item.btnTxt ? item.btnTxt : "上传文件"
+                  }}</el-button>
+                </el-upload>
+                <div slot="tip" class="el-upload__tip">
+                  {{ item.tip }}
+                </div>
               </div>
             </template>
           </el-form-item>
@@ -517,9 +559,7 @@ export default {
       }
     },
     //上传前
-    beforeUpload(item, file) {
-      this.$emit("beforeUpload", { item, file });
-    },
+    beforeUpload(item, file) {},
     //  文件上传时的钩子
     handleProgress(item, event, file, fileList) {},
     //  文件上传失败时的钩子
@@ -547,9 +587,12 @@ export default {
     },
     //查看图片
     handlePictureCardPreview(file) {
-      console.log(file);
       this.dialogImageUrl = file;
       this.dialogVisible = true;
+    },
+    //清空某一些校验
+    clearValidateMore(arr) {
+      this.$refs.form.clearValidate(arr);
     },
 
     //回显input下列提示

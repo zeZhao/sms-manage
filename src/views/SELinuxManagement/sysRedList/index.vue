@@ -66,7 +66,9 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
-        @beforeUpload="beforeUpload"
+        @onChange="onChange"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -79,8 +81,12 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { fetchArticle } from '../../../api/article';
-
+const isPhone = (rule, value, callback) => {
+  if (!value) {
+    callback(new Error("请输入必填项"));
+  }
+  /^1[3-9]\d{9}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重填"));
+};
 export default {
   mixins: [listMixin],
   data() {
@@ -180,18 +186,20 @@ export default {
           defaultValue: "",
           maxlength: "100",
           placeholder: "可输入多个手机号，用英文“,”隔开",
-          rules: this.$publicValidators.phone,
-          rules: [{ required: true, message: "请添加手机号或者上传手机号文件", trigger: ['blur', 'change']}]
+          rules: [
+            { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
+            { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+          ]
         },
         {
-          type: "upload",
-          key: "mobileFile",
+          type: "uploadXlsx",
+          key: "mobileFileUrl",
           label: "上传手机号文件",
           btnTxt: "导入",
           limit: 1,
           defaultValue: "",
-          tip: "支持txt、xls、xlsx文件，每行一个手机号",
           defaultFileList: [],
+          tip: "支持txt、xls、xlsx文件，每行一个手机号",
           isShow: false,
           accept: ["text/plain", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
           rules: [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}]
@@ -231,16 +239,49 @@ export default {
   mounted() {
     this.gateway();
   },
-  computed: {},
   methods: {
-    beforeUpload({ item, file }) {
-      console.log(item, file);
-      const { accept, tip } = item;
-      const { type, size } = file;
-      if (accept.indexOf(type) === -1) {
-        this.$message.error(tip);
-        return false;
+    onChange({ val, item }) {
+      if (item.key === "mobile") {
+        const arr = this.formConfig;
+        const i = arr.findIndex(v => v.key === "mobileFileUrl");
+        arr[i].rules = val ? null : [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
+        !arr[i].rules && this.$refs.formItem.clearValidateMore(['mobileFileUrl']);
       }
+    },
+    handleSuccess({ response, file, fileList, item }) {
+      if (response.code !== 200) {
+        this.$message.error(response.data || response.msg);
+        return;
+      }
+      const { accept, tip, key } = item;
+      const { type } = file.raw;
+      if (Array.isArray(accept) && accept.length) {
+        const arr = this.formConfig;
+        const i = arr.findIndex(v => v.key === key);
+        if (accept.indexOf(type) === -1) {
+          this.$message.error(tip);
+          arr[i].defaultValue = "";
+          arr[i].defaultFileList = [];
+          return;
+        }
+        arr[i].defaultValue = response.data;
+
+        const delRuleIdx = arr.findIndex(v => v.key === "mobile");
+        arr[delRuleIdx].rules = null;
+        this.$refs.formItem.clearValidateMore(['mobile', 'mobileFileUrl']);
+      }
+    },
+    handleRemove({ file, fileList }) {
+      const arr = this.formConfig;
+      const i = arr.findIndex(v => v.key === "mobileFileUrl");
+      arr[i].defaultValue = "";
+      arr[i].defaultFileList = [];
+
+      const addRuleIdx = arr.findIndex(v => v.key === "mobile");
+      arr[addRuleIdx].rules = [
+        { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
+        { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+      ];
     },
     gateway() {
       const params = {
@@ -306,11 +347,17 @@ export default {
         if (item.key === "userId") {
           item.btnDisabled = true;
         }
+        if (item.key === "mobile") {
+          item.rules = [{ required: true, validator: isPhone, trigger: "blur" }];
+        }
+        if (item.key === "mobileFileUrl") {
+          item.isShow = true;
+        }
       });
+      this.addChannel = true;
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
-      this.addChannel = true;
     },
 
     submit(form) {
@@ -323,7 +370,7 @@ export default {
         };
         this.$http.sysRedList.addSysRedList(params).then(res => {
           if (resOk(res)) {
-            this.$message.success(res.msg || res.data);
+            this.$alert(res.msg, '导入记录', { confirmButtonText: '确定' });
             this._mxGetList();
             this.addChannel = false;
           } else {
@@ -349,16 +396,28 @@ export default {
       }
     },
     create() {
-      this.addChannel = true;
       this.formTit = "新增";
-      setTimeout(() => {
-        this.$refs.formItem.resetForm();
-      }, 0);
       this.formConfig.forEach(item => {
         if (item.key === "userId") {
           item.btnDisabled = false;
         }
+        if (item.key === "mobile") {
+          item.rules = [
+            { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
+            { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+          ];
+        }
+        if (item.key === "mobileFileUrl") {
+          item.defaultValue = "";
+          item.defaultFileList = [];
+          item.isShow = false;
+          item.rules = [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
+        }
       });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
     cancel() {
       this.addChannel = false;
@@ -374,8 +433,7 @@ export default {
       });
       return data;
     }
-  },
-  watch: {}
+  }
 };
 </script>
 
