@@ -267,7 +267,6 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
-      console.log(form, "------------");
       // 彩信分类统计特殊页面特殊重置
       // if(){
       // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {

@@ -2049,5 +2049,24 @@ export default {
         exportSmsStatusCodeStatistics(params) {
             return post("/SmsStatusCodeStatistics/exportSmsStatusCodeStatistics", params);
         }
+    },
+    //日限量配置
+    SmsGatewayUserSendControl: {
+        // 日限量配置列表分页查询
+        queryByPage(params) {
+            return post("/SmsGatewayUserSendControl/queryByPage", params);
+        },
+        // 日限量配置新增
+        addSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/addSmsGatewayUserSendControl", params);
+        },
+        // 日限量配置修改
+        updateSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/updateSmsGatewayUserSendControl", params);
+        },
+        // 日限量配置删除
+        deleteSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/deleteSmsGatewayUserSendControl", params);
+        }
     }
 }
