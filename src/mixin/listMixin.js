@@ -147,6 +147,8 @@ function queryData() {
       this.listData = this._mxFormListData(this._mxlistDataNull(list));
     } else if (res.code === 500 || res.code === "500") {
       this.$message.error(res.data || res.msg || "获取数据失败");
+    } else {
+      this.$message.error(res.data || res.msg || "获取数据失败");
     }
   });
 

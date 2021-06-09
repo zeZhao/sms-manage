@@ -2038,5 +2038,16 @@ export default {
         listByPage(params) {
             return post("/mmsTemplateCheckRecord/listByPage", params);
         }
+    },
+    //状态码统计
+    SmsStatusCodeStatistics: {
+        // 状态码统计列表分页查询
+        queryByPage(params) {
+            return post("/SmsStatusCodeStatistics/queryByPage", params);
+        },
+        // 导出状态码统计
+        exportSmsStatusCodeStatistics(params) {
+            return post("/SmsStatusCodeStatistics/exportSmsStatusCodeStatistics", params);
+        }
     }
 }
