@@ -81,12 +81,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-const isPhone = (rule, value, callback) => {
-  if (!value) {
-    callback(new Error("请输入必填项"));
-  }
-  /^1[3-9]\d{9}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重填"));
-};
+import { isPhone } from "@/utils/validator";
 export default {
   mixins: [listMixin],
   data() {
@@ -158,7 +153,7 @@ export default {
           btnDisabled: false,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -166,7 +161,7 @@ export default {
           key: "corporateId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
           placeholder: "选择账户后自动识别"
         },
         {
@@ -370,7 +365,7 @@ export default {
         };
         this.$http.sysRedList.addSysRedList(params).then(res => {
           if (resOk(res)) {
-            this.$alert(res.msg, '导入记录', { confirmButtonText: '确定' });
+            this.$alert(res.msg, '导入记录', { confirmButtonText: '确定', callback: action => {}}).catch(() => {});
             this._mxGetList();
             this.addChannel = false;
           } else {
