@@ -14,8 +14,9 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="businessType" label="类型">
+      <!-- <el-table-column prop="businessType" label="类型">
         <template slot-scope="scope">
           <span>
             {{
@@ -27,8 +28,14 @@
             }}
           </span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="sign" label="签名" />
+      <el-table-column prop="modifyUser" label="修改人" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
@@ -114,47 +121,48 @@ export default {
         {
           type: "inputNum",
           label: "商户编号",
-          key: "corpId",
-          placeholder: "请输入商户编号"
+          key: "corpId"
         },
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          key: "userId"
         },
         {
           type: "input",
-          label: "账户特服号",
-          key: "code",
-          placeholder: "请输入账户特服号"
+          label: "账户名称",
+          key: "userName"
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code"
         },
         {
           type: "input",
           label: "签名",
-          key: "sign",
-          placeholder: "请输入签名"
+          key: "sign"
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "businessType",
-          optionData: [
-            {
-              key: "1",
-              value: "特服号"
-            },
-            {
-              key: "2",
-              value: "账户编号"
-            },
-            {
-              key: "3",
-              value: "商户编号"
-            }
-          ],
-          placeholder: "类型"
-        }
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "businessType",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: "2",
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: "3",
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   placeholder: "类型"
+        // }
       ],
       // 表单配置
       formConfig: [
@@ -186,7 +194,8 @@ export default {
               message: "请输入必填项",
               trigger: ['blur', 'change']
             }
-          ]
+          ],
+          placeholder: "选择账户后自动识别"
         },
         {
           type: "input",
@@ -200,38 +209,40 @@ export default {
               message: "请输入必填项",
               trigger: ['blur', 'change']
             }
-          ]
-        },
-        {
-          type: "select",
-          label: "类型",
-          key: "businessType",
-          optionData: [
-            {
-              key: 1,
-              value: "特服号"
-            },
-            {
-              key: 2,
-              value: "账户编号"
-            },
-            {
-              key: 3,
-              value: "商户编号"
-            }
           ],
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ['blur', 'change']
-            }
-          ]
+          placeholder: "选择账户后自动识别"
         },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "businessType",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: 3,
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   rules: [
+        //     {
+        //       required: true,
+        //       message: "请输入必填项",
+        //       trigger: ['blur', 'change']
+        //     }
+        //   ]
+        // },
         {
           type: "textarea",
           label: "签名",
           key: "sign",
+          maxlength: "8",
           rules: [
             {
               required: true,

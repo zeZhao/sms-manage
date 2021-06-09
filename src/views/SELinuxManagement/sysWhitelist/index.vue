@@ -26,18 +26,12 @@
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="modifyUser" label="修改人">
-        <!-- <template slot-scope="scope">
-          <span>{{
-            scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser
-          }}</span>
-        </template> -->
+      <el-table-column prop="modifyUser" label="修改人" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" />
-      <!-- <template slot-scope="scope">
-          <span>{{ scope.row.code  ? scope.row.code  : scope.row.createUser }}</span>
-        </template>
-      </el-table-column>-->
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
