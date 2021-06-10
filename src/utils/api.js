@@ -2068,5 +2068,12 @@ export default {
         deleteSmsGatewayUserSendControl(params) {
             return post("/SmsGatewayUserSendControl/deleteSmsGatewayUserSendControl", params);
         }
-    }
+    },
+    //报告推送记录
+    smsPushReport: {
+        // 报告推送记录分页查询
+        listPushReport(params) {
+            return post("/smsPushReport/listPushReport", params);
+        }
+    },
 }
