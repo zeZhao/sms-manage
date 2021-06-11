@@ -2076,4 +2076,11 @@ export default {
             return post("/smsPushReport/listPushReport", params);
         }
     },
+    //通道监控
+    smsGatewayMonitor: {
+        // 通道监控分页查询
+        listGatewayMonitorByPage(params) {
+            return fetch("/smsGatewayMonitor/listGatewayMonitorByPage", params);
+        }
+    },
 }
