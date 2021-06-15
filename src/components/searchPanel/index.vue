@@ -364,6 +364,10 @@ export default {
     _mxHandleFocus() {
       this.$emit("focus");
     },
+    //给父组件传form对象
+    renderForm() {
+      this.$emit("getForm", this.form);
+    },
     //导出功能，给父组件传form对象
     handleExport() {
       this.$emit("exportData", this.form);
