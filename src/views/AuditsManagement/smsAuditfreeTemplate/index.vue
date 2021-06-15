@@ -37,7 +37,7 @@
                 scope.row.templateId,
                 false,
                 false,
-                '您确定要删除标签吗？删除后标签将不可用'
+                '您确定要删除该模板吗？删除后该模板将不可用'
               )
             "
             type="text"
@@ -67,6 +67,7 @@
         @cancel="_mxCancel"
         @selectChange="selectChange"
         @handleClick="handleClick"
+        @onChange="onChange"
       ></FormItemTitle>
     </el-dialog>
   </div>
@@ -122,7 +123,7 @@ export default {
           optionData: [],
 
           colSpan: 24,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -130,7 +131,7 @@ export default {
           key: "corpId",
           disabled: true,
           colSpan: 24,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           isBtn: true,
@@ -144,21 +145,24 @@ export default {
           key: "content",
           colSpan: 24,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          maxlength: 500
         },
         {
           type: "date",
           label: "生效日期",
           colSpan: 24,
           key: "effectiveTime",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          disabledDate: null,
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "date",
           label: "失效日期",
           colSpan: 24,
           key: "invalidTime",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          disabledDate: null,
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         }
       ],
       templateId: "",
@@ -171,6 +175,23 @@ export default {
   },
   computed: {},
   methods: {
+    onChange({ val, item }) {
+      const len = this.formConfig.length;
+      if (item.key === "effectiveTime") {
+        this.formConfig[len - 1].disabledDate = {
+          disabledDate(time) {
+            return item.defaultValue ? time < new Date(item.defaultValue).getTime() : null;
+          }
+        }
+      }
+      if (item.key === "invalidTime") {
+        this.formConfig[len - 2].disabledDate = {
+          disabledDate(time) {
+            return item.defaultValue ? time > new Date(item.defaultValue).getTime() : null;
+          }
+        }
+      }
+    },
     handleClick(item) {
       this.formConfig.forEach(item => {
         if (item.key === "content") {
@@ -180,6 +201,9 @@ export default {
             variable = item.defaultValue.split(")").length;
             x = `$(${variable++})`;
             item.defaultValue = `${item.defaultValue}${x}`;
+            if (item.defaultValue.length >= 500) {
+              item.defaultValue = item.defaultValue.substr(0, 500);
+            }
           } else {
             item.defaultValue = `${x}`;
           }

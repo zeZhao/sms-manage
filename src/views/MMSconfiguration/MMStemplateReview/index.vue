@@ -159,6 +159,7 @@ export default {
         closeOnClickModal: false,
         inputValidator: (value) => {
           if (!value) return '驳回理由不得为空';
+          if (value.length > 200) return '驳回理由的长度不得超过200';
         }
       }).then(({ value }) => {
         this.$http.mmsTemplateCheck.refuseBasicArragin({ arraignId, refuseReason: value }).then(res => {

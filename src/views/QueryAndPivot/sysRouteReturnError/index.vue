@@ -156,7 +156,7 @@ export default {
         //   key: "gatewayName",
         //   defaultValue: "",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         // {
         //   type: "input",
@@ -164,7 +164,7 @@ export default {
         //   key: "gateway",
         //   disabled: true,
         //   defaultValue: "",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: "select",
@@ -199,7 +199,7 @@ export default {
               value: "电信"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -216,14 +216,14 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
           label: "通道返回值",
           key: "result",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
 
         {
@@ -231,7 +231,7 @@ export default {
           label: "返回错误说明",
           key: "notes",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         }
       ],
       bId: "",

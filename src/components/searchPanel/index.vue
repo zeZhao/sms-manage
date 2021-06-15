@@ -226,6 +226,11 @@ export default {
     reset: {
       type: Boolean,
       default: true
+    },
+    //默认进入该页面不查询
+    notSearch: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -262,7 +267,6 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
-      console.log(form, "------------");
       // 彩信分类统计特殊页面特殊重置
       // if(){
       // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
@@ -278,6 +282,10 @@ export default {
         form[key] = "";
         if (key === "statisticType") {
           form["statisticType"] = 2;
+        }
+
+        if (key === "reductType") {
+          form["reductType"] = 1;
         }
       }
 
@@ -314,7 +322,6 @@ export default {
         // }
       });
       this.form = form;
-      this._mxHandleSubmit();
 
       // 彩信分类统计特殊页面传该form引用类型数据
       this.searchFormConfig.forEach(item => {
@@ -322,6 +329,10 @@ export default {
           this.$emit("forms", this.form);
         }
       });
+
+      if (this.notSearch) return; //默认进入该页面不查询
+      this._mxHandleSubmit();
+      
       // if (
       //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
       //     "isSpecial"

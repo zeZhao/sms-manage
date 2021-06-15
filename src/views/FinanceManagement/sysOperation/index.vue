@@ -28,7 +28,7 @@
       <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip />
       <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip />
       <el-table-column prop="cardMoney" label="金额(元)" show-overflow-tooltip />
-      <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
+      <!-- <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
         <template slot-scope="scope">
           <a
             v-if="scope.row.fileUrl && scope.row.fileUrl !== '-'"
@@ -39,11 +39,11 @@
           >
           <span v-else style="color:#C0C4CC">暂无图片</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="paidWay" label="操作类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.paidWay == 0">充值</span>
-          <span v-if="scope.row.paidWay == 1">借款</span>
+          <span v-if="scope.row.paidWay == 1">授信</span>
           <span v-if="scope.row.paidWay == 2">余额-</span>
           <span v-if="scope.row.paidWay == 3">还款</span>
           <span v-if="scope.row.paidWay == 4">清授信</span>
@@ -62,7 +62,7 @@
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度帐单</span>
           <span v-if="scope.row.isBill == 2">退款记录</span>
-          <span v-if="scope.row.isBill == 3">借款记录</span>
+          <span v-if="scope.row.isBill == 3">授信记录</span>
           <span v-if="scope.row.isBill == 4">补款记录</span>
           <span v-if="scope.row.isBill == 5">转移记录</span>
           <span v-if="scope.row.isBill == 6">清授信记录</span>
@@ -76,7 +76,7 @@
               scope.row.paidWay == 0
                 ? "充值"
                 : scope.row.paidWay == 1
-                ? "借款"
+                ? "授信"
                 : scope.row.paidWay == 2
                 ? "扣款"
                 : scope.row.paidWay == 3
@@ -181,7 +181,7 @@ export default {
           key: "paidWay",
           optionData: [
             // { key: "0", value: "充值" },
-            { key: "1", value: "借款" },
+            { key: "1", value: "授信" },
             { key: "2", value: "余额-" },
             // { key: "3", value: "还款" },
             { key: "4", value: "清授信" },
@@ -198,7 +198,7 @@ export default {
             // { key: "0", value: "充值记录" },
             { key: "1", value: "月度账单" },
             { key: "2", value: "退款记录" },
-            { key: "3", value: "借款记录" },
+            { key: "3", value: "授信记录" },
             // { key: "4", value: "补款记录" }
             { key: "5", value: "转移记录" },
             { key: "6", value: "清授信记录" },

@@ -107,10 +107,10 @@ export default {
           label: "审核状态",
           key: "checkStatus",
           optionData: [
-            // {
-            //   key: "0",
-            //   value: "待审"
-            // },
+            {
+              key: "0",
+              value: "待审"
+            },
             {
               key: "1",
               value: "正在审核"

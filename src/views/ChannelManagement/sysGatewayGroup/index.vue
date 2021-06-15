@@ -49,8 +49,8 @@
         @cancel="cancel"
       >
         <div slot="Other">
-          <el-button @click="addGatewayGroup">添加通道</el-button>
-          <el-table :data="gatewayGroupList" v-if="gatewayGroupList.length">
+          <el-button class="m-b" @click="addGatewayGroup">添加通道</el-button>
+          <el-table class="m-b" :data="gatewayGroupList" v-if="gatewayGroupList.length">
             <el-table-column prop="gateway" label="通道编号">
               <template slot-scope="scope">
                 <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
@@ -182,7 +182,7 @@ export default {
           key: "groupId",
           maxlength: "4",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
             {
               pattern: /^9\d{3}$/,
               message: "9开头4位数",
@@ -195,8 +195,8 @@ export default {
           label: "通道组名称",
           key: "groupName",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorGroupName }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            { trigger: ['blur', 'change'], validator: validatorGroupName }
           ]
         },
         {
@@ -213,8 +213,8 @@ export default {
             { key: "联通,电信", value: "联通,电信" }
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" }
-            // { trigger: "blur", validator: validatorSendTo }
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] }
+            // { trigger: ['blur', 'change'], validator: validatorSendTo }
           ]
         },
         {
@@ -222,7 +222,7 @@ export default {
           label: "备注",
           maxlength: 300,
           key: "notes"
-          // rules: [{ trigger: "blur", validator: validatorRemark }],
+          // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }],
         }
       ],
       id: "",
@@ -256,6 +256,11 @@ export default {
       });
     },
     submit(form) {
+      const isDecimal = this.gatewayGroupList.every(v => v.ratio > 0 && v.ratio <= 100);
+      if (!isDecimal) {
+        this.$message.error('分配比例应该大于0且不得大于100');
+        return;
+      }
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -276,7 +281,7 @@ export default {
       } else {
         params = {
           data: {
-            id: this.id,
+            // id: this.id,
             ...form,
             sysGatewayDistributionList: [...this.gatewayGroupList]
           }
@@ -307,7 +312,7 @@ export default {
     },
     edit(row) {
       const { id, groupId } = row;
-      this.id = id;
+      // this.id = id;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         if (item.key == "groupId") {
@@ -316,6 +321,8 @@ export default {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
+          } else if (item.key === key && row[key] === "-") {
+            this.$set(item, "defaultValue", "");
           }
         }
         if (!Object.keys(row).includes(item.key)) {
@@ -363,5 +370,8 @@ export default {
 
 <style lang="scss" scoped>
 .sysGatewayGroup {
+}
+.m-b {
+  margin-bottom: 20px;
 }
 </style>

@@ -114,10 +114,10 @@ export default {
           label: "运营商",
           key: "operaId",
           optionData: [
-            {
-              key: "0",
-              value: "全部"
-            },
+            // {
+            //   key: "0",
+            //   value: "全部"
+            // },
             {
               key: 1,
               value: "移动"

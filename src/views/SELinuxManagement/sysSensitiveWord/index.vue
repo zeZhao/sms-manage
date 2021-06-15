@@ -14,7 +14,7 @@
       v-loading="loading"
     >
       <el-table-column prop="wordName" label="敏感词" show-overflow-tooltip />
-      <el-table-column prop="groupId" label="级别" show-overflow-tooltip />
+      <el-table-column prop="groupId" label="类别编号" show-overflow-tooltip />
       <el-table-column prop="groupName" label="敏感词组" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column label="操作" width="100">
@@ -114,12 +114,12 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             },
             {
               min: 2,
               max: 30,
-              trigger: "blur",
+              trigger: ['blur', 'change'],
               message: '长度在 2 到 30 个字符',
             }
           ]
@@ -133,7 +133,7 @@ export default {
             {
               required: true,
               message: "请选择必选项",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
@@ -142,7 +142,7 @@ export default {
           label: "备注信息",
           key: "remark",
           maxlength: "300",
-          // rules: [{ trigger: "blur", validator: validatorRemark }]
+          // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
         }
       ],
       wordId: "",

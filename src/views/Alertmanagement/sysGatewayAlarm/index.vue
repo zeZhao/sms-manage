@@ -120,7 +120,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'input',
+          type: 'inputNum',
           label: '通道编号',
           key: 'gateway',
           placeholder: '请输入通道编号',
@@ -145,7 +145,7 @@ export default {
           key: 'gateway',
           defaultValue: '',
           optionData: [],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'select',
@@ -162,20 +162,38 @@ export default {
               value: '是',
             },
           ],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'input',
           label: '失败状态',
           key: 'alarmStatus',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请输入必填项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'input',
           label: '低于设定的成功率报警',
           key: 'sucCrate',
           defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [
+            { required: true, message: '请输入必填项', trigger: ['blur', 'change'] },
+            {
+              trigger: ['blur', 'change'],
+              validator: (rule, value, callback) => {
+                const val = typeof(value) === 'string' ? value : value + '';
+                if (val.indexOf('.') !== -1) {
+                  callback (new Error('只允许输入正整数'));
+                }
+                if (isNaN(val)) {
+                  callback (new Error('只允许输入数字'));
+                }
+                if (val <= 0 || val > 100) {
+                  callback (new Error('只允许大于0且小于等于100'));
+                }
+                callback();
+              }
+            }
+          ],
         },
         {
           type: 'select',
@@ -192,21 +210,41 @@ export default {
               value: '是',
             },
           ],
-          rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         },
         // {
         //   type: 'input',
         //   label: '投诉率报警',
         //   key: 'complaintRate',
         //   defaultValue: '',
-        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   // rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: 'input',
           label: '日成功量提醒',
           key: 'daySendAlarm',
           defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [
+            { required: true, message: '请输入必填项', trigger: ['blur', 'change']}, 
+            { 
+              trigger: ['blur', 'change'], 
+              validator: (rule, value, callback) => {
+                const val = typeof(value) === 'string' ? value : value + '';
+                if (val.indexOf('.') !== -1) {
+                  callback (new Error('只允许输入正整数'));
+                }
+                if (isNaN(val)) {
+                  callback (new Error('只允许输入数字'));
+                }
+                if (val < 0) {
+                  callback (new Error('不允许小于0'));
+                }
+                if (val.length > 10) {
+                  callback (new Error('长度最多10位'));
+                }
+                callback();
+              } 
+            }]
         },
         // {
         //   type: 'select',
@@ -222,14 +260,34 @@ export default {
         //       value: '是',
         //     },
         //   ],
-        //   rules: [{ required: true, message: '请选择必填项', trigger: 'blur' }],
+        //   rules: [{ required: true, message: '请选择必填项', trigger: ['blur', 'change'] }],
         // },
         {
           type: 'input',
           label: '同一失败状态报警次数',
           key: 'errStatusNum',
           defaultValue: '',
-          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+          rules: [
+            { required: true, message: '请输入必填项', trigger: ['blur', 'change']},
+            { 
+              trigger: ['blur', 'change'], 
+              validator: (rule, value, callback) => {
+                const val = typeof(value) === 'string' ? value : value + '';
+                if (val.indexOf('.') !== -1) {
+                  callback (new Error('只允许输入正整数'));
+                }
+                if (isNaN(val)) {
+                  callback (new Error('只允许输入数字'));
+                }
+                if (val < 0) {
+                  callback (new Error('不允许小于0'));
+                }
+                if (val.length > 10) {
+                  callback (new Error('长度最多10位'));
+                }
+                callback();
+              } 
+            }]
         },
         {
           type: 'checkbox',
@@ -250,21 +308,21 @@ export default {
               value: '邮箱',
             },
           ],
-          rules: [{ required: true, message: '请选择必选项', trigger: 'blur' }],
+          rules: [{ required: true, message: '请选择必选项', trigger: ['blur', 'change'] }],
         },
         {
           type: 'input',
           label: '手机号',
           key: 'mobile',
           tips: '多个用英文逗号分隔',
-          rules: [{ required: false, trigger: 'blur', validator: null }],
+          rules: [{ required: false, trigger: ['blur', 'change'], validator: null }],
         },
         {
           type: 'input',
           label: '邮箱',
           key: 'email',
           tips: '多个用英文逗号分隔',
-          rules: [{ required: false, trigger: 'blur', validator: null }],
+          rules: [{ required: false, trigger: ['blur', 'change'], validator: null }],
         },
       ],
       alarmId: '',
@@ -305,7 +363,7 @@ export default {
           ].rules = this.$publicValidators.phone
         } else {
           this.formConfig[this.formConfig.length - 2].rules = [
-            { required: false, trigger: 'blur', validator: null },
+            { required: false, trigger: ['blur', 'change'], validator: null },
           ]
         }
         if (val.includes(4)) {
@@ -314,7 +372,7 @@ export default {
           ].rules = this.$publicValidators.email
         } else {
           this.formConfig[this.formConfig.length - 1].rules = [
-            { required: false, trigger: 'blur', validator: null },
+            { required: false, trigger: ['blur', 'change'], validator: null },
           ]
         }
       }

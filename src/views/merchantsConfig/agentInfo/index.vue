@@ -238,7 +238,31 @@ export default {
           type: "input",
           label: "密码",
           key: "password",
-          rules: [{ validator: password, trigger: "change" }]
+          rules: [
+            { required: true, trigger: "blur", validator: (rule, value, callback) => {
+              if (this.renderFormTit === '新增') {
+                if (!value) {
+                  callback(new Error('请输入必填项'))
+                } else {
+                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
+                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  } else {
+                    callback()
+                  }
+                }
+              } else {
+                if (!value) {
+                  callback()
+                } else {
+                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
+                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  } else {
+                    callback()
+                  }
+                }
+              }
+            }}
+          ]
         },
         {
           type: "input",
@@ -265,7 +289,7 @@ export default {
           key: "saleMan",
           defaultValue: "",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
         },
         {
           type: "switch",
@@ -302,7 +326,9 @@ export default {
   mounted() {
     this.getSaleman();
   },
-  computed: {},
+  computed: {
+    renderFormTit() { return this.formTit }
+  },
   methods: {
     /**
      * 创建表单
@@ -315,11 +341,14 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
-        if (item.key === "password") {
-          item.rules = [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { validator: password, trigger: "change" }
-          ];
+        // if (item.key === "password") {
+        //   item.rules = [
+        //     { required: true, message: "请输入必填项", trigger: "blur" },
+        //     { validator: password, trigger: "change" }
+        //   ];
+        // }
+        if (item.key === 'loginName') {
+          item.disabled = false;
         }
       });
       setTimeout(() => {
@@ -350,12 +379,15 @@ export default {
             }
           }
         }
-        if (item.key === "password") {
-          item.rules = [{ validator: password, trigger: "change" }];
-        }
+        // if (item.key === "password") {
+        //   item.rules = [{ validator: password, trigger: "change" }];
+        // }
 
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
+        }
+        if (item.key === 'loginName') {
+          item.disabled = true;
         }
       });
 

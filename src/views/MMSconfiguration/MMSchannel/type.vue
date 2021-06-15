@@ -51,7 +51,7 @@ export default {
           key: "name",
           defaultValue: "",
           maxlength: 30,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: ['blur', 'change'] }],
         },
         {
           type: "input",
@@ -59,7 +59,7 @@ export default {
           key: "corpName",
           defaultValue: "",
           maxlength: 30,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: ['blur', 'change'] }],
         },
         {
           type: "input",
@@ -68,7 +68,7 @@ export default {
           defaultValue: "",
           rules: [{
             required: true,
-            trigger: "blur",
+            trigger: ['blur', 'change'],
             validator: (rule, value, callback) => {
               if (value === '' || value === undefined || value === null) {
                 callback(new Error('请输入必填项'));
@@ -105,7 +105,7 @@ export default {
               value: "电信",
             },
           ],
-          rules: [{ required: true, message: "请选择必选项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必选项", trigger: ['blur', 'change'] }],
         },
         {
           type: "input",
@@ -114,7 +114,7 @@ export default {
           defaultValue: "",
           disabled: this.isDisabled(),
           maxlength: 30,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
         },
         {
           type: "radio",
@@ -131,7 +131,7 @@ export default {
               value: "不可用",
             },
           ],
-          rules: [{ required: true, message: "请选择必选项", trigger: "blur" }],
+          rules: [{ required: true, message: "请选择必选项", trigger: ['blur', 'change'] }],
         },
         {
           type: "textarea",
@@ -139,7 +139,7 @@ export default {
           key: "parameter",
           defaultValue: "",
           disabled: this.isDisabled(),
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
         },
         {
           type: "textarea",
@@ -147,14 +147,14 @@ export default {
           key: "remark",
           defaultValue: "",
           maxlength: 300,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
         },
       ],
       dialogVisible: false,
       formData: {},
       rules: {
-        account: [{ required: true, message: "账号不能为空", trigger: "blur" }],
-        pwd: [{ required: true, message: "密码不能为空", trigger: "blur" }],
+        account: [{ required: true, message: "账号不能为空", trigger: ['blur', 'change'] }],
+        pwd: [{ required: true, message: "密码不能为空", trigger: ['blur', 'change'] }],
       },
     };
   },

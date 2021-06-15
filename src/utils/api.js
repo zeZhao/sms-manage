@@ -2038,5 +2038,49 @@ export default {
         listByPage(params) {
             return post("/mmsTemplateCheckRecord/listByPage", params);
         }
-    }
+    },
+    //状态码统计
+    SmsStatusCodeStatistics: {
+        // 状态码统计列表分页查询
+        queryByPage(params) {
+            return post("/SmsStatusCodeStatistics/queryByPage", params);
+        },
+        // 导出状态码统计
+        exportSmsStatusCodeStatistics(params) {
+            return post("/SmsStatusCodeStatistics/exportSmsStatusCodeStatistics", params);
+        }
+    },
+    //日限量配置
+    SmsGatewayUserSendControl: {
+        // 日限量配置列表分页查询
+        queryByPage(params) {
+            return post("/SmsGatewayUserSendControl/queryByPage", params);
+        },
+        // 日限量配置新增
+        addSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/addSmsGatewayUserSendControl", params);
+        },
+        // 日限量配置修改
+        updateSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/updateSmsGatewayUserSendControl", params);
+        },
+        // 日限量配置删除
+        deleteSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/deleteSmsGatewayUserSendControl", params);
+        }
+    },
+    //报告推送记录
+    smsPushReport: {
+        // 报告推送记录分页查询
+        listPushReport(params) {
+            return post("/smsPushReport/listPushReport", params);
+        }
+    },
+    //通道监控
+    smsGatewayMonitor: {
+        // 通道监控分页查询
+        listGatewayMonitorByPage(params) {
+            return fetch("/smsGatewayMonitor/listGatewayMonitorByPage", params);
+        }
+    },
 }

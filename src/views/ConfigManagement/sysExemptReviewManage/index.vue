@@ -16,7 +16,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="exemptReviewType" label="类型">
+      <!-- <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.exemptReviewType === 1
@@ -26,18 +26,18 @@
               : "商户编号"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="cmPassageway" label="移动通道" />
       <el-table-column prop="cuPassageway" label="联通通道" />
       <el-table-column prop="ctPassageway" label="电信通道" />
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span v-if="scope.row.isTemplate === false">不需要</span>
-          <span v-if="scope.row.isTemplate === true">需要</span>
+          <span v-if="scope.row.isTemplate === 0">不需要</span>
+          <span v-if="scope.row.isTemplate === 1">需要</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="isParallelDetection"
         label="是否并行检测"
         width="110"
@@ -45,13 +45,13 @@
         <template slot-scope="scope">
           <span>{{ scope.row.isParallelDetection ? "是" : "否" }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="isLoss" label="是否亏损">
+      </el-table-column> -->
+      <!-- <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
-          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss === "1" ? "是" : "否") : '-' }}</span>
+          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="update_by" label="修改人" />
+      </el-table-column> -->
+      <el-table-column prop="updateBy" label="修改人" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -59,9 +59,9 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="update_time" label="操作时间" min-width="170">
+      <el-table-column prop="updateTime" label="操作时间" min-width="170">
         <template slot-scope="scope">{{
-          scope.row.update_time | timeFormat
+          scope.row.updateTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -180,26 +180,26 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "exemptReviewType",
-          optionData: [
-            {
-              key: "1",
-              value: "特服号"
-            },
-            {
-              key: "2",
-              value: "账户编号"
-            },
-            {
-              key: "3",
-              value: "商户编号"
-            }
-          ],
-          placeholder: "请选择类型"
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "exemptReviewType",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: "2",
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: "3",
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   placeholder: "请选择类型"
+        // },
         // {
         //   type: "select",
         //   label: "免审类型",
@@ -214,64 +214,64 @@ export default {
         // },
         {
           type: "select",
-          label: "移动通道编号",
+          label: "移动通道",
           key: "cmPassageway",
           optionData: []
         },
         {
           type: "select",
-          label: "联通通道编号",
+          label: "联通通道",
           key: "cuPassageway",
           optionData: []
         },
         {
           type: "select",
-          label: "电信通道编号",
+          label: "电信通道",
           key: "ctPassageway",
           optionData: []
         },
-        {
-          type: "select",
-          label: "是否并行检测",
-          key: "isSarallelDetection",
-          optionData: [
-            {
-              key: "0",
-              value: "否"
-            },
-            {
-              key: "1",
-              value: "是"
-            }
-          ],
-          placeholder: "请选择是否并行检测"
-        },
-        {
-          type: "select",
-          label: "是否亏损",
-          key: "isLoss",
-          optionData: [
-            {
-              key: "",
-              value: "全部"
-            },
-            {
-              key: "0",
-              value: "否"
-            },
-            {
-              key: "1",
-              value: "是"
-            }
-          ]
-        },
-        {
-          type: "select",
-          label: "敏感词类别",
-          key: "sensitiveWord",
-          optionData: [],
-          placeholder: "请选择敏感词类别"
-        }
+        // {
+        //   type: "select",
+        //   label: "是否并行检测",
+        //   key: "isSarallelDetection",
+        //   optionData: [
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     },
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     }
+        //   ],
+        //   placeholder: "请选择是否并行检测"
+        // },
+        // {
+        //   type: "select",
+        //   label: "是否亏损",
+        //   key: "isLoss",
+        //   optionData: [
+        //     {
+        //       key: "",
+        //       value: "全部"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     },
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: "select",
+        //   label: "敏感词类别",
+        //   key: "sensitiveWord",
+        //   optionData: [],
+        //   placeholder: "请选择敏感词类别"
+        // }
         // {
         //   type: "select",
         //   label: "特殊需求",
@@ -323,7 +323,7 @@ export default {
           btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -331,7 +331,7 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
 
         {
@@ -340,7 +340,7 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "input",
@@ -348,30 +348,30 @@ export default {
           disabled: true,
           key: "cardUnit",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "exemptReviewType",
-          initDefaultValue: 2,
-          defaultValue: 2,
-          optionData: [
-            {
-              key: 1,
-              value: "特服号"
-            },
-            {
-              key: 2,
-              value: "账户编号"
-            },
-            {
-              key: 3,
-              value: "商户编号"
-            }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "exemptReviewType",
+        //   initDefaultValue: 2,
+        //   defaultValue: 2,
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: 3,
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        // },
         {
           type: "radio",
           label: "通道排序",
@@ -382,14 +382,15 @@ export default {
             { key: 1, value: "按价格排序" },
             { key: 2, value: "按通道号排序" },
             { key: 3, value: "按通道名称排序" }
-          ]
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "selectGroup",
           label: "移动通道",
           key: "cmPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -397,14 +398,14 @@ export default {
         //   multiple: true,
         //   key: "spareCmPassagewayId",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: "selectGroup",
           label: "联通通道",
           key: "cuPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -412,14 +413,14 @@ export default {
         //   multiple: true,
         //   key: "spareCuPassagewayId",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         {
           type: "selectGroup",
           label: "电信通道",
           optionData: [],
           key: "ctPassageway",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         // {
         //   type: "select",
@@ -427,7 +428,7 @@ export default {
         //   multiple: true,
         //   key: "spareCtPassagewayId",
         //   optionData: [],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         // },
         // {
         //   type: "select",
@@ -447,67 +448,25 @@ export default {
         //   // isShow: true
         // },
         {
-          type: "checkbox",
-          label: "关键字类别",
-          initDefaultValue: [],
-          defaultValue: [],
-          optionData: [],
-          key: "sensitiveWord"
-        },
-        {
           type: "input",
           label: "免审数量",
           key: "exemptReviewNum",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: "blur"
+              trigger: ['blur', 'change']
             },
             {
               validator: validatorNum,
-              trigger: "blur"
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
           type: "select",
-          label: "是否需要模板",
-          optionData: [
-            {
-              key: "1",
-              value: "需要"
-            },
-            {
-              key: "0",
-              value: "不需要"
-            }
-          ],
-          key: "isTemplate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "是否检测并行",
-          initDefaultValue: "0",
-          defaultValue: "0",
-          optionData: [
-            {
-              key: "1",
-              value: "是"
-            },
-            {
-              key: "0",
-              value: "否"
-            }
-          ],
-          key: "isParallelDetection",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "是否组合长信息",
+          label: "组合长信息",
           initDefaultValue: "0",
           defaultValue: "0",
           optionData: [
@@ -521,8 +480,50 @@ export default {
             }
           ],
           key: "isCombination",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
+        {
+          type: "select",
+          label: "需要模板",
+          optionData: [
+            {
+              key: "1",
+              value: "需要"
+            },
+            {
+              key: "0",
+              value: "不需要"
+            }
+          ],
+          key: "isTemplate",
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        },
+        {
+          type: "checkbox",
+          label: "敏感词组",
+          initDefaultValue: [],
+          defaultValue: [],
+          optionData: [],
+          key: "sensitiveWord"
+        },
+        // {
+        //   type: "select",
+        //   label: "是否检测并行",
+        //   initDefaultValue: "0",
+        //   defaultValue: "0",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     }
+        //   ],
+        //   key: "isParallelDetection",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        // },
         // {
         //   type: "select",
         //   label: "特殊需求",
@@ -543,14 +544,14 @@ export default {
         //   ],
         //   placeholder: "请选择特殊需求"
         // },
-        {
-          type: "textarea",
-          label: "备注信息",
-          maxlength: 300,
-          key: "remarks",
-          placeholder: "备注信息不能超过300字"
-          // rules: [{ trigger: "blur", validator: validatorRemark }]
-        }
+        // {
+        //   type: "textarea",
+        //   label: "备注信息",
+        //   maxlength: 300,
+        //   key: "remarks",
+        //   placeholder: "备注信息不能超过300字"
+        //   // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
+        // }
       ],
       GatewayList: [], // 通道列表
       isChooseUser: false, //选择用户
@@ -805,13 +806,19 @@ export default {
             obj[key] = "0";
           }
         }
-        if (key === "sensitiveWord") {
-          if (typeof obj[key] === "string") {
-            let arr = obj[key].split(",");
-            obj[key] = arr.map(item => {
-              return Number(item);
-            });
+        if(obj.hasOwnProperty('sensitiveWord')){
+          if (key === "sensitiveWord") {
+            if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
+              let arr = obj[key].split(",");
+              obj[key] = arr.map(item => {
+                return Number(item);
+              });
+            }else{
+              obj[key] = []
+            }
           }
+        }else{
+          obj['sensitiveWord'] = []
         }
       }
       return obj;
@@ -871,9 +878,13 @@ export default {
      */
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
-        if (key === "sensitiveWord") {
-          formData[key] = formData[key].join(",");
-        }
+        if(key === "sensitiveWord"){
+          if (formData['sensitiveWord'] && Array.isArray(formData['sensitiveWord'])) {
+            formData[key] = formData[key].join(",");
+          } else {
+            formData['sensitiveWord'] = [];
+          }
+        } 
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;

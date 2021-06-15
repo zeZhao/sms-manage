@@ -521,17 +521,18 @@ export default {
         }
       });
     },
-    infoShow(row) {
-      this.customerInfo = true;
-      this.$nextTick(() => {
-        this.$refs.updateCustomForm.clearValidate();
-      });
+    async infoShow(row) {
       this.navListId = [];
       this.setInfo.custId = row.roleId;
       this.setInfo.custName = row.roleName;
       this.setInfo.roleType = row.roleType.toString();
       this.setInfo.des = row.des;
-      this.deleteCustomer(this.setInfo.custId, this.setInfo.roleType);
+
+      await this.deleteCustomer(this.setInfo.custId, this.setInfo.roleType);
+      this.customerInfo = true;
+      this.$nextTick(() => {
+        this.$refs.updateCustomForm.clearValidate();
+      });
     },
     setCustomerInfo(form) {
       this.customerInfo = true;
@@ -562,10 +563,10 @@ export default {
               this.setNavuserList(res.data, 2);
               this.customerInfo = false;
               this.orderList();
-              const accessRoutes = this.$store.dispatch(
-                "permission/generateRoutes"
-              );
-              router.addRoutes(accessRoutes);
+              // const accessRoutes = this.$store.dispatch(
+              //   "permission/generateRoutes"
+              // );
+              // router.addRoutes(accessRoutes);
             } else {
               this.$message.error(res.data || res.msg);
             }
@@ -573,20 +574,19 @@ export default {
         }
       });
     },
-    deleteCustomer(id, type) {
+    async deleteCustomer(id, type) {
       this.roleId = id;
       let params = {
         roleId: id
       };
-      this.$http.role.queryRoleMenu(params).then(res => {
-        if (res.code == "200") {
-          this.navList = res.data;
-          this.treeDataTranslate(res.data);
-          // this.$refs.tree.setCheckedKeys(this.navListId);
-        } else {
-          this.$message.error(res.msg);
-        }
-      });
+      const res = await this.$http.role.queryRoleMenu(params);
+      if (res.code == "200") {
+        this.navList = res.data;
+        this.treeDataTranslate(res.data);
+        // this.$refs.tree.setCheckedKeys(this.navListId);
+      } else {
+        this.$message.error(res.msg);
+      }
     },
     getNavList() {
       this.navListId = [];

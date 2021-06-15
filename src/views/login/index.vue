@@ -2,12 +2,13 @@
   <div class="login-container">
     <div class="head-logo">
       <img :src="logo" alt />
+      <h3>短信运营平台</h3>
     </div>
     <div class="login_box" style="display: block">
       <!-- <img class="loginImg" src="../../../src/image/login_bg.png" alt /> -->
       <div class="loginFormStyle">
         <div class="login_name">
-          <h1>短信管理平台</h1>
+          <h1>短信运营平台</h1>
           <p>
             <!-- <span>|</span>短信系统 -->
           </p>
@@ -24,7 +25,7 @@
             <el-input
               ref="username"
               v-model="loginForm.username"
-              placeholder="用户名"
+              placeholder="账户名称"
               name="username"
               type="text"
               tabindex="1"
@@ -91,7 +92,7 @@
 <script>
 import { validUsername } from "@/utils/validate";
 import SocialSign from "./components/SocialSignin";
-import logo from "@/assets/images/logo.png";
+import logo from "@/assets/logo.png";
 export default {
   name: "Login",
   components: { SocialSign },
@@ -99,7 +100,7 @@ export default {
     const validateUsername = (rule, value, callback) => {
       if (!value) {
         console.log("value", value);
-        callback(new Error("用户名不能为空"));
+        callback(new Error("账户名称不能为空"));
       } else {
         callback();
       }
@@ -207,7 +208,7 @@ export default {
     handleLogin() {
       console.log("username", this.loginForm.username);
       if (this.loginForm.username.length === 0) {
-        alert("请输入用户名");
+        alert("请输入账户名称");
         return;
       }
       if (this.loginForm.password.length === 0) {
@@ -334,7 +335,7 @@ $light_gray: #eee;
   background-color: #fff;
 }
 .loginFormStyle {
-  height: 500px;
+  height: 460px;
   border: 1px solid #cccccc;
   vertical-align: top;
   width: 45%;
@@ -348,14 +349,14 @@ $light_gray: #eee;
   width: 100%;
   float: left;
   text-align: left;
-  margin-top: 20px;
+  // margin-top: 20px;
   padding: 40px 35px 0;
   color: #666;
 }
 .login_name span {
   margin-right: 10px;
   font-weight: 700;
-  color: #1890ff;
+  color: #0964ff;
 }
 .login-container {
   min-height: 100%;
@@ -368,13 +369,21 @@ $light_gray: #eee;
     position: fixed;
     top: 0;
     left: 0;
-    padding: 32px;
+    padding: 12px 32px;
     box-sizing: border-box;
     img {
-      width: 91px;
+      width: 50px;
       height: 41px;
       object-fit: fill;
       cursor: pointer;
+      display: inline-block;
+      vertical-align: super;
+    }
+    h3 {
+      display: inline-block;
+      vertical-align: text-bottom;
+      padding-left: 10px;
+      color: #666666;
     }
   }
 
@@ -462,6 +471,21 @@ $light_gray: #eee;
   @media only screen and (max-width: 470px) {
     .thirdparty-button {
       display: none;
+    }
+  }
+  @media only screen and (max-width: 1550px) {
+    .login_box {
+      transform: translateY(20%);
+    }
+  }
+  @media only screen and (max-width: 1311px) {
+    .login_box {
+      transform: translateY(10%);
+    }
+  }
+  @media only screen and (max-width: 1222px) {
+    .login_box {
+      transform: translateY(8%);
     }
   }
   .loginBut {

@@ -187,7 +187,7 @@ export default {
           disabled: false,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
             { validator: phone, trigger: "change" }
           ]
         },
@@ -201,7 +201,7 @@ export default {
             { key: 2, value: "联通" },
             { key: 3, value: "电信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
@@ -213,7 +213,7 @@ export default {
             { key: 2, value: "联通" },
             { key: 3, value: "电信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         }
       ],
       id: "",
@@ -304,10 +304,11 @@ export default {
         form.append("file", this.file);
         this.$http.networkChange.importBatchAdd(form).then(res => {
           if (res.code == 200) {
-            this.$message.success("添加成功");
             this.batchAddVisible = false;
             this.file = null;
             this.fileList = [];
+            this.$message.success("添加成功");
+            this._mxGetList();
           } else {
             this.$message.error(res.msg);
           }

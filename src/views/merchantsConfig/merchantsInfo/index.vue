@@ -25,22 +25,21 @@
             placeholder="联系人姓名"
           />
         </el-form-item>
-        <el-form-item>
+        <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
+        <!-- <el-form-item>
           <el-select
             v-model="search.reductModel"
             placeholder="计费模式"
             clearable
           >
-            <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
             <el-option value="1" label="预付提交计费" />
             <el-option value="2" label="预付成功计费" />
             <el-option value="3" label="后付提交计费" />
             <el-option value="4" label="后付成功计费" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-select v-model="search.status" placeholder="状态" clearable>
-            <!--1.预付提交计费，2.预付成功计费，3.后付提交计费，4.后付成功计费-->
             <el-option value="2" label="正常" />
             <el-option value="3" label="禁用" />
           </el-select>

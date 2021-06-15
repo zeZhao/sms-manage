@@ -147,6 +147,8 @@ function queryData() {
       this.listData = this._mxFormListData(this._mxlistDataNull(list));
     } else if (res.code === 500 || res.code === "500") {
       this.$message.error(res.data || res.msg || "获取数据失败");
+    } else {
+      this.$message.error(res.data || res.msg || "获取数据失败");
     }
   });
 
@@ -208,6 +210,7 @@ export default {
   created() { },
 
   mounted() {
+    if (this.notSearch) return; //默认进入该页面不查询
     this._mxGetList();
   },
 
@@ -257,7 +260,6 @@ export default {
 
     //显示选择用户弹窗
     choose(item) {
-      console.log(item);
       this.isChooseUser = true;
     },
     //关闭选择用户弹窗
@@ -288,7 +290,6 @@ export default {
       }).then(action => {
         let params = {};
         if (!isQuery) {
-
           if (isData) {
             params = {
               data: {}
@@ -300,7 +301,6 @@ export default {
         } else {
           params = id.toString()
         }
-
 
         const { namespace, detele } = this.searchAPI;
         this.$http[namespace][detele](params).then(res => {
@@ -328,18 +328,17 @@ export default {
           }
         }
       })
-      // console.log(list, '--------list')
       return list
     },
 
     /**
      * 对表格数据进行自定义调整
-     * @param rows
+     * @param listData
      * @returns {*}
      * @private
      */
-    _mxFormListData(rows) {
-      return rows;
+    _mxFormListData(listData) {
+      return listData;
     },
 
     /**
