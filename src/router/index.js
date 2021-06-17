@@ -114,6 +114,18 @@ export const constantRoutes = [{
             component: () => import('@/views/MMSconfiguration/MMStemplateReview/type')
         }
     ]
+},
+{
+    path: '/userManagement',
+    component: Layout,
+    hidden: true,
+    children: [
+        {
+            path: 'userManagementType',
+            name: 'userManagementType',
+            component: () => import('@/views/merchantsConfig/userManagement/type')
+        }
+    ]
 }
 ]
 
