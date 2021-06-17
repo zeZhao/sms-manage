@@ -220,7 +220,7 @@
               ></el-date-picker>
             </template>
 
-            <!--时间-->
+            <!--单个时间-->
             <template v-if="item.type === 'time'">
               <el-time-picker
                 clearable
@@ -228,6 +228,24 @@
                 :value-format="item.format || 'HH:mm:ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 :picker-options="item.pickerOptions || ''"
+                @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+              ></el-time-picker>
+            </template>
+            <!--双时间-->
+            <template v-if="item.type === 'times'">
+              <el-time-picker
+                clearable
+                v-model="formData[item.key]"
+                :value-format="item.format || 'HH:mm:ss'"
+                is-range
+                range-separator="-"
+                :start-placeholder="item.startPlaceholder || '开始时间'"
+                :end-placeholder="item.endPlaceholder || '结束时间'"
+                :placeholder="item.placeholder || '选择时间范围'"
                 @change="
                   val => {
                     onChange(val, item);

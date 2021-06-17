@@ -1,430 +1,9 @@
 <template>
-  <!--商户用户-->
-  <div class="corpUser">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="_mxCreate"
-    ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
-      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column
-        prop="userName"
-        label="账户名称"
-        width="100"
-        show-overflow-tooltip
-      />
-      <!-- <el-table-column
-        prop="loginName"
-        label="登录账号"
-        width="100"
-        show-overflow-tooltip
-      /> -->
-      <el-table-column
-        prop="agentName"
-        label="代理商"
-        width="100"
-        show-overflow-tooltip
-      />
-      <el-table-column
-        prop="saleName"
-        label="销售员"
-        width="100"
-        show-overflow-tooltip
-      />
-      <!-- <el-table-column
-        prop="password"
-        label="密码"
-        width="100"
-        show-overflow-tooltip
-      /> -->
-      <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column
-        prop="accountType"
-        label="业务类型"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.accountType == "1"
-              ? "行业"
-              : scope.row.accountType == "2"
-              ? "营销"
-              : "vip"
-          }}</span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column
-        prop="reductType"
-        label="计费类型"
-        width="100"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.reductType == "1" ? "账户计费" : "商户计费"
-          }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="sublong" label="扩展位数" show-overflow-tooltip />
-      <!-- <el-table-column prop="longCode" label="长号码" /> -->
-      <!-- <el-table-column prop="productType" label="产品">
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.productType == "1"
-              ? "短信"
-              : scope.row.productType == "2"
-              ? "彩信"
-              : scope.row.productType == "3"
-              ? "屏信"
-              : "语音"
-          }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column
-        prop="proTypes"
-        label="短信产品类型"
-        min-width="130"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-for="(item, index) in scope.row.proTypes" :key="index">
-            {{
-              item === 1
-                ? "web端"
-                : item === 2
-                ? "http接口"
-                : item === 4
-                ? "cmpp接口"
-                : "-"
-            }}
-          </span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column
-        prop="sendType"
-        label="短信运营商"
-        width="100"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.sendType === 1">移动</span>
-          <span v-else-if="scope.row.sendType === 2">联通</span>
-          <span v-else-if="scope.row.sendType === 3">电信</span>
-          <span v-else-if="scope.row.sendType === 4">三网</span>
-          <span v-else-if="scope.row.sendType === 5">移动 联通</span>
-          <span v-else-if="scope.row.sendType === 6">移动 电信</span>
-          <span v-else-if="scope.row.sendType === 7">联通 电信</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column
-        prop="reductModel"
-        label="短信计费方式"
-        width="110"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.reductModel == "1"
-              ? "预付提交计费"
-              : scope.row.reductModel == "2"
-              ? "预付成功计费"
-              : scope.row.reductModel == "3"
-              ? "后付提交计费"
-              : scope.row.reductModel == "4"
-              ? "后付成功计费"
-              : "-"
-          }}</span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column
-        prop="smsBalance"
-        label="短信余额"
-        show-overflow-tooltip
-      /> -->
-      <!-- <el-table-column prop="debt" label="借款" show-overflow-tooltip /> -->
-      <el-table-column
-        prop="cardUnit"
-        label="单价（分）"
-        width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <!-- <el-table-column
-        prop="mmsProType"
-        label="彩信产品类型"
-        min-width="130"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-for="(item, index) in scope.row.mmsProTypes" :key="index">
-            {{
-              item === 1
-                ? "web端"
-                : item === 2
-                ? "http接口"
-                : item === 4
-                ? "cmpp接口"
-                : "-"
-            }}
-          </span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="mmsSendType"
-        label="彩信运营商"
-        width="100"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.mmsSendType === 1">移动</span>
-          <span v-else-if="scope.row.mmsSendType === 2">联通</span>
-          <span v-else-if="scope.row.mmsSendType === 3">电信</span>
-          <span v-else-if="scope.row.mmsSendType === 4">三网</span>
-          <span v-else-if="scope.row.mmsSendType === 5">移动 联通</span>
-          <span v-else-if="scope.row.mmsSendType === 6">移动 电信</span>
-          <span v-else-if="scope.row.mmsSendType === 7">联通 电信</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column
-        prop="mmsReductModel"
-        label="彩信计费方式"
-        width="110"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
-          <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
-          <span v-else-if="scope.row.mmsReductModel == 3">后付提交计费</span>
-          <span v-else-if="scope.row.mmsReductModel == 4">后付成功计费</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column>
-
-      <!-- <el-table-column
-        prop="mmsBalance"
-        label="彩信余额"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="mmsDebt" label="借款" show-overflow-tooltip /> -->
-      <el-table-column
-        prop="mmsCardUnit"
-        label="单价（分）"
-        width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column
-        prop="submitSpeed"
-        label="提交速率"
-        width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column
-        prop="smsTags"
-        label="标签"
-        min-width="120"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.smsTags.length">
-            <span v-for="(item, index) in scope.row.smsTags" :key="index">
-              {{ item ? item.name : "-" }}
-            </span>
-          </span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="roleName"
-        label="角色"
-        min-width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column prop="status" label="状态" show-overflow-tooltip>
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.status == "0"
-              ? "删除"
-              : scope.row.status == "1"
-              ? "待审核"
-              : scope.row.status == "2"
-              ? "正常"
-              : "停用"
-          }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="createUser" label="创建人" width="150" show-overflow-tooltip />
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        width="150"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
-        }}</template>
-      </el-table-column>
-      <!-- <el-table-column
-        prop="modifyTime"
-        label="修改时间"
-        width="150"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">{{
-          scope.row.modifyTime | timeFormat
-        }}</template>
-      </el-table-column> -->
-      <el-table-column fixed="right" label="操作" width="300">
-        <template slot-scope="scope">
-          <el-button
-            v-if="!scope.row.smsTags.length"
-            @click="addTag(scope.row.userId)"
-            type="text"
-            size="small"
-            >添加标签</el-button
-          >
-          <el-button
-            v-if="scope.row.smsTags.length"
-            @click="editTag(scope.row.userId, scope.row.smsTags)"
-            type="text"
-            size="small"
-            >修改标签</el-button
-          >
-          <el-button
-            @click="handleSubmitSpeed(scope.row.userId, scope.row.submitSpeed)"
-            type="text"
-            size="small"
-            >{{
-              scope.row.submitSpeed ? "修改提交速率" : "配置提交速率"
-            }}</el-button
-          >
-          <el-button @click="messageShow(scope.row)" type="text" size="small"
-            >信息</el-button
-          >
-          <el-button
-            @click="_mxEdit(scope.row, 'userId')"
-            type="text"
-            size="small"
-            >修改</el-button
-          >
-          <!-- <el-button
-            :disabled="scope.row.status == '2' || scope.row.status == '3'"
-            @click="_mxCheck(scope.row, 'userId')"
-            type="text"
-            size="small"
-            >审核</el-button
-          > -->
-          <el-button
-            v-if="scope.row.status == 2"
-            @click="setType(scope.row, 'disable', '3')"
-            style="color: #ec5858"
-            type="text"
-            size="small"
-            >停用</el-button
-          >
-          <el-button
-            v-if="scope.row.status == 3"
-            @click="setType(scope.row, 'enabled', '2')"
-            type="text"
-            size="small"
-            >启用</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-      width="80%"
-      :before-close="beforeClose"
-    >
-      <FormItemTitle
-        :colSpan="8"
-        :labelWidth="150"
-        ref="formItemTit"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="_mxHandleSubmit"
-        @cancel="_mxCancel"
-        @selectChange="selectChange"
-        @removeTag="removeTag"
-      ></FormItemTitle>
-    </el-dialog>
-    <el-dialog
-      :title="dialogTit"
-      :visible.sync="dialogVisible"
-      :close-on-click-modal="false"
-      width="30%"
-    >
-      <span>{{ information }}</span>
-      <p v-show="dialogTit === '停用'" style="color: #ec5858">
-        停用后将无法使用，请谨慎操作！
-      </p>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateStatus">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog
-      :title="tagStatusTitle"
-      :visible.sync="tagStatus"
-      :close-on-click-modal="false"
-      top="45px"
-      width="30%"
-    >
-      <FormItem
-        :colSpan="24"
-        :labelWidth="50"
-        ref="formItem"
-        :formConfig="tagsData"
-        btnTxt="确定"
-        @submit="submitTags"
-        @cancel="tagStatus = false"
-      ></FormItem>
-    </el-dialog>
-    <el-dialog
-      :title="tagStatusTitle"
-      :visible.sync="tagStatus"
-      :close-on-click-modal="false"
-      top="45px"
-      width="30%"
-    >
-      <FormItem
-        :colSpan="24"
-        :labelWidth="50"
-        ref="formItem"
-        :formConfig="tagsData"
-        btnTxt="确定"
-        @submit="submitTags"
-        @cancel="tagStatus = false"
-      ></FormItem>
-    </el-dialog>
-    <el-dialog
-      :title="submitSpeedTit"
-      :visible.sync="speedVisible"
-      :close-on-click-modal="false"
-      top="45px"
-      width="30%"
-    >
-      <el-input v-model="speedVal" maxlength="100" placeholder="请输入提交速率">
-        <template slot="prepend">提交速率</template>
-        <template slot="append">每秒</template>
-      </el-input>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="speedVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitSpeeds">确 定</el-button>
-      </span>
-    </el-dialog>
+  <div>
+    <h2>{{ renderTitle }}</h2>
+    <FormItemTitle :colSpan="8" :labelWidth="150" ref="formItemTit" :formConfig="formConfig" :btnTxt="renderBtnTxt"
+      @submit="_mxHandleSubmit" @cancel="_mxCancel" @selectChange="selectChange" @removeTag="removeTag">
+    </FormItemTitle>
   </div>
 </template>
 
@@ -434,7 +13,7 @@ import FormItemTitle from "@/components/formItemTitle";
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
-  data() {
+  data () {
     const validatorPrice = (rule, value, callback) => {
       if (value && value < 1000) {
         callback();
@@ -662,7 +241,7 @@ export default {
         },
         {
           type: "input",
-          label: "账户特服号",
+          label: "特服号",
           key: "code",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -710,7 +289,7 @@ export default {
         },
         {
           type: "select",
-          label: "是否是直客",
+          label: "是否直客",
           key: "isDirectUser",
           optionData: [
             { key: 1, value: "直客" },
@@ -764,6 +343,20 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
+          type: "select",
+          label: "销售员",
+          key: "saleMan",
+          optionData: [],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
+        },
+        {
+          type: "times",
+          label: "发送时间",
+          key: "times",
+          defaultValue: "",
+          optionData: []
+        },
+        {
           isTitle: true,
           title: "短信业务信息",
           colSpan: 24,
@@ -771,7 +364,7 @@ export default {
         },
         {
           type: "select",
-          label: "运营商类型",
+          label: "运营商",
           key: "sendType",
           optionData: [
             { key: 1, value: "移动" },
@@ -805,7 +398,7 @@ export default {
         },
         {
           type: "select",
-          label: "短信计费方式",
+          label: "计费方式",
           key: "reductModel",
           optionData: [
             { key: 1, value: "预付提交计费" },
@@ -816,18 +409,18 @@ export default {
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "返还类型",
-          key: "returnBalance",
-          isShow: true,
-          optionData: [
-            { key: "0", value: "不返还" },
-            { key: 1, value: "返失败" },
-            { key: 2, value: "返失败和未知" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "返还类型",
+        //   key: "returnBalance",
+        //   isShow: true,
+        //   optionData: [
+        //     { key: "0", value: "不返还" },
+        //     { key: 1, value: "返失败" },
+        //     { key: 2, value: "返失败和未知" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "input",
           label: "短信单价",
@@ -867,11 +460,12 @@ export default {
           key: "directPort",
           defaultValue: "",
           tag: "sms",
-          disabled: true
+          disabled: true,
+          placeholder: '无'
         },
         {
           type: "select",
-          label: "短信上行类型",
+          label: "上行类型",
           key: "moType",
           optionData: [
             { key: "0", value: "无权限" },
@@ -883,14 +477,14 @@ export default {
         },
         {
           type: "input",
-          label: "短信推送上行地址",
+          label: "推送上行地址",
           key: "moUrl",
           tag: "sms",
           defaultValue: ""
         },
         {
           type: "select",
-          label: "是否强加签名",
+          label: "强加签名",
           key: "httpSign",
           optionData: [
             { key: "0", value: "否" },
@@ -902,7 +496,7 @@ export default {
         },
         {
           type: "select",
-          label: "短信报告类型",
+          label: "状态报告类型",
           key: "reportType",
           optionData: [
             { key: "0", value: "无权限" },
@@ -921,21 +515,37 @@ export default {
           defaultValue: ""
         },
         {
+          type: "input",
+          label: "失败比例",
+          key: "faToSu",
+          tag: "sms",
+          rules: [
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "change"
+            }
+          ]
+        },
+        {
           type: "select",
-          label: "请求api黑名单接口",
+          label: "外部黑名单",
           key: "isPostApi",
           tag: "sms",
           optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
+            { key: "0", value: "无" },
+            { key: 1, value: "冬云" },
+            { key: 2, value: "凌空" }
           ],
-          defaultValue: 1
+          defaultValue: ""
         },
         {
           type: "checkbox",
-          label: "黑名单类型",
-          initDefaultValue: [0, 2],
-          defaultValue: [0, 2],
+          label: "黑名单",
+          // initDefaultValue: [0, 2],
+          // defaultValue: [0, 2],
+          initDefaultValue: [],
+          defaultValue: [],
           key: "blackLevel",
           optionData: [
             // { key: 0, value: "系统级" },
@@ -943,10 +553,8 @@ export default {
             // { key: 3, value: "营销级" },
             // { key: 4, value: "BSATS级" }
           ],
-          tag: "sms",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          tag: "sms"
         },
-
         {
           isTitle: true,
           title: "彩信业务信息",
@@ -955,7 +563,7 @@ export default {
         },
         {
           type: "select",
-          label: "运营商类型",
+          label: "运营商",
           key: "mmsSendType",
           optionData: [
             { key: 1, value: "移动" },
@@ -987,7 +595,7 @@ export default {
         },
         {
           type: "select",
-          label: "彩信计费方式",
+          label: "计费方式",
           key: "mmsReductModel",
           optionData: [
             { key: 1, value: "预付提交计费" },
@@ -998,18 +606,18 @@ export default {
           tag: "mms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "返还类型",
-          key: "mmsReturnBalance",
-          isShow: true,
-          optionData: [
-            { key: "0", value: "不返还" },
-            { key: 1, value: "返失败" },
-            { key: 2, value: "返失败和未知" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "返还类型",
+        //   key: "mmsReturnBalance",
+        //   isShow: true,
+        //   optionData: [
+        //     { key: "0", value: "不返还" },
+        //     { key: 1, value: "返失败" },
+        //     { key: 2, value: "返失败和未知" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "input",
           label: "彩信单价",
@@ -1029,48 +637,48 @@ export default {
             }
           ]
         },
-        {
-          type: "select",
-          label: "彩信上行类型",
-          key: "mmsMoType",
-          tag: "mms",
-          optionData: [
-            { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
-            { key: 2, value: "自取(批量)" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "彩信推送上行地址",
-          key: "mmsMoUrl",
-          tag: "mms",
-          defaultValue: ""
-        },
-        {
-          type: "select",
-          label: "彩信报告类型",
-          key: "mmsReportType",
-          tag: "mms",
-          optionData: [
-            { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
-            { key: 2, value: "自取(批量)" },
-            { key: 3, value: "自取(单条)" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "彩信推送报告地址",
-          key: "mmsReportUrl",
-          tag: "mms",
-          defaultValue: ""
-        },
+        // {
+        //   type: "select",
+        //   label: "彩信上行类型",
+        //   key: "mmsMoType",
+        //   tag: "mms",
+        //   optionData: [
+        //     { key: "0", value: "无权限" },
+        //     { key: 1, value: "推送" },
+        //     { key: 2, value: "自取(批量)" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "彩信推送上行地址",
+        //   key: "mmsMoUrl",
+        //   tag: "mms",
+        //   defaultValue: ""
+        // },
+        // {
+        //   type: "select",
+        //   label: "彩信报告类型",
+        //   key: "mmsReportType",
+        //   tag: "mms",
+        //   optionData: [
+        //     { key: "0", value: "无权限" },
+        //     { key: 1, value: "推送" },
+        //     { key: 2, value: "自取(批量)" },
+        //     { key: 3, value: "自取(单条)" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "彩信推送报告地址",
+        //   key: "mmsReportUrl",
+        //   tag: "mms",
+        //   defaultValue: ""
+        // },
         {
           type: "checkbox",
-          label: "彩信黑名单类型",
+          label: "黑名单",
           initDefaultValue: [],
           defaultValue: [],
           key: "mmsBlackLevel",
@@ -1083,23 +691,16 @@ export default {
           ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          isTitle: true,
-          title: "服务信息",
-          colSpan: 24
-        },
-        {
-          type: "select",
-          label: "销售员",
-          key: "saleMan",
-          optionData: [],
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
-        },
-        {
-          type: "textarea",
-          label: "备注",
-          key: "remark"
-        }
+        // {
+        //   isTitle: true,
+        //   title: "服务信息",
+        //   colSpan: 24
+        // },
+        // {
+        //   type: "textarea",
+        //   label: "备注",
+        //   key: "remark"
+        // }
 
         // {
         //   type: "select",
@@ -1160,22 +761,30 @@ export default {
       currentEditFormData: {}
     };
   },
-  mounted() {
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '账户';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
+  },
+  mounted () {
     this.getAllCorp();
     this.getSaleman();
     this.getAgent();
     this.getRole();
     this.listTag();
     this.getBlackFroup();
+    const { type, row, ID  } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
-  activated(){
-    //重新获取数据
-    this._mxGetList();
-  },
-  computed: {},
   methods: {
     //多选移除操作
-    removeTag({ val, item }) {
+    removeTag ({ val, item }) {
       if (this.formTit == "修改") {
         this.formConfig.forEach(el => {
           if (item.key === "productType" && el.key === item.key) {
@@ -1202,7 +811,7 @@ export default {
       }
     },
 
-    selectChange(data) {
+    selectChange (data) {
       const { val, item } = data;
       let obj = {};
 
@@ -1260,43 +869,42 @@ export default {
         }
       }
     },
-    _mxCreate() {
-      this.$router.push({ name: 'userManagementType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (
-      //     item.key === "productType" ||
-      //     item.key === "mmsProType" ||
-      //     item.key === "proType"
-      //   ) {
-      //     item.optionData.forEach(el => {
-      //       this.$set(el, "disabled", false);
-      //     });
-      //   }
-      //   if (item.key == "proType") {
-      //     this.$set(item, "disabled", false);
-      //   }
-      //   if (item.key == "corpId") {
-      //     this.$set(item, "disabled", false);
-      //   }
-      //   if (item.tag === "sms" || item.tag === "mms") {
-      //     item.isShow = true;
-      //   }
-      //   if (item.key === 'loginName') {
-      //     item.disabled = false;
-      //   }
-      // });
-      // this.getAllCorp();
-      // this.getRole();
-      // this.getAgent();
-      // this.getSaleman();
-      // setTimeout(() => {
-      //   this.$refs.formItemTit.resetForm();
-      // }, 0);
+    _mxCreate () {
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (
+          item.key === "productType" ||
+          item.key === "mmsProType" ||
+          item.key === "proType"
+        ) {
+          item.optionData.forEach(el => {
+            this.$set(el, "disabled", false);
+          });
+        }
+        if (item.key == "proType") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.tag === "sms" || item.tag === "mms") {
+          item.isShow = true;
+        }
+        if (item.key === 'loginName') {
+          item.disabled = false;
+        }
+      });
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
+      setTimeout(() => {
+        this.$refs.formItemTit.resetForm();
+      }, 0);
     },
     //编辑对返回数据进行调整
-    _mxArrangeEditData(row) {
+    _mxArrangeEditData (row) {
       for (let key in row) {
         //对黑名单做数据类型转换
         if (key === "blackLevel" || key === "mmsBlackLevel") {
@@ -1324,7 +932,7 @@ export default {
     },
 
     //根据调整的数据 修改表单配置
-    editFormConfigHandle(lineData) {
+    editFormConfigHandle (lineData) {
       this.formConfig.forEach(item => {
         for (let keys in lineData) {
           if (item.key === keys && lineData[keys] !== "-") {
@@ -1403,34 +1011,40 @@ export default {
         if (!Object.keys(lineData).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
+        if (item.key === "times") {
+          if ((lineData.startTime !== '-' && lineData.startTime) && (lineData.endTime !== '-' && lineData.endTime)) {
+            this.$set(item, "defaultValue", [lineData.startTime, lineData.endTime]);
+          } else {
+            this.$set(item, "defaultValue", "");
+          }
+        }
       });
     },
     //修改
-    _mxEdit(row, ID) {
-      this.$router.push({ name: 'userManagementType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.currentEditFormData = {};
-      // let lineData = this.$deepClone(row);
-      // lineData = this._mxArrangeEditData(lineData);
-      // this.id = lineData[ID];
-      // this.editId = ID;
-      // this.formTit = "修改";
-      // this.editFormConfigHandle(lineData);
-      // setTimeout(() => {
-      //   this.$refs.formItemTit.clearValidate();
-      // }, 0);
-      // this.getAllCorp();
-      // this.getRole();
-      // this.getAgent();
-      // this.getSaleman();
-      // this.formConfig.forEach(item => {
-      //   if (item.key === 'loginName') {
-      //     item.disabled = true;
-      //   }
-      // })
-      // this.addChannel = true;
+    _mxEdit (row, ID) {
+      this.currentEditFormData = {};
+      let lineData = this.$deepClone(row);
+      lineData = this._mxArrangeEditData(lineData);
+      this.id = lineData[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.editFormConfigHandle(lineData);
+      setTimeout(() => {
+        this.$refs.formItemTit.clearValidate();
+      }, 0);
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
+      this.formConfig.forEach(item => {
+        if (item.key === 'loginName') {
+          item.disabled = true;
+        }
+      })
+      this.addChannel = true;
     },
     // 审核
-    _mxCheck(row, ID) {
+    _mxCheck (row, ID) {
       row = this._mxArrangeEditData(row);
       this.id = row[ID];
       this.editId = ID;
@@ -1449,7 +1063,7 @@ export default {
       this.addChannel = true;
     },
     //提交表单前调整表单内数据
-    _mxArrangeSubmitData(formData) {
+    _mxArrangeSubmitData (formData) {
       let form = Object.assign({}, formData);
       for (let key in form) {
         if (key === "blackLevel" || key === "mmsBlackLevel") {
@@ -1465,7 +1079,7 @@ export default {
             form[key].length != 0 &&
             typeof form[key] !== "string"
           ) {
-            form[key] = form[key].reduce(function(prev, curr) {
+            form[key] = form[key].reduce(function (prev, curr) {
               return prev + curr;
             });
           } else {
@@ -1481,12 +1095,16 @@ export default {
      * @param editId        编辑修改id
      * @private
      */
-    _mxHandleSubmit(form = {}, editId = this.editId) {
+    _mxHandleSubmit (form = {}, editId = this.editId) {
       form = this._mxArrangeSubmitData(form);
       const { namespace, add, edit, check } = this.searchAPI;
       let params = {
         ...form
       };
+      if (params.times) {
+        params.startTime = params.times[0];
+        params.endTime = params.times[1];
+      }
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
@@ -1515,10 +1133,10 @@ export default {
      * 提交成功后执行
      * @param res
      */
-    _mxSuccess(res, params) {
+    _mxSuccess (res, params) {
       if (resOk(res)) {
         this.$message.success(res.msg || res.data);
-        this._mxGetList();
+        window.history.back();
         this.addChannel = false;
       } else {
         this.formConfig.forEach(item => {
@@ -1537,22 +1155,23 @@ export default {
     /**
      * 关闭弹窗
      */
-    _mxCancel() {
+    _mxCancel () {
+      window.history.back();
       this.addChannel = false;
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
     },
-    beforeClose() {
+    beforeClose () {
       this.addChannel = false;
     },
-    handleSubmitSpeed(userId, submitSpeed) {
+    handleSubmitSpeed (userId, submitSpeed) {
       this.speedVisible = true;
       this.submitSpeedTit = submitSpeed ? "修改提交速率" : "配置提交速率";
       this.userId = userId;
       this.speedVal = submitSpeed;
     },
-    submitSpeeds() {
+    submitSpeeds () {
       if (this.speedVal <= 0) {
         this.$message.error("提交速率必须大于0");
         return;
@@ -1565,7 +1184,7 @@ export default {
         this.$message.error("最大不能超过1000");
         return;
       }
-      const str = typeof(this.speedVal) === 'string' ? this.speedVal : (this.speedVal + '');
+      const str = typeof (this.speedVal) === 'string' ? this.speedVal : (this.speedVal + '');
       if (str.indexOf('.') !== -1) {
         this.$message.error("提交速率不允许有小数");
         return;
@@ -1585,7 +1204,7 @@ export default {
       });
     },
     //获取黑名单类型
-    getBlackFroup() {
+    getBlackFroup () {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {
         this._setDefaultValue(
           this.formConfig,
@@ -1604,7 +1223,7 @@ export default {
       });
     },
     //获取所有标签
-    listTag() {
+    listTag () {
       this.$http.smsTagController
         .listTag({ pageNumber: 1, pageSize: 9999 })
         .then(res => {
@@ -1623,7 +1242,7 @@ export default {
         });
     },
     //提交选择标签
-    submitTags(data) {
+    submitTags (data) {
       this.$http.userTag
         .batchSave({ userId: this.userId, tagIds: data.smsTags })
         .then(res => {
@@ -1637,14 +1256,14 @@ export default {
         });
     },
     //添加标签
-    addTag(id) {
+    addTag (id) {
       this.userId = id;
       this.tagsData[0].defaultValue = [];
       this.tagStatusTitle = "添加标签";
       this.tagStatus = true;
     },
     //修改标签
-    editTag(id, arr) {
+    editTag (id, arr) {
       this.userId = id;
       this.tagsData[0].defaultValue = arr.map(v => v.id);
       this.tagStatusTitle = "修改标签";
@@ -1652,7 +1271,7 @@ export default {
     },
 
     //信息弹框
-    messageShow(row) {
+    messageShow (row) {
       const h = this.$createElement;
       this.$msgbox({
         title: "信息",
@@ -1662,7 +1281,7 @@ export default {
       console.log(row.proType, "--------------");
     },
     //获取所有商户
-    getAllCorp() {
+    getAllCorp () {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           let arr = [];
@@ -1690,7 +1309,7 @@ export default {
       });
     },
     //获取销售员
-    getSaleman() {
+    getSaleman () {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this.saleList = res.data;
@@ -1712,7 +1331,7 @@ export default {
       });
     },
     //获取代理商
-    getAgent() {
+    getAgent () {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
@@ -1733,7 +1352,7 @@ export default {
       });
     },
     //获取角色
-    getRole() {
+    getRole () {
       let params = {
         roleType: 1,
         status: 1
@@ -1751,14 +1370,14 @@ export default {
       });
     },
     //修改状态
-    setType(row, type, status) {
+    setType (row, type, status) {
       this.dialogTitle(type);
       this.currentRowData = row;
       this.dialogVisible = true;
       this.status = status;
       // "corpId":"7080", "status":"3"
     },
-    dialogTitle(type) {
+    dialogTitle (type) {
       let str = {};
       switch (type) {
         case "disable":
@@ -1777,7 +1396,7 @@ export default {
       this.dialogTit = str.title;
       this.information = str.information;
     },
-    updateStatus() {
+    updateStatus () {
       const { userId } = this.currentRowData;
       this.$http.corpUser
         .updateStatus({ userId: userId, status: this.status })
@@ -1791,7 +1410,7 @@ export default {
       this.dialogVisible = false;
     },
 
-    createElement(h, row) {
+    createElement (h, row) {
       let arr = [];
       if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
         arr = row.proTypes;
@@ -1857,12 +1476,9 @@ export default {
         ])
       ]);
     }
-  },
-  watch: {}
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.corpUser {
-}
 </style>
