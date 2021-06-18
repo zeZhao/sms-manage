@@ -92,7 +92,7 @@ export default {
   },
   watch: {
     //格式化数据 删除错误提示
-    isOpen (oldVal, newVal) {
+    isOpen (newVal) {
       if (newVal) {
         this.form = {};
         this.errorTips = "";
