@@ -2,10 +2,18 @@
   <!--前台提交调整-->
   <div class="smsSendlogSubmit">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
-    ></Search>
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button type="primary" size="small" @click="exportExe" style="margin-left: 15px"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -13,51 +21,43 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
-      <el-table-column prop="taskId" label="CID" width="100" />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="count" label="数量" />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip/>
+      <el-table-column prop="taskId" label="任务ID" width="100" />
+      <el-table-column prop="content" label="内容" show-overflow-tooltip width="200" />
+      <el-table-column prop="count" label="条数" />
       <el-table-column prop="mobilesCount" label="手机号数量" width="100"/>
-      <el-table-column prop="submitTime" label="提交时间" width="100" show-overflow-tooltip>
+      <el-table-column prop="submitTime" label="提交时间" width="170" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.submitTime }}</span>
+          <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" width="100" show-overflow-tooltip>
+      <el-table-column prop="definiteTime" label="定时时间" width="170" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.definiteTime }}</span>
+          <span>{{ scope.row.definiteTime | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendCount" label="发送条数" />
       <el-table-column prop="successCount" label="成功条数" />
       <el-table-column prop="failCount" label="失败条数" />
       <el-table-column prop="unknowCount" label="未知条数" />
-      <el-table-column prop="taskStatus" label="定时状态">
+      <el-table-column prop="taskStatus" label="定时状态" width="100">
         <template slot-scope="scope">
-          <span v-if="scope.row.taskStatus == 0">不定时</span>
-          <span v-if="scope.row.taskStatus == 1">定时</span>
-          <span v-if="scope.row.taskStatus == 3">定时取消</span>
-          <!-- <span>{{
-            scope.row.taskstatus == 0
-              ? "不定时"
-              : scope.row.taskstatus == 1
-              ? "定时"
-              : scope.row.taskstatus == 1
-              ? "定时取消"
-              : ""
-          }}</span> -->
+          <span v-if="scope.row.taskStatus == 0">未定时</span>
+          <span v-if="scope.row.taskStatus == 1">已定时</span>
+          <span v-if="scope.row.taskStatus == 2">定时已取消</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row)" type="text" size="small"
             >修改</el-button
           >
-          <el-button
+          <!-- <el-button
             @click="_mxDeleteItem(scope.row.taskId)"
             type="text"
             size="small"
             >删除</el-button
-          >
+          > -->
         </template>
       </el-table-column>
     </el-table>
@@ -111,12 +111,17 @@ export default {
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userid"
+          key: "userId"
+        },
+        {
+          type: "input",
+          label: "账户名称",
+          key: "userName"
         },
         {
           type: "inputNum",
-          label: "CID",
-          key: "taskid"
+          label: "任务ID",
+          key: "taskId"
         },
         {
           type: "input",
@@ -125,22 +130,28 @@ export default {
         },
         {
           type: "daterange",
-          label: "日期",
+          label: "提交时间",
           key: ["", "startTime", "endTime"]
+        },
+        {
+          type: "daterange",
+          label: "定时时间",
+          key: ["", "sendStartTime", "sendEndTime"]
         }
       ],
       // 表单配置
       formConfig: [
         {
-          type: "input",
+          type: "textarea",
           label: "内容",
           key: "content",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          disabled: true
         },
         {
           type: "input",
-          label: "数量",
+          label: "条数",
           key: "count",
           defaultValue: "",
           rules: [
@@ -150,11 +161,12 @@ export default {
               message: "请输入大于0的正整数",
               trigger: "change"
             }
-          ]
+          ],
+          disabled: true
         },
         {
           type: "input",
-          label: "手机数量",
+          label: "手机号数量",
           key: "mobilesCount",
           defaultValue: "",
           rules: [
@@ -164,9 +176,9 @@ export default {
               message: "请输入大于0的正整数",
               trigger: "change"
             }
-          ]
+          ],
+          disabled: true
         },
-
         {
           type: "input",
           label: "发送条数",
@@ -234,12 +246,22 @@ export default {
       bId: "",
       GatewayList: [], // 通道列表
       ProvinceList: [], // 通道列表
-      rowData: {}
+      rowData: {},
+      taskId: ""
     };
   },
   mounted() {},
   computed: {},
   methods: {
+    //导出
+    exportData(form) {
+      this.$axios.post('/smsSendlogSubmit/exportSmsSendlogSubmit', form).then(res => {
+        if (res.data.code === 200) this.$exportToast();
+      })
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
     selectChange(data) {},
     /**
      * 提交表单操作
@@ -262,6 +284,7 @@ export default {
         smsSendlogSubmit: {
           ...this.rowData
         },
+        taskId: this.taskId,
         countNew: count,
         mobilesCountNew: mobilesCount,
         sendCountNew: sendCount,
@@ -277,7 +300,8 @@ export default {
     // 修改
     _mxEdit(row) {
       row = this._mxArrangeEditData(row);
-      this.getEditData(row.taskId);
+      // this.getEditData(row.taskId);
+      this.taskId = row.taskId;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
