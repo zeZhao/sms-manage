@@ -115,9 +115,6 @@
     <BatchModification
       :isOpen="isOpen"
       :title="title"
-      :cmList="cmList"
-      :cuList="cuList"
-      :ctList="ctList"
       @submit="batchSubmit"
       @cancel="cancelBatch"
     ></BatchModification>
@@ -570,9 +567,6 @@ export default {
       GatewayList: [], // 通道列表
       isChooseUser: false, //选择用户
       isGatewayGroup: "0", // 是否包含通道组
-      cmList: [],
-      cuList: [],
-      ctList: [],
       isOpen: false,
       title: "批量修改通道"
     };
@@ -798,17 +792,6 @@ export default {
       };
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.GatewayList = res.data;
-        switch (keys) {
-          case 'cmPassageway':
-            this.cmList = res.data;
-            break;
-          case 'cuPassageway':
-            this.cuList = res.data;
-            break;
-          case 'ctPassageway':
-            this.ctList = res.data;
-            break;
-        }
         this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {

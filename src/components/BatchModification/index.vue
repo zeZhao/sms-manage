@@ -1,5 +1,5 @@
 <template>
-  <!--选择用户-->
+  <!--批量选择修改通道编号-->
   <div class="batchModification">
     <el-dialog :visible.sync="isOpen" :title="title" width="50%" top="120px" :show-close="false"
       :close-on-click-modal="false" :close-on-press-escape="false">
@@ -79,30 +79,15 @@ export default {
     title: {
       type: String,
       default: "批量修改"
-    },
-    cmList: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
-    cuList: {
-      type: Array,
-      default: () => {
-        return []
-      }
-    },
-    ctList: {
-      type: Array,
-      default: () => {
-        return []
-      }
     }
   },
   data () {
     return {
-      form: {},
-      errorTips: ""
+      form: {}, //表单数据
+      cmList: [], //移动
+      cuList: [], //联通
+      ctList: [], //电信
+      errorTips: "" //错误提示
     }
   },
   watch: {
@@ -113,6 +98,10 @@ export default {
         this.errorTips = "";
       }
     }
+  },
+  mounted () {
+    const arr = ["cmPassageway", "cuPassageway", "ctPassageway"];
+    arr.forEach((v, i) => { this.gateway(v, i + 1 + '', '1') });
   },
   methods: {
     //确认批量修改操作
@@ -155,6 +144,23 @@ export default {
     // 关闭
     cancel () {
       this.$emit("cancel");
+    },
+    //获取通道列表数据
+    gateway (keys, status, orderStatus) {
+      const params = { data: { status, orderStatus } };
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
+        switch (keys) {
+          case 'cmPassageway':
+            this.cmList = res.data;
+            break;
+          case 'cuPassageway':
+            this.cuList = res.data;
+            break;
+          case 'ctPassageway':
+            this.ctList = res.data;
+            break;
+        }
+      })
     }
   }
 };
