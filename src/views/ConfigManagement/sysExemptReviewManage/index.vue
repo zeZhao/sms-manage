@@ -581,8 +581,15 @@ export default {
   methods: {
     //提交批量修改
     batchSubmit(form) {
-      console.log(form);
-      this.isOpen = false;
+      this.$http.sysExemptReviewManage.batchUpdateExemptReviewManage(form).then(res => {
+        if (res.code === 200) {
+          this.isOpen = false;
+          this.$message.success("修改成功");
+          this._mxGetList();
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
+      })
     },
     //关闭弹窗
     cancelBatch() {
