@@ -2,6 +2,7 @@ import Page from "@/components/Page"
 import Search from "@/components/searchPanel"
 import FormItem from "@/components/FormItem"
 import ChooseUser from "@/components/ChooseUser"
+import BatchModification from "@/components/BatchModification"
 import Api from "@/utils/api.js";
 import Vue from "vue";
 import { Message } from 'element-ui';
@@ -162,6 +163,7 @@ class managePlugin {
     Vue.component("Search", Search);
     Vue.component("FormItem", FormItem);
     Vue.component("ChooseUser", ChooseUser);
+    Vue.component("BatchModification", BatchModification);
   }
 
   /*------------------添加vue过滤器------------------*/

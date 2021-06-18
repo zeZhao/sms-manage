@@ -5,7 +5,11 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-    ></Search>
+    >
+      <template slot="Other">
+        <el-button type="primary" size="small" @click="batchModification">批量修改</el-button>
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -51,7 +55,7 @@
           <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="updateBy" label="修改人" />
+      <el-table-column prop="createBy" label="创建人" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -59,9 +63,9 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="updateTime" label="操作时间" min-width="170">
+      <el-table-column prop="createTime" label="创建时间" min-width="170">
         <template slot-scope="scope">{{
-          scope.row.updateTime | timeFormat
+          scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -108,13 +112,17 @@
       @chooseUserData="chooseUserData"
       @cancel="cancel"
     ></ChooseUser>
+    <BatchModification
+      :isOpen="isOpen"
+      :title="title"
+      @submit="batchSubmit"
+      @cancel="cancelBatch"
+    ></BatchModification>
   </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { string } from "jszip/lib/support";
-
 export default {
   mixins: [listMixin],
   data() {
@@ -331,7 +339,8 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          placeholder: "选择账户后自动识别"
         },
 
         {
@@ -340,7 +349,8 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          placeholder: "选择账户后自动识别"
         },
         {
           type: "input",
@@ -348,7 +358,8 @@ export default {
           disabled: true,
           key: "cardUnit",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          placeholder: "选择账户后自动识别"
         },
         // {
         //   type: "select",
@@ -555,17 +566,32 @@ export default {
       ],
       GatewayList: [], // 通道列表
       isChooseUser: false, //选择用户
-      isGatewayGroup: "0" // 是否包含通道组
+      isGatewayGroup: "0", // 是否包含通道组
+      isOpen: false,
+      title: "批量修改通道"
     };
   },
   mounted() {
+    this.gateway("cmPassageway", "1", "1");
     this.gateway("cuPassageway", "2", "1");
     this.gateway("ctPassageway", "3", "1");
-    this.gateway("cmPassageway", "1", "1");
     this.getSensitiveWordGroup();
   },
   computed: {},
   methods: {
+    //提交批量修改
+    batchSubmit(form) {
+      console.log(form);
+      this.isOpen = false;
+    },
+    //关闭弹窗
+    cancelBatch() {
+      this.isOpen = false;
+    },
+    //批量修改
+    batchModification() {
+      this.isOpen = true;
+    },
     /*
       status	string
       运营商 1.移动 2.联通 3.电信
