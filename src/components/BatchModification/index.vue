@@ -78,7 +78,7 @@ export default {
     },
     title: {
       type: String,
-      default: "批量修改"
+      default: "批量修改通道"
     }
   },
   data () {

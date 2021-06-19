@@ -337,6 +337,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corpId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
@@ -346,8 +347,9 @@ export default {
         {
           type: "input",
           label: "特服号",
-          disabled: true,
           key: "code",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
           placeholder: "选择账户后自动识别"
@@ -355,8 +357,9 @@ export default {
         {
           type: "input",
           label: "单价",
-          disabled: true,
           key: "cardUnit",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
           placeholder: "选择账户后自动识别"

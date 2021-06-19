@@ -2,10 +2,18 @@
   <!--分省路由-->
   <div class="sysProvinceRoute">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="create"
-    ></Search>
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button type="primary" size="small" @click="exportExe" style="margin-left: 15px">导出</el-button>
+        <el-button type="primary" size="small" @click="batchAddition">批量添加</el-button>
+        <el-button type="primary" size="small" @click="batchModification">批量修改</el-button>
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -33,13 +41,13 @@
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="modifier" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间" width="150">
+      <el-table-column prop="creater" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" width="150">
         <template slot-scope="scope">{{
-          scope.row.modifyTime | timeFormat
+          scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
@@ -78,6 +86,20 @@
       @chooseUserData="chooseUserData"
       @cancel="cancelUser"
     ></ChooseUser>
+    <BatchAddition
+      :isOpen="isOpen1"
+      :title="title1"
+      downloadTemplateUrl="/opt/sms-data/template/YtProvinceRoute.xls"
+      action="/sysProvinceRoute/uploadProvinceRoute"
+      @submit="batchSubmit1"
+      @cancel="cancelBatch1"
+    ></BatchAddition>
+    <BatchModification
+      :isOpen="isOpen"
+      :title="title"
+      @submit="batchSubmit"
+      @cancel="cancelBatch"
+    ></BatchModification>
   </div>
 </template>
 
@@ -147,22 +169,37 @@ export default {
           optionData: []
         },
         {
-          type: "select",
-          label: "运营商",
-          key: "operator",
-          placeholder: "请选择运营商",
-          optionData: [
-            { key: "1", value: "移动" },
-            { key: "2", value: "联通" },
-            { key: "3", value: "电信" }
-          ]
+          type: "inputNum",
+          label: "移动通道",
+          key: "cm"
         },
         {
-          type: "select",
-          label: "通道号",
-          key: "route",
-          optionData: []
+          type: "inputNum",
+          label: "联通通道",
+          key: "cu"
         },
+        {
+          type: "inputNum",
+          label: "电信通道",
+          key: "ct"
+        },
+        // {
+        //   type: "select",
+        //   label: "运营商",
+        //   key: "operator",
+        //   placeholder: "请选择运营商",
+        //   optionData: [
+        //     { key: "1", value: "移动" },
+        //     { key: "2", value: "联通" },
+        //     { key: "3", value: "电信" }
+        //   ]
+        // },
+        // {
+        //   type: "select",
+        //   label: "通道号",
+        //   key: "route",
+        //   optionData: []
+        // },
         // {
         //   type: "select",
         //   label: "类型",
@@ -183,6 +220,7 @@ export default {
           key: "userId",
           btnTxt: "选择用户",
           disabled: true,
+          btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
@@ -191,6 +229,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corporateId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
@@ -199,8 +238,9 @@ export default {
         {
           type: "input",
           label: "特服号",
-          disabled: true,
           key: "code",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
           placeholder: "选择账户后自动识别"
@@ -255,7 +295,11 @@ export default {
       routeId: "",
       ProvinceList: [], //省列表
       GatewayList: [], //通道列表
-      isChooseUser: false
+      isChooseUser: false,
+      isOpen: false,
+      title: "批量修改通道",
+      isOpen1: false,
+      title1: "批量添加分省路由"
     };
   },
   mounted() {
@@ -267,6 +311,49 @@ export default {
   },
   computed: {},
   methods: {
+    //提交批量添加
+    batchSubmit1() {
+      this.isOpen1 = false;
+      this._mxGetList();
+    },
+    //关闭弹窗
+    cancelBatch1() {
+      this.isOpen1 = false;
+    },
+    //批量添加
+    batchAddition() {
+      this.isOpen1 = true;
+    },
+    
+    //提交批量修改
+    batchSubmit(form) {
+      this.$axios.post('/sysProvinceRoute/updateBatchProvinceRoutes', form).then(res => {
+        if (res.data.code === 200) {
+          this.isOpen = false;
+          this.$message.success("修改成功");
+          this._mxGetList();
+        } else {
+          this.$message.error(res.data.data || res.data.msg);
+        }
+      })
+    },
+    //关闭弹窗
+    cancelBatch() {
+      this.isOpen = false;
+    },
+    //批量修改
+    batchModification() {
+      this.isOpen = true;
+    },
+    //导出
+    exportData(data) {
+      this.$axios.post('/sysProvinceRoute/exportProvinceRoute', { data }).then(res => {
+        if (res.data.code === 200) this.$exportToast();
+      })
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
     gateways() {
       const params = {
         data: {
@@ -401,6 +488,11 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === 'userId') {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
@@ -419,6 +511,9 @@ export default {
               this.$set(item, "defaultValue", row[key]);
             }
           }
+        }
+        if (item.key === 'userId') {
+          this.$set(item, "btnDisabled", true);
         }
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");

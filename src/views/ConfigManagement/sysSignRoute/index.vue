@@ -31,13 +31,13 @@
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="modifier" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间">
+      <el-table-column prop="creater" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" min-width="150">
         <template slot-scope="scope">
-          {{scope.row.modifyTime | timeFormat}}
+          {{scope.row.createTime | timeFormat}}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
@@ -208,6 +208,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corporateId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           rules: [
@@ -222,8 +223,9 @@ export default {
         {
           type: "input",
           label: "特服号",
-          disabled: true,
           key: "code",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [
             {
