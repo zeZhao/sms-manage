@@ -78,7 +78,7 @@ export default {
     },
     title: {
       type: String,
-      default: "批量修改"
+      default: "批量修改通道"
     }
   },
   data () {
@@ -92,7 +92,7 @@ export default {
   },
   watch: {
     //格式化数据 删除错误提示
-    isOpen (oldVal, newVal) {
+    isOpen (newVal) {
       if (newVal) {
         this.form = {};
         this.errorTips = "";

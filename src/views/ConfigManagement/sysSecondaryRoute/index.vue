@@ -12,14 +12,14 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column type="selection" width="55" />
+      <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="code" label="客户特服号" />
+      <el-table-column prop="code" label="账户特服号" />
       <el-table-column prop="gwcode" label="通道特服号" />
       <el-table-column prop="gateway" label="通道编号" />
-      <el-table-column prop="sign" label="客户签名" />
+      <el-table-column prop="sign" label="账户签名" />
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" width="150">
@@ -153,15 +153,13 @@ export default {
         },
         {
           type: "input",
-          label: "客户签名",
-          key: "sign",
-          placeholder: "请输入客户签名"
+          label: "账户签名",
+          key: "sign"
         },
         {
           type: "inputNum",
-          label: "客户特服号",
-          key: "code",
-          placeholder: "请输入客户特服号"
+          label: "账户特服号",
+          key: "code"
         },
         {
           type: "inputNum",
@@ -187,6 +185,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corporateId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -194,16 +193,18 @@ export default {
         {
           type: "input",
           label: "客户特服号",
-          disabled: true,
           key: "code",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "账户名称",
-          disabled: true,
           key: "userName",
+          isShow: true,
+          disabled: true,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
@@ -229,7 +230,7 @@ export default {
 
         {
           type: "input",
-          label: "客户签名",
+          label: "账户签名",
           key: "sign",
           defaultValue: "",
           rules: [

@@ -2,6 +2,7 @@ import Page from "@/components/Page"
 import Search from "@/components/searchPanel"
 import FormItem from "@/components/FormItem"
 import ChooseUser from "@/components/ChooseUser"
+import BatchAddition from "@/components/BatchAddition"
 import BatchModification from "@/components/BatchModification"
 import Api from "@/utils/api.js";
 import Vue from "vue";
@@ -163,6 +164,7 @@ class managePlugin {
     Vue.component("Search", Search);
     Vue.component("FormItem", FormItem);
     Vue.component("ChooseUser", ChooseUser);
+    Vue.component("BatchAddition", BatchAddition);
     Vue.component("BatchModification", BatchModification);
   }
 
