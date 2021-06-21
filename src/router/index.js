@@ -35,98 +35,147 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [{
-    path: '/login',
-    component: () =>
-        import('@/views/login/index'),
-    hidden: true,
-    meta: {
-        title: '短信平台-登录'
-    }
-},
-{
-    path: '/auth-redirect',
-    component: () =>
-        import('@/views/login/auth-redirect'),
-    hidden: true
-},
-{
-    path: '/404',
-    component: () =>
-        import('@/views/error-page/404'),
-    hidden: true
-},
-{
-    path: '/401',
-    component: () =>
-        import('@/views/error-page/401'),
-    hidden: true
-},
-{
-    path: '/',
-    component: Layout,
-    redirect: '/index/index',
-    children: [{
-        path: '',
+export const constantRoutes = [
+    {
+        path: '/login',
         component: () =>
-            import('@/views/index/index'),
-        name: 'index',
+            import('@/views/login/index'),
+        hidden: true,
         meta: {
-            title: '首页',
-            affix: true,
-            breadcrumb: false,
-            icon: 'index'
+            title: '短信平台-登录'
         }
-    }]
-},
-{
-    path: '/UserMonitoringConfiguration',
-    component: Layout,
-    hidden: true,
-    children: [
-        {
-            path: 'UserMonitoringConfigurationType',
-            name: 'UserMonitoringConfigurationType',
-            component: () => import('@/views/Alertmanagement/UserMonitoringConfiguration/type')
-        }
-    ]
-},
-{
-    path: '/MMSchannel',
-    component: Layout,
-    hidden: true,
-    children: [
-        {
-            path: 'MMSchannelType',
-            name: 'MMSchannelType',
-            component: () => import('@/views/MMSconfiguration/MMSchannel/type')
-        }
-    ]
-},
-{
-    path: '/MMStemplateReview',
-    component: Layout,
-    hidden: true,
-    children: [
-        {
-            path: 'MMStemplateReviewType',
-            name: 'MMStemplateReviewType',
-            component: () => import('@/views/MMSconfiguration/MMStemplateReview/type')
-        }
-    ]
-},
-{
-    path: '/userManagement',
-    component: Layout,
-    hidden: true,
-    children: [
-        {
-            path: 'userManagementType',
-            name: 'userManagementType',
-            component: () => import('@/views/merchantsConfig/userManagement/type')
-        }
-    ]
-}
+    },
+    {
+        path: '/auth-redirect',
+        component: () =>
+            import('@/views/login/auth-redirect'),
+        hidden: true
+    },
+    {
+        path: '/404',
+        component: () =>
+            import('@/views/error-page/404'),
+        hidden: true
+    },
+    {
+        path: '/401',
+        component: () =>
+            import('@/views/error-page/401'),
+        hidden: true
+    },
+    {
+        path: '/',
+        component: Layout,
+        redirect: '/index/index',
+        children: [{
+            path: '',
+            component: () =>
+                import('@/views/index/index'),
+            name: 'index',
+            meta: {
+                title: '首页',
+                affix: true,
+                breadcrumb: false,
+                icon: 'index'
+            }
+        }]
+    },
+    {
+        path: '/UserMonitoringConfiguration',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'UserMonitoringConfigurationType',
+                name: 'UserMonitoringConfigurationType',
+                component: () => import('@/views/Alertmanagement/UserMonitoringConfiguration/type')
+            }
+        ]
+    },
+    {
+        path: '/MMSchannel',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'MMSchannelType',
+                name: 'MMSchannelType',
+                component: () => import('@/views/MMSconfiguration/MMSchannel/type')
+            }
+        ]
+    },
+    {
+        path: '/MMStemplateReview',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'MMStemplateReviewType',
+                name: 'MMStemplateReviewType',
+                component: () => import('@/views/MMSconfiguration/MMStemplateReview/type')
+            }
+        ]
+    },
+    {
+        path: '/userManagement',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'userManagementType',
+                name: 'userManagementType',
+                component: () => import('@/views/merchantsConfig/userManagement/type')
+            }
+        ]
+    },
+    {
+        path: '/sysExemptReviewManage',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysExemptReviewManageType',
+                name: 'sysExemptReviewManageType',
+                component: () => import('@/views/ConfigManagement/sysExemptReviewManage/type')
+            }
+        ]
+    },
+    {
+        path: '/sysSecondaryRoute',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysSecondaryRouteType',
+                name: 'sysSecondaryRouteType',
+                component: () => import('@/views/ConfigManagement/sysSecondaryRoute/type')
+            }
+        ]
+    },
+    {
+        path: '/sysSignRoute',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysSignRouteType',
+                name: 'sysSignRouteType',
+                component: () => import('@/views/ConfigManagement/sysSignRoute/type')
+            }
+        ]
+    },
+    {
+        path: '/sysProvinceRoute',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysProvinceRouteType',
+                name: 'sysProvinceRouteType',
+                component: () => import('@/views/ConfigManagement/sysProvinceRoute/type')
+            }
+        ]
+    }
 ]
 
 /**
@@ -1057,7 +1106,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher // reset router
 }
