@@ -1,95 +1,19 @@
 <template>
-  <!--二次路由-->
-  <div class="sysSecondaryRoute">
-    <Search
-      ref="Search"
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-      @exportData="exportData"
-    >
-      <template slot="Other">
-        <el-button type="primary" size="small" @click="batchAddition">批量添加</el-button>
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
-      </template>
-    </Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      style="width: 100%"
-      v-loading="loading"
-    >
-      <!-- <el-table-column type="selection" width="55" /> -->
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="code" label="账户特服号" />
-      <el-table-column prop="gwcode" label="通道特服号" />
-      <el-table-column prop="gateway" label="通道编号" />
-      <el-table-column prop="sign" label="账户签名" />
-      <el-table-column prop="remark" label="备注信息" show-overflow-tooltip />
-      <el-table-column prop="createby" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
-        <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
-        }}</template>
-      </el-table-column>
-      <el-table-column label="操作" width="100">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('routeId', scope.row.routeId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
-        @choose="choose"
-      ></FormItem>
-    </el-dialog>
-    <ChooseUser
-      :isChooseUser="isChooseUser"
-      @chooseUserData="chooseUserData"
-      @cancel="cancelUser"
-    ></ChooseUser>
-    <BatchAddition
-      :isOpen="isOpen1"
-      :title="title1"
-      downloadTemplateUrl="/opt/sms-data/template/smsSecondaryRoute.xls"
-      action="/sysSecondaryRoute/uploadSecondaryRoute"
-      @submit="batchSubmit1"
-      @cancel="cancelBatch1"
-    ></BatchAddition>
+  <div>
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
+        @choose="choose"></FormItem>
+    </div>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
-  data() {
+  data () {
     const validatorSign = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
       if (value == "") {
@@ -102,7 +26,6 @@ export default {
         }
       }
     };
-
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
@@ -262,46 +185,31 @@ export default {
         }
       ],
       routeId: "",
-      isChooseUser: false,
-      isOpen1: false,
-      title1: "批量添加二次路由"
+      isChooseUser: false
     };
   },
-  mounted() {
-    this.gateway();
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '二次路由配置';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
   },
-  activated(){
-    //重新获取数据
-    this._mxGetList();
+  mounted () {
+    this.gateway();
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
-    //导出
-    exportData(data) {
-      this.$axios.post('/sysSecondaryRoute/exportSecondaryRoute', { data }).then(res => {
-        if (res.data.code === 200) this.$exportToast();
-      })
-    },
-    exportExe() {
-      this.$refs.Search.handleExport();
-    },
-    //提交批量添加
-    batchSubmit1() {
-      this.isOpen1 = false;
-      this._mxGetList();
-    },
-    //关闭弹窗
-    cancelBatch1() {
-      this.isOpen1 = false;
-    },
-    //批量添加
-    batchAddition() {
-      this.isOpen1 = true;
-    },
-    sum(num1, num2) {
+    sum (num1, num2) {
       if (num2 > 100) {
       }
     },
-    gateway() {
+    gateway () {
       const params = {
         data: {
           serverStatus: 1,
@@ -327,7 +235,7 @@ export default {
       });
     },
     //选择用户选取赋值
-    chooseUserData(data) {
+    chooseUserData (data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -345,7 +253,7 @@ export default {
       });
     },
 
-    submit(form) {
+    submit (form) {
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -355,6 +263,7 @@ export default {
         };
         this.$http.sysSecondaryRoute.addSecondaryRoute(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -371,6 +280,7 @@ export default {
         };
         this.$http.sysSecondaryRoute.updateSecondaryRoute(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -380,49 +290,48 @@ export default {
         });
       }
     },
-    create() {
-      this.$router.push({ name: 'sysSecondaryRouteType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
-      // });
+    _mxCreate () {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
     },
-    edit(row, ID) {
-      this.$router.push({ name: 'sysSecondaryRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.routeId = row.routeId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //     if (item.key === key && (row[key] === "-" || !row[key])) {
-      //       this.$set(item, "defaultValue", "");
-      //     }
-      //     if (item.key === "userId") {
-      //       this.$set(item, "btnDisabled", true);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+    _mxEdit (row) {
+      this.routeId = row.routeId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === key && (row[key] === "-" || !row[key])) {
+            this.$set(item, "defaultValue", "");
+          }
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
-    cancel() {
+    cancel () {
       this.addChannel = false;
+      window.history.back();
     },
     //修改表格数据
-    _mxFormListData(data) {
+    _mxFormListData (data) {
       data.forEach(item => {
         if (item.createTime) {
           item.createTime = new Date(item.createTime).Format(
@@ -432,9 +341,6 @@ export default {
       });
       return data;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped></style>

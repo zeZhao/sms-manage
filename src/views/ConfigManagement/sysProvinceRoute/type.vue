@@ -1,114 +1,19 @@
 <template>
-  <!--分省路由-->
-  <div class="sysProvinceRoute">
-    <Search
-      ref="Search"
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-      @exportData="exportData"
-    >
-      <template slot="Other">
-        <el-button type="primary" size="small" @click="batchAddition">批量添加</el-button>
-        <el-button type="primary" size="small" @click="batchModification">批量修改</el-button>
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
-      </template>
-    </Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      style="width: 100%"
-      v-loading="loading"
-    >
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="code" label="特服号" />
-      <!-- <el-table-column prop="type" label="类型">
-        <template slot-scope="scope">
-          <span>
-            {{
-              scope.row.type == 1
-                ? "特服号"
-                : scope.row.type == 2
-                ? "账户编号"
-                : "商户编号"
-            }}
-          </span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="provinceName" label="省份" />
-      <el-table-column prop="cm" label="移动通道" />
-      <el-table-column prop="cu" label="联通通道" />
-      <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="creater" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
-        <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
-        }}</template>
-      </el-table-column>
-      <el-table-column label="操作" width="150">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('routeId', scope.row.routeId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
-        @choose="choose"
-      ></FormItem>
-    </el-dialog>
-    <ChooseUser
-      :isChooseUser="isChooseUser"
-      @chooseUserData="chooseUserData"
-      @cancel="cancelUser"
-    ></ChooseUser>
-    <BatchAddition
-      :isOpen="isOpen1"
-      :title="title1"
-      downloadTemplateUrl="/opt/sms-data/template/YtProvinceRoute.xls"
-      action="/sysProvinceRoute/uploadProvinceRoute"
-      @submit="batchSubmit1"
-      @cancel="cancelBatch1"
-    ></BatchAddition>
-    <BatchModification
-      :isOpen="isOpen"
-      :title="title"
-      @submit="batchSubmit"
-      @cancel="cancelBatch"
-    ></BatchModification>
+  <div>
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
+        @choose="choose"></FormItem>
+    </div>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
-  data() {
+  data () {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
@@ -302,34 +207,43 @@ export default {
       title1: "批量添加分省路由"
     };
   },
-  mounted() {
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '分省路由';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
+  },
+  mounted () {
     this.gateways();
     this.gateway("cu", "2", "1");
     this.gateway("ct", "3", "1");
     this.gateway("cm", "1", "1");
     this.listSysProvince();
-  },
-  activated(){
-    //重新获取数据
-    this._mxGetList();
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
     //提交批量添加
-    batchSubmit1() {
+    batchSubmit1 () {
       this.isOpen1 = false;
       this._mxGetList();
     },
     //关闭弹窗
-    cancelBatch1() {
+    cancelBatch1 () {
       this.isOpen1 = false;
     },
     //批量添加
-    batchAddition() {
+    batchAddition () {
       this.isOpen1 = true;
     },
-    
+
     //提交批量修改
-    batchSubmit(form) {
+    batchSubmit (form) {
       this.$axios.post('/sysProvinceRoute/updateBatchProvinceRoutes', form).then(res => {
         if (res.data.code === 200) {
           this.isOpen = false;
@@ -341,23 +255,23 @@ export default {
       })
     },
     //关闭弹窗
-    cancelBatch() {
+    cancelBatch () {
       this.isOpen = false;
     },
     //批量修改
-    batchModification() {
+    batchModification () {
       this.isOpen = true;
     },
     //导出
-    exportData(data) {
+    exportData (data) {
       this.$axios.post('/sysProvinceRoute/exportProvinceRoute', { data }).then(res => {
         if (res.data.code === 200) this.$exportToast();
       })
     },
-    exportExe() {
+    exportExe () {
       this.$refs.Search.handleExport();
     },
-    gateways() {
+    gateways () {
       const params = {
         data: {
           serverStatus: 1,
@@ -382,7 +296,7 @@ export default {
       });
     },
     //选择用户选取赋值
-    chooseUserData(data) {
+    chooseUserData (data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -399,7 +313,7 @@ export default {
     /*
      * 获取省份列表
      * */
-    listSysProvince() {
+    listSysProvince () {
       const params = {
         data: {
           provinceName: ""
@@ -432,7 +346,7 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, status, orderStatus) {
+    gateway (keys, status, orderStatus) {
       const params = {
         data: {
           status: status,
@@ -453,7 +367,7 @@ export default {
         });
       });
     },
-    submit(form) {
+    submit (form) {
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -463,6 +377,7 @@ export default {
         };
         this.$http.sysProvinceRoute.addProvinceRoute(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -479,6 +394,7 @@ export default {
         };
         this.$http.sysProvinceRoute.updateProvinceRoute(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -488,54 +404,53 @@ export default {
         });
       }
     },
-    create() {
-      this.$router.push({ name: 'sysProvinceRouteType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === 'userId') {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
-      // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
+    _mxCreate () {
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === 'userId') {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
-    edit(row, ID) {
-      this.$router.push({ name: 'sysProvinceRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.routeId = row.routeId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key) {
-      //       if (row[key] === 0) {
-      //         this.$set(item, "defaultValue", "0");
-      //       } else if (row[key] === "-") {
-      //         this.$set(item, "defaultValue", "");
-      //       } else {
-      //         this.$set(item, "defaultValue", row[key]);
-      //       }
-      //     }
-      //   }
-      //   if (item.key === 'userId') {
-      //     this.$set(item, "btnDisabled", true);
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+    _mxEdit (row) {
+      this.routeId = row.routeId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            if (row[key] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else if (row[key] === "-") {
+              this.$set(item, "defaultValue", "");
+            } else {
+              this.$set(item, "defaultValue", row[key]);
+            }
+          }
+        }
+        if (item.key === 'userId') {
+          this.$set(item, "btnDisabled", true);
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
-    cancel() {
+    cancel () {
       this.addChannel = false;
+      window.history.back();
     },
     /*
      * 表格数据处理
      * */
-    _mxFormListData(list) {
+    _mxFormListData (list) {
       list.forEach(item => {
         item.province &&
           this.ProvinceList.forEach(t => {
@@ -547,12 +462,6 @@ export default {
       });
       return list;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.sysProvinceRoute {
-}
-</style>
