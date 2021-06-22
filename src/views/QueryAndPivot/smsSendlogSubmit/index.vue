@@ -12,17 +12,28 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="taskId" label="CID" width="100" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="count" label="数量" />
-      <el-table-column prop="mobilesCount" label="手机号数量" width="100"/>
-      <el-table-column prop="submitTime" label="提交时间" width="100" show-overflow-tooltip>
+      <el-table-column prop="mobilesCount" label="手机号数量" width="100" />
+      <el-table-column
+        prop="submitTime"
+        label="提交时间"
+        width="100"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" width="100" show-overflow-tooltip>
+      <el-table-column
+        prop="definiteTime"
+        label="定时时间"
+        width="100"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime }}</span>
         </template>
@@ -33,8 +44,8 @@
       <el-table-column prop="unknowCount" label="未知条数" />
       <el-table-column prop="taskStatus" label="定时状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.taskStatus == 0">不定时</span>
-          <span v-if="scope.row.taskStatus == 1">定时</span>
+          <span v-if="scope.row.taskStatus == 0">未定时</span>
+          <span v-if="scope.row.taskStatus == 1">已定时</span>
           <span v-if="scope.row.taskStatus == 3">定时取消</span>
           <!-- <span>{{
             scope.row.taskstatus == 0
@@ -114,6 +125,11 @@ export default {
           key: "userid"
         },
         {
+          type: "input",
+          label: "账户名称",
+          key: "userName"
+        },
+        {
           type: "inputNum",
           label: "CID",
           key: "taskid"
@@ -125,7 +141,12 @@ export default {
         },
         {
           type: "daterange",
-          label: "日期",
+          label: "提交时间",
+          key: ["", "startTime", "endTime"]
+        },
+        {
+          type: "daterange",
+          label: "定时时间",
           key: ["", "startTime", "endTime"]
         }
       ],
@@ -135,13 +156,15 @@ export default {
           type: "input",
           label: "内容",
           key: "content",
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
-          label: "数量",
+          label: "条数",
           key: "count",
+          disabled: true,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -156,6 +179,7 @@ export default {
           type: "input",
           label: "手机数量",
           key: "mobilesCount",
+          disabled: true,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },

@@ -73,7 +73,7 @@
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="reductModel"
         label="计费类型"
         width="110"
@@ -82,38 +82,14 @@
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">账户计费</span>
           <span v-if="scope.row.reductType === 2">商户id计费</span>
-          <!-- <span>；
-            {{
-              scope.row.reductModel == 1
-                ? "预付提交计费"
-                : scope.row.reductModel == 2
-                ? "预付成功计费"
-                : scope.row.reductModel == 3
-                ? "后付提交计费"
-                : "后付成功计费"
-            }}
-            {
-          type: "select",
-          label: "账单类型",
-          key: "isBill",
-          optionData: [
-            { key: "0", value: "充值记录" },
-            { key: "1", value: "月度账单" },
-            { key: "2", value: "退款记录" },
-            { key: "3", value: "借款记录" },
-            { key: "4", value: "还款记录" },
-            { key: "5", value: "互转记录" }
-          ]
-        },
-          </span> -->
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="direction"
         label="到款方式"
         show-overflow-tooltip
       />
-      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
+      <!-- <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度账单</span>
@@ -124,9 +100,9 @@
           <span v-if="scope.row.isBill == 6">清授信记录</span>
           <span v-if="scope.row.isBill == 7">余额+记录</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="creater" label="操作账号" show-overflow-tooltip />
+      <el-table-column prop="creater" label="创建人" show-overflow-tooltip />
       <el-table-column
         prop="createTime"
         label="创建时间"
@@ -150,7 +126,8 @@
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span v-if="scope.row.cardStatus == 0">未操作</span>
+          <span v-if="scope.row.cardStatus == 0">待提审</span>
+          <span v-if="scope.row.cardStatus == 2">待审核</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
           <span v-else-if="scope.row.cardStatus == 3">审核驳回</span>
           <span v-else>-</span>
@@ -164,6 +141,13 @@
             type="text"
             size="small"
             >修改</el-button
+          >
+          <el-button
+            :disabled="scope.row.cardStatus === 1"
+            @click="_mxWithdraw(scope.row, 'cardId')"
+            type="text"
+            size="small"
+            >撤回</el-button
           >
           <!-- <el-button @click="_mxDeleteItem('signId', scope.row.signId)" type="text" size="small">删除</el-button> -->
         </template>
@@ -307,21 +291,21 @@ export default {
           ]
         },
 
-        {
-          type: "select",
-          label: "账单类型",
-          key: "isBill",
-          optionData: [
-            { key: "0", value: "充值记录" },
-            { key: "1", value: "月度账单" },
-            { key: "2", value: "余额-记录" },
-            { key: "3", value: "授信记录" },
-            { key: "4", value: "还款记录" },
-            { key: "5", value: "互转记录" },
-            { key: "6", value: "清授信记录" },
-            { key: "7", value: "余额+记录" }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "账单类型",
+        //   key: "isBill",
+        //   optionData: [
+        //     { key: "0", value: "充值记录" },
+        //     { key: "1", value: "月度账单" },
+        //     { key: "2", value: "余额-记录" },
+        //     { key: "3", value: "授信记录" },
+        //     { key: "4", value: "还款记录" },
+        //     { key: "5", value: "互转记录" },
+        //     { key: "6", value: "清授信记录" },
+        //     { key: "7", value: "余额+记录" }
+        //   ]
+        // },
         {
           type: "select",
           label: "到款方式",
@@ -359,7 +343,13 @@ export default {
             { key: 2, value: "余额-" }
             // { key: 5, value: "账号互转" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -372,7 +362,13 @@ export default {
             { key: 1, value: "短信" },
             { key: 2, value: "彩信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -382,7 +378,13 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -391,7 +393,13 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -400,7 +408,13 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -413,7 +427,13 @@ export default {
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -423,7 +443,13 @@ export default {
           key: "saleMan",
           optionData: [],
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "textarea",
@@ -446,7 +472,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -454,7 +480,10 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
                     if (/^\d{1,4}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
@@ -476,7 +505,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -484,7 +513,10 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
                     if (/^\d{1,10}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
@@ -505,7 +537,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -513,7 +545,10 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
                     if (/^\d{1,12}$/.test(val)) {
                       callback();
                     } else {
@@ -536,7 +571,13 @@ export default {
             { key: "对私付款", value: "对私付款" },
             { key: "无", value: "无" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -548,7 +589,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -556,7 +597,10 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
                     if (/^\d{1,10}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
@@ -581,7 +625,11 @@ export default {
           isShow: false,
           accept: ["png", "jpg", "jpeg"],
           rules: [
-            { required: true, message: "请上传余额变动凭证", trigger: ['blur', 'change'] }
+            {
+              required: true,
+              message: "请上传余额变动凭证",
+              trigger: ["blur", "change"]
+            }
           ]
         }
       ],
@@ -597,7 +645,13 @@ export default {
             { key: 1, value: "短信" },
             { key: 2, value: "彩信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -608,7 +662,13 @@ export default {
           colSpan: 12,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -619,7 +679,13 @@ export default {
           defaultValue: "",
           colSpan: 12,
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -628,7 +694,13 @@ export default {
           colSpan: 12,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -637,7 +709,13 @@ export default {
           colSpan: 12,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -663,20 +741,38 @@ export default {
           type: "input",
           label: "转移条数",
           key: "cardCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "转移方单价(分)",
           disabled: true,
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "转移金额(元)",
           key: "cardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -684,14 +780,26 @@ export default {
           label: "接收方单价(分)",
           disabled: true,
           key: "cardUnitTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "接收条数",
           key: "cardCountTo",
           disabled: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       isChooseUser: false,
@@ -867,6 +975,15 @@ export default {
         }
       }
     },
+    _mxWithdraw(row, id) {
+      let params = {
+        status: 2
+      };
+      this.$http.sysRecharge.withdraw(params).then(res => {
+        if (res.code == 200) {
+        }
+      });
+    },
     /**
      * 编辑表单
      * @param row  当前行数据
@@ -880,7 +997,7 @@ export default {
       this.editId = ID;
       this.formTit = "修改";
       const val = row.paidWay;
-      
+
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
@@ -912,7 +1029,7 @@ export default {
             this.$set(item, "btnDisabled", true);
           }
         }
-        
+
         // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
         if (val === "0" || val === 3) {
           if (val === "0") {

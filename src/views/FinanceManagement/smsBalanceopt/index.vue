@@ -2,10 +2,23 @@
   <!--余额调整记录-->
   <div class="mmsUserGateway">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
+      @exportData="exportData"
       @create="create"
-    ></Search>
+      :add="false"
+    >
+      <template slot="Other">
+        <el-button
+          type="primary"
+          size="small"
+          @click="exportExe"
+          style="margin-left: 15px"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -15,8 +28,9 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="beforeBalance" label="操作前的余额" />
-      <el-table-column prop="afterBalance" label="操作后的余额" />
+      <el-table-column prop="beforeBalance" label="操作前的余额" width="110" />
+      <el-table-column prop="optBalance" label="操作条数" />
+      <el-table-column prop="afterBalance" label="操作后的余额" width="110" />
       <el-table-column prop="optType" label="操作类型">
         <template slot-scope="scope">
           <span>{{
@@ -30,22 +44,22 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="optBalance" label="当前操作条数" />
-      <el-table-column prop="operatorName" label="操作人名称" />
-      <el-table-column prop="reductType" label="计费类型">
+
+      <!-- <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductType === 1 ? "账户计费" : "商户id计费"
           }}</span>
         </template>
-      </el-table-column>
-      <el-table-column prop="chargeType" label="信息类型">
+      </el-table-column> -->
+      <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="debt" label="借款" show-overflow-tooltip />
+      <el-table-column prop="debt" label="失败退款" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
+      <el-table-column prop="operatorName" label="操作人名称" width="100" />
       <el-table-column prop="createTime" label="操作时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
@@ -122,58 +136,57 @@ export default {
           label: "账户名称",
           key: "userName"
         },
+        // {
+        //   type: "select",
+        //   label: "操作类型",
+        //   key: "optType",
+        //   placeholder: "请选择操作类型",
+        //   optionData: [
+        //     { key: 1, value: "充值" },
+        //     { key: 5, value: "借款" },
+        //     { key: 3, value: "扣款" },
+        //     { key: 2, value: "还款" }
+        //   ]
+        // },
+        // {
+        //   type: "select",
+        //   label: "查询类型",
+        //   key: "selectType",
+        //   defaultValue: "",
+        //   placeholder: "请选择查询类型",
+        //   optionData: [
+        //     {
+        //       key: "",
+        //       value: "请选择"
+        //     },
+        //     {
+        //       key: 0,
+        //       value: "用户"
+        //     },
+        //     {
+        //       key: 1,
+        //       value: "商户"
+        //     }
+        //   ]
+        // },
         {
           type: "select",
-          label: "操作类型",
-          key: "optType",
-          placeholder: "请选择操作类型",
-          optionData: [
-            { key: 1, value: "充值" },
-            { key: 5, value: "借款" },
-            { key: 3, value: "扣款" },
-            { key: 2, value: "还款" }
-          ]
-        },
-        {
-          type: "select",
-          label: "查询类型",
-          key: "selectType",
-          defaultValue: "",
-          placeholder: "请选择查询类型",
-          optionData: [
-            {
-              key: "",
-              value: "请选择"
-            },
-            {
-              key: 0,
-              value: "用户"
-            },
-            {
-              key: 1,
-              value: "商户"
-            }
-          ]
-        },
-        {
-          type: "select",
-          label: "信息类型",
+          label: "产品",
           key: "chargeType",
-          placeholder: "请选择信息类型",
           optionData: [
             {
               key: 1,
               value: "短信"
+            },
+            {
+              key: 2,
+              value: "彩信"
             }
-            // {
-            //   key: 2,
-            //   value: "彩信"
-            // }
           ]
         },
         {
           type: "daterange",
-          label: "按时间查询",
+          label: "日期",
           key: ["", "startTime", "endTime"]
         }
       ],
@@ -283,6 +296,16 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    exportData(form) {
+      const data = { ...this.pageObj, ...form };
+      delete data.total;
+      this.$axios.post("/report/exportArrivalDelayStatic", data).then(res => {
+        if (res.data.code === 200) this.$exportToast();
+      });
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map(t => {

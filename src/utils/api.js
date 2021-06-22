@@ -534,6 +534,10 @@ export default {
         refundPrepaidCard(params) {
             return post("/sysPrepaidCard/refundPrepaidCard", params)
         },
+        // 撤回
+        withdraw(params) {
+            return post("/sysPrepaidCard/withdraw", params)
+        },
         // 上传凭证
         // uploadFile(params) {
         //   return post("/sysPrepaidCard/uploadFile", params)

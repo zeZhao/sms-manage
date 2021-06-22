@@ -26,7 +26,12 @@
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" min-width="120" show-overflow-tooltip />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        min-width="120"
+        show-overflow-tooltip
+      />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
@@ -203,16 +208,16 @@ export default {
           type: "time",
           label: "开始时间",
           key: "startTime",
-          initDefaultValue: '00:00:00',
-          defaultValue: '00:00:00',
+          initDefaultValue: "00:00:00",
+          defaultValue: "00:00:00",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "time",
           label: "结束时间",
           key: "endTime",
-          initDefaultValue: '23:59:59',
-          defaultValue: '23:59:59',
+          initDefaultValue: "23:59:59",
+          defaultValue: "23:59:59",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {

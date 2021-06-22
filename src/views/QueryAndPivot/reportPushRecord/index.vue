@@ -1,8 +1,18 @@
 <template>
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false" :notSearch="notSearch"></Search>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+      :notSearch="notSearch"
+    ></Search>
 
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="mobile" label="手机号" />
@@ -10,15 +20,21 @@
       <el-table-column prop="status" label="报告状态" />
       <el-table-column prop="pushId" label="推送ID" />
       <el-table-column prop="pushTime" label="推送时间">
-        <template slot-scope="scope">{{ scope.row.pushTime | timeFormat }}</template>
+        <template slot-scope="scope">{{
+          scope.row.pushTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="pushStatus" label="推送状态" />
       <el-table-column prop="repeatNum" label="重复次数" />
-      <el-table-column prop="seqId" label="返回报告ID" />
+      <el-table-column prop="seqId" label="SEQID" />
       <el-table-column prop="gateway" label="通道" />
     </el-table>
 
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
   </div>
 </template>
 
@@ -26,7 +42,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       //接口地址
       searchAPI: {
@@ -63,7 +79,7 @@ export default {
         },
         {
           type: "input",
-          label: "返回报告ID",
+          label: "SEQID",
           key: "seqId"
         },
         {
@@ -87,7 +103,7 @@ export default {
           key: "pushTimeStr"
         }
       ]
-    }
+    };
   }
-}
+};
 </script>

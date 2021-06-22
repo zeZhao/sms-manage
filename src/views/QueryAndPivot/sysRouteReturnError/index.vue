@@ -113,10 +113,10 @@ export default {
           key: "operaId",
           placeholder: "请选择运营商",
           optionData: [
-            // {
-            //   key: "0",
-            //   value: "非法"
-            // },
+            {
+              key: "0",
+              value: "不限"
+            },
             {
               key: "1",
               value: "移动"
@@ -133,7 +133,7 @@ export default {
         },
         {
           type: "select",
-          label: "类型",
+          label: "报告类型",
           key: "type",
           optionData: [
             {
@@ -171,6 +171,7 @@ export default {
           label: "通道编号",
           key: "routeIds",
           optionData: [],
+          multiple: true,
           // defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
@@ -199,12 +200,20 @@ export default {
               value: "电信"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
           label: "返回类型",
           key: "type",
+          defaultValue: "1",
+          initDefaultValue: "1",
           optionData: [
             {
               key: "1",
@@ -216,14 +225,27 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "通道返回值",
           key: "result",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          maxlength: 50,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -231,7 +253,14 @@ export default {
           label: "返回错误说明",
           key: "notes",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          maxlength: 100,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       bId: "",
