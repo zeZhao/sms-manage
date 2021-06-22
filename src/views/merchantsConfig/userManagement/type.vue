@@ -535,7 +535,7 @@ export default {
           optionData: [
             { key: "0", value: "无" },
             { key: 1, value: "冬云" },
-            { key: 2, value: "凌空" }
+            { key: 2, value: "棱镜" }
           ],
           defaultValue: ""
         },

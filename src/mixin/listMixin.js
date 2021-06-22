@@ -404,6 +404,10 @@ export default {
      * 关闭弹窗
      */
     _mxCancel() {
+      //如果是页面新增、修改，则返回列表页
+      if (this.isPage) {
+        window.history.back();
+      }
       this.addChannel = false;
       setTimeout(() => {
         this.$refs.formItem.resetForm();
@@ -479,6 +483,10 @@ export default {
      */
     _mxSuccess(res) {
       if (resOk(res)) {
+        //如果是页面新增、修改，则返回列表页
+        if (this.isPage) {
+          window.history.back();
+        }
         this.$message.success(res.msg || res.data);
         this._mxGetList();
         this.addChannel = false;

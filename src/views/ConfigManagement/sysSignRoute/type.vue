@@ -1,81 +1,11 @@
 <template>
-  <!--签名路由管理-->
-  <div class="mmsUserGateway">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      style="width: 100%"
-      v-loading="loading"
-    >
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="code" label="特服号" />
-      <!-- <el-table-column prop="type" label="类型">
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.type === 1
-              ? "特服号"
-              : scope.row.type === 2
-              ? "账户编号"
-              : "商户编号"
-          }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="sign" label="签名" show-overflow-tooltip />
-      <el-table-column prop="cm" label="移动通道" />
-      <el-table-column prop="cu" label="联通通道" />
-      <el-table-column prop="ct" label="电信通道" />
-      <el-table-column prop="creater" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
-        <template slot-scope="scope">
-          {{scope.row.createTime | timeFormat}}
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="150">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('routeId', scope.row.routeId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
-        @choose="choose"
-      ></FormItem>
-    </el-dialog>
-    <ChooseUser
-      :isChooseUser="isChooseUser"
-      @chooseUserData="chooseUserData"
-      @cancel="cancelUser"
-    ></ChooseUser>
+  <div>
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
+        @choose="choose"></FormItem>
+    </div>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -83,7 +13,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data() {
+  data () {
     const validatorSign = (rule, value, callback) => {
       if (!value) {
         callback(new Error("请输入必填项"));
@@ -91,7 +21,7 @@ export default {
         if (value.indexOf('，') !== -1) callback(new Error("只可以用英文 ',' 分割"));
         const reg = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
         const data = value.split(",");
-        for (let i = 0;i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           if (!(reg.test(data[i]))) {
             callback(new Error("输入2-8位，只能输入中文、英文、数字"));
             break;
@@ -319,18 +249,27 @@ export default {
       isChooseUser: false
     };
   },
-  mounted() {
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '签名路由';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
+  },
+  mounted () {
     this.gateway("cu", "2", "1");
     this.gateway("ct", "3", "1");
     this.gateway("cm", "1", "1");
-  },
-  activated(){
-    //重新获取数据
-    this._mxGetList();
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
     //选择用户选取赋值
-    chooseUserData(data) {
+    chooseUserData (data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -347,7 +286,7 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, status, orderStatus) {
+    gateway (keys, status, orderStatus) {
       const params = {
         data: {
           status: status,
@@ -368,7 +307,7 @@ export default {
         });
       });
     },
-    submit(form) {
+    submit (form) {
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -378,6 +317,7 @@ export default {
         };
         this.$http.sysSignRoute.addSignRoute(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -394,6 +334,7 @@ export default {
         };
         this.$http.sysSignRoute.updateSignRoute(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -403,50 +344,43 @@ export default {
         });
       }
     },
-    create() {
-      this.$router.push({ name: 'sysSignRouteType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = false;
-      //   }
-      // });
+    _mxCreate () {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+      });
     },
-    edit(row, ID) {
-      this.$router.push({ name: 'sysSignRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.routeId = row.routeId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = true;
-      //   }
-      // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+    _mxEdit (row) {
+      this.routeId = row.routeId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
-    cancel() {
+    cancel () {
       this.addChannel = false;
+      window.history.back();
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.mmsUserGateway {
-}
-</style>

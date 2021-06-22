@@ -1601,6 +1601,10 @@ export default {
         listRecommendGatewayAndGroup(params) {
             return post("/sysGatewayGroup/listRecommendGatewayAndGroup", params);
         },
+        // 批量修改通道编号
+        batchUpdateExemptReviewManage(params) {
+            return post("/sysExemptReviewManage/batchUpdateExemptReviewManage", params);
+        },
     },
     // 审核管理-待审模板
     smsCheckTemplate: {
