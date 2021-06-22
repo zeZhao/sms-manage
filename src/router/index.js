@@ -175,6 +175,18 @@ export const constantRoutes = [
                 component: () => import('@/views/ConfigManagement/sysProvinceRoute/type')
             }
         ]
+    },
+    {
+        path: '/sysBelielConfig',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysBelielConfigType',
+                name: 'sysBelielConfigType',
+                component: () => import('@/views/ConfigManagement/sysBelielConfig/type')
+            }
+        ]
     }
 ]
 
