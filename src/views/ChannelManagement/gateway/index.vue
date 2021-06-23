@@ -904,6 +904,24 @@ export default {
   },
   computed: {},
   methods: {
+      _mxCreate(){
+          this.$router.push({
+              path:'/geteway/getewayDetail',
+              query:{
+                  type:'add'
+              }
+          })
+      },
+      _mxEdit(row, gatewayId){
+        this.$router.push({
+              path:'/geteway/getewayDetail',
+              query:{
+                  type:'edit',
+                  row,
+                  gatewayId
+              }
+          })
+      },
     //隐藏附加信息
     handleClick(item) {
       if (item.show) {

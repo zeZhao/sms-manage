@@ -175,7 +175,22 @@ export const constantRoutes = [
                 component: () => import('@/views/ConfigManagement/sysProvinceRoute/type')
             }
         ]
-    }
+    },
+    {
+        path: '/geteway',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'getewayDetail',
+                name: 'getewayDetail',
+                component: () => import('@/views/ChannelManagement/gateway/detail'),
+                // meta: {
+                //     title: '添加通道',
+                // }
+            }
+        ]
+    },
 ]
 
 /**

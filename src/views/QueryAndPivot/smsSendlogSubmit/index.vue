@@ -351,6 +351,7 @@ export default {
       }, 0);
       this.addChannel = true;
     },
+
     //获取修改数据
     getEditData(taskid) {
       this.$http.smsSendlogSubmit

@@ -2,10 +2,21 @@
   <!--失败原因-->
   <div class="sysRouteReturnError">
     <Search
+    ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-    ></Search>
+      @exportData="exportData"
+    >
+    <template slot="Other">
+        <el-button type="primary" size="small" @click="batchAddition"
+          >批量添加</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -69,6 +80,14 @@
         @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
+    <BatchAddition
+      :isOpen="isOpen"
+      :title="title"
+      downloadTemplateUrl="/opt/sms-data/template/YtProvinceRoute.xls"
+      action="/sysProvinceRoute/uploadProvinceRoute"
+      @submit="batchSubmit"
+      @cancel="cancelBatch"
+    ></BatchAddition>
   </div>
 </template>
 
@@ -265,7 +284,9 @@ export default {
       ],
       bId: "",
       GatewayList: [], // 通道列表
-      ProvinceList: [] // 通道列表
+      ProvinceList: [], // 通道列表
+      isOpen: false,
+      title: "批量添加失败原因"
     };
   },
   mounted() {
@@ -273,6 +294,30 @@ export default {
   },
   computed: {},
   methods: {
+      //关闭弹窗
+    cancelBatch() {
+      this.isOpen = false;
+    },
+      //提交批量添加
+    batchSubmit() {
+      this.isOpen = false;
+      this._mxGetList();
+    },
+      //导出
+    exportData(data) {
+      this.$axios
+        .post("/sysProvinceRoute/exportProvinceRoute", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
+      //批量添加
+    batchAddition() {
+      this.isOpen = true;
+    },
     selectChange(data) {
       const { val, item } = data;
       let obj = {};

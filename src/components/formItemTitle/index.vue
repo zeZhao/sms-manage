@@ -30,10 +30,10 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{ inputWid: item.btnTxt }"
+                :class="{ inputWid: item.btnTxt,inputIcon:item.lock }"
                 v-model.trim="formData[item.key]"
                 clearable
-                :disabled="item.disabled"
+                :disabled="item.disabled || item.lock"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
@@ -57,6 +57,7 @@
                 size="small"
                 >{{ item.btnTxt }}</el-button
               >
+              <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;"></i>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
 
@@ -406,6 +407,9 @@ export default {
     chooses(item) {
       this.$emit("choose", item);
     },
+    decode(item){
+       this.$emit("decode", item);
+    },
     /**
      * 提交验证
      */
@@ -584,6 +588,9 @@ export default {
   }
   .inputWid {
     width: 70%;
+  }
+  .inputIcon {
+    width: 90%;
   }
   .item-tips {
     color: #999999;

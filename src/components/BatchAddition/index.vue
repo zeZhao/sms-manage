@@ -3,7 +3,7 @@
   <div class="batchAddition">
     <el-dialog :visible.sync="isOpen" :title="title" width="50%" top="120px" :show-close="false"
       :close-on-click-modal="false" :close-on-press-escape="false">
-      <div class="tips">第1步：请先<a :href="downloadTemplateUrl" style="color: blue">下载模板</a>，按照说明填写信息后上传</div>
+      <div class="tips">第1步：请先<a :href="downloadTemplateUrl" style="color: blue" target="_blank">下载模板</a>，按照说明填写信息后上传</div>
 
       <div class="tips">第2步：导入文件</div>
 
