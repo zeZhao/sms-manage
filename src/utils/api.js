@@ -2087,4 +2087,23 @@ export default {
             return fetch("/smsGatewayMonitor/listGatewayMonitorByPage", params);
         }
     },
+    //待发优先级
+    priority: {
+        // 待发优先级分页查询
+        queryPriority(params) {
+            return post("/priority/queryPriority", params);
+        },
+        // 待发优先级添加
+        addPriority(params) {
+            return put("/priority/addPriority", params);
+        },
+        // 待发优先级修改
+        updatePriority(params) {
+            return post("/priority/updatePriority", params);
+        },
+        // 待发优先级删除
+        deletePriority(params) {
+            return del("/priority/deletePriority", params);
+        }
+    },
 }
