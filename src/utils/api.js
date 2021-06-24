@@ -1374,6 +1374,10 @@ export default {
         deleteSysRedList(params) {
             return post("/sysRedList/deleteSysRedList", params);
         },
+        //  批量修改通道
+        updateBatchSysRedList(params) {
+            return post("/sysRedList/updateBatchSysRedList", params);
+        }
     },
     // 白名单管理
     sysWhitelist: {

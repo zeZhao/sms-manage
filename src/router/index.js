@@ -187,6 +187,42 @@ export const constantRoutes = [
                 component: () => import('@/views/ConfigManagement/sysBelielConfig/type')
             }
         ]
+    },
+    {
+        path: '/dailyLimitedConfig',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'dailyLimitedConfigType',
+                name: 'dailyLimitedConfigType',
+                component: () => import('@/views/ConfigManagement/dailyLimitedConfig/type')
+            }
+        ]
+    },
+    {
+        path: '/sysSendLimit',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysSendLimitType',
+                name: 'sysSendLimitType',
+                component: () => import('@/views/ConfigManagement/sysSendLimit/type')
+            }
+        ]
+    },
+    {
+        path: '/sysRedList',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysRedListType',
+                name: 'sysRedListType',
+                component: () => import('@/views/SELinuxManagement/sysRedList/type')
+            }
+        ]
     }
 ]
 

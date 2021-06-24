@@ -1,32 +1,17 @@
 <template>
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
-      <el-table-column prop="corporateId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="gateway" label="通道编号" />
-      <el-table-column prop="gatewayName" label="通道名称" />
-      <el-table-column prop="limitCount" label="日限量(万)" />
-      <el-table-column prop="createUser" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
-        <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
-      </el-table-column>
-      <el-table-column label="操作" width="200">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('id', scope.row.id, false, false, '您确定要删除该账户的日限量设置吗？')" type="text"
-            size="small">删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
-      <FormItem ref="form" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
         @choose="choose">
+        <template slot="Other">
+          <p style="padding-left: 60px; font-size: 13px; line-height: 1.5; color: #999">
+            规则：只要有相关通道的配置数据，该通道加载后则认为当前通道需要限量。配置了该设置的客户进行限量处理，超量后进入到14号通道形成超量的失败状态返回给客户。未进行配置走到当前通道的客户，则不进行限速处理。
+            如果想取消当前通道的限速逻辑，需要清理掉该通道的所有限速配置数据。
+          </p>
+        </template>
       </FormItem>
-    </el-dialog>
+    </div>
     <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
@@ -139,12 +124,21 @@ export default {
       isChooseUser: false
     };
   },
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '日限量配置';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
+  },
   mounted () {
     this.getGatewayList();
-  },
-  activated () {
-    //重新获取数据
-    this._mxGetList();
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
     getGatewayList () {
@@ -185,6 +179,7 @@ export default {
         params = { ...form };
         this.$http.SmsGatewayUserSendControl.addSmsGatewayUserSendControl(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -199,6 +194,7 @@ export default {
         };
         this.$http.SmsGatewayUserSendControl.updateSmsGatewayUserSendControl(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -208,44 +204,43 @@ export default {
         });
       }
     },
-    create () {
-      this.$router.push({ name: 'dailyLimitedConfigType', query: { type: 'create' } });
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
-      // });
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.form.resetForm();
-      // }, 0);
+    _mxCreate () {
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
-    edit (row, ID) {
-      this.$router.push({ name: 'dailyLimitedConfigType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.id = row.id;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //     if (item.key === "userId") {
-      //       this.$set(item, "btnDisabled", true);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      // });
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
+    _mxEdit (row) {
+      this.id = row.id;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
     },
     cancel () {
       this.addChannel = false;
+      window.history.back();
     }
   }
-}
+};
 </script>
