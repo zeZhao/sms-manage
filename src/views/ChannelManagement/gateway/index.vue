@@ -7,7 +7,7 @@
       @create="_mxCreate"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="gateway" label="编号" show-overflow-tooltip />
+      <el-table-column prop="gateway" label="通道编号" show-overflow-tooltip />
       <el-table-column
         prop="gatewayName"
         label="通道名称"
@@ -18,13 +18,33 @@
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="longCode" label="通道长号码" width="90" show-overflow-tooltip />
+      <el-table-column
+        prop="longCode"
+        label="接入号"
+        width="90"
+        show-overflow-tooltip
+      />
       <el-table-column prop="provinceName" label="省份" show-overflow-tooltip />
-      <el-table-column prop="sendTo" label="发送对象" show-overflow-tooltip />
-      <el-table-column prop="unitPrice" label="通道价格(分)" width="100" show-overflow-tooltip />
-      <el-table-column prop="conRequirements" label="发送内容" show-overflow-tooltip />
-      <el-table-column prop="sendSpeed" label="速度" show-overflow-tooltip />
-      <el-table-column prop="isSub" label="扩展" show-overflow-tooltip>
+      <el-table-column prop="sendTo" label="运营商" show-overflow-tooltip />
+      <el-table-column
+        prop="unitPrice"
+        label="价格(分)"
+        width="100"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="type"
+        label="通道类型"
+        width="100"
+        show-overflow-tooltip
+      />
+      <!-- <el-table-column prop="conRequirements" label="发送内容" show-overflow-tooltip /> -->
+      <el-table-column
+        prop="sendSpeed"
+        label="发送速率"
+        show-overflow-tooltip
+      />
+      <!-- <el-table-column prop="isSub" label="扩展" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.isSub ? "是" : "否" }}</span>
         </template>
@@ -33,20 +53,25 @@
         <template slot-scope="scope">
           <span>{{ scope.row.operateStatus === 1 ? "短信" : "-" }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="isDerect" label="直连" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.isDerect === 1 ? "直连" : "非直连" }}</span>
+          <span>{{ scope.row.isDerect === 1 ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="可用" show-overflow-tooltip>
+      <el-table-column prop="status" label="是否可用" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.status ? "可用" : "不可用" }}</span>
+          <span>{{ scope.row.status ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="otherGateway" label="备用通道" show-overflow-tooltip />
-      <el-table-column prop="charger" label="通道负责人" width="90" show-overflow-tooltip />
-      <el-table-column prop="priority" label="优先级" show-overflow-tooltip />
+      <el-table-column
+        prop="otherGateway"
+        label="备用通道"
+        show-overflow-tooltip
+      />
+      <!-- <el-table-column prop="charger" label="通道负责人" width="90" show-overflow-tooltip /> -->
+      <!-- <el-table-column prop="priority" label="优先级" show-overflow-tooltip /> -->
+      <el-table-column prop="clientId" label="账号" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <!-- <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
@@ -64,7 +89,12 @@
           ></el-switch>
         </template>
       </el-table-column> -->
-      <el-table-column prop="smsTags" label="标签" width="100" show-overflow-tooltip>
+      <el-table-column
+        prop="smsTags"
+        label="标签"
+        width="100"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -217,16 +247,14 @@ export default {
         },
         {
           type: "input",
-          label: "通道长号码",
-          key: "longCode",
-          placeholder: "请输入通道长号码"
+          label: "接入号",
+          key: "longCode"
         },
         {
           type: "select",
-          label: "落地省份",
+          label: "省份",
           key: "province",
-          optionData: [],
-          placeholder: "请选择落地省份"
+          optionData: []
         },
         {
           type: "select",
@@ -256,35 +284,53 @@ export default {
         },
         {
           type: "select",
-          label: "运营状态",
-          key: "operateStatus",
+          label: "通道类型",
+          key: "type",
           optionData: [
-            { key: "1", value: "使用中" },
-            { key: "2", value: "测试中" },
-            { key: "3", value: "暂停使用" },
-            { key: "4", value: "关停" },
-            { key: "5", value: "弃用" },
-            { key: "6", value: "全部" }
+            { key: 1, value: "可用" },
+            { key: "0", value: "不可用" }
           ]
         },
         {
-          type: "input",
-          label: "通道负责人",
-          key: "charger",
-          placeholder: "请输入通道负责人"
+          type: "select",
+          label: "是否直连",
+          key: "isDerect",
+          optionData: [
+            { key: 1, value: "是" },
+            { key: "0", value: "否" }
+          ]
         },
-        {
-          type: "input",
-          label: "优先级",
-          key: "priority",
-          placeholder: "请输入优先级"
-        },
-        {
-          type: "input",
-          label: "发送内容",
-          key: "conRequirements",
-          placeholder: "请输入发送内容"
-        },
+        // {
+        //   type: "select",
+        //   label: "运营状态",
+        //   key: "operateStatus",
+        //   optionData: [
+        //     { key: "1", value: "使用中" },
+        //     { key: "2", value: "测试中" },
+        //     { key: "3", value: "暂停使用" },
+        //     { key: "4", value: "关停" },
+        //     { key: "5", value: "弃用" },
+        //     { key: "6", value: "全部" }
+        //   ]
+        // },
+        // {
+        //   type: "input",
+        //   label: "通道负责人",
+        //   key: "charger",
+        //   placeholder: "请输入通道负责人"
+        // },
+        // {
+        //   type: "input",
+        //   label: "优先级",
+        //   key: "priority",
+        //   placeholder: "请输入优先级"
+        // },
+        // {
+        //   type: "input",
+        //   label: "发送内容",
+        //   key: "conRequirements",
+        //   placeholder: "请输入发送内容"
+        // },
         {
           type: "input",
           label: "标签",
@@ -293,9 +339,20 @@ export default {
         },
         {
           type: "input",
+          label: "账号",
+          key: "clientId"
+        },
+        {
+          type: "selectInp",
           label: "通道价格",
-          key: "unitPrice",
-          placeholder: "请输入通道价格"
+          key: ["priceCompare", "unitPrice"],
+          optionData: [
+            { key: ">=", value: "≥" },
+            { key: "<=", value: "≤" },
+            { key: ">", value: ">" },
+            { key: "<", value: "<" },
+            { key: "=", value: "=" }
+          ]
         }
       ],
       // 表单配置
@@ -429,7 +486,7 @@ export default {
             { key: "0", value: "不取" },
             { key: "1", value: "强制取" },
             { key: "2", value: "非强制取" }
-          ],
+          ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -460,7 +517,7 @@ export default {
           optionData: [
             { key: "0", value: "否" },
             { key: "1", value: "是" }
-          ],
+          ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -471,19 +528,19 @@ export default {
           optionData: [
             { key: "0", value: "否" },
             { key: "1", value: "是" }
-          ],
+          ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "低于成功率自动转",
-          key: "succRate",
+          key: "succRate"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "失败状态自动转",
-          key: "fsAutoChange",
+          key: "fsAutoChange"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -500,7 +557,7 @@ export default {
               key: 2,
               value: "直连"
             }
-          ],
+          ]
           // change: this.selectUser,
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -508,13 +565,13 @@ export default {
           type: "select",
           label: "落地省份",
           key: "province",
-          optionData: [],
+          optionData: []
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "落地市",
-          key: "city",
+          key: "city"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -898,30 +955,34 @@ export default {
       gatewayId: ""
     };
   },
+  activated() {
+    //重新获取数据
+    this._mxGetList();
+  },
   mounted() {
     this.listSysProvince();
     this.listTag();
   },
   computed: {},
   methods: {
-      _mxCreate(){
-          this.$router.push({
-              path:'/geteway/getewayDetail',
-              query:{
-                  type:'add'
-              }
-          })
-      },
-      _mxEdit(row, gatewayId){
-        this.$router.push({
-              path:'/geteway/getewayDetail',
-              query:{
-                  type:'edit',
-                  row,
-                  gatewayId
-              }
-          })
-      },
+    _mxCreate() {
+      this.$router.push({
+        path: "/geteway/getewayDetail",
+        query: {
+          type: "add"
+        }
+      });
+    },
+    _mxEdit(row, gatewayId) {
+      this.$router.push({
+        path: "/geteway/getewayDetail",
+        query: {
+          type: "edit",
+          row: JSON.stringify(row),
+          gatewayId
+        }
+      });
+    },
     //隐藏附加信息
     handleClick(item) {
       if (item.show) {

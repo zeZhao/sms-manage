@@ -13,7 +13,11 @@ export default {
     sysLogin: {
         captcha(params) {
             return fetch("/sysLogin/captcha", params);
-        }
+        },
+        // 小窗口登录
+        viewLogin(params) {
+            return post("/sysLogin/viewLogin", params);
+        },
     },
     // 省份列表
     listSysProvince(params) {
@@ -536,7 +540,11 @@ export default {
         },
         // 撤回
         withdraw(params) {
-            return post("/sysPrepaidCard/withdraw", params)
+            return fetch("/sysPrepaidCard/revertPrepaidCard", params)
+        },
+        // 导出
+        exportPrepaidCard(params) {
+            return post("/sysPrepaidCard/exportPrepaidCard", params)
         },
         // 上传凭证
         // uploadFile(params) {
@@ -1155,6 +1163,7 @@ export default {
         updateGatewayByConfigure(params) {
             return post("/gateway/updateGatewayByConfigure", params);
         },
+
     },
     //彩信通道
     mmsGateway: {
@@ -1704,6 +1713,10 @@ export default {
         //配置
         updateGatewayByConfigure(params) {
             return post("/gateway/updateGatewayByConfigure", params);
+        },
+        //获取最后一个通道
+        getLasttGatewayId(params) {
+            return fetch("/gateway/getLasttGatewayId", params);
         },
     },
     //彩信通道

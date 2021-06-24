@@ -57,7 +57,7 @@
                 size="small"
                 >{{ item.btnTxt }}</el-button
               >
-              <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;"></i>
+              <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"></i>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
 

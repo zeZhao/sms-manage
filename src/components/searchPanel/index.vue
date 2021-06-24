@@ -25,7 +25,7 @@
         <el-col
           :sm="12"
           :md="8"
-          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' ? 12 : 6"
+          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' || item.type === 'selectInp' ? 12 : 6"
           v-for="(item, index) in searchFormConfig"
           :key="index"
         >
@@ -75,6 +75,33 @@
                   :label="option.value"
                 />
               </el-select>
+            </template>
+            <template v-if="item.type === 'selectInp'">
+                <el-select
+                style="width: 20%"
+                v-model="form[item.key[0]]"
+                :placeholder="item.placeholder || `请选择${item.label}`"
+                filterable
+                size="small"
+                :clearable="isClearAble(item)"
+                @focus="_mxHandleFocus()"
+                @change="forceUpdate"
+              >
+                <el-option
+                  v-for="option in item.optionData"
+                  :value="option.key"
+                  :key="option.key"
+                  :label="option.value"
+                />
+              </el-select>
+              <el-input
+              style="width: 69%"
+                v-model="form[item.key[1]]"
+                type="number"
+                size="small"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :clearable="isClearAble(item)"
+              ></el-input>
             </template>
 
             <!--日期范围选择-->

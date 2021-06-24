@@ -2,13 +2,18 @@
   <!--充值-->
   <div class="sysRecharge">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
+      @exportData="exportData"
     >
       <template slot="Other">
         <el-button type="primary" @click="transfers" size="small"
           >账号互转</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
         >
       </template>
     </Search>
@@ -127,23 +132,23 @@
       <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.cardStatus == 0">待提审</span>
-          <span v-if="scope.row.cardStatus == 2">待审核</span>
+          <span v-else-if="scope.row.cardStatus == 2">待审核</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
           <span v-else-if="scope.row.cardStatus == 3">审核驳回</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" align="center" width="70">
+      <el-table-column fixed="right" label="操作" align="center" width="100">
         <template slot-scope="scope">
           <el-button
-            :disabled="scope.row.cardStatus === 1"
+            :disabled="scope.row.cardStatus == 1 || scope.row.cardStatus == 2"
             @click="_mxEdit(scope.row, 'cardId')"
             type="text"
             size="small"
             >修改</el-button
           >
           <el-button
-            :disabled="scope.row.cardStatus === 1"
+            :disabled="scope.row.cardStatus !== 2"
             @click="_mxWithdraw(scope.row, 'cardId')"
             type="text"
             size="small"
@@ -811,6 +816,17 @@ export default {
   },
   computed: {},
   methods: {
+    //导出
+    exportData(data) {
+      this.$axios
+        .post("/sysPrepaidCard/exportPrepaidCard", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
     //文件上传成功
     handleSuccess({ response, file, fileList, item }) {
       if (response.code == 200) {
@@ -977,10 +993,14 @@ export default {
     },
     _mxWithdraw(row, id) {
       let params = {
-        status: 2
+        cardId: row.cardId
       };
-      this.$http.sysRecharge.withdraw(params).then(res => {
+      this.$http.sysRecharge.withdraw({ ...params }).then(res => {
         if (res.code == 200) {
+          this.$message.success("操作成功");
+          this._mxGetList();
+        } else {
+          this.$message.error("操作失败");
         }
       });
     },
@@ -1023,12 +1043,12 @@ export default {
             this._setDisplayShow(this.formConfig, "corporateId", true);
           }
         }
-        if (item.key !== "remark" && item.key !== "saleMan") {
-          this.$set(item, "disabled", true);
-          if (item.key === "userId") {
-            this.$set(item, "btnDisabled", true);
-          }
-        }
+        // if (item.key !== "remark" && item.key !== "saleMan") {
+        //   this.$set(item, "disabled", true);
+        //   if (item.key === "userId") {
+        //     this.$set(item, "btnDisabled", true);
+        //   }
+        // }
 
         // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
         if (val === "0" || val === 3) {
