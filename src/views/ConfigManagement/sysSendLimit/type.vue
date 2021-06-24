@@ -1,39 +1,10 @@
 <template>
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
-
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
-      <el-table-column prop="corpId" label="商户编号" min-width="150" />
-      <el-table-column prop="corpName" label="商户名称" min-width="150" />
-      <el-table-column prop="userId" label="账户编号" min-width="150" />
-      <el-table-column prop="userName" label="账户名称" min-width="150" />
-      <el-table-column prop="userType" label="规则生效对象" min-width="150">
-        <template slot-scope="scope">{{ scope.row.userType === 0 ? '商户' : '账户' }}</template>
-      </el-table-column>
-      <el-table-column prop="limitType" label="上限类型" min-width="150">
-        <template slot-scope="scope">{{ renderLimitType(scope.row.limitType) }}</template>
-      </el-table-column>
-      <el-table-column prop="count" label="发送上限" min-width="150" />
-      <el-table-column prop="timeLimit" label="天数" min-width="150" />
-      <el-table-column prop="createName" label="创建人" min-width="150" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
-        <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
-      </el-table-column>
-      <el-table-column label="操作" width="200">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('limitId', scope.row.limitId)" type="text" size="small">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
-      <FormItem ref="form" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
         @choose="choose"></FormItem>
-    </el-dialog>
-
+    </div>
     <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
@@ -44,15 +15,9 @@ export default {
   mixins: [listMixin],
   data () {
     const validatorSign = (rule, value, callback) => {
-      if (value === "") {
-        callback();
-      } else {
-        if (value > 10) {
-          callback(new Error("不能大于10"));
-        } else {
-          callback();
-        }
-      }
+      if (!value) callback(new Error('请输入必填项'));
+      if (!(/^\+?[1-9]\d*$/.test(value))) callback(new Error('请输入大于0的正整数'));
+      callback();
     };
     return {
       formTit: "新增",
@@ -99,6 +64,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corpId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           placeholder: "选择账户后自动识别",
@@ -166,17 +132,8 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: "blur"
-            },
-            {
-              pattern: /^\+?[1-9]\d*$/,
-              message: "请输入大于0的正整数",
-              trigger: "blur"
-            },
-            {
-              trigger: "change",
-              validator: validatorSign
+              validator: validatorSign,
+              trigger: "change"
             }
           ]
         },
@@ -208,22 +165,22 @@ export default {
       isChooseUser: false
     };
   },
-  activated () {
-    //重新获取数据
-    this._mxGetList();
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '发送上限配置';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
+  },
+  mounted () {
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
-    renderLimitType (v) {
-      if (v === 1) {
-        return '相同内容相同手机号'
-      } else if (v === 2) {
-        return '相同手机号'
-      } else if (v === 3) {
-        return '同CID同手机号'
-      } else {
-        return '-'
-      }
-    },
     //选择用户选取赋值
     chooseUserData (data) {
       this.formConfig.map(t => {
@@ -246,6 +203,7 @@ export default {
         };
         this.$http.sysSendLimit.addSendLimit(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -269,6 +227,7 @@ export default {
         };
         this.$http.sysSendLimit.updateSendLimit(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -278,51 +237,50 @@ export default {
         });
       }
     },
-    create () {
-      this.$router.push({ name: 'sysSendLimitType', query: { type: 'create' } });
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
-      //   if (item.key === "userType") {
-      //     this.$set(item, "disabled", false);
-      //     this.$set(item, "initDefaultValue", 1);
-      //     this.$set(item, "defaultValue", 1);
-      //   }
-      // });
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.form.resetForm();
-      // }, 0);
+    _mxCreate () {
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
+        }
+        if (item.key === "userType") {
+          this.$set(item, "disabled", false);
+          this.$set(item, "initDefaultValue", 1);
+          this.$set(item, "defaultValue", 1);
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
-    edit (row, ID) {
-      this.$router.push({ name: 'sysSendLimitType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.limitId = row.limitId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //     if (item.key === "userId") {
-      //       this.$set(item, "btnDisabled", true);
-      //     }
-      //     if (item.key === "userType") {
-      //       this.$set(item, "disabled", true);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+    _mxEdit (row) {
+      this.limitId = row.limitId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+          if (item.key === "userType") {
+            this.$set(item, "disabled", true);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     cancel () {
       this.addChannel = false;
+      window.history.back();
     }
   }
 };

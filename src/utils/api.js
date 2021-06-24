@@ -1374,6 +1374,10 @@ export default {
         deleteSysRedList(params) {
             return post("/sysRedList/deleteSysRedList", params);
         },
+        //  批量修改通道
+        updateBatchSysRedList(params) {
+            return post("/sysRedList/updateBatchSysRedList", params);
+        }
     },
     // 白名单管理
     sysWhitelist: {
@@ -2085,6 +2089,40 @@ export default {
         // 通道监控分页查询
         listGatewayMonitorByPage(params) {
             return fetch("/smsGatewayMonitor/listGatewayMonitorByPage", params);
+        }
+    },
+    //待发优先级
+    priority: {
+        // 待发优先级分页查询
+        queryPriority(params) {
+            return post("/priority/queryPriority", params);
+        },
+        // 待发优先级添加
+        addPriority(params) {
+            return put("/priority/addPriority", params);
+        },
+        // 待发优先级修改
+        updatePriority(params) {
+            return post("/priority/updatePriority", params);
+        },
+        // 待发优先级删除
+        deletePriority(params) {
+            return del("/priority/deletePriority", params);
+        }
+    },
+    //上行敏感词
+    moKeyword: {
+        // 上行敏感词分页查询
+        queryByPage(params) {
+            return post("/moKeyword/queryByPage", params);
+        },
+        // 上行敏感词添加/修改
+        addOrUpdate(params) {
+            return post("/moKeyword/addOrUpdate", params);
+        },
+        // 上行敏感词删除
+        delete(params) {
+            return fetch("/moKeyword/delete", params);
         }
     },
 }
