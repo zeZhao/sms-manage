@@ -147,6 +147,8 @@ function queryData() {
       this.listData = this._mxFormListData(this._mxlistDataNull(list));
     } else if (res.code === 500 || res.code === "500") {
       this.$message.error(res.data || res.msg || "获取数据失败");
+    } else {
+      this.$message.error(res.data || res.msg || "获取数据失败");
     }
   });
 
@@ -258,7 +260,6 @@ export default {
 
     //显示选择用户弹窗
     choose(item) {
-      console.log(item);
       this.isChooseUser = true;
     },
     //关闭选择用户弹窗
@@ -311,7 +312,7 @@ export default {
             this.$message.error(res.msg || "删除失败！");
           }
         });
-      });
+      }).catch(() => { });
     },
     /**
      * 表格数据为空用“-”展示
@@ -403,6 +404,10 @@ export default {
      * 关闭弹窗
      */
     _mxCancel() {
+      //如果是页面新增、修改，则返回列表页
+      if (this.isPage) {
+        window.history.back();
+      }
       this.addChannel = false;
       setTimeout(() => {
         this.$refs.formItem.resetForm();
@@ -478,6 +483,10 @@ export default {
      */
     _mxSuccess(res) {
       if (resOk(res)) {
+        //如果是页面新增、修改，则返回列表页
+        if (this.isPage) {
+          window.history.back();
+        }
         this.$message.success(res.msg || res.data);
         this._mxGetList();
         this.addChannel = false;

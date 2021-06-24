@@ -1,123 +1,11 @@
 <template>
-  <!--免审管理-->
-  <div class="sysExemptReviewManage">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="_mxCreate"
-    >
-      <template slot="Other">
-        <el-button type="primary" size="small" @click="batchModification">批量修改</el-button>
-      </template>
-    </Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      style="width: 100%"
-      v-loading="loading"
-    >
-      <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="code" label="特服号" />
-      <!-- <el-table-column prop="exemptReviewType" label="类型">
-        <template slot-scope="scope">
-          <span>{{
-            scope.row.exemptReviewType === 1
-              ? "特服号"
-              : scope.row.exemptReviewType === 2
-              ? "账户编号"
-              : "商户编号"
-          }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="cmPassageway" label="移动通道" />
-      <el-table-column prop="cuPassageway" label="联通通道" />
-      <el-table-column prop="ctPassageway" label="电信通道" />
-      <el-table-column prop="exemptReviewNum" label="免审数量" />
-      <el-table-column prop="isTemplate" label="模板匹配">
-        <template slot-scope="scope">
-          <span v-if="scope.row.isTemplate === 0">不需要</span>
-          <span v-if="scope.row.isTemplate === 1">需要</span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column
-        prop="isParallelDetection"
-        label="是否并行检测"
-        width="110"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.isParallelDetection ? "是" : "否" }}</span>
-        </template>
-      </el-table-column> -->
-      <!-- <el-table-column prop="isLoss" label="是否亏损">
-        <template slot-scope="scope">
-          <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="createBy" label="创建人" />
-      <!-- <el-table-column prop="isadvice" label="配置方式">
-        <template slot-scope="scope">
-          <span v-if="!scope.row.isadvice">自定义</span>
-          <span v-else-if="scope.row.isadvice">系统推荐</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="createTime" label="创建时间" min-width="170">
-        <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
-        }}</template>
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" width="100">
-        <template slot-scope="scope">
-          <el-button
-            @click="_mxEdit(scope.row, 'exemptId')"
-            type="text"
-            size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('exemptId', scope.row.exemptId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="_mxHandleSubmit"
-        @cancel="_mxCancel"
-        @choose="choose"
-        @selectChange="selectChange"
-        @onChange="onChange"
-      ></FormItem>
-    </el-dialog>
-    <ChooseUser
-      :isChooseUser="isChooseUser"
-      @chooseUserData="chooseUserData"
-      @cancel="cancel"
-    ></ChooseUser>
-    <BatchModification
-      :isOpen="isOpen"
-      :title="title"
-      @submit="batchSubmit"
-      @cancel="cancelBatch"
-    ></BatchModification>
+  <div>
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="_mxHandleSubmit" @cancel="_mxCancel"
+        @choose="choose" @selectChange="selectChange" @onChange="onChange"></FormItem>
+    </div>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancel"></ChooseUser>
   </div>
 </template>
 
@@ -125,7 +13,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data() {
+  data () {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
       if (value == "") {
@@ -148,6 +36,7 @@ export default {
       }
     };
     return {
+      isPage: true,
       formTit: "新增",
       addChannel: false,
       // 接口地址
@@ -162,164 +51,6 @@ export default {
       namespace: "",
       // 搜索框数据
       searchParam: {},
-      // 搜索框配置
-      searchFormConfig: [
-        {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corpId",
-          placeholder: "请输入商户编号"
-        },
-        {
-          type: "inputNum",
-          label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
-        },
-        {
-          type: "input",
-          label: "账户名称",
-          key: "userName",
-          placeholder: "请输入账户名称"
-        },
-        {
-          type: "input",
-          label: "特服号",
-          key: "code",
-          placeholder: "请输入特服号"
-        },
-        // {
-        //   type: "select",
-        //   label: "类型",
-        //   key: "exemptReviewType",
-        //   optionData: [
-        //     {
-        //       key: "1",
-        //       value: "特服号"
-        //     },
-        //     {
-        //       key: "2",
-        //       value: "账户编号"
-        //     },
-        //     {
-        //       key: "3",
-        //       value: "商户编号"
-        //     }
-        //   ],
-        //   placeholder: "请选择类型"
-        // },
-        // {
-        //   type: "select",
-        //   label: "免审类型",
-        //   key: "type",
-        //   optionData: [
-        //     {
-        //       key: "1",
-        //       value: "短信"
-        //     }
-        //   ],
-        //   placeholder: "请选择免审类型"
-        // },
-        {
-          type: "select",
-          label: "移动通道",
-          key: "cmPassageway",
-          optionData: []
-        },
-        {
-          type: "select",
-          label: "联通通道",
-          key: "cuPassageway",
-          optionData: []
-        },
-        {
-          type: "select",
-          label: "电信通道",
-          key: "ctPassageway",
-          optionData: []
-        },
-        // {
-        //   type: "select",
-        //   label: "是否并行检测",
-        //   key: "isSarallelDetection",
-        //   optionData: [
-        //     {
-        //       key: "0",
-        //       value: "否"
-        //     },
-        //     {
-        //       key: "1",
-        //       value: "是"
-        //     }
-        //   ],
-        //   placeholder: "请选择是否并行检测"
-        // },
-        // {
-        //   type: "select",
-        //   label: "是否亏损",
-        //   key: "isLoss",
-        //   optionData: [
-        //     {
-        //       key: "",
-        //       value: "全部"
-        //     },
-        //     {
-        //       key: "0",
-        //       value: "否"
-        //     },
-        //     {
-        //       key: "1",
-        //       value: "是"
-        //     }
-        //   ]
-        // },
-        // {
-        //   type: "select",
-        //   label: "敏感词类别",
-        //   key: "sensitiveWord",
-        //   optionData: [],
-        //   placeholder: "请选择敏感词类别"
-        // }
-        // {
-        //   type: "select",
-        //   label: "特殊需求",
-        //   key: "specialNeeds",
-        //   optionData: [
-        //     {
-        //       key: "扩展位数",
-        //       value: "扩展位数"
-        //     },
-        //     {
-        //       key: "显示号码",
-        //       value: "显示号码"
-        //     },
-        //     {
-        //       key: "特殊内容",
-        //       value: "特殊内容"
-        //     }
-        //   ],
-        //   placeholder: "请选择特殊需求"
-        // },
-        // {
-        //   type: "select",
-        //   label: "配置方式",
-        //   key: "configuration",
-        //   optionData: [
-        //     {
-        //       key: "",
-        //       value: "全部"
-        //     },
-        //     {
-        //       key: "0",
-        //       value: "自定义"
-        //     },
-        //     {
-        //       key: "1",
-        //       value: "系统推荐"
-        //     }
-        //   ]
-        // }
-      ],
       // 表单配置
       formConfig: [
         {
@@ -570,23 +301,26 @@ export default {
       GatewayList: [], // 通道列表
       isChooseUser: false, //选择用户
       isGatewayGroup: "0", // 是否包含通道组
-      isOpen: false,
-      title: "批量修改通道"
-    };
+    }
   },
-  mounted() {
-    this.gateway("cmPassageway", "1", "1");
-    this.gateway("cuPassageway", "2", "1");
-    this.gateway("ctPassageway", "3", "1");
-    this.getSensitiveWordGroup();
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '免审配置';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
   },
-  activated(){
-    //重新获取数据
-    this._mxGetList();
+  mounted () {
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
     //提交批量修改
-    batchSubmit(form) {
+    batchSubmit (form) {
       this.$http.sysExemptReviewManage.batchUpdateExemptReviewManage(form).then(res => {
         if (res.code === 200) {
           this.isOpen = false;
@@ -598,11 +332,11 @@ export default {
       })
     },
     //关闭弹窗
-    cancelBatch() {
+    cancelBatch () {
       this.isOpen = false;
     },
     //批量修改
-    batchModification() {
+    batchModification () {
       this.isOpen = true;
     },
     /*
@@ -611,7 +345,7 @@ export default {
       orderStatus	string
       排序字段 1.单价 2.网关号 3.网关名
       */
-    listRecommendGatewayAndGroup(operator, orderStatus, userId) {
+    listRecommendGatewayAndGroup (operator, orderStatus, userId) {
       let recommend = [];
       let noRecommend = [];
       let status = 1;
@@ -649,7 +383,7 @@ export default {
           }
         });
     },
-    setGateway(keys, systemGateway, gateway) {
+    setGateway (keys, systemGateway, gateway) {
       this.formConfig.forEach(item => {
         const { key } = item;
         if (key == keys) {
@@ -662,7 +396,7 @@ export default {
       });
     },
     // 单选通道排序操作
-    onChange({ val, item }) {
+    onChange ({ val, item }) {
       console.log(val, item);
 
       if (item.label === "通道排序") {
@@ -687,7 +421,7 @@ export default {
         });
       }
     },
-    selectChange({ val, item }) {
+    selectChange ({ val, item }) {
       const { key, optionData } = item;
       if (
         key === "cuPassageway" ||
@@ -720,15 +454,15 @@ export default {
       }
     },
     //显示选择用户弹窗
-    choose() {
+    choose () {
       this.isChooseUser = true;
     },
     //关闭选择用户弹窗
-    cancel(val) {
+    cancel (val) {
       this.isChooseUser = val;
     },
     //选择用户选取赋值
-    chooseUserData(data) {
+    chooseUserData (data) {
       this.formConfig.map(t => {
         const { key, label } = t;
         if (key === "userId") {
@@ -755,7 +489,7 @@ export default {
       this.listRecommendGatewayAndGroup("ctPassageway", sort, data.userId);
     },
     //获取敏感词组
-    getSensitiveWordGroup() {
+    getSensitiveWordGroup () {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
         this._setDefaultValue(
           this.searchFormConfig,
@@ -796,7 +530,7 @@ export default {
     /*
      * 获取通道列表
      * */
-    gateway(keys, status, orderStatus) {
+    gateway (keys, status, orderStatus) {
       const params = {
         data: {
           status: status,
@@ -823,7 +557,7 @@ export default {
      * @param row
      * @private
      */
-    _mxArrangeEditData(row) {
+    _mxArrangeEditData (row) {
       let obj = Object.assign({}, row);
       for (let key in obj) {
         if (
@@ -845,18 +579,18 @@ export default {
             obj[key] = "0";
           }
         }
-        if(obj.hasOwnProperty('sensitiveWord')){
+        if (obj.hasOwnProperty('sensitiveWord')) {
           if (key === "sensitiveWord") {
             if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
               let arr = obj[key].split(",");
               obj[key] = arr.map(item => {
                 return Number(item);
               });
-            }else{
+            } else {
               obj[key] = []
             }
           }
-        }else{
+        } else {
           obj['sensitiveWord'] = []
         }
       }
@@ -869,14 +603,13 @@ export default {
      * @private
      */
 
-    _mxCreate() {
-      this.$router.push({ name: 'sysExemptReviewManageType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
-      // this.formConfig[0].btnDisabled = false;
+    _mxCreate () {
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig[0].btnDisabled = false;
     },
     /**
      * 编辑表单
@@ -885,58 +618,50 @@ export default {
      * @private
      */
 
-    _mxEdit(row, ID) {
-      this.$router.push({ name: 'sysExemptReviewManageType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // row = this._mxArrangeEditData(row);
-      // this.id = row[ID];
-      // this.editId = ID;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = true;
-      //   }
-      // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.listRecommendGatewayAndGroup("cmPassageway", "1", row.userId);
-      // this.listRecommendGatewayAndGroup("cuPassageway", "1", row.userId);
-      // this.listRecommendGatewayAndGroup("ctPassageway", "1", row.userId);
-      // this.addChannel = true;
+    _mxEdit (row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.listRecommendGatewayAndGroup("cmPassageway", "1", row.userId);
+      this.listRecommendGatewayAndGroup("cuPassageway", "1", row.userId);
+      this.listRecommendGatewayAndGroup("ctPassageway", "1", row.userId);
+      this.addChannel = true;
     },
     /**
      * 提交表单前调整表单内数据
      * @param formData
      * @private
      */
-    _mxArrangeSubmitData(formData) {
+    _mxArrangeSubmitData (formData) {
       for (let key in formData) {
-        if(key === "sensitiveWord"){
+        if (key === "sensitiveWord") {
           if (formData['sensitiveWord'] && Array.isArray(formData['sensitiveWord'])) {
             formData[key] = formData[key].join(",");
           } else {
             formData['sensitiveWord'] = [];
           }
-        } 
+        }
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.sysExemptReviewManage {
-  overflow-y: auto;
-}
-</style>

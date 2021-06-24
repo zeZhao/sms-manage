@@ -267,7 +267,6 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
-      console.log(form, "------------");
       // 彩信分类统计特殊页面特殊重置
       // if(){
       // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
@@ -364,6 +363,10 @@ export default {
     //获取焦点触发事件
     _mxHandleFocus() {
       this.$emit("focus");
+    },
+    //给父组件传form对象
+    renderForm() {
+      this.$emit("getForm", this.form);
     },
     //导出功能，给父组件传form对象
     handleExport() {

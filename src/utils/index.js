@@ -345,3 +345,12 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+//获取当前时间日期转为字符串且补零
+export function getDateToString(date = new Date()) {
+  const arr = date.toLocaleDateString().split('/');
+  arr.forEach((v, i) => {
+      if (v < 10) arr[i] = '0' + v;
+  })
+  return arr.join('-');
+}

@@ -220,7 +220,7 @@
               ></el-date-picker>
             </template>
 
-            <!--时间-->
+            <!--单个时间-->
             <template v-if="item.type === 'time'">
               <el-time-picker
                 clearable
@@ -228,6 +228,24 @@
                 :value-format="item.format || 'HH:mm:ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 :picker-options="item.pickerOptions || ''"
+                @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+              ></el-time-picker>
+            </template>
+            <!--双时间-->
+            <template v-if="item.type === 'times'">
+              <el-time-picker
+                clearable
+                v-model="formData[item.key]"
+                :value-format="item.format || 'HH:mm:ss'"
+                is-range
+                range-separator="-"
+                :start-placeholder="item.startPlaceholder || '开始时间'"
+                :end-placeholder="item.endPlaceholder || '结束时间'"
+                :placeholder="item.placeholder || '选择时间范围'"
                 @change="
                   val => {
                     onChange(val, item);
@@ -311,6 +329,44 @@
                     <i class="el-icon-delete"></i>
                   </span>
                 </span>
+              </div>
+            </template>
+            <!--上传xls、xlsx等-->
+            <template v-if="item.type === 'uploadXlsx'">
+              <div>
+                <el-upload
+                  ref="uploadFileXlsx"
+                  :action="action"
+                  :headers="header"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :on-success="
+                    (res, file, fileList) => {
+                      handleSuccess(item, res, file, fileList);
+                    }
+                  "
+                  :before-upload="
+                    file => {
+                      beforeUpload(item, file);
+                    }
+                  "
+                  :on-progress="
+                    (event, file, fileList) => {
+                      handleProgress(item, event, file, fileList);
+                    }
+                  "
+                  :on-error="handleError"
+                  :limit="item.limit || 1"
+                  :file-list="item.defaultFileList || []"
+                  :on-exceed="handleExceed"
+                >
+                  <el-button size="small" type="primary">{{
+                    item.btnTxt ? item.btnTxt : "上传文件"
+                  }}</el-button>
+                </el-upload>
+                <div slot="tip" class="el-upload__tip">
+                  {{ item.tip }}
+                </div>
               </div>
             </template>
           </el-form-item>
@@ -549,9 +605,12 @@ export default {
     },
     //查看图片
     handlePictureCardPreview(file) {
-      console.log(file);
       this.dialogImageUrl = file;
       this.dialogVisible = true;
+    },
+    //清空某一些校验
+    clearValidateMore(arr) {
+      this.$refs.form.clearValidate(arr);
     },
 
     //回显input下列提示
