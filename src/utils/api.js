@@ -2110,4 +2110,19 @@ export default {
             return del("/priority/deletePriority", params);
         }
     },
+    //上行敏感词
+    moKeyword: {
+        // 上行敏感词分页查询
+        queryByPage(params) {
+            return post("/moKeyword/queryByPage", params);
+        },
+        // 上行敏感词添加/修改
+        addOrUpdate(params) {
+            return post("/moKeyword/addOrUpdate", params);
+        },
+        // 上行敏感词删除
+        delete(params) {
+            return fetch("/moKeyword/delete", params);
+        }
+    },
 }

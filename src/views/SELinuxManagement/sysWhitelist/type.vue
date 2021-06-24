@@ -1,80 +1,12 @@
 <template>
-  <!--白名单管理-->
-  <div class="sysWhitelist">
-    <Search
-      :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
-      @create="create"
-    ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      style="width: 100%"
-      v-loading="loading"
-    >
-      <!-- <el-table-column prop="type" label="类型">
-        <template slot-scope="scope">
-          <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="createUser" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
-        <template slot-scope="scope">{{
-          scope.row.createTime | timeFormat
-        }}</template>
-      </el-table-column>
-      <!-- <el-table-column prop="modifyUser" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间">
-        <template slot-scope="scope">{{
-          scope.row.modifyTime | timeFormat
-        }}</template>
-      </el-table-column> -->
-      <el-table-column label="操作" width="100">
-        <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
-            >修改</el-button
-          >
-          <el-button
-            @click="_mxDeleteItem('whiteId', scope.row.whiteId)"
-            type="text"
-            size="small"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-    <Page
-      :pageObj="pageObj"
-      @handleSizeChange="handleSizeChange"
-      @handleCurrentChange="handleCurrentChange"
-    ></Page>
-    <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
-        @choose="choose"
-        @selectChange="selectChange"
-        @onChange="onChange"
-        @handleSuccess="handleSuccess"
-        @handleRemove="handleRemove"
-      ></FormItem>
-    </el-dialog>
-    <ChooseUser
-      :isChooseUser="isChooseUser"
-      @chooseUserData="chooseUserData"
-      @cancel="cancelUser"
-    ></ChooseUser>
+  <div>
+    <h2>{{ renderTitle }}</h2>
+    <div style="width: 60%; margin: auto">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
+        @choose="choose" @selectChange="selectChange" @onChange="onChange" @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"></FormItem>
+    </div>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
   </div>
 </template>
 
@@ -83,7 +15,7 @@ import listMixin from "@/mixin/listMixin";
 import { isPhone } from "@/utils/validator";
 export default {
   mixins: [listMixin],
-  data() {
+  data () {
     return {
       formTit: "新增",
       addChannel: false,
@@ -202,7 +134,7 @@ export default {
           tip: "支持txt、xls、xlsx文件，每行一个手机号",
           isShow: false,
           accept: ["text/plain", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
-          rules: [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}]
+          rules: [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change'] }]
         }
       ],
       whiteId: "",
@@ -210,23 +142,32 @@ export default {
       isChooseUser: false
     };
   },
-  mounted() {
-    this.gateway();
+  computed: {
+    renderTitle () {
+      const { type } = this.$route.query;
+      const str = '白名单配置';
+      return type === 'create' ? `新增${str}` : `修改${str}`;
+    },
+    renderBtnTxt () {
+      const { type } = this.$route.query;
+      return type === 'create' ? '新增' : '修改';
+    }
   },
-  activated () {
-    //重新获取数据
-    this._mxGetList();
+  mounted () {
+    this.gateway();
+    const { type, row, ID } = this.$route.query;
+    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
-    onChange({ val, item }) {
+    onChange ({ val, item }) {
       if (item.key === "mobile") {
         const arr = this.formConfig;
         const i = arr.findIndex(v => v.key === "mobileFileUrl");
-        arr[i].rules = val ? null : [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
+        arr[i].rules = val ? null : [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change'] }];
         !arr[i].rules && this.$refs.formItem.clearValidateMore(['mobileFileUrl']);
       }
     },
-    handleSuccess({ response, file, fileList, item }) {
+    handleSuccess ({ response, file, fileList, item }) {
       if (response.code !== 200) {
         this.$message.error(response.data || response.msg);
         return;
@@ -249,7 +190,7 @@ export default {
         this.$refs.formItem.clearValidateMore(['mobile', 'mobileFileUrl']);
       }
     },
-    handleRemove({ file, fileList }) {
+    handleRemove ({ file, fileList }) {
       const arr = this.formConfig;
       const i = arr.findIndex(v => v.key === "mobileFileUrl");
       arr[i].defaultValue = "";
@@ -262,7 +203,7 @@ export default {
       ];
     },
     //选择控制
-    selectChange({ val, item }) {
+    selectChange ({ val, item }) {
       if (item.key === "type") {
         if (val === 2) {
           this._setLabelDisplayShow(this.formConfig, "通道编号", false);
@@ -274,7 +215,7 @@ export default {
       }
     },
     //选择用户选取赋值
-    chooseUserData(data) {
+    chooseUserData (data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -285,7 +226,7 @@ export default {
         }
       });
     },
-    submit(form) {
+    submit (form) {
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -295,7 +236,16 @@ export default {
         };
         this.$http.sysWhitelist.addSysWhiteList(params).then(res => {
           if (resOk(res)) {
-            this.$alert(res.msg, '导入记录', { confirmButtonText: '确定', callback: action => {}}).catch(() => {});
+            this.$alert(res.msg, '添加记录',
+              {
+                showClose: false,
+                confirmButtonText: '确定',
+                callback: action => {
+                  window.history.back();
+                  this.$message.success('添加成功')
+                }
+              }
+            )
             this._mxGetList();
             this.addChannel = false;
           } else {
@@ -311,6 +261,7 @@ export default {
         };
         this.$http.sysWhitelist.updateSysWhiteList(params).then(res => {
           if (resOk(res)) {
+            window.history.back();
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
@@ -320,75 +271,74 @@ export default {
         });
       }
     },
-    create() {
-      this.$router.push({ name: 'sysWhitelistType', query: { type: 'create' } });
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = false;
-      //   }
-      //   if (item.key === "mobile") {
-      //     item.rules = [
-      //       { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-      //       { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
-      //     ];
-      //   }
-      //   if (item.key === "mobileFileUrl") {
-      //     item.defaultValue = "";
-      //     item.defaultFileList = [];
-      //     item.isShow = false;
-      //     item.rules = [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
-      //   }
-      // });
-      // this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-      // this._setLabelDisplayShow(this.formConfig, "账户编号", false);
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
+    _mxCreate () {
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+        if (item.key === "mobile") {
+          item.rules = [
+            { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
+            { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+          ];
+        }
+        if (item.key === "mobileFileUrl") {
+          item.defaultValue = "";
+          item.defaultFileList = [];
+          item.isShow = false;
+          item.rules = [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change'] }];
+        }
+      });
+      this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+      this._setLabelDisplayShow(this.formConfig, "账户编号", false);
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
-    edit(row, ID) {
-      this.$router.push({ name: 'sysWhitelistType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.whiteId = row.whiteId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      //   if (item.key === "type") {
-      //     if (item.defaultValue === 2) {
-      //       this._setLabelDisplayShow(this.formConfig, "通道编号", false);
-      //       this._setLabelDisplayShow(this.formConfig, "账户编号", true);
-      //     } else {
-      //       this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-      //       this._setLabelDisplayShow(this.formConfig, "账户编号", false);
-      //     }
-      //   }
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = true;
-      //   }
-      //   if (item.key === "mobile") {
-      //     item.rules = [{ required: true, validator: isPhone, trigger: "change" }];
-      //   }
-      //   if (item.key === "mobileFileUrl") {
-      //     item.isShow = true;
-      //   }
-      // });
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
+    _mxEdit (row) {
+      this.whiteId = row.whiteId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "type") {
+          if (item.defaultValue === 2) {
+            this._setLabelDisplayShow(this.formConfig, "通道编号", false);
+            this._setLabelDisplayShow(this.formConfig, "账户编号", true);
+          } else {
+            this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+            this._setLabelDisplayShow(this.formConfig, "账户编号", false);
+          }
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
+        if (item.key === "mobile") {
+          item.rules = [{ required: true, validator: isPhone, trigger: "change" }];
+        }
+        if (item.key === "mobileFileUrl") {
+          item.isShow = true;
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
     },
-    cancel() {
+    cancel () {
       this.addChannel = false;
+      window.history.back();
     },
     //修改表格数据
-    _mxFormListData(data) {
+    _mxFormListData (data) {
       data.forEach(item => {
         if (item.createTime) {
           item.createTime = new Date(item.createTime).Format(
@@ -404,7 +354,7 @@ export default {
       return data;
     },
     //获取通道
-    gateway() {
+    gateway () {
       const params = {
         data: {
           serverStatus: 1,
@@ -432,8 +382,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.sysWhitelist {
-}
-</style>

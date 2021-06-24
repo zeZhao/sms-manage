@@ -30,10 +30,10 @@
         </template>
       </el-table-column> -->
       <el-table-column prop="sign" label="签名" />
-      <el-table-column prop="modifyUser" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间">
+      <el-table-column prop="createBy" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" min-width="150">
         <template slot-scope="scope">{{
-          scope.row.modifyTime | timeFormat
+          scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column label="操作" width="200">
@@ -134,7 +134,7 @@ export default {
           key: "userName"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "特服号",
           key: "code"
         },
@@ -186,6 +186,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corpId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           rules: [
@@ -200,8 +201,9 @@ export default {
         {
           type: "input",
           label: "特服号",
-          disabled: true,
           key: "code",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [
             {
