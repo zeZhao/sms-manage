@@ -13,6 +13,7 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="sendNum" label="发送数" />
@@ -47,7 +48,7 @@ export default {
       },
       // 列表参数
       namespace: "",
-      isParamsNotData: true,
+      // isParamsNotData: true,
       //搜索框数据
       searchParam: {
         userId: "",

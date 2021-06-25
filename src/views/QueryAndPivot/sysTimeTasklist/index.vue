@@ -175,6 +175,7 @@ export default {
           key: ["", "startTime", "endTime"]
         }
       ],
+
       formConfig: [
         {
           type: "select",
@@ -211,8 +212,8 @@ export default {
           label: "CID",
           key: "cid",
           colSpan: 24,
-          isShow: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          isShow: true
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -224,26 +225,27 @@ export default {
         {
           type: "select",
           label: "改成",
-          key: "newGateway",
+          key: "toGateway",
           optionData: [],
-          placeholder: "请选择",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          placeholder: "请选择"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "date",
           label: "定时时间",
-          initDefaultValue: new Date(),
-          defaultValue: new Date(),
-          key: "submitDate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          initDefaultValue: "",
+          defaultValue: "",
+          key: "definiteTime"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "date",
           label: "改成",
-          initDefaultValue: new Date(),
-          defaultValue: new Date(),
-          key: "submitDate",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          initDefaultValue: "",
+          defaultValue: "",
+          placeholder: "请选择",
+          key: "updateDefiniteTime"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
         // {
         //   type: "time",
@@ -307,6 +309,10 @@ export default {
           this._setDisplayShow(this.formConfig, "content", false);
           this._setDisplayShow(this.formConfig, "cid", true);
           this._setDisplayShow(this.formConfig, "userId", true);
+        } else {
+          this._setDisplayShow(this.formConfig, "content", true);
+          this._setDisplayShow(this.formConfig, "cid", true);
+          this._setDisplayShow(this.formConfig, "userId", true);
         }
       }
     },
@@ -325,7 +331,7 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
 
-          if (key === "gateway" || key === "newGateway") {
+          if (key === "gateway" || key === "toGateway") {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
               this.$set(t, "value", t.gateway);
@@ -335,16 +341,32 @@ export default {
         });
       });
     },
+    _mxArrangeSubmitData(form) {
+      const { editCondition } = form;
+      if (editCondition === 1) {
+        form.cid = "";
+        form.content = "";
+      } else if (editCondition === 2) {
+        form.userId = "";
+        form.content = "";
+      } else if (editCondition === 3) {
+        form.content = "";
+        form.cid = "";
+      } else {
+        form.content = "";
+        form.cid = "";
+        form.userId = "";
+      }
+      return form;
+    },
     submitGateway(form) {
       form = this._mxArrangeSubmitData(form);
       const params = {
         data: {
-          sendTask: {
-            ...form
-          }
+          ...form
         }
       };
-      this.$http.smsSendTask.batchModify(params).then(res => {
+      this.$http.sysTimeTasklist.updateTimeTasklist(params).then(res => {
         if (resOk(res)) {
           this.$message.success(res.msg || res.data);
           this._mxGetList();
@@ -369,6 +391,9 @@ export default {
     // 批量修改通道
     edit() {
       this.editGateway = true;
+      this._setDisplayShow(this.formConfig, "content", true);
+      this._setDisplayShow(this.formConfig, "cid", true);
+      this._setDisplayShow(this.formConfig, "userId", true);
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);

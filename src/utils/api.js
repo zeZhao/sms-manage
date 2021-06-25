@@ -868,7 +868,11 @@ export default {
         // 查询列表
         listTimeTasklistByPage(params) {
             return post("/sysTimeTasklist/listTimeTasklistByPage", params);
-        }
+        },
+        // 批量修改
+        updateTimeTasklist(params) {
+            return post("/sysTimeTasklist/updateTimeTasklist", params);
+        },
     },
     // 发送跨天列表查询
     sendAcrossDays: {
@@ -1070,7 +1074,7 @@ export default {
     sysRealTimeData: {
         // 查询列表
         realTimeData(params) {
-            return fetch("/report/realTimeData", params);
+            return post("/report/realTimeData", params);
         },
     },
 
@@ -1487,13 +1491,6 @@ export default {
             return post("/sendLogFegin/selectSendReturnByPage", params);
         }
     },
-    // 定时
-    sysTimeTasklist: {
-        // 查询列表
-        listTimeTasklistByPage(params) {
-            return post("/sysTimeTasklist/listTimeTasklistByPage", params);
-        }
-    },
     // 发送跨天列表查询
     sendAcrossDays: {
         // 查询列表
@@ -1636,13 +1633,6 @@ export default {
         queryAll(params) {
             return post("/smsProfit/queryAll", params);
         }
-    },
-    // 定时统计
-    sysTimeTasklistStatistics: {
-        // 查询列表
-        queryTimeTaskByPage(params) {
-            return post("/sysTimeTasklist/queryTimeTaskByPage", params);
-        },
     },
     // 免审未发统计
     sysUnbilled: {

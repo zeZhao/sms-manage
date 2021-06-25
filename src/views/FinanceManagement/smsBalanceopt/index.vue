@@ -297,9 +297,9 @@ export default {
   computed: {},
   methods: {
     exportData(form) {
-      const data = { ...this.pageObj, ...form };
+      const data = { data: { ...this.pageObj, ...form } };
       delete data.total;
-      this.$axios.post("/report/exportArrivalDelayStatic", data).then(res => {
+      this.$axios.post("/smsBalanceopt/exportSmsBalanceopt", data).then(res => {
         if (res.data.code === 200) this.$exportToast();
       });
     },

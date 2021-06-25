@@ -2,13 +2,13 @@
   <!--失败原因-->
   <div class="sysRouteReturnError">
     <Search
-    ref="Search"
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
       @exportData="exportData"
     >
-    <template slot="Other">
+      <template slot="Other">
         <el-button type="primary" size="small" @click="batchAddition"
           >批量添加</el-button
         >
@@ -83,8 +83,8 @@
     <BatchAddition
       :isOpen="isOpen"
       :title="title"
-      downloadTemplateUrl="/opt/sms-data/template/YtProvinceRoute.xls"
-      action="/sysProvinceRoute/uploadProvinceRoute"
+      downloadTemplateUrl="/opt/sms-data/template/SysRouteReturnErrorDataTem.xlsx"
+      action="/sysRouteReturnError/uploadRouteReturnError"
       @submit="batchSubmit"
       @cancel="cancelBatch"
     ></BatchAddition>
@@ -294,19 +294,21 @@ export default {
   },
   computed: {},
   methods: {
-      //关闭弹窗
+    //关闭弹窗
     cancelBatch() {
       this.isOpen = false;
     },
-      //提交批量添加
+    //提交批量添加
     batchSubmit() {
       this.isOpen = false;
       this._mxGetList();
     },
-      //导出
-    exportData(data) {
+    //导出
+    exportData(form) {
+      const data = { data: { ...this.pageObj, ...form } };
+      delete data.total;
       this.$axios
-        .post("/sysProvinceRoute/exportProvinceRoute", { data })
+        .post("/sysRouteReturnError/exportRouteReturnError", { data })
         .then(res => {
           if (res.data.code === 200) this.$exportToast();
         });
@@ -314,7 +316,7 @@ export default {
     exportExe() {
       this.$refs.Search.handleExport();
     },
-      //批量添加
+    //批量添加
     batchAddition() {
       this.isOpen = true;
     },

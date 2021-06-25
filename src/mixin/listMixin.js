@@ -321,13 +321,16 @@ export default {
      * @private
      */
     _mxlistDataNull(list) {
-      list.forEach(item => {
-        for (let key in item) {
-          if (item[key] === "" || item[key] === null) {
-            item[key] = "-"
+      if (Array.isArray(list)) {
+        list.forEach(item => {
+          for (let key in item) {
+            if (item[key] === "" || item[key] === null) {
+              item[key] = "-"
+            }
           }
-        }
-      })
+        })
+      }
+
       return list
     },
 
