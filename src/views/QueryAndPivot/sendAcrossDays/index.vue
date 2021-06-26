@@ -16,7 +16,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="longCode" label="通道码号" />
+      <!-- <el-table-column prop="longCode" label="通道码号" /> -->
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="通道编号" />
@@ -95,6 +95,11 @@ export default {
       searchFormConfig: [
         {
           type: "inputNum",
+          label: "商户编号",
+          key: "corporateId",
+        },
+        {
+          type: "inputNum",
           label: "账户编号",
           key: "userId",
           placeholder: "请输入账户编号"
@@ -106,15 +111,30 @@ export default {
           placeholder: "请输入账户名称"
         },
         {
-          type: "date",
-          label: "开始日期",
-          key: "startTime"
+          type: "input",
+          label: "内容",
+          key: "content",
         },
         {
-          type: "date",
-          label: "结束日期",
-          key: "endTime"
-        }
+          type: "input",
+          label: "手机号",
+          key: "mobile",
+        },
+        {
+          type: "input",
+          label: "通道编号",
+          key: "gateway",
+        },
+        {
+          type: "datetime",
+          label: "提交时间",
+          key: ['',"startTime",'endTime']
+        },
+        // {
+        //   type: "date",
+        //   label: "结束日期",
+        //   key: "endTime"
+        // }
       ]
     };
   },

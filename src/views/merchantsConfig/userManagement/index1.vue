@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      height="350"
+    >
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -256,7 +261,12 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createUser" label="创建人" width="150" show-overflow-tooltip />
+      <el-table-column
+        prop="createUser"
+        label="创建人"
+        width="150"
+        show-overflow-tooltip
+      />
       <el-table-column
         prop="createTime"
         label="创建时间"
@@ -1168,7 +1178,7 @@ export default {
     this.listTag();
     this.getBlackFroup();
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -1261,7 +1271,10 @@ export default {
       }
     },
     _mxCreate() {
-      this.$router.push({ name: 'userManagementType', query: { type: 'create' } });
+      this.$router.push({
+        name: "userManagementType",
+        query: { type: "create" }
+      });
       // this.addChannel = true;
       // this.formTit = "新增";
       // this.formConfig.forEach(item => {
@@ -1407,7 +1420,10 @@ export default {
     },
     //修改
     _mxEdit(row, ID) {
-      this.$router.push({ name: 'userManagementType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "userManagementType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.currentEditFormData = {};
       // let lineData = this.$deepClone(row);
       // lineData = this._mxArrangeEditData(lineData);
@@ -1565,8 +1581,9 @@ export default {
         this.$message.error("最大不能超过1000");
         return;
       }
-      const str = typeof(this.speedVal) === 'string' ? this.speedVal : (this.speedVal + '');
-      if (str.indexOf('.') !== -1) {
+      const str =
+        typeof this.speedVal === "string" ? this.speedVal : this.speedVal + "";
+      if (str.indexOf(".") !== -1) {
         this.$message.error("提交速率不允许有小数");
         return;
       }

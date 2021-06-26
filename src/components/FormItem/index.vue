@@ -9,7 +9,7 @@
     >
       <el-row>
         <el-col
-          :span="colSpan"
+          :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
           :key="index"
         >
@@ -369,6 +369,7 @@
                 </div>
               </div>
             </template>
+            <p v-if="item.tip" class="tip">{{ item.tip }}</p>
           </el-form-item>
         </el-col>
         <div>
@@ -541,7 +542,7 @@ export default {
       });
       this.$nextTick(() => {
         this.clearValidate();
-      })
+      });
       // this.$refs.form.resetFields();
     },
     cancel() {
@@ -667,6 +668,10 @@ export default {
     line-height: 17px;
     text-align: right;
     margin-top: 6px;
+  }
+  .tip {
+    margin: 0;
+    color: #909399;
   }
 }
 </style>

@@ -13,7 +13,11 @@ export default {
     sysLogin: {
         captcha(params) {
             return fetch("/sysLogin/captcha", params);
-        }
+        },
+        // 小窗口登录
+        viewLogin(params) {
+            return post("/sysLogin/viewLogin", params);
+        },
     },
     // 省份列表
     listSysProvince(params) {
@@ -534,6 +538,14 @@ export default {
         refundPrepaidCard(params) {
             return post("/sysPrepaidCard/refundPrepaidCard", params)
         },
+        // 撤回
+        withdraw(params) {
+            return fetch("/sysPrepaidCard/revertPrepaidCard", params)
+        },
+        // 导出
+        exportPrepaidCard(params) {
+            return post("/sysPrepaidCard/exportPrepaidCard", params)
+        },
         // 上传凭证
         // uploadFile(params) {
         //   return post("/sysPrepaidCard/uploadFile", params)
@@ -856,7 +868,11 @@ export default {
         // 查询列表
         listTimeTasklistByPage(params) {
             return post("/sysTimeTasklist/listTimeTasklistByPage", params);
-        }
+        },
+        // 批量修改
+        updateTimeTasklist(params) {
+            return post("/sysTimeTasklist/updateTimeTasklist", params);
+        },
     },
     // 发送跨天列表查询
     sendAcrossDays: {
@@ -1058,7 +1074,7 @@ export default {
     sysRealTimeData: {
         // 查询列表
         realTimeData(params) {
-            return fetch("/report/realTimeData", params);
+            return post("/report/realTimeData", params);
         },
     },
 
@@ -1151,6 +1167,7 @@ export default {
         updateGatewayByConfigure(params) {
             return post("/gateway/updateGatewayByConfigure", params);
         },
+
     },
     //彩信通道
     mmsGateway: {
@@ -1478,13 +1495,6 @@ export default {
             return post("/sendLogFegin/selectSendReturnByPage", params);
         }
     },
-    // 定时
-    sysTimeTasklist: {
-        // 查询列表
-        listTimeTasklistByPage(params) {
-            return post("/sysTimeTasklist/listTimeTasklistByPage", params);
-        }
-    },
     // 发送跨天列表查询
     sendAcrossDays: {
         // 查询列表
@@ -1628,13 +1638,6 @@ export default {
             return post("/smsProfit/queryAll", params);
         }
     },
-    // 定时统计
-    sysTimeTasklistStatistics: {
-        // 查询列表
-        queryTimeTaskByPage(params) {
-            return post("/sysTimeTasklist/queryTimeTaskByPage", params);
-        },
-    },
     // 免审未发统计
     sysUnbilled: {
         // 查询列表
@@ -1704,6 +1707,10 @@ export default {
         //配置
         updateGatewayByConfigure(params) {
             return post("/gateway/updateGatewayByConfigure", params);
+        },
+        //获取最后一个通道
+        getLasttGatewayId(params) {
+            return fetch("/gateway/getLasttGatewayId", params);
         },
     },
     //彩信通道

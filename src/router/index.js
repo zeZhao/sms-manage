@@ -177,6 +177,21 @@ export const constantRoutes = [
         ]
     },
     {
+        path: '/geteway',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'getewayDetail',
+                name: 'getewayDetail',
+                component: () => import('@/views/ChannelManagement/gateway/detail'),
+                // meta: {
+                //     title: '添加通道',
+                // }
+            }
+        ]
+    },
+    {
         path: '/sysBelielConfig',
         component: Layout,
         hidden: true,
@@ -1178,7 +1193,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter () {
+export function resetRouter() {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher // reset router
 }

@@ -9,9 +9,15 @@
       @exportData="exportData"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="batchAddition">批量添加</el-button>
-        <el-button type="primary" size="small" @click="batchModification">批量修改</el-button>
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
+        <el-button type="primary" size="small" @click="batchAddition"
+          >批量添加</el-button
+        >
+        <el-button type="primary" size="small" @click="batchModification"
+          >批量修改</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -182,7 +188,7 @@ export default {
           type: "inputNum",
           label: "电信通道",
           key: "ct"
-        },
+        }
         // {
         //   type: "select",
         //   label: "运营商",
@@ -223,7 +229,13 @@ export default {
           btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -232,7 +244,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
         {
@@ -242,7 +260,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
         // {
@@ -261,29 +285,53 @@ export default {
           label: "省份",
           key: "province",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
           label: "移动通道",
           key: "cm",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
           label: "联通通道",
           key: "cu",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
           label: "电信通道",
           optionData: [],
           key: "ct",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        },
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        }
         // {
         //   type: "textarea",
         //   label: "备注信息",
@@ -309,7 +357,7 @@ export default {
     this.gateway("cm", "1", "1");
     this.listSysProvince();
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -327,18 +375,20 @@ export default {
     batchAddition() {
       this.isOpen1 = true;
     },
-    
+
     //提交批量修改
     batchSubmit(form) {
-      this.$axios.post('/sysProvinceRoute/updateBatchProvinceRoutes', form).then(res => {
-        if (res.data.code === 200) {
-          this.isOpen = false;
-          this.$message.success("修改成功");
-          this._mxGetList();
-        } else {
-          this.$message.error(res.data.data || res.data.msg);
-        }
-      })
+      this.$axios
+        .post("/sysProvinceRoute/updateBatchProvinceRoutes", form)
+        .then(res => {
+          if (res.data.code === 200) {
+            this.isOpen = false;
+            this.$message.success("修改成功");
+            this._mxGetList();
+          } else {
+            this.$message.error(res.data.data || res.data.msg);
+          }
+        });
     },
     //关闭弹窗
     cancelBatch() {
@@ -350,9 +400,11 @@ export default {
     },
     //导出
     exportData(data) {
-      this.$axios.post('/sysProvinceRoute/exportProvinceRoute', { data }).then(res => {
-        if (res.data.code === 200) this.$exportToast();
-      })
+      this.$axios
+        .post("/sysProvinceRoute/exportProvinceRoute", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
     },
     exportExe() {
       this.$refs.Search.handleExport();
@@ -489,7 +541,10 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysProvinceRouteType', query: { type: 'create' } });
+      this.$router.push({
+        name: "sysProvinceRouteType",
+        query: { type: "create" }
+      });
       // this.addChannel = true;
       // this.formTit = "新增";
       // this.formConfig.forEach(item => {
@@ -502,7 +557,10 @@ export default {
       // }, 0);
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysProvinceRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysProvinceRouteType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.routeId = row.routeId;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {
