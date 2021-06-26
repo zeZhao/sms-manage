@@ -113,7 +113,7 @@ export default {
           type: "inputNum",
           label: "手机号",
           key: "mobile"
-        },
+        }
         // {
         //   type: "select",
         //   label: "类型",
@@ -158,7 +158,13 @@ export default {
           btnTxt: "选择用户",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -167,7 +173,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
         // {
@@ -187,8 +199,15 @@ export default {
           maxlength: "100",
           placeholder: "可输入多个手机号，用英文“,”隔开",
           rules: [
-            { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-            { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+            {
+              required: true,
+              message: "请添加手机号或者上传手机号文件",
+              trigger: "blur"
+            },
+            {
+              validator: this.$publicValidators.phone[0]["validator"],
+              trigger: "change"
+            }
           ]
         },
         {
@@ -201,8 +220,18 @@ export default {
           defaultFileList: [],
           tip: "支持txt、xls、xlsx文件，每行一个手机号",
           isShow: false,
-          accept: ["text/plain", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
-          rules: [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}]
+          accept: [
+            "text/plain",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请上传手机号文件或者添加手机号",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       whiteId: "",
@@ -213,7 +242,7 @@ export default {
   mounted() {
     this.gateway();
   },
-  activated () {
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -222,8 +251,17 @@ export default {
       if (item.key === "mobile") {
         const arr = this.formConfig;
         const i = arr.findIndex(v => v.key === "mobileFileUrl");
-        arr[i].rules = val ? null : [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
-        !arr[i].rules && this.$refs.formItem.clearValidateMore(['mobileFileUrl']);
+        arr[i].rules = val
+          ? null
+          : [
+              {
+                required: true,
+                message: "请上传手机号文件或者添加手机号",
+                trigger: ["blur", "change"]
+              }
+            ];
+        !arr[i].rules &&
+          this.$refs.formItem.clearValidateMore(["mobileFileUrl"]);
       }
     },
     handleSuccess({ response, file, fileList, item }) {
@@ -246,7 +284,7 @@ export default {
 
         const delRuleIdx = arr.findIndex(v => v.key === "mobile");
         arr[delRuleIdx].rules = null;
-        this.$refs.formItem.clearValidateMore(['mobile', 'mobileFileUrl']);
+        this.$refs.formItem.clearValidateMore(["mobile", "mobileFileUrl"]);
       }
     },
     handleRemove({ file, fileList }) {
@@ -257,8 +295,15 @@ export default {
 
       const addRuleIdx = arr.findIndex(v => v.key === "mobile");
       arr[addRuleIdx].rules = [
-        { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-        { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+        {
+          required: true,
+          message: "请添加手机号或者上传手机号文件",
+          trigger: "blur"
+        },
+        {
+          validator: this.$publicValidators.phone[0]["validator"],
+          trigger: "change"
+        }
       ];
     },
     //选择控制
@@ -295,7 +340,10 @@ export default {
         };
         this.$http.sysWhitelist.addSysWhiteList(params).then(res => {
           if (resOk(res)) {
-            this.$alert(res.msg, '导入记录', { confirmButtonText: '确定', callback: action => {}}).catch(() => {});
+            this.$alert(res.msg, "导入记录", {
+              confirmButtonText: "确定",
+              callback: action => {}
+            }).catch(() => {});
             this._mxGetList();
             this.addChannel = false;
           } else {
@@ -321,7 +369,10 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysWhitelistType', query: { type: 'create' } });
+      this.$router.push({
+        name: "sysWhitelistType",
+        query: { type: "create" }
+      });
       // this.formTit = "新增";
       // this.formConfig.forEach(item => {
       //   if (item.key === "userId") {
@@ -348,7 +399,10 @@ export default {
       // }, 0);
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysWhitelistType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysWhitelistType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.whiteId = row.whiteId;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {

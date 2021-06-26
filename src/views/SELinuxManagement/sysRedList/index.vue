@@ -7,7 +7,9 @@
       @create="create"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="batchUpdate">批量修改</el-button>
+        <el-button type="primary" size="small" @click="batchUpdate"
+          >批量修改</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -88,7 +90,9 @@
           <el-button
             style="border-color: #0964FF"
             @click="chooseSomeUser"
-            size="small">选择</el-button>
+            size="small"
+            >选择</el-button
+          >
         </div>
       </template>
     </ChooseUser>
@@ -102,28 +106,59 @@
       :show-close="false"
       width="50%"
       top="120px"
-    > 
-      <el-form ref="ruleForm" :model="ruleForm" label-width="90px" style="width: 60%; margin: auto">
+    >
+      <el-form
+        ref="ruleForm"
+        :model="ruleForm"
+        label-width="90px"
+        style="width: 60%; margin: auto"
+      >
         <el-form-item label="账户编号：">
-          <el-input v-model="ruleForm.userIdStr" placeholder="请选择账户编号" disabled style="width: 70%"></el-input>
-          <el-button
-            style="border-color: #0964FF"
-            @click="choose"
-            size="small">选择用户</el-button>
+          <el-input
+            v-model="ruleForm.userIdStr"
+            placeholder="请选择账户编号"
+            disabled
+            style="width: 70%"
+          ></el-input>
+          <el-button style="border-color: #0964FF" @click="choose" size="small"
+            >选择用户</el-button
+          >
         </el-form-item>
-        <p style="font-size: 12px; color: #999; line-height: 1.5; margin-left: 90px">账户编号选填，未选择时改变所有账户的原通道，请确认后再修改</p>
+        <p
+          style="font-size: 12px; color: #999; line-height: 1.5; margin-left: 90px"
+        >
+          账户编号选填，未选择时改变所有账户的原通道，请确认后再修改
+        </p>
         <el-row>
           <el-col :span="12">
             <el-form-item label="原通道：">
-              <el-select v-model="ruleForm.gateway" placeholder="原通道" clearable>
-                <el-option v-for="item in GatewayList" :key="item.gateway" :label="item.gateway" :value="item.gateway" />
+              <el-select
+                v-model="ruleForm.gateway"
+                placeholder="原通道"
+                clearable
+              >
+                <el-option
+                  v-for="item in GatewayList"
+                  :key="item.gateway"
+                  :label="item.gateway"
+                  :value="item.gateway"
+                />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="改为">
-              <el-select v-model="ruleForm.afterGateway" placeholder="请修改" clearable>
-                <el-option v-for="item in GatewayList" :key="item.gateway" :label="item.gateway" :value="item.gateway" />
+              <el-select
+                v-model="ruleForm.afterGateway"
+                placeholder="请修改"
+                clearable
+              >
+                <el-option
+                  v-for="item in GatewayList"
+                  :key="item.gateway"
+                  :label="item.gateway"
+                  :value="item.gateway"
+                />
               </el-select>
             </el-form-item>
           </el-col>
@@ -131,8 +166,16 @@
         <div v-if="errorTips" class="errTpis">{{ errorTips }}</div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" @click="batchUpdateFlag = false">取消</el-button>
-        <el-button size="small" type="primary" v-throttle @click="handleBatchUpdate">确定</el-button>
+        <el-button size="small" @click="batchUpdateFlag = false"
+          >取消</el-button
+        >
+        <el-button
+          size="small"
+          type="primary"
+          v-throttle
+          @click="handleBatchUpdate"
+          >确定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -208,7 +251,13 @@ export default {
           btnDisabled: false,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -217,7 +266,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
         {
@@ -238,22 +293,40 @@ export default {
           maxlength: "100",
           placeholder: "可输入多个手机号，用英文“,”隔开",
           rules: [
-            { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-            { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+            {
+              required: true,
+              message: "请添加手机号或者上传手机号文件",
+              trigger: "blur"
+            },
+            {
+              validator: this.$publicValidators.phone[0]["validator"],
+              trigger: "change"
+            }
           ]
         },
         {
           type: "uploadXlsx",
           key: "mobileFileUrl",
           label: "上传手机号文件",
+          action: "/api/sysPrepaidCard/uploadFileUnify",
           isShow: false,
           btnTxt: "导入",
           limit: 1,
           defaultValue: "",
           defaultFileList: [],
           tip: "支持txt、xls、xlsx文件，每行一个手机号",
-          accept: ["text/plain", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
-          rules: [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}]
+          accept: [
+            "text/plain",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请上传手机号文件或者添加手机号",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         // {
         //   type: "select",
@@ -294,7 +367,7 @@ export default {
   mounted() {
     this.gateway();
   },
-  activated () {
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -302,30 +375,30 @@ export default {
     handleBatchUpdate() {
       const { gateway, afterGateway } = this.ruleForm;
       if (!gateway && !afterGateway) {
-        this.errorTips = '请至少选择一组通道改变';
-        return
+        this.errorTips = "请至少选择一组通道改变";
+        return;
       }
       if (gateway && !afterGateway) {
-        this.errorTips = '请选择 “改后通道编号”';
-        return
+        this.errorTips = "请选择 “改后通道编号”";
+        return;
       }
       if (!gateway && afterGateway) {
-        this.errorTips = '请选择 “改前通道编号”';
-        return
+        this.errorTips = "请选择 “改前通道编号”";
+        return;
       }
       this.errorTips = "";
       this.$http.sysRedList.updateBatchSysRedList(this.ruleForm).then(res => {
         if (res.code === 200) {
           this.batchUpdateFlag = false;
           this._mxGetList();
-          this.$message.success('批量修改成功');
+          this.$message.success("批量修改成功");
         } else {
           this.$message.error(res.data || res.msg);
         }
-      })
+      });
     },
     selectArr(arr) {
-      const str = arr.reduce((pre, cur) => pre + cur.userId + ',', '');
+      const str = arr.reduce((pre, cur) => pre + cur.userId + ",", "");
       this.ruleForm.userIdStr = str.substring(0, str.length - 1);
     },
     chooseSomeUser() {
@@ -341,8 +414,17 @@ export default {
       if (item.key === "mobile") {
         const arr = this.formConfig;
         const i = arr.findIndex(v => v.key === "mobileFileUrl");
-        arr[i].rules = val ? null : [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
-        !arr[i].rules && this.$refs.formItem.clearValidateMore(['mobileFileUrl']);
+        arr[i].rules = val
+          ? null
+          : [
+              {
+                required: true,
+                message: "请上传手机号文件或者添加手机号",
+                trigger: ["blur", "change"]
+              }
+            ];
+        !arr[i].rules &&
+          this.$refs.formItem.clearValidateMore(["mobileFileUrl"]);
       }
     },
     handleSuccess({ response, file, fileList, item }) {
@@ -365,7 +447,7 @@ export default {
 
         const delRuleIdx = arr.findIndex(v => v.key === "mobile");
         arr[delRuleIdx].rules = null;
-        this.$refs.formItem.clearValidateMore(['mobile', 'mobileFileUrl']);
+        this.$refs.formItem.clearValidateMore(["mobile", "mobileFileUrl"]);
       }
     },
     handleRemove({ file, fileList }) {
@@ -376,8 +458,15 @@ export default {
 
       const addRuleIdx = arr.findIndex(v => v.key === "mobile");
       arr[addRuleIdx].rules = [
-        { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-        { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+        {
+          required: true,
+          message: "请添加手机号或者上传手机号文件",
+          trigger: "blur"
+        },
+        {
+          validator: this.$publicValidators.phone[0]["validator"],
+          trigger: "change"
+        }
       ];
     },
     gateway() {
@@ -430,7 +519,10 @@ export default {
       });
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysRedListType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysRedListType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.redId = row.redId;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {
@@ -468,7 +560,10 @@ export default {
         };
         this.$http.sysRedList.addSysRedList(params).then(res => {
           if (resOk(res)) {
-            this.$alert(res.msg, '导入记录', { confirmButtonText: '确定', callback: action => {}}).catch(() => {});
+            this.$alert(res.msg, "导入记录", {
+              confirmButtonText: "确定",
+              callback: action => {}
+            }).catch(() => {});
             this._mxGetList();
             this.addChannel = false;
           } else {
@@ -494,7 +589,7 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysRedListType', query: { type: 'create' } });
+      this.$router.push({ name: "sysRedListType", query: { type: "create" } });
       // this.formTit = "新增";
       // this.formConfig.forEach(item => {
       //   if (item.key === "userId") {

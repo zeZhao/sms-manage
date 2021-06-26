@@ -336,7 +336,7 @@
               <div>
                 <el-upload
                   ref="uploadFileXlsx"
-                  :action="action"
+                  :action="upLoadUrl(item)"
                   :headers="header"
                   :on-preview="handlePreview"
                   :on-remove="handleRemove"
@@ -461,6 +461,13 @@ export default {
   },
   computed: {},
   methods: {
+    upLoadUrl(item) {
+      if (item.uploadUrl) {
+        return item.uploadUrl;
+      } else {
+        this.action;
+      }
+    },
     //input Change事件
     onInputChange(val, item) {
       this._setDefaultVal(val, item);
