@@ -235,6 +235,18 @@ export const constantRoutes = [
                 component: () => import('@/views/SELinuxManagement/sysWhitelist/type')
             }
         ]
+    },
+    {
+        path: '/sysSensitiveWord',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysSensitiveWordType',
+                name: 'sysSensitiveWordType',
+                component: () => import('@/views/SELinuxManagement/sysSensitiveWord/type')
+            }
+        ]
     }
 ]
 
