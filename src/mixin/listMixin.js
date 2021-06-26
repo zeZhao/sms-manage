@@ -312,7 +312,7 @@ export default {
             this.$message.error(res.msg || "删除失败！");
           }
         });
-      });
+      }).catch(() => { });
     },
     /**
      * 表格数据为空用“-”展示

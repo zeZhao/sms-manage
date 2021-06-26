@@ -1391,6 +1391,10 @@ export default {
         deleteSysRedList(params) {
             return post("/sysRedList/deleteSysRedList", params);
         },
+        //  批量修改通道
+        updateBatchSysRedList(params) {
+            return post("/sysRedList/updateBatchSysRedList", params);
+        }
     },
     // 白名单管理
     sysWhitelist: {
@@ -2092,6 +2096,110 @@ export default {
         // 通道监控分页查询
         listGatewayMonitorByPage(params) {
             return fetch("/smsGatewayMonitor/listGatewayMonitorByPage", params);
+        }
+    },
+    //待发优先级
+    priority: {
+        // 待发优先级分页查询
+        queryPriority(params) {
+            return post("/priority/queryPriority", params);
+        },
+        // 待发优先级添加
+        addPriority(params) {
+            return put("/priority/addPriority", params);
+        },
+        // 待发优先级修改
+        updatePriority(params) {
+            return post("/priority/updatePriority", params);
+        },
+        // 待发优先级删除
+        deletePriority(params) {
+            return del("/priority/deletePriority", params);
+        }
+    },
+    //上行敏感词
+    moKeyword: {
+        // 上行敏感词分页查询
+        queryByPage(params) {
+            return post("/moKeyword/queryByPage", params);
+        },
+        // 上行敏感词添加/修改
+        addOrUpdate(params) {
+            return post("/moKeyword/addOrUpdate", params);
+        },
+        // 上行敏感词删除
+        delete(params) {
+            return fetch("/moKeyword/delete", params);
+        }
+    },
+    //敏感词
+    sysSensitiveWord: {
+        // 新增敏感词
+        addSensitiveWord(params) {
+            return post("/sysSensitiveWord/addSensitiveWord", params);
+        },
+        // 检测敏感词
+        checkSensitiveWord(params) {
+            return post("/sysSensitiveWord/checkSensitiveWord", params);
+        },
+        // 删除敏感词
+        deleteSensitiveWord(params) {
+            return post("/sysSensitiveWord/deleteSensitiveWord", params);
+        },
+        // 导出敏感词
+        exportKeyword(params) {
+            return post("/sysSensitiveWord/exportKeyword", params);
+        },
+        // 下载敏感词模板
+        exportKeywordModel(params) {
+            return post("/sysSensitiveWord/exportKeywordModel", params);
+        },
+        // 获取敏感词
+        getSensitiveWord(params) {
+            return post("/sysSensitiveWord/getSensitiveWord", params);
+        },
+        // 导入敏感词
+        importKeywordModel(params) {
+            return post("/sysSensitiveWord/importKeywordModel", params);
+        },
+        // 敏感词列表
+        listSensitiveWordByPage(params) {
+            return post("/sysSensitiveWord/listSensitiveWordByPage", params);
+        },
+        // 修改敏感词
+        updateSensitiveWord(params) {
+            return post("/sysSensitiveWord/updateSensitiveWord", params);
+        }
+    },
+    //敏感词组
+    sysSensitiveWordGroup: {
+        // 新增敏感词组
+        addSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/addSensitiveWordGroup", params);
+        },
+        // 检测敏感词组
+        checkSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/checkSensitiveWordGroup", params);
+        },
+        // 删除敏感词组
+        deleteSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/deleteSensitiveWordGroup", params);
+        },
+        // 获取敏感词组
+        getSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/getSensitiveWordGroup", params);
+        },
+        // 敏感词组列表分页
+        listKeyWordGroupByPage(params) {
+            return post("/sysSensitiveWordGroup/listKeyWordGroupByPage", params);
+        },
+        // 敏感词组列表
+        listSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/listSensitiveWordGroup", params);
+        },
+        // 修改敏感词组
+        updateSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/updateSensitiveWordGroup", params);
         }
     },
 }

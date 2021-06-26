@@ -191,6 +191,78 @@ export const constantRoutes = [
             }
         ]
     },
+    {
+        path: '/sysBelielConfig',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysBelielConfigType',
+                name: 'sysBelielConfigType',
+                component: () => import('@/views/ConfigManagement/sysBelielConfig/type')
+            }
+        ]
+    },
+    {
+        path: '/dailyLimitedConfig',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'dailyLimitedConfigType',
+                name: 'dailyLimitedConfigType',
+                component: () => import('@/views/ConfigManagement/dailyLimitedConfig/type')
+            }
+        ]
+    },
+    {
+        path: '/sysSendLimit',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysSendLimitType',
+                name: 'sysSendLimitType',
+                component: () => import('@/views/ConfigManagement/sysSendLimit/type')
+            }
+        ]
+    },
+    {
+        path: '/sysRedList',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysRedListType',
+                name: 'sysRedListType',
+                component: () => import('@/views/SELinuxManagement/sysRedList/type')
+            }
+        ]
+    },
+    {
+        path: '/sysWhitelist',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysWhitelistType',
+                name: 'sysWhitelistType',
+                component: () => import('@/views/SELinuxManagement/sysWhitelist/type')
+            }
+        ]
+    },
+    {
+        path: '/sysSensitiveWord',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'sysSensitiveWordType',
+                name: 'sysSensitiveWordType',
+                component: () => import('@/views/SELinuxManagement/sysSensitiveWord/type')
+            }
+        ]
+    }
 ]
 
 /**
@@ -1121,7 +1193,7 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter () {
+export function resetRouter() {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher // reset router
 }
