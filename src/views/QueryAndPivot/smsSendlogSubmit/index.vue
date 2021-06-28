@@ -206,6 +206,7 @@ export default {
           label: "发送条数",
           key: "sendCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -220,6 +221,7 @@ export default {
           label: "成功条数",
           key: "successCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -234,6 +236,7 @@ export default {
           label: "失败条数",
           key: "failCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -248,6 +251,7 @@ export default {
           label: "未知条数",
           key: "unknowCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
