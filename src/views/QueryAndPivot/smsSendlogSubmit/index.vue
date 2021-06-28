@@ -9,7 +9,11 @@
       @exportData="exportData"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="exportExe" style="margin-left: 15px"
+        <el-button
+          type="primary"
+          size="small"
+          @click="exportExe"
+          style="margin-left: 15px"
           >导出</el-button
         >
       </template>
@@ -20,18 +24,33 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip/>
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
       <el-table-column prop="taskId" label="任务ID" width="100" />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip width="200" />
+      <el-table-column
+        prop="content"
+        label="内容"
+        show-overflow-tooltip
+        width="200"
+      />
       <el-table-column prop="count" label="条数" />
-      <el-table-column prop="mobilesCount" label="手机号数量" width="100"/>
-      <el-table-column prop="submitTime" label="提交时间" width="170" show-overflow-tooltip>
+      <el-table-column prop="mobilesCount" label="手机号数量" width="100" />
+      <el-table-column
+        prop="submitTime"
+        label="提交时间"
+        width="170"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" width="170" show-overflow-tooltip>
+      <el-table-column
+        prop="definiteTime"
+        label="定时时间"
+        width="170"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime | timeFormat }}</span>
         </template>
@@ -119,6 +138,11 @@ export default {
           key: "userName"
         },
         {
+          type: "input",
+          label: "账户名称",
+          key: "userName"
+        },
+        {
           type: "inputNum",
           label: "任务ID",
           key: "taskId"
@@ -145,6 +169,7 @@ export default {
           type: "textarea",
           label: "内容",
           key: "content",
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
           disabled: true
@@ -153,6 +178,7 @@ export default {
           type: "input",
           label: "条数",
           key: "count",
+          disabled: true,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -168,6 +194,7 @@ export default {
           type: "input",
           label: "手机号数量",
           key: "mobilesCount",
+          disabled: true,
           defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -255,9 +282,11 @@ export default {
   methods: {
     //导出
     exportData(form) {
-      this.$axios.post('/smsSendlogSubmit/exportSmsSendlogSubmit', form).then(res => {
-        if (res.data.code === 200) this.$exportToast();
-      })
+      this.$axios
+        .post("/smsSendlogSubmit/exportSmsSendlogSubmit", form)
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
     },
     exportExe() {
       this.$refs.Search.handleExport();
@@ -322,6 +351,7 @@ export default {
       }, 0);
       this.addChannel = true;
     },
+
     //获取修改数据
     getEditData(taskid) {
       this.$http.smsSendlogSubmit

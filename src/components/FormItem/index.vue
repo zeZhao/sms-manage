@@ -9,7 +9,7 @@
     >
       <el-row>
         <el-col
-          :span="colSpan"
+          :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
           :key="index"
         >
@@ -336,7 +336,7 @@
               <div>
                 <el-upload
                   ref="uploadFileXlsx"
-                  :action="action"
+                  :action="upLoadUrl(item)"
                   :headers="header"
                   :on-preview="handlePreview"
                   :on-remove="handleRemove"
@@ -369,6 +369,7 @@
                 </div>
               </div>
             </template>
+            <p v-if="item.tip" class="tip">{{ item.tip }}</p>
           </el-form-item>
         </el-col>
         <div>
@@ -460,6 +461,13 @@ export default {
   },
   computed: {},
   methods: {
+    upLoadUrl(item) {
+      if (item.uploadUrl) {
+        return item.uploadUrl;
+      } else {
+        this.action;
+      }
+    },
     //input Change事件
     onInputChange(val, item) {
       this._setDefaultVal(val, item);
@@ -541,7 +549,7 @@ export default {
       });
       this.$nextTick(() => {
         this.clearValidate();
-      })
+      });
       // this.$refs.form.resetFields();
     },
     cancel() {
@@ -667,6 +675,10 @@ export default {
     line-height: 17px;
     text-align: right;
     margin-top: 6px;
+  }
+  .tip {
+    margin: 0;
+    color: #909399;
   }
 }
 </style>

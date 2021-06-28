@@ -13,8 +13,9 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" />
       <el-table-column prop="successNum" label="成功数" />
@@ -47,7 +48,7 @@ export default {
       },
       // 列表参数
       namespace: "",
-      isParamsNotData: true,
+      // isParamsNotData: true,
       //搜索框数据
       searchParam: {
         userId: "",
@@ -63,6 +64,11 @@ export default {
           placeholder: "请输入账户编号"
         },
         {
+          type: "inputNum",
+          label: "账户名称",
+          key: "userName"
+        },
+        {
           type: "input",
           label: "特服号",
           key: "code",
@@ -70,9 +76,9 @@ export default {
         },
         {
           type: "inputNum",
-          label: "通道",
+          label: "通道编号",
           key: "gateway",
-          placeholder: "请输入通道"
+          placeholder: "请输入通道编号"
         },
         // {
         //   type: "input",
@@ -143,6 +149,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
+      console.log(rows, "------------");
       if (rows) {
         rows = [rows];
         let str = "";
@@ -162,6 +169,7 @@ export default {
         });
         rows = [Object.assign(rows[0], this.searchParam)];
       }
+
       return rows;
     }
   },
