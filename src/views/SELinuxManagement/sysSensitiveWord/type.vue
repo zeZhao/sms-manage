@@ -3,7 +3,7 @@
     <h2>{{ renderTitle }}</h2>
     <div style="width: 60%; margin: auto">
       <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
-        @choose="choose" @onChange="onChange" @handleSuccess="handleSuccess" @handleRemove="handleRemove">
+        @choose="choose" @inpChange="inpChange" @handleSuccess="handleSuccess" @handleRemove="handleRemove">
       </FormItem>
     </div>
   </div>
@@ -11,6 +11,27 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+const checkwordName = [
+  {
+    required: true,
+    trigger: ['blur', 'change'],
+    validator: (rule, value, callback) => {
+      if (!value) callback(new Error(`请输入必填项`));
+      const arr = value.split(',');
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === '') {
+          callback(new Error(`第${i + 1}个敏感词不能为空`));
+          break;
+        }
+        if (arr[i].length < 2 || arr[i].length > 8) {
+          callback(new Error(`第${i + 1}个敏感词长度应在2~8个字符之间`));
+          break;
+        }
+      }
+      callback();
+    }
+  }
+];
 export default {
   mixins: [listMixin],
   data () {
@@ -35,32 +56,12 @@ export default {
           key: "wordName",
           maxlength: 100,
           defaultValue: "",
-          disabled: false,
-          rules: [
-            {
-              required: true,
-              trigger: ['blur', 'change'],
-              validator: (rule, value, callback) => {
-                const arr = value.split(',');
-                for (let i = 0; i < arr.length; i++) {
-                  if (arr[i] === '') {
-                    callback(new Error(`第${i + 1}个敏感词不能为空`));
-                    break;
-                  }
-                  if (arr[i].length < 2 || arr[i].length > 8) {
-                    callback(new Error(`第${i + 1}个敏感词长度应在2~8个字符之间`));
-                    break;
-                  }
-                }
-                callback();
-              }
-            }
-          ],
+          rules: checkwordName,
           placeholder: "2-8个字符，添加多个敏感词，用英文“,”隔开"
         },
         {
           type: "uploadXlsx",
-          key: "mobileFileUrl",
+          key: "keywordFile",
           label: "上传敏感词文件",
           btnTxt: "批量添加",
           limit: 1,
@@ -74,9 +75,11 @@ export default {
         {
           type: "select",
           label: "敏感词组",
-          key: "groupId",
+          key: "groupIds",
           optionData: [],
+          defaultValue: "",
           multiple: true,
+          isShow: false,
           rules: [
             {
               required: true,
@@ -108,17 +111,21 @@ export default {
     }
   },
   mounted () {
-    this.listSensitiveWordGroup();
     const { type, row, ID } = this.$route.query;
-    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    if (type === 'create') {
+      this.listSensitiveWordGroup(); //请求敏感词组
+      this._mxCreate();
+    } else {
+      this._mxEdit(JSON.parse(row), ID);
+    }
   },
   methods: {
-    onChange ({ val, item }) {
+    inpChange ({ val, item }) {
       if (item.key === "wordName") {
         const arr = this.formConfig;
-        const i = arr.findIndex(v => v.key === "mobileFileUrl");
+        const i = arr.findIndex(v => v.key === "keywordFile");
         arr[i].rules = val ? null : [{ required: true, message: "请上传敏感词文件或者添加敏感词", trigger: ['blur', 'change'] }];
-        !arr[i].rules && this.$refs.formItem.clearValidateMore(['mobileFileUrl']);
+        !arr[i].rules && this.$refs.formItem.clearValidateMore(['keywordFile']);
       }
     },
     handleSuccess ({ response, file, fileList, item }) {
@@ -137,54 +144,64 @@ export default {
           arr[i].defaultFileList = [];
           return;
         }
-        arr[i].defaultValue = response.data;
+        arr[i].defaultValue = file.raw;
 
-        const delRuleIdx = arr.findIndex(v => v.key === "mobile");
+        const delRuleIdx = arr.findIndex(v => v.key === "wordName");
         arr[delRuleIdx].rules = null;
-        this.$refs.formItem.clearValidateMore(['mobile', 'mobileFileUrl']);
+        this.$refs.formItem.clearValidateMore(['wordName', 'keywordFile']);
       }
     },
     handleRemove ({ file, fileList }) {
       const arr = this.formConfig;
-      const i = arr.findIndex(v => v.key === "mobileFileUrl");
+      const i = arr.findIndex(v => v.key === "keywordFile");
       arr[i].defaultValue = "";
       arr[i].defaultFileList = [];
 
-      const addRuleIdx = arr.findIndex(v => v.key === "mobile");
-      arr[addRuleIdx].rules = [
-        { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-        { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
-      ];
+      const addRuleIdx = arr.findIndex(v => v.key === "wordName");
+      arr[addRuleIdx].rules = checkwordName;
     },
     //敏感词组
     async listSensitiveWordGroup () {
       await this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
-        const { code, data, msg } = res;
-        this._setDefaultValue(this.formConfig, data, "groupId", "groupId", "groupName");
+        if (res.code === 200) {
+          this._setDefaultValue(this.formConfig, res.data, "groupIds", "groupId", "groupName");
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
       });
     },
     submit (form) {
       let params = {};
-      const { wordName, groupId } = form;
+      // const { wordName, groupIds } = form;
       if (this.formTit == "新增") {
-        this.$http.sysSensitiveWord.checkSensitiveWord({ data: { wordName, groupId } }).then(res => {
-          //判断敏感词是否存在
-          if (res.data === 1) {
-            this.$message.error("敏感词存在！");
-          } else {
-            params = { data: { ...form } };
-            this.$http.sysSensitiveWord.addSensitiveWord(params).then(res => {
-              if (resOk(res)) {
-                window.history.back();
-                this.$message.success(res.msg || res.data);
-                this._mxGetList();
-                this.addChannel = false;
-              } else {
-                this.$message.error(res.data || res.msg);
+        // this.$http.sysSensitiveWord.checkSensitiveWord({ data: { wordName, groupIds } }).then(res => {
+        // 判断敏感词是否存在
+        // if (res.data === 1) {
+        //   this.$message.error("敏感词已存在！");
+        // } else {
+        // params = { data: { ...form } };
+        params = new FormData();
+        for (let i in form) {
+          params.append(i, form[i]);
+        }
+        this.$http.sysSensitiveWord.importKeywordModel(params).then(res => {
+          if (resOk(res)) {
+            this.$alert(res.data, '添加记录',
+              {
+                showClose: false,
+                confirmButtonText: '确定',
+                callback: action => {
+                  window.history.back();
+                  this.$message.success('添加成功')
+                }
               }
-            });
+            )
+          } else {
+            this.$message.error(res.data || res.msg);
           }
         });
+        // }
+        // });
       } else {
         params = { data: { wordId: this.wordId, ...form } };
         this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
@@ -203,8 +220,11 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
-        if (item.key == "wordName") {
-          this.$set(item, "disabled", false);
+        if (item.key === "keywordFile") {
+          this.$set(item, "isShow", false);
+        }
+        if (item.key === "groupIds") {
+          this.$set(item, "isShow", false);
         }
       });
       setTimeout(() => {
@@ -223,8 +243,11 @@ export default {
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
-        if (item.key == "wordName") {
-          this.$set(item, "disabled", true);
+        if (item.key === "keywordFile") {
+          this.$set(item, "isShow", true);
+        }
+        if (item.key === "groupIds") {
+          this.$set(item, "isShow", true);
         }
       });
       setTimeout(() => {
