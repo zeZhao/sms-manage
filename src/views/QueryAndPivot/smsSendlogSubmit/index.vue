@@ -138,11 +138,6 @@ export default {
           key: "userName"
         },
         {
-          type: "input",
-          label: "账户名称",
-          key: "userName"
-        },
-        {
           type: "inputNum",
           label: "任务ID",
           key: "taskId"
