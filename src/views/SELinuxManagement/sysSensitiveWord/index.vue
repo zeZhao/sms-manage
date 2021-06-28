@@ -2,8 +2,8 @@
   <!--敏感词管理-->
   <div class="sysSensitiveWord">
     <section class="left-menu">
-      <el-menu class="el-menu-group" :default-active="groupList.length ? groupList[0].groupId + '' : ''"
-        background-color="#F2F2F2" text-color="#000" active-text-color="#000" @select="handleSelectGroup">
+      <el-menu class="el-menu-group" :default-active="defaultActive" background-color="#F2F2F2" text-color="#000"
+        active-text-color="#000" @select="handleSelectGroup">
         <el-menu-item v-for="item in groupList" :key="item.groupId" :index="item.groupId + ''">
           <span slot="title">{{ item.groupName }}</span>
           <span slot class="action-bar">
@@ -37,7 +37,7 @@
 
       <el-table :data="listData" highlight-current-row style="width: 100%;" v-loading="loading">
         <el-table-column prop="wordName" label="敏感词" show-overflow-tooltip />
-        <el-table-column prop="createUser" label="创建人" />
+        <el-table-column prop="createBy" label="创建人" />
         <el-table-column prop="createTime" label="创建时间" min-width="150">
           <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
         </el-table-column>
@@ -91,6 +91,7 @@ export default {
       searchFormConfig: [
         { type: "input", label: "敏感词", key: "wordName" }
       ],
+      defaultActive: "",
       groupList: [],
       createOrUpdate: "添加敏感词组",
       isAddGroup: false,
@@ -102,16 +103,17 @@ export default {
     //获取敏感词分组
     this.getGroupList();
   },
-  // activated () {
-  //   //重新获取数据
-  //   this._mxGetList();
-  // },
+  activated () {
+    this.getGroupList(); //获取敏感词分组
+    this._mxGetList(); //获取列表敏感词
+  },
   methods: {
     //获取敏感词分组
     getGroupList () {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
         if (res.code === 200) {
           this.groupList = res.data;
+          this.defaultActive = this.groupList.length ? (this.groupList[0].groupId + '') : '';
           //获取敏感词分组的同时去请求默认第一项的敏感词列表数据
           const groupId = this.groupList.length ? this.groupList[0].groupId : '';
           this.handleSelectGroup(groupId);
