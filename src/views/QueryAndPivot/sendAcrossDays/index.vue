@@ -88,7 +88,8 @@ export default {
         list: "queryList"
       },
       // 列表参数
-      namespace: "smsSendReport",
+      namespace: "",
+
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -96,7 +97,7 @@ export default {
         {
           type: "inputNum",
           label: "商户编号",
-          key: "corporateId",
+          key: "corporateId"
         },
         {
           type: "inputNum",
@@ -113,23 +114,23 @@ export default {
         {
           type: "input",
           label: "内容",
-          key: "content",
+          key: "content"
         },
         {
           type: "input",
           label: "手机号",
-          key: "mobile",
+          key: "mobile"
         },
         {
           type: "input",
           label: "通道编号",
-          key: "gateway",
+          key: "gateway"
         },
         {
           type: "datetime",
           label: "提交时间",
-          key: ['',"startTime",'endTime']
-        },
+          key: ["", "startTime", "endTime"]
+        }
         // {
         //   type: "date",
         //   label: "结束日期",

@@ -131,8 +131,8 @@
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span v-if="scope.row.cardStatus == 0">待提审</span>
-          <span v-else-if="scope.row.cardStatus == 2">待审核</span>
+          <span v-if="scope.row.cardStatus == 2">待提审</span>
+          <span v-else-if="scope.row.cardStatus == 0">待审核</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
           <span v-else-if="scope.row.cardStatus == 3">审核驳回</span>
           <span v-else>-</span>
@@ -141,14 +141,14 @@
       <el-table-column fixed="right" label="操作" align="center" width="100">
         <template slot-scope="scope">
           <el-button
-            :disabled="scope.row.cardStatus == 1 || scope.row.cardStatus == 2"
+            :disabled="scope.row.cardStatus !== 2"
             @click="_mxEdit(scope.row, 'cardId')"
             type="text"
             size="small"
             >修改</el-button
           >
           <el-button
-            :disabled="scope.row.cardStatus !== 2"
+            :disabled="scope.row.cardStatus !== 0"
             @click="_mxWithdraw(scope.row, 'cardId')"
             type="text"
             size="small"
