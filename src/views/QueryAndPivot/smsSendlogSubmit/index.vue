@@ -291,6 +291,10 @@ export default {
       this.$refs.Search.handleExport();
     },
     selectChange(data) {},
+    //字符串隐式转换数字
+    toNumber(val) {
+      return + val;
+    },
     /**
      * 提交表单操作
      * @param form    表单数据
@@ -308,6 +312,10 @@ export default {
         failCount,
         unknowCount
       } = form;
+      if (this.toNumber(successCount) + this.toNumber(failCount) + this.toNumber(unknowCount) !== this.toNumber(sendCount)) {
+        this.$message.error('"发送条数" = "成功条数" + "失败条数" + "未知条数"');
+        return;
+      }
       let params = {
         smsSendlogSubmit: {
           ...this.rowData
