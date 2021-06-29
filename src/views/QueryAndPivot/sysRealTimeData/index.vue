@@ -64,7 +64,7 @@ export default {
           placeholder: "请输入账户编号"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "账户名称",
           key: "userName"
         },

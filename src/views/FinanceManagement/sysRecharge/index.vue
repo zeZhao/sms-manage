@@ -749,8 +749,26 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              trigger: ["blur", "change"],
+              validator: (rule, value, callback) => {
+                if (value === "" || value === undefined || value === null) {
+                  callback(new Error("请输入必填项"));
+                } else {
+                  if (value <= 0) {
+                    callback(new Error("需大于0"));
+                  } else {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (/^\d{1,12}$/.test(val)) {
+                      callback();
+                    } else {
+                      callback(new Error("请输入1~12位的正整数"));
+                    }
+                  }
+                }
+              }
             }
           ]
         },
