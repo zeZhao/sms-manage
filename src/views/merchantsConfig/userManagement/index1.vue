@@ -1180,6 +1180,12 @@ export default {
   },
   activated() {
     //重新获取数据
+    this.getAllCorp();
+    this.getSaleman();
+    this.getAgent();
+    this.getRole();
+    this.listTag();
+    this.getBlackFroup();
     this._mxGetList();
   },
   computed: {},
