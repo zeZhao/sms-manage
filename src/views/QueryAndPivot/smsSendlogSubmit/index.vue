@@ -105,7 +105,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
+import { getDateToString } from "@/utils";
 export default {
   mixins: [listMixin],
   data() {
@@ -138,11 +138,6 @@ export default {
           key: "userName"
         },
         {
-          type: "input",
-          label: "账户名称",
-          key: "userName"
-        },
-        {
           type: "inputNum",
           label: "任务ID",
           key: "taskId"
@@ -155,7 +150,8 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         },
         {
           type: "daterange",
@@ -211,6 +207,7 @@ export default {
           label: "发送条数",
           key: "sendCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -225,6 +222,7 @@ export default {
           label: "成功条数",
           key: "successCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -239,6 +237,7 @@ export default {
           label: "失败条数",
           key: "failCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -253,6 +252,7 @@ export default {
           label: "未知条数",
           key: "unknowCount",
           defaultValue: "",
+          maxlength: 10,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -292,6 +292,10 @@ export default {
       this.$refs.Search.handleExport();
     },
     selectChange(data) {},
+    //字符串隐式转换数字
+    toNumber(val) {
+      return + val;
+    },
     /**
      * 提交表单操作
      * @param form    表单数据
@@ -309,6 +313,10 @@ export default {
         failCount,
         unknowCount
       } = form;
+      if (this.toNumber(successCount) + this.toNumber(failCount) + this.toNumber(unknowCount) !== this.toNumber(sendCount)) {
+        this.$message.error('"发送条数" = "成功条数" + "失败条数" + "未知条数"');
+        return;
+      }
       let params = {
         smsSendlogSubmit: {
           ...this.rowData
