@@ -253,6 +253,23 @@
                 "
               ></el-time-picker>
             </template>
+            <!--日期与时间-->
+            <template v-if="item.type === 'dataTime'">
+              <el-date-picker
+                v-model="formData[item.key]"
+                :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
+                type="datetime"
+                clearable
+                :picker-options="item.disabledDate || null"
+                :placeholder="item.placeholder || `请选择${item.label}`"
+                @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+              >
+              </el-date-picker>
+            </template>
             <template v-if="item.type === 'switch'">
               <el-switch
                 style="display: block"
