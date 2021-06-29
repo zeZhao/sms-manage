@@ -69,9 +69,10 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="批量修改通道" :visible.sync="editGateway" width="50%">
+    <el-dialog title="批量修改通道" :visible.sync="editGateway" width="650px">
       <FormItem
         :colSpan="12"
+        :labelWidth="100"
         ref="formItem"
         :formConfig="formConfig"
         btnTxt="修改"
@@ -161,7 +162,7 @@ export default {
       ],
       formConfig: [
         {
-          type: "inputNum",
+          type: "input",
           label: "账户编号",
           key: "userId"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -173,27 +174,29 @@ export default {
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "处理条数",
           key: "batchCount",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "CID",
           key: "cid",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "select",
           label: "原通道",
           key: "gateway",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "select",
           label: "目标通道",
           key: "newGateway",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -239,7 +242,7 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
-          type: "inputNum",
+          type: "input",
           label: "特服号",
           key: "code"
         }
@@ -248,10 +251,37 @@ export default {
   },
   mounted() {
     this.queryGatewayStockNum();
-    console.log(this.date, "------------date");
+    this.gateway();
   },
   computed: {},
   methods: {
+    /*
+     * 获取通道列表
+     * */
+    gateway() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.formConfig.forEach(item => {
+          const { key } = item;
+
+          if (key === "gateway" || key === "newGateway") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
+    },
     ViewTheSummaryBtn() {
       this.ViewTheSummary = true;
       this.queryGatewayStockNum();
