@@ -170,7 +170,7 @@ export default {
           placeholder: "是否发送"
         },
         {
-          type: "daterange",
+          type: "datetime",
           label: "定时时间",
           key: ["", "startTime", "endTime"]
         }
@@ -231,7 +231,7 @@ export default {
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "date",
+          type: "dataTime",
           label: "定时时间",
           initDefaultValue: "",
           defaultValue: "",
@@ -239,7 +239,7 @@ export default {
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "date",
+          type: "dataTime",
           label: "改成",
           initDefaultValue: "",
           defaultValue: "",
