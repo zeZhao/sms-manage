@@ -12,7 +12,6 @@
       style="width: 100%"
       height="350"
     >
-      <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column
@@ -73,9 +72,9 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sublong" label="扩展位数" show-overflow-tooltip />
-      <!-- <el-table-column prop="longCode" label="长号码" /> -->
-      <!-- <el-table-column prop="productType" label="产品">
+      <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip />
+      <el-table-column prop="longCode" label="长号码" min-width="130" show-overflow-tooltip/>
+      <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
           <span>{{
             scope.row.productType == "1"
@@ -87,7 +86,24 @@
               : "语音"
           }}</span>
         </template>
-      </el-table-column> -->
+      </el-table-column>
+      <el-table-column
+        prop="sendType"
+        label="短信运营商"
+        width="100"
+        show-overflow-tooltip
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.sendType === 1">移动</span>
+          <span v-else-if="scope.row.sendType === 2">联通</span>
+          <span v-else-if="scope.row.sendType === 3">电信</span>
+          <span v-else-if="scope.row.sendType === 4">三网</span>
+          <span v-else-if="scope.row.sendType === 5">移动 联通</span>
+          <span v-else-if="scope.row.sendType === 6">移动 电信</span>
+          <span v-else-if="scope.row.sendType === 7">联通 电信</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="proTypes"
         label="短信产品类型"
@@ -108,23 +124,6 @@
           </span>
         </template>
       </el-table-column>
-      <!-- <el-table-column
-        prop="sendType"
-        label="短信运营商"
-        width="100"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.sendType === 1">移动</span>
-          <span v-else-if="scope.row.sendType === 2">联通</span>
-          <span v-else-if="scope.row.sendType === 3">电信</span>
-          <span v-else-if="scope.row.sendType === 4">三网</span>
-          <span v-else-if="scope.row.sendType === 5">移动 联通</span>
-          <span v-else-if="scope.row.sendType === 6">移动 电信</span>
-          <span v-else-if="scope.row.sendType === 7">联通 电信</span>
-          <span v-else>-</span>
-        </template>
-      </el-table-column> -->
       <el-table-column
         prop="reductModel"
         label="短信计费方式"
@@ -157,6 +156,23 @@
         width="100"
         show-overflow-tooltip
       ></el-table-column>
+      <el-table-column
+        prop="mmsSendType"
+        label="彩信运营商"
+        width="100"
+        show-overflow-tooltip
+      >
+        <template slot-scope="scope">
+          <span v-if="scope.row.mmsSendType === 1">移动</span>
+          <span v-else-if="scope.row.mmsSendType === 2">联通</span>
+          <span v-else-if="scope.row.mmsSendType === 3">电信</span>
+          <span v-else-if="scope.row.mmsSendType === 4">三网</span>
+          <span v-else-if="scope.row.mmsSendType === 5">移动 联通</span>
+          <span v-else-if="scope.row.mmsSendType === 6">移动 电信</span>
+          <span v-else-if="scope.row.mmsSendType === 7">联通 电信</span>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column
         prop="mmsProType"
         label="彩信产品类型"
@@ -175,23 +191,6 @@
                 : "-"
             }}
           </span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="mmsSendType"
-        label="彩信运营商"
-        width="100"
-        show-overflow-tooltip
-      >
-        <template slot-scope="scope">
-          <span v-if="scope.row.mmsSendType === 1">移动</span>
-          <span v-else-if="scope.row.mmsSendType === 2">联通</span>
-          <span v-else-if="scope.row.mmsSendType === 3">电信</span>
-          <span v-else-if="scope.row.mmsSendType === 4">三网</span>
-          <span v-else-if="scope.row.mmsSendType === 5">移动 联通</span>
-          <span v-else-if="scope.row.mmsSendType === 6">移动 电信</span>
-          <span v-else-if="scope.row.mmsSendType === 7">联通 电信</span>
-          <span v-else>-</span>
         </template>
       </el-table-column> -->
       <el-table-column
@@ -859,7 +858,7 @@ export default {
         },
         {
           type: "input",
-          label: "扩展位数",
+          label: "扩展长度",
           key: "sublong",
           tag: "sms",
           rules: [
