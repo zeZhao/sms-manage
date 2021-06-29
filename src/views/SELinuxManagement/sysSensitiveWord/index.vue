@@ -41,7 +41,9 @@
         <el-table-column prop="createTime" label="创建时间" min-width="150">
           <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" show-overflow-tooltip />
+        <el-table-column prop="remark" label="备注" show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.remark ? scope.row.remark : '-' }}</template>
+        </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
