@@ -12,7 +12,6 @@
     >
       <div class="tips">
         第1步：请先<a
-          :href="downloadTemplateUrl"
           style="color: blue"
           target="_blank"
           @click="downLoad"
