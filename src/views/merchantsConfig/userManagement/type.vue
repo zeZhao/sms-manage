@@ -442,7 +442,7 @@ export default {
         },
         {
           type: "input",
-          label: "扩展位数",
+          label: "扩展长度",
           key: "sublong",
           tag: "sms",
           rules: [
@@ -519,6 +519,20 @@ export default {
           label: "失败比例",
           key: "faToSu",
           tag: "sms",
+          rules: [
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "长号码",
+          key: "longCode",
+          tag: "sms",
+          maxlength: 12,
           rules: [
             {
               pattern: /^[1-9]\d*$/,
