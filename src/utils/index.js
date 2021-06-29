@@ -350,7 +350,7 @@ export function removeClass(ele, cls) {
 export function getDateToString(date = new Date()) {
   const arr = date.toLocaleDateString().split('/');
   arr.forEach((v, i) => {
-      if (v < 10) arr[i] = '0' + v;
+    if (v < 10) arr[i] = '0' + v;
   })
   return arr.join('-');
 }

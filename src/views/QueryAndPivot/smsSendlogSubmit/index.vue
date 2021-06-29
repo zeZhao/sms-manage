@@ -105,7 +105,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
+import { getDateToString } from "@/utils";
 export default {
   mixins: [listMixin],
   data() {
@@ -150,7 +150,8 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         },
         {
           type: "daterange",
