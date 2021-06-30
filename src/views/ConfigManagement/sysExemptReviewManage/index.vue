@@ -7,7 +7,9 @@
       @create="_mxCreate"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="batchModification">批量修改</el-button>
+        <el-button type="primary" size="small" @click="batchModification"
+          >批量修改</el-button
+        >
       </template>
     </Search>
     <el-table
@@ -237,7 +239,7 @@ export default {
           label: "电信通道",
           key: "ctPassageway",
           optionData: []
-        },
+        }
         // {
         //   type: "select",
         //   label: "是否并行检测",
@@ -331,7 +333,13 @@ export default {
           btnDisabled: false,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -340,7 +348,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
 
@@ -351,7 +365,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
         {
@@ -361,7 +381,13 @@ export default {
           isShow: true,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           placeholder: "选择账户后自动识别"
         },
         // {
@@ -397,14 +423,26 @@ export default {
             { key: 2, value: "按通道号排序" },
             { key: 3, value: "按通道名称排序" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "selectGroup",
           label: "移动通道",
           key: "cmPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         // {
         //   type: "select",
@@ -419,7 +457,13 @@ export default {
           label: "联通通道",
           key: "cuPassageway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         // {
         //   type: "select",
@@ -434,7 +478,13 @@ export default {
           label: "电信通道",
           optionData: [],
           key: "ctPassageway",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         // {
         //   type: "select",
@@ -466,15 +516,19 @@ export default {
           label: "免审数量",
           key: "exemptReviewNum",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             },
             {
               validator: validatorNum,
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -494,7 +548,13 @@ export default {
             }
           ],
           key: "isCombination",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -510,7 +570,13 @@ export default {
             }
           ],
           key: "isTemplate",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "checkbox",
@@ -519,7 +585,7 @@ export default {
           defaultValue: [],
           optionData: [],
           key: "sensitiveWord"
-        },
+        }
         // {
         //   type: "select",
         //   label: "是否检测并行",
@@ -578,24 +644,25 @@ export default {
     this.gateway("cmPassageway", "1", "1");
     this.gateway("cuPassageway", "2", "1");
     this.gateway("ctPassageway", "3", "1");
-    this.getSensitiveWordGroup();
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
     //提交批量修改
     batchSubmit(form) {
-      this.$http.sysExemptReviewManage.batchUpdateExemptReviewManage(form).then(res => {
-        if (res.code === 200) {
-          this.isOpen = false;
-          this.$message.success("修改成功");
-          this._mxGetList();
-        } else {
-          this.$message.error(res.data || res.msg);
-        }
-      })
+      this.$http.sysExemptReviewManage
+        .batchUpdateExemptReviewManage(form)
+        .then(res => {
+          if (res.code === 200) {
+            this.isOpen = false;
+            this.$message.success("修改成功");
+            this._mxGetList();
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
     },
     //关闭弹窗
     cancelBatch() {
@@ -754,45 +821,6 @@ export default {
       this.listRecommendGatewayAndGroup("cuPassageway", sort, data.userId);
       this.listRecommendGatewayAndGroup("ctPassageway", sort, data.userId);
     },
-    //获取敏感词组
-    getSensitiveWordGroup() {
-      this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
-        this._setDefaultValue(
-          this.searchFormConfig,
-          res.data,
-          "sensitiveWord",
-          "groupId",
-          "groupName"
-        );
-        this._setDefaultValue(
-          this.formConfig,
-          res.data,
-          "sensitiveWord",
-          "groupId",
-          "groupName"
-        );
-        this.$nextTick(() => {
-          this.formConfig.forEach(item => {
-            if (item.key === "sensitiveWord") {
-              res.data.forEach(t => {
-                item.initDefaultValue.push(t.groupId);
-                // item.defaultValue.push(t.groupId);
-              });
-              //initDefaultValue
-            }
-          });
-        });
-
-        // this.formConfig.map(item => {
-        //   if (item.key === "sensitiveWord") {
-        //     res.data.forEach(t => {
-        //       item.defaultValue.push(t.groupName);
-        //     });
-        //   }
-        // });
-      });
-      // console.log(this.formConfig, "111111111111");
-    },
     /*
      * 获取通道列表
      * */
@@ -845,19 +873,19 @@ export default {
             obj[key] = "0";
           }
         }
-        if(obj.hasOwnProperty('sensitiveWord')){
+        if (obj.hasOwnProperty("sensitiveWord")) {
           if (key === "sensitiveWord") {
             if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
               let arr = obj[key].split(",");
               obj[key] = arr.map(item => {
                 return Number(item);
               });
-            }else{
-              obj[key] = []
+            } else {
+              obj[key] = [];
             }
           }
-        }else{
-          obj['sensitiveWord'] = []
+        } else {
+          obj["sensitiveWord"] = [];
         }
       }
       return obj;
@@ -870,7 +898,10 @@ export default {
      */
 
     _mxCreate() {
-      this.$router.push({ name: 'sysExemptReviewManageType', query: { type: 'create' } });
+      this.$router.push({
+        name: "sysExemptReviewManageType",
+        query: { type: "create" }
+      });
       // this.addChannel = true;
       // this.formTit = "新增";
       // setTimeout(() => {
@@ -886,7 +917,10 @@ export default {
      */
 
     _mxEdit(row, ID) {
-      this.$router.push({ name: 'sysExemptReviewManageType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysExemptReviewManageType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // row = this._mxArrangeEditData(row);
       // this.id = row[ID];
       // this.editId = ID;
@@ -919,13 +953,16 @@ export default {
      */
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
-        if(key === "sensitiveWord"){
-          if (formData['sensitiveWord'] && Array.isArray(formData['sensitiveWord'])) {
+        if (key === "sensitiveWord") {
+          if (
+            formData["sensitiveWord"] &&
+            Array.isArray(formData["sensitiveWord"])
+          ) {
             formData[key] = formData[key].join(",");
           } else {
-            formData['sensitiveWord'] = [];
+            formData["sensitiveWord"] = [];
           }
-        } 
+        }
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
