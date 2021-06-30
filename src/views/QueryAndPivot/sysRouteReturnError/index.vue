@@ -389,12 +389,13 @@ export default {
           }
         }
       }
-      row = Object.assign(row, { routeIds: row.routeId });
+      row = Object.assign(row, { routeIds: [row.routeId] });
       console.log(row, "row");
       return row;
     },
     _mxArrangeSubmitData(form) {
-      form = Object.assign(form, { routeId: form.routeIds });
+      form = Object.assign(form);
+      form.routeIds = form.routeIds.join(",");
       console.log(form, "-----form");
       return form;
     }
