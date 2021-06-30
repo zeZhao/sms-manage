@@ -163,14 +163,14 @@ export default {
             { key: 1, value: "按价格排序" },
             { key: 2, value: "按通道号排序" },
             { key: 3, value: "按通道名称排序" }
-          ],
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            }
           ]
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请输入必填项",
+          //     trigger: ["blur", "change"]
+          //   }
+          // ]
         },
         {
           type: "selectGroup",
