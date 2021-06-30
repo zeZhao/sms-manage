@@ -92,6 +92,7 @@ export default {
           type: "textarea",
           label: "备注",
           key: "remark",
+          defaultValue: "",
           maxlength: "100"
         }
       ],

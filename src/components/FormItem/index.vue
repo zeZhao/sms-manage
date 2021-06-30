@@ -321,9 +321,6 @@
                     item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
                 </el-upload>
-                <div slot="tip" class="el-upload__tip">
-                  {{ item.tip }}
-                </div>
               </div>
               <div v-else>
                 <img
@@ -381,9 +378,6 @@
                     item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
                 </el-upload>
-                <div slot="tip" class="el-upload__tip">
-                  {{ item.tip }}
-                </div>
               </div>
             </template>
             <p v-if="item.tip" class="tip">{{ item.tip }}</p>
@@ -482,7 +476,7 @@ export default {
       if (item.uploadUrl) {
         return item.uploadUrl;
       } else {
-        this.action;
+        return this.action;
       }
     },
     //input Change事件
@@ -695,6 +689,7 @@ export default {
   }
   .tip {
     margin: 0;
+    font-size: 12px;
     color: #909399;
   }
 }
