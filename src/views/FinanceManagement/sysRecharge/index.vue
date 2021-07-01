@@ -138,17 +138,30 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" align="center" width="100">
+      <el-table-column fixed="right" label="操作" align="center" width="130">
         <template slot-scope="scope">
           <el-button
-            :disabled="scope.row.cardStatus !== 2"
+            :disabled="
+              scope.row.cardStatus !== 2 && scope.row.parentId !== null
+            "
             @click="_mxEdit(scope.row, 'cardId')"
             type="text"
             size="small"
             >修改</el-button
           >
           <el-button
-            :disabled="scope.row.cardStatus !== 0"
+            :disabled="
+              scope.row.cardStatus !== 2 && scope.row.parentId !== null
+            "
+            @click="_mxDeleteItem('cardId', scope.row.cardId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
+          <el-button
+            :disabled="
+              scope.row.cardStatus !== 0 && scope.row.parentId !== null
+            "
             @click="_mxWithdraw(scope.row, 'cardId')"
             type="text"
             size="small"
@@ -234,7 +247,7 @@ export default {
       searchAPI: {
         namespace: "sysRecharge",
         list: "listPrepaidCardByPage",
-        detele: "",
+        detele: "deletePrepaidCard",
         add: "addPrepaidCard",
         edit: "updatePrepaidCard"
       },
@@ -1061,6 +1074,23 @@ export default {
             this._setDisplayShow(this.formConfig, "corporateId", true);
           }
         }
+        let disabledFormLables = [
+          "paidWay",
+          "chargeType",
+          "userId",
+          "corporateId",
+          "userName",
+          "reductType",
+          "cardUnit"
+        ];
+        disabledFormLables.forEach(el => {
+          if (item.key === el) {
+            this.$set(item, "disabled", true);
+          }
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        });
         // if (item.key !== "remark" && item.key !== "saleMan") {
         //   this.$set(item, "disabled", true);
         //   if (item.key === "userId") {
