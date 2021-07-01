@@ -22,15 +22,10 @@
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.operaId === 0
-              ? "三网"
-              : scope.row.operaId === 1
-              ? "移动"
-              : scope.row.operaId === 2
-              ? "联通"
-              : "电信"
-          }}</span>
+          <span v-if="scope.row.operaId === 0">三网</span>
+          <span v-if="scope.row.operaId === 1">移动</span>
+          <span v-if="scope.row.operaId === 2">联通</span>
+          <span v-if="scope.row.operaId === 3">电信</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
