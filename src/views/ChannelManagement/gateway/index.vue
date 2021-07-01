@@ -132,12 +132,12 @@
             size="small"
             >删除</el-button
           >
-          <el-button
+          <!-- <el-button
             @click="config(scope.row.gatewayId)"
             type="text"
             size="small"
             >配置</el-button
-          >
+          > -->
         </template>
       </el-table-column>
     </el-table>

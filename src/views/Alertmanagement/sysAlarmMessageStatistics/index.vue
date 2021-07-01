@@ -52,7 +52,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysAlarmMessage",
-        list: "listAlarmMessageStatisticsByPage",
+        list: "listAlarmMessageStatisticsByPage"
       },
       // 列表参数
       namespace: "alarmMessage",
@@ -64,19 +64,19 @@ export default {
           type: "input",
           label: "编号",
           key: "num",
-          placeholder: "请输入编号",
+          placeholder: "请输入编号"
         },
         {
           type: "inputNum",
           label: "错误码",
           key: "errNum",
-          placeholder: "错误码",
+          placeholder: "错误码"
         },
         {
           type: "input",
           label: "应用模块",
           key: "useModule",
-          placeholder: "请输入应用模块",
+          placeholder: "请输入应用模块"
         },
         {
           type: "select",
@@ -86,34 +86,34 @@ export default {
           optionData: [
             {
               key: 0,
-              value: "提醒",
+              value: "提醒"
             },
             {
               key: 1,
-              value: "一般",
+              value: "一般"
             },
             {
               key: 2,
-              value: "重要",
+              value: "重要"
             },
             {
               key: 3,
-              value: "严重",
-            },
-          ],
+              value: "严重"
+            }
+          ]
         },
         {
           type: "input",
           label: "报警类型",
           key: "alerType",
-          placeholder: "请输入报警类型",
+          placeholder: "请输入报警类型"
         },
         {
           type: "daterange",
           label: "时间",
-          key: ["", "startTime", "endTime"],
-        },
-      ],
+          key: ["", "startTime", "endTime"]
+        }
+      ]
     };
   },
   mounted() {},
@@ -121,17 +121,17 @@ export default {
   methods: {
     _formatRequestData(data) {
       if (data.startTime) {
-        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd hh:mm:ss");
+        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:01");
       }
       if (data.endTime) {
-        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd hh:mm:ss");
+        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
 
       console.log(data, "------data");
       return data;
-    },
+    }
   },
-  watch: {},
+  watch: {}
 };
 </script>
 

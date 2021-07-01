@@ -1,5 +1,5 @@
 <template>
-  <!--待审模板-->
+  <!--模板审核-->
   <div class="smsCheckTemplate">
     <Search
       :searchFormConfig="searchFormConfig"
@@ -11,7 +11,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="type" label="类型">
+      <!-- <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.type === "1"
@@ -21,7 +21,7 @@
               : "商户编号"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="template" label="模板信息" show-overflow-tooltip />
       <el-table-column prop="createdAt" label="创建时间" min-width="170">
         <template slot-scope="scope">{{
@@ -160,27 +160,27 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "type",
-          defaultValue: "",
-          optionData: [
-            {
-              key: "1",
-              value: "特服号"
-            },
-            {
-              key: "2",
-              value: "账户编号"
-            },
-            {
-              key: "3",
-              value: "商户编号"
-            }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   defaultValue: "",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: "2",
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: "3",
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "审核状态",

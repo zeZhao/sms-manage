@@ -1,8 +1,17 @@
 <template>
   <div>
     <h2>{{ renderTitle }}</h2>
-    <FormItemTitle :colSpan="8" :labelWidth="150" ref="formItemTit" :formConfig="formConfig" :btnTxt="renderBtnTxt"
-      @submit="_mxHandleSubmit" @cancel="_mxCancel" @selectChange="selectChange" @removeTag="removeTag">
+    <FormItemTitle
+      :colSpan="8"
+      :labelWidth="150"
+      ref="formItemTit"
+      :formConfig="formConfig"
+      :btnTxt="renderBtnTxt"
+      @submit="_mxHandleSubmit"
+      @cancel="_mxCancel"
+      @selectChange="selectChange"
+      @removeTag="removeTag"
+    >
     </FormItemTitle>
   </div>
 </template>
@@ -13,7 +22,7 @@ import FormItemTitle from "@/components/formItemTitle";
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
-  data () {
+  data() {
     const validatorPrice = (rule, value, callback) => {
       if (value && value < 1000) {
         callback();
@@ -461,7 +470,7 @@ export default {
           defaultValue: "",
           tag: "sms",
           disabled: true,
-          placeholder: '无'
+          placeholder: "无"
         },
         {
           type: "select",
@@ -704,7 +713,7 @@ export default {
             // { key: 4, value: "BSATS级" }
           ]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        }
         // {
         //   isTitle: true,
         //   title: "服务信息",
@@ -776,29 +785,29 @@ export default {
     };
   },
   computed: {
-    renderTitle () {
+    renderTitle() {
       const { type } = this.$route.query;
-      const str = '账户';
-      return type === 'create' ? `新增${str}` : `修改${str}`;
+      const str = "账户";
+      return type === "create" ? `新增${str}` : `修改${str}`;
     },
-    renderBtnTxt () {
+    renderBtnTxt() {
       const { type } = this.$route.query;
-      return type === 'create' ? '新增' : '修改';
+      return type === "create" ? "新增" : "修改";
     }
   },
-  mounted () {
+  mounted() {
     this.getAllCorp();
     this.getSaleman();
     this.getAgent();
     this.getRole();
     this.listTag();
     this.getBlackFroup();
-    const { type, row, ID  } = this.$route.query;
-    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    const { type, row, ID } = this.$route.query;
+    type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
     //多选移除操作
-    removeTag ({ val, item }) {
+    removeTag({ val, item }) {
       if (this.formTit == "修改") {
         this.formConfig.forEach(el => {
           if (item.key === "productType" && el.key === item.key) {
@@ -825,7 +834,7 @@ export default {
       }
     },
 
-    selectChange (data) {
+    selectChange(data) {
       const { val, item } = data;
       let obj = {};
 
@@ -883,7 +892,7 @@ export default {
         }
       }
     },
-    _mxCreate () {
+    _mxCreate() {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
@@ -902,10 +911,16 @@ export default {
         if (item.key == "corpId") {
           this.$set(item, "disabled", false);
         }
+        if (item.key == "reductModel") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "mmsReductModel") {
+          this.$set(item, "disabled", false);
+        }
         if (item.tag === "sms" || item.tag === "mms") {
           item.isShow = true;
         }
-        if (item.key === 'loginName') {
+        if (item.key === "loginName") {
           item.disabled = false;
         }
       });
@@ -918,7 +933,7 @@ export default {
       }, 0);
     },
     //编辑对返回数据进行调整
-    _mxArrangeEditData (row) {
+    _mxArrangeEditData(row) {
       for (let key in row) {
         //对黑名单做数据类型转换
         if (key === "blackLevel" || key === "mmsBlackLevel") {
@@ -946,7 +961,8 @@ export default {
     },
 
     //根据调整的数据 修改表单配置
-    editFormConfigHandle (lineData) {
+    editFormConfigHandle(lineData) {
+      let productTypeVal = [1];
       this.formConfig.forEach(item => {
         for (let keys in lineData) {
           if (item.key === keys && lineData[keys] !== "-") {
@@ -981,6 +997,7 @@ export default {
         }
         if (item.key === "productType") {
           let val = item.defaultValue;
+          productTypeVal = item.defaultValue;
           if (val && val.length != 0) {
             if (val.includes(1) && val.includes(2)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
@@ -1013,6 +1030,7 @@ export default {
             });
           }
         }
+
         // if (item.key == "proType") {
         //   this.$set(item, "disabled", true);
         // }
@@ -1022,12 +1040,35 @@ export default {
         if (item.key == "corpId") {
           this.$set(item, "disabled", true);
         }
+        if (item.key == "reductModel") {
+          if (productTypeVal.includes(1)) {
+            this.$set(item, "disabled", true);
+          } else {
+            this.$set(item, "disabled", false);
+          }
+        }
+        if (item.key == "mmsReductModel") {
+          if (productTypeVal.includes(2)) {
+            this.$set(item, "disabled", true);
+          } else {
+            this.$set(item, "disabled", false);
+          }
+        }
+
         if (!Object.keys(lineData).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
         if (item.key === "times") {
-          if ((lineData.startTime !== '-' && lineData.startTime) && (lineData.endTime !== '-' && lineData.endTime)) {
-            this.$set(item, "defaultValue", [lineData.startTime, lineData.endTime]);
+          if (
+            lineData.startTime !== "-" &&
+            lineData.startTime &&
+            lineData.endTime !== "-" &&
+            lineData.endTime
+          ) {
+            this.$set(item, "defaultValue", [
+              lineData.startTime,
+              lineData.endTime
+            ]);
           } else {
             this.$set(item, "defaultValue", "");
           }
@@ -1035,7 +1076,7 @@ export default {
       });
     },
     //修改
-    _mxEdit (row, ID) {
+    _mxEdit(row, ID) {
       this.currentEditFormData = {};
       let lineData = this.$deepClone(row);
       lineData = this._mxArrangeEditData(lineData);
@@ -1051,14 +1092,14 @@ export default {
       this.getAgent();
       this.getSaleman();
       this.formConfig.forEach(item => {
-        if (item.key === 'loginName') {
+        if (item.key === "loginName") {
           item.disabled = true;
         }
-      })
+      });
       this.addChannel = true;
     },
     // 审核
-    _mxCheck (row, ID) {
+    _mxCheck(row, ID) {
       row = this._mxArrangeEditData(row);
       this.id = row[ID];
       this.editId = ID;
@@ -1077,7 +1118,7 @@ export default {
       this.addChannel = true;
     },
     //提交表单前调整表单内数据
-    _mxArrangeSubmitData (formData) {
+    _mxArrangeSubmitData(formData) {
       let form = Object.assign({}, formData);
       for (let key in form) {
         if (key === "blackLevel" || key === "mmsBlackLevel") {
@@ -1093,7 +1134,7 @@ export default {
             form[key].length != 0 &&
             typeof form[key] !== "string"
           ) {
-            form[key] = form[key].reduce(function (prev, curr) {
+            form[key] = form[key].reduce(function(prev, curr) {
               return prev + curr;
             });
           } else {
@@ -1109,7 +1150,7 @@ export default {
      * @param editId        编辑修改id
      * @private
      */
-    _mxHandleSubmit (form = {}, editId = this.editId) {
+    _mxHandleSubmit(form = {}, editId = this.editId) {
       form = this._mxArrangeSubmitData(form);
       const { namespace, add, edit, check } = this.searchAPI;
       let params = {
@@ -1147,7 +1188,7 @@ export default {
      * 提交成功后执行
      * @param res
      */
-    _mxSuccess (res, params) {
+    _mxSuccess(res, params) {
       if (resOk(res)) {
         this.$message.success(res.msg || res.data);
         window.history.back();
@@ -1169,23 +1210,23 @@ export default {
     /**
      * 关闭弹窗
      */
-    _mxCancel () {
+    _mxCancel() {
       window.history.back();
       this.addChannel = false;
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
     },
-    beforeClose () {
+    beforeClose() {
       this.addChannel = false;
     },
-    handleSubmitSpeed (userId, submitSpeed) {
+    handleSubmitSpeed(userId, submitSpeed) {
       this.speedVisible = true;
       this.submitSpeedTit = submitSpeed ? "修改提交速率" : "配置提交速率";
       this.userId = userId;
       this.speedVal = submitSpeed;
     },
-    submitSpeeds () {
+    submitSpeeds() {
       if (this.speedVal <= 0) {
         this.$message.error("提交速率必须大于0");
         return;
@@ -1198,8 +1239,9 @@ export default {
         this.$message.error("最大不能超过1000");
         return;
       }
-      const str = typeof (this.speedVal) === 'string' ? this.speedVal : (this.speedVal + '');
-      if (str.indexOf('.') !== -1) {
+      const str =
+        typeof this.speedVal === "string" ? this.speedVal : this.speedVal + "";
+      if (str.indexOf(".") !== -1) {
         this.$message.error("提交速率不允许有小数");
         return;
       }
@@ -1218,7 +1260,7 @@ export default {
       });
     },
     //获取黑名单类型
-    getBlackFroup () {
+    getBlackFroup() {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {
         this._setDefaultValue(
           this.formConfig,
@@ -1237,7 +1279,7 @@ export default {
       });
     },
     //获取所有标签
-    listTag () {
+    listTag() {
       this.$http.smsTagController
         .listTag({ pageNumber: 1, pageSize: 9999 })
         .then(res => {
@@ -1256,7 +1298,7 @@ export default {
         });
     },
     //提交选择标签
-    submitTags (data) {
+    submitTags(data) {
       this.$http.userTag
         .batchSave({ userId: this.userId, tagIds: data.smsTags })
         .then(res => {
@@ -1270,14 +1312,14 @@ export default {
         });
     },
     //添加标签
-    addTag (id) {
+    addTag(id) {
       this.userId = id;
       this.tagsData[0].defaultValue = [];
       this.tagStatusTitle = "添加标签";
       this.tagStatus = true;
     },
     //修改标签
-    editTag (id, arr) {
+    editTag(id, arr) {
       this.userId = id;
       this.tagsData[0].defaultValue = arr.map(v => v.id);
       this.tagStatusTitle = "修改标签";
@@ -1285,7 +1327,7 @@ export default {
     },
 
     //信息弹框
-    messageShow (row) {
+    messageShow(row) {
       const h = this.$createElement;
       this.$msgbox({
         title: "信息",
@@ -1295,7 +1337,7 @@ export default {
       console.log(row.proType, "--------------");
     },
     //获取所有商户
-    getAllCorp () {
+    getAllCorp() {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           let arr = [];
@@ -1323,7 +1365,7 @@ export default {
       });
     },
     //获取销售员
-    getSaleman () {
+    getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this.saleList = res.data;
@@ -1345,7 +1387,7 @@ export default {
       });
     },
     //获取代理商
-    getAgent () {
+    getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
@@ -1366,7 +1408,7 @@ export default {
       });
     },
     //获取角色
-    getRole () {
+    getRole() {
       let params = {
         roleType: 1,
         status: 1
@@ -1384,14 +1426,14 @@ export default {
       });
     },
     //修改状态
-    setType (row, type, status) {
+    setType(row, type, status) {
       this.dialogTitle(type);
       this.currentRowData = row;
       this.dialogVisible = true;
       this.status = status;
       // "corpId":"7080", "status":"3"
     },
-    dialogTitle (type) {
+    dialogTitle(type) {
       let str = {};
       switch (type) {
         case "disable":
@@ -1410,7 +1452,7 @@ export default {
       this.dialogTit = str.title;
       this.information = str.information;
     },
-    updateStatus () {
+    updateStatus() {
       const { userId } = this.currentRowData;
       this.$http.corpUser
         .updateStatus({ userId: userId, status: this.status })
@@ -1424,7 +1466,7 @@ export default {
       this.dialogVisible = false;
     },
 
-    createElement (h, row) {
+    createElement(h, row) {
       let arr = [];
       if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
         arr = row.proTypes;
@@ -1494,5 +1536,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
