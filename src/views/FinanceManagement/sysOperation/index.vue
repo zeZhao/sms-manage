@@ -12,10 +12,24 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip/>
-      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip min-width="110"/>
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip min-width="110"/>
+      <el-table-column
+        prop="corporateId"
+        label="商户编号"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="corpName"
+        label="商户名称"
+        show-overflow-tooltip
+        min-width="110"
+      />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column
+        prop="userName"
+        label="账户名称"
+        show-overflow-tooltip
+        min-width="110"
+      />
       <el-table-column prop="chargeType" label="产品" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>
@@ -23,11 +37,35 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="beforeBalance" label="操作前的条数" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="cardCount" label="当前操作条数" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip />
-      <el-table-column prop="cardMoney" label="金额(元)" show-overflow-tooltip />
+      <el-table-column
+        prop="beforeBalance"
+        label="操作前的条数"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="cardCount"
+        label="当前操作条数"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="afterBalance"
+        label="操作后的条数"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="cardUnit"
+        label="当前操作单价(分)"
+        min-width="130"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="cardMoney"
+        label="金额(元)"
+        show-overflow-tooltip
+      />
       <!-- <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
         <template slot-scope="scope">
           <a
@@ -56,7 +94,11 @@
           <span>{{ scope.row.reductType == 1 ? "账户计费" : "商户计费" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="到款方式" show-overflow-tooltip />
+      <el-table-column
+        prop="direction"
+        label="到款方式"
+        show-overflow-tooltip
+      />
       <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
@@ -87,26 +129,46 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column prop="remark" label="备注" show-overflow-tooltip min-width="110"/>
-      <el-table-column prop="modifier" label="操作账号" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
+      <el-table-column
+        prop="remark"
+        label="备注"
+        show-overflow-tooltip
+        min-width="110"
+      />
+      <el-table-column
+        prop="modifier"
+        label="操作账号"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        width="150"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" show-overflow-tooltip />
+      <el-table-column
+        prop="paymentCompany"
+        label="打款公司名称"
+        width="110"
+        show-overflow-tooltip
+      />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
             @click="audit(scope.row)"
-            :disabled="scope.row.cardStatus !== 0"
+            :disabled="isDisabled(scope.row, 0)"
             type="text"
             size="small"
             >通过</el-button
           >
           <el-button
             @click="reject(scope.row)"
-            :disabled="scope.row.cardStatus !== 0"
+            :disabled="isDisabled(scope.row, 0)"
             type="text"
             size="small"
             >驳回</el-button
@@ -148,22 +210,22 @@ export default {
         {
           type: "inputNum",
           label: "商户编号",
-          key: "corporateId",
+          key: "corporateId"
         },
         {
           type: "input",
           label: "商户名称",
-          key: "corpName",
+          key: "corpName"
         },
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
           label: "账户名称",
-          key: "userName",
+          key: "userName"
         },
         {
           type: "select",
@@ -228,6 +290,15 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    isDisabled(row, status) {
+      const { parentId, cardStatus } = row;
+      //公共方法对返回属性为null的设置为'-'
+      if (parentId === "-") {
+        return cardStatus !== status ? true : false;
+      } else {
+        return true;
+      }
+    },
     audit(row) {
       const { corpName, cardId } = row;
       this.$confirm(`是否通过打款公司为“${row.corpName}”的提交记录`, ``, {
@@ -246,7 +317,7 @@ export default {
             this.$message.success("操作成功");
             this._mxGetList();
           } else {
-            this.$message.error(res.data)
+            this.$message.error(res.data);
           }
         });
       });
@@ -265,7 +336,7 @@ export default {
               this.$message.success("驳回成功");
               this._mxGetList();
             } else {
-              this.$message.error(res.data)
+              this.$message.error(res.data);
             }
           });
       });
