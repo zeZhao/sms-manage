@@ -401,7 +401,9 @@ export default {
     //导出
     exportData(data) {
       this.$axios
-        .post("/sysProvinceRoute/exportProvinceRoute", { data })
+        .post("/sysProvinceRoute/exportProvinceRoute", {
+          data: { provinceRoute: { ...data } }
+        })
         .then(res => {
           if (res.data.code === 200) this.$exportToast();
         });
