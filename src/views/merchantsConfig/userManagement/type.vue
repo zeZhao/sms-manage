@@ -228,11 +228,16 @@ export default {
           maxlength: "20",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
+            { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" },
+            { trigger: "blur", validator: (rule, value, callback) => {
+              if (/\p{Unified_Ideograph}/u.test(value)) {
+                callback(new Error("不支持中文、汉字"));
+              }
+              if (!(/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(value))) {
+                callback(new Error("不支持特殊字符"));
+              }
+              callback();
+            }}
           ]
         },
         {
