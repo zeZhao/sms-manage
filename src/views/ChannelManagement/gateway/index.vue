@@ -73,7 +73,7 @@
       <!-- <el-table-column prop="priority" label="优先级" show-overflow-tooltip /> -->
       <el-table-column prop="clientId" label="账号" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <!-- <el-table-column prop="remark" label="通道状态">
+      <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.serverStatus"
@@ -88,7 +88,7 @@
             "
           ></el-switch>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column
         prop="smsTags"
         label="标签"
@@ -132,12 +132,12 @@
             size="small"
             >删除</el-button
           >
-          <el-button
+          <!-- <el-button
             @click="config(scope.row.gatewayId)"
             type="text"
             size="small"
             >配置</el-button
-          >
+          > -->
         </template>
       </el-table-column>
     </el-table>

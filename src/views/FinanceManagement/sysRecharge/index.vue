@@ -138,17 +138,24 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" align="center" width="100">
+      <el-table-column fixed="right" label="操作" align="center" width="130">
         <template slot-scope="scope">
           <el-button
-            :disabled="scope.row.cardStatus !== 2"
+            :disabled="isDisabled(scope.row, 2)"
             @click="_mxEdit(scope.row, 'cardId')"
             type="text"
             size="small"
             >修改</el-button
           >
           <el-button
-            :disabled="scope.row.cardStatus !== 0"
+            :disabled="isDisabled(scope.row, 2)"
+            @click="_mxDeleteItem('cardId', scope.row.cardId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
+          <el-button
+            :disabled="isDisabled(scope.row, 0)"
             @click="_mxWithdraw(scope.row, 'cardId')"
             type="text"
             size="small"
@@ -234,7 +241,7 @@ export default {
       searchAPI: {
         namespace: "sysRecharge",
         list: "listPrepaidCardByPage",
-        detele: "",
+        detele: "deletePrepaidCard",
         add: "addPrepaidCard",
         edit: "updatePrepaidCard"
       },
@@ -356,17 +363,15 @@ export default {
             }
           ]
         },
+
         {
-          type: "select",
-          label: "产品",
+          type: "input",
+          label: "账户编号",
+          key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
           colSpan: 12,
-          initDefaultValue: 1,
-          defaultValue: 1,
-          key: "chargeType",
-          optionData: [
-            { key: 1, value: "短信" },
-            { key: 2, value: "彩信" }
-          ],
+          defaultValue: "",
           rules: [
             {
               required: true,
@@ -376,13 +381,16 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "账户编号",
-          key: "userId",
-          btnTxt: "选择用户",
-          disabled: true,
+          type: "select",
+          label: "产品",
           colSpan: 12,
-          defaultValue: "",
+          // initDefaultValue: 1,
+          // defaultValue: 1,
+          key: "chargeType",
+          optionData: [
+            { key: 1, value: "短信" },
+            { key: 2, value: "彩信" }
+          ],
           rules: [
             {
               required: true,
@@ -464,7 +472,7 @@ export default {
           colSpan: 24
         },
         {
-          isTitle: true,
+          isTitle: false,
           title: "短信",
           colSpan: 24
         },
@@ -834,6 +842,15 @@ export default {
   },
   computed: {},
   methods: {
+    isDisabled(row, status) {
+      const { parentId, cardStatus } = row;
+      //公共方法对返回属性为null的设置为'-'
+      if (parentId === "-") {
+        return cardStatus !== status ? true : false;
+      } else {
+        return true;
+      }
+    },
     //导出
     exportData(data) {
       this.$axios
@@ -1035,6 +1052,7 @@ export default {
       this.editId = ID;
       this.formTit = "修改";
       const val = row.paidWay;
+      const productType = row.productType;
 
       this.formConfig.forEach(item => {
         for (let key in row) {
@@ -1061,6 +1079,23 @@ export default {
             this._setDisplayShow(this.formConfig, "corporateId", true);
           }
         }
+        let disabledFormLables = [
+          "paidWay",
+          "chargeType",
+          "userId",
+          "corporateId",
+          "userName",
+          "reductType",
+          "cardUnit"
+        ];
+        disabledFormLables.forEach(el => {
+          if (item.key === el) {
+            this.$set(item, "disabled", true);
+          }
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        });
         // if (item.key !== "remark" && item.key !== "saleMan") {
         //   this.$set(item, "disabled", true);
         //   if (item.key === "userId") {
@@ -1132,6 +1167,10 @@ export default {
       this.chooseData = {};
       // 初始上传文件为空
       this.formConfig.forEach(item => {
+        if (item.key === "chargeType") {
+          this.$set(item.optionData[0], "disabled", false);
+          this.$set(item.optionData[1], "disabled", false);
+        }
         if (item.key !== "remark" && item.key !== "saleMan") {
           this.$set(item, "disabled", false);
           if (item.key === "userId") {
@@ -1311,8 +1350,23 @@ export default {
       let chargeTypeJs = "";
       this._deleteDefaultValue(this.formConfig, "cardMoney");
       this.chooseData = data;
+      let productType = data.productType;
+      console.log(productType, "--------productType");
+
       this.formConfig.map(t => {
         const { key } = t;
+        if (key === "chargeType") {
+          if (productType == 1) {
+            this.$set(t.optionData[0], "disabled", false);
+            this.$set(t.optionData[1], "disabled", true);
+          } else if (productType == 2) {
+            this.$set(t.optionData[0], "disabled", true);
+            this.$set(t.optionData[1], "disabled", false);
+          } else {
+            this.$set(t.optionData[0], "disabled", false);
+            this.$set(t.optionData[1], "disabled", false);
+          }
+        }
         if (key === "userId") {
           t.defaultValue = data.userId;
         }
@@ -1335,14 +1389,6 @@ export default {
             t.defaultValue =
               data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
           }
-          // t.defaultValue =
-          //   chargeType == 2
-          //     ? data.mmsCardUnit || data.mmsCardUnit !== "-"
-          //       ? data.mmsCardUnit
-          //       : ""
-          //     : data.cardUnit || data.cardUnit !== "-"
-          //     ? data.cardUnit
-          //     : "";
         }
       });
       this.formConfigTransfers.map(t => {

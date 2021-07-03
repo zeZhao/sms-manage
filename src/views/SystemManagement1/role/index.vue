@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="roleType" placeholder="角色类型" clearable>
-            <el-option value="1" label="商戶端角色" />
+            <el-option value="1" label="商户端角色" />
             <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>

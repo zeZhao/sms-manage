@@ -534,6 +534,10 @@ export default {
         updatePrepaidCard(params) {
             return post("/sysPrepaidCard/updatePrepaidCard", params)
         },
+        // 删除充值
+        deletePrepaidCard(params) {
+            return post("/sysPrepaidCard/deletePrepaidCard", params)
+        },
         // 账号互转
         refundPrepaidCard(params) {
             return post("/sysPrepaidCard/refundPrepaidCard", params)
