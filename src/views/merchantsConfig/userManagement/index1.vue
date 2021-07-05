@@ -74,7 +74,7 @@
       </el-table-column> -->
       <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip />
       <el-table-column prop="longCode" label="长号码" min-width="130" show-overflow-tooltip/>
-      <el-table-column prop="productType" label="产品">
+      <el-table-column prop="productType" label="产品" min-width="120">
         <template slot-scope="scope">
           <span>{{
             scope.row.productType == "1"
@@ -82,7 +82,7 @@
               : scope.row.productType == "2"
               ? "彩信"
               : scope.row.productType == "3"
-              ? "屏信"
+              ? "短信、彩信"
               : "语音"
           }}</span>
         </template>
