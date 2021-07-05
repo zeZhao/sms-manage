@@ -52,7 +52,7 @@
       </el-table-column>
       <!--<el-table-column label="运营账号类型">-->
       <!--<template slot-scope="scope">-->
-      <!--<span>{{scope.row.roleType == '1'?'商戶端运营账号':'运营端运营账号'}}</span>-->
+      <!--<span>{{scope.row.roleType == '1'?'商户端运营账号':'运营端运营账号'}}</span>-->
       <!--</template>-->
       <!--</el-table-column>-->
       <!--<el-table-column prop="memo" label="描述" />-->
