@@ -1356,6 +1356,7 @@ export default {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "chargeType") {
+          t.defaultValue = "";
           if (productType == 1) {
             this.$set(t.optionData[0], "disabled", false);
             this.$set(t.optionData[1], "disabled", true);

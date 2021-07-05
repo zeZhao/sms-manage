@@ -270,9 +270,11 @@ export default {
   mounted() {
     this.getEditData();
   },
-  computed: {},
+  activated() {
+    this.getEditData();
+  },
   methods: {
-    // 获取 组
+    // 获取销售组
     getEditData() {
       this.$http.sysSales.getEditData({}).then(res => {
         if (res.code === 200) {
