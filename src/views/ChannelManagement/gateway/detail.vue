@@ -777,6 +777,7 @@ export default {
       this.formConfig.forEach(item => {
         if (item.tag === "encrypt") {
           item.lock = false;
+          item.defaultValue = "";
         }
       });
     }
