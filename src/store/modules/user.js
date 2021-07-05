@@ -84,7 +84,7 @@ const actions = {
             type: 'error',
           })
         } else {
-          // 设置 token，作为用户已登陆的商戶端标识，存在 cookie 中
+          // 设置 token，作为用户已登陆的商户端标识，存在 cookie 中
           setToken(data.data)
           commit('SET_TOKEN', data.data)
           // localStorage.userId = data.result.userId;

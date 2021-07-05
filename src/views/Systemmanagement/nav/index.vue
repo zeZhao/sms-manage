@@ -30,7 +30,7 @@
       <el-table-column prop="name" label="菜单名称"></el-table-column>
       <el-table-column label="菜单类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.type == "1" ? "商戶端" : "运营端" }}</span>
+          <span>{{ scope.row.type == "1" ? "商户端" : "运营端" }}</span>
         </template>
       </el-table-column>
       <el-table-column label="菜单路径">
@@ -115,7 +115,7 @@
           />
         </el-form-item>
         <el-form-item label="请选择目录类型">
-          <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="1">商户端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
@@ -169,7 +169,7 @@
           />
         </el-form-item>
         <el-form-item label="请选择目录类型">
-          <el-radio v-model="addInfo.isEnabled" label="1">商戶端</el-radio>
+          <el-radio v-model="addInfo.isEnabled" label="1">商户端</el-radio>
           <el-radio v-model="addInfo.isEnabled" label="2">运营端</el-radio>
         </el-form-item>
         <el-form-item label="排序">
@@ -218,7 +218,7 @@
             v-model="setInfo.type"
             :label="1"
             :disabled="setInfo.type === 2"
-            >商戶端</el-radio
+            >商户端</el-radio
           >
           <el-radio v-model="setInfo.type" :label="2">运营端</el-radio>
         </el-form-item>
