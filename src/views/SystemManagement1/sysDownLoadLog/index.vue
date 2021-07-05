@@ -133,8 +133,9 @@ export default {
       submitParamsIsData: false
     };
   },
-  mounted() {},
-  computed: {},
+  activated() {
+    this._mxGetList();
+  },
   methods: {
     install({ filePath, downloadContent }) {
       this.$http.sysDownLoadLog.download({ path: filePath }).then(res => {
