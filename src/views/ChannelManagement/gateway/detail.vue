@@ -84,7 +84,7 @@ export default {
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
               pattern: /^\d{1,8}$/,
-              message: "通道编号只允许为数字，长度限制为1~8位",
+              message: "通道编号只允许为正整数，长度限制为1~8位",
               trigger: "blur"
             }
           ]
@@ -304,9 +304,9 @@ export default {
           key: "isTwoRoute",
           defaultValue: "",
           optionData: [
-            { key: "0", value: "不取" },
-            { key: "1", value: "强制取" },
-            { key: "2", value: "非强制取" }
+            { key: 0, value: "不取" },
+            { key: 1, value: "强制取" },
+            { key: 2, value: "非强制取" }
           ],
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
