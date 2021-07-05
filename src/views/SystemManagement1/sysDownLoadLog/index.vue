@@ -39,7 +39,7 @@
       </el-table-column>
       <el-table-column prop="fileSize" label="导出文件大小">
         <template slot-scope="scope">
-          <span>{{ scope.row.fileSize }}KB</span>
+          <span>{{ scope.row.fileSize && scope.row.fileSize !== '-' ? (scope.row.fileSize + 'KB') : '-' }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="status" label="处理状态">
