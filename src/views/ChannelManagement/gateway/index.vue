@@ -297,7 +297,7 @@ export default {
           key: "isDerect",
           optionData: [
             { key: 1, value: "是" },
-            { key: "0", value: "否" }
+            { key: 2, value: "否" }
           ]
         },
         // {
@@ -551,11 +551,11 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "非直连"
+              value: "直连"
             },
             {
               key: 2,
-              value: "直连"
+              value: "非直连"
             }
           ]
           // change: this.selectUser,
