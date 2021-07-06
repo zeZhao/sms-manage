@@ -74,7 +74,7 @@
           <span v-if="scope.row.paidWay == 2">余额-</span>
           <span v-if="scope.row.paidWay == 3">还款</span>
           <span v-if="scope.row.paidWay == 4">清授信</span>
-          <span v-if="scope.row.paidWay == 5">账号互转</span>
+          <span v-if="scope.row.paidWay == 5">无</span>
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
@@ -298,8 +298,8 @@ export default {
             { key: 1, value: "授信" },
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" },
-            { key: 5, value: "账号互转" }
+            { key: 2, value: "余额-" }
+            // { key: 5, value: "账号互转" }
           ]
         },
 
