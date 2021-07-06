@@ -14,7 +14,7 @@
           v-for="(item, index) in groupList"
           :key="item.groupId"
           :index="item.groupId + ''"
-          :class="activeIndex == index ? 'hover' : ''"
+          :class="activeIndex === index ? 'hover' : ''"
           @click="activeIndex = index"
         >
           <span slot="title" class="title">{{ item.groupName }}</span>
@@ -244,7 +244,11 @@ export default {
     },
     //导出
     exportData(data) {
-      this.$http.sysSensitiveWord.exportKeyword(data).then(res => {
+      const params = {
+        groupId: this.groupList[this.activeIndex].groupId || "",
+        ...data
+      };
+      this.$http.sysSensitiveWord.exportKeyword(params).then(res => {
         if (res.code === 200) this.$exportToast();
       });
     },
@@ -344,9 +348,6 @@ export default {
 .sysSensitiveWord {
   display: flex;
   justify-content: space-between;
-  .hover {
-    background-color: #ccc !important;
-  }
 
   .left-menu {
     width: 18%;
@@ -355,6 +356,11 @@ export default {
       width: 100%;
       height: 600px;
       overflow-y: auto;
+
+      .hover {
+        background-color: #ccc !important;
+      }
+
       .title {
         width: 100px;
         height: 14px;
@@ -363,10 +369,6 @@ export default {
         text-overflow: ellipsis;
         white-space: normal;
         overflow: hidden;
-      }
-
-      .is-active {
-        // background-color: #ccc !important;
       }
 
       .action-bar {
