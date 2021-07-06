@@ -32,7 +32,11 @@
       <el-table-column prop="useModule" label="应用模块" />
       <el-table-column prop="alerType" label="报警类型" />
       <el-table-column prop="count" label="	错误次数" />
-      <el-table-column prop="proportion" label="占比" />
+      <el-table-column prop="proportion" label="占比">
+        <template slot-scope="{ row }">
+          <span>{{ row.proportion }}%</span>
+        </template>
+      </el-table-column>
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -119,6 +123,18 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        item.proportion = Number(item.proportion).toFixed(2);
+      });
+      return listData;
+    },
     _formatRequestData(data) {
       if (data.startTime) {
         data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:01");
@@ -126,8 +142,6 @@ export default {
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
-
-      console.log(data, "------data");
       return data;
     }
   },
