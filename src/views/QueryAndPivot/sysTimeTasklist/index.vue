@@ -350,7 +350,7 @@ export default {
         form.userId = "";
         form.content = "";
       } else if (editCondition === 3) {
-        form.content = "";
+        form.userId = "";
         form.cid = "";
       } else {
         form.content = "";
@@ -366,15 +366,16 @@ export default {
           ...form
         }
       };
-      this.$http.sysTimeTasklist.updateTimeTasklist(params).then(res => {
-        if (resOk(res)) {
-          this.$message.success(res.msg || res.data);
-          this._mxGetList();
-          this.editGateway = false;
-        } else {
-          this.$message.error(res.data || res.msg);
-        }
-      });
+      console.log(params, "------------params");
+      // this.$http.sysTimeTasklist.updateTimeTasklist(params).then(res => {
+      //   if (resOk(res)) {
+      //     this.$message.success(res.msg || res.data);
+      //     this._mxGetList();
+      //     this.editGateway = false;
+      //   } else {
+      //     this.$message.error(res.data || res.msg);
+      //   }
+      // });
     },
     //选择用户选取赋值
     chooseUserData(data) {

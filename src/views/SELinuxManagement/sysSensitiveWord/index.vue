@@ -11,11 +11,13 @@
         @select="handleSelectGroup"
       >
         <el-menu-item
-          v-for="item in groupList"
+          v-for="(item, index) in groupList"
           :key="item.groupId"
           :index="item.groupId + ''"
+          :class="activeIndex == index ? 'hover' : ''"
+          @click="activeIndex = index"
         >
-          <span slot="title">{{ item.groupName }}</span>
+          <span slot="title" class="title">{{ item.groupName }}</span>
           <span slot class="action-bar">
             <el-popover placement="bottom" trigger="hover">
               <div style="text-align: center">
@@ -171,7 +173,8 @@ export default {
       createOrUpdate: "添加敏感词组",
       isAddGroup: false,
       addGroupObj: {},
-      editId: ""
+      editId: "",
+      activeIndex: 0
     };
   },
   mounted() {
@@ -179,8 +182,11 @@ export default {
     this.getGroupList();
   },
   activated() {
-    this.getGroupList(); //获取敏感词分组
-    this._mxGetList(); //获取列表敏感词
+    this.$nextTick(() => {
+      this.getGroupList(); //获取敏感词分组
+      this._mxGetList(); //获取列表敏感词
+      this.activeIndex = 0;
+    });
   },
   methods: {
     //获取敏感词分组
@@ -208,6 +214,7 @@ export default {
       this.isAddGroup = true;
       this.$nextTick(() => {
         this.$refs.addGroupObj.clearValidate();
+        this.activeIndex = 0;
       });
     },
     //确认添加/修改敏感词分组
@@ -226,6 +233,7 @@ export default {
             if (res.code === 200) {
               this.getGroupList();
               this.isAddGroup = false;
+              this.activeIndex = 0;
               this.$message.success(res.data || res.msg);
             } else {
               this.$message.error(res.data || res.msg);
@@ -250,6 +258,7 @@ export default {
       this.addGroupObj = { groupName };
       this.isAddGroup = true;
       this.$nextTick(() => {
+        this.activeIndex = 0;
         this.$refs.addGroupObj.clearValidate();
       });
     },
@@ -270,6 +279,7 @@ export default {
             .then(res => {
               if (res.code === 200) {
                 this.getGroupList();
+                this.activeIndex = 0;
                 this.$message.success(res.data || res.msg);
               } else {
                 this.$message.error(res.data || res.msg);
@@ -334,6 +344,9 @@ export default {
 .sysSensitiveWord {
   display: flex;
   justify-content: space-between;
+  .hover {
+    background-color: #ccc !important;
+  }
 
   .left-menu {
     width: 18%;
@@ -342,9 +355,18 @@ export default {
       width: 100%;
       height: 600px;
       overflow-y: auto;
+      .title {
+        width: 100px;
+        height: 14px;
+        line-height: 1;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: hidden;
+      }
 
       .is-active {
-        background-color: #ccc !important;
+        // background-color: #ccc !important;
       }
 
       .action-bar {

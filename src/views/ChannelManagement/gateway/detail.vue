@@ -77,14 +77,15 @@ export default {
           type: "input",
           label: "通道编号",
           key: "gateway",
-          maxlength: "4",
+          maxlength: "8",
+          disabled: this.$route.query.type === "add" ? false : true,
           colSpan: 12,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^[1-8]\d{3}$/,
-              message: "1-8开头4位数",
-              trigger: "change"
+              pattern: /^\d{1,8}$/,
+              message: "通道编号只允许为正整数，长度限制为1~8位",
+              trigger: "blur"
             }
           ]
         },
@@ -303,9 +304,9 @@ export default {
           key: "isTwoRoute",
           defaultValue: "",
           optionData: [
-            { key: "0", value: "不取" },
-            { key: "1", value: "强制取" },
-            { key: "2", value: "非强制取" }
+            { key: 0, value: "不取" },
+            { key: 1, value: "强制取" },
+            { key: 2, value: "非强制取" }
           ],
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -380,11 +381,11 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "非直连"
+              value: "直连"
             },
             {
               key: 2,
-              value: "直连"
+              value: "非直连"
             }
           ]
           // change: this.selectUser,
@@ -776,6 +777,7 @@ export default {
       this.formConfig.forEach(item => {
         if (item.tag === "encrypt") {
           item.lock = false;
+          item.defaultValue = "";
         }
       });
     }
