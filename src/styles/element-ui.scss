@@ -112,3 +112,7 @@
 .el-table th.is-leaf {
   background: rgba(0, 0, 0, 0.02);
 }
+
+.el-tooltip__popper {
+  max-width: 1000px;
+}

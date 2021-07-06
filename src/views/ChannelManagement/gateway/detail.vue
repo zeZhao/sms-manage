@@ -540,13 +540,13 @@ export default {
             { key: "1", value: "是" }
           ]
         },
-        {
-          type: "input",
-          label: "发送速度",
-          tag: "addition",
-          key: "sendSpeed",
-          colSpan: 12
-        },
+        // {
+        //   type: "input",
+        //   label: "发送速度",
+        //   tag: "addition",
+        //   key: "sendSpeed",
+        //   colSpan: 12
+        // },
 
         {
           type: "input",
@@ -616,22 +616,22 @@ export default {
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "账号",
-          tag: "addition",
-          key: "clientId",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "密码",
-          tag: "addition",
-          key: "sharedSecret",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "input",
+        //   label: "账号",
+        //   tag: "addition",
+        //   key: "clientId",
+        //   colSpan: 12
+        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "密码",
+        //   tag: "addition",
+        //   key: "sharedSecret",
+        //   colSpan: 12
+        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         // {
         //   type: "input",
         //   label: "通道端口号",
@@ -685,20 +685,20 @@ export default {
           colSpan: 12
         },
 
-        {
-          type: "input",
-          label: "业务代码",
-          tag: "addition",
-          key: "serviceId",
-          colSpan: 12
-        },
-        {
-          type: "input",
-          label: "商户代码",
-          tag: "addition",
-          key: "msgSrc",
-          colSpan: 12
-        },
+        // {
+        //   type: "input",
+        //   label: "业务代码",
+        //   tag: "addition",
+        //   key: "serviceId",
+        //   colSpan: 12
+        // },
+        // {
+        //   type: "input",
+        //   label: "商户代码",
+        //   tag: "addition",
+        //   key: "msgSrc",
+        //   colSpan: 12
+        // },
 
         {
           type: "input",
@@ -777,7 +777,6 @@ export default {
       this.formConfig.forEach(item => {
         if (item.tag === "encrypt") {
           item.lock = false;
-          item.defaultValue = "";
         }
       });
     }

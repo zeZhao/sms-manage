@@ -14,7 +14,7 @@
           v-for="(item, index) in groupList"
           :key="item.groupId"
           :index="item.groupId + ''"
-          :class="activeIndex == index ? 'hover' : ''"
+          :class="activeIndex === index ? 'hover' : ''"
           @click="activeIndex = index"
         >
           <span slot="title" class="title">{{ item.groupName }}</span>
@@ -57,7 +57,7 @@
         ref="Search"
         :notSearch="notSearch"
         :searchFormConfig="searchFormConfig"
-        @search="_mxDoSearch"
+        @search="handleSearch"
         @create="create"
         @exportData="exportData"
       >
@@ -167,7 +167,7 @@ export default {
       //搜索框数据
       searchParam: {},
       //搜索框配置
-      searchFormConfig: [{ type: "input", label: "敏感词", key: "wordName" }],
+      searchFormConfig: [{ type: "input", label: "敏感词", key: "wordName", isLonger: true }],
       defaultActive: "",
       groupList: [],
       createOrUpdate: "添加敏感词组",
@@ -189,6 +189,14 @@ export default {
     });
   },
   methods: {
+    //点击搜索查询数据
+    handleSearch(searchParam) {
+      const params = {
+        groupId: this.groupList[this.activeIndex].groupId || "",
+        ...searchParam
+      };
+      this._mxDoSearch(params);
+    },
     //获取敏感词分组
     getGroupList() {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
@@ -244,7 +252,11 @@ export default {
     },
     //导出
     exportData(data) {
-      this.$http.sysSensitiveWord.exportKeyword(data).then(res => {
+      const params = {
+        groupId: this.groupList[this.activeIndex].groupId || "",
+        ...data
+      };
+      this.$http.sysSensitiveWord.exportKeyword(params).then(res => {
         if (res.code === 200) this.$exportToast();
       });
     },
@@ -295,6 +307,7 @@ export default {
         .then(res => {
           if (res.code === 200) {
             this.listData = res.data.list;
+            this.$refs.Search._mxHandleSubmit(); //目的是更新分页页脚总数数据
           } else {
             this.$message.error(res.data || res.msg);
           }
@@ -344,9 +357,6 @@ export default {
 .sysSensitiveWord {
   display: flex;
   justify-content: space-between;
-  .hover {
-    background-color: #ccc !important;
-  }
 
   .left-menu {
     width: 18%;
@@ -355,6 +365,11 @@ export default {
       width: 100%;
       height: 600px;
       overflow-y: auto;
+
+      .hover {
+        background-color: #ccc !important;
+      }
+
       .title {
         width: 100px;
         height: 14px;
@@ -363,10 +378,6 @@ export default {
         text-overflow: ellipsis;
         white-space: normal;
         overflow: hidden;
-      }
-
-      .is-active {
-        // background-color: #ccc !important;
       }
 
       .action-bar {

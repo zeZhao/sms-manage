@@ -1,13 +1,25 @@
 <template>
   <!--上行信息-->
   <div>
-    <Search ref="Search" :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"
-      @exportData="exportData">
+    <Search
+      ref="Search"
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+      @exportData="exportData"
+    >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
       </template>
     </Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table
+      :data="listData"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
@@ -25,15 +37,21 @@
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="gateway" label="上行通道" />
       <el-table-column prop="createTime" label="上行时间" min-width="150">
-        <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 1 ? "已推送" : "未推送" }}</span>
+          <span>{{ scope.row.status == "1" ? "已推送" : "未推送" }}</span>
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
   </div>
 </template>
 
@@ -41,7 +59,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       //接口地址
       searchAPI: {
@@ -108,23 +126,23 @@ export default {
       ]
     };
   },
-  mounted () {
+  mounted() {
     this.listSysProvince();
   },
   methods: {
     //导出
-    exportData (data) {
-      this.$axios.post('/smsMoQueue/exportSmsMoQueue ', data).then(res => {
+    exportData(data) {
+      this.$axios.post("/smsMoQueue/exportSmsMoQueue ", data).then(res => {
         if (res.data.code === 200) this.$exportToast();
-      })
+      });
     },
-    exportExe () {
+    exportExe() {
       this.$refs.Search.handleExport();
     },
     /*
      * 获取省份列表
      * */
-    listSysProvince () {
+    listSysProvince() {
       const params = {
         data: {
           provinceName: ""

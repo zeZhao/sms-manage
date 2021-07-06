@@ -10,7 +10,6 @@
       :data="listData"
       highlight-current-row
       style="width: 100%"
-      height="350"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -511,8 +510,8 @@ export default {
           key: "accountType",
           optionData: [
             { key: "1", value: "行业" },
-            { key: "2", value: "营销" },
-            { key: "3", value: "VIP" }
+            // { key: "2", value: "营销" },
+            // { key: "3", value: "VIP" }
           ]
         },
         // {

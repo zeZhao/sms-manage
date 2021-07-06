@@ -423,18 +423,18 @@ export default {
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "返还类型",
-        //   key: "returnBalance",
-        //   isShow: true,
-        //   optionData: [
-        //     { key: "0", value: "不返还" },
-        //     { key: 1, value: "返失败" },
-        //     { key: 2, value: "返失败和未知" }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "select",
+          label: "返还类型",
+          key: "returnBalance",
+          isShow: true,
+          optionData: [
+            { key: "0", value: "不返还" },
+            { key: 1, value: "返失败" },
+            { key: 2, value: "返失败和未知" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "input",
           label: "短信单价",
@@ -533,13 +533,13 @@ export default {
           label: "失败比例",
           key: "faToSu",
           tag: "sms",
-          rules: [
-            {
-              pattern: /^[1-9]\d*$/,
-              message: "只能输入大于0的正整数",
-              trigger: "change"
-            }
-          ]
+          // rules: [
+          //   {
+          //     pattern: /^[1-9]\d*$/,
+          //     message: "只能输入大于0的正整数",
+          //     trigger: "change"
+          //   }
+          // ]
         },
         {
           type: "input",
@@ -1161,10 +1161,9 @@ export default {
       let params = {
         ...form
       };
-      if (params.times) {
-        params.startTime = params.times[0];
-        params.endTime = params.times[1];
-      }
+      params.startTime = params.times ? params.times[0] : "";
+      params.endTime = params.times ? params.times[1] : "";
+      
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
