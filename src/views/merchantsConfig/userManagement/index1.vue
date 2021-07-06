@@ -10,7 +10,6 @@
       :data="listData"
       highlight-current-row
       style="width: 100%"
-      height="350"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
