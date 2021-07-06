@@ -423,18 +423,18 @@ export default {
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "返还类型",
-        //   key: "returnBalance",
-        //   isShow: true,
-        //   optionData: [
-        //     { key: "0", value: "不返还" },
-        //     { key: 1, value: "返失败" },
-        //     { key: 2, value: "返失败和未知" }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "select",
+          label: "返还类型",
+          key: "returnBalance",
+          isShow: true,
+          optionData: [
+            { key: "0", value: "不返还" },
+            { key: 1, value: "返失败" },
+            { key: 2, value: "返失败和未知" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "input",
           label: "短信单价",
