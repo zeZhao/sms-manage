@@ -395,6 +395,10 @@ export default {
         queryByPage(params) {
             return post("/corpUserBalance/queryByPage", params);
         },
+        // 导出用户余额
+        export(params) {
+            return post("/corpUserBalance/downLoad", params);
+        }
     },
     //余额调整记录
     smsBalanceopt: {
@@ -1919,10 +1923,6 @@ export default {
         importBatchAdd(params) {
             return post("/networkChange/importBatchAdd", params);
         },
-        // 导出携号转网
-        export(params) {
-            return post("/corpUserBalance/downLoad", params);
-        },
         // 删除携号转网
         delete(params) {
             return fetch("/networkChange/delete", params);
@@ -1931,7 +1931,10 @@ export default {
         addOrUpdate(params) {
             return post("/networkChange/addOrUpdate", params);
         },
-
+        // 导出携号转网
+        export(params) {
+            return post("/networkChange/export", params);
+        }
     },
     //黑名单分类
     smsBlackGroup: {

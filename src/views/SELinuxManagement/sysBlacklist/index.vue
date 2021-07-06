@@ -266,7 +266,9 @@ export default {
   mounted() {
     this.getBlackFroup();
   },
-  computed: {},
+  activated() {
+    this.getBlackFroup();
+  },
   methods: {
     getBlackFroup() {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {

@@ -108,8 +108,7 @@ export default {
       return data;
     },
     exported(form) {
-      console.log({ ...form.form }, "----------");
-      this.$http.networkChange.export({ ...form.form }).then(res => {
+      this.$http.corpUserBalance.export({ ...form.form }).then(res => {
         if (res.code === 200) {
           this.$message.success("提交下载成功，请前往下载中心下载文件。");
         }

@@ -40,9 +40,12 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" min-width="200" show-overflow-tooltip>
+      <el-table-column prop="content" label="内容" min-width="200">
         <template slot-scope="scope">
-          <div v-html="scope.row.content"></div>
+          <el-tooltip placement="top">
+            <div v-html="scope.row.content" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></div>
+            <div slot="content" v-html="scope.row.content"></div>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column prop="counter" label="条数" />
