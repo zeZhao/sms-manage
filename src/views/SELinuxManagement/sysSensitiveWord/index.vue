@@ -57,7 +57,7 @@
         ref="Search"
         :notSearch="notSearch"
         :searchFormConfig="searchFormConfig"
-        @search="_mxDoSearch"
+        @search="handleSearch"
         @create="create"
         @exportData="exportData"
       >
@@ -167,7 +167,7 @@ export default {
       //搜索框数据
       searchParam: {},
       //搜索框配置
-      searchFormConfig: [{ type: "input", label: "敏感词", key: "wordName" }],
+      searchFormConfig: [{ type: "input", label: "敏感词", key: "wordName", isLonger: true }],
       defaultActive: "",
       groupList: [],
       createOrUpdate: "添加敏感词组",
@@ -189,6 +189,14 @@ export default {
     });
   },
   methods: {
+    //点击搜索查询数据
+    handleSearch(searchParam) {
+      const params = {
+        groupId: this.groupList[this.activeIndex].groupId || "",
+        ...searchParam
+      };
+      this._mxDoSearch(params);
+    },
     //获取敏感词分组
     getGroupList() {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
@@ -299,6 +307,7 @@ export default {
         .then(res => {
           if (res.code === 200) {
             this.listData = res.data.list;
+            this.$refs.Search._mxHandleSubmit(); //目的是更新分页页脚总数数据
           } else {
             this.$message.error(res.data || res.msg);
           }
