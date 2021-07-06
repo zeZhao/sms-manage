@@ -25,7 +25,7 @@
         <el-col
           :sm="12"
           :md="8"
-          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' || item.type === 'selectInp' ? 12 : 6"
+          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' || item.type === 'selectInp' || item.isLonger ? 12 : 6"
           v-for="(item, index) in searchFormConfig"
           :key="index"
         >
