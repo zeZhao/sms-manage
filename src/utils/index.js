@@ -37,7 +37,7 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -160,12 +160,12 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -244,7 +244,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = function () {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -261,7 +261,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return function (...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -348,9 +348,16 @@ export function removeClass(ele, cls) {
 
 //获取当前时间日期转为字符串且补零
 export function getDateToString(date = new Date()) {
-  const arr = date.toLocaleDateString().split('/');
-  arr.forEach((v, i) => {
-    if (v < 10) arr[i] = '0' + v;
-  })
-  return arr.join('-');
+  return date.Format('yyyy-MM-dd');
+}
+//获取当前时间日期
+export function getDateTime(statu, date = new Date()) {
+  let dateTime = ''
+  if (statu === 'start') {
+    dateTime = date.Format('yyyy-MM-dd 00:00:00')
+  }
+  if (statu === 'end') {
+    dateTime = date.Format('yyyy-MM-dd 23:59:59')
+  }
+  return dateTime;
 }

@@ -25,7 +25,14 @@
         <el-col
           :sm="12"
           :md="8"
-          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' || item.type === 'selectInp' ? 12 : 6"
+          :lg="
+            item.type === 'daterange' ||
+            item.type === 'timerange' ||
+            item.type === 'datetime' ||
+            item.type === 'selectInp'
+              ? 12
+              : 6
+          "
           v-for="(item, index) in searchFormConfig"
           :key="index"
         >
@@ -77,7 +84,7 @@
               </el-select>
             </template>
             <template v-if="item.type === 'selectInp'">
-                <el-select
+              <el-select
                 style="width: 20%"
                 v-model="form[item.key[0]]"
                 :placeholder="item.placeholder || `请选择${item.label}`"
@@ -95,7 +102,7 @@
                 />
               </el-select>
               <el-input
-              style="width: 69%"
+                style="width: 69%"
                 v-model="form[item.key[1]]"
                 type="number"
                 size="small"
@@ -329,7 +336,7 @@ export default {
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (type !== "daterange") {
+          if (type !== "daterange" && type !== "datetime") {
             form[key] = item.defaultValue;
           } else {
             form[key[1]] = item.defaultValue[1];
@@ -359,7 +366,7 @@ export default {
 
       if (this.notSearch) return; //默认进入该页面不查询
       this._mxHandleSubmit();
-      
+
       // if (
       //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
       //     "isSpecial"
