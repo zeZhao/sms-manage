@@ -510,8 +510,8 @@ export default {
           key: "accountType",
           optionData: [
             { key: "1", value: "行业" },
-            // { key: "2", value: "营销" },
-            // { key: "3", value: "VIP" }
+            { key: "2", value: "营销" },
+            { key: "3", value: "VIP" }
           ]
         },
         // {
