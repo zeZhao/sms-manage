@@ -29,7 +29,8 @@
             item.type === 'daterange' ||
             item.type === 'timerange' ||
             item.type === 'datetime' ||
-            item.type === 'selectInp'
+            item.type === 'selectInp' ||
+            item.isLonger
               ? 12
               : 6
           "
