@@ -171,6 +171,7 @@ export default {
           type: "textarea",
           label: "不优化关键词",
           key: "noOptimizeTemplate",
+          maxlength: 200,
           placeholder: "请输入模板内容，多条内容请用英文“,”隔开",
           rules: [
             // { required: true, message: "请输入必填项", trigger: "blur" },
@@ -184,6 +185,7 @@ export default {
           type: "textarea",
           label: "优化关键词",
           key: "optimizeTemplate",
+          maxlength: 200,
           placeholder: "请输入模板内容，多条内容请用英文“,”隔开",
           rules: [
             // { required: true, message: "请输入必填项", trigger: "blur" },

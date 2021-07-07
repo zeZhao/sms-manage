@@ -14,7 +14,7 @@
         登录名：{{ custName }}
       </span>
 
-      <span class="el-breadcrumb__item fontColor" style="margin: 0 60px 0 30px">
+      <span class="el-breadcrumb__item fontColor" style="margin: 0 30px 0 30px">
         平台时间：{{ oneSecondForGetNow }}
       </span>
 
