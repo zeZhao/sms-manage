@@ -87,6 +87,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateTime } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -172,7 +173,8 @@ export default {
         {
           type: "datetime",
           label: "定时时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateTime("start"), getDateTime("end")]
         }
       ],
 
@@ -366,16 +368,15 @@ export default {
           ...form
         }
       };
-      console.log(params, "------------params");
-      // this.$http.sysTimeTasklist.updateTimeTasklist(params).then(res => {
-      //   if (resOk(res)) {
-      //     this.$message.success(res.msg || res.data);
-      //     this._mxGetList();
-      //     this.editGateway = false;
-      //   } else {
-      //     this.$message.error(res.data || res.msg);
-      //   }
-      // });
+      this.$http.sysTimeTasklist.updateTimeTasklist(params).then(res => {
+        if (resOk(res)) {
+          this.$message.success(res.msg || res.data);
+          this._mxGetList();
+          this.editGateway = false;
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
+      });
     },
     //选择用户选取赋值
     chooseUserData(data) {
