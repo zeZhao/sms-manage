@@ -22,8 +22,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="optimizePercent" label="优化比例" />
-      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" min-width="120" />
-      <el-table-column prop="optimizeTemplate" label="优化关键词" min-width="120" />
+      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="optimizeTemplate" label="优化关键词" min-width="120" show-overflow-tooltip />
       <el-table-column prop="startTime" label="开始时间(时:分)" min-width="120" />
       <el-table-column prop="endTime" label="结束时间(时:分)" min-width="120" />
       <el-table-column label="操作" width="200"

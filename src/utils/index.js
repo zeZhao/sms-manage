@@ -346,10 +346,16 @@ export function removeClass(ele, cls) {
   }
 }
 
-//获取当前时间日期转为字符串且补零
+//获取当前时间日期-格式化
 export function getDateToString(date = new Date()) {
   return date.Format('yyyy-MM-dd');
 }
+
+//获取当前时间日期-格式化
+export function getNewTimeForSecond(date = new Date()) {
+  return date.Format('yyyy-MM-dd hh:mm:ss');
+}
+
 //获取当前时间日期
 export function getDateTime(statu, date = new Date()) {
   let dateTime = ''
