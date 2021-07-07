@@ -191,8 +191,9 @@ export default {
   methods: {
     //点击搜索查询数据
     handleSearch(searchParam) {
+      const groupId = (this.groupList[this.activeIndex] && this.groupList[this.activeIndex].groupId) || "";
       const params = {
-        groupId: this.groupList[this.activeIndex].groupId || "",
+        groupId,
         ...searchParam
       };
       this._mxDoSearch(params);
@@ -252,8 +253,9 @@ export default {
     },
     //导出
     exportData(data) {
+      const groupId = (this.groupList[this.activeIndex] && this.groupList[this.activeIndex].groupId) || "";
       const params = {
-        groupId: this.groupList[this.activeIndex].groupId || "",
+        groupId,
         ...data
       };
       this.$http.sysSensitiveWord.exportKeyword(params).then(res => {
