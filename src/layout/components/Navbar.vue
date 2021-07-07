@@ -10,9 +10,14 @@
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
 
     <div class="right-menu">
-      <!-- <span class="el-breadcrumb__item fontColor"
-        >账户名称：{{ custName }}&nbsp;&nbsp;/&nbsp;&nbsp;</span
-      > -->
+      <span class="el-breadcrumb__item fontColor">
+        登录名：{{ custName }}
+      </span>
+
+      <span class="el-breadcrumb__item fontColor" style="margin: 0 60px 0 30px">
+        平台时间：{{ oneSecondForGetNow }}
+      </span>
+
       <template v-if="device !== 'mobile'">
         <!-- <search id="header-search" class="right-menu-item" /> -->
 
@@ -31,7 +36,7 @@
         placement="bottom"
       >
         <div class="avatar-wrapper">
-          {{ custName }}
+          <!-- {{ custName }} -->
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -63,7 +68,7 @@ import Screenfull from "@/components/Screenfull";
 import SizeSelect from "@/components/SizeSelect";
 import Search from "@/components/HeaderSearch";
 import { Message } from "element-ui";
-
+import { getNewTimeForSecond } from "@/utils";
 export default {
   components: {
     Breadcrumb,
@@ -75,6 +80,7 @@ export default {
   },
   data() {
     return {
+      oneSecondForGetNow: getNewTimeForSecond(),
       custName: window.localStorage.getItem("userName"),
       balance: "",
       creditLine: ""
@@ -84,6 +90,10 @@ export default {
     ...mapGetters(["sidebar", "avatar", "device"])
   },
   mounted() {
+    //每一秒都获取当前时间
+    setInterval(() => {
+      this.oneSecondForGetNow = getNewTimeForSecond();
+    }, 1000);
     // this.userInfo()
   },
   methods: {
@@ -122,7 +132,7 @@ export default {
 
 <style lang="scss" scoped>
 .fontColor {
-  color: #303133;
+  color: #fff;
   font-size: 14px;
 }
 .fontRed {
