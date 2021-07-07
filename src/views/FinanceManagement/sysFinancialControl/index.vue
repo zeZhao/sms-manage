@@ -12,10 +12,24 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip/>
-      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip min-width="110"/>
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip/>
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip min-width="110"/>
+      <el-table-column
+        prop="corporateId"
+        label="商户编号"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="corpName"
+        label="商户名称"
+        show-overflow-tooltip
+        min-width="110"
+      />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column
+        prop="userName"
+        label="账户名称"
+        show-overflow-tooltip
+        min-width="110"
+      />
       <el-table-column prop="chargeType" label="产品" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>
@@ -23,11 +37,35 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="beforeBalance" label="操作前的条数" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="cardCount" label="当前操作条数" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="afterBalance" label="操作后的条数" min-width="110" show-overflow-tooltip />
-      <el-table-column prop="cardUnit" label="当前操作单价(分)" min-width="130" show-overflow-tooltip />
-      <el-table-column prop="cardMoney" label="金额(元)" show-overflow-tooltip />
+      <el-table-column
+        prop="beforeBalance"
+        label="操作前的条数"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="cardCount"
+        label="当前操作条数"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="afterBalance"
+        label="操作后的条数"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="cardUnit"
+        label="当前操作单价(分)"
+        min-width="130"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="cardMoney"
+        label="金额(元)"
+        show-overflow-tooltip
+      />
       <el-table-column prop="fileUrl" label="付款截图" show-overflow-tooltip>
         <template slot-scope="scope">
           <a
@@ -58,7 +96,11 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="direction" label="到款方式" show-overflow-tooltip />
+      <el-table-column
+        prop="direction"
+        label="到款方式"
+        show-overflow-tooltip
+      />
       <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
@@ -89,14 +131,34 @@
         </template>
       </el-table-column> -->
 
-      <el-table-column prop="remark" label="备注" show-overflow-tooltip min-width="110"/>
-      <el-table-column prop="modifier" label="操作账号" min-width="110" show-overflow-tooltip/>
-      <el-table-column prop="createTime" label="创建时间" width="150" show-overflow-tooltip>
+      <el-table-column
+        prop="remark"
+        label="备注"
+        show-overflow-tooltip
+        min-width="110"
+      />
+      <el-table-column
+        prop="modifier"
+        label="操作账号"
+        min-width="110"
+        show-overflow-tooltip
+      />
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        width="150"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="paymentCompany" label="打款公司名称" width="110" show-overflow-tooltip />
+      <el-table-column
+        prop="paymentCompany"
+        label="打款公司名称"
+        width="110"
+        show-overflow-tooltip
+      />
       <el-table-column prop="cardStatus" label="审核状态" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.cardStatus == 0">未操作</span>
@@ -159,22 +221,22 @@ export default {
         {
           type: "inputNum",
           label: "商户编号",
-          key: "corporateId",
+          key: "corporateId"
         },
         {
           type: "input",
           label: "商户名称",
-          key: "corpName",
+          key: "corpName"
         },
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userId",
+          key: "userId"
         },
         {
           type: "input",
           label: "账户名称",
-          key: "userName",
+          key: "userName"
         },
         {
           type: "select",
@@ -232,6 +294,9 @@ export default {
   },
   mounted() {},
   computed: {},
+  activated() {
+    this._mxGetList();
+  },
   methods: {
     audit(row) {
       const { corpName, cardId } = row;
