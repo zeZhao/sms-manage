@@ -530,10 +530,16 @@ export default {
                       typeof value === "string"
                         ? value.trim()
                         : (value + "").trim();
-                    if (/^\d{1,10}(\.\d+)?$/.test(val)) {
+                    if (
+                      /^\d{1,10}(\.\d+)?$/.test(val) &&
+                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/.test(
+                        val
+                      )
+                    ) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~10位的数值"));
+                      // callback(new Error("请输入1~10位的数值"));
+                      callback(new Error("输入大于0的数，小数点保留2位"));
                     }
                   }
                 }
@@ -800,8 +806,32 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              trigger: ["blur", "change"],
+              validator: (rule, value, callback) => {
+                if (value === "" || value === undefined || value === null) {
+                  callback(new Error("请输入必填项"));
+                } else {
+                  if (value <= 0) {
+                    callback(new Error("需大于0"));
+                  } else {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (
+                      /^\d{1,10}(\.\d+)?$/.test(val) &&
+                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/.test(
+                        val
+                      )
+                    ) {
+                      callback();
+                    } else {
+                      // callback(new Error("请输入1~10位的数值"));
+                      callback(new Error("输入大于0的数，小数点保留2位"));
+                    }
+                  }
+                }
+              }
             }
           ]
         },
@@ -1271,7 +1301,7 @@ export default {
       }
       if (item.key === "cardUnit") {
         if (cardCount) {
-          let cardMoney = parseFloat((cardUnit * cardCount) / 100);
+          let cardMoney = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
           this._setDefaultValue(this.formConfig, [], "cardMoney", cardMoney);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardUnit);
@@ -1280,7 +1310,7 @@ export default {
       }
       if (item.key === "cardCount") {
         if (cardUnit) {
-          let num = parseFloat((cardUnit * cardCount) / 100);
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
           this._setDefaultValue(this.formConfig, [], "cardMoney", num);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardCount);
@@ -1327,7 +1357,7 @@ export default {
       }
       if (item.key === "cardCount") {
         if (cardUnit && cardUnitTo) {
-          let num = parseFloat((cardUnit * cardCount) / 100);
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
           this._setDefaultValue(this.formConfigTransfers, [], "cardMoney", num);
           let count = parseInt((num * 100) / cardUnitTo);
           this._setDefaultValue(
