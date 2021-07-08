@@ -512,7 +512,6 @@ export default {
           type: "input",
           label: "充值金额(元)",
           key: "cardMoney",
-          maxlength: 10,
           defaultValue: "",
           tag: "skype",
           rules: [
@@ -532,7 +531,7 @@ export default {
                         : (value + "").trim();
                     if (
                       /^\d{1,10}(\.\d+)?$/.test(val) &&
-                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/.test(
+                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{1,10}\.\d{0,2}$|^[1-9]\d{1,10}$/.test(
                         val
                       )
                     ) {
@@ -820,7 +819,7 @@ export default {
                         : (value + "").trim();
                     if (
                       /^\d{1,10}(\.\d+)?$/.test(val) &&
-                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/.test(
+                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{1,10}\.\d{0,2}$|^[1-9]\d{1,10}$/.test(
                         val
                       )
                     ) {
