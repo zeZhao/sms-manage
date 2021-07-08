@@ -31,7 +31,7 @@
       <el-table-column prop="beforeBalance" label="操作前的余额" width="110" />
       <el-table-column prop="optBalance" label="操作条数" />
       <el-table-column prop="afterBalance" label="操作后的余额" width="110" />
-      <el-table-column prop="optType" label="操作类型">
+      <!-- <el-table-column prop="optType" label="操作类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.optType === "1"
@@ -43,7 +43,7 @@
               : "借款"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
       <!-- <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
@@ -57,7 +57,7 @@
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="debt" label="失败退款" show-overflow-tooltip />
+      <!-- <el-table-column prop="debt" label="失败退款" show-overflow-tooltip /> -->
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
       <el-table-column prop="operatorName" label="操作人名称" width="100" />
       <el-table-column prop="createTime" label="操作时间" width="150">
