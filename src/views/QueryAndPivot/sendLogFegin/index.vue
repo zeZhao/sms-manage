@@ -170,11 +170,11 @@ export default {
       return data;
     }
   },
-  watch: {
-    searchParam(val) {
-      this.selectSendLogAllNum();
-    }
-  }
+  // watch: {
+  //   searchParam(val) {
+  //     this.selectSendLogAllNum();
+  //   }
+  // }
 };
 </script>
 
