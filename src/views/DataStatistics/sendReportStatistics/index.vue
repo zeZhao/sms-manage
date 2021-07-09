@@ -24,11 +24,11 @@
       <el-table-column prop="accountType" label="用户类型" key="accountType">
         <template slot-scope="scope">
           <span>{{
-            scope.row.smsType === 1
+            scope.row.accountType === 1
               ? "行业"
-              : scope.row.smsType === 2
+              : scope.row.accountType === 2
               ? "营销"
-              : scope.row.smsType === 3
+              : scope.row.accountType === 3
               ? "vip"
               : "-"
           }}</span>
@@ -155,15 +155,15 @@ export default {
             {
               key: 1,
               value: "行业"
+            },
+            {
+              key: 2,
+              value: "营销"
+            },
+            {
+              key: 3,
+              value: "vip"
             }
-            // {
-            //   key: 2,
-            //   value: "营销"
-            // },
-            // {
-            //   key: 3,
-            //   value: "vip"
-            // }
           ]
         },
         {

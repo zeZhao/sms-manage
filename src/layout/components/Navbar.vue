@@ -31,13 +31,13 @@
       </div>
 
       <el-dropdown
-        class="avatar-container right-menu-item hover-effect"
+        class="avatar-container right-menu-item"
         trigger="click"
         placement="bottom"
       >
         <div class="avatar-wrapper">
           <!-- {{ custName }} -->
-          <i class="el-icon-caret-bottom" />
+          <i class="el-icon-caret-bottom" style="padding-left: 34px" />
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
