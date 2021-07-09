@@ -459,6 +459,7 @@ export default {
           label: "扩展长度",
           key: "sublong",
           tag: "sms",
+          maxlength: 2,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -533,13 +534,19 @@ export default {
           label: "失败比例",
           key: "faToSu",
           tag: "sms",
-          // rules: [
-          //   {
-          //     pattern: /^[1-9]\d*$/,
-          //     message: "只能输入大于0的正整数",
-          //     trigger: "change"
-          //   }
-          // ]
+          rules: [
+            {
+              required: false,
+              trigger: "change",
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                if (isNaN(value)) callback(new Error('只能输入数值'));
+                if (value && (value + '').indexOf('.') !== -1) callback('只能输入正整数');
+                if (value < 0 || value > 100) callback('只能在0 ~ 100以内');
+                callback();
+              }
+            }
+          ]
         },
         {
           type: "input",
