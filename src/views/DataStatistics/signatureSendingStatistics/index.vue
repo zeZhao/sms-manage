@@ -8,9 +8,7 @@
       :add="false"
     >
       <template slot="Other">
-        <el-button type="primary" @click="exportExe" style="margin-left: 15px"
-          >导出</el-button
-        >
+        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
       </template>
     </Search>
     <el-table
@@ -112,7 +110,11 @@ export default {
           key: "accountType",
           initDefaultValue: 1,
           defaultValue: 1,
-          optionData: [{ key: 1, value: "行业客户" }]
+          optionData: [
+            { key: 1, value: "行业" },
+            { key: 2, value: "营销" },
+            { key: 3, value: "VIP" }
+          ]
         },
         {
           type: "daterange",
