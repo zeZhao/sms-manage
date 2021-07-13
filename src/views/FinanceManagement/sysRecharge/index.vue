@@ -530,13 +530,12 @@ export default {
                         ? value.trim()
                         : (value + "").trim();
                     if (
-                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,10}\.\d{0,2}$|^[1-9]\d{0,10}$/.test(
+                      /^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(
                         val
                       )
                     ) {
                       callback();
                     } else {
-                      // callback(new Error("请输入1~10位的数值"));
                       callback(new Error("输入大于0的数，小数点保留2位"));
                     }
                   }
@@ -618,10 +617,10 @@ export default {
                       typeof value === "string"
                         ? value.trim()
                         : (value + "").trim();
-                    if (/^\d{1,10}(\.\d+)?$/.test(val)) {
+                    if (/^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~10位数值"));
+                      callback(new Error("请输入1~10位数值且最多保留两位小数"));
                     }
                   }
                 }
@@ -817,13 +816,12 @@ export default {
                         ? value.trim()
                         : (value + "").trim();
                     if (
-                      /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,10}\.\d{0,2}$|^[1-9]\d{0,10}$/.test(
+                      /^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(
                         val
                       )
                     ) {
                       callback();
                     } else {
-                      // callback(new Error("请输入1~10位的数值"));
                       callback(new Error("输入大于0的数，小数点保留2位"));
                     }
                   }
