@@ -87,7 +87,6 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
   data() {
@@ -134,7 +133,7 @@ export default {
           label: "签名特服号",
           key: "code",
           defaultValue: "",
-          maxlength: 80
+          maxlength: 12
         },
         {
           type: "radio",
@@ -147,7 +146,7 @@ export default {
             { key: 5, value: "拒绝" }
           ],
           rules: [
-            { required: true, message: "请选择审核状态", trigger: "blur" }
+            { required: true, message: "请选择审核状态", trigger: "change" }
           ]
         }
       ],
@@ -167,6 +166,9 @@ export default {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === "code") {
+            this.$set(item, "defaultValue", "");
           }
           if (item.key === "status") {
             this.$set(item, "defaultValue", "");
