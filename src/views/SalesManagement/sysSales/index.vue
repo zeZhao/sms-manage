@@ -282,18 +282,10 @@ export default {
           this.formConfig.forEach(item => {
             const { key } = item;
             if (key === "groupId") {
-              res.data.forEach(t => {
-                let obj = {
-                  key: t.sid,
-                  value: t.groupName
-                };
-                item.optionData.push(obj);
-              });
+              item.optionData = res.data.map(t => { return { key: t.sid, value: t.groupName } });
             }
           });
         }
-
-        console.log(res, "----res");
       });
     },
     //修改状态
