@@ -210,6 +210,7 @@ export default {
           type: "textarea",
           label: "模板信息",
           key: "template",
+          maxlength: 500,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
