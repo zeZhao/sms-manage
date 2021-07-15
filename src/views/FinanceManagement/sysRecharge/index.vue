@@ -547,7 +547,7 @@ export default {
         {
           type: "input",
           label: "条数",
-          maxlength: 12,
+          maxlength: 9,
           key: "cardCount",
           defaultValue: "",
           rules: [
@@ -565,10 +565,10 @@ export default {
                       typeof value === "string"
                         ? value.trim()
                         : (value + "").trim();
-                    if (/^\d{1,12}$/.test(val)) {
+                    if (/^\d{1,9}$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~12位的正整数"));
+                      callback(new Error("请输入1~9位的正整数"));
                     }
                   }
                 }
