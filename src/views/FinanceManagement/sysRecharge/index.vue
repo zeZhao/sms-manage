@@ -530,7 +530,7 @@ export default {
                         ? value.trim()
                         : (value + "").trim();
                     if (
-                      /^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(
+                      /^(\d{1,9})$|^(\d{1,9}\.\d{1,2})$/.test(
                         val
                       )
                     ) {
