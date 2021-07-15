@@ -247,7 +247,7 @@ export default {
             { key: "2", value: "余额-" },
             // { key: "3", value: "还款" },
             { key: "4", value: "清授信" },
-            { key: "5", value: "充值(账号转移)" },
+            // { key: "5", value: "充值(账号转移)" },
             { key: "6", value: "余额+" }
           ],
           placeholder: "类型"
