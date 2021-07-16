@@ -59,6 +59,7 @@
                 size="small"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
+                onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
               ></el-input>
               <!-- @input="_mxHandleSubmit()" -->
             </template>
