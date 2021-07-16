@@ -1376,10 +1376,23 @@ export default {
       this._deleteDefaultValue(this.formConfig, "cardMoney");
       this.chooseData = data;
       let productType = data.productType;
-      console.log(productType, "--------productType");
+      let reductModel = data.reductModel;
 
       this.formConfig.map(t => {
         const { key } = t;
+        if (key === 'paidWay') {
+          if (reductModel === 3 || reductModel === 4) {
+            if ([1, 4, 6, 2].includes(t.defaultValue)) {
+              t.defaultValue = "";
+            }
+            this.$set(t.optionData[2], "disabled", true);
+            this.$set(t.optionData[3], "disabled", true);
+            this.$set(t.optionData[4], "disabled", true);
+            this.$set(t.optionData[5], "disabled", true);
+          } else {
+            t.optionData.forEach(v => { v.disabled = false });
+          }
+        }
         if (key === "chargeType") {
           t.defaultValue = "";
           if (productType == 1) {
