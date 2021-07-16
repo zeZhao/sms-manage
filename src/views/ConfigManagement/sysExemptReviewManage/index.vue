@@ -39,8 +39,8 @@
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span v-if="scope.row.isTemplate === 0">不需要</span>
-          <span v-if="scope.row.isTemplate === 1">需要</span>
+          <span v-if="scope.row.isTemplate === 0 || !scope.row.isTemplate">不需要</span>
+          <span v-if="scope.row.isTemplate === 1 || scope.row.isTemplate">需要</span>
         </template>
       </el-table-column>
       <!-- <el-table-column
