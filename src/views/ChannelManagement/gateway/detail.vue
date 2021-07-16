@@ -308,8 +308,8 @@ export default {
             { key: 1, value: "强制取" },
             { key: 2, value: "非强制取" }
           ],
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          colSpan: 12,
+          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
         },
         {
           type: "input",
@@ -387,17 +387,17 @@ export default {
               key: 2,
               value: "非直连"
             }
-          ]
+          ],
           // change: this.selectUser,
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
         },
         {
           type: "input",
           label: "通道端口",
           // tag: "addition",
           key: "port",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          colSpan: 12,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
