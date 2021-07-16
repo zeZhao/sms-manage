@@ -402,25 +402,8 @@ export default {
     },
     _mxCancel() {
       this.editGateway = false;
-    },
-    /**
-     * 调整提交的参数
-     *
-     * @param data
-     * @returns {*}
-     * @private
-     */
-    _formatRequestData(data) {
-      if (data.startTime) {
-        data.startTime = new Date(data.startTime).Format("yyyy-MM-dd 00:00:00");
-      }
-      if (data.endTime) {
-        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
-      }
-      return data;
     }
-  },
-  watch: {}
+  }
 };
 </script>
 
