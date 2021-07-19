@@ -182,7 +182,12 @@ export default {
           type: "input",
           label: "处理条数",
           key: "batchCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          maxlength: 9,
+          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
+            if (!value) callback(new Error('请输入必填项'));
+            if (!/^\d{0,9}$/.test(value)) callback(new Error('处理条数为正整数类型，且小于9位'));
+            callback();
+          }}]
         },
         {
           type: "input",
