@@ -382,6 +382,7 @@ export default {
           type: "input",
           label: "条数",
           key: "count",
+          maxlength: 9,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
