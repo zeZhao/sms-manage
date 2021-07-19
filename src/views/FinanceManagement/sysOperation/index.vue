@@ -99,7 +99,7 @@
         label="到款方式"
         show-overflow-tooltip
       />
-      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
+      <!-- <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度帐单</span>
@@ -110,7 +110,7 @@
           <span v-if="scope.row.isBill == 6">清授信记录</span>
           <span v-if="scope.row.isBill == 7">余额+记录</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column prop="paidWay" label="付款状态">
         <template slot-scope="scope">
           <span>
@@ -252,22 +252,22 @@ export default {
           ],
           placeholder: "类型"
         },
-        {
-          type: "select",
-          label: "账单类型",
-          key: "isBill",
-          optionData: [
-            // { key: "0", value: "充值记录" },
-            { key: "1", value: "月度账单" },
-            { key: "2", value: "退款记录" },
-            { key: "3", value: "授信记录" },
-            // { key: "4", value: "补款记录" }
-            { key: "5", value: "转移记录" },
-            { key: "6", value: "清授信记录" },
-            { key: "7", value: "余额+记录" }
-            // { key: "5", value: "转移记录" }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "账单类型",
+        //   key: "isBill",
+        //   optionData: [
+        //     // { key: "0", value: "充值记录" },
+        //     { key: "1", value: "月度账单" },
+        //     { key: "2", value: "退款记录" },
+        //     { key: "3", value: "授信记录" },
+        //     // { key: "4", value: "补款记录" }
+        //     { key: "5", value: "转移记录" },
+        //     { key: "6", value: "清授信记录" },
+        //     { key: "7", value: "余额+记录" }
+        //     // { key: "5", value: "转移记录" }
+        //   ]
+        // },
         {
           type: "select",
           label: "到款方式",
