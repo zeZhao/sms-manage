@@ -164,8 +164,13 @@ export default {
         {
           type: "input",
           label: "账户编号",
-          key: "userId"
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "userId",
+          maxlength: 9,
+          rules: [{ required: false, trigger: "blur", validator: (rule, value, callback) => {
+            if (!value) callback();
+            if (!/^\d{0,9}$/.test(value)) callback(new Error('账户编号为正整数类型，且小于9位'));
+            callback();
+          }}]
         },
         {
           type: "input",

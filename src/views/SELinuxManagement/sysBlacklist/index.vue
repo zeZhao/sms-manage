@@ -12,7 +12,9 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip>
+        <template slot-scope="{row}">{{ row.userId ? row.userId : "" }}</template>
+      </el-table-column>
       <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
 
       <el-table-column
