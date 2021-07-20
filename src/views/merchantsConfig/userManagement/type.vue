@@ -534,17 +534,18 @@ export default {
           label: "失败比例",
           key: "faToSu",
           tag: "sms",
+          maxlength: 6,
           rules: [
             {
               required: false,
               trigger: "change",
-              validator: (rule, value, callback) => {
-                if (!value) callback();
-                if (isNaN(value)) callback(new Error('只能输入数值'));
-                if (value && (value + '').indexOf('.') !== -1) callback('只能输入正整数');
-                if (value < 0 || value > 100) callback('只能在0 ~ 100以内');
-                callback();
-              }
+              // validator: (rule, value, callback) => {
+              //   if (!value) callback();
+              //   if (isNaN(value)) callback(new Error('只能输入数值'));
+              //   if (value && (value + '').indexOf('.') !== -1) callback('只能输入正整数');
+              //   if (value < 0 || value > 100) callback('只能在0 ~ 100以内');
+              //   callback();
+              // }
             }
           ]
         },
