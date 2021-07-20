@@ -88,11 +88,11 @@ export default {
           label: "统计日期",
           key: "startTime",
           clearable: false,
-          defaultValue: `${new Date().getFullYear()}-${new Date().getMonth() < 10 ? '0' + new Date().getMonth()  : new Date().getMonth()}`,
+          defaultValue: `${new Date().getFullYear()}-${(new Date().getMonth() + 1) < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1}`,
           pickerOptions:  {
             disabledDate(time) {
-              const t = new Date().getDate();
-              return time.getTime() > Date.now() - 8.64e7 * t;
+              const t = new Date().getMonth() + 1;
+              return time.getMonth() + 1 > t;
             }
           }
           // key: ["", "startTime", "endTime"]
