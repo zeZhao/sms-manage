@@ -6,7 +6,7 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
       <el-table-column prop="gateway" label="通道编号" show-overflow-tooltip />
       <el-table-column
         prop="gatewayName"
@@ -207,7 +207,6 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
-
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -1075,6 +1074,7 @@ export default {
     },
     //开启关闭通道
     switchChange(val, gateway) {
+      this.loading = true;
       if (val) {
         this.$http.gateway
           .startGateway({
@@ -1083,6 +1083,7 @@ export default {
             }
           })
           .then(res => {
+            this.loading = false;
             if (resOk(res)) {
               this.$message.success("通道启用成功！");
             } else {
@@ -1102,6 +1103,7 @@ export default {
             }
           })
           .then(res => {
+            this.loading = false;
             if (resOk(res)) {
               this.$message.success("通道停止成功！");
             } else {
