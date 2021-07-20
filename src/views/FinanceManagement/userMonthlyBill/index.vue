@@ -91,8 +91,8 @@ export default {
           defaultValue: `${new Date().getFullYear()}-${(new Date().getMonth() + 1) < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1}`,
           pickerOptions:  {
             disabledDate(time) {
-              const t = new Date().getMonth() + 1;
-              return time.getMonth() + 1 > t;
+              const t = `${new Date().getFullYear()}-${(new Date().getMonth() + 1) < 10 ? '0' + (new Date().getMonth() + 1) : new Date().getMonth() + 1}`;
+              return `${time.getFullYear()}-${(time.getMonth() + 1) < 10 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1}` > t;
             }
           }
           // key: ["", "startTime", "endTime"]
