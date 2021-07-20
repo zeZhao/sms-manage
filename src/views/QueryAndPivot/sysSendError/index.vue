@@ -136,7 +136,7 @@ export default {
           placeholder: "错误码"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "CID",
           key: "cid",
           placeholder: "CID"
