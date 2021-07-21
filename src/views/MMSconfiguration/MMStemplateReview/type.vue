@@ -67,7 +67,9 @@
             </el-col>
             <el-col :span="4">
               <el-form-item label="商户名称：">
-                <span>{{ formData.corpName }}</span>
+                <el-tooltip effect="dark" placement="top" :content="formData.corpName">
+                  <span class="text-ellipsis">{{ formData.corpName }}</span>
+                </el-tooltip>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -77,7 +79,9 @@
             </el-col>
             <el-col :span="4">
               <el-form-item label="账户名称：">
-                <span>{{ formData.userName }}</span>
+                <el-tooltip effect="dark" placement="top" :content="formData.userName">
+                  <span class="text-ellipsis">{{ formData.userName }}</span>
+                </el-tooltip>
               </el-form-item>
             </el-col>
           </el-row>
@@ -420,7 +424,17 @@ export default {
     text-align: center;
   }
 }
+
 /deep/ .el-form-item--medium .el-form-item__content {
   line-height: 34px;
+}
+
+.text-ellipsis {
+  display: inline-block;
+  width: 60px;
+  line-height: 32px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
