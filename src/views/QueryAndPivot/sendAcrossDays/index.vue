@@ -72,7 +72,6 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
   data() {
@@ -126,29 +125,11 @@ export default {
           label: "提交时间",
           key: ["", "startTime", "endTime"]
         }
-        // {
-        //   type: "date",
-        //   label: "结束日期",
-        //   key: "endTime"
-        // }
       ]
     };
   },
   mounted() {},
-  computed: {},
   methods: {
-    // 修改搜索参数
-    _formatRequestData(data) {
-      const { startTime, endTime } = data;
-      if (startTime) {
-        data.startTime = new Date(startTime).Format("yyyy-MM-dd");
-      }
-      if (endTime) {
-        data.endTime = new Date(endTime).Format("yyyy-MM-dd");
-      }
-
-      return data;
-    },
     /**
      * 对表格数据进行自定义调整
      * @param rows
@@ -167,13 +148,8 @@ export default {
         this.$set(item, "sumReductType", cardCount + succCount);
         this.$set(item, "sumCardMoney", cardMoney + foreignPrice);
       });
-
-      // if()
       return rows;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped></style>
