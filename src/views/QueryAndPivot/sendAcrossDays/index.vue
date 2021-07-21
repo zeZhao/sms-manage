@@ -121,7 +121,7 @@ export default {
           key: "gateway"
         },
         {
-          type: "datetime",
+          type: "daterange",
           label: "提交时间",
           key: ["", "startTime", "endTime"]
         }
