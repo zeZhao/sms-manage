@@ -865,7 +865,9 @@ export default {
   mounted() {
     this.getSaleman();
   },
-  computed: {},
+  activated() {
+    this.getSaleman();
+  },
   methods: {
     isDisabled(row, status) {
       const { parentId, cardStatus } = row;
