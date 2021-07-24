@@ -498,9 +498,6 @@ export default {
               this.$message.error(data);
             }
           });
-        } else {
-          this.$message.error("请输入必填项");
-          return false;
         }
       });
     },
