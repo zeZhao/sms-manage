@@ -39,7 +39,7 @@
         </div>
         <el-form :model="formObj" label-width="350px">
           <el-form-item label="驳回理由：">
-            <span>{{ formObj.refuseReason }}</span>
+            <div style="width: 60%; word-break: break-all; word-wrap: break-word">{{ formObj.refuseReason }}</div>
           </el-form-item>
         </el-form>
         <div class="footer">
