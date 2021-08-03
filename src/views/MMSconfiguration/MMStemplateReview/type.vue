@@ -10,7 +10,7 @@
           <el-form-item label="彩信标题：">
             <span>{{ formObj.title }}</span>
           </el-form-item>
-          <el-form-item label="标签：">
+          <el-form-item label="签名：">
             <span>{{ formObj.sign }}</span>
           </el-form-item>
           <el-form-item label="彩信内容：" />
