@@ -498,25 +498,25 @@ export default {
               this.$message.error(data);
             }
           });
-        } else {
-          this.$message.error("请输入必填项");
-          return false;
         }
       });
     },
     infoShow(row) {
+      let obj = Object.assign(row);
       this.formBtn = "修改";
       this.formTit = "修改商户";
       this.customerAddInfo = true;
-      if (row.isDirectUser) {
-        row.isDirectUser = row.isDirectUser.toString();
+      if (obj.isDirectUser) {
+        obj.isDirectUser = obj.isDirectUser.toString();
       }
-      if (row.reductModel) {
-        row.reductModel = row.reductModel.toString();
+      if (obj.reductModel) {
+        obj.reductModel = obj.reductModel.toString();
       }
-      for (let key in row) {
-        if (row[key] && row[key] !== "-") {
-          this.addInfo[key] = row[key];
+      for (let key in obj) {
+        if (obj[key] && obj[key] !== "-") {
+          this.addInfo[key] = obj[key];
+        } else if (obj[key] === "-") {
+          this.addInfo[key] = "";
         }
       }
       // this.addInfo = Object.assign(this.addInfo, row);

@@ -12,31 +12,26 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="type" label="类型">
+      <!-- <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.type === 1 ? "用户" : "通道" }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="modifyUser" label="修改人">
-        <!-- <template slot-scope="scope">
-          <span>{{
-            scope.row.modifyUser ? scope.row.modifyUser : scope.row.createUser
-          }}</span>
-        </template> -->
-      </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" />
-      <!-- <template slot-scope="scope">
-          <span>{{ scope.row.code  ? scope.row.code  : scope.row.createUser }}</span>
-        </template>
-      </el-table-column>-->
       <el-table-column prop="createUser" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="createTime" label="创建时间" min-width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
+      <!-- <el-table-column prop="modifyUser" label="修改人" />
+      <el-table-column prop="modifyTime" label="修改时间">
+        <template slot-scope="scope">{{
+          scope.row.modifyTime | timeFormat
+        }}</template>
+      </el-table-column> -->
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
@@ -70,6 +65,9 @@
         @cancel="cancel"
         @choose="choose"
         @selectChange="selectChange"
+        @onChange="onChange"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -82,8 +80,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { phone } from "@/utils/validator";
-
+import { isPhone } from "@/utils/validator";
 export default {
   mixins: [listMixin],
   data() {
@@ -103,81 +100,137 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          key: "userId"
         },
         {
           type: "input",
-          label: "手机号码",
-          key: "mobile",
-          placeholder: "请输入手机号码"
+          label: "账户名称",
+          key: "userName"
         },
         {
-          type: "select",
-          label: "类型",
-          key: "type",
-          placeholder: "请选择类型",
-          optionData: [
-            {
-              key: "1",
-              value: "用户"
-            }
-            // {
-            //   key: "2",
-            //   value: "通道"
-            // }
-          ]
+          type: "inputNum",
+          label: "手机号",
+          key: "mobile"
         }
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   placeholder: "请选择类型",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "用户"
+        //     }
+        //     // {
+        //     //   key: "2",
+        //     //   value: "通道"
+        //     // }
+        //   ]
+        // }
       ],
       // 表单配置
       formConfig: [
-        {
-          type: "select",
-          label: "类型",
-          key: "type",
-          initDefaultValue: 1,
-          defaultValue: 1,
-          optionData: [
-            {
-              key: 1,
-              value: "用户"
-            }
-            // {
-            //   key: 2,
-            //   value: "通道",
-            // },
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   initDefaultValue: 1,
+        //   defaultValue: 1,
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "用户"
+        //     }
+        //     // {
+        //     //   key: 2,
+        //     //   value: "通道",
+        //     // },
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        // },
         {
           type: "input",
           label: "账户编号",
           key: "userId",
           btnTxt: "选择用户",
-          // disabled: true,
+          disabled: true,
           defaultValue: "",
-          // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        },
-        {
-          type: "select",
-          label: "通道编号",
-          key: "userId",
-          isShow: true,
-          defaultValue: "",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
-          label: "手机号码",
-          key: "mobile",
+          label: "商户编号",
+          key: "corporateId",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            { validator: phone, trigger: "change" }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
+          placeholder: "选择账户后自动识别"
+        },
+        // {
+        //   type: "select",
+        //   label: "通道编号",
+        //   key: "userId",
+        //   isShow: true,
+        //   defaultValue: "",
+        //   optionData: [],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        // },
+        {
+          type: "textarea",
+          label: "手机号",
+          key: "mobile",
+          defaultValue: "",
+          maxlength: "100",
+          placeholder: "可输入多个手机号，用英文“,”隔开",
+          rules: [
+            {
+              required: true,
+              message: "请添加手机号或者上传手机号文件",
+              trigger: "blur"
+            },
+            {
+              validator: this.$publicValidators.phone[0]["validator"],
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "uploadXlsx",
+          key: "mobileFileUrl",
+          label: "上传手机号文件",
+          btnTxt: "批量添加",
+          limit: 1,
+          defaultValue: "",
+          defaultFileList: [],
+          tip: "支持txt、xls、xlsx文件，每行一个手机号",
+          isShow: false,
+          accept: [
+            "text/plain",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请上传手机号文件或者添加手机号",
+              trigger: ["blur", "change"]
+            }
           ]
         }
       ],
@@ -189,8 +242,70 @@ export default {
   mounted() {
     this.gateway();
   },
-  computed: {},
+  activated() {
+    //重新获取数据
+    this._mxGetList();
+  },
   methods: {
+    onChange({ val, item }) {
+      if (item.key === "mobile") {
+        const arr = this.formConfig;
+        const i = arr.findIndex(v => v.key === "mobileFileUrl");
+        arr[i].rules = val
+          ? null
+          : [
+              {
+                required: true,
+                message: "请上传手机号文件或者添加手机号",
+                trigger: ["blur", "change"]
+              }
+            ];
+        !arr[i].rules &&
+          this.$refs.formItem.clearValidateMore(["mobileFileUrl"]);
+      }
+    },
+    handleSuccess({ response, file, fileList, item }) {
+      if (response.code !== 200) {
+        this.$message.error(response.data || response.msg);
+        return;
+      }
+      const { accept, tip, key } = item;
+      const { type } = file.raw;
+      if (Array.isArray(accept) && accept.length) {
+        const arr = this.formConfig;
+        const i = arr.findIndex(v => v.key === key);
+        if (accept.indexOf(type) === -1) {
+          this.$message.error(tip);
+          arr[i].defaultValue = "";
+          arr[i].defaultFileList = [];
+          return;
+        }
+        arr[i].defaultValue = response.data;
+
+        const delRuleIdx = arr.findIndex(v => v.key === "mobile");
+        arr[delRuleIdx].rules = null;
+        this.$refs.formItem.clearValidateMore(["mobile", "mobileFileUrl"]);
+      }
+    },
+    handleRemove({ file, fileList }) {
+      const arr = this.formConfig;
+      const i = arr.findIndex(v => v.key === "mobileFileUrl");
+      arr[i].defaultValue = "";
+      arr[i].defaultFileList = [];
+
+      const addRuleIdx = arr.findIndex(v => v.key === "mobile");
+      arr[addRuleIdx].rules = [
+        {
+          required: true,
+          message: "请添加手机号或者上传手机号文件",
+          trigger: "blur"
+        },
+        {
+          validator: this.$publicValidators.phone[0]["validator"],
+          trigger: "change"
+        }
+      ];
+    },
     //选择控制
     selectChange({ val, item }) {
       if (item.key === "type") {
@@ -210,6 +325,9 @@ export default {
         if (key === "userId") {
           t.defaultValue = data.userId;
         }
+        if (key === "corporateId") {
+          t.defaultValue = data.corpId;
+        }
       });
     },
     submit(form) {
@@ -222,7 +340,10 @@ export default {
         };
         this.$http.sysWhitelist.addSysWhiteList(params).then(res => {
           if (resOk(res)) {
-            this.$message.success(res.msg || res.data);
+            this.$alert(res.msg, "导入记录", {
+              confirmButtonText: "确定",
+              callback: action => {}
+            }).catch(() => {});
             this._mxGetList();
             this.addChannel = false;
           } else {
@@ -248,40 +369,74 @@ export default {
       }
     },
     create() {
-      this.addChannel = true;
-      this.formTit = "新增";
-      setTimeout(() => {
-        this.$refs.formItem.resetForm();
-      }, 0);
-      this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-      this._setLabelDisplayShow(this.formConfig, "账户编号", false);
-    },
-    edit(row) {
-      this.whiteId = row.whiteId;
-      this.formTit = "修改";
-      this.formConfig.forEach(item => {
-        for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
-          }
-        }
-        if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
-        }
-        if (item.key === "type") {
-          if (item.defaultValue === 2) {
-            this._setLabelDisplayShow(this.formConfig, "通道编号", false);
-            this._setLabelDisplayShow(this.formConfig, "账户编号", true);
-          } else {
-            this._setLabelDisplayShow(this.formConfig, "通道编号", true);
-            this._setLabelDisplayShow(this.formConfig, "账户编号", false);
-          }
-        }
+      this.$router.push({
+        name: "sysWhitelistType",
+        query: { type: "create" }
       });
-      setTimeout(() => {
-        this.$refs.formItem.clearValidate();
-      }, 0);
-      this.addChannel = true;
+      // this.formTit = "新增";
+      // this.formConfig.forEach(item => {
+      //   if (item.key === "userId") {
+      //     item.btnDisabled = false;
+      //   }
+      //   if (item.key === "mobile") {
+      //     item.rules = [
+      //       { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
+      //       { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
+      //     ];
+      //   }
+      //   if (item.key === "mobileFileUrl") {
+      //     item.defaultValue = "";
+      //     item.defaultFileList = [];
+      //     item.isShow = false;
+      //     item.rules = [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
+      //   }
+      // });
+      // this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+      // this._setLabelDisplayShow(this.formConfig, "账户编号", false);
+      // this.addChannel = true;
+      // setTimeout(() => {
+      //   this.$refs.formItem.resetForm();
+      // }, 0);
+    },
+    edit(row, ID) {
+      this.$router.push({
+        name: "sysWhitelistType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
+      // this.whiteId = row.whiteId;
+      // this.formTit = "修改";
+      // this.formConfig.forEach(item => {
+      //   for (let key in row) {
+      //     if (item.key === key && row[key] !== "-") {
+      //       this.$set(item, "defaultValue", row[key]);
+      //     }
+      //   }
+      //   if (!Object.keys(row).includes(item.key)) {
+      //     this.$set(item, "defaultValue", "");
+      //   }
+      //   if (item.key === "type") {
+      //     if (item.defaultValue === 2) {
+      //       this._setLabelDisplayShow(this.formConfig, "通道编号", false);
+      //       this._setLabelDisplayShow(this.formConfig, "账户编号", true);
+      //     } else {
+      //       this._setLabelDisplayShow(this.formConfig, "通道编号", true);
+      //       this._setLabelDisplayShow(this.formConfig, "账户编号", false);
+      //     }
+      //   }
+      //   if (item.key === "userId") {
+      //     item.btnDisabled = true;
+      //   }
+      //   if (item.key === "mobile") {
+      //     item.rules = [{ required: true, validator: isPhone, trigger: "change" }];
+      //   }
+      //   if (item.key === "mobileFileUrl") {
+      //     item.isShow = true;
+      //   }
+      // });
+      // this.addChannel = true;
+      // setTimeout(() => {
+      //   this.$refs.formItem.clearValidate();
+      // }, 0);
     },
     cancel() {
       this.addChannel = false;
@@ -328,8 +483,7 @@ export default {
         });
       });
     }
-  },
-  watch: {}
+  }
 };
 </script>
 

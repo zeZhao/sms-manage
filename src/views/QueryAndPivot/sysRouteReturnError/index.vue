@@ -2,10 +2,21 @@
   <!--失败原因-->
   <div class="sysRouteReturnError">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-    ></Search>
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button type="primary" size="small" @click="batchAddition"
+          >批量添加</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -69,6 +80,14 @@
         @selectChange="selectChange"
       ></FormItem>
     </el-dialog>
+    <BatchAddition
+      :isOpen="isOpen"
+      :title="title"
+      downloadTemplateUrl="/opt/sms-data/template/SysRouteReturnErrorDataTem.xlsx"
+      action="/sysRouteReturnError/uploadRouteReturnError"
+      @submit="batchSubmit"
+      @cancel="cancelBatch"
+    ></BatchAddition>
   </div>
 </template>
 
@@ -113,10 +132,10 @@ export default {
           key: "operaId",
           placeholder: "请选择运营商",
           optionData: [
-            // {
-            //   key: "0",
-            //   value: "非法"
-            // },
+            {
+              key: "0",
+              value: "不限"
+            },
             {
               key: "1",
               value: "移动"
@@ -133,7 +152,7 @@ export default {
         },
         {
           type: "select",
-          label: "类型",
+          label: "报告类型",
           key: "type",
           optionData: [
             {
@@ -171,6 +190,7 @@ export default {
           label: "通道编号",
           key: "routeIds",
           optionData: [],
+          multiple: true,
           // defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
@@ -199,12 +219,20 @@ export default {
               value: "电信"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
           label: "返回类型",
           key: "type",
+          defaultValue: "1",
+          initDefaultValue: "1",
           optionData: [
             {
               key: "1",
@@ -216,14 +244,27 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "通道返回值",
           key: "result",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          maxlength: 50,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -231,12 +272,21 @@ export default {
           label: "返回错误说明",
           key: "notes",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          maxlength: 100,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       bId: "",
       GatewayList: [], // 通道列表
-      ProvinceList: [] // 通道列表
+      ProvinceList: [], // 通道列表
+      isOpen: false,
+      title: "批量添加失败原因"
     };
   },
   mounted() {
@@ -244,6 +294,32 @@ export default {
   },
   computed: {},
   methods: {
+    //关闭弹窗
+    cancelBatch() {
+      this.isOpen = false;
+    },
+    //提交批量添加
+    batchSubmit() {
+      this.isOpen = false;
+      this._mxGetList();
+    },
+    //导出
+    exportData(form) {
+      const data = { data: { ...this.pageObj, ...form } };
+      delete data.total;
+      this.$axios
+        .post("/sysRouteReturnError/exportRouteReturnError", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
+    //批量添加
+    batchAddition() {
+      this.isOpen = true;
+    },
     selectChange(data) {
       const { val, item } = data;
       let obj = {};
@@ -313,12 +389,13 @@ export default {
           }
         }
       }
-      row = Object.assign(row, { routeIds: row.routeId });
+      row = Object.assign(row, { routeIds: [row.routeId] });
       console.log(row, "row");
       return row;
     },
     _mxArrangeSubmitData(form) {
-      form = Object.assign(form, { routeId: form.routeIds });
+      form = Object.assign(form);
+      form.routeIds = form.routeIds.join(",");
       console.log(form, "-----form");
       return form;
     }

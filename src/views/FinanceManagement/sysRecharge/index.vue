@@ -2,13 +2,18 @@
   <!--充值-->
   <div class="sysRecharge">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
+      @exportData="exportData"
     >
       <template slot="Other">
         <el-button type="primary" @click="transfers" size="small"
           >账号互转</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
         >
       </template>
     </Search>
@@ -69,11 +74,11 @@
           <span v-if="scope.row.paidWay == 2">余额-</span>
           <span v-if="scope.row.paidWay == 3">还款</span>
           <span v-if="scope.row.paidWay == 4">清授信</span>
-          <span v-if="scope.row.paidWay == 5">账号互转</span>
+          <span v-if="scope.row.paidWay == 5">无</span>
           <span v-if="scope.row.paidWay == 6">余额+</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="reductModel"
         label="计费类型"
         width="110"
@@ -82,38 +87,14 @@
         <template slot-scope="scope">
           <span v-if="scope.row.reductType === 1">账户计费</span>
           <span v-if="scope.row.reductType === 2">商户id计费</span>
-          <!-- <span>；
-            {{
-              scope.row.reductModel == 1
-                ? "预付提交计费"
-                : scope.row.reductModel == 2
-                ? "预付成功计费"
-                : scope.row.reductModel == 3
-                ? "后付提交计费"
-                : "后付成功计费"
-            }}
-            {
-          type: "select",
-          label: "账单类型",
-          key: "isBill",
-          optionData: [
-            { key: "0", value: "充值记录" },
-            { key: "1", value: "月度账单" },
-            { key: "2", value: "退款记录" },
-            { key: "3", value: "借款记录" },
-            { key: "4", value: "还款记录" },
-            { key: "5", value: "互转记录" }
-          ]
-        },
-          </span> -->
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="direction"
         label="到款方式"
         show-overflow-tooltip
       />
-      <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
+      <!-- <el-table-column prop="isBill" label="账单类型" show-overflow-tooltip>
         <template slot-scope="scope">
           <span v-if="scope.row.isBill == 0">充值记录</span>
           <span v-if="scope.row.isBill == 1">月度账单</span>
@@ -124,9 +105,9 @@
           <span v-if="scope.row.isBill == 6">清授信记录</span>
           <span v-if="scope.row.isBill == 7">余额+记录</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="creater" label="操作账号" show-overflow-tooltip />
+      <el-table-column prop="creater" label="创建人" show-overflow-tooltip />
       <el-table-column
         prop="createTime"
         label="创建时间"
@@ -150,20 +131,35 @@
       </el-table-column>
       <el-table-column prop="cardStatus" label="财务审核" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span v-if="scope.row.cardStatus == 0">未操作</span>
+          <span v-if="scope.row.cardStatus == 2">待提审</span>
+          <span v-else-if="scope.row.cardStatus == 0">待审核</span>
           <span v-else-if="scope.row.cardStatus == 1">审核通过</span>
           <span v-else-if="scope.row.cardStatus == 3">审核驳回</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" align="center" width="70">
+      <el-table-column fixed="right" label="操作" align="center" width="130">
         <template slot-scope="scope">
           <el-button
-            :disabled="scope.row.cardStatus === 1"
+            :disabled="isDisabled(scope.row, 2)"
             @click="_mxEdit(scope.row, 'cardId')"
             type="text"
             size="small"
             >修改</el-button
+          >
+          <el-button
+            :disabled="isDisabled(scope.row, 2)"
+            @click="_mxDeleteItem('cardId', scope.row.cardId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
+          <el-button
+            :disabled="isDisabled(scope.row, 0)"
+            @click="_mxWithdraw(scope.row, 'cardId')"
+            type="text"
+            size="small"
+            >撤回</el-button
           >
           <!-- <el-button @click="_mxDeleteItem('signId', scope.row.signId)" type="text" size="small">删除</el-button> -->
         </template>
@@ -245,7 +241,7 @@ export default {
       searchAPI: {
         namespace: "sysRecharge",
         list: "listPrepaidCardByPage",
-        detele: "",
+        detele: "deletePrepaidCard",
         add: "addPrepaidCard",
         edit: "updatePrepaidCard"
       },
@@ -302,26 +298,26 @@ export default {
             { key: 1, value: "授信" },
             { key: 4, value: "清授信" },
             { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" },
-            { key: 5, value: "账号互转" }
+            { key: 2, value: "余额-" }
+            // { key: 5, value: "账号互转" }
           ]
         },
 
-        {
-          type: "select",
-          label: "账单类型",
-          key: "isBill",
-          optionData: [
-            { key: "0", value: "充值记录" },
-            { key: "1", value: "月度账单" },
-            { key: "2", value: "余额-记录" },
-            { key: "3", value: "授信记录" },
-            { key: "4", value: "还款记录" },
-            { key: "5", value: "互转记录" },
-            { key: "6", value: "清授信记录" },
-            { key: "7", value: "余额+记录" }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "账单类型",
+        //   key: "isBill",
+        //   optionData: [
+        //     { key: "0", value: "充值记录" },
+        //     { key: "1", value: "月度账单" },
+        //     { key: "2", value: "余额-记录" },
+        //     { key: "3", value: "授信记录" },
+        //     { key: "4", value: "还款记录" },
+        //     { key: "5", value: "互转记录" },
+        //     { key: "6", value: "清授信记录" },
+        //     { key: "7", value: "余额+记录" }
+        //   ]
+        // },
         {
           type: "select",
           label: "到款方式",
@@ -359,21 +355,15 @@ export default {
             { key: 2, value: "余额-" }
             // { key: 5, value: "账号互转" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
-        {
-          type: "select",
-          label: "产品",
-          colSpan: 12,
-          initDefaultValue: 1,
-          defaultValue: 1,
-          key: "chargeType",
-          optionData: [
-            { key: 1, value: "短信" },
-            { key: 2, value: "彩信" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        },
+
         {
           type: "input",
           label: "账户编号",
@@ -382,7 +372,32 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "产品",
+          colSpan: 12,
+          // initDefaultValue: 1,
+          // defaultValue: 1,
+          key: "chargeType",
+          optionData: [
+            { key: 1, value: "短信" },
+            { key: 2, value: "彩信" }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -391,7 +406,13 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -400,7 +421,13 @@ export default {
           disabled: true,
           colSpan: 12,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -413,7 +440,13 @@ export default {
             { key: 1, value: "账户计费" }
             // { key: 2, value: "商户id计费" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -423,7 +456,13 @@ export default {
           key: "saleMan",
           optionData: [],
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "textarea",
@@ -433,7 +472,7 @@ export default {
           colSpan: 24
         },
         {
-          isTitle: true,
+          isTitle: false,
           title: "短信",
           colSpan: 24
         },
@@ -446,7 +485,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -454,7 +493,10 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
                     if (/^\d{1,4}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
@@ -470,13 +512,12 @@ export default {
           type: "input",
           label: "充值金额(元)",
           key: "cardMoney",
-          maxlength: 10,
           defaultValue: "",
           tag: "skype",
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -484,11 +525,18 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
-                    if (/^\d{1,10}(\.\d+)?$/.test(val)) {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (
+                      /^(\d{1,9})$|^(\d{1,9}\.\d{1,2})$/.test(
+                        val
+                      )
+                    ) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~10位的数值"));
+                      callback(new Error("输入大于0的数，小数点保留2位"));
                     }
                   }
                 }
@@ -499,13 +547,13 @@ export default {
         {
           type: "input",
           label: "条数",
-          maxlength: 12,
+          maxlength: 9,
           key: "cardCount",
           defaultValue: "",
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -513,11 +561,14 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
-                    if (/^\d{1,12}$/.test(val)) {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (/^\d{1,9}$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~12位的正整数"));
+                      callback(new Error("请输入1~9位的正整数"));
                     }
                   }
                 }
@@ -536,7 +587,13 @@ export default {
             { key: "对私付款", value: "对私付款" },
             { key: "无", value: "无" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -548,7 +605,7 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (value === "" || value === undefined || value === null) {
                   callback(new Error("请输入必填项"));
@@ -556,11 +613,14 @@ export default {
                   if (value <= 0) {
                     callback(new Error("需大于0"));
                   } else {
-                    const val = typeof(value) === 'string' ? value.trim() : (value + '').trim();
-                    if (/^\d{1,10}(\.\d+)?$/.test(val)) {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (/^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~10位数值"));
+                      callback(new Error("请输入1~10位数值且最多保留两位小数"));
                     }
                   }
                 }
@@ -581,7 +641,11 @@ export default {
           isShow: false,
           accept: ["png", "jpg", "jpeg"],
           rules: [
-            { required: true, message: "请上传余额变动凭证", trigger: ['blur', 'change'] }
+            {
+              required: true,
+              message: "请上传余额变动凭证",
+              trigger: ["blur", "change"]
+            }
           ]
         }
       ],
@@ -597,7 +661,13 @@ export default {
             { key: 1, value: "短信" },
             { key: 2, value: "彩信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -608,7 +678,13 @@ export default {
           colSpan: 12,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -619,7 +695,13 @@ export default {
           defaultValue: "",
           colSpan: 12,
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -628,7 +710,13 @@ export default {
           colSpan: 12,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -637,7 +725,13 @@ export default {
           colSpan: 12,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -663,20 +757,78 @@ export default {
           type: "input",
           label: "转移条数",
           key: "cardCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: (rule, value, callback) => {
+                if (value === "" || value === undefined || value === null) {
+                  callback(new Error("请输入必填项"));
+                } else {
+                  if (value <= 0) {
+                    callback(new Error("需大于0"));
+                  } else {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (/^\d{1,12}$/.test(val)) {
+                      callback();
+                    } else {
+                      callback(new Error("请输入1~12位的正整数"));
+                    }
+                  }
+                }
+              }
+            }
+          ]
         },
         {
           type: "input",
           label: "转移方单价(分)",
           disabled: true,
           key: "cardUnit",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "转移金额(元)",
           key: "cardMoney",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: (rule, value, callback) => {
+                if (value === "" || value === undefined || value === null) {
+                  callback(new Error("请输入必填项"));
+                } else {
+                  if (value <= 0) {
+                    callback(new Error("需大于0"));
+                  } else {
+                    const val =
+                      typeof value === "string"
+                        ? value.trim()
+                        : (value + "").trim();
+                    if (
+                      /^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(
+                        val
+                      )
+                    ) {
+                      callback();
+                    } else {
+                      callback(new Error("输入大于0的数，小数点保留2位"));
+                    }
+                  }
+                }
+              }
+            }
+          ]
         },
 
         {
@@ -684,14 +836,26 @@ export default {
           label: "接收方单价(分)",
           disabled: true,
           key: "cardUnitTo",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "接收条数",
           key: "cardCountTo",
           disabled: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       isChooseUser: false,
@@ -701,8 +865,30 @@ export default {
   mounted() {
     this.getSaleman();
   },
-  computed: {},
+  activated() {
+    this.getSaleman();
+  },
   methods: {
+    isDisabled(row, status) {
+      const { parentId, cardStatus } = row;
+      //公共方法对返回属性为null的设置为'-'
+      if (parentId === "-") {
+        return cardStatus !== status ? true : false;
+      } else {
+        return true;
+      }
+    },
+    //导出
+    exportData(data) {
+      this.$axios
+        .post("/sysPrepaidCard/exportPrepaidCard", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
     //文件上传成功
     handleSuccess({ response, file, fileList, item }) {
       if (response.code == 200) {
@@ -867,6 +1053,19 @@ export default {
         }
       }
     },
+    _mxWithdraw(row, id) {
+      let params = {
+        cardId: row.cardId
+      };
+      this.$http.sysRecharge.withdraw({ ...params }).then(res => {
+        if (res.code == 200) {
+          this.$message.success("操作成功");
+          this._mxGetList();
+        } else {
+          this.$message.error("操作失败");
+        }
+      });
+    },
     /**
      * 编辑表单
      * @param row  当前行数据
@@ -880,7 +1079,8 @@ export default {
       this.editId = ID;
       this.formTit = "修改";
       const val = row.paidWay;
-      
+      const productType = row.productType;
+
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
@@ -906,13 +1106,30 @@ export default {
             this._setDisplayShow(this.formConfig, "corporateId", true);
           }
         }
-        if (item.key !== "remark" && item.key !== "saleMan") {
-          this.$set(item, "disabled", true);
+        let disabledFormLables = [
+          "paidWay",
+          "chargeType",
+          "userId",
+          "corporateId",
+          "userName",
+          "reductType",
+          "cardUnit"
+        ];
+        disabledFormLables.forEach(el => {
+          if (item.key === el) {
+            this.$set(item, "disabled", true);
+          }
           if (item.key === "userId") {
             this.$set(item, "btnDisabled", true);
           }
-        }
-        
+        });
+        // if (item.key !== "remark" && item.key !== "saleMan") {
+        //   this.$set(item, "disabled", true);
+        //   if (item.key === "userId") {
+        //     this.$set(item, "btnDisabled", true);
+        //   }
+        // }
+
         // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
         if (val === "0" || val === 3) {
           if (val === "0") {
@@ -977,6 +1194,10 @@ export default {
       this.chooseData = {};
       // 初始上传文件为空
       this.formConfig.forEach(item => {
+        if (item.key === "chargeType") {
+          this.$set(item.optionData[0], "disabled", false);
+          this.$set(item.optionData[1], "disabled", false);
+        }
         if (item.key !== "remark" && item.key !== "saleMan") {
           this.$set(item, "disabled", false);
           if (item.key === "userId") {
@@ -1077,7 +1298,7 @@ export default {
       }
       if (item.key === "cardUnit") {
         if (cardCount) {
-          let cardMoney = parseFloat((cardUnit * cardCount) / 100);
+          let cardMoney = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
           this._setDefaultValue(this.formConfig, [], "cardMoney", cardMoney);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardUnit);
@@ -1086,7 +1307,7 @@ export default {
       }
       if (item.key === "cardCount") {
         if (cardUnit) {
-          let num = parseFloat((cardUnit * cardCount) / 100);
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
           this._setDefaultValue(this.formConfig, [], "cardMoney", num);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardCount);
@@ -1133,7 +1354,7 @@ export default {
       }
       if (item.key === "cardCount") {
         if (cardUnit && cardUnitTo) {
-          let num = parseFloat((cardUnit * cardCount) / 100);
+          let num = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
           this._setDefaultValue(this.formConfigTransfers, [], "cardMoney", num);
           let count = parseInt((num * 100) / cardUnitTo);
           this._setDefaultValue(
@@ -1156,8 +1377,37 @@ export default {
       let chargeTypeJs = "";
       this._deleteDefaultValue(this.formConfig, "cardMoney");
       this.chooseData = data;
+      let productType = data.productType;
+      let reductModel = data.reductModel;
+
       this.formConfig.map(t => {
         const { key } = t;
+        if (key === 'paidWay') {
+          if (reductModel === 3 || reductModel === 4) {
+            if ([1, 4, 6, 2].includes(t.defaultValue)) {
+              t.defaultValue = "";
+            }
+            this.$set(t.optionData[2], "disabled", true);
+            this.$set(t.optionData[3], "disabled", true);
+            this.$set(t.optionData[4], "disabled", true);
+            this.$set(t.optionData[5], "disabled", true);
+          } else {
+            t.optionData.forEach(v => { v.disabled = false });
+          }
+        }
+        if (key === "chargeType") {
+          t.defaultValue = "";
+          if (productType == 1) {
+            this.$set(t.optionData[0], "disabled", false);
+            this.$set(t.optionData[1], "disabled", true);
+          } else if (productType == 2) {
+            this.$set(t.optionData[0], "disabled", true);
+            this.$set(t.optionData[1], "disabled", false);
+          } else {
+            this.$set(t.optionData[0], "disabled", false);
+            this.$set(t.optionData[1], "disabled", false);
+          }
+        }
         if (key === "userId") {
           t.defaultValue = data.userId;
         }
@@ -1180,14 +1430,6 @@ export default {
             t.defaultValue =
               data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
           }
-          // t.defaultValue =
-          //   chargeType == 2
-          //     ? data.mmsCardUnit || data.mmsCardUnit !== "-"
-          //       ? data.mmsCardUnit
-          //       : ""
-          //     : data.cardUnit || data.cardUnit !== "-"
-          //     ? data.cardUnit
-          //     : "";
         }
       });
       this.formConfigTransfers.map(t => {

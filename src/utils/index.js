@@ -37,7 +37,7 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -160,12 +160,12 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -244,7 +244,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = function () {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -261,7 +261,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return function (...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -344,4 +344,26 @@ export function removeClass(ele, cls) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
     ele.className = ele.className.replace(reg, ' ')
   }
+}
+
+//获取当前时间日期-格式化
+export function getDateToString(date = new Date()) {
+  return date.Format('yyyy-MM-dd');
+}
+
+//获取当前时间日期-格式化
+export function getNewTimeForSecond(date = new Date()) {
+  return date.Format('yyyy-MM-dd hh:mm:ss');
+}
+
+//获取当前时间日期
+export function getDateTime(statu, date = new Date()) {
+  let dateTime = ''
+  if (statu === 'start') {
+    dateTime = date.Format('yyyy-MM-dd 00:00:00')
+  }
+  if (statu === 'end') {
+    dateTime = date.Format('yyyy-MM-dd 23:59:59')
+  }
+  return dateTime;
 }

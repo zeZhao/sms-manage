@@ -25,7 +25,15 @@
         <el-col
           :sm="12"
           :md="8"
-          :lg="item.type === 'daterange' || item.type === 'timerange' || item.type === 'datetime' ? 12 : 6"
+          :lg="
+            item.type === 'daterange' ||
+            item.type === 'timerange' ||
+            item.type === 'datetime' ||
+            item.type === 'selectInp' ||
+            item.isLonger
+              ? 12
+              : 6
+          "
           v-for="(item, index) in searchFormConfig"
           :key="index"
         >
@@ -51,6 +59,8 @@
                 size="small"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
+                oninput="if(value.length > 11) value = value.slice(0,11)"
+                onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
               ></el-input>
               <!-- @input="_mxHandleSubmit()" -->
             </template>
@@ -75,6 +85,33 @@
                   :label="option.value"
                 />
               </el-select>
+            </template>
+            <template v-if="item.type === 'selectInp'">
+              <el-select
+                style="width: 20%"
+                v-model="form[item.key[0]]"
+                :placeholder="item.placeholder || `请选择${item.label}`"
+                filterable
+                size="small"
+                :clearable="isClearAble(item)"
+                @focus="_mxHandleFocus()"
+                @change="forceUpdate"
+              >
+                <el-option
+                  v-for="option in item.optionData"
+                  :value="option.key"
+                  :key="option.key"
+                  :label="option.value"
+                />
+              </el-select>
+              <el-input
+                style="width: 69%"
+                v-model="form[item.key[1]]"
+                type="number"
+                size="small"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :clearable="isClearAble(item)"
+              ></el-input>
             </template>
 
             <!--日期范围选择-->
@@ -267,7 +304,6 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
-      console.log(form, "------------");
       // 彩信分类统计特殊页面特殊重置
       // if(){
       // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
@@ -303,7 +339,7 @@ export default {
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (type !== "daterange") {
+          if (type !== "daterange" && type !== "datetime") {
             form[key] = item.defaultValue;
           } else {
             form[key[1]] = item.defaultValue[1];
@@ -333,7 +369,7 @@ export default {
 
       if (this.notSearch) return; //默认进入该页面不查询
       this._mxHandleSubmit();
-      
+
       // if (
       //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
       //     "isSpecial"
@@ -364,6 +400,10 @@ export default {
     //获取焦点触发事件
     _mxHandleFocus() {
       this.$emit("focus");
+    },
+    //给父组件传form对象
+    renderForm() {
+      this.$emit("getForm", this.form);
     },
     //导出功能，给父组件传form对象
     handleExport() {

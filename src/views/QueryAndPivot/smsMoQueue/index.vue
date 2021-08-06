@@ -1,11 +1,19 @@
 <template>
   <!--上行信息-->
-  <div class="smsMoQueue">
+  <div>
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
-    ></Search>
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -14,8 +22,9 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="mobile" label="上行手机号" />
+      <el-table-column prop="mobile" label="上行手机号" min-width="150" />
       <el-table-column prop="province" label="省份" />
       <el-table-column prop="city" label="城市" />
       <el-table-column prop="operaId" label="运营商">
@@ -27,14 +36,14 @@
       </el-table-column>
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="gateway" label="上行通道" />
-      <el-table-column prop="createTime" label="上行时间" width="150">
+      <el-table-column prop="createTime" label="上行时间" min-width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 0 ? "初始 " : "已处理" }}</span>
+          <span>{{ scope.row.status == "1" ? "已推送" : "未推送" }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -48,7 +57,6 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
   data() {
@@ -67,52 +75,48 @@ export default {
         {
           type: "inputNum",
           label: "商户编号",
-          key: "corpId",
-          placeholder: "请输入商户编号"
+          key: "corpId"
         },
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          key: "userId"
         },
         {
           type: "input",
+          label: "账户名称",
+          key: "userName"
+        },
+        {
+          type: "inputNum",
           label: "特服号",
-          key: "code",
-          placeholder: "请输入特服号"
+          key: "code"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "上行手机号",
-          key: "mobile",
-          placeholder: "请输入上行手机号"
+          key: "mobile"
         },
         {
           type: "input",
           label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
+          key: "content"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "上行通道",
-          key: "gateway",
-          placeholder: "请输入上行通道"
+          key: "gateway"
         },
-
         {
           type: "select",
           label: "省份",
           key: "province",
-          optionData: [],
-          placeholder: "请选择省份"
+          optionData: []
         },
         {
           type: "input",
           label: "城市",
-          key: "city",
-          placeholder: "请输入城市"
+          key: "city"
         },
         {
           type: "daterange",
@@ -125,8 +129,16 @@ export default {
   mounted() {
     this.listSysProvince();
   },
-  computed: {},
   methods: {
+    //导出
+    exportData(data) {
+      this.$axios.post("/smsMoQueue/exportSmsMoQueue ", data).then(res => {
+        if (res.data.code === 200) this.$exportToast();
+      });
+    },
+    exportExe() {
+      this.$refs.Search.handleExport();
+    },
     /*
      * 获取省份列表
      * */
@@ -137,7 +149,6 @@ export default {
         }
       };
       this.$http.listSysProvince(params).then(res => {
-        //province
         this._setDefaultValue(
           this.searchFormConfig,
           res.data,
@@ -147,12 +158,6 @@ export default {
         );
       });
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.smsMoQueue {
-}
-</style>

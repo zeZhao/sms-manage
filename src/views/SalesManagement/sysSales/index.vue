@@ -270,9 +270,11 @@ export default {
   mounted() {
     this.getEditData();
   },
-  computed: {},
+  activated() {
+    this.getEditData();
+  },
   methods: {
-    // 获取 组
+    // 获取销售组
     getEditData() {
       this.$http.sysSales.getEditData({}).then(res => {
         if (res.code === 200) {
@@ -280,18 +282,10 @@ export default {
           this.formConfig.forEach(item => {
             const { key } = item;
             if (key === "groupId") {
-              res.data.forEach(t => {
-                let obj = {
-                  key: t.sid,
-                  value: t.groupName
-                };
-                item.optionData.push(obj);
-              });
+              item.optionData = res.data.map(t => { return { key: t.sid, value: t.groupName } });
             }
           });
         }
-
-        console.log(res, "----res");
       });
     },
     //修改状态

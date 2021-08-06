@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item>
           <el-select v-model="roleType" placeholder="角色类型" clearable>
-            <el-option value="1" label="商戶端角色" />
+            <el-option value="1" label="商户端角色" />
             <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>
@@ -31,13 +31,13 @@
       highlight-current-row
       style="width: 100%;margin-top:24px"
     >
-      <!--角色id 	角色名称 角色类型 1是商戶端角色 2是运营端角色 描述-->
+      <!--角色id 	角色名称 角色类型 1是商户端角色 2是运营端角色 描述-->
       <el-table-column prop="roleId" label="角色编号" />
       <el-table-column prop="roleName" label="角色名称" />
       <el-table-column label="角色类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.roleType == "1" ? "商戶端角色" : "运营端角色"
+            scope.row.roleType == "1" ? "商户端角色" : "运营端角色"
           }}</span>
         </template>
       </el-table-column>
@@ -109,7 +109,7 @@
             placeholder="角色类型"
             clearable
           >
-            <el-option value="1" label="商戶端角色" />
+            <el-option value="1" label="商户端角色" />
             <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>
@@ -167,7 +167,7 @@
             placeholder="角色类型"
             disabled
           >
-            <el-option value="1" label="商戶端角色" />
+            <el-option value="1" label="商户端角色" />
             <el-option value="2" label="运营端角色" />
           </el-select>
         </el-form-item>

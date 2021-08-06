@@ -13,7 +13,11 @@ export default {
     sysLogin: {
         captcha(params) {
             return fetch("/sysLogin/captcha", params);
-        }
+        },
+        // 小窗口登录
+        viewLogin(params) {
+            return post("/sysLogin/viewLogin", params);
+        },
     },
     // 省份列表
     listSysProvince(params) {
@@ -391,6 +395,10 @@ export default {
         queryByPage(params) {
             return post("/corpUserBalance/queryByPage", params);
         },
+        // 导出用户余额
+        export(params) {
+            return post("/corpUserBalance/downLoad", params);
+        }
     },
     //余额调整记录
     smsBalanceopt: {
@@ -530,9 +538,21 @@ export default {
         updatePrepaidCard(params) {
             return post("/sysPrepaidCard/updatePrepaidCard", params)
         },
+        // 删除充值
+        deletePrepaidCard(params) {
+            return post("/sysPrepaidCard/deletePrepaidCard", params)
+        },
         // 账号互转
         refundPrepaidCard(params) {
             return post("/sysPrepaidCard/refundPrepaidCard", params)
+        },
+        // 撤回
+        withdraw(params) {
+            return fetch("/sysPrepaidCard/revertPrepaidCard", params)
+        },
+        // 导出
+        exportPrepaidCard(params) {
+            return post("/sysPrepaidCard/exportPrepaidCard", params)
         },
         // 上传凭证
         // uploadFile(params) {
@@ -856,7 +876,11 @@ export default {
         // 查询列表
         listTimeTasklistByPage(params) {
             return post("/sysTimeTasklist/listTimeTasklistByPage", params);
-        }
+        },
+        // 批量修改
+        updateTimeTasklist(params) {
+            return post("/sysTimeTasklist/updateTimeTasklist", params);
+        },
     },
     // 发送跨天列表查询
     sendAcrossDays: {
@@ -1058,7 +1082,7 @@ export default {
     sysRealTimeData: {
         // 查询列表
         realTimeData(params) {
-            return fetch("/report/realTimeData", params);
+            return post("/report/realTimeData", params);
         },
     },
 
@@ -1151,6 +1175,7 @@ export default {
         updateGatewayByConfigure(params) {
             return post("/gateway/updateGatewayByConfigure", params);
         },
+
     },
     //彩信通道
     mmsGateway: {
@@ -1374,6 +1399,10 @@ export default {
         deleteSysRedList(params) {
             return post("/sysRedList/deleteSysRedList", params);
         },
+        //  批量修改通道
+        updateBatchSysRedList(params) {
+            return post("/sysRedList/updateBatchSysRedList", params);
+        }
     },
     // 白名单管理
     sysWhitelist: {
@@ -1472,13 +1501,6 @@ export default {
         // 查询列表
         searchSendReturnReport(params) {
             return post("/sendLogFegin/selectSendReturnByPage", params);
-        }
-    },
-    // 定时
-    sysTimeTasklist: {
-        // 查询列表
-        listTimeTasklistByPage(params) {
-            return post("/sysTimeTasklist/listTimeTasklistByPage", params);
         }
     },
     // 发送跨天列表查询
@@ -1597,6 +1619,10 @@ export default {
         listRecommendGatewayAndGroup(params) {
             return post("/sysGatewayGroup/listRecommendGatewayAndGroup", params);
         },
+        // 批量修改通道编号
+        batchUpdateExemptReviewManage(params) {
+            return post("/sysExemptReviewManage/batchUpdateExemptReviewManage", params);
+        },
     },
     // 审核管理-待审模板
     smsCheckTemplate: {
@@ -1619,13 +1645,6 @@ export default {
         queryAll(params) {
             return post("/smsProfit/queryAll", params);
         }
-    },
-    // 定时统计
-    sysTimeTasklistStatistics: {
-        // 查询列表
-        queryTimeTaskByPage(params) {
-            return post("/sysTimeTasklist/queryTimeTaskByPage", params);
-        },
     },
     // 免审未发统计
     sysUnbilled: {
@@ -1696,6 +1715,10 @@ export default {
         //配置
         updateGatewayByConfigure(params) {
             return post("/gateway/updateGatewayByConfigure", params);
+        },
+        //获取最后一个通道
+        getLasttGatewayId(params) {
+            return fetch("/gateway/getLasttGatewayId", params);
         },
     },
     //彩信通道
@@ -1900,10 +1923,6 @@ export default {
         importBatchAdd(params) {
             return post("/networkChange/importBatchAdd", params);
         },
-        // 导出携号转网
-        export(params) {
-            return post("/corpUserBalance/downLoad", params);
-        },
         // 删除携号转网
         delete(params) {
             return fetch("/networkChange/delete", params);
@@ -1912,7 +1931,10 @@ export default {
         addOrUpdate(params) {
             return post("/networkChange/addOrUpdate", params);
         },
-
+        // 导出携号转网
+        export(params) {
+            return post("/networkChange/export", params);
+        }
     },
     //黑名单分类
     smsBlackGroup: {
@@ -2038,5 +2060,153 @@ export default {
         listByPage(params) {
             return post("/mmsTemplateCheckRecord/listByPage", params);
         }
-    }
+    },
+    //状态码统计
+    SmsStatusCodeStatistics: {
+        // 状态码统计列表分页查询
+        queryByPage(params) {
+            return post("/SmsStatusCodeStatistics/queryByPage", params);
+        },
+        // 导出状态码统计
+        exportSmsStatusCodeStatistics(params) {
+            return post("/SmsStatusCodeStatistics/exportSmsStatusCodeStatistics", params);
+        }
+    },
+    //日限量配置
+    SmsGatewayUserSendControl: {
+        // 日限量配置列表分页查询
+        queryByPage(params) {
+            return post("/SmsGatewayUserSendControl/queryByPage", params);
+        },
+        // 日限量配置新增
+        addSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/addSmsGatewayUserSendControl", params);
+        },
+        // 日限量配置修改
+        updateSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/updateSmsGatewayUserSendControl", params);
+        },
+        // 日限量配置删除
+        deleteSmsGatewayUserSendControl(params) {
+            return post("/SmsGatewayUserSendControl/deleteSmsGatewayUserSendControl", params);
+        }
+    },
+    //报告推送记录
+    smsPushReport: {
+        // 报告推送记录分页查询
+        listPushReport(params) {
+            return post("/smsPushReport/listPushReport", params);
+        }
+    },
+    //通道监控
+    smsGatewayMonitor: {
+        // 通道监控分页查询
+        listGatewayMonitorByPage(params) {
+            return fetch("/smsGatewayMonitor/listGatewayMonitorByPage", params);
+        }
+    },
+    //待发优先级
+    priority: {
+        // 待发优先级分页查询
+        queryPriority(params) {
+            return post("/priority/queryPriority", params);
+        },
+        // 待发优先级添加
+        addPriority(params) {
+            return put("/priority/addPriority", params);
+        },
+        // 待发优先级修改
+        updatePriority(params) {
+            return post("/priority/updatePriority", params);
+        },
+        // 待发优先级删除
+        deletePriority(params) {
+            return del("/priority/deletePriority", params);
+        }
+    },
+    //上行敏感词
+    moKeyword: {
+        // 上行敏感词分页查询
+        queryByPage(params) {
+            return post("/moKeyword/queryByPage", params);
+        },
+        // 上行敏感词添加/修改
+        addOrUpdate(params) {
+            return post("/moKeyword/addOrUpdate", params);
+        },
+        // 上行敏感词删除
+        delete(params) {
+            return fetch("/moKeyword/delete", params);
+        }
+    },
+    //敏感词
+    sysSensitiveWord: {
+        // 新增敏感词
+        addSensitiveWord(params) {
+            return post("/sysSensitiveWord/addSensitiveWord", params);
+        },
+        // 检测敏感词
+        checkSensitiveWord(params) {
+            return post("/sysSensitiveWord/checkSensitiveWord", params);
+        },
+        // 删除敏感词
+        deleteSensitiveWord(params) {
+            return post("/sysSensitiveWord/deleteSensitiveWord", params);
+        },
+        // 导出敏感词
+        exportKeyword(params) {
+            return post("/sysSensitiveWord/exportKeyword", params);
+        },
+        // 下载敏感词模板
+        exportKeywordModel(params) {
+            return post("/sysSensitiveWord/exportKeywordModel", params);
+        },
+        // 获取敏感词
+        getSensitiveWord(params) {
+            return post("/sysSensitiveWord/getSensitiveWord", params);
+        },
+        // 导入敏感词
+        importKeywordModel(params) {
+            return post("/sysSensitiveWord/importKeywordModel", params);
+        },
+        // 敏感词列表
+        listSensitiveWordByPage(params) {
+            return post("/sysSensitiveWord/listSensitiveWordByPage", params);
+        },
+        // 修改敏感词
+        updateSensitiveWord(params) {
+            return post("/sysSensitiveWord/updateSensitiveWord", params);
+        }
+    },
+    //敏感词组
+    sysSensitiveWordGroup: {
+        // 新增敏感词组
+        addSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/addSensitiveWordGroup", params);
+        },
+        // 检测敏感词组
+        checkSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/checkSensitiveWordGroup", params);
+        },
+        // 删除敏感词组
+        deleteSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/deleteSensitiveWordGroup", params);
+        },
+        // 获取敏感词组
+        getSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/getSensitiveWordGroup", params);
+        },
+        // 敏感词组列表分页
+        listKeyWordGroupByPage(params) {
+            return post("/sysSensitiveWordGroup/listKeyWordGroupByPage", params);
+        },
+        // 敏感词组列表
+        listSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/listSensitiveWordGroup", params);
+        },
+        // 修改敏感词组
+        updateSensitiveWordGroup(params) {
+            return post("/sysSensitiveWordGroup/updateSensitiveWordGroup", params);
+        }
+    },
 }

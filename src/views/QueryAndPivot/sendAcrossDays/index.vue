@@ -16,21 +16,16 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="longCode" label="通道码号" />
+      <!-- <el-table-column prop="longCode" label="通道码号" /> -->
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.operaId === 0
-              ? "三网"
-              : scope.row.operaId === 1
-              ? "移动"
-              : scope.row.operaId === 2
-              ? "联通"
-              : "电信"
-          }}</span>
+          <span v-if="scope.row.operaId === 0">三网</span>
+          <span v-if="scope.row.operaId === 1">移动</span>
+          <span v-if="scope.row.operaId === 2">联通</span>
+          <span v-if="scope.row.operaId === 3">电信</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
@@ -77,7 +72,6 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
 export default {
   mixins: [listMixin],
   data() {
@@ -88,11 +82,17 @@ export default {
         list: "queryList"
       },
       // 列表参数
-      namespace: "smsSendReport",
+      namespace: "",
+
       //搜索框数据
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
+        {
+          type: "inputNum",
+          label: "商户编号",
+          key: "corporateId"
+        },
         {
           type: "inputNum",
           label: "账户编号",
@@ -106,33 +106,30 @@ export default {
           placeholder: "请输入账户名称"
         },
         {
-          type: "date",
-          label: "开始日期",
-          key: "startTime"
+          type: "input",
+          label: "内容",
+          key: "content"
         },
         {
-          type: "date",
-          label: "结束日期",
-          key: "endTime"
+          type: "input",
+          label: "手机号",
+          key: "mobile"
+        },
+        {
+          type: "input",
+          label: "通道编号",
+          key: "gateway"
+        },
+        {
+          type: "daterange",
+          label: "提交时间",
+          key: ["", "startTime", "endTime"]
         }
       ]
     };
   },
   mounted() {},
-  computed: {},
   methods: {
-    // 修改搜索参数
-    _formatRequestData(data) {
-      const { startTime, endTime } = data;
-      if (startTime) {
-        data.startTime = new Date(startTime).Format("yyyy-MM-dd");
-      }
-      if (endTime) {
-        data.endTime = new Date(endTime).Format("yyyy-MM-dd");
-      }
-
-      return data;
-    },
     /**
      * 对表格数据进行自定义调整
      * @param rows
@@ -151,13 +148,8 @@ export default {
         this.$set(item, "sumReductType", cardCount + succCount);
         this.$set(item, "sumCardMoney", cardMoney + foreignPrice);
       });
-
-      // if()
       return rows;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped></style>

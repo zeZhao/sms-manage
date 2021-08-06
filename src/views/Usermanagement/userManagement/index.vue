@@ -54,7 +54,7 @@
         </el-form-item>
         <el-form-item label="产品类型">
           <el-select v-model="search.proType" placeholder="计费模式" clearable>
-            <el-option value="1" label="web商戶端" />
+            <el-option value="1" label="web商户端" />
             <el-option value="2" label="http接口" />
             <el-option value="4" label="cmpp接口" />
           </el-select>
@@ -409,7 +409,7 @@
             placeholder="请选择产品类型"
             popper-class="select-option"
           >
-            <el-option value="1" label="web商戶端" />
+            <el-option value="1" label="web商户端" />
             <el-option value="2" label="http接口" />
             <el-option value="4" label="cmpp接口" />
           </el-select>
@@ -927,7 +927,7 @@ export default {
     createElement(h, row) {
       switch (row.proType) {
         case 1:
-          row.proType = "web商戶端";
+          row.proType = "web商户端";
           break;
         case 2:
           row.proType = "http接口";
@@ -936,7 +936,7 @@ export default {
           row.proType = "cmpp接口";
           break;
       }
-      if (row.proType === "web商戶端") {
+      if (row.proType === "web商户端") {
         return h("div", null, [
           h("p", null, [
             h("span", null, "产品类型: "),

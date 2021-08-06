@@ -7,7 +7,7 @@
       @create="create"
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
-      <el-table-column prop="gateway" label="通道编号" min-width="100" />
+      <el-table-column prop="gateway" label="通道编号" min-width="100" show-overflow-tooltip />
       <el-table-column
         prop="submitFail"
         label="是否提交失败报警"
@@ -17,17 +17,19 @@
           <span>{{ scope.row.submitFail ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="alarmStatus" label="失败状态" min-width="100" />
+      <el-table-column prop="alarmStatus" label="失败状态" min-width="100" show-overflow-tooltip />
       <el-table-column
         prop="mobile"
         label="手机号"
         width="115"
         min-width="150"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="sucCrate"
         label="低于设置成功率报警"
         min-width="150"
+        show-overflow-tooltip
       />
       <el-table-column
         prop="disconnectFail"
@@ -42,11 +44,13 @@
         prop="complaintRate"
         label="投诉率报警"
         min-width="100"
+        show-overflow-tooltip
       /> -->
       <el-table-column
         prop="daySendAlarm"
         label="日成功量提醒"
         min-width="150"
+        show-overflow-tooltip
       />
       <el-table-column prop="createUser" label="创建人" min-width="100" />
       <el-table-column prop="createTime" label="创建时间" min-width="150">
@@ -168,6 +172,7 @@ export default {
           type: 'input',
           label: '失败状态',
           key: 'alarmStatus',
+          maxlength: 20,
           rules: [{ required: true, message: '请输入必填项', trigger: ['blur', 'change'] }],
         },
         {
@@ -433,6 +438,8 @@ export default {
           }
           if (item.key === key && row[key] !== "-") {
             this.$set(item, "defaultValue", row[key]);
+          } else if (item.key === key && (!row[key] || row[key] === "-")) {
+            this.$set(item, 'defaultValue', '')
           }
         }
         if (!Object.keys(row).includes(item.key)) {

@@ -26,7 +26,12 @@
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" min-width="120" show-overflow-tooltip />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        min-width="120"
+        show-overflow-tooltip
+      />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
@@ -64,9 +69,10 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="批量修改通道" :visible.sync="editGateway" width="50%">
+    <el-dialog title="批量修改通道" :visible.sync="editGateway" width="650px">
       <FormItem
         :colSpan="12"
+        :labelWidth="100"
         ref="formItem"
         :formConfig="formConfig"
         btnTxt="修改"
@@ -156,10 +162,15 @@ export default {
       ],
       formConfig: [
         {
-          type: "inputNum",
+          type: "input",
           label: "账户编号",
-          key: "userId"
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "userId",
+          maxlength: 9,
+          rules: [{ required: false, trigger: "blur", validator: (rule, value, callback) => {
+            if (!value) callback();
+            if (!/^\d{0,9}$/.test(value)) callback(new Error('账户编号为正整数类型，且小于9位'));
+            callback();
+          }}]
         },
         {
           type: "input",
@@ -168,27 +179,34 @@ export default {
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "处理条数",
           key: "batchCount",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          maxlength: 9,
+          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
+            if (!value) callback(new Error('请输入必填项'));
+            if (!/^\d{0,9}$/.test(value)) callback(new Error('处理条数为正整数类型，且小于9位'));
+            callback();
+          }}]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "CID",
           key: "cid",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "select",
           label: "原通道",
           key: "gateway",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
+          type: "select",
           label: "目标通道",
           key: "newGateway",
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -203,16 +221,16 @@ export default {
           type: "time",
           label: "开始时间",
           key: "startTime",
-          initDefaultValue: '00:00:00',
-          defaultValue: '00:00:00',
+          initDefaultValue: "00:00:00",
+          defaultValue: "00:00:00",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "time",
           label: "结束时间",
           key: "endTime",
-          initDefaultValue: '23:59:59',
-          defaultValue: '23:59:59',
+          initDefaultValue: "23:59:59",
+          defaultValue: "23:59:59",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         // {
@@ -234,7 +252,7 @@ export default {
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
         {
-          type: "inputNum",
+          type: "input",
           label: "特服号",
           key: "code"
         }
@@ -243,10 +261,37 @@ export default {
   },
   mounted() {
     this.queryGatewayStockNum();
-    console.log(this.date, "------------date");
+    this.gateway();
   },
   computed: {},
   methods: {
+    /*
+     * 获取通道列表
+     * */
+    gateway() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.formConfig.forEach(item => {
+          const { key } = item;
+
+          if (key === "gateway" || key === "newGateway") {
+            res.data.forEach(t => {
+              this.$set(t, "key", t.gatewayId);
+              this.$set(t, "value", t.gateway);
+              item.optionData.push(t);
+            });
+          }
+        });
+      });
+    },
     ViewTheSummaryBtn() {
       this.ViewTheSummary = true;
       this.queryGatewayStockNum();

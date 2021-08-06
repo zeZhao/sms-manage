@@ -15,7 +15,7 @@
       <el-table-column prop="groupId" label="通道组编号" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />
-      <el-table-column prop="notes" label="备注" />
+      <el-table-column prop="notes" label="备注" show-overflow-tooltip />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"

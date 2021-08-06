@@ -29,6 +29,8 @@
             placeholder="分钟"
             clearable
             style="width: 30%"
+            oninput="if(value.length > 3) value = value.slice(0,3)"
+            onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
           />
           <el-input
             type="number"
@@ -36,6 +38,8 @@
             placeholder="待审数量"
             clearable
             style="width: 40%"
+            oninput="if(value.length > 5) value = value.slice(0,5)"
+            onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
           />
           <div class="item-tips">
             {{ formData.waitCheckMin }}分钟内接口发送待审数量大于阀值则告警
@@ -50,6 +54,8 @@
             placeholder="分钟"
             clearable
             style="width: 30%"
+            oninput="if(value.length > 3) value = value.slice(0,3)"
+            onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
           />
           <el-input
             type="number"
@@ -57,6 +63,8 @@
             placeholder="到达成功率"
             clearable
             style="width: 40%"
+            oninput="if(value > 100) value = 100"
+            onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
           />&nbsp;%
           <div class="item-tips">
             {{ formData.returnSuccMin }}分钟内到达成功率小于配置阀值则告警
@@ -84,6 +92,8 @@
             v-model="formData.balanceNum"
             placeholder="请输入余额报警阈值"
             clearable
+            oninput="if(value.length > 9) value = value.slice(0,9)"
+            onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
           />
         </el-form-item>
         <el-form-item label="间隔时间：" prop="balanceInterval">
@@ -92,7 +102,9 @@
             v-model="formData.balanceInterval"
             placeholder="请输入间隔时间"
             clearable
-            style="width: 90%"
+            style="width: 80%"
+            oninput="if(value.length > 2) value = value.slice(0,2)"
+            onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
           /><span>&nbsp;小时</span>
           <div class="item-tips">最低间隔时间为1小时</div>
         </el-form-item>

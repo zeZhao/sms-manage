@@ -382,6 +382,7 @@ export default {
           type: "input",
           label: "条数",
           key: "count",
+          maxlength: 9,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -509,11 +510,11 @@ export default {
           optionData: [
             {
               key: "1",
-              value: "未开"
+              value: "已开"
             },
             {
               key: "2",
-              value: "已开"
+              value: "未开"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

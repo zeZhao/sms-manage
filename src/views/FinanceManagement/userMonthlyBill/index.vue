@@ -55,7 +55,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
+const date = new Date();
 export default {
   mixins: [listMixin],
   data() {
@@ -88,11 +88,12 @@ export default {
           label: "统计日期",
           key: "startTime",
           clearable: false,
-          defaultValue: `${new Date().getFullYear()}-${new Date().getMonth() < 10 ? '0' + new Date().getMonth()  : new Date().getMonth()}`,
-          pickerOptions:  {
+          defaultValue: `${date.getMonth() !== 0 ? date.getFullYear() : date.getFullYear() - 1}-${date.getMonth() < 10 ? (date.getMonth() !== 0 ? '0' + date.getMonth() : 12) : date.getMonth()}`,
+          pickerOptions: {
             disabledDate(time) {
-              const t = new Date().getDate();
-              return time.getTime() > Date.now() - 8.64e7 * t;
+              const t = `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}`;
+              const other = `${time.getFullYear()}-${(time.getMonth() + 1) < 10 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1}`;
+              return other >= t;
             }
           }
           // key: ["", "startTime", "endTime"]
@@ -101,7 +102,6 @@ export default {
     };
   },
   mounted() {},
-  computed: {},
   methods: {
     // 修改搜索参数
     // _formatRequestData(data) {

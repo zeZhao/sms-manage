@@ -22,10 +22,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="optimizePercent" label="优化比例" />
-      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" />
-      <el-table-column prop="optimizeTemplate" label="优化关键词" />
-      <el-table-column prop="startTime" label="开始时间(时:分)" />
-      <el-table-column prop="endTime" label="结束时间(时:分)" />
+      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="optimizeTemplate" label="优化关键词" min-width="120" show-overflow-tooltip />
+      <el-table-column prop="startTime" label="开始时间(时:分)" min-width="120" />
+      <el-table-column prop="endTime" label="结束时间(时:分)" min-width="120" />
       <el-table-column label="操作" width="200"
         >1458
         <template slot-scope="scope">
@@ -145,23 +145,23 @@ export default {
           key: "userName"
         },
         {
-          type: "input",
-          label: "账户特服号",
+          type: "inputNum",
+          label: "特服号",
           key: "code"
         },
         {
           type: "input",
-          label: "不优化关键词",
+          label: "不优化词",
           key: "noOptimizeTemplate"
         },
         {
           type: "input",
-          label: "优化关键词",
+          label: "优化词",
           key: "optimizeTemplate"
         },
         {
           type: "select",
-          label: "产品类型",
+          label: "优化类型",
           optionData: [
             { key: "1", value: "正常" },
             { key: "2", value: "对比库" }
@@ -271,6 +271,10 @@ export default {
       isParamsNotData: false
     };
   },
+  activated(){
+    //重新获取数据
+    this._mxGetList();
+  },
   methods: {
     onChange({ val, item }) {
       let time;
@@ -306,7 +310,7 @@ export default {
         const { namespace, detele } = this.searchAPI;
         this.$http[namespace][detele](params).then(res => {
           if (resOk(res)) {
-            this.$message.info("删除成功！");
+            this.$message.success("删除成功！");
             this._mxGetList();
           } else {
             this.$message.info("删除失败！");
@@ -329,23 +333,24 @@ export default {
         }
       });
     },
-    edit(row) {
-      this.id = row.id;
-      this.formTit = "修改";
-      this.formConfig.forEach(item => {
-        for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
-          }
-        }
-        if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
-        }
-      });
-      setTimeout(() => {
-        this.$refs.formItem.clearValidate();
-      }, 0);
-      this.addChannel = true;
+    edit(row, ID) {
+      this.$router.push({ name: 'sysBelielConfigType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      // this.id = row.id;
+      // this.formTit = "修改";
+      // this.formConfig.forEach(item => {
+      //   for (let key in row) {
+      //     if (item.key === key && row[key] !== "-") {
+      //       this.$set(item, "defaultValue", row[key]);
+      //     }
+      //   }
+      //   if (!Object.keys(row).includes(item.key)) {
+      //     this.$set(item, "defaultValue", "");
+      //   }
+      // });
+      // setTimeout(() => {
+      //   this.$refs.formItem.clearValidate();
+      // }, 0);
+      // this.addChannel = true;
     },
 
     submit(form) {
@@ -380,16 +385,17 @@ export default {
       }
     },
     create() {
-      this.addChannel = true;
-      this.formTit = "新增";
-      setTimeout(() => {
-        this.$refs.formItem.resetForm();
-      }, 0);
-      this.formConfig.forEach(item => {
-        if (item.key === "userId") {
-          item.btnDisabled = false;
-        }
-      });
+      this.$router.push({ name: 'sysBelielConfigType', query: { type: 'create' } });
+      // this.addChannel = true;
+      // this.formTit = "新增";
+      // setTimeout(() => {
+      //   this.$refs.formItem.resetForm();
+      // }, 0);
+      // this.formConfig.forEach(item => {
+      //   if (item.key === "userId") {
+      //     item.btnDisabled = false;
+      //   }
+      // });
     },
     cancel() {
       this.addChannel = false;

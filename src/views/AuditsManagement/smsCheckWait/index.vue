@@ -2,24 +2,26 @@
   <!--待审-->
   <div class="smsCheckWait">
     <Search
+      ref="search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      @getForm="getForm"
     >
       <template slot="Other">
-        <!-- <el-button type="primary" @click="_mxCreate">超审</el-button> -->
+        <el-button type="primary" size="small" @click="$refs.search.renderForm()">超审</el-button>
         <el-button type="primary" size="small" @click="addCheck"
           >增加分配</el-button
         >
         <el-button type="primary" size="small" @click="stopCheck"
-          >停止分配</el-button
+          >撤回分配</el-button
         >
-        <el-button type="primary" size="small" @click="handleOption(2)"
+        <!-- <el-button type="primary" size="small" @click="handleOption(2)"
           >通过选择项</el-button
         >
         <el-button type="primary" size="small" @click="handleOption(3)"
           >驳回选择项</el-button
-        >
+        > -->
       </template>
     </Search>
     <el-table
@@ -28,7 +30,6 @@
       style="width: 100%"
       @selection-change="selectionChange"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
       <!-- <el-table-column type="selection" width="55" /> -->
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -39,7 +40,15 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
+      <el-table-column prop="content" label="内容" min-width="200">
+        <template slot-scope="scope">
+          <el-tooltip placement="top">
+            <div v-html="scope.row.content" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></div>
+            <div slot="content" v-html="scope.row.content"></div>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="counter" label="条数" />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
           <span v-if="scope.row.source === '1'">没有配置免审</span>
@@ -50,7 +59,7 @@
           <span v-if="scope.row.source === '7'">组合超时</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cmGateway" label="移动通道">
+      <!-- <el-table-column prop="cmGateway" label="移动通道">
         <template slot-scope="scope">
           <el-select v-model="scope.row.cmGateway">
             <el-option
@@ -85,25 +94,25 @@
             ></el-option>
           </el-select>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="submitType" label="提交类型">
         <template slot-scope="scope">
           <span v-if="scope.row.submitType == 1">平台提交</span>
           <span v-if="scope.row.submitType == 2">接口提交</span>
         </template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间">
+      <el-table-column prop="submitTime" label="提交时间" min-width="150">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作">
+      <!-- <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="supperCheck(scope.row)"
             >超审</el-button
           >
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <Page
       :pageObj="pageObj"
@@ -234,22 +243,22 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "特服号",
-          key: "code",
-          disabled: true,
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "审核内容",
-          key: "content",
-          disabled: true,
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "input",
+        //   label: "特服号",
+        //   key: "code",
+        //   disabled: true,
+        //   defaultValue: "",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "审核内容",
+        //   key: "content",
+        //   disabled: true,
+        //   defaultValue: "",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "移动通道",
@@ -382,21 +391,26 @@ export default {
         });
       });
     },
-    supperCheck(row) {
+    getForm(form){
+      if (!form.userId) {
+        this.$alert('请输入账户编号进行超审', '提示', {
+          confirmButtonText: '确定',
+          callback: action => { }
+        });
+        return;
+      }
+      this.supperCheck(form.userId);
+    },
+    supperCheck(userId) {
       this.formConfig.forEach(item => {
-        for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
-          }
-        }
-        if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
+        if (item.key === 'userId') {
+          this.$set(item, "defaultValue", userId);
         }
       });
+      this.addChannel = true;
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
-      this.addChannel = true;
     },
     submit(form) {
       if (form.checkStatus == "2") {

@@ -30,10 +30,10 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{ inputWid: item.btnTxt }"
+                :class="{ inputWid: item.btnTxt,inputIcon:item.lock }"
                 v-model.trim="formData[item.key]"
                 clearable
-                :disabled="item.disabled"
+                :disabled="item.disabled || item.lock"
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
@@ -57,6 +57,7 @@
                 size="small"
                 >{{ item.btnTxt }}</el-button
               >
+              <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"></i>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
 
@@ -205,13 +206,31 @@
               ></el-date-picker>
             </template>
 
-            <!--时间-->
+            <!--单个时间-->
             <template v-if="item.type === 'time'">
               <el-time-picker
                 clearable
                 v-model="formData[item.key]"
                 :value-format="item.format || 'HH:mm:ss'"
                 :placeholder="item.placeholder || `请选择${item.label}`"
+                @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+              ></el-time-picker>
+            </template>
+            <!--双时间-->
+            <template v-if="item.type === 'times'">
+              <el-time-picker
+                clearable
+                v-model="formData[item.key]"
+                :value-format="item.format || 'HH:mm:ss'"
+                is-range
+                range-separator="-"
+                :start-placeholder="item.startPlaceholder || '开始时间'"
+                :end-placeholder="item.endPlaceholder || '结束时间'"
+                :placeholder="item.placeholder || '选择时间范围'"
                 @change="
                   val => {
                     onChange(val, item);
@@ -304,6 +323,7 @@
           <slot name="Other"></slot>
           <div class="submitBtn">
             <slot name="Btn">
+              <el-button @click="cancel" size="small">取消</el-button>
               <el-button
                 type="primary"
                 @click="onSubmit('form')"
@@ -312,7 +332,6 @@
               >
                 {{ btnTxt }}
               </el-button>
-              <el-button @click="cancel" size="small">取消</el-button>
             </slot>
           </div>
         </div>
@@ -387,6 +406,9 @@ export default {
     // 选择组件
     chooses(item) {
       this.$emit("choose", item);
+    },
+    decode(item){
+       this.$emit("decode", item);
     },
     /**
      * 提交验证
@@ -566,6 +588,9 @@ export default {
   }
   .inputWid {
     width: 70%;
+  }
+  .inputIcon {
+    width: 90%;
   }
   .item-tips {
     color: #999999;
