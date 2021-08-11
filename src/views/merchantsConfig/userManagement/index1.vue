@@ -1679,8 +1679,7 @@ export default {
         title: "信息",
         message: this.createElement(h, row),
         showConfirmButton: false
-      });
-      console.log(row.proType, "--------------");
+      }).catch(() => { });
     },
     //获取所有商户
     getAllCorp() {
@@ -1813,70 +1812,175 @@ export default {
     },
 
     createElement(h, row) {
-      let arr = [];
-      if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
-        arr = row.proTypes;
-      } else {
-        arr = row.mmsProTypes;
+      switch (row.proType) {
+        case 1:
+          return h("div", null, [
+            h("p", null, [
+              h("span", null, "产品类型: "),
+              h("span", null, "前台")
+            ]),
+            h("p", null, [
+              h("span", null, "企业名称: "),
+              h("span", null, `${row.corpName}`)
+            ]),
+            h("p", null, [
+              h("span", null, "账号: "),
+              h("span", null, `${row.loginName}`)
+            ]),
+            h("p", null, [
+              h("span", null, "密码: "),
+              h("span", null, `${row.password}`)
+            ]),
+            h("p", null, [
+              h("span", null, "网址: "),
+              h("span", null, "sms.jvtd.cn")
+            ])
+          ]);
+        
+        case 2:
+          return h("div", null, [
+            h("p", null, [
+              h("span", null, "产品类型: "),
+              h("span", null, "HTTP")
+            ]),
+            h("p", null, [
+              h("span", null, "企业名称: "),
+              h("span", null, `${row.corpName}`)
+            ]),
+            h("p", null, [
+              h("span", null, "账号: "),
+              h("span", null, `${row.loginName}`)
+            ]),
+            h("p", null, [
+              h("span", null, "密码: "),
+              h("span", null, `${row.password}`)
+            ]),
+            h("p", null, [
+              h("span", null, "客户端IP: "),
+              h("span", null, `${row.userIp || ""}`)
+            ]),
+            h("p", null, [
+              h("span", null, "接口地址: "),
+              h("span", null, "http://sms3api.jvtd.cn/jtdsms/smsSend")
+            ]),
+            h("p", null, [
+              h("span", null, "接口文档: "),
+              h("span", null, "https://jvtd.cn/duanxinApi/")
+            ])
+          ]);
+
+        case 4: 
+          return h("div", null, [
+            h("p", null, [
+              h("span", null, "产品类型: "),
+              h("span", null, "CMPP2.0")
+            ]),
+            h("p", null, [
+              h("span", null, "企业名称: "),
+              h("span", null, `${row.corpName}`)
+            ]),
+            h("p", null, [
+              h("span", null, "接口地址: "),
+              h("span", null, "39.107.120.170")
+            ]),
+            h("p", null, [
+              h("span", null, "端口: "),
+              h("span", null, "7893")
+            ]),
+            h("p", null, [
+              h("span", null, "账号: "),
+              h("span", null, `${row.loginName}`)
+            ]),
+            h("p", null, [
+              h("span", null, "密码: "),
+              h("span", null, `${row.password}`)
+            ]),
+            h("p", null, [
+              h("span", null, "协议: "),
+              h("span", null, "CMPP")
+            ]),
+            h("p", null, [h("span", null, "通道接入码: "), h("span", null, `${row.longCode}`)]),
+            h("p", null, [
+              h("span", null, "客户端IP: "),
+              h("span", null, `${row.userIp || ""}`)
+            ]),
+            h("p", null, [
+              h("span", null, "链接路数: "),
+              h("span", null, `${row.maxSession || ""}`)
+            ]),
+            h("p", null, [
+              h("span", null, "通道速率: "),
+              h("span", null, `${row.submitSpeed || ""}`)
+            ])
+          ]);
+        
+        default:
+          break;
       }
-      let proType = [];
-      arr.forEach(item => {
-        if (item == 1) {
-          proType.push("web端");
-        } else if (item == 2) {
-          proType.push("http接口");
-        } else if (item == 4) {
-          proType.push("cmpp接口");
-        }
-      });
-      let strType = proType.join("、");
-      return h("div", null, [
-        h("p", null, [
-          h("span", null, "产品类型: "),
-          h("span", null, `${strType || ""}`)
-        ]),
-        h("p", null, [
-          h("span", null, "商户名称: "),
-          h("span", null, `${row.corpName}`)
-        ]),
-        h("p", null, [
-          h("span", null, "登录账号: "),
-          h("span", null, `${row.loginName}`)
-        ]),
-        h("p", null, [
-          h("span", null, "密码: "),
-          h("span", null, `${row.password}`)
-        ]),
-        h("p", null, [
-          h("span", null, "网址: "),
-          h("span", null, "http://user.sms.jvtdtest.top")
-        ]),
-        h("p", null, [
-          h("span", null, "客户端IP: "),
-          h("span", null, `${row.userIp || ""}`)
-        ]),
-        h("p", null, [
-          h("span", null, "接口地址: "),
-          h("span", null, `${row.mmsAuditCallBack || ""}`)
-        ]),
-        h("p", null, [
-          h("span", null, "协议端口: "),
-          h("span", null, `${row.directPort || ""}`)
-        ]),
-        h("p", null, [
-          h("span", null, "协议: "),
-          h("span", null, `${row.directPort}`)
-        ]),
-        h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
-        h("p", null, [
-          h("span", null, "链接路数: "),
-          h("span", null, `${row.maxSession || ""}`)
-        ]),
-        h("p", null, [
-          h("span", null, "通道速率: "),
-          h("span", null, `${row.submitSpeed || ""}`)
-        ])
-      ]);
+      // let arr = [];
+      // if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
+      //   arr = row.proTypes;
+      // } else {
+      //   arr = row.mmsProTypes;
+      // }
+      // let proType = [];
+      // arr.forEach(item => {
+      //   if (item == 1) {
+      //     proType.push("web端");
+      //   } else if (item == 2) {
+      //     proType.push("http接口");
+      //   } else if (item == 4) {
+      //     proType.push("cmpp接口");
+      //   }
+      // });
+      // let strType = proType.join("、");
+      // return h("div", null, [
+      //   h("p", null, [
+      //     h("span", null, "产品类型: "),
+      //     h("span", null, `${strType || ""}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "商户名称: "),
+      //     h("span", null, `${row.corpName}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "登录账号: "),
+      //     h("span", null, `${row.loginName}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "密码: "),
+      //     h("span", null, `${row.password}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "网址: "),
+      //     h("span", null, "http://user.sms.jvtdtest.top")
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "客户端IP: "),
+      //     h("span", null, `${row.userIp || ""}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "接口地址: "),
+      //     h("span", null, `${row.mmsAuditCallBack || ""}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "协议端口: "),
+      //     h("span", null, `${row.directPort || ""}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "协议: "),
+      //     h("span", null, `${row.directPort}`)
+      //   ]),
+      //   h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
+      //   h("p", null, [
+      //     h("span", null, "链接路数: "),
+      //     h("span", null, `${row.maxSession || ""}`)
+      //   ]),
+      //   h("p", null, [
+      //     h("span", null, "通道速率: "),
+      //     h("span", null, `${row.submitSpeed || ""}`)
+      //   ])
+      // ]);
     }
   },
   watch: {}
