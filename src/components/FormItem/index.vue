@@ -506,6 +506,10 @@ export default {
         }
       });
     },
+    //返回该formData对象
+    renderFormData() {
+      this.$emit("getFormData", this.formData);
+    },
     /**
      * 回显数据
      */
