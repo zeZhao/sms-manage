@@ -1736,6 +1736,10 @@ export default {
         getLasttGatewayId(params) {
             return fetch("/gateway/getLasttGatewayId", params);
         },
+        //获取下拉省份和城市
+        getProvinceTree(params) {
+            return fetch("/gateway/getProvinceTree", params);
+        }
     },
     //彩信通道
     mmsGateway: {

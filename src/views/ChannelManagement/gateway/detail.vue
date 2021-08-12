@@ -3,45 +3,37 @@
   <div class="gatewayDetail">
     <h2>
       {{ formTit }}短信通道
-      <span v-if="formTit === '新增'">(上一个通道号为：{{ lastGateway }})</span>
+      <span v-if="formTit === '新增'">(上一通道编号为：{{ lastGateway }})</span>
     </h2>
-    <FormItemTitle
-      :colSpan="12"
-      :labelWidth="170"
-      ref="formItem"
-      :formConfig="formConfig"
-      :btnTxt="formTit"
-      @submit="_mxHandleSubmit"
-      @decode="_mxHandleDecode"
-      @cancel="_mxCancel"
-      @selectChange="selectChange"
-      @handleClick="handleClick"
-    ></FormItemTitle>
-    <el-dialog
-      title="登录"
-      :visible.sync="loginState"
-      :close-on-click-modal="false"
-      width="30%"
-      custom-class="loginDialog"
-    >
+    <FormItemTitle ref="formItem" :colSpan="12" :labelWidth="170" :formConfig="formConfig" :btnTxt="formTit"
+      @submit="_mxHandleSubmit" @decode="_mxHandleDecode" @cancel="_mxCancel" @selectChange="selectChange"
+      @handleClick="handleClick" :selectCity="selectCity" @closeChooseCity="isChoose = false">
+      <template v-slot:isChooseProviceOrCity>
+        <el-button style="float: right; margin-top: 5px" type="primary" size="small" @click="isChoose = true">请选择
+        </el-button>
+      </template>
+    </FormItemTitle>
+    <el-dialog title="登录" :visible.sync="loginState" :close-on-click-modal="false" width="30%"
+      custom-class="loginDialog">
       <div style="margin-bottom:20px">
-        账户：<el-input
-          v-model="login.account"
-          placeholder="请输入账号"
-          style="width:85%"
-        ></el-input>
+        账户：<el-input v-model="login.account" placeholder="请输入账号" style="width:85%"></el-input>
       </div>
       <div>
-        密码：<el-input
-          v-model="login.password"
-          type="password"
-          style="width:85%"
-          placeholder="请输入密码"
-        ></el-input>
+        密码：<el-input v-model="login.password" type="password" style="width:85%" placeholder="请输入密码"></el-input>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="loginState = false">取 消</el-button>
         <el-button type="primary" @click="submit">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="选择省份或城市" :visible.sync="isChoose" :close-on-click-modal="false" width="30%"
+      custom-class="loginDialog">
+      <el-tree ref="tree" style="max-height: 400px; overflow-y: auto" :default-checked-keys="navListId" :data="navList"
+        show-checkbox node-key="city" :props="{ label: 'city', children: 'children' }">
+      </el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isChoose = false">取 消</el-button>
+        <el-button type="primary" @click="handleChooseConfirm">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -54,7 +46,7 @@ import FormItemTitle from "@/components/formItemTitle";
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
-  data() {
+  data () {
     return {
       // 接口地址
       searchAPI: {
@@ -91,21 +83,6 @@ export default {
         },
         {
           type: "input",
-          label: "通道名称",
-          colSpan: 12,
-          key: "gatewayName",
-          maxlength: "50",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
-        },
-        {
-          type: "input",
           label: "通道公司名称",
           key: "companyName",
           maxlength: "50",
@@ -121,12 +98,26 @@ export default {
         },
         {
           type: "input",
-          label: "通道IP",
+          label: "通道名称",
+          colSpan: 12,
+          key: "gatewayName",
+          maxlength: "50",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              message: "不支持特殊字符",
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "公司服务器ip",
           key: "ip",
           colSpan: 12,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-
         {
           type: "select",
           label: "发送对象",
@@ -143,19 +134,6 @@ export default {
           colSpan: 12,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "发送对象",
-        //   key: "sendTo",
-        //   multiple: true,
-        //   optionData: [
-        //     { key: "三网", value: "三网" },
-        //     { key: "移动", value: "移动" },
-        //     { key: "联通", value: "联通" },
-        //     { key: "电信", value: "电信" },
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        // },
         {
           type: "input",
           label: "通道单价(分)",
@@ -191,6 +169,7 @@ export default {
           colSpan: 12,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+
         {
           isTitle: true,
           title: "加密信息",
@@ -203,7 +182,6 @@ export default {
           //   tag:"encrypt",
           optionData: [],
           colSpan: 12
-
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -293,6 +271,7 @@ export default {
           colSpan: 12,
           lock: true
         },
+
         {
           isTitle: true,
           title: "业务信息",
@@ -312,10 +291,45 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
         },
         {
+          type: "select",
+          label: "路由方式",
+          key: "twoRouteType",
+          colSpan: 12,
+          optionData: [
+            { key: 0, value: "普通方式" },
+            { key: 1, value: "一客一签" }
+          ]
+        },
+        {
+          type: "input",
+          label: "备用通道",
+          key: "otherGateway",
+          maxlength: "8",
+          colSpan: 12,
+          rules: [
+            { required: false, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^\d{1,8}$/,
+              message: "备用通道编号只允许为正整数，长度限制为1~8位",
+              trigger: "blur"
+            }
+          ]
+        },
+        {
           type: "input",
           label: "二次路由编号",
           key: "twoRouteNo",
           colSpan: 12
+        },
+        {
+          type: "select",
+          label: "发送限制",
+          key: "isLimit",
+          colSpan: 12,
+          optionData: [
+            { key: 0, value: "无" },
+            { key: 1, value: "有" }
+          ]
         },
         {
           type: "select",
@@ -330,9 +344,33 @@ export default {
         },
         {
           type: "input",
+          label: "限制条数",
+          key: "limitCount",
+          colSpan: 12,
+          rules: [{
+            required: false, trigger: "blur", validator: (rule, value, callback) => {
+              if (!value) callback();
+              isNaN(value) ? callback(new Error("只能输入数字")) : (value > 0 ? callback() : callback(new Error("必须大于0")));
+            }
+          }]
+        },
+        {
+          type: "input",
           label: "目标通道",
           key: "targetGateway",
           colSpan: 12
+        },
+        {
+          type: "input",
+          label: "限制天数",
+          key: "limitDays",
+          colSpan: 12,
+          rules: [{
+            required: false, trigger: "blur", validator: (rule, value, callback) => {
+              if (!value) callback();
+              isNaN(value) ? callback(new Error("只能输入数字")) : (value > 0 ? callback() : callback(new Error("必须大于0")));
+            }
+          }]
         },
         {
           type: "select",
@@ -344,32 +382,6 @@ export default {
             { key: "0", value: "否" },
             { key: "1", value: "是" }
           ]
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
-          label: "连续提交失败自动转",
-          key: "submitFailTurn",
-          defaultValue: "",
-          colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "低于成功率自动转",
-          key: "succRate",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "失败状态自动转",
-          key: "fsAutoChange",
-          colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -392,12 +404,16 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
         },
         {
-          type: "input",
-          label: "通道端口",
-          // tag: "addition",
-          key: "port",
+          type: "select",
+          label: "连续提交失败自动转",
+          key: "submitFailTurn",
+          defaultValue: "",
           colSpan: 12,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -409,8 +425,22 @@ export default {
         },
         {
           type: "input",
+          label: "低于成功率自动转",
+          key: "succRate",
+          colSpan: 12
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
           label: "落地市",
           key: "city",
+          colSpan: 12
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "失败状态自动转",
+          key: "fsAutoChange",
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -424,8 +454,20 @@ export default {
           type: "textarea",
           label: "屏蔽省份",
           key: "shieldProvince",
-          colSpan: 12
+          colSpan: 12,
+          placeholder: "请选择屏蔽省份",
+          disabled: true,
+          // 可选择省份和城市进行赋值
+          isChooseProviceOrCity: true
         },
+        // {
+        //   type: "input",
+        //   label: "通道端口",
+        //   // tag: "addition",
+        //   key: "port",
+        //   colSpan: 12,
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "textarea",
           label: "备注",
@@ -483,6 +525,13 @@ export default {
         },
         {
           type: "input",
+          label: "单条字数",
+          tag: "addition",
+          key: "singleLength",
+          colSpan: 12
+        },
+        {
+          type: "input",
           label: "联系方式",
           maxlength: "11",
           tag: "addition",
@@ -497,14 +546,6 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "单条字数",
-          tag: "addition",
-          key: "singleLength",
-          colSpan: 12
-        },
-
-        {
           type: "select",
           label: "是否专用",
           key: "isExclusive",
@@ -515,6 +556,13 @@ export default {
             { key: "0", value: "否" },
             { key: "1", value: "是" }
           ]
+        },
+        {
+          type: "input",
+          label: "投诉率指标",
+          tag: "addition",
+          key: "complaintRate",
+          colSpan: 12
         },
         {
           type: "select",
@@ -529,6 +577,13 @@ export default {
           ]
         },
         {
+          type: "input",
+          label: "套餐",
+          tag: "addition",
+          key: "packages",
+          colSpan: 12
+        },
+        {
           type: "select",
           label: "是否需要白名单",
           key: "isWhite",
@@ -540,32 +595,10 @@ export default {
             { key: "1", value: "是" }
           ]
         },
-        // {
-        //   type: "input",
-        //   label: "发送速度",
-        //   tag: "addition",
-        //   key: "sendSpeed",
-        //   colSpan: 12
-        // },
-
-        {
-          type: "input",
-          label: "投诉率指标",
-          tag: "addition",
-          key: "complaintRate",
-          colSpan: 12
-        },
-        {
-          type: "input",
-          label: "套餐",
-          tag: "addition",
-          key: "packages",
-          colSpan: 12
-        },
         {
           type: "input",
           label: "结算公司",
-          key: "clearIngcorp",
+          key: "clearingCorp",
           tag: "addition",
           maxlength: "50",
           colSpan: 12,
@@ -577,70 +610,20 @@ export default {
             }
           ]
         },
-
         {
           type: "input",
-          label: "通道负责人",
+          label: "绑定从IP",
           tag: "addition",
-          key: "charger",
+          key: "zyIvIce",
           colSpan: 12
         },
         {
           type: "input",
-          label: "优先级",
+          label: "发送速度",
           tag: "addition",
-          key: "priority",
+          key: "sendSpeed",
           colSpan: 12
         },
-        {
-          type: "input",
-          label: "通道余额",
-          tag: "addition",
-          key: "balance",
-          colSpan: 12
-        },
-
-        {
-          type: "input",
-          label: "通道长号码",
-          tag: "addition",
-          key: "longCode",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "滑动窗口",
-          tag: "addition",
-          key: "slideWindow",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        // {
-        //   type: "input",
-        //   label: "账号",
-        //   tag: "addition",
-        //   key: "clientId",
-        //   colSpan: 12
-        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
-        // {
-        //   type: "input",
-        //   label: "密码",
-        //   tag: "addition",
-        //   key: "sharedSecret",
-        //   colSpan: 12
-        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
-        // {
-        //   type: "input",
-        //   label: "通道端口号",
-        //   tag: "addition",
-        //   key: "srcId",
-        //   colSpan: 12,
-        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
-
         {
           type: "select",
           label: "是否支持上行",
@@ -654,6 +637,13 @@ export default {
           ]
         },
         {
+          type: "input",
+          label: "通道负责人",
+          tag: "addition",
+          key: "charger",
+          colSpan: 12
+        },
+        {
           type: "select",
           label: "是否支持报告",
           tag: "addition",
@@ -664,6 +654,13 @@ export default {
             { key: "0", value: "否" },
             { key: "1", value: "是" }
           ]
+        },
+        {
+          type: "input",
+          label: "优先级",
+          tag: "addition",
+          key: "priority",
+          colSpan: 12
         },
         {
           type: "select",
@@ -679,35 +676,18 @@ export default {
         },
         {
           type: "input",
-          label: "可扩展位数",
+          label: "通道余额",
           tag: "addition",
-          key: "isSub",
+          key: "balance",
           colSpan: 12
         },
-
-        // {
-        //   type: "input",
-        //   label: "业务代码",
-        //   tag: "addition",
-        //   key: "serviceId",
-        //   colSpan: 12
-        // },
-        // {
-        //   type: "input",
-        //   label: "商户代码",
-        //   tag: "addition",
-        //   key: "msgSrc",
-        //   colSpan: 12
-        // },
-
         {
           type: "input",
-          label: "接口协议",
+          label: "可扩展位数",
           tag: "addition",
-          key: "protocol",
+          key: "srcIdLength",
           colSpan: 12
         },
-
         {
           type: "input",
           label: "绑定主IP",
@@ -717,26 +697,42 @@ export default {
         },
         {
           type: "input",
-          label: "绑定从IP",
+          label: "通道长号码",
           tag: "addition",
-          key: "zyIvIce",
+          key: "longCode",
           colSpan: 12
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "input",
-          label: "通道环境",
-          key: "profile",
-          tag: "addition",
-          maxlength: "30",
-          colSpan: 12,
-          rules: [
-            {
-              pattern: /^([a-zA-Z0-9_]){1,30}$/,
-              message: "只支持字母",
-              trigger: "change"
-            }
-          ]
-        },
+        // {
+        //   type: "input",
+        //   label: "滑动窗口",
+        //   tag: "addition",
+        //   key: "slideWindow",
+        //   colSpan: 12
+        //   // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "接口协议",
+        //   tag: "addition",
+        //   key: "protocol",
+        //   colSpan: 12
+        // },
+        // {
+        //   type: "input",
+        //   label: "通道环境",
+        //   key: "profile",
+        //   tag: "addition",
+        //   maxlength: "30",
+        //   colSpan: 12,
+        //   rules: [
+        //     {
+        //       pattern: /^([a-zA-Z0-9_]){1,30}$/,
+        //       message: "只支持字母",
+        //       trigger: "change"
+        //     }
+        //   ]
+        // },
         {
           type: "textarea",
           label: "特殊设置",
@@ -754,16 +750,21 @@ export default {
       temporaryItem: {},
       isPage: true,
       formTit: "新增",
-      lastGateway: ""
+      lastGateway: "",
+
+      isChoose: false,
+      navListId: [],
+      navList: [],
+      selectCity: {}
     };
   },
-  created() {
-    let type = this.$route.query.type;
-    this.formTit = type === "add" ? "新增" : "修改";
+  created () {
+    this.formTit = this.$route.query.type === "add" ? "新增" : "修改";
   },
-  mounted() {
+  mounted () {
     this.listSysProvince();
     this.getLastGateway();
+    this.getProvinceTree();
     this._setTagDisplayShow(this.formConfig, "addition", true);
     let parameter = this.$route.query;
     if (parameter.type === "edit") {
@@ -781,25 +782,30 @@ export default {
       });
     }
   },
-  computed: {
-    // formTit() {
-    //   let type = this.$route.query.type;
-    //   return type === "add" ? "新增" : "修改";
-    // }
-  },
   methods: {
-    getLastGateway() {
+    handleChooseConfirm () {
+      const CheckedKeys = this.$refs.tree.getCheckedKeys();
+      const HalfCheckedKeys = this.$refs.tree.getHalfCheckedKeys();
+      this.selectCity = { key: "shieldProvince", value: CheckedKeys.join(" ") };
+    },
+    getProvinceTree () {
+      this.$http.gateway.getProvinceTree().then(res => {
+        this.navList = res.data.map(v => {
+          return { city: v.provinceName, children: v.children };
+        }).slice(1);
+      });
+    },
+    getLastGateway () {
       this.$http.gateway.getLasttGatewayId().then(res => {
         this.lastGateway = res.data;
       });
     },
-    submit() {
+    submit () {
       const { account, password } = this.login;
       let params = {
         account,
         pwd: password
       };
-      console.log(params, "--------");
       this.$http.sysLogin.viewLogin({ ...params }).then(res => {
         if (res.code == 200) {
           this.$message.success(res.data);
@@ -815,13 +821,12 @@ export default {
         }
       });
     },
-    _mxHandleDecode(item) {
-      console.log(item, "---------");
+    _mxHandleDecode (item) {
       this.loginState = true;
       this.temporaryItem = item;
     },
     //隐藏附加信息
-    handleClick(item) {
+    handleClick (item) {
       if (item.show) {
         this._setTagDisplayShow(this.formConfig, "addition", true);
         this.formConfig.forEach(items => {
@@ -838,12 +843,11 @@ export default {
         });
       }
     },
-
-    selectChange({ val, item }) {},
+    selectChange ({ val, item }) { },
     /*
      * 获取省份列表
      * */
-    listSysProvince() {
+    listSysProvince () {
       const params = {
         data: {
           provinceName: ""
@@ -865,7 +869,7 @@ export default {
         });
       });
     },
-    _mxArrangeEditData(row) {
+    _mxArrangeEditData (row) {
       for (let key in row) {
         if (row[key] === true) {
           row[key] = "1";
@@ -876,9 +880,7 @@ export default {
       }
       return row;
     },
-
-    //countMonth
-    _mxArrangeSubmitData(formData) {
+    _mxArrangeSubmitData (formData) {
       if (formData.countMonth) {
         formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
       }
@@ -887,6 +889,7 @@ export default {
   }
 };
 </script>
+
 <style scoped lang="scss">
 .el-dialog,
 .loginDialog {
