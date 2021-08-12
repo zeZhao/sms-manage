@@ -396,9 +396,9 @@ export default {
           type: "select",
           label: "产品类型",
           key: "proType",
-          multiple: true,
+          // multiple: true,
           disabled: false,
-          clearable: true,
+          // clearable: true,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
@@ -613,22 +613,22 @@ export default {
           tag: "mms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "产品类型",
-          key: "mmsProType",
-          multiple: true,
-          clearable: true,
-          disabled: false,
-          optionData: [
-            { key: 1, value: "web端" }
-            // { key: 2, value: "http接口" },
-            // { key: 4, value: "cmpp接口" }
-            // { key: 7, value: "音频接口" }
-          ],
-          tag: "mms",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "产品类型",
+        //   key: "mmsProType",
+        //   multiple: true,
+        //   clearable: true,
+        //   disabled: false,
+        //   optionData: [
+        //     { key: 1, value: "web端" }
+        //     // { key: 2, value: "http接口" },
+        //     // { key: 4, value: "cmpp接口" }
+        //     // { key: 7, value: "音频接口" }
+        //   ],
+        //   tag: "mms",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "计费方式",
@@ -959,9 +959,9 @@ export default {
             row[key] = [];
           }
         }
-        if (key === "proType") {
-          row["proType"] = row["proTypes"];
-        }
+        // if (key === "proType") {
+        //   row["proType"] = row["proTypes"];
+        // }
         if (key === "mmsProType") {
           row["mmsProType"] = row["mmsProTypes"];
         }
@@ -1029,8 +1029,8 @@ export default {
         }
         if (
           item.key === "productType" ||
-          item.key === "mmsProType" ||
-          item.key === "proType"
+          item.key === "mmsProType"
+          // item.key === "proType"
         ) {
           let val = item.defaultValue;
           if (val && val.length !== 0) {
@@ -1139,8 +1139,8 @@ export default {
         }
         if (
           key === "productType" ||
-          key === "mmsProType" ||
-          key === "proType"
+          key === "mmsProType"
+          // key === "proType"
         ) {
           if (
             form[key] &&

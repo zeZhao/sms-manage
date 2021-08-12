@@ -262,6 +262,18 @@ export const constantRoutes = [
                 component: () => import('@/views/SELinuxManagement/sysSensitiveWord/type')
             }
         ]
+    },
+    {
+        path: '/auditFreeTemplate',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'auditFreeTemplateType',
+                name: 'auditFreeTemplateType',
+                component: () => import('@/views/ConfigManagement/auditFreeTemplate/type')
+            }
+        ]
     }
 ]
 
