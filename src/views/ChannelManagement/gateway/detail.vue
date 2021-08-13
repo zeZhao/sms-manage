@@ -356,12 +356,6 @@ export default {
         },
         {
           type: "input",
-          label: "目标通道",
-          key: "targetGateway",
-          colSpan: 12
-        },
-        {
-          type: "input",
           label: "限制天数",
           key: "limitDays",
           colSpan: 12,
@@ -443,6 +437,12 @@ export default {
           key: "fsAutoChange",
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "目标通道",
+          key: "targetGateway",
+          colSpan: 12
         },
         {
           type: "textarea",
