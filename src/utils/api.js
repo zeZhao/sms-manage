@@ -1630,10 +1630,26 @@ export default {
         listCheckTemplateByPage(params) {
             return post("/smsCheckTemplate/listCheckTemplateByPage", params);
         },
+        // 添加
+        addCheckTemplate(params) {
+            return post("/smsCheckTemplate/addCheckTemplate", params);
+        },
         // 修改
         updateCheckTemplate(params) {
             return post("/smsCheckTemplate/updateCheckTemplate", params);
         },
+        // 删除
+        deleteCheckTemplate(params) {
+            return post("/smsCheckTemplate/deleteCheckTemplate", params);
+        },
+        // 内容检测
+        checkTemplate(params) {
+            return fetch("/smsCheckTemplate/checkTemplate", params);
+        },
+        // 修改重写
+        updateTemplate(params) {
+            return post("/smsCheckTemplate/updateTemplate", params);
+        }
     },
     // 用户利润查询
     smsProfit: {
@@ -1720,6 +1736,10 @@ export default {
         getLasttGatewayId(params) {
             return fetch("/gateway/getLasttGatewayId", params);
         },
+        //获取下拉省份和城市
+        getProvinceTree(params) {
+            return fetch("/gateway/getProvinceTree", params);
+        }
     },
     //彩信通道
     mmsGateway: {

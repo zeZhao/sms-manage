@@ -78,6 +78,7 @@
                   }
                 "
               />
+              <slot v-if="item.isChooseProviceOrCity" name="isChooseProviceOrCity"></slot>
               <div v-if="item.mobileTips" class="item-tips">
                 {{ returnMobileTips(formData[item.key]) }}
               </div>
@@ -364,13 +365,19 @@ export default {
       default() {
         return 150;
       }
-    }
+    },
     // colSpan: {
     //   type: [String, Number],
     //   default() {
     //     return 24;
     //   }
     // }
+    selectCity: {
+      type: Object,
+      default() {
+        return {};
+      }
+    }
   },
   data() {
     return {
@@ -572,6 +579,15 @@ export default {
       },
       deep: true,
       immediate: true
+    },
+    selectCity: {
+      handler(newVal) {
+        if (Object.keys(newVal).length) {
+          this.$set(this.formData, newVal.key, newVal.value);
+          this.$emit("closeChooseCity");
+        }
+      },
+      deep: true
     }
   }
 };

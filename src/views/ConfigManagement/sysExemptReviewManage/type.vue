@@ -319,6 +319,77 @@ export default {
             }
           ]
         },
+
+        {
+          type: "select",
+          label: "拦截处理方式",
+          initDefaultValue: "0",
+          defaultValue: "0",
+          optionData: [
+            {
+              key: "1",
+              value: "返回失败"
+            },
+            {
+              key: "0",
+              value: "人工审核"
+            }
+          ],
+          key: "isParallelDetection",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "并行检测",
+          initDefaultValue: "0",
+          defaultValue: "0",
+          optionData: [
+            {
+              key: "1",
+              value: "是"
+            },
+            {
+              key: "0",
+              value: "否"
+            }
+          ],
+          key: "isParallelDetection",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "checkbox",
+          label: "特殊需求",
+          key: "isSpecials",
+          initDefaultValue: [],
+          defaultValue: [],
+          optionData: [
+            {
+              key: 1,
+              value: "扩展位数"
+            },
+            {
+              key: 2,
+              value: "显示号码"
+            },
+            {
+              key: 4,
+              value: "特殊内容"
+            }
+          ],
+          placeholder: "请选择特殊需求"
+        },
         {
           type: "checkbox",
           label: "敏感词组",
@@ -327,44 +398,6 @@ export default {
           optionData: [],
           key: "sensitiveWord"
         }
-        // {
-        //   type: "select",
-        //   label: "是否检测并行",
-        //   initDefaultValue: "0",
-        //   defaultValue: "0",
-        //   optionData: [
-        //     {
-        //       key: "1",
-        //       value: "是"
-        //     },
-        //     {
-        //       key: "0",
-        //       value: "否"
-        //     }
-        //   ],
-        //   key: "isParallelDetection",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        // },
-        // {
-        //   type: "select",
-        //   label: "特殊需求",
-        //   key: "specialNeeds",
-        //   optionData: [
-        //     {
-        //       key: "扩展位数",
-        //       value: "扩展位数"
-        //     },
-        //     {
-        //       key: "显示号码",
-        //       value: "显示号码"
-        //     },
-        //     {
-        //       key: "特殊内容",
-        //       value: "特殊内容"
-        //     }
-        //   ],
-        //   placeholder: "请选择特殊需求"
-        // },
         // {
         //   type: "textarea",
         //   label: "备注信息",

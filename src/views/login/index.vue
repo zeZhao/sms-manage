@@ -455,6 +455,7 @@ $light_gray: #eee;
     display: inline-block;
     height: 100%;
     vertical-align: -webkit-baseline-middle;
+    cursor: pointer;
   }
   .loginImg {
     width: 50%;
