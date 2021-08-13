@@ -114,7 +114,7 @@ function queryData() {
   }
 
   const { namespace, list } = this.searchAPI; //动态接口路径
-
+  if (!list) return;
   this.$http[namespace][list](params).then(res => {
     this.loading = false;
 
