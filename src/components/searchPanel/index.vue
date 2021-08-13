@@ -30,6 +30,7 @@
             item.type === 'timerange' ||
             item.type === 'datetime' ||
             item.type === 'selectInp' ||
+            item.type === 'checkbox' ||
             item.isLonger
               ? 12
               : 6
@@ -86,6 +87,7 @@
                 />
               </el-select>
             </template>
+
             <template v-if="item.type === 'selectInp'">
               <el-select
                 style="width: 20%"
@@ -112,6 +114,17 @@
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :clearable="isClearAble(item)"
               ></el-input>
+            </template>
+            <!--多选框-->
+            <template v-if="item.type === 'checkbox'">
+              <el-checkbox-group v-model="form[item.key]">
+                <el-checkbox
+                  v-for="option in item.optionData"
+                  :key="option.key"
+                  :label="option.key"
+                  >{{ option.value }}</el-checkbox
+                >
+              </el-checkbox-group>
             </template>
 
             <!--日期范围选择-->

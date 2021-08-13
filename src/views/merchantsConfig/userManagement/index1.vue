@@ -6,11 +6,7 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table
-      :data="listData"
-      highlight-current-row
-      style="width: 100%"
-    >
+    <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column
@@ -72,7 +68,12 @@
         </template>
       </el-table-column> -->
       <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip />
-      <el-table-column prop="longCode" label="长号码" min-width="130" show-overflow-tooltip/>
+      <el-table-column
+        prop="longCode"
+        label="长号码"
+        min-width="130"
+        show-overflow-tooltip
+      />
       <el-table-column prop="productType" label="产品" min-width="120">
         <template slot-scope="scope">
           <span>{{
@@ -1679,7 +1680,7 @@ export default {
         title: "信息",
         message: this.createElement(h, row),
         showConfirmButton: false
-      }).catch(() => { });
+      }).catch(() => {});
     },
     //获取所有商户
     getAllCorp() {
@@ -1836,7 +1837,7 @@ export default {
               h("span", null, "sms.jvtd.cn")
             ])
           ]);
-        
+
         case 2:
           return h("div", null, [
             h("p", null, [
@@ -1869,7 +1870,7 @@ export default {
             ])
           ]);
 
-        case 4: 
+        case 4:
           return h("div", null, [
             h("p", null, [
               h("span", null, "产品类型: "),
@@ -1883,10 +1884,7 @@ export default {
               h("span", null, "接口地址: "),
               h("span", null, "39.107.120.170")
             ]),
-            h("p", null, [
-              h("span", null, "端口: "),
-              h("span", null, "7893")
-            ]),
+            h("p", null, [h("span", null, "端口: "), h("span", null, "7893")]),
             h("p", null, [
               h("span", null, "账号: "),
               h("span", null, `${row.loginName}`)
@@ -1895,11 +1893,11 @@ export default {
               h("span", null, "密码: "),
               h("span", null, `${row.password}`)
             ]),
+            h("p", null, [h("span", null, "协议: "), h("span", null, "CMPP")]),
             h("p", null, [
-              h("span", null, "协议: "),
-              h("span", null, "CMPP")
+              h("span", null, "通道接入码: "),
+              h("span", null, `${row.longCode}`)
             ]),
-            h("p", null, [h("span", null, "通道接入码: "), h("span", null, `${row.longCode}`)]),
             h("p", null, [
               h("span", null, "客户端IP: "),
               h("span", null, `${row.userIp || ""}`)
@@ -1913,7 +1911,7 @@ export default {
               h("span", null, `${row.submitSpeed || ""}`)
             ])
           ]);
-        
+
         default:
           break;
       }
