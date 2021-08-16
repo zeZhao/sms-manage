@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === "production") {
   })
 } else {
   service = axios.create({
-    baseURL: '/api/api',
+    baseURL: '/api',
     timeout: 5000
   })
 }
