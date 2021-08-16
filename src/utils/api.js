@@ -18,6 +18,10 @@ export default {
         viewLogin(params) {
             return post("/sysLogin/viewLogin", params);
         },
+        // 口令登录
+        googleAuthLogin(params) {
+            return post("/sysLogin/googleAuthLogin", params);
+        },
     },
     // 省份列表
     listSysProvince(params) {
@@ -85,6 +89,14 @@ export default {
         // 运营账号新增&修改
         addOrUpdate(params) {
             return post("/sysUser/addOrUpdate", params);
+        },
+        // 谷歌验证器绑定信息
+        getGoogleKey(params) {
+            return post("/sysUser/getGoogleKey", params);
+        },
+        // 刷新谷歌验证器
+        resetGoogleKey(params) {
+            return post("/sysUser/resetGoogleKey", params);
         },
         //查询角色菜单
         queryRoleMenu(params) {

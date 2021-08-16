@@ -14,7 +14,7 @@
     >
       <el-table-column prop="userName" label="登录账号" />
       <el-table-column prop="actualName" label="真实姓名" />
-      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="userName" label="手机号" />
       <el-table-column prop="groupName" label="所属组" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
@@ -61,6 +61,9 @@
             style="color: #3a835d"
             >启动</el-button
           >
+          <el-button @click="checkCommand(scope.row)" type="text" size="small"
+            >查看口令</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -83,19 +86,45 @@
         @cancel="cancel"
       ></FormItem>
     </el-dialog>
+    <el-dialog
+      title="查看口令"
+      :visible.sync="commandVisible"
+      :close-on-click-modal="false"
+      width="520px"
+      center
+    >
+      <div class="demo-input-suffix">
+        <div style="text-align: center;">
+          <div id="qrcode" ref="qrcode" style=""></div>
+          <p style="margin-bottom:30px">通过密码生成器扫码进行绑定</p>
+          <label for="command">管理员口令码：</label>
+          <el-input
+            style="width:60%;margin-right:10px"
+            id="command"
+            placeholder=""
+            disabled
+            v-model="command"
+          />
+          <el-button type="text" @click="refresh">重置口令</el-button>
+          <p>通过密码生成器扫码进行绑定</p>
+        </div>
+
+        <div></div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
+import QRCode from "qrcodejs2";
 export default {
   mixins: [listMixin],
   data() {
     const validatorUserName = (rule, value, callback) => {
       let regex = /^[a-zA-Z0-9]{2,15}$/;
       if (value == "") {
-        callback(new Error("登录账号称不能为空"));
+        callback(new Error("真实姓名称不能为空"));
       } else {
         if (!regex.test(value)) {
           callback(new Error("输入1-15位字符，支持数字、英文"));
@@ -119,7 +148,7 @@ export default {
     const validatorActualName = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_a-zA-Z]{1,15}$/;
       if (value == "") {
-        callback(new Error("真实姓名不能为空"));
+        callback(new Error("姓名不能为空"));
       } else {
         if (!regex.test(value)) {
           callback(new Error("输入1-15位字符，支持汉字、英文"));
@@ -141,6 +170,9 @@ export default {
       }
     };
     return {
+      commandVisible: false, //管理员口令码
+      command: "", //管理员口令码
+      suId: "", //管理员口令码
       formTit: "新增",
       addChannel: false,
       //接口地址
@@ -192,42 +224,54 @@ export default {
       ],
       // 表单配置
       formConfig: [
+        // {
+        //   type: "input",
+        //   label: "登录密码",
+        //   key: "password",
+        //   defaultValue: "",
+        //   rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
+        // },
         {
           type: "input",
-          label: "登录账号",
-          key: "userName",
-          disabled: false,
+          label: "姓名",
+          key: "name",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            { trigger: ['blur', 'change'], validator: validatorUserName }
-          ]
-        },
-        {
-          type: "input",
-          label: "登录密码",
-          key: "password",
-          defaultValue: "",
-          rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
-        },
-        {
-          type: "input",
-          label: "真实姓名",
-          key: "actualName",
-          defaultValue: "",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            { trigger: ['blur', 'change'], validator: validatorActualName }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            { trigger: ["blur", "change"], validator: validatorActualName }
           ]
         },
         {
           type: "input",
           label: "手机号",
-          key: "mobile",
+          key: "userName",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            { trigger: ['blur', 'change'], validator: validatorMobile }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            { trigger: ["blur", "change"], validator: validatorMobile }
+          ]
+        },
+        {
+          type: "input",
+          label: "真实姓名",
+          key: "actualName",
+          disabled: false,
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            { trigger: ["blur", "change"], validator: validatorUserName }
           ]
         },
         {
@@ -253,7 +297,13 @@ export default {
             //   value: "介绍人"
             // }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -274,6 +324,37 @@ export default {
     this.getEditData();
   },
   methods: {
+    refresh() {
+      this.$http.user.resetGoogleKey({ suId: this.suId }).then(res => {
+        if (res.code === 200) {
+          const { googleKey, googleKeyQrCode } = res.data;
+          this.command = googleKey;
+          this.qrcode(googleKeyQrCode);
+        }
+        console.log(res, "-----------");
+      });
+    },
+    checkCommand({ suId }) {
+      this.commandVisible = true;
+      this.suId = suId;
+      this.$http.user.getGoogleKey({ suId }).then(res => {
+        if (res.code === 200) {
+          const { googleKey, googleKeyQrCode } = res.data;
+          this.command = googleKey;
+          this.qrcode(googleKeyQrCode);
+        } else {
+          this.$message.error("请求异常");
+        }
+      });
+    },
+    qrcode(url) {
+      this.$refs.qrcode.innerHTML = ""; // 清空之前生成的二维码内容
+      let qrcode = new QRCode("qrcode", {
+        width: 200, // 设置宽度，单位像素
+        height: 200, // 设置高度，单位像素
+        text: url // 设置二维码内容或跳转地址(完整链接)
+      });
+    },
     // 获取销售组
     getEditData() {
       this.$http.sysSales.getEditData({}).then(res => {
@@ -282,7 +363,9 @@ export default {
           this.formConfig.forEach(item => {
             const { key } = item;
             if (key === "groupId") {
-              item.optionData = res.data.map(t => { return { key: t.sid, value: t.groupName } });
+              item.optionData = res.data.map(t => {
+                return { key: t.sid, value: t.groupName };
+              });
             }
           });
         }
@@ -290,19 +373,27 @@ export default {
     },
     //修改状态
     updateStatus(row, status) {
-      this.$confirm(`此操作将立即${status === '2' ? '停用' : '启用'}, 是否继续?`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const { id, userName } = row;
-        this.$http.sysSales.updateStatus({ id, status, userName }).then(res => {
-          if (res.code == 200) {
-            this.$message.success("修改成功");
-            this._mxGetList();
-          }
-        });
-      }).catch(() => {});
+      this.$confirm(
+        `此操作将立即${status === "2" ? "停用" : "启用"}, 是否继续?`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      )
+        .then(() => {
+          const { id, userName } = row;
+          this.$http.sysSales
+            .updateStatus({ id, status, userName })
+            .then(res => {
+              if (res.code == 200) {
+                this.$message.success("修改成功");
+                this._mxGetList();
+              }
+            });
+        })
+        .catch(() => {});
     },
     submit(form) {
       console.log(form, "--------form");
@@ -316,6 +407,9 @@ export default {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
             this.addChannel = false;
+            setTimeout(() => {
+              this.checkCommand({ suId: res.data });
+            }, 500);
           } else {
             this.$message.error(res.data || res.msg);
           }
@@ -339,7 +433,11 @@ export default {
     create() {
       this.addChannel = true;
       this.formTit = "新增";
-      let rule = { required: true, message: "请输入必填项", trigger: ['blur', 'change'] };
+      let rule = {
+        required: true,
+        message: "请输入必填项",
+        trigger: ["blur", "change"]
+      };
       this.formConfig.forEach(item => {
         if (item.key === "userName") {
           item.disabled = false;
@@ -396,7 +494,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.sysSales {
+<style scoped lang="scss">
+#qrcode {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+::v-deep .el-dialog__header {
+  border-bottom: 1px solid #909399;
 }
 </style>
