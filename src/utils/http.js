@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === "production") {
   }
   axios.defaults.baseURL = baseUrl
 } else {
-  axios.defaults.baseURL = '/api'
+  axios.defaults.baseURL = '/api/api'
 }
 
 //http request 拦截器

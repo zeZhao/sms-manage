@@ -47,7 +47,7 @@ export default {
           callback(new Error("特服号仅支持4位数字"));
         }
       } else {
-        callback(new Error('请输入必填项'));
+        callback();
       }
     };
     return {
@@ -161,7 +161,7 @@ export default {
           key: "gwcode",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: false, message: "请输入必填项", trigger: "blur" },
             { trigger: "blur", validator: validatorCode }
           ]
         },
