@@ -33,7 +33,9 @@
       <el-table-column prop="name" label="姓名" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="roleName" label="角色" />
-      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column prop="createTime" label="创建时间">
+        <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
+      </el-table-column>
       <el-table-column label="启用状态">
         <template slot-scope="scope">
           <!--<span>{{scope.row.state == '1'?'正常':'停用'}}</span>-->
@@ -553,16 +555,15 @@ export default {
           //   message: '新增成功',
           //   type: 'success'
           // });
+          this.setNavuserList(res.data, this.addInfo.roleId, "add");
+          this.checkCommand({ suId: res.data });
           this.addInfo.account = "";
           this.addInfo.pwd = "";
           this.addInfo.state = "";
           this.addInfo.name = "";
           this.addInfo.mobile = "";
           this.addInfo.roleId = "";
-          this.setNavuserList(res.data, this.addInfo.roleId, "add");
           this.customerAddInfo = false;
-
-          this.checkCommand({ suId: res.data });
         } else {
           this.$message.error(res.msg);
         }
