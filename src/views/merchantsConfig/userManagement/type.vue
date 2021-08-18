@@ -397,7 +397,7 @@ export default {
           label: "产品类型",
           key: "proType",
           // multiple: true,
-          disabled: false,
+          disabled: this.$route.query.type === 'update',
           // clearable: true,
           defaultValue: [],
           initDefaultValue: [],

@@ -9,6 +9,8 @@ import {
     getToken
 } from '@/utils/auth'
 import Layout from '@/layout'
+import store from '@/store'
+import Cookies from 'js-cookie'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -103,6 +105,14 @@ const actions = {
                     })
                 } else {
                     data = response.data
+                    if (!data.length) {
+                        store.dispatch("user/logout").then(() => {
+                            Cookies.remove("Admin-Token");
+                            Cookies.remove("token");
+                            window.location.reload();
+                        });
+                        return;
+                    }
                     Object.assign(loadMenuData, data)
                     generaMenu(asyncRoutes, loadMenuData)
                     let accessedRoutes

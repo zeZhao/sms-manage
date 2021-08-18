@@ -1908,7 +1908,7 @@ export default {
             ]),
             h("p", null, [
               h("span", null, "通道速率: "),
-              h("span", null, `${row.submitSpeed || ""}`)
+              h("span", null, `${row.submitSpeed || ""}条/秒`)
             ])
           ]);
 
