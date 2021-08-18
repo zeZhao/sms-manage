@@ -12,8 +12,8 @@
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="userName" label="登录账号" />
-      <el-table-column prop="actualName" label="真实姓名" />
+      <!-- <el-table-column prop="userName" label="登录账号" /> -->
+      <el-table-column prop="actualName" label="姓名" />
       <el-table-column prop="userName" label="手机号" />
       <el-table-column prop="groupName" label="所属组" />
       <el-table-column prop="type" label="类型">
@@ -37,15 +37,29 @@
       <el-table-column prop="sysName" label="修改人" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.status === 1 ? "正常" : "停用" }}</span>
+          <el-switch
+            v-model="scope.row.status"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            :active-value="1"
+            :inactive-value="0"
+            @change="
+              val => {
+                switchChange(val, scope.row);
+              }
+            "
+          ></el-switch>
         </template>
+        <!-- <template slot-scope="scope">
+          <span>{{ scope.row.status === 1 ? "正常" : "停用" }}</span>
+        </template> -->
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
           >
-          <el-button
+          <!-- <el-button
             @click="updateStatus(scope.row, '2')"
             type="text"
             size="small"
@@ -60,7 +74,7 @@
             v-else
             style="color: #3a835d"
             >启动</el-button
-          >
+          > -->
           <el-button @click="checkCommand(scope.row)" type="text" size="small"
             >查看口令</el-button
           >
@@ -188,15 +202,15 @@ export default {
       searchFormConfig: [
         {
           type: "input",
-          label: "登录账号",
+          label: "手机号",
           key: "userName",
           placeholder: "请输入登录账号"
         },
         {
           type: "input",
-          label: "真实姓名",
+          label: "姓名",
           key: "actualName",
-          placeholder: "请输入真实姓名"
+          placeholder: "请输入姓名"
         },
         {
           type: "select",
@@ -234,7 +248,7 @@ export default {
         {
           type: "input",
           label: "姓名",
-          key: "name",
+          key: "actualName",
           defaultValue: "",
           rules: [
             {
@@ -259,21 +273,21 @@ export default {
             { trigger: ["blur", "change"], validator: validatorMobile }
           ]
         },
-        {
-          type: "input",
-          label: "真实姓名",
-          key: "actualName",
-          disabled: false,
-          defaultValue: "",
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            },
-            { trigger: ["blur", "change"], validator: validatorUserName }
-          ]
-        },
+        // {
+        //   type: "input",
+        //   label: "真实姓名",
+        //   key: "actualName",
+        //   disabled: false,
+        //   defaultValue: "",
+        //   rules: [
+        //     {
+        //       required: true,
+        //       message: "请输入必填项",
+        //       trigger: ["blur", "change"]
+        //     },
+        //     { trigger: ["blur", "change"], validator: validatorUserName }
+        //   ]
+        // },
         {
           type: "select",
           label: "类型",
@@ -324,6 +338,72 @@ export default {
     this.getEditData();
   },
   methods: {
+    //开启关闭通道
+    switchChange(val, row) {
+      this.loading = true;
+      let str = val ? "用户启用成功！" : "用户禁用成功";
+      let str1 = val ? "用户启用失败！" : "用户禁用失败";
+      const { id, userName } = row;
+      this.$http.sysSales
+        .updateStatus({ id, status: val, userName })
+        .then(res => {
+          this.loading = false;
+          if (res.code == 200) {
+            this.$message.success(str);
+            this._mxGetList();
+          } else {
+            this.$message.error(str1);
+            this.listData.forEach(item => {
+              if (item.id == id) {
+                item.status = 0;
+              }
+            });
+          }
+        });
+
+      // if (val) {
+
+      //   this.$http.gateway
+      //     .startGateway({
+      //       data: {
+      //         gatewayId: gateway
+      //       }
+      //     })
+      //     .then(res => {
+      //       this.loading = false;
+      //       if (resOk(res)) {
+      //         this.$message.success("通道启用成功！");
+      //       } else {
+      //         this.$message.error("通道启用失败！");
+      //         this.listData.forEach(item => {
+      //           if (item.id == id) {
+      //             item.status = 0;
+      //           }
+      //         });
+      //       }
+      //     });
+      // } else {
+      //   this.$http.gateway
+      //     .stopGateway({
+      //       data: {
+      //         gatewayId: gateway
+      //       }
+      //     })
+      //     .then(res => {
+      //       this.loading = false;
+      //       if (resOk(res)) {
+      //         this.$message.success("通道停止成功！");
+      //       } else {
+      //         this.$message.error("通道停止失败！");
+      //         this.listData.forEach(item => {
+      //           if (item.id == id) {
+      //             item.status = 1;
+      //           }
+      //         });
+      //       }
+      //     });
+      // }
+    },
     refresh() {
       this.$http.user.resetGoogleKey({ suId: this.suId }).then(res => {
         if (res.code === 200) {
@@ -439,7 +519,7 @@ export default {
         trigger: ["blur", "change"]
       };
       this.formConfig.forEach(item => {
-        if (item.key === "userName") {
+        if (item.key === "actualName" || item.key === "userName") {
           item.disabled = false;
         }
         if (item.key === "password") {
@@ -467,7 +547,7 @@ export default {
           this.$set(item, "defaultValue", "");
           this.$set(item.rules, 1, {});
         }
-        if (item.key === "userName") {
+        if (item.key === "actualName" || item.key === "userName") {
           item.disabled = true;
         }
       });
