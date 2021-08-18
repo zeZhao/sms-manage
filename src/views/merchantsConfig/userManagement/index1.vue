@@ -545,18 +545,18 @@ export default {
         //   ],
         //   placeholder: "请选择产品"
         // },
-        // {
-        //   type: "select",
-        //   label: "产品类型",
-        //   key: "proType",
-        //   optionData: [
-        //     { key: "1", value: "web端" },
-        //     { key: "2", value: "http接口" },
-        //     { key: "3", value: "cmpp接口" },
-        //     { key: "7", value: "音频接口" }
-        //   ],
-        //   placeholder: "请选择产品类型"
-        // },
+        {
+          type: "select",
+          label: "产品类型",
+          key: "proType",
+          optionData: [
+            { key: "1", value: "web端" },
+            { key: "2", value: "http接口" },
+            { key: "4", value: "cmpp接口" },
+            // { key: "7", value: "音频接口" }
+          ],
+          placeholder: "请选择产品类型"
+        },
         {
           type: "select",
           label: "短信计费方式",
