@@ -7,7 +7,7 @@
     </h2>
     <FormItemTitle ref="formItem" :colSpan="12" :labelWidth="170" :formConfig="formConfig" :btnTxt="formTit"
       @submit="_mxHandleSubmit" @decode="_mxHandleDecode" @cancel="_mxCancel" @selectChange="selectChange"
-      @handleClick="handleClick" :selectCity="selectCity" @closeChooseCity="isChoose = false">
+      @handleClick="handleClick">
       <template v-slot:isChooseProviceOrCity>
         <el-button style="float: right; margin-top: 5px" type="primary" size="small" @click="isChoose = true">请选择
         </el-button>
@@ -754,8 +754,7 @@ export default {
 
       isChoose: false,
       navListId: [],
-      navList: [],
-      selectCity: {}
+      navList: []
     };
   },
   created () {
@@ -784,15 +783,16 @@ export default {
   },
   methods: {
     handleChooseConfirm () {
-      const CheckedKeys = this.$refs.tree.getCheckedKeys();
-      const HalfCheckedKeys = this.$refs.tree.getHalfCheckedKeys();
-      this.selectCity = { key: "shieldProvince", value: CheckedKeys.join(" ") };
+      const checkedKeys = this.$refs.tree.getCheckedKeys();
+      const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
+      this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(" "));
+      this.isChoose = false;
     },
     getProvinceTree () {
       this.$http.gateway.getProvinceTree().then(res => {
         this.navList = res.data.map(v => {
           return { city: v.provinceName, children: v.children };
-        }).slice(1);
+        });
       });
     },
     getLastGateway () {
