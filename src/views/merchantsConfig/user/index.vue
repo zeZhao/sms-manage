@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="user">
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
@@ -21,11 +21,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-button
-      type="primary"
-      @click="addAccont()"
-      >新增运营账号</el-button
-    >
+    <el-button type="primary" @click="addAccont()">新增运营账号</el-button>
     <el-table
       :data="dataList"
       highlight-current-row
@@ -33,10 +29,11 @@
     >
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="账户编号" />
-      <el-table-column prop="account" label="登录账号" />
-      <el-table-column prop="name" label="账户名称" />
-      <el-table-column prop="mobile" label="账户手机号" />
+      <!-- <el-table-column prop="account" label="登录账号" /> -->
+      <el-table-column prop="name" label="姓名" />
+      <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="roleName" label="角色" />
+      <el-table-column prop="createTime" label="创建时间" />
       <el-table-column label="启用状态">
         <template slot-scope="scope">
           <!--<span>{{scope.row.state == '1'?'正常':'停用'}}</span>-->
@@ -61,6 +58,9 @@
           <el-button @click="infoShow(scope.row)" type="text" size="small"
             >修改</el-button
           >
+          <el-button @click="checkCommand(scope.row)" type="text" size="small"
+            >查看口令</el-button
+          >
           <el-button @click="delUser(scope.row)" type="text" size="small"
             >删除</el-button
           >
@@ -80,6 +80,32 @@
         @current-change="handleCurrentChange"
       />
     </el-col>
+    <el-dialog
+      title="查看口令"
+      :visible.sync="commandVisible"
+      :close-on-click-modal="false"
+      width="520px"
+      center
+    >
+      <div class="demo-input-suffix">
+        <div style="text-align: center;">
+          <div id="qrcode" ref="qrcode" style=""></div>
+          <p style="margin-bottom:30px">通过密码生成器扫码进行绑定</p>
+          <label for="command">管理员口令码：</label>
+          <el-input
+            style="width:60%;margin-right:10px"
+            id="command"
+            placeholder=""
+            disabled
+            v-model="command"
+          />
+          <el-button type="text" @click="refresh">重置口令</el-button>
+          <p>通过密码生成器扫码进行绑定</p>
+        </div>
+
+        <div></div>
+      </div>
+    </el-dialog>
 
     <el-dialog
       title="新增运营账号"
@@ -94,24 +120,24 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="登录账号" prop="account">
+        <el-form-item label="姓名" prop="name">
           <el-input
             maxlength="15"
             show-word-limit
-            v-model="addInfo.account"
+            v-model="addInfo.name"
             clearable
-            placeholder="登录账号"
+            placeholder="姓名"
           />
         </el-form-item>
-        <el-form-item label="密码" prop="pwd">
+        <!-- <el-form-item label="密码" prop="pwd">
           <el-input
             v-model="addInfo.pwd"
             type="password"
             clearable
             placeholder="密码"
           />
-        </el-form-item>
-        <el-form-item label="账户姓名" prop="name">
+        </el-form-item> -->
+        <!-- <el-form-item label="账户姓名" prop="name">
           <el-input
             maxlength="15"
             show-word-limit
@@ -119,13 +145,13 @@
             clearable
             placeholder="账户姓名"
           />
-        </el-form-item>
-        <el-form-item label="账户手机号" prop="mobile">
+        </el-form-item> -->
+        <el-form-item label="手机号" prop="account">
           <el-input
-            v-model="addInfo.mobile"
+            v-model="addInfo.account"
             type="phone"
             clearable
-            placeholder="账户手机号"
+            placeholder="手机号"
           />
         </el-form-item>
         <el-form-item label="选择角色" prop="roleId">
@@ -143,7 +169,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="启用状态" prop="state">
+        <!-- <el-form-item label="启用状态" prop="state">
           <el-select
             style="width: 100%"
             v-model="addInfo.state"
@@ -153,7 +179,7 @@
             <el-option value="1" label="正常" />
             <el-option value="2" label="停用" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addCustomerInfo('addForm')"
@@ -175,17 +201,17 @@
         :rules="updateFormRules"
         class="demo-ruleForm"
       >
-        <el-form-item label="登录账号" prop="account">
+        <el-form-item label="姓名" prop="name">
           <el-input
             maxlength="15"
             show-word-limit
-            v-model="setInfo.account"
+            v-model="setInfo.name"
             clearable
-            placeholder="登录账号"
-            disabled
+            :disabled="customerInfo"
+            placeholder="姓名"
           />
         </el-form-item>
-        <el-form-item label="密码">
+        <!-- <el-form-item label="密码">
           <el-input
             v-model="setInfo.pwd"
             type="password"
@@ -201,13 +227,14 @@
             clearable
             placeholder="账户姓名"
           />
-        </el-form-item>
-        <el-form-item label="账户手机号" prop="mobile">
+        </el-form-item> -->
+        <el-form-item label="手机号" prop="account">
           <el-input
-            v-model="setInfo.mobile"
+            v-model="setInfo.account"
             type="phone"
             clearable
-            placeholder="账户手机号"
+            :disabled="customerInfo"
+            placeholder="手机号"
           />
         </el-form-item>
         <el-form-item label="选择角色" prop="roleId">
@@ -225,7 +252,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="启用状态" prop="state">
+        <!-- <el-form-item label="启用状态" prop="state">
           <el-select
             style="width: 100%"
             v-model="setInfo.state"
@@ -235,7 +262,7 @@
             <el-option :value="1" label="正常" />
             <el-option :value="2" label="停用" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="setCustomerInfo('updateCustomForm')"
@@ -248,6 +275,7 @@
 </template>
 <script>
 import checkPermission from "@/utils/permission";
+import QRCode from "qrcodejs2";
 import Util from "@/utils/reg";
 export default {
   data() {
@@ -268,6 +296,9 @@ export default {
       totalCount: 1, // 默认总条数为一条
       show: true,
       orderMoney: "0",
+      commandVisible: false, //管理员口令码
+      command: "", //管理员口令码
+      suId: "", //管理员口令码
       count: "",
       totalAmount: "",
       allOrderStatusInfo: false, // 推送界面是否显示
@@ -303,45 +334,16 @@ export default {
         roleId: ""
       },
       updateFormRules: {
-        account: [{ required: true, message: '请输入必填项', trigger: "blur" }],
-        pwd: [{ required: true, message: '请输入必填项', trigger: "blur" }],
-        name: [{ required: true, message: '请输入必填项', trigger: "blur" }],
-        mobile: [{ required: true, message: '请输入必填项', trigger: "blur" }],
-        roleId: [{ required: true, message: '请选择必选项', trigger: "change" }],
-        state: [{ required: true, message: '请选择必选项', trigger: "change" }]
+        account: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        pwd: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        name: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        mobile: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        roleId: [
+          { required: true, message: "请选择必选项", trigger: "change" }
+        ],
+        state: [{ required: true, message: "请选择必选项", trigger: "change" }]
       },
-      companyOptions: [], // 商户全称下拉项
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      }
+      companyOptions: [] // 商户全称下拉项
     };
   },
   mounted() {
@@ -369,6 +371,37 @@ export default {
     }
   },
   methods: {
+    refresh() {
+      this.$http.user.resetGoogleKey({ suId: this.suId }).then(res => {
+        if (res.code === 200) {
+          const { googleKey, googleKeyQrCode } = res.data;
+          this.command = googleKey;
+          this.qrcode(googleKeyQrCode);
+        }
+        console.log(res, "-----------");
+      });
+    },
+    checkCommand({ suId }) {
+      this.commandVisible = true;
+      this.suId = suId;
+      this.$http.user.getGoogleKey({ suId }).then(res => {
+        if (res.code === 200) {
+          const { googleKey, googleKeyQrCode } = res.data;
+          this.command = googleKey;
+          this.qrcode(googleKeyQrCode);
+        } else {
+          this.$message.error("请求异常");
+        }
+      });
+    },
+    qrcode(url) {
+      this.$refs.qrcode.innerHTML = ""; // 清空之前生成的二维码内容
+      let qrcode = new QRCode("qrcode", {
+        width: 200, // 设置宽度，单位像素
+        height: 200, // 设置高度，单位像素
+        text: url // 设置二维码内容或跳转地址(完整链接)
+      });
+    },
     checkPermission,
     queryOrderList() {
       this.cur_page = 1;
@@ -379,7 +412,7 @@ export default {
       this.$nextTick(() => {
         this.deleteCustomer();
         this.$refs.addForm.clearValidate();
-      })
+      });
     },
     //重置
     resetList() {
@@ -482,26 +515,34 @@ export default {
       this.$refs.addForm.validate();
       let params = {
         account: this.addInfo.account,
-        pwd: this.addInfo.pwd,
-        name: this.addInfo.name,
-        state: parseInt(this.addInfo.state),
-        mobile: this.addInfo.mobile
+        // pwd: this.addInfo.pwd,
+        name: this.addInfo.name
+        // state: parseInt(this.addInfo.state),
+        // mobile: this.addInfo.mobile
       };
       if (this.addInfo.account == "") {
-        return this.$message.error("请填写账号");
-      } else if (this.addInfo.pwd == "") {
-        return this.$message.error("请填写密码");
-      } else if (!/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(this.addInfo.pwd)) {
-        return this.$message.error("密码为8-16位，数字、字母、英文符号");
-      } else if (this.addInfo.name == "") {
-        return this.$message.error("请填写姓名");
-      } else if (this.addInfo.state == "") {
-        return this.$message.error("请选择状态");
-      } else if (this.addInfo.roleId == "") {
-        return this.$message.error("请选择角色");
-      } else if (this.addInfo.mobile == "") {
         return this.$message.error("请填写手机号");
-      } else if (!Util.isPoneAvailable(this.addInfo.mobile)) {
+      }
+      //  else if (this.addInfo.pwd == "") {
+      //   return this.$message.error("请填写密码");
+      // } else if (
+      //   !/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(
+      //     this.addInfo.pwd
+      //   )
+      // ) {
+      //   return this.$message.error("密码为8-16位，数字、字母、英文符号");
+      // }
+      else if (this.addInfo.name == "") {
+        return this.$message.error("请填写姓名");
+      }
+      //  else if (this.addInfo.state == "") {
+      //   return this.$message.error("请选择状态");
+      // } else if (this.addInfo.roleId == "") {
+      //   return this.$message.error("请选择角色");
+      // } else if (this.addInfo.mobile == "") {
+      //   return this.$message.error("请填写手机号");
+      // }
+      else if (!Util.isPoneAvailable(this.addInfo.account)) {
         this.$message.error("手机号码规则错误");
         return false;
       }
@@ -517,8 +558,11 @@ export default {
           this.addInfo.state = "";
           this.addInfo.name = "";
           this.addInfo.mobile = "";
-          this.setNavuserList(res.data, this.addInfo.roleId);
+          this.addInfo.roleId = "";
+          this.setNavuserList(res.data, this.addInfo.roleId, "add");
           this.customerAddInfo = false;
+
+          this.checkCommand({ suId: res.data });
         } else {
           this.$message.error(res.msg);
         }
@@ -532,7 +576,7 @@ export default {
         //   this.setInfo.state = row.state;
         this.setInfo.pwd = "";
         this.$refs.updateCustomForm.clearValidate();
-      })
+      });
     },
     delUser(row) {
       this.$confirm(
@@ -582,33 +626,39 @@ export default {
       let params = {
         suId: this.setInfo.suId,
         account: this.setInfo.account,
-        pwd: this.setInfo.pwd,
+        // pwd: this.setInfo.pwd,
         name: this.setInfo.name,
-        state: this.setInfo.state,
-        mobile: this.setInfo.mobile
+        state: this.setInfo.state
+        // mobile: this.setInfo.mobile
       };
       if (this.setInfo.account == "") {
-        return this.$message.error("请填写账号");
+        return this.$message.error("请填写姓名");
       } else if (this.setInfo.name == "") {
         return this.$message.error("请填写姓名");
-      } else if (this.setInfo.pwd) {
-        if (!/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(this.setInfo.pwd)) {
-          return this.$message.error("密码为8-16位，数字、字母、标点符号");
-        }
-      } else if (this.setInfo.state == "") {
-        return this.$message.error("请选择状态");
-      } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {
-        return this.$message.error("请选择角色");
       }
-      if (this.setInfo.mobile == "") {
-        return this.$message.error("请填写手机号");
-      } else if (!Util.isPoneAvailable(this.setInfo.mobile)) {
+      // else if (this.setInfo.pwd) {
+      //   if (
+      //     !/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(
+      //       this.setInfo.pwd
+      //     )
+      //   ) {
+      //     return this.$message.error("密码为8-16位，数字、字母、标点符号");
+      //   }
+      // } else if (this.setInfo.state == "") {
+      //   return this.$message.error("请选择状态");
+      // } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {
+      //   return this.$message.error("请选择角色");
+      // }
+      // if (this.setInfo.mobile == "") {
+      //   return this.$message.error("请填写手机号");
+      // }
+      else if (!Util.isPoneAvailable(this.setInfo.account)) {
         this.$message.error("手机号码规则错误");
         return false;
       }
       this.$http.user.addOrUpdate(params).then(res => {
         if (res.code == "200") {
-          this.setNavuserList(this.setInfo.suId, this.setInfo.roleId);
+          this.setNavuserList(this.setInfo.suId, this.setInfo.roleId, "edit");
         } else {
           this.$message.error(res.msg);
         }
@@ -618,7 +668,7 @@ export default {
       this.customerInfo = false;
       // this.orderList();
     },
-    setNavuserList(userId, roleId) {
+    setNavuserList(userId, roleId, type) {
       let params = {
         userId: userId,
         roleId: roleId
@@ -632,6 +682,7 @@ export default {
           });
           this.customerInfo = false;
           this.customerAddInfo = false;
+
           this.orderList();
         } else {
           this.$message.error(res.msg);
@@ -651,3 +702,17 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+.user {
+  #qrcode {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  ::v-deep .el-dialog__header {
+    border-bottom: 1px solid #909399;
+  }
+}
+</style>

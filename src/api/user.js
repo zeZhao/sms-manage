@@ -32,6 +32,13 @@ export function loginByUsername(data) {
     data
   })
 }
+export function googleAuthLogin(data) {
+  return request({
+    url: '/sysLogin/googleAuthLogin',
+    method: 'post',
+    data
+  })
+}
 
 export function getAuthMenu(token) {
   return request({
