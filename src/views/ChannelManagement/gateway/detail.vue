@@ -152,7 +152,7 @@ export default {
             { key: 3, value: "暂停使用" },
             { key: 4, value: "关停" },
             { key: 5, value: "弃用" },
-            { key: 6, value: "全部" }
+            // { key: 6, value: "全部" }
           ],
           colSpan: 12,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -858,13 +858,13 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
+            item.optionData = res.data.map(t => {
+              return {
                 key: t.provinceId,
                 value: t.provinceName
               };
-              item.optionData.push(obj);
             });
+            item.optionData.shift();
           }
         });
       });
