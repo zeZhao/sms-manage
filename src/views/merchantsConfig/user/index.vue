@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="user">
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
@@ -29,10 +29,11 @@
     >
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="账户编号" />
-      <el-table-column prop="account" label="登录账号" />
-      <el-table-column prop="name" label="账户名称" />
-      <el-table-column prop="mobile" label="账户手机号" />
+      <!-- <el-table-column prop="account" label="登录账号" /> -->
+      <el-table-column prop="name" label="姓名" />
+      <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="roleName" label="角色" />
+      <el-table-column prop="createTime" label="创建时间" />
       <el-table-column label="启用状态">
         <template slot-scope="scope">
           <!--<span>{{scope.row.state == '1'?'正常':'停用'}}</span>-->
@@ -57,11 +58,11 @@
           <el-button @click="infoShow(scope.row)" type="text" size="small"
             >修改</el-button
           >
-          <el-button @click="delUser(scope.row)" type="text" size="small"
-            >删除</el-button
-          >
           <el-button @click="checkCommand(scope.row)" type="text" size="small"
             >查看口令</el-button
+          >
+          <el-button @click="delUser(scope.row)" type="text" size="small"
+            >删除</el-button
           >
         </template>
       </el-table-column>
@@ -206,6 +207,7 @@
             show-word-limit
             v-model="setInfo.name"
             clearable
+            :disabled="customerInfo"
             placeholder="姓名"
           />
         </el-form-item>
@@ -231,6 +233,7 @@
             v-model="setInfo.account"
             type="phone"
             clearable
+            :disabled="customerInfo"
             placeholder="手机号"
           />
         </el-form-item>
@@ -700,14 +703,16 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-#qrcode {
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
-::v-deep .el-dialog__header {
-  border-bottom: 1px solid #909399;
+.user {
+  #qrcode {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  ::v-deep .el-dialog__header {
+    border-bottom: 1px solid #909399;
+  }
 }
 </style>

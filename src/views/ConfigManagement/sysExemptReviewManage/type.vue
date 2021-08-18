@@ -323,19 +323,19 @@ export default {
         {
           type: "select",
           label: "拦截处理方式",
-          initDefaultValue: "0",
-          defaultValue: "0",
+          initDefaultValue: "1",
+          defaultValue: "1",
           optionData: [
             {
-              key: "1",
+              key: "2",
               value: "返回失败"
             },
             {
-              key: "0",
+              key: "1",
               value: "人工审核"
             }
           ],
-          key: "isParallelDetection",
+          key: "unqualifiedsms",
           rules: [
             {
               required: true,
