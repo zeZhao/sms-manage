@@ -102,7 +102,7 @@
             v-model="command"
           />
           <el-button type="text" @click="refresh">重置口令</el-button>
-          <p>通过密码生成器扫码进行绑定</p>
+          <p>通过密码生成器输入密钥进行绑定</p>
         </div>
 
         <div></div>
