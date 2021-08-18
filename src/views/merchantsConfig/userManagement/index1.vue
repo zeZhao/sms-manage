@@ -1818,7 +1818,7 @@ export default {
           return h("div", null, [
             h("p", null, [
               h("span", null, "产品类型: "),
-              h("span", null, "前台")
+              h("span", null, "web")
             ]),
             h("p", null, [
               h("span", null, "企业名称: "),
