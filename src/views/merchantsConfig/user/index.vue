@@ -3,14 +3,14 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
-        <el-form-item>
-          <el-input v-model="roleId" clearable placeholder="登录账号" />
+        <el-form-item label="姓名">
+          <el-input v-model="name" clearable placeholder="请输入姓名" />
         </el-form-item>
-        <el-form-item>
-          <el-input v-model="roleName" clearable placeholder="账户名称" />
+        <el-form-item label="手机号">
+          <el-input v-model="mobile" clearable placeholder="请输入手机号" />
         </el-form-item>
-        <el-form-item>
-          <el-select v-model="roleType" placeholder="启用状态" clearable>
+        <el-form-item label="启用状态">
+          <el-select v-model="roleType" placeholder="请选择启用状态" clearable>
             <el-option value="1" label="正常" />
             <el-option value="2" label="停用" />
           </el-select>
@@ -315,6 +315,8 @@ export default {
       supplierName: "",
       roleId: "",
       roleName: "",
+      name: "",
+      mobile: "",
       roleType: "",
       customerAddInfo: false,
       customerInfo: false,
@@ -418,9 +420,9 @@ export default {
     },
     //重置
     resetList() {
+      this.name = "";
+      this.mobile = "";
       this.roleType = "";
-      this.roleName = "";
-      this.roleId = "";
     },
     // 分页
     handleSizeChange(val) {
@@ -441,11 +443,9 @@ export default {
       const params = {
         data: {
           sysUser: {
-            account: this.roleId,
-            name: this.roleName,
-            state: this.roleType,
-            roleName: "",
-            roleId: ""
+            name: this.name,
+            mobile: this.mobile,
+            state: this.roleType
           },
           pageNumber: this.cur_page,
           pageSize: this.pageNum
