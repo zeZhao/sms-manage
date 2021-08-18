@@ -124,11 +124,11 @@
       >
         <el-form-item label="姓名" prop="name">
           <el-input
-            maxlength="15"
-            show-word-limit
             v-model="addInfo.name"
             clearable
             placeholder="姓名"
+            maxlength="10"
+            show-word-limit
           />
         </el-form-item>
         <!-- <el-form-item label="密码" prop="pwd">
@@ -151,9 +151,10 @@
         <el-form-item label="手机号" prop="account">
           <el-input
             v-model="addInfo.account"
-            type="phone"
             clearable
             placeholder="手机号"
+            maxlength="11"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item label="选择角色" prop="roleId">
@@ -205,12 +206,12 @@
       >
         <el-form-item label="姓名" prop="name">
           <el-input
-            maxlength="15"
-            show-word-limit
             v-model="setInfo.name"
             clearable
             :disabled="customerInfo"
             placeholder="姓名"
+            maxlength="10"
+            show-word-limit
           />
         </el-form-item>
         <!-- <el-form-item label="密码">
@@ -233,10 +234,11 @@
         <el-form-item label="手机号" prop="account">
           <el-input
             v-model="setInfo.account"
-            type="phone"
             clearable
             :disabled="customerInfo"
             placeholder="手机号"
+            maxlength="11"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item label="选择角色" prop="roleId">
