@@ -195,16 +195,14 @@ export default {
         this.loginForm.uuid +
         "&num=" +
         num;
-      console.log(this.captcha, "captcha----------");
     },
     handleLogin() {
-      console.log("username", this.loginForm.username);
       if (this.loginForm.username.length === 0) {
-        alert("请输入手机号");
+        this.$message.error("请输入手机号");
         return;
       }
       if (this.loginForm.password.length === 0) {
-        alert("请输入口令");
+        this.$message.error("请输入口令");
         return;
       }
       this.$refs.loginForm.validate(valid => {

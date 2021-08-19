@@ -37,7 +37,11 @@
         label="通道类型"
         width="100"
         show-overflow-tooltip
-      />
+      >
+        <template slot-scope="scope">
+          <span>{{ renderType(scope.row.type) }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="conRequirements" label="发送内容" show-overflow-tooltip /> -->
       <el-table-column
         prop="sendSpeed"
@@ -286,8 +290,10 @@ export default {
           label: "通道类型",
           key: "type",
           optionData: [
-            { key: 1, value: "可用" },
-            { key: "0", value: "不可用" }
+            { key: 1, value: "Cmpp" },
+            { key: 2, value: "Sgip" },
+            { key: 3, value: "Smgp" },
+            { key: 4, value: "http" }
           ]
         },
         {
@@ -964,6 +970,20 @@ export default {
   },
   computed: {},
   methods: {
+    renderType(v) {
+      switch (v) {
+        case 1:
+          return 'Cmpp'
+        case 2:
+          return 'Sgip'
+        case 3:
+          return 'Smgp'
+        case 4:
+          return 'http'
+        default:
+          return '-'
+      }
+    },
     _mxCreate() {
       this.$router.push({
         path: "/geteway/getewayDetail",
