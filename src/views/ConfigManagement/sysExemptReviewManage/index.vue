@@ -246,11 +246,11 @@ export default {
           key: "isGatewayGroup",
           optionData: [
             {
-              key: "0",
+              key: "1",
               value: "通道组"
             },
             {
-              key: "1",
+              key: "0",
               value: "非通道组"
             }
           ],
@@ -671,6 +671,13 @@ export default {
     //获取敏感词组
     getSensitiveWordGroup() {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
+        this._setDefaultValue(
+          this.searchFormConfig,
+          res.data,
+          "sensitiveWord",
+          "groupId",
+          "groupName"
+        );
         this._setDefaultValue(
           this.formConfig,
           res.data,
