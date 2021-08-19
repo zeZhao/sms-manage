@@ -180,7 +180,12 @@ export default {
           label: "通道类型",
           key: "type",
           //   tag:"encrypt",
-          optionData: [],
+          optionData: [
+            { key: 1, value: "Cmpp" },
+            { key: 2, value: "Sgip" },
+            { key: 3, value: "Smgp" },
+            { key: 4, value: "http" }
+          ],
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
