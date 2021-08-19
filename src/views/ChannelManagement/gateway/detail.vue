@@ -85,7 +85,7 @@ export default {
           type: "input",
           label: "通道公司名称",
           key: "companyName",
-          maxlength: "50",
+          maxlength: "30",
           colSpan: 12,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
@@ -101,7 +101,7 @@ export default {
           label: "通道名称",
           colSpan: 12,
           key: "gatewayName",
-          maxlength: "50",
+          maxlength: "30",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -138,8 +138,13 @@ export default {
           type: "input",
           label: "通道单价(分)",
           key: "unitPrice",
+          maxlength: "5",
           colSpan: 12,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [ { required: true, trigger: "blur", validator: (rule, value, callback) => {
+            if(!value) callback(new Error("请输入必填项"));
+            if(isNaN(value)) callback(new Error("通道单价只能输入数值"));
+            callback();
+          }}]
         },
         {
           type: "select",
@@ -180,7 +185,12 @@ export default {
           label: "通道类型",
           key: "type",
           //   tag:"encrypt",
-          optionData: [],
+          optionData: [
+            { key: 1, value: "Cmpp" },
+            { key: 2, value: "Sgip" },
+            { key: 3, value: "Smgp" },
+            { key: 4, value: "http" }
+          ],
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -517,7 +527,7 @@ export default {
           colSpan: 12,
           rules: [
             {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,10}$/,
               message: "不支持特殊字符",
               trigger: "change"
             }
@@ -600,7 +610,7 @@ export default {
           label: "结算公司",
           key: "clearingCorp",
           tag: "addition",
-          maxlength: "50",
+          maxlength: "30",
           colSpan: 12,
           rules: [
             {
@@ -615,13 +625,6 @@ export default {
           label: "绑定从IP",
           tag: "addition",
           key: "zyIvIce",
-          colSpan: 12
-        },
-        {
-          type: "input",
-          label: "发送速度",
-          tag: "addition",
-          key: "sendSpeed",
           colSpan: 12
         },
         {
@@ -679,13 +682,6 @@ export default {
           label: "通道余额",
           tag: "addition",
           key: "balance",
-          colSpan: 12
-        },
-        {
-          type: "input",
-          label: "可扩展位数",
-          tag: "addition",
-          key: "srcIdLength",
           colSpan: 12
         },
         {

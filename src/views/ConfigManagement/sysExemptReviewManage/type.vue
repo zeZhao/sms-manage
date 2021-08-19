@@ -323,19 +323,19 @@ export default {
         {
           type: "select",
           label: "拦截处理方式",
-          initDefaultValue: "1",
-          defaultValue: "1",
+          key: "unqualifiedsms",
+          initDefaultValue: 1,
+          defaultValue: 1,
           optionData: [
             {
-              key: "2",
+              key: 2,
               value: "返回失败"
             },
             {
-              key: "1",
+              key: 1,
               value: "人工审核"
             }
           ],
-          key: "unqualifiedsms",
           rules: [
             {
               required: true,

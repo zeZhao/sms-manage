@@ -337,6 +337,10 @@ export default {
         if (key === "reductType") {
           form["reductType"] = 1;
         }
+
+        if (key === "isSpecials") {
+          form["isSpecials"] = [];
+        }
       }
 
       this.form = form;
