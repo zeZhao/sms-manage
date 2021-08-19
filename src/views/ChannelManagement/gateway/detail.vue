@@ -628,13 +628,6 @@ export default {
           colSpan: 12
         },
         {
-          type: "input",
-          label: "发送速度",
-          tag: "addition",
-          key: "sendSpeed",
-          colSpan: 12
-        },
-        {
           type: "select",
           label: "是否支持上行",
           tag: "addition",
@@ -689,13 +682,6 @@ export default {
           label: "通道余额",
           tag: "addition",
           key: "balance",
-          colSpan: 12
-        },
-        {
-          type: "input",
-          label: "可扩展位数",
-          tag: "addition",
-          key: "srcIdLength",
           colSpan: 12
         },
         {
