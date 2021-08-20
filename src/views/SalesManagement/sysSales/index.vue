@@ -42,7 +42,7 @@
             active-color="#13ce66"
             inactive-color="#ff4949"
             :active-value="1"
-            :inactive-value="0"
+            :inactive-value="2"
             @change="
               val => {
                 switchChange(val, scope.row);
@@ -341,8 +341,8 @@ export default {
     //操作修改开启或关闭通道
     beginUpdateStatus(val, row) {
       this.loading = true;
-      let str = val ? "用户启用成功！" : "用户禁用成功";
-      let str1 = val ? "用户启用失败！" : "用户禁用失败";
+      let str = val === 1 ? "用户启用成功！" : "用户禁用成功";
+      let str1 = val === 1 ? "用户启用失败！" : "用户禁用失败";
       const { id, userName } = row;
       this.$http.sysSales.updateStatus({ id, status: val, userName }).then(res => {
         this.loading = false;
@@ -357,7 +357,7 @@ export default {
     },
     // 检验是否绑定商户账号
     switchChange(val, row) {
-      if (val) {
+      if (val === 1) {
         this.beginUpdateStatus(val, row);
         return;
       }
