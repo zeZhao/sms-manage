@@ -16,10 +16,12 @@
     <el-dialog title="登录" :visible.sync="loginState" :close-on-click-modal="false" width="30%"
       custom-class="loginDialog">
       <div style="margin-bottom:20px">
-        账户：<el-input v-model="login.account" placeholder="请输入账号" style="width:85%"></el-input>
+        <span>手机号：</span>
+        <el-input v-model="login.account" placeholder="请输入手机号" style="width:85%"></el-input>
       </div>
       <div>
-        密码：<el-input v-model="login.password" type="password" style="width:85%" placeholder="请输入密码"></el-input>
+        <span style="margin-right: 13px">口令：</span>
+        <el-input v-model="login.password" type="password" style="width:85%" placeholder="请输入口令"></el-input>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="loginState = false">取 消</el-button>
@@ -798,11 +800,7 @@ export default {
     },
     submit () {
       const { account, password } = this.login;
-      let params = {
-        account,
-        pwd: password
-      };
-      this.$http.sysLogin.viewLogin({ ...params }).then(res => {
+      this.$http.sysLogin.viewLogin({ account, pwd: password }).then(res => {
         if (res.code == 200) {
           this.$message.success(res.data);
           this.loginState = false;
