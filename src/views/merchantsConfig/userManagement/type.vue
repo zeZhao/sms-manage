@@ -231,7 +231,7 @@ export default {
             { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" },
             { trigger: "blur", validator: (rule, value, callback) => {
               if (/\p{Unified_Ideograph}/u.test(value)) {
-                callback(new Error("不支持中文、汉字"));
+                callback(new Error("不支持汉字"));
               }
               if (!(/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(value))) {
                 callback(new Error("不支持特殊字符"));
@@ -396,9 +396,9 @@ export default {
           type: "select",
           label: "产品类型",
           key: "proType",
-          multiple: true,
-          disabled: false,
-          clearable: true,
+          // multiple: true,
+          disabled: this.$route.query.type === 'update',
+          // clearable: true,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
@@ -494,6 +494,7 @@ export default {
           type: "input",
           label: "推送上行地址",
           key: "moUrl",
+          maxlength: "250",
           tag: "sms",
           defaultValue: ""
         },
@@ -526,6 +527,7 @@ export default {
           type: "input",
           label: "推送报告地址",
           key: "reportUrl",
+          maxlength: "250",
           tag: "sms",
           defaultValue: ""
         },
@@ -613,22 +615,22 @@ export default {
           tag: "mms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        {
-          type: "select",
-          label: "产品类型",
-          key: "mmsProType",
-          multiple: true,
-          clearable: true,
-          disabled: false,
-          optionData: [
-            { key: 1, value: "web端" }
-            // { key: 2, value: "http接口" },
-            // { key: 4, value: "cmpp接口" }
-            // { key: 7, value: "音频接口" }
-          ],
-          tag: "mms",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "产品类型",
+        //   key: "mmsProType",
+        //   multiple: true,
+        //   clearable: true,
+        //   disabled: false,
+        //   optionData: [
+        //     { key: 1, value: "web端" }
+        //     // { key: 2, value: "http接口" },
+        //     // { key: 4, value: "cmpp接口" }
+        //     // { key: 7, value: "音频接口" }
+        //   ],
+        //   tag: "mms",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         {
           type: "select",
           label: "计费方式",
@@ -959,9 +961,9 @@ export default {
             row[key] = [];
           }
         }
-        if (key === "proType") {
-          row["proType"] = row["proTypes"];
-        }
+        // if (key === "proType") {
+        //   row["proType"] = row["proTypes"];
+        // }
         if (key === "mmsProType") {
           row["mmsProType"] = row["mmsProTypes"];
         }
@@ -1029,8 +1031,8 @@ export default {
         }
         if (
           item.key === "productType" ||
-          item.key === "mmsProType" ||
-          item.key === "proType"
+          item.key === "mmsProType"
+          // item.key === "proType"
         ) {
           let val = item.defaultValue;
           if (val && val.length !== 0) {
@@ -1139,8 +1141,8 @@ export default {
         }
         if (
           key === "productType" ||
-          key === "mmsProType" ||
-          key === "proType"
+          key === "mmsProType"
+          // key === "proType"
         ) {
           if (
             form[key] &&

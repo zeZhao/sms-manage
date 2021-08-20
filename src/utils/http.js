@@ -79,7 +79,7 @@ export function fetch(url, params = {}) {
       })
       .catch(err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })
@@ -103,7 +103,7 @@ export function downLoadGet(url, params = {}) {
       })
       .catch(err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })
@@ -125,7 +125,7 @@ export function post(url, data = {}) {
         resolve(response.data);
       }, err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })
@@ -145,7 +145,7 @@ export function downLoadPost(url, data = {}) {
         resolve(response.data);
       }, err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })
@@ -166,7 +166,7 @@ export function patch(url, data = {}) {
         resolve(response.data);
       }, err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })
@@ -187,7 +187,7 @@ export function put(url, data = {}) {
         resolve(response.data);
       }, err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })
@@ -211,7 +211,7 @@ export function del(url, params = {}) {
       })
       .catch(err => {
         Message({
-          message: '系统异常，请联系管理员',
+          message: '网络异常',
           type: 'error',
         })
       })

@@ -326,6 +326,7 @@ export default {
             item.provinceId = "0";
           }
         });
+        res.data.shift();
         this._setDefaultValue(
           this.formConfig,
           res.data,

@@ -18,6 +18,10 @@ export default {
         viewLogin(params) {
             return post("/sysLogin/viewLogin", params);
         },
+        // 口令登录
+        googleAuthLogin(params) {
+            return post("/sysLogin/googleAuthLogin", params);
+        },
     },
     // 省份列表
     listSysProvince(params) {
@@ -85,6 +89,14 @@ export default {
         // 运营账号新增&修改
         addOrUpdate(params) {
             return post("/sysUser/addOrUpdate", params);
+        },
+        // 谷歌验证器绑定信息
+        getGoogleKey(params) {
+            return post("/sysUser/getGoogleKey", params);
+        },
+        // 刷新谷歌验证器
+        resetGoogleKey(params) {
+            return post("/sysUser/resetGoogleKey", params);
         },
         //查询角色菜单
         queryRoleMenu(params) {
@@ -1288,6 +1300,10 @@ export default {
         addOrUpdate(params) {
             return post("/sysSales/addOrUpdate", params);
         },
+        // 检测是否有商户绑定销售员
+        checkSysSales(params) {
+            return post("/sysSales/checkSysSales", params);
+        },
         // 修改状态
         updateStatus(params) {
             return post("/sysSales/updateStatus", params);
@@ -1299,7 +1315,7 @@ export default {
         // 查询有效的销售人员
         queryAvailableSaleman(params) {
             return fetch("/sysSales/queryAvailableSaleman", params);
-        },
+        }
     },
     //销售管理-提交统计
     reportsubmitStatistics: {
@@ -1630,10 +1646,26 @@ export default {
         listCheckTemplateByPage(params) {
             return post("/smsCheckTemplate/listCheckTemplateByPage", params);
         },
+        // 添加
+        addCheckTemplate(params) {
+            return post("/smsCheckTemplate/addCheckTemplate", params);
+        },
         // 修改
         updateCheckTemplate(params) {
             return post("/smsCheckTemplate/updateCheckTemplate", params);
         },
+        // 删除
+        deleteCheckTemplate(params) {
+            return post("/smsCheckTemplate/deleteCheckTemplate", params);
+        },
+        // 内容检测
+        checkTemplate(params) {
+            return fetch("/smsCheckTemplate/checkTemplate", params);
+        },
+        // 修改重写
+        updateTemplate(params) {
+            return post("/smsCheckTemplate/updateTemplate", params);
+        }
     },
     // 用户利润查询
     smsProfit: {
@@ -1720,6 +1752,10 @@ export default {
         getLasttGatewayId(params) {
             return fetch("/gateway/getLasttGatewayId", params);
         },
+        //获取下拉省份和城市
+        getProvinceTree(params) {
+            return fetch("/gateway/getProvinceTree", params);
+        }
     },
     //彩信通道
     mmsGateway: {

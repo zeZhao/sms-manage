@@ -21,11 +21,11 @@
           autocomplete="on"
           label-position="left"
         >
-          <el-form-item prop="username">
+          <el-form-item prop="username" label="手机号">
             <el-input
               ref="username"
               v-model="loginForm.username"
-              placeholder="账户名称"
+              placeholder="请输入手机号"
               name="username"
               type="text"
               tabindex="1"
@@ -38,15 +38,16 @@
             placement="right"
             manual
           >
-            <el-form-item prop="password">
+            <el-form-item prop="password" label="口令">
               <el-input
                 :key="passwordType"
                 ref="password"
                 v-model="loginForm.password"
                 :type="passwordType"
-                placeholder="密码"
+                placeholder="请输入口令"
                 name="password"
                 tabindex="2"
+                maxlength="6"
                 autocomplete="on"
                 @keyup.native="checkCapslock"
                 @blur="capsTooltip = false"
@@ -60,7 +61,7 @@
             </el-form-item>
           </el-tooltip>
 
-          <el-form-item prop="verifyCode" style="overflow: hidden">
+          <!-- <el-form-item prop="verifyCode" style="overflow: hidden">
             <el-input
               v-model="loginForm.verifyCode"
               placeholder="验证码"
@@ -75,7 +76,7 @@
             <div class="captcha_code">
               <img :src="captcha" ref="code" @click="getCaptcha" />
             </div>
-          </el-form-item>
+          </el-form-item> -->
           <el-button
             :loading="loading"
             type="primary"
@@ -91,23 +92,16 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
+import { phone } from "@/utils/validator";
 import SocialSign from "./components/SocialSignin";
 import logo from "@/assets/logo.png";
 export default {
   name: "Login",
   components: { SocialSign },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!value) {
-        console.log("value", value);
-        callback(new Error("账户名称不能为空"));
-      } else {
-        callback();
-      }
-    };
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("密码不能少于6位"));
+      if (value.length > 6) {
+        callback(new Error("口令为6位数"));
       } else {
         callback();
       }
@@ -123,9 +117,7 @@ export default {
         time: this.common.getTime()
       },
       loginRules: {
-        username: [
-          { required: true, trigger: "blur", validator: validateUsername }
-        ],
+        username: [{ required: true, trigger: "blur", validator: phone }],
         password: [
           { required: true, trigger: "blur", validator: validatePassword }
         ]
@@ -203,16 +195,14 @@ export default {
         this.loginForm.uuid +
         "&num=" +
         num;
-      console.log(this.captcha, "captcha----------");
     },
     handleLogin() {
-      console.log("username", this.loginForm.username);
       if (this.loginForm.username.length === 0) {
-        alert("请输入账户名称");
+        this.$message.error("请输入手机号");
         return;
       }
       if (this.loginForm.password.length === 0) {
-        alert("请输入密码");
+        this.$message.error("请输入口令");
         return;
       }
       this.$refs.loginForm.validate(valid => {
@@ -221,9 +211,9 @@ export default {
           // 代码调到了src/store下的user.js,调用了里面的LoginByUsername方法
           let formDtat = {
             account: this.loginForm.username,
-            pwd: this.loginForm.password,
-            verifyCode: this.loginForm.verifyCode,
-            uuId: this.loginForm.uuid
+            pwd: this.loginForm.password
+            // verifyCode: this.loginForm.verifyCode,
+            // uuId: this.loginForm.uuid
           };
           this.$store
             .dispatch("user/LoginByUsername", formDtat)
@@ -297,33 +287,33 @@ $cursor: #333;
 /* reset element-ui css */
 .login-container {
   .el-form-item {
-    border: 1px solid #999;
+    // border: 1px solid #999;
     border-radius: 5px;
     color: #454545;
   }
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    input {
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      background-color: #fff;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-      &:-webkit-autofill {
-      }
-    }
-  }
+  // .el-input {
+  //   display: inline-block;
+  //   height: 47px;
+  //   input {
+  //     border: 0px;
+  //     -webkit-appearance: none;
+  //     border-radius: 0px;
+  //     background-color: #fff;
+  //     padding: 12px 5px 12px 15px;
+  //     color: $light_gray;
+  //     height: 47px;
+  //     caret-color: $cursor;
+  //     &:-webkit-autofill {
+  //     }
+  //   }
+  // }
 
-  .el-form-item {
-    border: 1px solid #f2f2f2;
-    background: #fff;
-    border-radius: 5px;
-    color: #454545;
-  }
+  // .el-form-item {
+  //   border: 1px solid #f2f2f2;
+  //   background: #fff;
+  //   border-radius: 5px;
+  //   color: #454545;
+  // }
 }
 </style>
 
@@ -455,6 +445,7 @@ $light_gray: #eee;
     display: inline-block;
     height: 100%;
     vertical-align: -webkit-baseline-middle;
+    cursor: pointer;
   }
   .loginImg {
     width: 50%;
@@ -492,7 +483,7 @@ $light_gray: #eee;
     display: inline-block;
     vertical-align: middle;
     padding: 12px 24px;
-    margin: 0px;
+    margin: 20px 0;
     font-size: 16px;
     line-height: 24px;
     text-align: center;
