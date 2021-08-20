@@ -666,6 +666,7 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.getSensitiveWordGroup();
   },
   methods: {
     //获取敏感词组

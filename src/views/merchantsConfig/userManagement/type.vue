@@ -494,6 +494,7 @@ export default {
           type: "input",
           label: "推送上行地址",
           key: "moUrl",
+          maxlength: "250",
           tag: "sms",
           defaultValue: ""
         },
@@ -526,6 +527,7 @@ export default {
           type: "input",
           label: "推送报告地址",
           key: "reportUrl",
+          maxlength: "250",
           tag: "sms",
           defaultValue: ""
         },
