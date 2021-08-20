@@ -1300,6 +1300,10 @@ export default {
         addOrUpdate(params) {
             return post("/sysSales/addOrUpdate", params);
         },
+        // 检测是否有商户绑定销售员
+        checkSysSales(params) {
+            return post("/sysSales/checkSysSales", params);
+        },
         // 修改状态
         updateStatus(params) {
             return post("/sysSales/updateStatus", params);
@@ -1311,7 +1315,7 @@ export default {
         // 查询有效的销售人员
         queryAvailableSaleman(params) {
             return fetch("/sysSales/queryAvailableSaleman", params);
-        },
+        }
     },
     //销售管理-提交统计
     reportsubmitStatistics: {

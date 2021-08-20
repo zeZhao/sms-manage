@@ -338,71 +338,40 @@ export default {
     this.getEditData();
   },
   methods: {
-    //开启关闭通道
-    switchChange(val, row) {
+    //操作修改开启或关闭通道
+    beginUpdateStatus(val, row) {
       this.loading = true;
       let str = val ? "用户启用成功！" : "用户禁用成功";
       let str1 = val ? "用户启用失败！" : "用户禁用失败";
       const { id, userName } = row;
-      this.$http.sysSales
-        .updateStatus({ id, status: val, userName })
-        .then(res => {
-          this.loading = false;
-          if (res.code == 200) {
-            this.$message.success(str);
-            this._mxGetList();
-          } else {
-            this.$message.error(str1);
-            this.listData.forEach(item => {
-              if (item.id == id) {
-                item.status = 0;
-              }
-            });
-          }
+      this.$http.sysSales.updateStatus({ id, status: val, userName }).then(res => {
+        this.loading = false;
+        if (res.code === 200) {
+          this.$message.success(str);
+          this._mxGetList();
+        } else {
+          this.$message.error(str1);
+          this._mxGetList();
+        }
+      });
+    },
+    // 检验是否绑定商户账号
+    switchChange(val, row) {
+      if (val) {
+        this.beginUpdateStatus(val, row);
+        return;
+      }
+      this.$http.sysSales.checkSysSales({ id: row.id }).then(res => {
+        this.$confirm(res.msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          res.code === 200 ? this.beginUpdateStatus(val, row) : this._mxGetList();
+        }).catch(() => {
+          this._mxGetList();
         });
-
-      // if (val) {
-
-      //   this.$http.gateway
-      //     .startGateway({
-      //       data: {
-      //         gatewayId: gateway
-      //       }
-      //     })
-      //     .then(res => {
-      //       this.loading = false;
-      //       if (resOk(res)) {
-      //         this.$message.success("通道启用成功！");
-      //       } else {
-      //         this.$message.error("通道启用失败！");
-      //         this.listData.forEach(item => {
-      //           if (item.id == id) {
-      //             item.status = 0;
-      //           }
-      //         });
-      //       }
-      //     });
-      // } else {
-      //   this.$http.gateway
-      //     .stopGateway({
-      //       data: {
-      //         gatewayId: gateway
-      //       }
-      //     })
-      //     .then(res => {
-      //       this.loading = false;
-      //       if (resOk(res)) {
-      //         this.$message.success("通道停止成功！");
-      //       } else {
-      //         this.$message.error("通道停止失败！");
-      //         this.listData.forEach(item => {
-      //           if (item.id == id) {
-      //             item.status = 1;
-      //           }
-      //         });
-      //       }
-      //     });
-      // }
+      });
     },
     refresh() {
       this.$http.user.resetGoogleKey({ suId: this.suId }).then(res => {
