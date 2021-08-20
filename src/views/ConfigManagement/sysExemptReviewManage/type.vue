@@ -40,7 +40,6 @@ export default {
       }
     };
     const validatorNum = (rule, value, callback) => {
-      console.log(Number(value));
       if (Number(value) > 5000) {
         callback(new Error("免审数量不能超出5000"));
       } else {
@@ -685,19 +684,18 @@ export default {
             obj[key] = "0";
           }
         }
-        if (obj.hasOwnProperty("sensitiveWord")) {
-          if (key === "sensitiveWord") {
-            if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
-              let arr = obj[key].split(",");
-              obj[key] = arr.map(item => {
+        if (key === "sensitiveWord") {
+          if (obj.hasOwnProperty("sensitiveWord")) {
+            if (typeof obj[key] === "string" && obj[key] && obj[key] !== "-" && obj[key] != null) {
+              obj[key] = obj[key].split(",").map(item => {
                 return Number(item);
               });
             } else {
               obj[key] = [];
             }
+          } else {
+            obj[key] = [];
           }
-        } else {
-          obj["sensitiveWord"] = [];
         }
       }
       return obj;
@@ -758,13 +756,10 @@ export default {
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
         if (key === "sensitiveWord") {
-          if (
-            formData["sensitiveWord"] &&
-            Array.isArray(formData["sensitiveWord"])
-          ) {
+          if (formData[key] && Array.isArray(formData[key]) && formData[key].length) {
             formData[key] = formData[key].join(",");
           } else {
-            formData["sensitiveWord"] = [];
+            formData[key] = [];
           }
         }
       }
