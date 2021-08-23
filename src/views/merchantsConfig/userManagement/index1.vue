@@ -1850,7 +1850,7 @@ export default {
             ]),
             h("p", null, [
               h("span", null, "账号: "),
-              h("span", null, `${row.loginName}`)
+              h("span", null, `${row.userId}`)
             ]),
             h("p", null, [
               h("span", null, "密码: "),
@@ -1887,7 +1887,7 @@ export default {
             h("p", null, [h("span", null, "端口: "), h("span", null, "7893")]),
             h("p", null, [
               h("span", null, "账号: "),
-              h("span", null, `${row.loginName}`)
+              h("span", null, `${row.userId}`)
             ]),
             h("p", null, [
               h("span", null, "密码: "),
