@@ -192,8 +192,7 @@ export default {
         {
           type: "input",
           label: "CID",
-          key: "cid",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          key: "cid"
         },
         {
           type: "select",
