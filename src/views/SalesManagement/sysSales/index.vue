@@ -238,13 +238,6 @@ export default {
       ],
       // 表单配置
       formConfig: [
-        // {
-        //   type: "input",
-        //   label: "登录密码",
-        //   key: "password",
-        //   defaultValue: "",
-        //   rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
-        // },
         {
           type: "input",
           label: "姓名",
@@ -272,6 +265,13 @@ export default {
             },
             { trigger: ["blur", "change"], validator: validatorMobile }
           ]
+        },
+        {
+          type: "password",
+          label: "密码",
+          key: "password",
+          defaultValue: "",
+          rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
         },
         // {
         //   type: "input",
@@ -321,7 +321,7 @@ export default {
         },
         {
           type: "select",
-          label: "销售组",
+          label: "所属组",
           key: "groupId",
           defaultValue: "",
           optionData: []
@@ -502,7 +502,6 @@ export default {
     edit(row) {
       this.id = row.id;
       this.formTit = "修改";
-
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
