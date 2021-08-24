@@ -459,6 +459,7 @@ export default {
               this.formData[key] = [];
             }
           } else if (
+            type === "input" ||
             type === "select" ||
             type === "radio" ||
             type === "switch"

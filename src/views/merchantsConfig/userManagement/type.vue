@@ -579,6 +579,21 @@ export default {
           ]
         },
         {
+          type: "input",
+          label: "链接路数",
+          key: "maxSession",
+          isShow: true,
+          maxlength: 2,
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "blur"
+            }
+          ]
+        },
+        {
           type: "checkbox",
           label: "黑名单",
           key: "blackLevel",
@@ -897,12 +912,21 @@ export default {
       if (item.key === "proType") {
         if (val === 1) {
           this._setDefaultValueKeys("directPort", "无");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
           this._setDefaultValueKeys("directPort", "8090");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 3) {
           this._setDefaultValueKeys("directPort", "7890");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else {
           this._setDefaultValueKeys("directPort", "");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", false);
+          this._setDefaultValueKeys("maxSession", "1");
         }
       }
     },
@@ -1045,6 +1069,16 @@ export default {
           }
         }
 
+        if (item.key === "proType") {
+          //产品类型如果是cmpp就展示链接路数
+          this.$nextTick(() => {
+            if (item.defaultValue === 4) {
+              this._setDisplayShow(this.formConfig, "maxSession", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "maxSession", true);
+            }
+          });
+        }
         // if (item.key == "proType") {
         //   this.$set(item, "disabled", true);
         // }
