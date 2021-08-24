@@ -70,6 +70,12 @@
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
+      <el-table-column prop="updateBy" label="修改人" />
+      <el-table-column prop="updateTime" label="修改时间" min-width="170">
+        <template slot-scope="scope">{{
+          scope.row.updateTime | timeFormat
+        }}</template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button
