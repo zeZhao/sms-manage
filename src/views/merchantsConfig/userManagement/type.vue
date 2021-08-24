@@ -581,11 +581,9 @@ export default {
         {
           type: "checkbox",
           label: "黑名单",
-          // initDefaultValue: [0, 2],
-          // defaultValue: [0, 2],
-          initDefaultValue: [],
-          defaultValue: [],
           key: "blackLevel",
+          initDefaultValue: [2],
+          defaultValue: [2],
           optionData: [
             // { key: 0, value: "系统级" },
             // { key: 2, value: "用户级" },
