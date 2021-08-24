@@ -569,13 +569,14 @@ export default {
           type: "select",
           label: "外部黑名单",
           key: "isPostApi",
+          initDefaultValue: "0",
+          defaultValue: "0",
           tag: "sms",
           optionData: [
             { key: "0", value: "无" },
             { key: 1, value: "冬云" },
             { key: 2, value: "棱镜" }
-          ],
-          defaultValue: ""
+          ]
         },
         {
           type: "checkbox",
