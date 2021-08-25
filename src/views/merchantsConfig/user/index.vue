@@ -146,6 +146,8 @@
             type="password"
             clearable
             placeholder="密码"
+            maxlength="18"
+            show-word-limit
           />
         </el-form-item>
         <!-- <el-form-item label="账户姓名" prop="name">
@@ -230,6 +232,8 @@
             type="password"
             clearable
             placeholder="密码"
+            maxlength="18"
+            show-word-limit
           />
         </el-form-item>
         <!-- <el-form-item label="账户姓名" prop="name">
@@ -281,6 +285,8 @@
 import checkPermission from "@/utils/permission";
 import QRCode from "qrcodejs2";
 import Util from "@/utils/reg";
+import { isPassword } from "@/utils";
+
 export default {
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -529,17 +535,11 @@ export default {
       };
       if (this.addInfo.account == "") {
         return this.$message.error("请填写手机号");
-      }
-       else if (this.addInfo.pwd == "") {
+      } else if (this.addInfo.pwd == "") {
         return this.$message.error("请填写密码");
-      } else if (
-        !/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(
-          this.addInfo.pwd
-        )
-      ) {
-        return this.$message.error("密码为8-16位，数字、字母、英文符号");
-      }
-      else if (this.addInfo.name == "") {
+      } else if (!isPassword(this.addInfo.pwd)) {
+        return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+      } else if (this.addInfo.name == "") {
         return this.$message.error("请填写姓名");
       }
       //  else if (this.addInfo.state == "") {
@@ -641,14 +641,9 @@ export default {
         return this.$message.error("请填写姓名");
       } else if (this.setInfo.name == "") {
         return this.$message.error("请填写姓名");
-      }
-      else if (this.setInfo.pwd) {
-        if (
-          !/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(
-            this.setInfo.pwd
-          )
-        ) {
-          return this.$message.error("密码为8-16位，数字、字母、标点符号");
+      } else if (this.setInfo.pwd) {
+        if (!isPassword(this.setInfo.pwd)) {
+          return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
         }
       } else if (!this.setInfo.pwd) {
         delete params.pwd;

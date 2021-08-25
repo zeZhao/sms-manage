@@ -19,6 +19,8 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
+import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -241,15 +243,24 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "password",
           label: "密码",
           key: "password",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/,
-              message: "请输入8-16位，数字、字母、标点符号",
-              trigger: "change"
+              trigger: "change",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
+                  } else {
+                    callback();
+                  }
+                } else {
+                  callback(new Error("请输入必填项"));
+                }
+              }
             }
           ]
         },

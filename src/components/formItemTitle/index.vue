@@ -60,7 +60,30 @@
               <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"></i>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
-
+            <!--密码类型-输入框-->
+            <template v-if="item.type === 'password'">
+              <el-input
+                :class="{ inputWid: item.btnTxt }"
+                v-model.trim="formData[item.key]"
+                clearable
+                type="password"
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
+                show-word-limit
+                @keyup.native="
+                  $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
+                "
+                @input="
+                  val => {
+                    onInputChange(val, item);
+                  }
+                "
+              />
+            </template>
             <!--多文本输入框-->
             <template v-if="item.type === 'textarea'">
               <el-input
