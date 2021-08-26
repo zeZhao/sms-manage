@@ -21,7 +21,7 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-button type="primary" @click="addAccont()">新增运营账号</el-button>
+    <el-button type="primary" @click="addAccont">新增运营账号</el-button>
     <el-table
       :data="dataList"
       highlight-current-row
@@ -131,23 +131,6 @@
             show-word-limit
           />
         </el-form-item>
-        <!-- <el-form-item label="密码" prop="pwd">
-          <el-input
-            v-model="addInfo.pwd"
-            type="password"
-            clearable
-            placeholder="密码"
-          />
-        </el-form-item> -->
-        <!-- <el-form-item label="账户姓名" prop="name">
-          <el-input
-            maxlength="15"
-            show-word-limit
-            v-model="addInfo.name"
-            clearable
-            placeholder="账户姓名"
-          />
-        </el-form-item> -->
         <el-form-item label="手机号" prop="account">
           <el-input
             v-model="addInfo.account"
@@ -157,7 +140,26 @@
             show-word-limit
           />
         </el-form-item>
-        <el-form-item label="选择角色" prop="roleId">
+        <el-form-item label="密码" prop="pwd">
+          <el-input
+            v-model="addInfo.pwd"
+            type="password"
+            clearable
+            placeholder="密码"
+            maxlength="18"
+            show-word-limit
+          />
+        </el-form-item>
+        <!-- <el-form-item label="账户姓名" prop="name">
+          <el-input
+            maxlength="15"
+            show-word-limit
+            v-model="addInfo.name"
+            clearable
+            placeholder="账户姓名"
+          />
+        </el-form-item> -->
+        <el-form-item label="角色" prop="roleId">
           <el-select
             style="width: 100%"
             v-model="addInfo.roleId"
@@ -214,23 +216,6 @@
             show-word-limit
           />
         </el-form-item>
-        <!-- <el-form-item label="密码">
-          <el-input
-            v-model="setInfo.pwd"
-            type="password"
-            clearable
-            placeholder="密码"
-          />
-        </el-form-item>
-        <el-form-item label="账户姓名" prop="name">
-          <el-input
-            maxlength="15"
-            show-word-limit
-            v-model="setInfo.name"
-            clearable
-            placeholder="账户姓名"
-          />
-        </el-form-item> -->
         <el-form-item label="手机号" prop="account">
           <el-input
             v-model="setInfo.account"
@@ -241,7 +226,26 @@
             show-word-limit
           />
         </el-form-item>
-        <el-form-item label="选择角色" prop="roleId">
+        <el-form-item label="密码">
+          <el-input
+            v-model="setInfo.pwd"
+            type="password"
+            clearable
+            placeholder="密码"
+            maxlength="18"
+            show-word-limit
+          />
+        </el-form-item>
+        <!-- <el-form-item label="账户姓名" prop="name">
+          <el-input
+            maxlength="15"
+            show-word-limit
+            v-model="setInfo.name"
+            clearable
+            placeholder="账户姓名"
+          />
+        </el-form-item> -->
+        <el-form-item label="角色" prop="roleId">
           <el-select
             style="width: 100%"
             v-model="setInfo.roleId"
@@ -281,6 +285,8 @@
 import checkPermission from "@/utils/permission";
 import QRCode from "qrcodejs2";
 import Util from "@/utils/reg";
+import { isPassword } from "@/utils";
+
 export default {
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -414,6 +420,9 @@ export default {
       this.orderList();
     },
     addAccont() {
+      for(const i in this.addInfo) {
+        this.addInfo[i] = "";
+      }
       this.customerAddInfo = true;
       this.$nextTick(() => {
         this.deleteCustomer();
@@ -519,24 +528,18 @@ export default {
       this.$refs.addForm.validate();
       let params = {
         account: this.addInfo.account,
-        // pwd: this.addInfo.pwd,
+        pwd: this.addInfo.pwd,
         name: this.addInfo.name
         // state: parseInt(this.addInfo.state),
         // mobile: this.addInfo.mobile
       };
       if (this.addInfo.account == "") {
         return this.$message.error("请填写手机号");
-      }
-      //  else if (this.addInfo.pwd == "") {
-      //   return this.$message.error("请填写密码");
-      // } else if (
-      //   !/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(
-      //     this.addInfo.pwd
-      //   )
-      // ) {
-      //   return this.$message.error("密码为8-16位，数字、字母、英文符号");
-      // }
-      else if (this.addInfo.name == "") {
+      } else if (this.addInfo.pwd == "") {
+        return this.$message.error("请填写密码");
+      } else if (!isPassword(this.addInfo.pwd)) {
+        return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+      } else if (this.addInfo.name == "") {
         return this.$message.error("请填写姓名");
       }
       //  else if (this.addInfo.state == "") {
@@ -629,7 +632,7 @@ export default {
       let params = {
         suId: this.setInfo.suId,
         account: this.setInfo.account,
-        // pwd: this.setInfo.pwd,
+        pwd: this.setInfo.pwd,
         name: this.setInfo.name,
         state: this.setInfo.state
         // mobile: this.setInfo.mobile
@@ -638,15 +641,13 @@ export default {
         return this.$message.error("请填写姓名");
       } else if (this.setInfo.name == "") {
         return this.$message.error("请填写姓名");
+      } else if (this.setInfo.pwd) {
+        if (!isPassword(this.setInfo.pwd)) {
+          return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+        }
+      } else if (!this.setInfo.pwd) {
+        delete params.pwd;
       }
-      // else if (this.setInfo.pwd) {
-      //   if (
-      //     !/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(
-      //       this.setInfo.pwd
-      //     )
-      //   ) {
-      //     return this.$message.error("密码为8-16位，数字、字母、标点符号");
-      //   }
       // } else if (this.setInfo.state == "") {
       //   return this.$message.error("请选择状态");
       // } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {

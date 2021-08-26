@@ -160,27 +160,28 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "类型",
-        //   key: "type",
-        //   defaultValue: "",
-        //   optionData: [
-        //     {
-        //       key: "1",
-        //       value: "特服号"
-        //     },
-        //     {
-        //       key: "2",
-        //       value: "账户编号"
-        //     },
-        //     {
-        //       key: "3",
-        //       value: "商户编号"
-        //     }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "select",
+          label: "类型",
+          key: "type",
+          initDefaultValue: "2",
+          defaultValue: "2",
+          optionData: [
+            // {
+            //   key: "1",
+            //   value: "特服号"
+            // },
+            {
+              key: "2",
+              value: "账户编号"
+            },
+            {
+              key: "3",
+              value: "商户编号"
+            }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "select",
           label: "审核状态",
