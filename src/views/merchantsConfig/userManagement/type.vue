@@ -247,6 +247,7 @@ export default {
           type: "password",
           label: "密码",
           key: "password",
+          maxlength: "18",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             { trigger: "blur", validator: (rule, value, callback) => {
