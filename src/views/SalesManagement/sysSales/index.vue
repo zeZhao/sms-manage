@@ -132,6 +132,8 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import QRCode from "qrcodejs2";
+import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
@@ -148,10 +150,9 @@ export default {
       }
     };
     const validatorPassword = (rule, value, callback) => {
-      let regex = /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/;
       if (value) {
-        if (!regex.test(value)) {
-          callback(new Error("输入8-16位字符，支持数字、英文、英文符号"));
+        if (!isPassword(value)) {
+          callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
         } else {
           callback();
         }
@@ -238,13 +239,6 @@ export default {
       ],
       // 表单配置
       formConfig: [
-        // {
-        //   type: "input",
-        //   label: "登录密码",
-        //   key: "password",
-        //   defaultValue: "",
-        //   rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
-        // },
         {
           type: "input",
           label: "姓名",
@@ -272,6 +266,14 @@ export default {
             },
             { trigger: ["blur", "change"], validator: validatorMobile }
           ]
+        },
+        {
+          type: "password",
+          label: "密码",
+          key: "password",
+          defaultValue: "",
+          maxlength: 18,
+          rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
         },
         // {
         //   type: "input",
@@ -321,7 +323,7 @@ export default {
         },
         {
           type: "select",
-          label: "销售组",
+          label: "所属组",
           key: "groupId",
           defaultValue: "",
           optionData: []
@@ -502,7 +504,6 @@ export default {
     edit(row) {
       this.id = row.id;
       this.formTit = "修改";
-
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {

@@ -129,6 +129,7 @@ import {
   character,
   character1
 } from "@/utils/validator";
+import { isPassword } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -235,17 +236,18 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "password",
           label: "密码",
           key: "password",
+          maxlength: 18,
           rules: [
             { required: true, trigger: "blur", validator: (rule, value, callback) => {
               if (this.renderFormTit === '新增') {
                 if (!value) {
                   callback(new Error('请输入必填项'))
                 } else {
-                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
-                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  if (!isPassword(value)) {
+                    callback(new Error('密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'))
                   } else {
                     callback()
                   }
@@ -254,8 +256,8 @@ export default {
                 if (!value) {
                   callback()
                 } else {
-                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
-                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  if (!isPassword(value)) {
+                    callback(new Error('密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'))
                   } else {
                     callback()
                   }

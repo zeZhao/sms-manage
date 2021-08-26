@@ -19,6 +19,8 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
+import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -241,15 +243,24 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "password",
           label: "密码",
           key: "password",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/,
-              message: "请输入8-16位，数字、字母、标点符号",
-              trigger: "change"
+              trigger: "change",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
+                  } else {
+                    callback();
+                  }
+                } else {
+                  callback(new Error("请输入必填项"));
+                }
+              }
             }
           ]
         },
@@ -569,22 +580,36 @@ export default {
           type: "select",
           label: "外部黑名单",
           key: "isPostApi",
+          initDefaultValue: "0",
+          defaultValue: "0",
           tag: "sms",
           optionData: [
             { key: "0", value: "无" },
             { key: 1, value: "冬云" },
             { key: 2, value: "棱镜" }
-          ],
-          defaultValue: ""
+          ]
+        },
+        {
+          type: "input",
+          label: "链接路数",
+          key: "maxSession",
+          isShow: true,
+          maxlength: 2,
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "checkbox",
           label: "黑名单",
-          // initDefaultValue: [0, 2],
-          // defaultValue: [0, 2],
-          initDefaultValue: [],
-          defaultValue: [],
           key: "blackLevel",
+          initDefaultValue: [2],
+          defaultValue: [2],
           optionData: [
             // { key: 0, value: "系统级" },
             // { key: 2, value: "用户级" },
@@ -898,12 +923,21 @@ export default {
       if (item.key === "proType") {
         if (val === 1) {
           this._setDefaultValueKeys("directPort", "无");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
           this._setDefaultValueKeys("directPort", "8090");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 3) {
           this._setDefaultValueKeys("directPort", "7890");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else {
           this._setDefaultValueKeys("directPort", "");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", false);
+          this._setDefaultValueKeys("maxSession", "1");
         }
       }
     },
@@ -1046,6 +1080,16 @@ export default {
           }
         }
 
+        if (item.key === "proType") {
+          //产品类型如果是cmpp就展示链接路数
+          this.$nextTick(() => {
+            if (item.defaultValue === 4) {
+              this._setDisplayShow(this.formConfig, "maxSession", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "maxSession", true);
+            }
+          });
+        }
         // if (item.key == "proType") {
         //   this.$set(item, "disabled", true);
         // }

@@ -52,7 +52,31 @@
               >
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
-
+            <!--密码类型-输入框-->
+            <template v-if="item.type === 'password'">
+              <el-input
+                :class="{ inputWid: item.btnTxt }"
+                v-model.trim="formData[item.key]"
+                clearable
+                size="small"
+                type="password"
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
+                show-word-limit
+                @keyup.native="
+                  $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
+                "
+                @input="
+                  val => {
+                    onInputChange(val, item);
+                  }
+                "
+              />
+            </template>
             <!--多文本输入框-->
             <template v-if="item.type === 'textarea'">
               <el-input

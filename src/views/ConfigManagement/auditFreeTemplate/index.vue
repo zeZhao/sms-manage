@@ -7,6 +7,9 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="type" label="类型">
+        <template slot-scope="scope">{{ renderType(scope.row.type) }}</template>
+      </el-table-column>
       <el-table-column prop="template" label="模板信息" show-overflow-tooltip min-width="200" />
       <el-table-column prop="createdAt" label="创建时间" min-width="170">
         <template slot-scope="scope">{{ scope.row.createdAt | timeFormat }}</template>
@@ -188,6 +191,18 @@ export default {
           t.defaultValue = data.code;
         }
       });
+    },
+    renderType(v) {
+      switch (v) {
+        case "1":
+          return "特服号";
+        case "2":
+          return "账户编号";
+        case "3":
+          return "商户编号";
+        default:
+          return "-";
+      }
     },
     /**
      * 调整提交的参数
