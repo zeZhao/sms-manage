@@ -872,6 +872,16 @@ export default {
       type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
       this.currentType = this.type;
     } else {
+      if(this.currentType !== 'create'){
+        this.getAllCorp();
+        this.getSaleman();
+        this.getAgent();
+        this.getRole();
+        this.listTag();
+        this.getBlackFroup();
+        const { type, row, ID } = this.$route.query;
+        type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+      }
       this.currentType = this.type;
     }
   },
