@@ -2,6 +2,7 @@
   <div>
     <h2>{{ renderTitle }}</h2>
     <FormItemTitle
+      class="userManagementType"
       :colSpan="8"
       :labelWidth="150"
       ref="formItemTit"
@@ -248,18 +249,16 @@ export default {
           key: "password",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              trigger: "change",
-              validator: (rule, value, callback) => {
-                if (value) {
-                  if (!isPassword(value)) {
-                    callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
-                  } else {
-                    callback();
-                  }
+            { trigger: "blur", validator: (rule, value, callback) => {
+              if (value) {
+                if (!isPassword(value)) {
+                  callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
                 } else {
-                  callback(new Error("请输入必填项"));
+                  callback();
                 }
+              } else {
+                callback(new Error("请输入必填项"));
+              }
               }
             }
           ]
@@ -845,6 +844,16 @@ export default {
     const { type, row, ID } = this.$route.query;
     type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
+  activated() {
+    this.getAllCorp();
+    this.getSaleman();
+    this.getAgent();
+    this.getRole();
+    this.listTag();
+    this.getBlackFroup();
+    const { type, row, ID } = this.$route.query;
+    type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+  },
   methods: {
     //多选移除操作
     removeTag({ val, item }) {
@@ -876,8 +885,6 @@ export default {
 
     selectChange(data) {
       const { val, item } = data;
-      let obj = {};
-
       if (item.key === "productType") {
         if (val && val.length != 0) {
           //根据产品的选择动态显示表单及数据处理
@@ -1248,6 +1255,8 @@ export default {
      */
     _mxSuccess(res, params) {
       if (resOk(res)) {
+        // 删除操作后的页面 避免出现BUG
+        this.$store.dispatch("tagsView/delView", this.$route);
         this.$message.success(res.msg || res.data);
         window.history.back();
         this.addChannel = false;
@@ -1269,6 +1278,8 @@ export default {
      * 关闭弹窗
      */
     _mxCancel() {
+      // 删除操作后的页面 避免出现BUG
+      this.$store.dispatch("tagsView/delView", this.$route);
       window.history.back();
       this.addChannel = false;
       setTimeout(() => {
@@ -1594,4 +1605,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/deep/ .userManagementType .el-form-item {
+  margin-bottom: 30px !important;
+}
+</style>
