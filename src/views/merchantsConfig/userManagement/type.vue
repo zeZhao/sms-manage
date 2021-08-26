@@ -231,16 +231,28 @@ export default {
           maxlength: "20",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" },
-            { trigger: "blur", validator: (rule, value, callback) => {
-              if (/\p{Unified_Ideograph}/u.test(value)) {
-                callback(new Error("不支持汉字"));
+            {
+              min: 6,
+              max: 20,
+              message: "长度在 6 到 20 个字符",
+              trigger: "blur"
+            },
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (/\p{Unified_Ideograph}/u.test(value)) {
+                  callback(new Error("不支持汉字"));
+                }
+                if (
+                  !/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(
+                    value
+                  )
+                ) {
+                  callback(new Error("不支持特殊字符"));
+                }
+                callback();
               }
-              if (!(/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(value))) {
-                callback(new Error("不支持特殊字符"));
-              }
-              callback();
-            }}
+            }
           ]
         },
         {
@@ -249,16 +261,22 @@ export default {
           key: "password",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: (rule, value, callback) => {
-              if (value) {
-                if (!isPassword(value)) {
-                  callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(
+                      new Error(
+                        "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                      )
+                    );
+                  } else {
+                    callback();
+                  }
                 } else {
-                  callback();
+                  callback(new Error("请输入必填项"));
                 }
-              } else {
-                callback(new Error("请输入必填项"));
-              }
               }
             }
           ]
@@ -315,10 +333,7 @@ export default {
           type: "select",
           label: "是否直客",
           key: "isDirectUser",
-          optionData: [
-            { key: 1, value: "直客" },
-            { key: 2, value: "同行" }
-          ],
+          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "同行" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -360,10 +375,7 @@ export default {
           clearable: true,
           defaultValue: [],
           initDefaultValue: [],
-          optionData: [
-            { key: 1, value: "短信" },
-            { key: 2, value: "彩信" }
-          ],
+          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -407,7 +419,7 @@ export default {
           label: "产品类型",
           key: "proType",
           // multiple: true,
-          disabled: this.$route.query.type === 'update',
+          disabled: this.$route.query.type === "update",
           // clearable: true,
           defaultValue: [],
           initDefaultValue: [],
@@ -512,10 +524,7 @@ export default {
           type: "select",
           label: "强加签名",
           key: "httpSign",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
           defaultValue: 1,
           tag: "sms",
           rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
@@ -550,7 +559,7 @@ export default {
           rules: [
             {
               required: false,
-              trigger: "change",
+              trigger: "change"
               // validator: (rule, value, callback) => {
               //   if (!value) callback();
               //   if (isNaN(value)) callback(new Error('只能输入数值'));
@@ -820,10 +829,15 @@ export default {
       speedVal: null,
       saleList: [],
       //临时存储修改数据
-      currentEditFormData: {}
+      currentEditFormData: {},
+      currentType: ""
     };
   },
   computed: {
+    type() {
+      const { type } = this.$route.query;
+      return type;
+    },
     renderTitle() {
       const { type } = this.$route.query;
       const str = "账户";
@@ -835,6 +849,7 @@ export default {
     }
   },
   mounted() {
+    this.currentType = this.$route.query.type;
     this.getAllCorp();
     this.getSaleman();
     this.getAgent();
@@ -845,14 +860,19 @@ export default {
     type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   activated() {
-    this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
-    this.getRole();
-    this.listTag();
-    this.getBlackFroup();
-    const { type, row, ID } = this.$route.query;
-    type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    if (this.currentType !== this.type) {
+      this.getAllCorp();
+      this.getSaleman();
+      this.getAgent();
+      this.getRole();
+      this.listTag();
+      this.getBlackFroup();
+      const { type, row, ID } = this.$route.query;
+      type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+      this.currentType = this.type;
+    } else {
+      this.currentType = this.type;
+    }
   },
   methods: {
     //多选移除操作
@@ -1224,7 +1244,7 @@ export default {
       };
       params.startTime = params.times ? params.times[0] : "";
       params.endTime = params.times ? params.times[1] : "";
-      
+
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
