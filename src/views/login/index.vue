@@ -109,14 +109,14 @@ export default {
   components: { SocialSign },
   data() {
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("密码至少为6位数"));
+      if (value.length < 8) {
+        callback(new Error("密码至少为8位数"));
       } else {
         callback();
       }
     };
     const validateVerifyCode = (rule, value, callback) => {
-      if (value.length > 6) {
+      if (value.length !== 6) {
         callback(new Error("口令为6位数"));
       } else {
         callback();
