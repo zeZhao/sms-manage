@@ -854,6 +854,12 @@ export default {
     this.initData();
   },
   activated() {
+    this.getAllCorp();
+    this.getSaleman();
+    this.getAgent();
+    this.getRole();
+    this.listTag();
+    this.getBlackFroup();
     if (this.currentType !== this.type) {
       this.initData();
       this.currentType = this.type;
@@ -866,12 +872,6 @@ export default {
   methods: {
     //初始化数据
     initData() {
-      this.getAllCorp();
-      this.getSaleman();
-      this.getAgent();
-      this.getRole();
-      this.listTag();
-      this.getBlackFroup();
       const { type, row, ID } = this.$route.query;
       type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
     },
