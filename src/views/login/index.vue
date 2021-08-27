@@ -32,21 +32,30 @@
             />
           </el-form-item>
 
+          <el-form-item prop="password" label="密码">
+            <el-input
+              v-model="loginForm.password"
+              type="password"
+              placeholder="请输入密码"
+              tabindex="2"
+            />
+          </el-form-item>
+
           <el-tooltip
             v-model="capsTooltip"
             content="Caps lock is On"
             placement="right"
             manual
           >
-            <el-form-item prop="password" label="口令">
+            <el-form-item prop="verifyCode" label="口令">
               <el-input
-                :key="passwordType"
                 ref="password"
-                v-model="loginForm.password"
+                :key="passwordType"
+                v-model="loginForm.verifyCode"
                 :type="passwordType"
                 placeholder="请输入口令"
-                name="password"
-                tabindex="2"
+                type="password"
+                tabindex="3"
                 maxlength="6"
                 autocomplete="on"
                 @keyup.native="checkCapslock"
@@ -100,7 +109,14 @@ export default {
   components: { SocialSign },
   data() {
     const validatePassword = (rule, value, callback) => {
-      if (value.length > 6) {
+      if (value.length < 8) {
+        callback(new Error("密码至少为8位数"));
+      } else {
+        callback();
+      }
+    };
+    const validateVerifyCode = (rule, value, callback) => {
+      if (value.length !== 6) {
         callback(new Error("口令为6位数"));
       } else {
         callback();
@@ -118,9 +134,8 @@ export default {
       },
       loginRules: {
         username: [{ required: true, trigger: "blur", validator: phone }],
-        password: [
-          { required: true, trigger: "blur", validator: validatePassword }
-        ]
+        password: [{ required: true, trigger: "blur", validator: validatePassword }],
+        verifyCode: [{ required: true, trigger: "blur", validator: validateVerifyCode }]
       },
       passwordType: "password",
       capsTooltip: false,
@@ -181,8 +196,7 @@ export default {
       });
     },
     getCaptcha() {
-      var num = Math.ceil(Math.random() * 10); //生成一个随机数（防止缓存）
-
+      const num = Math.ceil(Math.random() * 10); //生成一个随机数（防止缓存）
       // this.$http.sysLogin
       //   .captcha({ uuId: this.loginForm.uuid, num: num })
       //   .then(res => {
@@ -202,6 +216,10 @@ export default {
         return;
       }
       if (this.loginForm.password.length === 0) {
+        this.$message.error("请输入密码");
+        return;
+      }
+      if (this.loginForm.verifyCode.length === 0) {
         this.$message.error("请输入口令");
         return;
       }
@@ -209,15 +227,12 @@ export default {
         if (valid) {
           this.loading = true;
           // 代码调到了src/store下的user.js,调用了里面的LoginByUsername方法
-          let formDtat = {
+          this.$store.dispatch("user/LoginByUsername", {
             account: this.loginForm.username,
-            pwd: this.loginForm.password
-            // verifyCode: this.loginForm.verifyCode,
+            pwd: this.loginForm.password,
+            verifyCode: this.loginForm.verifyCode
             // uuId: this.loginForm.uuid
-          };
-          this.$store
-            .dispatch("user/LoginByUsername", formDtat)
-            .then(() => {
+          }).then(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
                 path: "/",
@@ -325,7 +340,7 @@ $light_gray: #eee;
   background-color: #fff;
 }
 .loginFormStyle {
-  height: 460px;
+  height: 520px;
   border: 1px solid #cccccc;
   vertical-align: top;
   width: 45%;

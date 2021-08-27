@@ -2,6 +2,7 @@
   <div>
     <h2>{{ renderTitle }}</h2>
     <FormItemTitle
+      class="userManagementType"
       :colSpan="8"
       :labelWidth="150"
       ref="formItemTit"
@@ -19,6 +20,8 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
+import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -228,28 +231,54 @@ export default {
           maxlength: "20",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" },
-            { trigger: "blur", validator: (rule, value, callback) => {
-              if (/\p{Unified_Ideograph}/u.test(value)) {
-                callback(new Error("不支持汉字"));
+            {
+              min: 6,
+              max: 20,
+              message: "长度在 6 到 20 个字符",
+              trigger: "blur"
+            },
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (/\p{Unified_Ideograph}/u.test(value)) {
+                  callback(new Error("不支持汉字"));
+                }
+                if (
+                  !/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(
+                    value
+                  )
+                ) {
+                  callback(new Error("不支持特殊字符"));
+                }
+                callback();
               }
-              if (!(/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(value))) {
-                callback(new Error("不支持特殊字符"));
-              }
-              callback();
-            }}
+            }
           ]
         },
         {
-          type: "input",
+          type: "password",
           label: "密码",
           key: "password",
+          maxlength: "18",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/,
-              message: "请输入8-16位，数字、字母、标点符号",
-              trigger: "change"
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(
+                      new Error(
+                        "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                      )
+                    );
+                  } else {
+                    callback();
+                  }
+                } else {
+                  callback(new Error("请输入必填项"));
+                }
+              }
             }
           ]
         },
@@ -305,10 +334,7 @@ export default {
           type: "select",
           label: "是否直客",
           key: "isDirectUser",
-          optionData: [
-            { key: 1, value: "直客" },
-            { key: 2, value: "同行" }
-          ],
+          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "同行" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -350,10 +376,7 @@ export default {
           clearable: true,
           defaultValue: [],
           initDefaultValue: [],
-          optionData: [
-            { key: 1, value: "短信" },
-            { key: 2, value: "彩信" }
-          ],
+          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -397,7 +420,7 @@ export default {
           label: "产品类型",
           key: "proType",
           // multiple: true,
-          disabled: this.$route.query.type === 'update',
+          disabled: this.$route.query.type === "update",
           // clearable: true,
           defaultValue: [],
           initDefaultValue: [],
@@ -502,10 +525,7 @@ export default {
           type: "select",
           label: "强加签名",
           key: "httpSign",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
           defaultValue: 1,
           tag: "sms",
           rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
@@ -540,7 +560,7 @@ export default {
           rules: [
             {
               required: false,
-              trigger: "change",
+              trigger: "change"
               // validator: (rule, value, callback) => {
               //   if (!value) callback();
               //   if (isNaN(value)) callback(new Error('只能输入数值'));
@@ -569,22 +589,36 @@ export default {
           type: "select",
           label: "外部黑名单",
           key: "isPostApi",
+          initDefaultValue: "0",
+          defaultValue: "0",
           tag: "sms",
           optionData: [
             { key: "0", value: "无" },
             { key: 1, value: "冬云" },
             { key: 2, value: "棱镜" }
-          ],
-          defaultValue: ""
+          ]
+        },
+        {
+          type: "input",
+          label: "链接路数",
+          key: "maxSession",
+          isShow: true,
+          maxlength: 2,
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "blur"
+            }
+          ]
         },
         {
           type: "checkbox",
           label: "黑名单",
-          // initDefaultValue: [0, 2],
-          // defaultValue: [0, 2],
-          initDefaultValue: [],
-          defaultValue: [],
           key: "blackLevel",
+          initDefaultValue: [2],
+          defaultValue: [2],
           optionData: [
             // { key: 0, value: "系统级" },
             // { key: 2, value: "用户级" },
@@ -796,7 +830,9 @@ export default {
       speedVal: null,
       saleList: [],
       //临时存储修改数据
-      currentEditFormData: {}
+      currentEditFormData: {},
+      //记录当前是创建还是修改
+      currentType: ""
     };
   },
   computed: {
@@ -808,19 +844,38 @@ export default {
     renderBtnTxt() {
       const { type } = this.$route.query;
       return type === "create" ? "新增" : "修改";
+    },
+    type() {
+      return this.$route.query.type;
     }
   },
   mounted() {
-    this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
-    this.getRole();
-    this.listTag();
-    this.getBlackFroup();
-    const { type, row, ID } = this.$route.query;
-    type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    this.currentType = this.$route.query.type;
+    this.initData();
+  },
+  activated() {
+    if (this.currentType !== this.type) {
+      this.initData();
+      this.currentType = this.type;
+    } else {
+      if(this.currentType !== "create"){
+        this.initData();
+      }
+    }
   },
   methods: {
+    //初始化数据
+    initData() {
+      this.getAllCorp();
+      this.getSaleman();
+      this.getAgent();
+      this.getRole();
+      this.listTag();
+      this.getBlackFroup();
+      const { type, row, ID } = this.$route.query;
+      type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    },
+
     //多选移除操作
     removeTag({ val, item }) {
       if (this.formTit == "修改") {
@@ -851,8 +906,6 @@ export default {
 
     selectChange(data) {
       const { val, item } = data;
-      let obj = {};
-
       if (item.key === "productType") {
         if (val && val.length != 0) {
           //根据产品的选择动态显示表单及数据处理
@@ -898,12 +951,21 @@ export default {
       if (item.key === "proType") {
         if (val === 1) {
           this._setDefaultValueKeys("directPort", "无");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
           this._setDefaultValueKeys("directPort", "8090");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 3) {
           this._setDefaultValueKeys("directPort", "7890");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         } else {
           this._setDefaultValueKeys("directPort", "");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", false);
+          this._setDefaultValueKeys("maxSession", "1");
         }
       }
     },
@@ -1046,6 +1108,16 @@ export default {
           }
         }
 
+        if (item.key === "proType") {
+          //产品类型如果是cmpp就展示链接路数
+          this.$nextTick(() => {
+            if (item.defaultValue === 4) {
+              this._setDisplayShow(this.formConfig, "maxSession", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "maxSession", true);
+            }
+          });
+        }
         // if (item.key == "proType") {
         //   this.$set(item, "disabled", true);
         // }
@@ -1173,7 +1245,7 @@ export default {
       };
       params.startTime = params.times ? params.times[0] : "";
       params.endTime = params.times ? params.times[1] : "";
-      
+
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
@@ -1204,6 +1276,8 @@ export default {
      */
     _mxSuccess(res, params) {
       if (resOk(res)) {
+        // 删除操作后的页面 避免出现BUG
+        this.$store.dispatch("tagsView/delView", this.$route);
         this.$message.success(res.msg || res.data);
         window.history.back();
         this.addChannel = false;
@@ -1225,6 +1299,8 @@ export default {
      * 关闭弹窗
      */
     _mxCancel() {
+      // 删除操作后的页面 避免出现BUG
+      this.$store.dispatch("tagsView/delView", this.$route);
       window.history.back();
       this.addChannel = false;
       setTimeout(() => {
@@ -1550,4 +1626,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/deep/ .userManagementType .el-form-item {
+  margin-bottom: 30px !important;
+}
+</style>

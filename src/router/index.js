@@ -124,7 +124,14 @@ export const constantRoutes = [
             {
                 path: 'userManagementType',
                 name: 'userManagementType',
-                component: () => import('@/views/merchantsConfig/userManagement/type')
+                meta: { title: '', keepAlive: true },
+                component: () => import('@/views/merchantsConfig/userManagement/type'),
+                beforeEnter (to, from, next) {
+                    if (to.query.type) {
+                        metaGenerator('/userManagement', 'userManagementType', to.query.type, '账户信息管理');
+                        next();
+                    }
+                }
             }
         ]
     },
@@ -1193,6 +1200,29 @@ export const asyncRoutes = [
         hidden: true
     }
 ]
+
+//meta生成器
+function metaGenerator (str1, str2, type, title) {
+    let idx1, idx2, result;
+    idx1 = constantRoutes.findIndex(v => str1 === v.path);
+    if (idx1 !== -1 && constantRoutes[idx1].children.length > 0) {
+        idx2 = constantRoutes[idx1].children.findIndex(v => str2 === v.path);
+        switch (type) {
+            case 'create':
+                result = title + ' / 添加';
+                break;
+            case 'update':
+                result = title + ' / 修改';
+                break;
+            case 'details':
+                result = title + ' / 详情';
+                break;
+            default:
+                break;
+        }
+        constantRoutes[idx1].children[idx2].meta['title'] = result;
+    }
+}
 
 const createRouter = () => new Router({
     // mode: 'history', // require service support
