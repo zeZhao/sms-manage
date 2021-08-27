@@ -124,7 +124,7 @@
       >
         <el-form-item label="姓名" prop="name">
           <el-input
-            v-model="addInfo.name"
+            v-model.trim="addInfo.name"
             clearable
             placeholder="姓名"
             maxlength="10"
@@ -208,7 +208,7 @@
       >
         <el-form-item label="姓名" prop="name">
           <el-input
-            v-model="setInfo.name"
+            v-model.trim="setInfo.name"
             clearable
             :disabled="customerInfo"
             placeholder="姓名"
