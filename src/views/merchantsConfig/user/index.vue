@@ -533,26 +533,22 @@ export default {
         // state: parseInt(this.addInfo.state),
         // mobile: this.addInfo.mobile
       };
-      if (this.addInfo.account == "") {
+      if (this.addInfo.name == "") {
+        return this.$message.error("请填写姓名");
+      } else if (this.addInfo.account == "") {
         return this.$message.error("请填写手机号");
+      } else if (!Util.isPoneAvailable(this.addInfo.account)) {
+        return this.$message.error("手机号规则错误");
       } else if (this.addInfo.pwd == "") {
         return this.$message.error("请填写密码");
       } else if (!isPassword(this.addInfo.pwd)) {
         return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
-      } else if (this.addInfo.name == "") {
-        return this.$message.error("请填写姓名");
+      } else if (this.addInfo.roleId == "") {
+        return this.$message.error("请选择角色");
       }
       //  else if (this.addInfo.state == "") {
       //   return this.$message.error("请选择状态");
-      // } else if (this.addInfo.roleId == "") {
-      //   return this.$message.error("请选择角色");
-      // } else if (this.addInfo.mobile == "") {
-      //   return this.$message.error("请填写手机号");
       // }
-      else if (!Util.isPoneAvailable(this.addInfo.account)) {
-        this.$message.error("手机号码规则错误");
-        return false;
-      }
       this.$http.user.addOrUpdate(params).then(res => {
         if (res.code == "200") {
           // this.$message({
@@ -637,28 +633,12 @@ export default {
         state: this.setInfo.state
         // mobile: this.setInfo.mobile
       };
-      if (this.setInfo.account == "") {
-        return this.$message.error("请填写姓名");
-      } else if (this.setInfo.name == "") {
-        return this.$message.error("请填写姓名");
-      } else if (this.setInfo.pwd) {
+      if (this.setInfo.pwd) {
         if (!isPassword(this.setInfo.pwd)) {
           return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
         }
-      } else if (!this.setInfo.pwd) {
+      } else {
         delete params.pwd;
-      }
-      // } else if (this.setInfo.state == "") {
-      //   return this.$message.error("请选择状态");
-      // } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {
-      //   return this.$message.error("请选择角色");
-      // }
-      // if (this.setInfo.mobile == "") {
-      //   return this.$message.error("请填写手机号");
-      // }
-      else if (!Util.isPoneAvailable(this.setInfo.account)) {
-        this.$message.error("手机号码规则错误");
-        return false;
       }
       this.$http.user.addOrUpdate(params).then(res => {
         if (res.code == "200") {
@@ -686,7 +666,6 @@ export default {
           });
           this.customerInfo = false;
           this.customerAddInfo = false;
-
           this.orderList();
         } else {
           this.$message.error(res.msg);
