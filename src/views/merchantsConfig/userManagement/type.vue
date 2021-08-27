@@ -831,14 +831,11 @@ export default {
       saleList: [],
       //临时存储修改数据
       currentEditFormData: {},
+      //记录当前是创建还是修改
       currentType: ""
     };
   },
   computed: {
-    type() {
-      const { type } = this.$route.query;
-      return type;
-    },
     renderTitle() {
       const { type } = this.$route.query;
       const str = "账户";
@@ -847,21 +844,28 @@ export default {
     renderBtnTxt() {
       const { type } = this.$route.query;
       return type === "create" ? "新增" : "修改";
+    },
+    type() {
+      return this.$route.query.type;
     }
   },
   mounted() {
     this.currentType = this.$route.query.type;
-    this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
-    this.getRole();
-    this.listTag();
-    this.getBlackFroup();
-    const { type, row, ID } = this.$route.query;
-    type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    this.initData();
   },
   activated() {
     if (this.currentType !== this.type) {
+      this.initData();
+      this.currentType = this.type;
+    } else {
+      if(this.currentType !== "create"){
+        this.initData();
+      }
+    }
+  },
+  methods: {
+    //初始化数据
+    initData() {
       this.getAllCorp();
       this.getSaleman();
       this.getAgent();
@@ -870,22 +874,8 @@ export default {
       this.getBlackFroup();
       const { type, row, ID } = this.$route.query;
       type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
-      this.currentType = this.type;
-    } else {
-      if(this.currentType !== 'create'){
-        this.getAllCorp();
-        this.getSaleman();
-        this.getAgent();
-        this.getRole();
-        this.listTag();
-        this.getBlackFroup();
-        const { type, row, ID } = this.$route.query;
-        type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
-      }
-      this.currentType = this.type;
-    }
-  },
-  methods: {
+    },
+
     //多选移除操作
     removeTag({ val, item }) {
       if (this.formTit == "修改") {
