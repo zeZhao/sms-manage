@@ -832,7 +832,9 @@ export default {
       //临时存储修改数据
       currentEditFormData: {},
       //记录当前是创建还是修改
-      currentType: ""
+      currentType: "",
+      // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+      createEnd: false
     };
   },
   computed: {
@@ -849,29 +851,38 @@ export default {
       return this.$route.query.type;
     }
   },
+  watch: {
+    formConfig(newVal) {
+      if (newVal) {
+        this.createEnd = false;
+      }
+    }
+  },
   mounted() {
     this.currentType = this.$route.query.type;
     this.initData();
   },
   activated() {
+    this.getAllCorp();
+    this.getSaleman();
+    this.getAgent();
+    this.getRole();
+    this.listTag();
+    this.getBlackFroup();
     if (this.currentType !== this.type) {
       this.initData();
       this.currentType = this.type;
     } else {
       if(this.currentType !== "create"){
         this.initData();
+      } else {
+        this.createEnd && this.initData();
       }
     }
   },
   methods: {
     //初始化数据
     initData() {
-      this.getAllCorp();
-      this.getSaleman();
-      this.getAgent();
-      this.getRole();
-      this.listTag();
-      this.getBlackFroup();
       const { type, row, ID } = this.$route.query;
       type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
     },
@@ -1249,6 +1260,8 @@ export default {
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
+          // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+          this.createEnd = true;
         });
       } else if (this.formTit == "修改") {
         params = Object.assign(params, {

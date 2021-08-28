@@ -460,7 +460,8 @@ export default {
     },
     delUser(row) {
       this.$confirm(
-        "“角色名称”角色下有绑定账户，删除所有绑定账户才可删除角色",
+        `“${row.roleName}” 角色下有绑定账户，删除所有绑定账户才可删除角色`,
+        "提示",
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
