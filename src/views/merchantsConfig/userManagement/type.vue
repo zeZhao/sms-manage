@@ -832,7 +832,9 @@ export default {
       //临时存储修改数据
       currentEditFormData: {},
       //记录当前是创建还是修改
-      currentType: ""
+      currentType: "",
+      // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+      createEnd: false
     };
   },
   computed: {
@@ -847,6 +849,13 @@ export default {
     },
     type() {
       return this.$route.query.type;
+    }
+  },
+  watch: {
+    formConfig(newVal) {
+      if (newVal) {
+        this.createEnd = false;
+      }
     }
   },
   mounted() {
@@ -866,6 +875,8 @@ export default {
     } else {
       if(this.currentType !== "create"){
         this.initData();
+      } else {
+        this.createEnd && this.initData();
       }
     }
   },
@@ -1249,6 +1260,8 @@ export default {
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
+          // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+          this.createEnd = true;
         });
       } else if (this.formTit == "修改") {
         params = Object.assign(params, {
