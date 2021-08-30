@@ -272,30 +272,30 @@ export default {
             }
           ]
         },
-        {
-          type: "select",
-          label: "组合长信息",
-          initDefaultValue: "0",
-          defaultValue: "0",
-          optionData: [
-            {
-              key: "1",
-              value: "是"
-            },
-            {
-              key: "0",
-              value: "否"
-            }
-          ],
-          key: "isCombination",
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "组合长信息",
+        //   initDefaultValue: "0",
+        //   defaultValue: "0",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     }
+        //   ],
+        //   key: "isCombination",
+        //   rules: [
+        //     {
+        //       required: true,
+        //       message: "请输入必填项",
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ]
+        // },
         {
           type: "select",
           label: "需要模板",
