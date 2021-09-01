@@ -254,7 +254,7 @@ export const constantRoutes = [
             {
                 path: 'sysWhitelistType',
                 name: 'sysWhitelistType',
-                component: () => import('@/views/SELinuxManagement/sysWhitelist/type')
+                component: () => import('@/views/ConfigManagement/sysWhitelist/type')
             }
         ]
     },
