@@ -14,7 +14,7 @@
     >
       <!-- <el-table-column prop="userName" label="登录账号" /> -->
       <el-table-column prop="actualName" label="姓名" />
-      <el-table-column prop="userName" label="手机号" />
+      <el-table-column prop="userName" label="手机号" width="150" />
       <el-table-column prop="groupName" label="所属组" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
