@@ -879,12 +879,20 @@ export default {
         this.createEnd && this.initData();
       }
     }
+
+    //如果是修改状态则禁止修改短信业务信息产品类型
+    this.type === "update" && this.disabledProType();
   },
   methods: {
     //初始化数据
     initData() {
       const { type, row, ID } = this.$route.query;
       type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    },
+
+    disabledProType() {
+      const idx = this.formConfig.findIndex(v => v.key === "proType");
+      this.formConfig[idx].disabled = true;
     },
 
     //多选移除操作
