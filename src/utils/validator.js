@@ -153,11 +153,11 @@ export const limitMenuPath = (rule, value, callback) => {
     if (value.length > 30) {
       callback(new Error('菜单路径长度限制为30以内'));
     } else {
-      const reg = /^[a-zA-Z\/]+$/;
+      const reg = /^[a-zA-Z\/\d]+$/;
       if (reg.test(value)) {
         callback();
       } else {
-        callback(new Error('菜单路径仅支持英文字母和“/”符号'));
+        callback(new Error('菜单路径仅支持英文字母、“/”符号以及正整数'));
       }
     }
   }
