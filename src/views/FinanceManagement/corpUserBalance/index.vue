@@ -94,6 +94,9 @@ export default {
     };
   },
   mounted() {},
+  activated() {
+    this._mxGetList();
+  },
   computed: {},
   methods: {
     /**

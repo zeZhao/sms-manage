@@ -293,10 +293,10 @@ export default {
     };
   },
   mounted() {},
-  computed: {},
   activated() {
     this._mxGetList();
   },
+  computed: {},
   methods: {
     audit(row) {
       const { corpName, cardId } = row;
