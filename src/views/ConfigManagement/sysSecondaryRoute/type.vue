@@ -44,7 +44,7 @@ export default {
         if (/^\d{1,12}$/.test(value)) {
           callback();
         } else {
-          callback(new Error("特服号仅支持12位以内的正整数"));
+          callback(new Error("通道特服号只能为正整数且最大长度为12位"));
         }
       } else {
         callback();

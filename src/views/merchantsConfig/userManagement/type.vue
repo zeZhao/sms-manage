@@ -35,7 +35,7 @@ export default {
     };
     const validCode = (rule, value, callback) => {
       if (value && (!/^\d{1,12}$/.test(value))) {
-        callback(new Error("请输入最多为12位的特服号（正整数）"));
+        callback(new Error("特服号只能为正整数且最大长度为12位"));
       } else {
         callback();
       }
