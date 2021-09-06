@@ -34,8 +34,8 @@ export default {
       }
     };
     const validCode = (rule, value, callback) => {
-      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
-        callback(new Error("请输入4位特服号"));
+      if (value && (!/^\d{1,12}$/.test(value))) {
+        callback(new Error("请输入最多为12位的特服号（正整数）"));
       } else {
         callback();
       }
@@ -286,6 +286,7 @@ export default {
           type: "input",
           label: "特服号",
           key: "code",
+          maxlength: "12",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
