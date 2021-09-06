@@ -41,10 +41,10 @@ export default {
     // };
     const validatorCode = (rule, value, callback) => {
       if (value) {
-        if (/^\d{4}$/.test(value)) {
+        if (/^\d{1,12}$/.test(value)) {
           callback();
         } else {
-          callback(new Error("特服号仅支持4位数字"));
+          callback(new Error("通道特服号只能为正整数且最大长度为12位"));
         }
       } else {
         callback();
@@ -160,6 +160,7 @@ export default {
           label: "通道特服号",
           key: "gwcode",
           defaultValue: "",
+          maxlength: "12",
           rules: [
             { required: false, message: "请输入必填项", trigger: "blur" },
             { trigger: "blur", validator: validatorCode }
