@@ -34,8 +34,8 @@ export default {
       }
     };
     const validCode = (rule, value, callback) => {
-      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
-        callback(new Error("请输入4位特服号"));
+      if (value && (!/^\d{1,12}$/.test(value))) {
+        callback(new Error("特服号只能为正整数且最大长度为12位"));
       } else {
         callback();
       }
@@ -286,6 +286,7 @@ export default {
           type: "input",
           label: "特服号",
           key: "code",
+          maxlength: "12",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -832,7 +833,9 @@ export default {
       //临时存储修改数据
       currentEditFormData: {},
       //记录当前是创建还是修改
-      currentType: ""
+      currentType: "",
+      // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+      createEnd: false
     };
   },
   computed: {
@@ -847,6 +850,13 @@ export default {
     },
     type() {
       return this.$route.query.type;
+    }
+  },
+  watch: {
+    formConfig(newVal) {
+      if (newVal) {
+        this.createEnd = false;
+      }
     }
   },
   mounted() {
@@ -866,14 +876,24 @@ export default {
     } else {
       if(this.currentType !== "create"){
         this.initData();
+      } else {
+        this.createEnd && this.initData();
       }
     }
+
+    //如果是修改状态则禁止修改短信业务信息产品类型
+    this.type === "update" && this.disabledProType();
   },
   methods: {
     //初始化数据
     initData() {
       const { type, row, ID } = this.$route.query;
       type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    },
+
+    disabledProType() {
+      const idx = this.formConfig.findIndex(v => v.key === "proType");
+      this.formConfig[idx].disabled = true;
     },
 
     //多选移除操作
@@ -1249,6 +1269,8 @@ export default {
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
+          // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+          this.createEnd = true;
         });
       } else if (this.formTit == "修改") {
         params = Object.assign(params, {

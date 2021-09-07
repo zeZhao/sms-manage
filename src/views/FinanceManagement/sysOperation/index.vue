@@ -288,6 +288,9 @@ export default {
     };
   },
   mounted() {},
+  activated() {
+    this._mxGetList();
+  },
   computed: {},
   methods: {
     isDisabled(row, status) {

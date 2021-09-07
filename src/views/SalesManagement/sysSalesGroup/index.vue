@@ -138,9 +138,11 @@ export default {
     updateStatus(row, status) {
       const { sid } = row;
       this.$http.sysSalesGroup.updateStatus({ sid, status }).then(res => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           this.$message.success("修改成功");
           this._mxGetList();
+        } else {
+          this.$message.error(res.msg || res.data);
         }
       });
     },

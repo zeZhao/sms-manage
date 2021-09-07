@@ -9,11 +9,11 @@
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column type="index" label="序号" />
-      <el-table-column prop="agentId" label="代理商编号" />
+      <el-table-column prop="agentId" label="代理商编号" width="100" />
       <el-table-column prop="loginName" label="登录账号" />
-      <el-table-column prop="agentName" label="代理商名称" />
+      <el-table-column prop="agentName" label="代理商名称" width="130" />
       <el-table-column prop="contact" label="联系人" />
-      <el-table-column prop="mobile" label="联系电话" />
+      <el-table-column prop="mobile" label="联系电话" width="130" />
       <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
@@ -28,8 +28,8 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="operator" label="操作人" />
-      <el-table-column prop="logo" label="logo">
+      <el-table-column prop="operator" label="操作人" width="130" />
+      <el-table-column prop="logo" label="logo" width="130">
         <template slot-scope="scope">
           <!-- <img :src="scope.row.logo" alt="" style="width: 50px; height: 50px" /> -->
           <el-image
@@ -325,11 +325,14 @@ export default {
       href: window.location.origin
     };
   },
+  computed: {
+    renderFormTit() { return this.formTit }
+  },
   mounted() {
     this.getSaleman();
   },
-  computed: {
-    renderFormTit() { return this.formTit }
+  activated() {
+    this.getSaleman();
   },
   methods: {
     /**

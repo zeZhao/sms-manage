@@ -432,7 +432,7 @@ export default {
       this.$emit("choose", item);
     },
     decode(item){
-       this.$emit("decode", item);
+      this.$emit("decode", item);
     },
     /**
      * 提交验证
