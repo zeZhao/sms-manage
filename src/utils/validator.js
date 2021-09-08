@@ -150,8 +150,8 @@ export const limitMenuPath = (rule, value, callback) => {
   if (!value) {
     callback(new Error('请输入必填项'));
   } else {
-    if (value.length > 30) {
-      callback(new Error('菜单路径长度限制为30以内'));
+    if (value.length > 100) {
+      callback(new Error('菜单路径长度限制为100以内'));
     } else {
       const reg = /^[a-zA-Z\/\d]+$/;
       if (reg.test(value)) {
