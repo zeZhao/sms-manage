@@ -326,7 +326,14 @@ export default {
           label: "所属组",
           key: "groupId",
           defaultValue: "",
-          optionData: []
+          optionData: [],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       id: "",
