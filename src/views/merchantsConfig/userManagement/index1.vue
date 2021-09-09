@@ -225,7 +225,9 @@
         label="提交速率"
         width="100"
         show-overflow-tooltip
-      ></el-table-column>
+      >
+      <template slot-scope="{row}">{{ row.submitSpeed ? row.submitSpeed : "不限" }}</template>
+      </el-table-column>
       <el-table-column
         prop="smsTags"
         label="标签"
@@ -424,8 +426,15 @@
       :close-on-click-modal="false"
       top="45px"
       width="30%"
-    >
-      <el-input v-model="speedVal" maxlength="100" placeholder="请输入提交速率">
+    > 
+      <div style="margin-bottom: 20px; padding-left: 20px">
+        <label>是否限制</label>
+        <el-select v-model="isRestricted" style="margin-left: 18px" @change="changeIsRestricted">
+          <el-option label="否" :value="0" />
+          <el-option label="是" :value="1" />
+        </el-select>
+      </div>
+      <el-input v-model="speedVal" :disabled="isRestricted === 0" maxlength="100" placeholder="请输入提交速率">
         <template slot="prepend">提交速率</template>
         <template slot="append">每秒</template>
       </el-input>
@@ -1163,6 +1172,7 @@ export default {
       ],
       submitSpeedTit: "配置提交速率",
       speedVisible: false,
+      isRestricted: 0,
       speedVal: null,
       saleList: [],
       //临时存储修改数据
@@ -1189,6 +1199,13 @@ export default {
   },
   computed: {},
   methods: {
+    //修改提交速率是否限制 选否把提交速率置空
+    changeIsRestricted(val) {
+      if(val === 0) {
+        this.speedVal = null;
+      }
+    },
+
     //多选移除操作
     removeTag({ val, item }) {
       if (this.formTit == "修改") {
@@ -1568,34 +1585,43 @@ export default {
       this.addChannel = false;
     },
     handleSubmitSpeed(userId, submitSpeed) {
-      this.speedVisible = true;
       this.submitSpeedTit = submitSpeed ? "修改提交速率" : "配置提交速率";
       this.userId = userId;
-      this.speedVal = submitSpeed;
+      this.speedVal = submitSpeed ? submitSpeed : null;
+      this.isRestricted = submitSpeed ? 1 : 0;
+      this.speedVisible = true;
     },
     submitSpeeds() {
-      if (this.speedVal <= 0) {
-        this.$message.error("提交速率必须大于0");
-        return;
+      let params;
+      if (this.isRestricted === 0) {
+        params = {
+          userId: this.userId,
+          submitSpeed: this.isRestricted
+        };
+      } else {
+        if (this.speedVal < 1) {
+          this.$message.error("提交速率最小为1");
+          return;
+        }
+        if (!Number(this.speedVal)) {
+          this.$message.error("提交速率只允许输入数字");
+          return;
+        }
+        if (Number(this.speedVal) > 1000) {
+          this.$message.error("提交速率最大不能超过1000");
+          return;
+        }
+        const str = typeof this.speedVal === "string" ? this.speedVal : this.speedVal + "";
+        if (str.indexOf(".") !== -1) {
+          this.$message.error("提交速率不允许有小数");
+          return;
+        }
+        params = {
+          userId: this.userId,
+          submitSpeed: this.speedVal
+        };
       }
-      if (!Number(this.speedVal)) {
-        this.$message.error("提交速率只允许输入数字");
-        return;
-      }
-      if (Number(this.speedVal) > 1000) {
-        this.$message.error("最大不能超过1000");
-        return;
-      }
-      const str =
-        typeof this.speedVal === "string" ? this.speedVal : this.speedVal + "";
-      if (str.indexOf(".") !== -1) {
-        this.$message.error("提交速率不允许有小数");
-        return;
-      }
-      let params = {
-        userId: this.userId,
-        submitSpeed: this.speedVal
-      };
+      
       this.$http.corpUser.configureSubmitRate(params).then(res => {
         if (resOk(res)) {
           this.speedVisible = false;
