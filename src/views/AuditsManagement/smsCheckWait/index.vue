@@ -243,22 +243,21 @@ export default {
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "input",
-        //   label: "特服号",
-        //   key: "code",
-        //   disabled: true,
-        //   defaultValue: "",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
-        // {
-        //   type: "input",
-        //   label: "审核内容",
-        //   key: "content",
-        //   disabled: true,
-        //   defaultValue: "",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code",
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "textarea",
+          label: "审核内容",
+          key: "content",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "select",
           label: "移动通道",
@@ -392,19 +391,33 @@ export default {
       });
     },
     getForm(form){
-      if (!form.userId) {
+      const { userId, content } = form;
+      if (!userId) {
         this.$alert('请输入账户编号进行超审', '提示', {
           confirmButtonText: '确定',
           callback: action => { }
         });
         return;
       }
-      this.supperCheck(form.userId);
+      this.$http.smsCheckWait.supperCheckUser({ data: { userId } }).then(res => {
+        if (res.code === 200) {
+          const code = res.data;
+          this.supperCheck(userId, code, content);
+        } else {
+          this.$message.error(res.data);
+        }
+      });
     },
-    supperCheck(userId) {
+    supperCheck(userId, code, content) {
       this.formConfig.forEach(item => {
         if (item.key === 'userId') {
           this.$set(item, "defaultValue", userId);
+        }
+        if (item.key === 'code') {
+          this.$set(item, "defaultValue", code);
+        }
+        if (item.key === 'content') {
+          this.$set(item, "defaultValue", content);
         }
       });
       this.addChannel = true;

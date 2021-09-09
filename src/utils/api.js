@@ -1021,15 +1021,18 @@ export default {
         stopCheck(params) {
             return post("/smsCheckWait/stopCheck", params);
         },
-        //  通过拒绝选择项
+        // 通过拒绝选择项
         checkSms(params) {
             return post("/smsCheckWait/checkSms", params);
         },
-        //  超审
+        // 点击超审按钮判断 账户编号 是否存在
+        supperCheckUser(params) {
+            return post("/smsCheckWait/supperCheckUser", params);
+        },
+        // 超审
         supperCheck(params) {
             return post("/smsCheckWait/supperCheck", params);
-        },
-
+        }
     },
     // 审核管理-免审核模板
     smsAuditfreeTemplate: {
