@@ -69,7 +69,7 @@
       </el-table-column>
       <!-- <el-table-column prop="submitNum" label="提交数" /> -->
       <el-table-column prop="sendNum" label="发送数" />
-      <el-table-column prop="reportNum" label="返回报告数" />
+      <el-table-column prop="reportNum" label="返回报告数" width="100" />
       <el-table-column prop="successNum" label="成功数" />
       <el-table-column prop="failNum" label="失败数" />
       <el-table-column prop="unknownNum" label="未知数" />
@@ -160,7 +160,11 @@ export default {
     exportMonthData(type, row) {
       let params = {};
       if (type === "scope") {
-        params = { ...row };
+        const data = { ...row };
+        if (!data.endDate || data.endDate === "-") {
+          data.endDate = "";
+        }
+        params = { ...data };
       } else if (type === "all") {
         params = { ...this.searchData };
       }
