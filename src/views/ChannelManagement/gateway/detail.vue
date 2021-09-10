@@ -783,7 +783,7 @@ export default {
     handleChooseConfirm () {
       const checkedKeys = this.$refs.tree.getCheckedKeys();
       const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
-      this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(" "));
+      this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(","));
       this.isChoose = false;
     },
     getProvinceTree () {
