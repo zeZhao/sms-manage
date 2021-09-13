@@ -210,8 +210,27 @@ export default {
   created() { },
 
   mounted() {
-    if (this.notSearch) return; //默认进入该页面不查询
-    this._mxGetList();
+    // 默认进入该页面不查询
+    if (this.notSearch) return;
+
+    // 请求查询列表接口之前是否请求其他接口
+    if (!this.searchAPI.beforeList) {
+      // 直接请求查询列表接口
+      this._mxGetList();
+    } else {
+      const { namespace, beforeList } = this.searchAPI;
+      if (!Array.isArray(beforeList)) return;
+      beforeList.forEach(async (item, index) => {
+        const res = await this.$http[namespace][beforeList[index]]({});
+        if (res.code === 200) {
+          this.beforeListData = res.data;
+        } else {
+          this.$message.error(res.msg || res.data);
+        }
+      });
+      // 请求列表数据
+      this._mxGetList();
+    }
   },
 
   methods: {

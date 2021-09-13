@@ -141,6 +141,7 @@
                   :value="option.key"
                   :key="option.key"
                   :label="option.value"
+                  :disabled="option.disabled"
                 />
               </el-select>
             </template>
