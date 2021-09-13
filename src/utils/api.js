@@ -1295,6 +1295,14 @@ export default {
     },
     //销售组管理
     sysSales: {
+        // 查询列表之前的一个接口，获取角色信息等数据
+        queryType(params) {
+            return post("/sysSales/queryType", params);
+        },
+        // 销售统计--查询列表之前的一个接口，获取角色信息等数据
+        queryTypeSum(params) {
+            return post("/sysSales/queryTypeSum", params);
+        },
         // 分页查询列表
         queryByPage(params) {
             return post("/sysSales/queryByPage", params);

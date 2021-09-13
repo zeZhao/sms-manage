@@ -193,6 +193,7 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "sysSales",
+        beforeList: ["queryType"],
         list: "queryByPage"
       },
       // 列表参数
@@ -337,15 +338,38 @@ export default {
         }
       ],
       id: "",
-      salesData: []
+      salesData: [],
+      //请求列表数据之前的其他接口请求的存放数据
+      beforeListData: {}
     };
   },
-  mounted() {
-    this.getEditData();
+  watch: {
+    beforeListData(val) {
+      // 1:主管 2:组长 3:组员 5:超管
+      this.searchFormConfig.forEach(item => {
+        if (val.type === 2 && item.key === "type") {
+          item.optionData = [{ key: 2, value: "组长" }, { key: 3, value: "组员" }];
+        }
+      })
+      this.formConfig.forEach(item => {
+        if (val.type === 2 && item.key === "type") {
+          // 组长角色选项下拉
+          item.optionData = [{ key: 2, value: "组长", disabled: true }, { key: 3, value: "组员" }];
+        }
+        if (item.key === "groupId") {
+          item.optionData = val.data.map(t => {
+            return { key: t.groupId, value: t.groupName };
+          });
+        }
+      });
+    }
   },
-  activated() {
-    this.getEditData();
-  },
+  // mounted() {
+  //   this.getEditData();
+  // },
+  // activated() {
+  //   this.getEditData();
+  // },
   methods: {
     //操作修改开启或关闭通道
     beginUpdateStatus(val, row) {
@@ -546,8 +570,7 @@ export default {
       // });
       return data;
     }
-  },
-  watch: {}
+  }
 };
 </script>
 
