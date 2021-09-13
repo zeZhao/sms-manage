@@ -198,6 +198,7 @@ export default {
           type: "input",
           label: "原通道",
           key: "gateway",
+          optionData: [],
           rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
             if (!value) callback(new Error('请输入必填项'));
             if (!/^\d+$/.test(value)) callback(new Error('原通道为正整数'));
