@@ -2256,4 +2256,15 @@ export default {
             return post("/sysSensitiveWordGroup/updateSensitiveWordGroup", params);
         }
     },
+    //审核跟进管理
+    YtCheckFollow: {
+        // 列表查询
+        list(params) {
+            return post("/YtCheckFollow/list", params);
+        },
+        // 删除
+        del(params) {
+            return post("/YtCheckFollow/del", params);
+        }
+    }
 }
