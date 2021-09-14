@@ -367,9 +367,10 @@ export default {
   // mounted() {
   //   this.getEditData();
   // },
-  // activated() {
-  //   this.getEditData();
-  // },
+  activated() {
+    // this.getEditData();
+    this._mxGetBeforeListData();
+  },
   methods: {
     //操作修改开启或关闭通道
     beginUpdateStatus(val, row) {
