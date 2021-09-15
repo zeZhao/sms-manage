@@ -169,6 +169,7 @@ export default {
           data.endDate = "";
         }
         params = { ...data };
+        params.userId = params.userId + "";
       } else if (type === "all") {
         params = { ...this.searchData };
         params.billDate = params.nowDate[0] || "";
