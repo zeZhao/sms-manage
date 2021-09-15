@@ -77,7 +77,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       // 请求后台登陆
       googleAuthLogin(userInfo).then(data => {
-        console.log(data, '----data')
+        // console.log(data, '----data')
         if (data.code === 500) {
           Message({
             message: data.data || data.msg,

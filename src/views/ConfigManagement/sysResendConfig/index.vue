@@ -208,6 +208,10 @@ export default {
   mounted() {
     this.gateway();
   },
+  activated() {
+    this._mxGetList();
+    this.gateway();
+  },
   computed: {},
   methods: {
     renderType(v) {
@@ -305,13 +309,10 @@ export default {
       this.$http.gateway.listGateway(params).then(res => {
         this.formConfig.forEach(item => {
           const { key } = item;
-
           if (key === "gateway" || key === "destGateway") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gateway);
-              item.optionData.push(t);
-            });
+            item.optionData = res.data.map(t => {
+              return { key: t.gatewayId, value: t.gateway };
+            })
           }
         });
       });

@@ -22,7 +22,7 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{ inputWid: item.btnTxt }"
+                :class="{ inputWid: item.btnTxt || item.specialSymbols }"
                 v-model.trim="formData[item.key]"
                 clearable
                 size="small"
@@ -50,6 +50,7 @@
                 size="small"
                 >{{ item.btnTxt }}</el-button
               >
+              <span v-if="item.specialSymbols">{{ item.specialSymbols }}</span>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
             <!--密码类型-输入框-->
