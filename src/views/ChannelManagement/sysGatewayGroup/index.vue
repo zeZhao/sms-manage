@@ -53,7 +53,6 @@
           <el-table class="m-b" :data="gatewayGroupList" v-if="gatewayGroupList.length">
             <el-table-column prop="gateway" label="通道编号">
               <template slot-scope="scope">
-                <!-- <el-input type="number" v-model="scope.row.gateway"></el-input> -->
                 <el-select v-model="scope.row.gateway">
                   <el-option
                     v-for="(item, index) in GatewayList"
@@ -256,6 +255,11 @@ export default {
       });
     },
     submit(form) {
+      const isGateway = this.gatewayGroupList.every(v => v.gateway !== "");
+      if (!isGateway) {
+        this.$message.error('通道编号不能为空');
+        return;
+      }
       const isDecimal = this.gatewayGroupList.every(v => v.ratio > 0 && v.ratio <= 100);
       if (!isDecimal) {
         this.$message.error('分配比例应该大于0且不得大于100');
