@@ -159,6 +159,7 @@ export default {
           type: "input",
           label: "优化比例",
           key: "optimizePercent",
+          specialSymbols: "%",
           rules: [
             {
               required: true,
