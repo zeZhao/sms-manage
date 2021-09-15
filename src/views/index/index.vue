@@ -206,7 +206,7 @@ export default {
       this.$http.sendReportStatistic
         .querySendStaticByTime({ timeId: this.send })
         .then(res => {
-          console.log(res, "---------------发送统计");
+          // console.log(res, "---------------发送统计");
           if (res.code === 200) {
             let name = [];
             let data = [];
@@ -268,7 +268,7 @@ export default {
       this.$http.sendReportStatistic
         .queryCountByArea({ timeId: this.area })
         .then(res => {
-          console.log(res, "---------------区域统计");
+          // console.log(res, "---------------区域统计");
           if (res.code === 200) {
             let name = [];
             let data = [];

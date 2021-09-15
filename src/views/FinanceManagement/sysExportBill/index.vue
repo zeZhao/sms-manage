@@ -8,36 +8,31 @@
     ></Search>
     <h3>按照筛选条件导出多月账单</h3>
     <el-row>
-      <el-form v-model="searchData" :inline="true" label-width="120px">
+      <el-form v-model="searchData" inline label-width="120px">
         <el-form-item label="账户编号">
-          <el-input v-model="searchData.userId"></el-input>
+          <el-input v-model="searchData.userId" type="number" placeholder="请输入账户编号"></el-input>
         </el-form-item>
         <el-form-item label="通道编号">
-          <el-input v-model="searchData.gateway"></el-input>
+          <el-input v-model="searchData.gateway" type="number" placeholder="请输入通道编号"></el-input>
         </el-form-item>
-        <el-form-item label="账单类型">
-          <el-select v-model="searchData.smsType">
+        <!-- <el-form-item label="账单类型">
+          <el-select v-model="searchData.smsType" placeholder="请选择账单类型">
             <el-option key="1" value="1" label="短信" />
           </el-select>
-        </el-form-item>
-        <el-form-item label="开始账单月">
+        </el-form-item> -->
+        <el-form-item label="月份">
           <el-date-picker
+            v-model="searchData.nowDate"
+            type="monthrange"
             value-format="yyyy-MM"
-            v-model="searchData.billDate"
-            type="month"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="结束账单月">
-          <el-date-picker
-            value-format="yyyy-MM"
-            v-model="searchData.endDate"
-            type="month"
-          ></el-date-picker>
+            range-separator="-"
+            start-placeholder="开始月份"
+            end-placeholder="结束月份"
+            :clearable="false">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData('all')"
-            >导出</el-button
-          >
+          <el-button type="primary" @click="exportMonthData('all')">导出</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -49,7 +44,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="gateway" label="通道id" />
+      <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span v-if="scope.row.smsType === 1">短信</span>
@@ -58,7 +53,7 @@
           <span v-if="scope.row.smsType === 4">语音</span>
         </template>
       </el-table-column>
-      <el-table-column prop="operaId" label="运营商">
+      <!-- <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span v-if="scope.row.operaId === 0">非法</span>
           <span v-if="scope.row.operaId === 1">移动</span>
@@ -66,8 +61,8 @@
           <span v-if="scope.row.operaId === 3">电信</span>
           <span v-if="scope.row.operaId === 4">国际</span>
         </template>
-      </el-table-column>
-      <!-- <el-table-column prop="submitNum" label="提交数" /> -->
+      </el-table-column> -->
+      <el-table-column prop="submitNum" label="提交数" />
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" width="100" />
       <el-table-column prop="successNum" label="成功数" />
@@ -96,6 +91,12 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 
+function renderMonth(value = new Date()) {
+  const year = value.getFullYear();
+  const month = value.getMonth() + 1;
+  return year + "-" + (month < 10 ? "0" + month : month);
+}
+
 export default {
   mixins: [listMixin],
   data() {
@@ -104,6 +105,7 @@ export default {
         userId: "",
         gateway: "",
         smsType: "",
+        nowDate: [renderMonth(), renderMonth()],
         billDate: "",
         endDate: ""
       },
@@ -119,11 +121,11 @@ export default {
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
-        {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corpId"
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "商户编号",
+        //   key: "corpId"
+        // },
         {
           type: "inputNum",
           label: "账户编号",
@@ -134,21 +136,23 @@ export default {
           label: "通道编号",
           key: "gateway"
         },
-        {
-          type: "select",
-          label: "账单类型",
-          key: "smsType",
-          optionData: [
-            {
-              key: 1,
-              value: "短信"
-            }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "账单类型",
+        //   key: "smsType",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "短信"
+        //     }
+        //   ]
+        // },
         {
           type: "month",
           label: "账单月",
-          key: "billDate"
+          key: "billDate",
+          clearable: false,
+          defaultValue: new Date()
         }
       ]
     };
@@ -167,46 +171,12 @@ export default {
         params = { ...data };
       } else if (type === "all") {
         params = { ...this.searchData };
+        params.billDate = params.nowDate[0] || "";
+        params.endDate = params.nowDate[1] || "";
+        delete params.nowDate;
       }
-      let fileName = `${row ? row.billDate : ""}月账单.xlsx`;
-
-      this.downloadFileByFile("post", "/bill/export/", params, fileName);
-      // if()
-      // this.$http.sysExportBill.export({ userId }).then((res) => {
-      //   let blob = new Blob([res.data], {
-      //     type: "application/vnd.ms-excel;charset=utf-8",
-      //   });
-      // console.log(this.searchData, "---this.searchData ");
-      // this.$axios
-      //   .post(
-      //     "/bill/export/",
-      //     { ...params },
-      //     {
-      //       responseType: "blob",
-      //       headers: { token: window.localStorage.getItem("token") }
-      //     }
-      //   )
-      //   .then(res => {
-      //     if (res.data.type == "application/octet-stream") {
-      //       let blob = new Blob([res.data], {
-      //         type: "application/vnd.ms-excel;charset=utf-8"
-      //       });
-      //       let url = window.URL.createObjectURL(blob);
-      //       let aLink = document.createElement("a");
-      //       aLink.style.display = "none";
-      //       aLink.href = url;
-      //       aLink.setAttribute(
-      //         "download",
-      //         `${row ? row.billDate : ""}月账单.xlsx`
-      //       );
-      //       document.body.appendChild(aLink);
-      //       aLink.click();
-      //       document.body.removeChild(aLink);
-      //       window.URL.revokeObjectURL(url);
-      //     } else {
-      //       this.$message.error("没有符合条件的账单");
-      //     }
-      //   });
+      const fileName = `${row ? row.billDate : ""}月账单.xlsx`;
+      this.downloadFileByFile("post", type === "all" ? "/bill/export/exportUp" : "/bill/export/exportDown", params, fileName);
     },
     // 修改搜索参数
     _formatRequestData(data) {
