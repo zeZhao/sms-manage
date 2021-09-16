@@ -96,6 +96,7 @@
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
+        @selectChange="selectChange"
         @submit="submit"
         @cancel="cancel"
       ></FormItem>
@@ -372,6 +373,14 @@ export default {
     this._mxGetBeforeListData();
   },
   methods: {
+    selectChange({ val, item }) {
+      if (item.key === "type") {
+        this._setDisplayShow(this.formConfig, "groupId", val === 1 ? true : false);
+        if (val === 1) {
+          this._deleteDefaultValue(this.formConfig, "groupId");
+        }
+      }
+    },
     //操作修改开启或关闭通道
     beginUpdateStatus(val, row) {
       this.loading = true;
@@ -414,7 +423,6 @@ export default {
           this.command = googleKey;
           this.qrcode(googleKeyQrCode);
         }
-        console.log(res, "-----------");
       });
     },
     checkCommand({ suId }) {
@@ -426,7 +434,7 @@ export default {
           this.command = googleKey;
           this.qrcode(googleKeyQrCode);
         } else {
-          this.$message.error("请求异常");
+          this.$message.error(res.msg);
         }
       });
     },
@@ -528,6 +536,9 @@ export default {
         if (item.key === "password") {
           this.$set(item.rules, 1, rule);
         }
+        if (item.key === "groupId") {
+          this.$set(item, "isShow", false);
+        }
       });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
@@ -551,6 +562,9 @@ export default {
         }
         if (item.key === "actualName" || item.key === "userName") {
           item.disabled = true;
+        }
+        if (item.key === "groupId") {
+          this.$set(item, "isShow", row["type"] === 1 ? true : false);
         }
       });
       setTimeout(() => {
