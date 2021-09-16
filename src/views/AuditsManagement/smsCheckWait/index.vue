@@ -256,7 +256,7 @@ export default {
           label: "审核内容",
           key: "content",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
