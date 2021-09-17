@@ -21,9 +21,9 @@
       />
       <el-table-column prop="content" label="内容" show-overflow-tooltip />
       <el-table-column prop="counter" label="手机个数" show-overflow-tooltip />
-      <el-table-column prop="cmCount" label="移动" />
-      <el-table-column prop="cuCount" label="联通" />
-      <el-table-column prop="ctCount" label="电信" />
+      <el-table-column prop="cm" label="移动" />
+      <el-table-column prop="cu" label="联通" />
+      <el-table-column prop="ct" label="电信" />
       <el-table-column prop="checkStatus" label="审核状态">
         <template slot-scope="scope">
           <span>

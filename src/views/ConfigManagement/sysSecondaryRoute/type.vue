@@ -14,18 +14,18 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data () {
-    const validatorSign = (rule, value, callback) => {
-      let regex = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
-      if (value == "") {
-        callback(new Error("客户签名不能为空"));
-      } else {
-        if (!regex.test(value)) {
-          callback(new Error("输入2-8个字符，只能输入中文、英文、数字"));
-        } else {
-          callback();
-        }
-      }
-    };
+    // const validatorSign = (rule, value, callback) => {
+    //   let regex = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
+    //   if (value == "") {
+    //     callback(new Error("客户签名不能为空"));
+    //   } else {
+    //     if (!regex.test(value)) {
+    //       callback(new Error("输入2-8个字符，只能输入中文、英文、数字"));
+    //     } else {
+    //       callback();
+    //     }
+    //   }
+    // };
     // const validatorRemark = (rule, value, callback) => {
     //   let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
     //   if (value == "") {
@@ -172,9 +172,10 @@ export default {
           label: "账户签名",
           key: "sign",
           defaultValue: "",
+          maxlength: "100",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorSign }
+            // { trigger: "blur", validator: validatorSign }
           ]
         },
         {

@@ -317,19 +317,10 @@ export default {
     //重置筛选条件
     _mxHandleReset() {
       let form = this.form;
-      // 彩信分类统计特殊页面特殊重置
-      // if(){
-      // if (this.searchFormConfig[this.searchFormConfig.length - 2].isSpecial) {
-      //   for (let key in form) {
-      //     form[key] = "";
-      //   }
-      //   form["statisticType"] = 2;
-      //   return;
-      // }
-      // }
 
       for (let key in form) {
         form[key] = "";
+
         if (key === "statisticType") {
           form["statisticType"] = 2;
         }
@@ -340,6 +331,10 @@ export default {
 
         if (key === "isSpecials") {
           form["isSpecials"] = [];
+        }
+
+        if (key === "billDate") {
+          form["billDate"] = new Date();
         }
       }
 
