@@ -80,11 +80,11 @@
         </template>
       </el-table-column>
     </el-table>
-    <Page
+    <!-- <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
-    ></Page>
+    ></Page> -->
   </div>
 </template>
 
