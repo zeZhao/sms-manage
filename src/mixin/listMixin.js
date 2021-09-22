@@ -527,6 +527,53 @@ export default {
     },
 
     /**
+     * 公共导出
+     * @param searchFormParam
+     * @private
+     */
+    _mxExportData(searchFormParam) {
+      const { exportUrl, exportMethod, fileName } = this.searchAPI;
+
+      if (!exportUrl) return;
+
+      const method = exportMethod || "post";
+
+      let searchParam = Object.assign({}, searchFormParam);
+
+      //手动调整一次提交的数据
+      searchParam = this._formatRequestData(searchParam);
+
+      let params = {};
+      //提交参数做兼容处理
+      if (this.namespace) {
+        let newF = DynamicKey.bind(this, this.namespace, searchParam);
+        params = newF();
+      } else {
+        if (this.isParamsNotData) {
+          params = {
+            data: {
+              ...searchParam,
+              // pageIndex: this.pageObj.currentPage,
+              pageNumber: this.pageObj.currentPage,
+              // pageNum: this.pageObj.currentPage,
+              pageSize: this.pageObj.pageSize
+            }
+          };
+        } else {
+          params = {
+            ...searchParam,
+            // pageIndex: this.pageObj.currentPage,
+            pageNumber: this.pageObj.currentPage,
+            // pageNum: this.pageObj.currentPage,
+            pageSize: this.pageObj.pageSize
+          };
+        }
+      }
+
+      this.downloadFileByFile(method, exportUrl, params, fileName);
+    },
+
+    /**
      * 设置默认选择项
      * @param list 选择项
      * @param data 获取的数据
