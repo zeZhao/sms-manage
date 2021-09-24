@@ -133,10 +133,10 @@ export default {
           label: "签名特服号",
           key: "code",
           defaultValue: "",
-          maxlength: 12,
+          maxlength: "12",
           rules: [{ required: false, trigger: "blur", validator: (rule, value, callback) => {
             if (!value) callback();
-            if (isNaN(value) || value.indexOf('.') !== -1 || value < 0) callback(new Error('签名特服号只能为正整数值'));
+            if (!/^\d{1,12}$/.test(value)) callback(new Error('签名特服号只能为正整数且最大长度为12位'));
             callback();
           }}]
         },

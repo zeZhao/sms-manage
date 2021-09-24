@@ -2,11 +2,19 @@
   <!--发送返回报告-->
   <div class="smsTxReturnReport">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
       :notSearch="notSearch"
-    ></Search>
+      @exportData="_mxExportData"
+    >
+      <template slot="Other">
+        <el-button type="primary" size="small" @click="$refs.Search.handleExport()"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       highlight-current-row
@@ -80,7 +88,9 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsTxReturnReport",
-        list: "searchSendReturnReport"
+        list: "searchSendReturnReport",
+        exportUrl: "/sendLogFegin/exportSendReturn",
+        fileName: "发送返回报告"
       },
       // 列表参数
       namespace: "",

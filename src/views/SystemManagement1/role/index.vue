@@ -460,7 +460,8 @@ export default {
     },
     delUser(row) {
       this.$confirm(
-        "“角色名称”角色下有绑定账户，删除所有绑定账户才可删除角色",
+        `“${row.roleName}” 角色下有绑定账户，删除所有绑定账户才可删除角色`,
+        "提示",
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -490,16 +491,21 @@ export default {
     addCustomerInfo(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
-          let params = {
-            roleName: this.addInfo.custName,
-            roleType: this.addInfo.roleType,
-            status: "1"
-          };
           if (this.addInfo.custName == "") {
             return this.$message.error("请填写角色名称");
           } else if (this.addInfo.roleType == "") {
             return this.$message.error("请选择角色类型");
           }
+          const CheckedKeys = this.$refs.add.getCheckedKeys();
+          if (!CheckedKeys.length) {
+            return this.$message.error("请选择菜单");
+          }
+
+          const params = {
+            roleName: this.addInfo.custName,
+            roleType: this.addInfo.roleType,
+            status: "1"
+          };
           this.$http.role.addOrUpdate(params).then(res => {
             if (res.code == "200") {
               this.$message({
@@ -538,17 +544,22 @@ export default {
       this.customerInfo = true;
       this.$refs[form].validate(valid => {
         if (valid) {
-          let params = {
-            roleId: this.setInfo.custId,
-            roleName: this.setInfo.custName,
-            roleType: this.setInfo.roleType,
-            des: this.setInfo.des
-          };
           if (this.setInfo.roleName == "") {
             return this.$message.error("请填写角色名称");
           } else if (this.setInfo.roleType == "") {
             return this.$message.error("请选择角色类型");
           }
+          const CheckedKeys = this.$refs.tree.getCheckedKeys();
+          if (!CheckedKeys.length) {
+            return this.$message.error("请选择菜单");
+          }
+
+          const params = {
+            roleId: this.setInfo.custId,
+            roleName: this.setInfo.custName,
+            roleType: this.setInfo.roleType,
+            des: this.setInfo.des
+          };
           this.$http.role.addOrUpdate(params).then(res => {
             if (res.code == "200") {
               this.$message({

@@ -50,15 +50,16 @@ module.exports = {
       //http://10.10.0.4:82 开发环境
       '/api': {
         // target: process.env.VUE_APP_HOST_URL+'/api',
-        target: 'http://smsmanage.jvtd.cn', //测试环境
-        // target: 'http://managesms.jvtd.cn', //正式环境
+        // target: 'http://manage.sms.jvtdtest.top', //测试环境
+        target: 'http://managesms.jvtd.cn', //正式环境
         // target: 'http://10.10.0.4:82', //开发环境
+        // target: 'http://192.168.13.230:9091', //本地联调
         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
         pathRewrite: {
-          // '^/api': 'http://192.168.8.60:9091' //重写接口访问
+          // '^/api': 'http://192.168.13.230:9091' //重写接口访问
           // '^/api': 'http://10.10.0.4:82' //重写接口访问
-          '^/api': 'http://smsmanage.jvtd.cn' //重写接口访问
-          // '^/api': 'http://managesms.jvtd.cn' //正式环境
+          // '^/api': 'http://manage.sms.jvtdtest.top' //重写接口访问
+          '^/api': 'http://managesms.jvtd.cn' //正式环境
         }
       }
     },

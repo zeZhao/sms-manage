@@ -9,11 +9,11 @@
     ></Search>
     <el-table :data="listData" highlight-current-row style="width: 100%">
       <el-table-column type="index" label="序号" />
-      <el-table-column prop="agentId" label="代理商编号" />
+      <el-table-column prop="agentId" label="代理商编号" width="100" />
       <el-table-column prop="loginName" label="登录账号" />
-      <el-table-column prop="agentName" label="代理商名称" />
+      <el-table-column prop="agentName" label="代理商名称" width="130" />
       <el-table-column prop="contact" label="联系人" />
-      <el-table-column prop="mobile" label="联系电话" />
+      <el-table-column prop="mobile" label="联系电话" width="130" />
       <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
@@ -28,8 +28,8 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="operator" label="操作人" />
-      <el-table-column prop="logo" label="logo">
+      <el-table-column prop="operator" label="操作人" width="130" />
+      <el-table-column prop="logo" label="logo" width="130">
         <template slot-scope="scope">
           <!-- <img :src="scope.row.logo" alt="" style="width: 50px; height: 50px" /> -->
           <el-image
@@ -129,6 +129,7 @@ import {
   character,
   character1
 } from "@/utils/validator";
+import { isPassword } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -235,17 +236,18 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "password",
           label: "密码",
           key: "password",
+          maxlength: 18,
           rules: [
             { required: true, trigger: "blur", validator: (rule, value, callback) => {
               if (this.renderFormTit === '新增') {
                 if (!value) {
                   callback(new Error('请输入必填项'))
                 } else {
-                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
-                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  if (!isPassword(value)) {
+                    callback(new Error('密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'))
                   } else {
                     callback()
                   }
@@ -254,8 +256,8 @@ export default {
                 if (!value) {
                   callback()
                 } else {
-                  if (!(/^[a-z_A-Z0-9-\.!@#\$%\\\^&\*\)\(\+=\{\}\[\]\/",'<>~\·`\?:;|]{8,16}$/.test(value))) {
-                    callback(new Error('请输入8-16位，数字、字母、标点符号'))
+                  if (!isPassword(value)) {
+                    callback(new Error('密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'))
                   } else {
                     callback()
                   }
@@ -323,11 +325,14 @@ export default {
       href: window.location.origin
     };
   },
+  computed: {
+    renderFormTit() { return this.formTit }
+  },
   mounted() {
     this.getSaleman();
   },
-  computed: {
-    renderFormTit() { return this.formTit }
+  activated() {
+    this.getSaleman();
   },
   methods: {
     /**

@@ -2,13 +2,18 @@
   <!--免审管理-->
   <div class="sysExemptReviewManage">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
+      @exportData="_mxExportData"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="batchModification"
           >批量修改</el-button
+        >
+        <el-button type="primary" size="small" @click="$refs.Search.handleExport()"
+          >导出</el-button
         >
       </template>
     </Search>
@@ -39,25 +44,25 @@
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
-          <span v-if="scope.row.isTemplate === 0 || !scope.row.isTemplate">不需要</span>
-          <span v-if="scope.row.isTemplate === 1 || scope.row.isTemplate">需要</span>
+          <span v-if="scope.row.isTemplate === 0 || !scope.row.isTemplate"
+            >不需要</span
+          >
+          <span v-if="scope.row.isTemplate === 1 || scope.row.isTemplate"
+            >需要</span
+          >
         </template>
       </el-table-column>
-      <!-- <el-table-column
-        prop="isParallelDetection"
-        label="是否并行检测"
-        width="110"
-      >
+      <el-table-column prop="isParallelDetection" label="并行检测" width="110">
         <template slot-scope="scope">
           <span>{{ scope.row.isParallelDetection ? "是" : "否" }}</span>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <!-- <el-table-column prop="isLoss" label="是否亏损">
         <template slot-scope="scope">
           <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="createBy" label="创建人" />
+      <el-table-column prop="createBy" label="创建人" min-width="110" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -68,6 +73,12 @@
       <el-table-column prop="createTime" label="创建时间" min-width="170">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
+        }}</template>
+      </el-table-column>
+      <el-table-column prop="updateBy" label="修改人" min-width="110" />
+      <el-table-column prop="updateTime" label="修改时间" min-width="170">
+        <template slot-scope="scope">{{
+          scope.row.updateTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
@@ -158,7 +169,9 @@ export default {
         list: "listExemptReviewManageByPage",
         detele: "deleteExemptReviewManage",
         add: "addExemptReviewManage",
-        edit: "updateExemptReviewManage"
+        edit: "updateExemptReviewManage",
+        exportUrl: "/sysExemptReviewManage/exportExemptReviewManage",
+        fileName: "免审配置"
       },
       // 列表参数
       namespace: "",
@@ -239,23 +252,39 @@ export default {
           label: "电信通道",
           key: "ctPassageway",
           optionData: []
-        }
-        // {
-        //   type: "select",
-        //   label: "是否并行检测",
-        //   key: "isSarallelDetection",
-        //   optionData: [
-        //     {
-        //       key: "0",
-        //       value: "否"
-        //     },
-        //     {
-        //       key: "1",
-        //       value: "是"
-        //     }
-        //   ],
-        //   placeholder: "请选择是否并行检测"
-        // },
+        },
+        {
+          type: "select",
+          label: "查询类型",
+          key: "isGatewayGroup",
+          optionData: [
+            {
+              key: "1",
+              value: "通道组"
+            },
+            {
+              key: "0",
+              value: "非通道组"
+            }
+          ],
+          placeholder: "请选择查询类型"
+        },
+        {
+          type: "select",
+          label: "并行检测",
+          key: "isSarallelDetection",
+          optionData: [
+            {
+              key: "0",
+              value: "否"
+            },
+            {
+              key: "1",
+              value: "是"
+            }
+          ],
+          placeholder: "请选择并行检测"
+        },
         // {
         //   type: "select",
         //   label: "是否亏损",
@@ -275,33 +304,34 @@ export default {
         //     }
         //   ]
         // },
-        // {
-        //   type: "select",
-        //   label: "敏感词类别",
-        //   key: "sensitiveWord",
-        //   optionData: [],
-        //   placeholder: "请选择敏感词类别"
-        // }
-        // {
-        //   type: "select",
-        //   label: "特殊需求",
-        //   key: "specialNeeds",
-        //   optionData: [
-        //     {
-        //       key: "扩展位数",
-        //       value: "扩展位数"
-        //     },
-        //     {
-        //       key: "显示号码",
-        //       value: "显示号码"
-        //     },
-        //     {
-        //       key: "特殊内容",
-        //       value: "特殊内容"
-        //     }
-        //   ],
-        //   placeholder: "请选择特殊需求"
-        // },
+        {
+          type: "select",
+          label: "敏感词类别",
+          key: "sensitiveWord",
+          optionData: [],
+          placeholder: "请选择敏感词类别"
+        },
+        {
+          type: "checkbox",
+          label: "特殊需求",
+          key: "isSpecials",
+          defaultValue: [],
+          optionData: [
+            {
+              key: "1",
+              value: "扩展位数"
+            },
+            {
+              key: "2",
+              value: "显示号码"
+            },
+            {
+              key: "4",
+              value: "特殊内容"
+            }
+          ],
+          placeholder: "请选择特殊需求"
+        }
         // {
         //   type: "select",
         //   label: "配置方式",
@@ -644,12 +674,54 @@ export default {
     this.gateway("cmPassageway", "1", "1");
     this.gateway("cuPassageway", "2", "1");
     this.gateway("ctPassageway", "3", "1");
+    this.getSensitiveWordGroup();
   },
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.getSensitiveWordGroup();
   },
   methods: {
+    //获取敏感词组
+    getSensitiveWordGroup() {
+      this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
+        this._setDefaultValue(
+          this.searchFormConfig,
+          res.data,
+          "sensitiveWord",
+          "groupId",
+          "groupName"
+        );
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "sensitiveWord",
+          "groupId",
+          "groupName"
+        );
+
+        this.$nextTick(() => {
+          this.searchFormConfig.forEach(item => {
+            if (item.key === "sensitiveWord") {
+              res.data.forEach(t => {
+                item.initDefaultValue.push(t.groupId);
+                // item.defaultValue.push(t.groupId);
+              });
+              //initDefaultValue
+            }
+          });
+        });
+
+        // this.formConfig.map(item => {
+        //   if (item.key === "sensitiveWord") {
+        //     res.data.forEach(t => {
+        //       item.defaultValue.push(t.groupName);
+        //     });
+        //   }
+        // });
+      });
+      // console.log(this.formConfig, "111111111111");
+    },
     //提交批量修改
     batchSubmit(form) {
       this.$http.sysExemptReviewManage

@@ -78,10 +78,10 @@ export function fetch(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -102,10 +102,10 @@ export function downLoadGet(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -124,10 +124,10 @@ export function post(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -144,10 +144,10 @@ export function downLoadPost(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -165,10 +165,10 @@ export function patch(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -186,10 +186,10 @@ export function put(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -210,10 +210,10 @@ export function del(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        Message({
-          message: '系统异常，请联系管理员',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }

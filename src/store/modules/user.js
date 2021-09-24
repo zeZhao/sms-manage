@@ -2,6 +2,7 @@ import {
   login,
   logout,
   getInfo,
+  googleAuthLogin,
   loginByUsername
 } from '@/api/user'
 import {
@@ -75,8 +76,8 @@ const actions = {
   }, userInfo) {
     return new Promise((resolve, reject) => {
       // 请求后台登陆
-      loginByUsername(userInfo).then(data => {
-        console.log(data, '----data')
+      googleAuthLogin(userInfo).then(data => {
+        // console.log(data, '----data')
         if (data.code === 500) {
           Message({
             message: data.data || data.msg,

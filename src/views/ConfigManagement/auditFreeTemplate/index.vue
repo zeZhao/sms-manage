@@ -1,0 +1,220 @@
+<template>
+  <!--免审核模板-->
+  <div>
+    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
+    <el-table :data="listData" highlight-current-row style="width: 100%">
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="type" label="类型">
+        <template slot-scope="scope">{{ renderType(scope.row.type) }}</template>
+      </el-table-column>
+      <el-table-column prop="template" label="模板信息" show-overflow-tooltip min-width="200" />
+      <el-table-column prop="createdAt" label="创建时间" min-width="170">
+        <template slot-scope="scope">{{ scope.row.createdAt | timeFormat }}</template>
+      </el-table-column>
+      <el-table-column label="操作" width="170">
+        <template slot-scope="scope">
+          <el-button @click="_mxEdit(scope.row, 'templateId')" type="text" size="small">修改</el-button>
+          <el-button @click="_mxDeleteItem('templateId', scope.row.templateId, false, true)" type="text" size="small">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
+      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="_mxHandleSubmit" @cancel="_mxCancel"
+        @choose="choose"></FormItem>
+    </el-dialog>
+    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+  </div>
+</template>
+
+<script>
+import listMixin from "@/mixin/listMixin";
+
+export default {
+  mixins: [listMixin],
+  data () {
+    return {
+      formTit: "新增",
+      addChannel: false,
+      // 接口地址
+      searchAPI: {
+        namespace: "smsCheckTemplate",
+        list: "listCheckTemplateByPage",
+        detele: "deleteCheckTemplate",
+        add: "addCheckTemplate",
+        edit: "updateTemplate"
+      },
+      // 列表参数
+      namespace: "checkTemplate",
+      // 搜索框数据
+      searchParam: {},
+      // 搜索框配置
+      searchFormConfig: [
+        {
+          type: "inputNum",
+          label: "商户编号",
+          key: "corpId"
+        },
+        {
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId"
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code"
+        },
+        {
+          type: "input",
+          label: "模板信息",
+          key: "template"
+        }
+      ],
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "账户编号",
+          key: "userId",
+          //   btnTxt: "选择用户",
+          disabled: true,
+          defaultValue: "",
+          // change: this.selectUser,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "商户编号",
+          key: "corpId",
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "特服号",
+          disabled: true,
+          key: "code",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "type",
+        //   defaultValue: "",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "特服号"
+        //     },
+        //     {
+        //       key: "2",
+        //       value: "账户编号"
+        //     },
+        //     {
+        //       key: "3",
+        //       value: "商户编号"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        {
+          type: "select",
+          label: "审核状态",
+          key: "status",
+          defaultValue: "",
+          optionData: [
+            {
+              key: 1,
+              value: "待审核"
+            },
+            // {
+            //   key: 2,
+            //   value: "审核处理中",
+            // },
+            {
+              key: 4,
+              value: "审核通过"
+            },
+            {
+              key: 5,
+              value: "审核拒绝"
+            }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "textarea",
+          label: "模板信息",
+          key: "template",
+          maxlength: 500,
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
+      ],
+      isChooseUser: false
+    };
+  },
+  activated () {
+    //重新获取数据
+    this._mxGetList();
+  },
+  methods: {
+    _mxCreate () {
+      this.$router.push({
+        name: "auditFreeTemplateType",
+        query: { type: "create" }
+      });
+    },
+    _mxEdit (row, ID) {
+      this.$router.push({
+        name: "auditFreeTemplateType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
+    },
+    //选择用户选取赋值
+    chooseUserData (data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+        if (key === "corpId") {
+          t.defaultValue = data.corpId;
+        }
+        if (key === "code") {
+          t.defaultValue = data.code;
+        }
+      });
+    },
+    renderType(v) {
+      switch (v) {
+        case "1":
+          return "特服号";
+        case "2":
+          return "账户编号";
+        case "3":
+          return "商户编号";
+        default:
+          return "-";
+      }
+    },
+    /**
+     * 调整提交的参数
+     *
+     * @param data
+     * @returns {*}
+     * @private
+     */
+    _formatRequestData (data) {
+      data.status = 4;
+      return data;
+    }
+  }
+};
+</script>

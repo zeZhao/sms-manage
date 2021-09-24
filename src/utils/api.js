@@ -18,6 +18,10 @@ export default {
         viewLogin(params) {
             return post("/sysLogin/viewLogin", params);
         },
+        // 口令登录
+        googleAuthLogin(params) {
+            return post("/sysLogin/googleAuthLogin", params);
+        },
     },
     // 省份列表
     listSysProvince(params) {
@@ -85,6 +89,14 @@ export default {
         // 运营账号新增&修改
         addOrUpdate(params) {
             return post("/sysUser/addOrUpdate", params);
+        },
+        // 谷歌验证器绑定信息
+        getGoogleKey(params) {
+            return post("/sysUser/getGoogleKey", params);
+        },
+        // 刷新谷歌验证器
+        resetGoogleKey(params) {
+            return post("/sysUser/resetGoogleKey", params);
         },
         //查询角色菜单
         queryRoleMenu(params) {
@@ -1009,15 +1021,18 @@ export default {
         stopCheck(params) {
             return post("/smsCheckWait/stopCheck", params);
         },
-        //  通过拒绝选择项
+        // 通过拒绝选择项
         checkSms(params) {
             return post("/smsCheckWait/checkSms", params);
         },
-        //  超审
+        // 点击超审按钮判断 账户编号 是否存在
+        supperCheckUser(params) {
+            return post("/smsCheckWait/supperCheckUser", params);
+        },
+        // 超审
         supperCheck(params) {
             return post("/smsCheckWait/supperCheck", params);
-        },
-
+        }
     },
     // 审核管理-免审核模板
     smsAuditfreeTemplate: {
@@ -1280,6 +1295,14 @@ export default {
     },
     //销售组管理
     sysSales: {
+        // 查询列表之前的一个接口，获取角色信息等数据
+        queryType(params) {
+            return post("/sysSales/queryType", params);
+        },
+        // 销售统计--查询列表之前的一个接口，获取角色信息等数据
+        queryTypeSum(params) {
+            return post("/sysSales/queryTypeSum", params);
+        },
         // 分页查询列表
         queryByPage(params) {
             return post("/sysSales/queryByPage", params);
@@ -1287,6 +1310,10 @@ export default {
         // 新增
         addOrUpdate(params) {
             return post("/sysSales/addOrUpdate", params);
+        },
+        // 检测是否有商户绑定销售员
+        checkSysSales(params) {
+            return post("/sysSales/checkSysSales", params);
         },
         // 修改状态
         updateStatus(params) {
@@ -1299,7 +1326,7 @@ export default {
         // 查询有效的销售人员
         queryAvailableSaleman(params) {
             return fetch("/sysSales/queryAvailableSaleman", params);
-        },
+        }
     },
     //销售管理-提交统计
     reportsubmitStatistics: {
@@ -1630,10 +1657,26 @@ export default {
         listCheckTemplateByPage(params) {
             return post("/smsCheckTemplate/listCheckTemplateByPage", params);
         },
+        // 添加
+        addCheckTemplate(params) {
+            return post("/smsCheckTemplate/addCheckTemplate", params);
+        },
         // 修改
         updateCheckTemplate(params) {
             return post("/smsCheckTemplate/updateCheckTemplate", params);
         },
+        // 删除
+        deleteCheckTemplate(params) {
+            return post("/smsCheckTemplate/deleteCheckTemplate", params);
+        },
+        // 内容检测
+        checkTemplate(params) {
+            return fetch("/smsCheckTemplate/checkTemplate", params);
+        },
+        // 修改重写
+        updateTemplate(params) {
+            return post("/smsCheckTemplate/updateTemplate", params);
+        }
     },
     // 用户利润查询
     smsProfit: {
@@ -1720,6 +1763,10 @@ export default {
         getLasttGatewayId(params) {
             return fetch("/gateway/getLasttGatewayId", params);
         },
+        //获取下拉省份和城市
+        getProvinceTree(params) {
+            return fetch("/gateway/getProvinceTree", params);
+        }
     },
     //彩信通道
     mmsGateway: {
@@ -2209,4 +2256,15 @@ export default {
             return post("/sysSensitiveWordGroup/updateSensitiveWordGroup", params);
         }
     },
+    //审核跟进管理
+    YtCheckFollow: {
+        // 列表查询
+        list(params) {
+            return post("/YtCheckFollow/list", params);
+        },
+        // 删除
+        del(params) {
+            return post("/YtCheckFollow/del", params);
+        }
+    }
 }

@@ -22,7 +22,7 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{ inputWid: item.btnTxt }"
+                :class="{ inputWid: item.btnTxt || item.specialSymbols }"
                 v-model.trim="formData[item.key]"
                 clearable
                 size="small"
@@ -50,9 +50,34 @@
                 size="small"
                 >{{ item.btnTxt }}</el-button
               >
+              <span v-if="item.specialSymbols">{{ item.specialSymbols }}</span>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
-
+            <!--密码类型-输入框-->
+            <template v-if="item.type === 'password'">
+              <el-input
+                :class="{ inputWid: item.btnTxt }"
+                v-model.trim="formData[item.key]"
+                clearable
+                size="small"
+                type="password"
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
+                show-word-limit
+                @keyup.native="
+                  $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
+                "
+                @input="
+                  val => {
+                    onInputChange(val, item);
+                  }
+                "
+              />
+            </template>
             <!--多文本输入框-->
             <template v-if="item.type === 'textarea'">
               <el-input
@@ -117,6 +142,7 @@
                   :value="option.key"
                   :key="option.key"
                   :label="option.value"
+                  :disabled="option.disabled"
                 />
               </el-select>
             </template>
@@ -505,6 +531,10 @@ export default {
           return false;
         }
       });
+    },
+    //返回该formData对象
+    renderFormData() {
+      this.$emit("getFormData", this.formData);
     },
     /**
      * 回显数据

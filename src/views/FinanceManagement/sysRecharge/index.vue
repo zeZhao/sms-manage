@@ -866,6 +866,7 @@ export default {
     this.getSaleman();
   },
   activated() {
+    this._mxGetList();
     this.getSaleman();
   },
   methods: {

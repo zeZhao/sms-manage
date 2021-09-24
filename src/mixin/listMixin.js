@@ -114,7 +114,7 @@ function queryData() {
   }
 
   const { namespace, list } = this.searchAPI; //动态接口路径
-
+  if (!list) return;
   this.$http[namespace][list](params).then(res => {
     this.loading = false;
 
@@ -210,11 +210,39 @@ export default {
   created() { },
 
   mounted() {
-    if (this.notSearch) return; //默认进入该页面不查询
-    this._mxGetList();
+    // 默认进入该页面不查询
+    if (this.notSearch) return;
+
+    // 请求数据
+    this._mxGetBeforeListData();
   },
 
   methods: {
+    /***
+     * 请求数据
+     * @private
+     */
+    _mxGetBeforeListData() {
+      // 请求查询列表接口之前是否请求其他接口
+      if (!this.searchAPI.beforeList) {
+        // 直接请求查询列表接口
+        this._mxGetList();
+      } else {
+        const { namespace, beforeList } = this.searchAPI;
+        if (!Array.isArray(beforeList)) return;
+        beforeList.forEach(async (item, index) => {
+          const res = await this.$http[namespace][beforeList[index]]({});
+          if (res.code === 200) {
+            this.beforeListData = res.data;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
+        // 请求列表数据
+        this._mxGetList();
+      }
+    },
+
     /***
      * 获取表格数据
      * @private
@@ -496,6 +524,53 @@ export default {
       } else {
         this.$message.error(res.data || res.msg);
       }
+    },
+
+    /**
+     * 公共导出
+     * @param searchFormParam
+     * @private
+     */
+    _mxExportData(searchFormParam) {
+      const { exportUrl, exportMethod, fileName } = this.searchAPI;
+
+      if (!exportUrl) return;
+
+      const method = exportMethod || "post";
+
+      let searchParam = Object.assign({}, searchFormParam);
+
+      //手动调整一次提交的数据
+      searchParam = this._formatRequestData(searchParam);
+
+      let params = {};
+      //提交参数做兼容处理
+      if (this.namespace) {
+        let newF = DynamicKey.bind(this, this.namespace, searchParam);
+        params = newF();
+      } else {
+        if (this.isParamsNotData) {
+          params = {
+            data: {
+              ...searchParam,
+              // pageIndex: this.pageObj.currentPage,
+              pageNumber: this.pageObj.currentPage,
+              // pageNum: this.pageObj.currentPage,
+              pageSize: this.pageObj.pageSize
+            }
+          };
+        } else {
+          params = {
+            ...searchParam,
+            // pageIndex: this.pageObj.currentPage,
+            pageNumber: this.pageObj.currentPage,
+            // pageNum: this.pageObj.currentPage,
+            pageSize: this.pageObj.pageSize
+          };
+        }
+      }
+
+      this.downloadFileByFile(method, exportUrl, params, fileName);
     },
 
     /**

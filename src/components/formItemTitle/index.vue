@@ -30,7 +30,7 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{ inputWid: item.btnTxt,inputIcon:item.lock }"
+                :class="{ inputWid: item.btnTxt || item.specialSymbols, inputIcon: item.lock }"
                 v-model.trim="formData[item.key]"
                 clearable
                 :disabled="item.disabled || item.lock"
@@ -58,9 +58,33 @@
                 >{{ item.btnTxt }}</el-button
               >
               <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"></i>
+              <span v-if="item.specialSymbols">{{ item.specialSymbols }}</span>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
-
+            <!--密码类型-输入框-->
+            <template v-if="item.type === 'password'">
+              <el-input
+                :class="{ inputWid: item.btnTxt }"
+                v-model.trim="formData[item.key]"
+                clearable
+                type="password"
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                :maxlength="item.maxlength"
+                show-word-limit
+                @keyup.native="
+                  $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
+                "
+                @input="
+                  val => {
+                    onInputChange(val, item);
+                  }
+                "
+              />
+            </template>
             <!--多文本输入框-->
             <template v-if="item.type === 'textarea'">
               <el-input
@@ -78,6 +102,7 @@
                   }
                 "
               />
+              <slot v-if="item.isChooseProviceOrCity" name="isChooseProviceOrCity"></slot>
               <div v-if="item.mobileTips" class="item-tips">
                 {{ returnMobileTips(formData[item.key]) }}
               </div>
@@ -364,7 +389,7 @@ export default {
       default() {
         return 150;
       }
-    }
+    },
     // colSpan: {
     //   type: [String, Number],
     //   default() {
@@ -408,7 +433,7 @@ export default {
       this.$emit("choose", item);
     },
     decode(item){
-       this.$emit("decode", item);
+      this.$emit("decode", item);
     },
     /**
      * 提交验证
@@ -458,6 +483,7 @@ export default {
               this.formData[key] = [];
             }
           } else if (
+            type === "input" ||
             type === "select" ||
             type === "radio" ||
             type === "switch"

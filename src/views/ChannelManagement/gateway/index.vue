@@ -37,7 +37,11 @@
         label="通道类型"
         width="100"
         show-overflow-tooltip
-      />
+      >
+        <template slot-scope="scope">
+          <span>{{ renderType(scope.row.type) }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column prop="conRequirements" label="发送内容" show-overflow-tooltip /> -->
       <el-table-column
         prop="sendSpeed"
@@ -286,8 +290,10 @@ export default {
           label: "通道类型",
           key: "type",
           optionData: [
-            { key: 1, value: "可用" },
-            { key: "0", value: "不可用" }
+            { key: 1, value: "Cmpp" },
+            { key: 2, value: "Sgip" },
+            { key: 3, value: "Smgp" },
+            { key: 4, value: "http" }
           ]
         },
         {
@@ -954,16 +960,31 @@ export default {
       gatewayId: ""
     };
   },
-  activated() {
-    //重新获取数据
-    this._mxGetList();
-  },
   mounted() {
     this.listSysProvince();
     this.listTag();
   },
-  computed: {},
+  activated() {
+    //重新获取数据
+    this._mxGetList();
+    this.listSysProvince();
+    this.listTag();
+  },
   methods: {
+    renderType(v) {
+      switch (v) {
+        case 1:
+          return 'Cmpp'
+        case 2:
+          return 'Sgip'
+        case 3:
+          return 'Smgp'
+        case 4:
+          return 'http'
+        default:
+          return '-'
+      }
+    },
     _mxCreate() {
       this.$router.push({
         path: "/geteway/getewayDetail",
@@ -1150,28 +1171,20 @@ export default {
       };
       this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
         this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName }
+            })
+          }
+        });
+        this.formConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName }
+            })
           }
         });
       });

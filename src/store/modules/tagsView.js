@@ -2,7 +2,7 @@ const state = {
   visitedViews: [],
   cachedViews: [],
   // 把部分弹窗的增/改功能改为页面，如果该数组有这个页面的路由name属性，则不添加meta.title或者no-name小标题
-  noTitlesArr: ['UserMonitoringConfigurationType', 'MMSchannelType', 'MMStemplateReviewType', 'userManagementType', 'sysExemptReviewManageType', 'sysSecondaryRouteType', 'sysSignRouteType', 'sysProvinceRouteType', 'sysBelielConfigType', 'dailyLimitedConfigType', 'sysSendLimitType', 'sysRedListType', 'sysWhitelistType', 'sysSensitiveWordType', 'getewayDetail']
+  noTitlesArr: ['UserMonitoringConfigurationType', 'MMSchannelType', 'MMStemplateReviewType', 'sysExemptReviewManageType', 'sysSecondaryRouteType', 'sysSignRouteType', 'sysProvinceRouteType', 'sysBelielConfigType', 'dailyLimitedConfigType', 'sysSendLimitType', 'sysRedListType', 'sysWhitelistType', 'sysSensitiveWordType', 'getewayDetail', 'auditFreeTemplateType']
 }
 
 const mutations = {
@@ -62,7 +62,9 @@ const mutations = {
   UPDATE_VISITED_VIEW: (state, view) => {
     for (let v of state.visitedViews) {
       if (v.path === view.path) {
-        v = Object.assign(v, view)
+        v = Object.assign(v, view, {
+          title: view.meta.title || ''
+        })
         break
       }
     }
