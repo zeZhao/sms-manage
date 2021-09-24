@@ -1021,15 +1021,18 @@ export default {
         stopCheck(params) {
             return post("/smsCheckWait/stopCheck", params);
         },
-        //  通过拒绝选择项
+        // 通过拒绝选择项
         checkSms(params) {
             return post("/smsCheckWait/checkSms", params);
         },
-        //  超审
+        // 点击超审按钮判断 账户编号 是否存在
+        supperCheckUser(params) {
+            return post("/smsCheckWait/supperCheckUser", params);
+        },
+        // 超审
         supperCheck(params) {
             return post("/smsCheckWait/supperCheck", params);
-        },
-
+        }
     },
     // 审核管理-免审核模板
     smsAuditfreeTemplate: {
@@ -1292,6 +1295,14 @@ export default {
     },
     //销售组管理
     sysSales: {
+        // 查询列表之前的一个接口，获取角色信息等数据
+        queryType(params) {
+            return post("/sysSales/queryType", params);
+        },
+        // 销售统计--查询列表之前的一个接口，获取角色信息等数据
+        queryTypeSum(params) {
+            return post("/sysSales/queryTypeSum", params);
+        },
         // 分页查询列表
         queryByPage(params) {
             return post("/sysSales/queryByPage", params);
@@ -2245,4 +2256,15 @@ export default {
             return post("/sysSensitiveWordGroup/updateSensitiveWordGroup", params);
         }
     },
+    //审核跟进管理
+    YtCheckFollow: {
+        // 列表查询
+        list(params) {
+            return post("/YtCheckFollow/list", params);
+        },
+        // 删除
+        del(params) {
+            return post("/YtCheckFollow/del", params);
+        }
+    }
 }

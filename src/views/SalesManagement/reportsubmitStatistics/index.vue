@@ -163,15 +163,18 @@ export default {
     this.saleSubmitStatistics();
     this.getSaleman();
   },
-  computed: {},
+  activated() {
+    this.saleSubmitStatistics();
+    this.getSaleman();
+  },
   methods: {
     //获取销售员
     getSaleman() {
-      this.$http.sysSales.queryAvailableSaleman().then(res => {
+      this.$http.sysSales.queryTypeSum({}).then(res => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.searchFormConfig,
-            res.data,
+            res.data.data,
             "saleUserName",
             "userName",
             "actualName"
@@ -206,9 +209,6 @@ export default {
       this.saleSubmitStatistics(data);
       return data;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped></style>

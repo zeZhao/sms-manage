@@ -9,7 +9,7 @@
       @submit="_mxHandleSubmit" @decode="_mxHandleDecode" @cancel="_mxCancel" @selectChange="selectChange"
       @handleClick="handleClick">
       <template v-slot:isChooseProviceOrCity>
-        <el-button style="float: right; margin-top: 5px" type="primary" size="small" @click="isChoose = true">请选择
+        <el-button style="float: right; margin-top: 5px" type="primary" size="small" @click="chooseCitys">请选择
         </el-button>
       </template>
     </FormItemTitle>
@@ -142,11 +142,13 @@ export default {
           key: "unitPrice",
           maxlength: "5",
           colSpan: 12,
-          rules: [ { required: true, trigger: "blur", validator: (rule, value, callback) => {
-            if(!value) callback(new Error("请输入必填项"));
-            if(isNaN(value)) callback(new Error("通道单价只能输入数值"));
-            callback();
-          }}]
+          rules: [{
+            required: true, trigger: "blur", validator: (rule, value, callback) => {
+              if (!value) callback(new Error("请输入必填项"));
+              if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
+              callback();
+            }
+          }]
         },
         {
           type: "select",
@@ -780,10 +782,16 @@ export default {
     }
   },
   methods: {
+    chooseCitys () {
+      const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
+      const val = this.formConfig[idx].defaultValue;
+      this.navListId = val ? val.split(",") : [];
+      this.isChoose = true;
+    },
     handleChooseConfirm () {
       const checkedKeys = this.$refs.tree.getCheckedKeys();
       const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
-      this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(" "));
+      this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(","));
       this.isChoose = false;
     },
     getProvinceTree () {

@@ -15,8 +15,11 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="type" label="重发类型">
+        <template slot-scope="{row}">{{ renderType(row.type) }}</template>
+      </el-table-column>
       <el-table-column prop="status" label="不重发状态" show-overflow-tooltip/>
-      <el-table-column prop="destGateway" label="重发目标通道" />
+      <el-table-column prop="destGateway" label="重发通道" />
       <el-table-column prop="createUser" label="创建人" />
       <el-table-column prop="createTime" label="创建时间">
         <template slot-scope="scope">{{
@@ -94,33 +97,37 @@ export default {
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          key: "userId"
         },
         {
           type: "input",
           label: "账户名称",
-          key: "userName",
-          placeholder: "请输入账户名称"
+          key: "userName"
         },
         {
           type: "inputNum",
           label: "通道",
-          key: "gateway",
-          placeholder: "请输入通道"
+          key: "gateway"
         },
         {
           type: "input",
           label: "不重发状态",
-          key: "status",
-          placeholder: "请输入不重发状态"
+          key: "status"
         },
         {
           type: "inputNum",
-          label: "重发目标通道",
-          key: "destGateway",
-          placeholder: "请输入重发目标通道"
-        }
+          label: "重发通道",
+          key: "destGateway"
+        },
+        {
+          type: "select",
+          label: "重发类型",
+          key: "type",
+          optionData: [
+            { key: 1, value: "发送失败重发" },
+            { key: 2, value: "提交失败重发" }
+          ]
+        },
       ],
       // 表单配置
       formConfig: [
@@ -147,25 +154,41 @@ export default {
             }
           ]
         },
-
         {
-          type: "input",
-          label: "不重发的状态",
-          key: "status",
-          defaultValue: "",
-          maxlength: 30,
+          type: "select",
+          label: "重发类型",
+          key: "type",
+          initDefaultValue: 1,
+          defaultValue: 1,
+          optionData: [
+            { key: 1, value: "发送失败重发" },
+            { key: 2, value: "提交失败重发" }
+          ],
           rules: [
             {
               required: true,
-              whitespace: true,
               message: "请输入必填项",
               trigger: ['blur', 'change']
             }
           ]
         },
         {
+          type: "input",
+          label: "不重发状态",
+          key: "status",
+          defaultValue: "",
+          maxlength: 30,
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请输入必填项",
+          //     trigger: ['blur', 'change']
+          //   }
+          // ]
+        },
+        {
           type: "select",
-          label: "重发目标通道",
+          label: "重发通道",
           key: "destGateway",
           optionData: [],
           rules: [
@@ -184,8 +207,22 @@ export default {
   mounted() {
     this.gateway();
   },
+  activated() {
+    this._mxGetList();
+    this.gateway();
+  },
   computed: {},
   methods: {
+    renderType(v) {
+      switch (v) {
+        case 1:
+          return "发送失败重发";
+        case 2:
+          return "提交失败重发";
+        default:
+          return "-";
+      }
+    },
     //选择用户选取赋值
     chooseUserData(data) {
       this.formConfig.map(t => {
@@ -232,14 +269,9 @@ export default {
     },
     create() {
       this.formTit = "新增";
-      // await
       this.addChannel = true;
-      this.formConfig.forEach(item => {
-        this.$set(item, "defaultValue", "");
-      });
-
       setTimeout(() => {
-        this.$refs.formItem.clearValidate();
+        this.$refs.formItem.resetForm();
       }, 0);
     },
     edit(row) {
@@ -276,13 +308,10 @@ export default {
       this.$http.gateway.listGateway(params).then(res => {
         this.formConfig.forEach(item => {
           const { key } = item;
-
           if (key === "gateway" || key === "destGateway") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gateway);
-              item.optionData.push(t);
-            });
+            item.optionData = res.data.map(t => {
+              return { key: t.gatewayId, value: t.gateway };
+            })
           }
         });
       });

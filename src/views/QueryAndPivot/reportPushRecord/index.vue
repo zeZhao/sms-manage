@@ -93,9 +93,19 @@ export default {
           key: "pushId"
         },
         {
-          type: "input",
+          type: "select",
           label: "报告推送状态",
-          key: "pushStatus"
+          key: "pushStatus",
+          optionData: [
+            {
+              key: "success",
+              value: "success"
+            },
+            {
+              key: "fail",
+              value: "fail"
+            }
+          ]
         },
         {
           type: "date",

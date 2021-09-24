@@ -960,15 +960,16 @@ export default {
       gatewayId: ""
     };
   },
-  activated() {
-    //重新获取数据
-    this._mxGetList();
-  },
   mounted() {
     this.listSysProvince();
     this.listTag();
   },
-  computed: {},
+  activated() {
+    //重新获取数据
+    this._mxGetList();
+    this.listSysProvince();
+    this.listTag();
+  },
   methods: {
     renderType(v) {
       switch (v) {
@@ -1170,28 +1171,20 @@ export default {
       };
       this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
-        this.formConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
-          }
-        });
         this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
-                key: t.provinceId,
-                value: t.provinceName
-              };
-              item.optionData.push(obj);
-            });
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName }
+            })
+          }
+        });
+        this.formConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName }
+            })
           }
         });
       });

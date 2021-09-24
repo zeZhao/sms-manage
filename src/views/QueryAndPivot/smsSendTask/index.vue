@@ -195,11 +195,15 @@ export default {
           key: "cid"
         },
         {
-          type: "select",
+          type: "input",
           label: "原通道",
           key: "gateway",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
+            if (!value) callback(new Error('请输入必填项'));
+            if (!/^\d+$/.test(value)) callback(new Error('原通道为正整数'));
+            callback();
+          }}]
         },
         {
           type: "select",

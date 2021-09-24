@@ -2,13 +2,18 @@
   <!--免审管理-->
   <div class="sysExemptReviewManage">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
+      @exportData="_mxExportData"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="batchModification"
           >批量修改</el-button
+        >
+        <el-button type="primary" size="small" @click="$refs.Search.handleExport()"
+          >导出</el-button
         >
       </template>
     </Search>
@@ -164,7 +169,9 @@ export default {
         list: "listExemptReviewManageByPage",
         detele: "deleteExemptReviewManage",
         add: "addExemptReviewManage",
-        edit: "updateExemptReviewManage"
+        edit: "updateExemptReviewManage",
+        exportUrl: "/sysExemptReviewManage/exportExemptReviewManage",
+        fileName: "免审配置"
       },
       // 列表参数
       namespace: "",
