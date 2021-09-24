@@ -100,10 +100,17 @@ export default {
     }
   },
   mounted () {
-    const arr = ["cmPassageway", "cuPassageway", "ctPassageway"];
-    arr.forEach((v, i) => { this.gateway(v, i + 1 + '', '1') });
+    this.getGateWay();
+  },
+  activated () {
+    this.getGateWay();
   },
   methods: {
+    //获取通道下拉数据
+    getGateWay () {
+      const arr = ["cmPassageway", "cuPassageway", "ctPassageway"];
+      arr.forEach((v, i) => { this.gateway(v, i + 1 + '', '1') });
+    },
     //确认批量修改操作
     handleSubmit () {
       const str = this.check();

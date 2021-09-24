@@ -178,14 +178,13 @@ export default {
           key: "status",
           defaultValue: "",
           maxlength: 30,
-          rules: [
-            {
-              required: true,
-              whitespace: true,
-              message: "请输入必填项",
-              trigger: ['blur', 'change']
-            }
-          ]
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请输入必填项",
+          //     trigger: ['blur', 'change']
+          //   }
+          // ]
         },
         {
           type: "select",

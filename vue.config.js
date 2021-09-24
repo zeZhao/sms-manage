@@ -59,7 +59,7 @@ module.exports = {
           // '^/api': 'http://192.168.13.230:9091' //重写接口访问
           // '^/api': 'http://10.10.0.4:82' //重写接口访问
           // '^/api': 'http://manage.sms.jvtdtest.top' //重写接口访问
-           '^/api': 'http://smsmanage.jvtd.cn' //正式环境
+          '^/api': 'http://smsmanage.jvtd.cn' //正式环境
         }
       }
     },
