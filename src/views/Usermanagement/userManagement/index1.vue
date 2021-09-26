@@ -6,7 +6,7 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" stripe>
+    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%" stripe>
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" width="100" />
       <el-table-column prop="userId" label="账户编号" />

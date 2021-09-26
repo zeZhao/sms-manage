@@ -6,7 +6,7 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%;">
+    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%;">
       <el-table-column prop="gatewayId" label="通道编号" />
       <el-table-column prop="name" label="通道名称" />
       <!-- <el-table-column prop="gatewayType" label="类型">
