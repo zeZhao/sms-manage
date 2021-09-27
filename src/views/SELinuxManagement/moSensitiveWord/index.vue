@@ -2,7 +2,7 @@
   <!--上行敏感词-->
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
       <el-table-column prop="keyword" label="敏感词" />
       <el-table-column prop="createUserStr" label="创建人" />
       <el-table-column prop="createdAt" label="创建时间" min-width="150">

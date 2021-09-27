@@ -6,7 +6,7 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%">
       <el-table-column prop="gateway" label="通道编号" min-width="100" show-overflow-tooltip />
       <el-table-column
         prop="submitFail"
