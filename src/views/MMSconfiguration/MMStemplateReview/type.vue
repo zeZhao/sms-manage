@@ -86,7 +86,7 @@
             </el-col>
           </el-row>
         </el-form>
-        <el-table :data="tableData" style="width: 100%" border>
+        <el-table max-height="500" :data="tableData" style="width: 100%" border>
           <el-table-column prop="type" label="通道类型" align="center" />
           <el-table-column label="通道" align="center">
             <template slot-scope="scope">
@@ -177,11 +177,11 @@ export default {
         if (res.code === 200) {
           this.formObj = res.data;
           const data = this.typeConversion(res.data.mmsPages);
-          data.forEach((item, index) => {
-            item[index + 1].forEach(it => {
-              if (it.pageType !== 0) it.pageMedia = '/api' + it.pageMedia;
-            })
-          })
+          // data.forEach((item, index) => {
+          //   item[index + 1].forEach(it => {
+          //     if (it.pageType !== 0) it.pageMedia = '/api' + it.pageMedia;
+          //   })
+          // })
           this.formViews = data;
         } else {
           this.$message.error(res.data || res.msg);

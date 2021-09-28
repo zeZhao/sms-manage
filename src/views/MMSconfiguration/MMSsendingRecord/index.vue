@@ -2,7 +2,7 @@
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false" :notSearch="notSearch">
     </Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
       <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
       <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
       <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />

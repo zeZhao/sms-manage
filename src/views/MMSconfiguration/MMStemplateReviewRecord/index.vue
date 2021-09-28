@@ -1,7 +1,7 @@
 <template>
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
       <el-table-column prop="gatewayMmsId" label="上游模板编号" min-width="120" show-overflow-tooltip />
       <el-table-column prop="mmsId" label="模板编号" show-overflow-tooltip />
       <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
