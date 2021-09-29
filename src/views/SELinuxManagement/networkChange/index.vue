@@ -230,24 +230,25 @@ export default {
   computed: {},
   methods: {
     download() {
-      this.$axios
-        .get("/opt/sms-data/template/networkChange.xlsx", {
-          responseType: "blob"
-        })
-        .then(res => {
-          let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel;charset=utf-8"
-          });
-          let url = window.URL.createObjectURL(blob);
-          let aLink = document.createElement("a");
-          aLink.style.display = "none";
-          aLink.href = url;
-          aLink.setAttribute("download", "模板.xlsx");
-          document.body.appendChild(aLink);
-          aLink.click();
-          document.body.removeChild(aLink);
-          window.URL.revokeObjectURL(url);
-        });
+      window.open("/view/template/networkChange.xlsx", "_target");
+      // this.$axios
+      //   .get("/template/networkChange.xlsx", {
+      //     responseType: "blob"
+      //   })
+      //   .then(res => {
+      //     let blob = new Blob([res.data], {
+      //       type: "application/vnd.ms-excel;charset=utf-8"
+      //     });
+      //     let url = window.URL.createObjectURL(blob);
+      //     let aLink = document.createElement("a");
+      //     aLink.style.display = "none";
+      //     aLink.href = url;
+      //     aLink.setAttribute("download", "模板.xlsx");
+      //     document.body.appendChild(aLink);
+      //     aLink.click();
+      //     document.body.removeChild(aLink);
+      //     window.URL.revokeObjectURL(url);
+      //   });
     },
     /**
      * 创建表单
