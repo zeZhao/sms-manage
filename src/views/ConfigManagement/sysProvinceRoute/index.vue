@@ -95,7 +95,7 @@
     <BatchAddition
       :isOpen="isOpen1"
       :title="title1"
-      downloadTemplateUrl="/opt/sms-data/template/YtProvinceRoute.xls"
+      downloadTemplateUrl="/template/YtProvinceRoute.xls"
       action="/sysProvinceRoute/uploadProvinceRoute"
       @submit="batchSubmit1"
       @cancel="cancelBatch1"

@@ -83,7 +83,7 @@
     <BatchAddition
       :isOpen="isOpen"
       :title="title"
-      downloadTemplateUrl="/opt/sms-data/template/SysRouteReturnErrorDataTem.xlsx"
+      downloadTemplateUrl="/template/SysRouteReturnErrorDataTem.xlsx"
       action="/sysRouteReturnError/uploadRouteReturnError"
       @submit="batchSubmit"
       @cancel="cancelBatch"
