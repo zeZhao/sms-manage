@@ -6,7 +6,7 @@
         <el-button type="primary" @click="exportExe" style="margin-left: 15px">导出</el-button>
       </template>
     </Search>
-    <el-table max-height="500" :data="listData" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" v-loading="loading">
       <el-table-column prop="status" label="状态码" />
       <el-table-column prop="count" label="数量" />
     </el-table>

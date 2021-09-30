@@ -7,7 +7,7 @@
     >
     </Search>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -57,7 +57,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-table max-height="500" :data="tableData" style="width: 100%" border>
+      <el-table :data="tableData" style="width: 100%" border>
         <el-table-column prop="type" label="通道类型" align="center" />
         <el-table-column label="通道" align="center">
           <template slot-scope="scope">

@@ -16,7 +16,7 @@
       </template>
     </Search>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -57,7 +57,7 @@
       @handleCurrentChange="handleCurrentChange"
     ></Page>
     <el-dialog title="查看汇总" :visible.sync="ViewTheSummary" width="50%">
-      <el-table max-height="500" :data="SummaryData" highlight-current-row>
+      <el-table :data="SummaryData" highlight-current-row>
         <el-table-column prop="gateway" label="通道" />
         <el-table-column prop="stockNum" label="积压批次数量" />
         <el-table-column prop="counter" label="积压条数" />
