@@ -27,7 +27,7 @@
     </el-col>
     <el-button type="primary" @click="addRoles">新增角色</el-button>
     <el-table
-      :data="dataList"
+      :data="dataList" max-height="430"
       highlight-current-row
       style="width: 100%;margin-top:24px"
     >
