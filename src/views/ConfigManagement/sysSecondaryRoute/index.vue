@@ -14,7 +14,7 @@
       </template>
     </Search>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -76,7 +76,7 @@
     <BatchAddition
       :isOpen="isOpen1"
       :title="title1"
-      downloadTemplateUrl="/opt/sms-data/template/smsSecondaryRoute.xls"
+      downloadTemplateUrl="/template/smsSecondaryRoute.xls"
       action="/sysSecondaryRoute/uploadSecondaryRoute"
       @submit="batchSubmit1"
       @cancel="cancelBatch1"
