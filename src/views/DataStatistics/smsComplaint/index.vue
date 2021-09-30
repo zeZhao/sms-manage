@@ -11,7 +11,7 @@
       </template>
     </Search>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -38,7 +38,7 @@
       ></el-date-picker>
       <el-button type="primary" @click="query">查询</el-button>
       <template>
-        <el-table max-height="500" :data="tableData" style="width: 100%; margin-top: 20px">
+        <el-table :data="tableData" style="width: 100%; margin-top: 20px">
           <!-- <el-table-column :prop="processMode" label="处理方式"></el-table-column>
           <el-table-column label="投诉类型" align="center">
             <el-table-column prop="securityCode" label="验证码"></el-table-column>

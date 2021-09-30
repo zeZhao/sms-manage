@@ -37,7 +37,7 @@
       </el-form>
     </el-row>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
