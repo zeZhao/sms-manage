@@ -65,6 +65,13 @@ service.interceptors.response.use(
       Cookies.remove('Admin-Token');
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       window.location.reload()
+    } else if (res.code === 406) {
+      Message({
+        message: res.msg,
+        type: 'error',
+      })
+      router.push("/")
+      window.location.reload()
     } else if (res.code === 999) {
       Message({
         message: '用户信息已失效，请重新登录',
