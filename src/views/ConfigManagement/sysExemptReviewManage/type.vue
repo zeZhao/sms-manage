@@ -130,28 +130,28 @@ export default {
           ],
           placeholder: "选择账户后自动识别"
         },
-        // {
-        //   type: "select",
-        //   label: "类型",
-        //   key: "exemptReviewType",
-        //   initDefaultValue: 2,
-        //   defaultValue: 2,
-        //   optionData: [
-        //     {
-        //       key: 1,
-        //       value: "特服号"
-        //     },
-        //     {
-        //       key: 2,
-        //       value: "账户编号"
-        //     },
-        //     {
-        //       key: 3,
-        //       value: "商户编号"
-        //     }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        // },
+        {
+          type: "select",
+          label: "类型",
+          key: "exemptReviewType",
+          initDefaultValue: 2,
+          defaultValue: 2,
+          optionData: [
+            // {
+            //   key: 1,
+            //   value: "特服号"
+            // },
+            {
+              key: 2,
+              value: "账户编号"
+            },
+            {
+              key: 3,
+              value: "商户编号"
+            }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+        },
         {
           type: "radio",
           label: "通道排序",

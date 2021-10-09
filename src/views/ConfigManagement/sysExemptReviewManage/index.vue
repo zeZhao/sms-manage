@@ -699,28 +699,7 @@ export default {
           "groupId",
           "groupName"
         );
-
-        this.$nextTick(() => {
-          this.searchFormConfig.forEach(item => {
-            if (item.key === "sensitiveWord") {
-              res.data.forEach(t => {
-                item.initDefaultValue.push(t.groupId);
-                // item.defaultValue.push(t.groupId);
-              });
-              //initDefaultValue
-            }
-          });
-        });
-
-        // this.formConfig.map(item => {
-        //   if (item.key === "sensitiveWord") {
-        //     res.data.forEach(t => {
-        //       item.defaultValue.push(t.groupName);
-        //     });
-        //   }
-        // });
       });
-      // console.log(this.formConfig, "111111111111");
     },
     //提交批量修改
     batchSubmit(form) {
