@@ -41,33 +41,29 @@
             />
           </el-form-item>
 
-          <el-tooltip
+          <!-- <el-tooltip
             v-model="capsTooltip"
             content="Caps lock is On"
             placement="right"
             manual
-          >
+          > -->
             <el-form-item prop="verifyCode" label="口令">
               <el-input
                 ref="password"
-                :key="passwordType"
                 v-model="loginForm.verifyCode"
                 placeholder="请输入口令"
-                type="password"
+                type="text"
                 tabindex="3"
                 maxlength="6"
-                autocomplete="on"
-                @keyup.native="checkCapslock"
-                @blur="capsTooltip = false"
                 @keyup.enter.native="handleLogin"
               />
-              <span class="show-pwd" @click="showPwd">
+              <!-- <span class="show-pwd" @click="showPwd">
                 <svg-icon
                   :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
                 />
-              </span>
+              </span> -->
             </el-form-item>
-          </el-tooltip>
+          <!-- </el-tooltip> -->
 
           <!-- <el-form-item prop="verifyCode" style="overflow: hidden">
             <el-input
