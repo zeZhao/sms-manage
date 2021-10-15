@@ -757,6 +757,28 @@ export default {
       navList: []
     };
   },
+  watch: {
+    // 目标通道--关联屏蔽省份 (校验)
+    targetGatewayVal(newVal) {
+      const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
+      this.$set(this.formConfig[idx], "rules", [{ required: newVal ? true : false, message: "请选择必选项", trigger: "blur" }]);
+    },
+    shieldProvinceVal(newVal) {
+      const idx = this.formConfig.findIndex(v => v.key === "targetGateway");
+      this.$set(this.formConfig[idx], "rules", [{ required: newVal ? true : false, message: "请输入必填项", trigger: "blur" }]);
+    }
+  },
+  computed: {
+    // 目标通道--关联屏蔽省份 (校验)
+    targetGatewayVal() {
+      const idx = this.formConfig.findIndex(v => v.key === "targetGateway");
+      return this.formConfig[idx].defaultValue;
+    },
+    shieldProvinceVal() {
+      const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
+      return this.formConfig[idx].defaultValue;
+    }
+  },
   created () {
     this.formTit = this.$route.query.type === "add" ? "新增" : "修改";
   },

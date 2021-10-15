@@ -7,6 +7,7 @@ import {
 import {
   Message
 } from 'element-ui'
+import router from '@/router'
 
 axios.defaults.timeout = 500000;
 // axios.defaults.baseURL = '';
@@ -45,6 +46,13 @@ axios.interceptors.response.use(
   response => {
     if (response.data.code == 401) {
       removeToken()
+      window.location.reload()
+    } else if (response.data.code === 406) {
+      Message({
+        message: response.data.msg,
+        type: 'error',
+      })
+      router.push("/")
       window.location.reload()
     } else if (response.data.code === 999) {
       Message({
