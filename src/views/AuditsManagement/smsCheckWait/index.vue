@@ -247,8 +247,8 @@ export default {
           type: "input",
           label: "特服号",
           key: "code",
-          disabled: true,
           defaultValue: "",
+          maxlength: "12",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
