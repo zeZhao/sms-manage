@@ -346,15 +346,16 @@ export default {
           ]
         },
         {
-          type: "select",
-          label: "是否报备",
-          key: "isReportRemarks",
-          defaultValue: "",
+          type: "input",
+          label: "限制天数",
+          key: "limitDays",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          rules: [{
+            required: false, trigger: "blur", validator: (rule, value, callback) => {
+              if (!value) callback();
+              isNaN(value) ? callback(new Error("只能输入数字")) : (value > 0 ? callback() : callback(new Error("必须大于0")));
+            }
+          }]
         },
         {
           type: "input",
@@ -369,16 +370,15 @@ export default {
           }]
         },
         {
-          type: "input",
-          label: "限制天数",
-          key: "limitDays",
+          type: "select",
+          label: "是否报备",
+          key: "isReportRemarks",
+          defaultValue: "",
           colSpan: 12,
-          rules: [{
-            required: false, trigger: "blur", validator: (rule, value, callback) => {
-              if (!value) callback();
-              isNaN(value) ? callback(new Error("只能输入数字")) : (value > 0 ? callback() : callback(new Error("必须大于0")));
-            }
-          }]
+          optionData: [
+            { key: "0", value: "否" },
+            { key: "1", value: "是" }
+          ]
         },
         {
           type: "select",
