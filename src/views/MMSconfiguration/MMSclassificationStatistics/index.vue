@@ -18,7 +18,7 @@
 
     <el-table
       v-show="formData.statisticType === 2"
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       v-loading="loading"
     >
@@ -49,7 +49,7 @@
     </el-table>
     <el-table
       v-show="formData.statisticType === 1"
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       v-loading="loading"
     >
@@ -84,7 +84,7 @@
     </el-table>
     <el-table
       v-show="formData.statisticType === 3"
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       v-loading="loading"
     >

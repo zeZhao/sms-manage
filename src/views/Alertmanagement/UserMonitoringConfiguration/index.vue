@@ -6,7 +6,7 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       height="650"
       style="width: 100%"

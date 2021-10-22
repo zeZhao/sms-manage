@@ -7,7 +7,7 @@
       @create="_mxCreate"
       :add="true"
     ></Search>
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
       <el-table-column type="index" label="序号" />
       <el-table-column prop="agentId" label="代理商编号" width="100" />
       <el-table-column prop="loginName" label="登录账号" />

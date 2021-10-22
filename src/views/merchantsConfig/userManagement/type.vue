@@ -1148,13 +1148,13 @@ export default {
         if (item.key == "corpId") {
           this.$set(item, "disabled", true);
         }
-        if (item.key == "reductModel") {
-          if (productTypeVal.includes(1)) {
-            this.$set(item, "disabled", true);
-          } else {
-            this.$set(item, "disabled", false);
-          }
-        }
+        // if (item.key == "reductModel") {
+        //   if (productTypeVal.includes(1)) {
+        //     this.$set(item, "disabled", true);
+        //   } else {
+        //     this.$set(item, "disabled", false);
+        //   }
+        // }
         if (item.key == "mmsReductModel") {
           if (productTypeVal.includes(2)) {
             this.$set(item, "disabled", true);
