@@ -150,6 +150,7 @@
 import echarts from "echarts";
 import { mapGetters } from "vuex";
 import { isPassword } from "@/utils";
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
@@ -355,8 +356,13 @@ export default {
         if (valid) {
           this.$http.user.addOrUpdate({ ...this.form }).then(res => {
             if (res.code === 200) {
-              this.$message.success(res.msg);
+              this.$message.success("修改成功，请重新登录!");
               this.editVisible = false;
+              setTimeout(() => {
+                Cookies.remove("Admin-Token");
+                Cookies.remove("token");
+                window.location.reload();
+              }, 300);
             } else {
               this.$message.error(res.msg);
             }
