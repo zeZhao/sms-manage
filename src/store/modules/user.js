@@ -23,12 +23,17 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  status: "",
+  info: ""
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_INFO: (state, info) => {
+    state.info = info
   },
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
@@ -41,6 +46,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_STATUS: (state, status) => {
+    state.status = status
   }
 }
 
@@ -86,10 +94,12 @@ const actions = {
           })
         } else {
           // 设置 token，作为用户已登陆的商户端标识，存在 cookie 中
-          setToken(data.data)
-          commit('SET_TOKEN', data.data)
+          setToken(data.data.token)
+          commit('SET_TOKEN', data.data.token)
+          commit('SET_INFO', data.data.sysUser)
+          commit('SET_STATUS', data.data.status)
           // localStorage.userId = data.result.userId;
-          localStorage.token = data.data;
+          localStorage.token = data.data.token;
         }
         resolve()
       }).catch(error => {

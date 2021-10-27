@@ -6,7 +6,13 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" stripe>
+    <el-table
+      :data="listData"
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+      stripe
+    >
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户编号" width="100" />
       <el-table-column prop="userId" label="账户编号" />
@@ -622,10 +628,7 @@ export default {
           type: "select",
           label: "是否是直客",
           key: "isDirectUser",
-          optionData: [
-            { key: 1, value: "直客" },
-            { key: 2, value: "同行" }
-          ],
+          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "同行" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -646,20 +649,14 @@ export default {
           type: "select",
           label: "请求api黑名单接口",
           key: "isPostApi",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
           defaultValue: 1
         },
         {
           type: "select",
           label: "是否强加签名",
           key: "httpSign",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
           defaultValue: 1,
           rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },

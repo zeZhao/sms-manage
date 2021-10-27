@@ -6,7 +6,12 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+    >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column
@@ -226,7 +231,9 @@
         width="100"
         show-overflow-tooltip
       >
-      <template slot-scope="{row}">{{ row.submitSpeed ? row.submitSpeed : "不限" }}</template>
+        <template slot-scope="{ row }">{{
+          row.submitSpeed ? row.submitSpeed : "不限"
+        }}</template>
       </el-table-column>
       <el-table-column
         prop="smsTags"
@@ -426,17 +433,30 @@
       :close-on-click-modal="false"
       top="45px"
       width="30%"
-    > 
+    >
       <div style="margin-bottom: 20px; padding-left: 20px">
         <label>是否限制</label>
-        <el-select v-model="isRestricted" style="margin-left: 18px" @change="changeIsRestricted">
+        <el-select
+          v-model="isRestricted"
+          style="margin-left: 18px"
+          @change="changeIsRestricted"
+        >
           <el-option label="否" :value="0" />
           <el-option label="是" :value="1" />
         </el-select>
       </div>
-      <el-input v-model="speedVal" :disabled="isRestricted === 0" maxlength="100" placeholder="请输入提交速率">
-        <template slot="prepend">提交速率</template>
-        <template slot="append">每秒</template>
+      <el-input
+        v-model="speedVal"
+        :disabled="isRestricted === 0"
+        maxlength="100"
+        placeholder="请输入提交速率"
+      >
+        <template slot="prepend"
+          >提交速率</template
+        >
+        <template slot="append"
+          >每秒</template
+        >
       </el-input>
       <span slot="footer" class="dialog-footer">
         <el-button @click="speedVisible = false">取 消</el-button>
@@ -561,7 +581,7 @@ export default {
           optionData: [
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
-            { key: "4", value: "cmpp接口" },
+            { key: "4", value: "cmpp接口" }
             // { key: "7", value: "音频接口" }
           ],
           placeholder: "请选择产品类型"
@@ -730,10 +750,7 @@ export default {
           type: "select",
           label: "是否是直客",
           key: "isDirectUser",
-          optionData: [
-            { key: 1, value: "直客" },
-            { key: 2, value: "同行" }
-          ],
+          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "同行" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -775,10 +792,7 @@ export default {
           clearable: true,
           defaultValue: [],
           initDefaultValue: [],
-          optionData: [
-            { key: 1, value: "短信" },
-            { key: 2, value: "彩信" }
-          ],
+          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -910,10 +924,7 @@ export default {
           type: "select",
           label: "是否强加签名",
           key: "httpSign",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
           defaultValue: 1,
           tag: "sms",
           rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
@@ -943,10 +954,7 @@ export default {
           label: "请求api黑名单接口",
           key: "isPostApi",
           tag: "sms",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: 1, value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
           defaultValue: 1
         },
         {
@@ -1201,7 +1209,7 @@ export default {
   methods: {
     //修改提交速率是否限制 选否把提交速率置空
     changeIsRestricted(val) {
-      if(val === 0) {
+      if (val === 0) {
         this.speedVal = null;
       }
     },
@@ -1611,7 +1619,10 @@ export default {
           this.$message.error("提交速率最大不能超过1000");
           return;
         }
-        const str = typeof this.speedVal === "string" ? this.speedVal : this.speedVal + "";
+        const str =
+          typeof this.speedVal === "string"
+            ? this.speedVal
+            : this.speedVal + "";
         if (str.indexOf(".") !== -1) {
           this.$message.error("提交速率不允许有小数");
           return;
@@ -1621,7 +1632,7 @@ export default {
           submitSpeed: this.speedVal
         };
       }
-      
+
       this.$http.corpUser.configureSubmitRate(params).then(res => {
         if (resOk(res)) {
           this.speedVisible = false;
