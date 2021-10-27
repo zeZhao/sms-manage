@@ -118,23 +118,23 @@
         </el-form-item>
         <el-form-item label="原密码:" prop="oldPass">
           <el-input
-            type="password"
+            show-password
             v-model="form.oldPass"
             placeholder="输入原登录密码"
           ></el-input>
         </el-form-item>
         <el-form-item label="新密码:" prop="newPass">
           <el-input
-            type="password"
+            show-password
             v-model="form.newPass"
             placeholder="包含数字、大小写字母、符号中的三种，且长度在8-18位"
           ></el-input>
         </el-form-item>
         <el-form-item label="确认新密码:" prop="pwd">
           <el-input
-            type="password"
             placeholder="确认新密码"
             v-model="form.pwd"
+            show-password
           ></el-input>
         </el-form-item>
       </el-form>

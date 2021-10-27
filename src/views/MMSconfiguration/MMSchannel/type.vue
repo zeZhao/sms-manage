@@ -2,18 +2,44 @@
   <div>
     <h3>{{ renderTitle }}</h3>
     <div class="container">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" :colSpan="12" :footerIsCenter="true"
-        @submit="submit" @cancel="cancel">
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        :footerIsCenter="true"
+        @submit="submit"
+        @cancel="cancel"
+      >
         <div v-if="queryType === 'edit'" slot="Other">
-          <el-button type="warning" size="small" style="margin-left: 150px" @click="isOpenDialog">修改验证</el-button>
-          <el-dialog :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false" center>
-            <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="70px"
-              style="width: 80%; margin: auto">
-              <el-form-item label="账号：" prop="account">
+          <i
+            class="el-icon-lock"
+            @click="isOpenDialog"
+            style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"
+          ></i>
+          <el-dialog
+            title="登录"
+            :visible.sync="dialogVisible"
+            :close-on-click-modal="false"
+            width="30%"
+            custom-class="loginDialog"
+          >
+            <el-form
+              ref="ruleForm"
+              :model="formData"
+              :rules="rules"
+              label-width="70px"
+              style="width: 80%; margin: auto"
+            >
+              <el-form-item label="手机号:" prop="account">
                 <el-input v-model="formData.account" clearable></el-input>
               </el-form-item>
-              <el-form-item label="密码：" prop="pwd">
-                <el-input v-model="formData.pwd" clearable name="password" show-password></el-input>
+              <el-form-item label="口令:" prop="pwd">
+                <el-input
+                  v-model="formData.pwd"
+                  clearable
+                  maxlength="6"
+                ></el-input>
               </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -29,6 +55,7 @@
 
 <script>
 import { deepClone } from "@/utils";
+import FormItemTitle from "@/components/formItemTitle";
 //operator字段所有可能出现情况
 const models = [
   { value: 0, arr: [1, 2, 3] },
@@ -37,10 +64,11 @@ const models = [
   { value: 3, arr: [3] },
   { value: 4, arr: [1, 2] },
   { value: 5, arr: [1, 3] },
-  { value: 6, arr: [2, 3] },
+  { value: 6, arr: [2, 3] }
 ];
 export default {
-  data () {
+  components: { FormItemTitle },
+  data() {
     return {
       formTit: "确认",
       // 表单配置
@@ -51,7 +79,19 @@ export default {
           key: "name",
           defaultValue: "",
           maxlength: 30,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            {
+              min: 2,
+              max: 30,
+              message: "长度在 2 到 30 个字符",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -59,32 +99,48 @@ export default {
           key: "corpName",
           defaultValue: "",
           maxlength: 30,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }, { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            {
+              min: 2,
+              max: 30,
+              message: "长度在 2 到 30 个字符",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "通道单价(分)",
           key: "price",
           defaultValue: "",
-          rules: [{
-            required: true,
-            trigger: ['blur', 'change'],
-            validator: (rule, value, callback) => {
-              if (value === '' || value === undefined || value === null) {
-                callback(new Error('请输入必填项'));
-              } else {
-                if (isNaN(value)) {
-                  callback(new Error('通道单价必须为数值'));
-                } else if (value <= 0) {
-                  callback(new Error('通道单价必须大于0'));
-                } else if (!(/^\d{1,4}(\.\d{1,2})?$/.test(value))) {
-                  callback(new Error('通道单价可输入1~4位数值，最多可保留两位小数'));
+          rules: [
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: (rule, value, callback) => {
+                if (value === "" || value === undefined || value === null) {
+                  callback(new Error("请输入必填项"));
                 } else {
-                  callback();
+                  if (isNaN(value)) {
+                    callback(new Error("通道单价必须为数值"));
+                  } else if (value <= 0) {
+                    callback(new Error("通道单价必须大于0"));
+                  } else if (!/^\d{1,4}(\.\d{1,2})?$/.test(value)) {
+                    callback(
+                      new Error("通道单价可输入1~4位数值，最多可保留两位小数")
+                    );
+                  } else {
+                    callback();
+                  }
                 }
               }
             }
-          }],
+          ]
         },
         {
           type: "checkbox",
@@ -94,18 +150,24 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "移动",
+              value: "移动"
             },
             {
               key: 2,
-              value: "联通",
+              value: "联通"
             },
             {
               key: 3,
-              value: "电信",
-            },
+              value: "电信"
+            }
           ],
-          rules: [{ required: true, message: "请选择必选项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请选择必选项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -114,7 +176,13 @@ export default {
           defaultValue: "",
           disabled: this.isDisabled(),
           maxlength: 30,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "radio",
@@ -124,22 +192,20 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "可用",
+              value: "可用"
             },
             {
               key: 0,
-              value: "不可用",
-            },
+              value: "不可用"
+            }
           ],
-          rules: [{ required: true, message: "请选择必选项", trigger: ['blur', 'change'] }],
-        },
-        {
-          type: "textarea",
-          label: "对接参数",
-          key: "parameter",
-          defaultValue: "",
-          disabled: this.isDisabled(),
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请选择必选项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "textarea",
@@ -147,35 +213,68 @@ export default {
           key: "remark",
           defaultValue: "",
           maxlength: 300,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
+        {
+          type: "textarea",
+          label: "对接参数",
+          key: "parameter",
+          defaultValue: "",
+          disabled: this.isDisabled(),
+          lock: true,
+          rules: [
+            // {
+            //   required: true,
+            //   message: "请输入必填项",
+            //   trigger: ["blur", "change"]
+            // }
+          ]
+        }
       ],
       dialogVisible: false,
       formData: {},
       rules: {
-        account: [{ required: true, message: "账号不能为空", trigger: ['blur', 'change'] }],
-        pwd: [{ required: true, message: "密码不能为空", trigger: ['blur', 'change'] }],
-      },
+        account: [
+          {
+            required: true,
+            message: "手机号不能为空",
+            trigger: ["blur", "change"]
+          }
+        ],
+        pwd: [
+          {
+            required: true,
+            message: "口令不能为空",
+            trigger: ["blur", "change"]
+          }
+        ]
+      }
     };
   },
   computed: {
-    queryType () {
+    queryType() {
       return this.$route.query.type;
     },
-    renderTitle () {
+    renderTitle() {
       const viewTitle = "彩信通道管理/";
       return this.queryType === "add" ? `${viewTitle}新增` : `${viewTitle}修改`;
-    },
+    }
   },
-  mounted () {
+  mounted() {
     if (this.queryType === "edit") {
       const { gatewayId } = this.$route.query;
-      this.$http.mmsGateway.detailMmsGateway({ gatewayId }).then((res) => {
+      this.$http.mmsGateway.detailMmsGateway({ gatewayId }).then(res => {
         if (res.code === 200) {
           //回显接口内容
-          const idx = models.findIndex((v) => res.data.operator === v.value);
+          const idx = models.findIndex(v => res.data.operator === v.value);
           res.data.operator = models[idx].arr;
-          this.formConfig.forEach((item) => {
+          this.formConfig.forEach(item => {
             item.defaultValue = res.data[item.key];
           });
         } else {
@@ -185,25 +284,26 @@ export default {
     }
   },
   methods: {
-    isDisabled () {
+    isDisabled() {
       return this.$route.query.type === "edit" ? true : false;
     },
-    isOpenDialog () {
-      this.$confirm("账号默认为登录的账号，输入登录密码通过后禁用框变为输入框", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(() => {
-        this.dialogVisible = true;
-      }).catch(() => { });
+    isOpenDialog() {
+      this.dialogVisible = true;
+      this.formData.account = "";
+      this.formData.pwd = "";
     },
-    notDisabled () {
-      this.$refs["ruleForm"].validate((valid) => {
+    notDisabled() {
+      this.$refs["ruleForm"].validate(valid => {
         if (valid) {
-          this.$http.mmsGateway.viewLogin(this.formData).then((res) => {
+          const { gatewayId } = this.$route.query;
+          this.formData.type = 2;
+          this.formData.soleId = Number(gatewayId);
+
+          this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
               this.formConfig[4].disabled = false;
-              this.formConfig[6].disabled = false;
+              this.formConfig[7].disabled = false;
+              this.formConfig[7].defaultValue = res.data;
               this.dialogVisible = false;
               this.$message.success("验证成功");
             } else {
@@ -213,15 +313,16 @@ export default {
         }
       });
     },
-    submit (data) {
+    submit(data) {
       const result = deepClone(data);
-      result.price = + result.price;
+      result.price = +result.price;
       result.operator = this.returnOperator(result.operator);
-      const flag = this.queryType === "add" ? "addMmsGateway" : "updateMmsGateway";
+      const flag =
+        this.queryType === "add" ? "addMmsGateway" : "updateMmsGateway";
       if (flag === "updateMmsGateway") {
         result.gatewayId = this.$route.query.gatewayId;
       }
-      this.$http.mmsGateway[`${flag}`]({ data: result }).then((res) => {
+      this.$http.mmsGateway[`${flag}`]({ data: result }).then(res => {
         if (res.code === 200) {
           this.cancel();
           const msg = flag === "addMmsGateway" ? "添加成功" : "修改成功";
@@ -232,16 +333,18 @@ export default {
       });
     },
     //格式化operator字段
-    returnOperator (arg) {
+    returnOperator(arg) {
       //数组排序然后进行比较找到返回相对应的value
       const data = arg.sort((a, b) => a - b);
-      const idx = models.findIndex((v) => JSON.stringify(data) === JSON.stringify(v.arr));
+      const idx = models.findIndex(
+        v => JSON.stringify(data) === JSON.stringify(v.arr)
+      );
       return models[idx].value;
     },
-    cancel () {
+    cancel() {
       this.$router.back();
-    },
-  },
+    }
+  }
 };
 </script>
 

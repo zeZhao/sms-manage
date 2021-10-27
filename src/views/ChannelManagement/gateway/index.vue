@@ -6,7 +6,13 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table
+      :data="listData"
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="gateway" label="通道编号" show-overflow-tooltip />
       <el-table-column
         prop="gatewayName"
@@ -125,7 +131,7 @@
             >修改标签</el-button
           >
           <el-button
-            @click="_mxEdit(scope.row, 'gatewayId')"
+            @click="_mxEdit(scope.row, scope.row.gatewayId)"
             type="text"
             size="small"
             >修改</el-button
@@ -280,10 +286,7 @@ export default {
           type: "select",
           label: "是否可用",
           key: "status",
-          optionData: [
-            { key: 1, value: "可用" },
-            { key: "0", value: "不可用" }
-          ]
+          optionData: [{ key: 1, value: "可用" }, { key: "0", value: "不可用" }]
         },
         {
           type: "select",
@@ -300,10 +303,7 @@ export default {
           type: "select",
           label: "是否直连",
           key: "isDerect",
-          optionData: [
-            { key: 1, value: "是" },
-            { key: 2, value: "否" }
-          ]
+          optionData: [{ key: 1, value: "是" }, { key: 2, value: "否" }]
         },
         // {
         //   type: "select",
@@ -470,10 +470,7 @@ export default {
           label: "是否可用",
           key: "status",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 
@@ -504,10 +501,7 @@ export default {
           label: "是否报备",
           key: "isReportRemarks",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -519,10 +513,7 @@ export default {
           label: "连不上通道自动转",
           key: "disconnectFailTurn",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -530,10 +521,7 @@ export default {
           label: "连续提交失败自动转",
           key: "submitFailTurn",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -620,10 +608,7 @@ export default {
           key: "isLong",
           defaultValue: "",
           tag: "addition",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -666,10 +651,7 @@ export default {
           key: "isExclusive",
           tag: "addition",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
@@ -677,10 +659,7 @@ export default {
           tag: "addition",
           key: "hasSign",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
@@ -688,10 +667,7 @@ export default {
           key: "isWhite",
           tag: "addition",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -810,10 +786,7 @@ export default {
           tag: "addition",
           key: "isMo",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
@@ -821,10 +794,7 @@ export default {
           tag: "addition",
           key: "isReport",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
@@ -832,10 +802,7 @@ export default {
           tag: "addition",
           key: "isSub",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -974,15 +941,15 @@ export default {
     renderType(v) {
       switch (v) {
         case 1:
-          return 'Cmpp'
+          return "Cmpp";
         case 2:
-          return 'Sgip'
+          return "Sgip";
         case 3:
-          return 'Smgp'
+          return "Smgp";
         case 4:
-          return 'http'
+          return "http";
         default:
-          return '-'
+          return "-";
       }
     },
     _mxCreate() {
@@ -1175,16 +1142,16 @@ export default {
           const { key } = item;
           if (key === "province") {
             item.optionData = res.data.map(t => {
-              return { key: t.provinceId, value: t.provinceName }
-            })
+              return { key: t.provinceId, value: t.provinceName };
+            });
           }
         });
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
             item.optionData = res.data.map(t => {
-              return { key: t.provinceId, value: t.provinceName }
-            })
+              return { key: t.provinceId, value: t.provinceName };
+            });
           }
         });
       });
