@@ -81,15 +81,16 @@ export default {
   data() {
     return {
       oneSecondForGetNow: getNewTimeForSecond(),
-      custName: window.localStorage.getItem("userName"),
+      custName: "",
       balance: "",
       creditLine: ""
     };
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "device"])
+    ...mapGetters(["sidebar", "avatar", "device", "info"])
   },
   mounted() {
+    this.custName = this.info.name;
     //每一秒都获取当前时间
     setInterval(() => {
       this.oneSecondForGetNow = getNewTimeForSecond();
