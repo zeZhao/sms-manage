@@ -78,6 +78,7 @@
     <el-dialog
       title="温馨提示"
       :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
       width="30%"
       :before-close="handleClose"
     >
@@ -106,6 +107,7 @@
     <el-dialog
       title="修改密码"
       :visible.sync="editVisible"
+      :close-on-click-modal="false"
       width="50%"
       :before-close="handleClose"
     >
@@ -328,11 +330,13 @@ export default {
             data: [10, 52, 200, 334, 390, 330, 220]
           }
         ]
-      }
+      },
+      status: Cookies.get("status"),
+      info: JSON.parse(Cookies.get("info"))
     };
   },
   computed: {
-    ...mapGetters(["status", "info"])
+    // ...mapGetters(["status", "info"])
   },
   mounted() {
     this.querySendStaticByTime();
