@@ -454,6 +454,7 @@
       <div v-if="infoData.proType == 1">
         <p>产品类型: web</p>
         <p>企业名称: {{ infoData.corpName }}</p>
+        <p>账户编号: {{ infoData.userId }}</p>
         <p>web账号: {{ infoData.loginName }}</p>
         <p>
           web密码: {{ infoData.webPassword }}
@@ -469,7 +470,7 @@
         <p>产品类型: HTTP/WEB</p>
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>web账号: {{ infoData.loginName }}</p>
-        <p>账号: {{ infoData.userId }}</p>
+        <p>账户编号: {{ infoData.userId }}</p>
         <p>
           密码: {{ infoData.password }}
           <i
@@ -488,7 +489,7 @@
         <p>接口地址: 39.107.120.170</p>
         <p>端口: 7893</p>
         <p>web账号: {{ infoData.loginName }}</p>
-        <p>账号: {{ infoData.userId }}</p>
+        <p>账户编号: {{ infoData.userId }}</p>
         <p>
           密码: {{ infoData.password }}
           <i

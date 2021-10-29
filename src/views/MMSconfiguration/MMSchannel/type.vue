@@ -289,8 +289,6 @@ export default {
     },
     isOpenDialog() {
       this.dialogVisible = true;
-      this.formData.account = "";
-      this.formData.pwd = "";
     },
     notDisabled() {
       this.$refs["ruleForm"].validate(valid => {
@@ -305,6 +303,8 @@ export default {
               this.formConfig[7].disabled = false;
               this.formConfig[7].defaultValue = res.data;
               this.dialogVisible = false;
+              this.formData.account = "";
+              this.formData.pwd = "";
               this.$message.success("验证成功");
             } else {
               this.$message.error(res.data);
