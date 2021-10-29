@@ -915,6 +915,8 @@ export default {
               if (res.code == 200) {
                 this.$message.success(res.msg);
                 this.loginState = false;
+                this.formData.account = "";
+                this.formData.pwd = "";
                 const { key } = this.temporaryItem;
                 this.formConfig.forEach(item => {
                   if (key === "sharedSecret") {
@@ -935,8 +937,6 @@ export default {
     },
     _mxHandleDecode(item) {
       this.loginState = true;
-      this.formData.account = "";
-      this.formData.pwd = "";
       this.temporaryItem = item;
     },
     //隐藏附加信息
