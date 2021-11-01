@@ -507,7 +507,7 @@
     </el-dialog>
     <el-dialog
       title="登录"
-      :visible.sync="dialogVisible"
+      :visible.sync="loginVisible"
       :close-on-click-modal="false"
       width="30%"
       custom-class="loginDialog"
@@ -528,7 +528,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="notDisabled">确 定</el-button>
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="loginVisible = false">取 消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -737,7 +737,7 @@ export default {
       proType: 1,
       infoData: {},
       //二次登录数据
-      dialogVisible: false,
+      loginVisible: false,
       formData: {},
       rules: {
         account: [
@@ -776,7 +776,7 @@ export default {
   computed: {},
   methods: {
     isOpenDialog() {
-      this.dialogVisible = true;
+      this.loginVisible = true;
     },
     notDisabled() {
       this.$refs["ruleForm"].validate(valid => {
@@ -792,7 +792,7 @@ export default {
                 this.infoData.webPassword = res.data.webPassword;
               });
 
-              this.dialogVisible = false;
+              this.loginVisible = false;
               this.$message.success("验证成功");
               this.formData.account = "";
               this.formData.pwd = "";
