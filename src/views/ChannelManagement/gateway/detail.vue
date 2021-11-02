@@ -5,33 +5,87 @@
       {{ formTit }}短信通道
       <span v-if="formTit === '新增'">(上一通道编号为：{{ lastGateway }})</span>
     </h2>
-    <FormItemTitle ref="formItem" :colSpan="12" :labelWidth="170" :formConfig="formConfig" :btnTxt="formTit"
-      @submit="_mxHandleSubmit" @decode="_mxHandleDecode" @cancel="_mxCancel" @selectChange="selectChange"
-      @handleClick="handleClick">
+    <FormItemTitle
+      ref="formItem"
+      :colSpan="12"
+      :labelWidth="170"
+      :formConfig="formConfig"
+      :btnTxt="formTit"
+      @submit="_mxHandleSubmit"
+      @decode="_mxHandleDecode"
+      @cancel="_mxCancel"
+      @selectChange="selectChange"
+      @handleClick="handleClick"
+    >
       <template v-slot:isChooseProviceOrCity>
-        <el-button style="float: right; margin-top: 5px" type="primary" size="small" @click="chooseCitys">请选择
+        <el-button
+          style="float: right; margin-top: 5px"
+          type="primary"
+          size="small"
+          @click="chooseCitys"
+          >请选择
         </el-button>
       </template>
     </FormItemTitle>
-    <el-dialog title="登录" :visible.sync="loginState" :close-on-click-modal="false" width="30%"
-      custom-class="loginDialog">
-      <div style="margin-bottom:20px">
+    <el-dialog
+      title="登录"
+      :visible.sync="loginState"
+      :close-on-click-modal="false"
+      width="30%"
+      custom-class="loginDialog"
+    >
+      <!-- <div style="margin-bottom:20px">
         <span>手机号：</span>
-        <el-input v-model="login.account" placeholder="请输入手机号" style="width:85%"></el-input>
+        <el-input
+          v-model="login.account"
+          placeholder="请输入手机号"
+          style="width:85%"
+        ></el-input>
       </div>
       <div>
         <span style="margin-right: 13px">口令：</span>
-        <el-input v-model="login.password" type="password" style="width:85%" placeholder="请输入口令"></el-input>
-      </div>
+        <el-input
+          v-model="login.password"
+          style="width:85%"
+          placeholder="请输入口令"
+          maxlength="6"
+        ></el-input>
+      </div> -->
+      <el-form
+        ref="ruleForm"
+        :model="formData"
+        :rules="rules"
+        label-width="70px"
+        style="width: 80%; margin: auto"
+      >
+        <el-form-item label="手机号:" prop="account">
+          <el-input v-model="formData.account" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="口令:" prop="pwd">
+          <el-input v-model="formData.pwd" clearable maxlength="6"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="loginState = false">取 消</el-button>
         <el-button type="primary" @click="submit">确 定</el-button>
+        <el-button @click="loginState = false">取 消</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="选择省份或城市" :visible.sync="isChoose" :close-on-click-modal="false" width="30%"
-      custom-class="loginDialog">
-      <el-tree ref="tree" style="max-height: 400px; overflow-y: auto" :default-checked-keys="navListId" :data="navList"
-        show-checkbox node-key="city" :props="{ label: 'city', children: 'children' }">
+    <el-dialog
+      title="选择省份或城市"
+      :visible.sync="isChoose"
+      :close-on-click-modal="false"
+      width="30%"
+      custom-class="loginDialog"
+    >
+      <el-tree
+        ref="tree"
+        style="max-height: 400px; overflow-y: auto"
+        :default-checked-keys="navListId"
+        :data="navList"
+        show-checkbox
+        node-key="city"
+        :props="{ label: 'city', children: 'children' }"
+      >
       </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="isChoose = false">取 消</el-button>
@@ -48,7 +102,7 @@ import FormItemTitle from "@/components/formItemTitle";
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
-  data () {
+  data() {
     return {
       // 接口地址
       searchAPI: {
@@ -142,13 +196,17 @@ export default {
           key: "unitPrice",
           maxlength: "5",
           colSpan: 12,
-          rules: [{
-            required: true, trigger: "blur", validator: (rule, value, callback) => {
-              if (!value) callback(new Error("请输入必填项"));
-              if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
-              callback();
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
+                callback();
+              }
             }
-          }]
+          ]
         },
         {
           type: "select",
@@ -160,7 +218,7 @@ export default {
             { key: 2, value: "测试中" },
             { key: 3, value: "暂停使用" },
             { key: 4, value: "关停" },
-            { key: 5, value: "弃用" },
+            { key: 5, value: "弃用" }
             // { key: 6, value: "全部" }
           ],
           colSpan: 12,
@@ -171,10 +229,7 @@ export default {
           label: "是否可用",
           key: "status",
           defaultValue: "",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ],
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }],
           colSpan: 12,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -302,7 +357,9 @@ export default {
             { key: 2, value: "非强制取" }
           ],
           colSpan: 12,
-          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
         },
         {
           type: "select",
@@ -340,34 +397,47 @@ export default {
           label: "发送限制",
           key: "isLimit",
           colSpan: 12,
-          optionData: [
-            { key: 0, value: "无" },
-            { key: 1, value: "有" }
-          ]
+          optionData: [{ key: 0, value: "无" }, { key: 1, value: "有" }]
         },
         {
           type: "input",
           label: "限制天数",
           key: "limitDays",
           colSpan: 12,
-          rules: [{
-            required: false, trigger: "blur", validator: (rule, value, callback) => {
-              if (!value) callback();
-              isNaN(value) ? callback(new Error("只能输入数字")) : (value > 0 ? callback() : callback(new Error("必须大于0")));
+          rules: [
+            {
+              required: false,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                isNaN(value)
+                  ? callback(new Error("只能输入数字"))
+                  : value > 0
+                  ? callback()
+                  : callback(new Error("必须大于0"));
+              }
             }
-          }]
+          ]
         },
         {
           type: "input",
           label: "限制条数",
           key: "limitCount",
           colSpan: 12,
-          rules: [{
-            required: false, trigger: "blur", validator: (rule, value, callback) => {
-              if (!value) callback();
-              isNaN(value) ? callback(new Error("只能输入数字")) : (value > 0 ? callback() : callback(new Error("必须大于0")));
+          rules: [
+            {
+              required: false,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                isNaN(value)
+                  ? callback(new Error("只能输入数字"))
+                  : value > 0
+                  ? callback()
+                  : callback(new Error("必须大于0"));
+              }
             }
-          }]
+          ]
         },
         {
           type: "select",
@@ -375,10 +445,7 @@ export default {
           key: "isReportRemarks",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
@@ -386,10 +453,7 @@ export default {
           key: "disconnectFailTurn",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -409,7 +473,9 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
         },
         {
           type: "select",
@@ -417,10 +483,7 @@ export default {
           key: "submitFailTurn",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -517,10 +580,7 @@ export default {
           defaultValue: "",
           tag: "addition",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -566,10 +626,7 @@ export default {
           tag: "addition",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -585,10 +642,7 @@ export default {
           key: "hasSign",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -604,10 +658,7 @@ export default {
           tag: "addition",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -638,10 +689,7 @@ export default {
           key: "isMo",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -657,10 +705,7 @@ export default {
           key: "isReport",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -676,10 +721,7 @@ export default {
           key: "isSub",
           defaultValue: "",
           colSpan: 12,
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -754,18 +796,47 @@ export default {
 
       isChoose: false,
       navListId: [],
-      navList: []
+      navList: [],
+      formData: {},
+      rules: {
+        account: [
+          {
+            required: true,
+            message: "手机号不能为空",
+            trigger: ["blur", "change"]
+          }
+        ],
+        pwd: [
+          {
+            required: true,
+            message: "口令不能为空",
+            trigger: ["blur", "change"]
+          }
+        ]
+      }
     };
   },
   watch: {
     // 目标通道--关联屏蔽省份 (校验)
     targetGatewayVal(newVal) {
       const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
-      this.$set(this.formConfig[idx], "rules", [{ required: newVal ? true : false, message: "请选择必选项", trigger: "blur" }]);
+      this.$set(this.formConfig[idx], "rules", [
+        {
+          required: newVal ? true : false,
+          message: "请选择必选项",
+          trigger: "blur"
+        }
+      ]);
     },
     shieldProvinceVal(newVal) {
       const idx = this.formConfig.findIndex(v => v.key === "targetGateway");
-      this.$set(this.formConfig[idx], "rules", [{ required: newVal ? true : false, message: "请输入必填项", trigger: "blur" }]);
+      this.$set(this.formConfig[idx], "rules", [
+        {
+          required: newVal ? true : false,
+          message: "请输入必填项",
+          trigger: "blur"
+        }
+      ]);
     }
   },
   computed: {
@@ -779,10 +850,10 @@ export default {
       return this.formConfig[idx].defaultValue;
     }
   },
-  created () {
+  created() {
     this.formTit = this.$route.query.type === "add" ? "新增" : "修改";
   },
-  mounted () {
+  mounted() {
     this.listSysProvince();
     this.getLastGateway();
     this.getProvinceTree();
@@ -804,53 +875,72 @@ export default {
     }
   },
   methods: {
-    chooseCitys () {
+    chooseCitys() {
       const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
       const val = this.formConfig[idx].defaultValue;
       this.navListId = val ? val.split(",") : [];
       this.isChoose = true;
     },
-    handleChooseConfirm () {
+    handleChooseConfirm() {
       const checkedKeys = this.$refs.tree.getCheckedKeys();
       const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
       this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(","));
       this.isChoose = false;
     },
-    getProvinceTree () {
+    getProvinceTree() {
       this.$http.gateway.getProvinceTree().then(res => {
         this.navList = res.data.map(v => {
           return { city: v.provinceName, children: v.children };
         });
       });
     },
-    getLastGateway () {
+    getLastGateway() {
       this.$http.gateway.getLasttGatewayId().then(res => {
         this.lastGateway = res.data;
       });
     },
-    submit () {
-      const { account, password } = this.login;
-      this.$http.sysLogin.viewLogin({ account, pwd: password }).then(res => {
-        if (res.code == 200) {
-          this.$message.success(res.data);
-          this.loginState = false;
-          const { key } = this.temporaryItem;
-          this.formConfig.forEach(item => {
-            if (item.key === key) {
-              item.lock = false;
-            }
-          });
-        } else {
-          this.$message.error(res.data);
+    submit() {
+      const { account, pwd } = this.formData;
+      const { gatewayId } = this.$route.query;
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          this.$http.sysLogin
+            .viewLogin({
+              account,
+              pwd,
+              type: 1,
+              soleId: Number(gatewayId)
+            })
+            .then(res => {
+              if (res.code == 200) {
+                this.$message.success(res.msg);
+                this.loginState = false;
+                this.formData.account = "";
+                this.formData.pwd = "";
+                const { key } = this.temporaryItem;
+                this.formConfig.forEach(item => {
+                  if (key === "sharedSecret") {
+                    if (item.key === key) {
+                      item.defaultValue = res.data;
+                    }
+                  }
+                  if (item.key === key) {
+                    item.lock = false;
+                  }
+                });
+              } else {
+                this.$message.error(res.data);
+              }
+            });
         }
       });
     },
-    _mxHandleDecode (item) {
+    _mxHandleDecode(item) {
       this.loginState = true;
       this.temporaryItem = item;
     },
     //隐藏附加信息
-    handleClick (item) {
+    handleClick(item) {
       if (item.show) {
         this._setTagDisplayShow(this.formConfig, "addition", true);
         this.formConfig.forEach(items => {
@@ -867,11 +957,11 @@ export default {
         });
       }
     },
-    selectChange ({ val, item }) { },
+    selectChange({ val, item }) {},
     /*
      * 获取省份列表
      * */
-    listSysProvince () {
+    listSysProvince() {
       const params = {
         data: {
           provinceName: ""
@@ -893,7 +983,7 @@ export default {
         });
       });
     },
-    _mxArrangeEditData (row) {
+    _mxArrangeEditData(row) {
       for (let key in row) {
         if (row[key] === true) {
           row[key] = "1";
@@ -904,7 +994,7 @@ export default {
       }
       return row;
     },
-    _mxArrangeSubmitData (formData) {
+    _mxArrangeSubmitData(formData) {
       if (formData.countMonth) {
         formData.countMonth = new Date(formData.countMonth).Format("yyyy-MM");
       }
