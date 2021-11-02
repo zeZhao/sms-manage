@@ -502,7 +502,10 @@
         <p>通道接入码: {{ infoData.longCode }}</p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
-        <p>通道速率: {{ infoData.submitSpeed }}条/秒</p>
+        <p>
+          通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
+          ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
+        </p>
       </div>
     </el-dialog>
     <el-dialog
