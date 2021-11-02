@@ -1063,15 +1063,15 @@ export default {
       switch (type) {
         case "disable":
           str.title = "停用";
-          str.information = "您确定要停用商户吗？";
+          str.information = "您确定要停用账户吗？";
           break;
         case "init":
           str.title = "审核";
-          str.information = "审核后，商户将正常使用，您确认要审核吗？";
+          str.information = "审核后，账户将正常使用，您确认要审核吗？";
           break;
         case "enabled":
           str.title = "启用";
-          str.information = "启用后商户将正常使用，您确定要启用商户吗？";
+          str.information = "启用后账户将正常使用，您确定要启用账户吗？";
           break;
       }
       this.dialogTit = str.title;
