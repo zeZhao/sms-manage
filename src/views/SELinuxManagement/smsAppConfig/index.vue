@@ -47,6 +47,9 @@ export default {
   mounted() {
     this.getDefault();
   },
+  activated() {
+    this.getDefault();
+  },
   computed: {},
   methods: {
     getDefault() {
