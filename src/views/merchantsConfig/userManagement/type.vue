@@ -40,6 +40,26 @@ export default {
         callback();
       }
     };
+    const validMobile = (rule, value, callback) => {
+      console.log(this.type, "------------type");
+      if (this.type === "create") {
+        if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+          callback(new Error("手机号码格式错误"));
+        } else {
+          callback();
+        }
+      } else {
+        if (value.indexOf("*") === -1) {
+          if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       dialogVisible: false,
       dialogTit: "",
@@ -324,12 +344,17 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
-              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
-              message: "手机号码格式错误",
+              validator: validMobile,
               trigger: "change"
             }
           ]
+          //   {
+          //     ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
+          //     pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+          //     message: "手机号码格式错误",
+          //     trigger: "change"
+          //   }
+          // ]
         },
         {
           type: "select",
