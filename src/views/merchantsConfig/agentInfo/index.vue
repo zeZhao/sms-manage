@@ -7,7 +7,12 @@
       @create="_mxCreate"
       :add="true"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+    >
       <el-table-column type="index" label="序号" />
       <el-table-column prop="agentId" label="代理商编号" width="100" />
       <el-table-column prop="loginName" label="登录账号" />
@@ -134,6 +139,37 @@ import { isPassword } from "@/utils";
 export default {
   mixins: [listMixin],
   data() {
+    // 固定电话座机或者手机号的正则
+    const checkFixedPhoneOrPhone = (rule, value, callback) => {
+      console.log(this.formTit, "-----this.formTit");
+      const regFixedPhone = /^\d{3}-\d{8}|\d{4}-\d{7}$/;
+      const regPhone = /^1[3-9]\d{9}$/;
+      if (this.formTit === "新增") {
+        if (value == "") {
+          callback(new Error("号码不能为空"));
+        } else {
+          if (regFixedPhone.test(value) || regPhone.test(value)) {
+            callback();
+          } else {
+            callback(new Error("请输入正确的手机号码或座机号码"));
+          }
+        }
+      } else {
+        if (value.indexOf("*") === -1) {
+          if (value) {
+            if (regFixedPhone.test(value) || regPhone.test(value)) {
+              callback();
+            } else {
+              callback(new Error("请输入正确的手机号码或座机号码"));
+            }
+          } else {
+            callback(new Error("号码不能为空"));
+          }
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       formTit: "新增",
       addChannel: false,
@@ -241,29 +277,41 @@ export default {
           key: "password",
           maxlength: 18,
           rules: [
-            { required: true, trigger: "blur", validator: (rule, value, callback) => {
-              if (this.renderFormTit === '新增') {
-                if (!value) {
-                  callback(new Error('请输入必填项'))
-                } else {
-                  if (!isPassword(value)) {
-                    callback(new Error('密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'))
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (this.renderFormTit === "新增") {
+                  if (!value) {
+                    callback(new Error("请输入必填项"));
                   } else {
-                    callback()
+                    if (!isPassword(value)) {
+                      callback(
+                        new Error(
+                          "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                        )
+                      );
+                    } else {
+                      callback();
+                    }
                   }
-                }
-              } else {
-                if (!value) {
-                  callback()
                 } else {
-                  if (!isPassword(value)) {
-                    callback(new Error('密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'))
+                  if (!value) {
+                    callback();
                   } else {
-                    callback()
+                    if (!isPassword(value)) {
+                      callback(
+                        new Error(
+                          "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                        )
+                      );
+                    } else {
+                      callback();
+                    }
                   }
                 }
               }
-            }}
+            }
           ]
         },
         {
@@ -291,7 +339,9 @@ export default {
           key: "saleMan",
           defaultValue: "",
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "change" }]
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
         },
         {
           type: "switch",
@@ -312,7 +362,7 @@ export default {
           tip: "支持jpg/jpeg/png,大小在1M之内",
           defaultFileList: [],
           isShow: false,
-          accept: ["png", "jpg", "jpeg"],
+          accept: ["png", "jpg", "jpeg"]
         }
       ],
       bId: "",
@@ -326,7 +376,9 @@ export default {
     };
   },
   computed: {
-    renderFormTit() { return this.formTit }
+    renderFormTit() {
+      return this.formTit;
+    }
   },
   mounted() {
     this.getSaleman();
@@ -352,7 +404,7 @@ export default {
         //     { validator: password, trigger: "change" }
         //   ];
         // }
-        if (item.key === 'loginName') {
+        if (item.key === "loginName") {
           item.disabled = false;
         }
       });
@@ -391,7 +443,7 @@ export default {
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
-        if (item.key === 'loginName') {
+        if (item.key === "loginName") {
           item.disabled = true;
         }
       });
