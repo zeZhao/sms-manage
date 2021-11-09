@@ -51,7 +51,8 @@
     </el-col>
     <el-button type="primary" @click="newEnterprise">新增商户</el-button>
     <el-table
-      :data="dataList" max-height="430"
+      :data="dataList"
+      max-height="430"
       highlight-current-row
       style="width: 100%;margin-top:20px"
     >
@@ -302,14 +303,45 @@ export default {
       }
     };
     var validatePhone = (rule, value, callback) => {
-      if (
-        value &&
-        (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) || value.length !== 11)
-      ) {
-        callback(new Error("手机号码不符合规范"));
+      console.log(this.formBtn, "-----this.formBtn");
+      if (this.formBtn === "新增") {
+        if (value == "") {
+          callback(new Error("手机号不能为空"));
+        } else {
+          if (
+            (
+              !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
+              value.length !== 11
+            ).test(value)
+          ) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        }
       } else {
-        callback();
+        if (value.indexOf("*") === -1) {
+          if (
+            value &&
+            (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
+              value.length !== 11)
+          ) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        } else {
+          callback();
+        }
       }
+      // if (
+      //   value &&
+
+      // ) {
+      //   callback(new Error("手机号码不符合规范"));
+      // } else {
+      //   callback();
+      // }
     };
     var validate = (rule, value, callback) => {
       if (!value) {
@@ -384,7 +416,7 @@ export default {
         // contact: [{ required: true, message: "请输入联系人", trigger: "blur" }],
         mobile: [
           // { required: true, message: "请输入联系电话", trigger: "blur" },
-          { validator: validatePhone, trigger: "blur" }
+          { validator: validatePhone, trigger: ["blur", "change"] }
         ]
       },
       formTit: "新增商户",
