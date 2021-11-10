@@ -278,6 +278,7 @@ export default {
           label: "手机号",
           key: "userName",
           defaultValue: "",
+          maxlength: 11,
           rules: [
             {
               required: true,

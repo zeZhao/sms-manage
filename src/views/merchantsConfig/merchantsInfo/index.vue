@@ -234,6 +234,7 @@
             v-model="addInfo.mobile"
             type="phone"
             clearable
+            maxlength="11"
             placeholder="请输入客户联系人电话"
           />
         </el-form-item>
