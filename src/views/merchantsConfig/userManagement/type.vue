@@ -341,6 +341,7 @@ export default {
           label: "联系人电话",
           key: "mobile",
           defaultValue: "",
+          maxlength: 11,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
