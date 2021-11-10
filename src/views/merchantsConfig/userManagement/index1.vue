@@ -502,7 +502,10 @@
         <p>通道接入码: {{ infoData.longCode }}</p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
-        <p>通道速率: {{ infoData.submitSpeed }}条/秒</p>
+        <p>
+          通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
+          ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
+        </p>
       </div>
     </el-dialog>
     <el-dialog
@@ -1063,15 +1066,15 @@ export default {
       switch (type) {
         case "disable":
           str.title = "停用";
-          str.information = "您确定要停用商户吗？";
+          str.information = "您确定要停用账户吗？";
           break;
         case "init":
           str.title = "审核";
-          str.information = "审核后，商户将正常使用，您确认要审核吗？";
+          str.information = "审核后，账户将正常使用，您确认要审核吗？";
           break;
         case "enabled":
           str.title = "启用";
-          str.information = "启用后商户将正常使用，您确定要启用商户吗？";
+          str.information = "启用后账户将正常使用，您确定要启用账户吗？";
           break;
       }
       this.dialogTit = str.title;

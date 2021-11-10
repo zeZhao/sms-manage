@@ -860,7 +860,7 @@ export default {
     this._setTagDisplayShow(this.formConfig, "addition", true);
     let parameter = this.$route.query;
     if (parameter.type === "edit") {
-      this._mxEdit(JSON.parse(parameter.row), parameter.gatewayId);
+      this._mxEdit(JSON.parse(parameter.row), "gatewayId");
       this.formConfig.forEach(item => {
         if (item.tag === "encrypt") {
           item.lock = true;
