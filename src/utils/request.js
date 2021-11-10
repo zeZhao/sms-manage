@@ -12,26 +12,26 @@ import router from '@/router'
 
 let service = null
 
-if (process.env.NODE_ENV === "production") {
-  let baseUrl = ''
-  switch (process.env.VUE_APP_TITLE) {
-    case "development":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
-    case "production":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
-  }
-  service = axios.create({
-    baseURL: baseUrl,
-    timeout: 5000
-  })
-} else {
-  service = axios.create({
-    baseURL: '/api/api',
-    timeout: 5000
-  })
-}
+// if (process.env.NODE_ENV === "production") {
+//   let baseUrl = ''
+//   switch (process.env.VUE_APP_TITLE) {
+//     case "development":
+//       baseUrl = process.env.VUE_APP_BASE_API
+//       break
+//     case "production":
+//       baseUrl = process.env.VUE_APP_BASE_API
+//       break
+//   }
+//   service = axios.create({
+//     baseURL: baseUrl,
+//     timeout: 5000
+//   })
+// } else {
+service = axios.create({
+  baseURL: process.env.VUE_APP_BASE_API,
+  timeout: 5000
+})
+// }
 // create an axios instance
 
 
@@ -64,6 +64,13 @@ service.interceptors.response.use(
     if (res.code == 401) {
       Cookies.remove('Admin-Token');
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      window.location.reload()
+    } else if (res.code === 406) {
+      Message({
+        message: res.msg,
+        type: 'error',
+      })
+      router.push("/")
       window.location.reload()
     } else if (res.code === 999) {
       Message({

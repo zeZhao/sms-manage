@@ -25,7 +25,7 @@
       </template>
     </Search>
     <el-table
-      :data="listData"
+      :data="listData" max-height="500"
       highlight-current-row
       style="width: 100%"
       @selection-change="selectionChange"
@@ -247,15 +247,15 @@ export default {
           type: "input",
           label: "特服号",
           key: "code",
-          disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          maxlength: "12"
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
           label: "审核内容",
           key: "content",
-          defaultValue: "",
+          defaultValue: ""
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -413,9 +413,9 @@ export default {
         if (item.key === 'userId') {
           this.$set(item, "defaultValue", userId);
         }
-        if (item.key === 'code') {
-          this.$set(item, "defaultValue", code);
-        }
+        // if (item.key === 'code') {
+        //   this.$set(item, "defaultValue", code);
+        // }
         if (item.key === 'content') {
           this.$set(item, "defaultValue", content);
         }

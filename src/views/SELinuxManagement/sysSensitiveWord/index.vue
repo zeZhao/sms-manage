@@ -70,6 +70,7 @@
 
       <el-table
         :data="listData"
+        max-height="500"
         highlight-current-row
         style="width: 100%;"
         v-loading="loading"
@@ -167,7 +168,9 @@ export default {
       //搜索框数据
       searchParam: {},
       //搜索框配置
-      searchFormConfig: [{ type: "input", label: "敏感词", key: "wordName", isLonger: true }],
+      searchFormConfig: [
+        { type: "input", label: "敏感词", key: "wordName", isLonger: true }
+      ],
       defaultActive: "",
       groupList: [],
       createOrUpdate: "添加敏感词组",
@@ -185,13 +188,16 @@ export default {
     this.$nextTick(() => {
       this.getGroupList(); //获取敏感词分组
       this._mxGetList(); //获取列表敏感词
-      this.activeIndex = 0;
+      this.activeIndex = this.$route.query.activeIndex || 0;
     });
   },
   methods: {
     //点击搜索查询数据
     handleSearch(searchParam) {
-      const groupId = (this.groupList[this.activeIndex] && this.groupList[this.activeIndex].groupId) || "";
+      const groupId =
+        (this.groupList[this.activeIndex] &&
+          this.groupList[this.activeIndex].groupId) ||
+        "";
       const params = {
         groupId,
         ...searchParam
@@ -253,7 +259,10 @@ export default {
     },
     //导出
     exportData(data) {
-      const groupId = (this.groupList[this.activeIndex] && this.groupList[this.activeIndex].groupId) || "";
+      const groupId =
+        (this.groupList[this.activeIndex] &&
+          this.groupList[this.activeIndex].groupId) ||
+        "";
       const params = {
         groupId,
         ...data
@@ -322,13 +331,18 @@ export default {
       }
       this.$router.push({
         name: "sysSensitiveWordType",
-        query: { type: "create" }
+        query: { type: "create", activeIndex: this.activeIndex }
       });
     },
     edit(row, ID) {
       this.$router.push({
         name: "sysSensitiveWordType",
-        query: { type: "update", row: JSON.stringify(row), ID }
+        query: {
+          type: "update",
+          row: JSON.stringify(row),
+          ID,
+          activeIndex: this.activeIndex
+        }
       });
     },
     _mxDeleteItem(wordId) {
@@ -352,6 +366,11 @@ export default {
         .catch(() => {});
     }
   }
+  // computed: {
+  //   atActiveIndex() {
+  //     return this.$route.query.activeIndex;
+  //   }
+  // }
 };
 </script>
 

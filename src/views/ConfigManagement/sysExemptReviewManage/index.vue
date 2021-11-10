@@ -6,19 +6,23 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-      @exportData="_mxExportData"
+      @exportData="exportData"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="batchModification"
           >批量修改</el-button
         >
-        <el-button type="primary" size="small" @click="$refs.Search.handleExport()"
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
           >导出</el-button
         >
       </template>
     </Search>
     <el-table
       :data="listData"
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -682,6 +686,15 @@ export default {
     this.getSensitiveWordGroup();
   },
   methods: {
+    exportData(form) {
+      this.$axios
+        .post("/sysExemptReviewManage/exportExemptReviewManage", {
+          data: { ...form }
+        })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
     //获取敏感词组
     getSensitiveWordGroup() {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {
@@ -699,28 +712,7 @@ export default {
           "groupId",
           "groupName"
         );
-
-        this.$nextTick(() => {
-          this.searchFormConfig.forEach(item => {
-            if (item.key === "sensitiveWord") {
-              res.data.forEach(t => {
-                item.initDefaultValue.push(t.groupId);
-                // item.defaultValue.push(t.groupId);
-              });
-              //initDefaultValue
-            }
-          });
-        });
-
-        // this.formConfig.map(item => {
-        //   if (item.key === "sensitiveWord") {
-        //     res.data.forEach(t => {
-        //       item.defaultValue.push(t.groupName);
-        //     });
-        //   }
-        // });
       });
-      // console.log(this.formConfig, "111111111111");
     },
     //提交批量修改
     batchSubmit(form) {

@@ -2266,5 +2266,16 @@ export default {
         del(params) {
             return post("/YtCheckFollow/del", params);
         }
+    },
+    // 操作日志
+    operationLog: {
+        // 列表查询
+        queryByPage(params) {
+            return post("/operationLog/queryByPage", params);
+        },
+        // 导出
+        exportOperationLog(params) {
+            return post("/operationLog/exportOperationLog", params);
+        }
     }
 }

@@ -14,7 +14,7 @@
         第1步：请先<a
           style="color: blue"
           target="_blank"
-          @click="downLoad"
+          :href="`/view${downloadTemplateUrl}`"
           >下载模板</a
         >，按照说明填写信息后上传
       </div>

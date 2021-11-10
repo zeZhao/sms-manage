@@ -1,262 +1,257 @@
-<style scoped lang="scss">
-.el-form-item {
-  height: 32px;
-  margin-bottom: 24px;
-}
-.searchPanel {
-  background: #fff;
-  padding-bottom: 24px;
-  .btnStyle {
-    float: right;
-  }
-  // padding: 24px;
-}
-</style>
-
 <template>
   <div class="searchPanel">
     <el-form
+      v-if="searchFormConfig.length"
       ref="form"
       :model="form"
       label-width="120px"
-      v-if="searchFormConfig.length"
     >
       <el-row>
         <el-col
-          :sm="12"
-          :md="8"
-          :lg="
-            item.type === 'daterange' ||
-            item.type === 'timerange' ||
-            item.type === 'datetime' ||
-            item.type === 'selectInp' ||
-            item.type === 'checkbox' ||
-            item.isLonger
-              ? 12
-              : 6
-          "
           v-for="(item, index) in searchFormConfig"
           :key="index"
+          :sm="12"
+          :md="8"
+          :lg="(['daterange', 'timerange', 'datetime', 'selectInp', 'checkbox'].includes(item.type) || item.isLonger) ? 12 : 6"
         >
-          <el-form-item
-            :label="item.label ? `${item.label}` : ``"
-            :class="item.label ? `` : `empty-label-item`"
-          >
-            <!--输入框-->
-            <template v-if="item.type === 'input'">
-              <el-input
-                v-model="form[item.key]"
-                size="small"
-                :placeholder="item.placeholder || `请输入${item.label}`"
-                :clearable="isClearAble(item)"
-              ></el-input>
-              <!-- @input="_mxHandleSubmit()" -->
-            </template>
-            <!--数字输入框-->
-            <template v-if="item.type === 'inputNum'">
-              <el-input
-                v-model="form[item.key]"
-                type="number"
-                size="small"
-                :placeholder="item.placeholder || `请输入${item.label}`"
-                :clearable="isClearAble(item)"
-                oninput="if(value.length > 11) value = value.slice(0,11)"
-                onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
-              ></el-input>
-              <!-- @input="_mxHandleSubmit()" -->
-            </template>
+          <transition name="el-zoom-in-top">
+            <el-form-item
+              v-show="!item.isCollapse"
+              :label="item.label ? `${item.label}` : ``"
+              :class="item.label ? `` : `empty-label-item`"
+            >
+              <!--输入框-->
+              <template v-if="item.type === 'input'">
+                <el-input
+                  v-model="form[item.key]"
+                  size="small"
+                  :placeholder="item.placeholder || `请输入${item.label}`"
+                  :clearable="isClearAble(item)"
+                ></el-input>
+                <!-- @input="_mxHandleSubmit()" -->
+              </template>
+              <!--数字输入框-->
+              <template v-if="item.type === 'inputNum'">
+                <el-input
+                  v-model="form[item.key]"
+                  type="number"
+                  size="small"
+                  :placeholder="item.placeholder || `请输入${item.label}`"
+                  :clearable="isClearAble(item)"
+                  oninput="if(value.length > 11) value = value.slice(0,11)"
+                  onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                ></el-input>
+                <!-- @input="_mxHandleSubmit()" -->
+              </template>
 
-            <!--下拉列表-->
-            <template v-if="item.type === 'select'">
-              <!-- @change="_mxHandleSubmit()" -->
-              <el-select
-                style="width: 100%"
-                v-model="form[item.key]"
-                :placeholder="item.placeholder || `请选择${item.label}`"
-                filterable
-                size="small"
-                :clearable="isClearAble(item)"
-                @focus="_mxHandleFocus()"
-                @change="forceUpdate"
-              >
-                <el-option
-                  v-for="option in item.optionData"
-                  :value="option.key"
-                  :key="option.key"
-                  :label="option.value"
-                />
-              </el-select>
-            </template>
-
-            <template v-if="item.type === 'selectInp'">
-              <el-select
-                style="width: 20%"
-                v-model="form[item.key[0]]"
-                :placeholder="item.placeholder || `请选择${item.label}`"
-                filterable
-                size="small"
-                :clearable="isClearAble(item)"
-                @focus="_mxHandleFocus()"
-                @change="forceUpdate"
-              >
-                <el-option
-                  v-for="option in item.optionData"
-                  :value="option.key"
-                  :key="option.key"
-                  :label="option.value"
-                />
-              </el-select>
-              <el-input
-                style="width: 69%"
-                v-model="form[item.key[1]]"
-                type="number"
-                size="small"
-                :placeholder="item.placeholder || `请输入${item.label}`"
-                :clearable="isClearAble(item)"
-              ></el-input>
-            </template>
-            <!--多选框-->
-            <template v-if="item.type === 'checkbox'">
-              <el-checkbox-group v-model="form[item.key]">
-                <el-checkbox
-                  v-for="option in item.optionData"
-                  :key="option.key"
-                  :label="option.key"
-                  >{{ option.value }}</el-checkbox
+              <!--下拉列表-->
+              <template v-if="item.type === 'select'">
+                <!-- @change="_mxHandleSubmit()" -->
+                <el-select
+                  style="width: 100%"
+                  v-model="form[item.key]"
+                  :placeholder="item.placeholder || `请选择${item.label}`"
+                  filterable
+                  size="small"
+                  :clearable="isClearAble(item)"
+                  @focus="_mxHandleFocus()"
+                  @change="forceUpdate"
                 >
-              </el-checkbox-group>
-            </template>
+                  <el-option
+                    v-for="option in item.optionData"
+                    :value="option.key"
+                    :key="option.key"
+                    :label="option.value"
+                  />
+                </el-select>
+              </template>
 
-            <!--日期范围选择-->
-            <template v-if="item.type === 'daterange'">
-              <!-- @change="_mxHandleSubmit()" -->
-              <el-date-picker
-                type="date"
-                size="small"
-                :placeholder="item.placeholder || '选择开始日期'"
-                style="width: 45%"
-                value-format="yyyy-MM-dd"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key[1]]"
-              ></el-date-picker>
-              -
-              <el-date-picker
-                type="date"
-                size="small"
-                :placeholder="item.placeholder || '选择结束日期'"
-                style="width: 45%"
-                value-format="yyyy-MM-dd"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key[2]]"
-              ></el-date-picker>
-              <!-- @change="_mxHandleSubmit()" -->
-            </template>
-            <!--时间范围选择-->
-            <template v-if="item.type === 'timerange'">
-              <!-- @change="_mxHandleSubmit()" -->
-              <el-time-picker
-                size="small"
-                :placeholder="item.placeholder || '选择开始时间'"
-                style="width: 45%"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key[1]]"
-              ></el-time-picker>
-              -
-              <el-time-picker
-                size="small"
-                :placeholder="item.placeholder || '选择结束时间'"
-                style="width: 45%"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key[2]]"
-              ></el-time-picker>
-            </template>
-            <!--单个日期-->
-            <template v-if="item.type === 'date'">
-              <!-- @change="_mxHandleSubmit()" -->
-              <el-date-picker
-                style="width: 100%"
-                size="small"
-                type="date"
-                value-format="yyyy-MM-dd"
-                :placeholder="item.placeholder || '选择日期'"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key]"
-              ></el-date-picker>
-            </template>
-            <!--单个月份-->
-            <template v-if="item.type === 'month'">
-              <!-- @change="_mxHandleSubmit()" -->
-              <el-date-picker
-                style="width: 100%"
-                size="small"
-                type="month"
-                value-format="yyyy-MM"
-                :placeholder="item.placeholder || '选择月份'"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key]"
-                :picker-options="item.pickerOptions || ''"
-              ></el-date-picker>
-            </template>
-            <!--多个日期-选择具体到某天某时某秒-->
-            <template v-if="item.type === 'datetime'">
-              <!-- @change="_mxHandleSubmit()" -->
-              <el-date-picker
-                type="datetime"
-                size="small"
-                :placeholder="item.placeholder || '选择开始日期'"
-                style="width: 45%"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key[1]]"
-              ></el-date-picker>
-              -
-              <el-date-picker
-                type="datetime"
-                size="small"
-                :placeholder="item.placeholder || '选择结束日期'"
-                style="width: 45%"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :clearable="isClearAble(item)"
-                v-model="form[item.key[2]]"
-              ></el-date-picker>
-              <!-- @change="_mxHandleSubmit()" -->
-            </template>
-          </el-form-item>
+              <template v-if="item.type === 'selectInp'">
+                <el-select
+                  style="width: 20%"
+                  v-model="form[item.key[0]]"
+                  :placeholder="item.placeholder || `请选择${item.label}`"
+                  filterable
+                  size="small"
+                  :clearable="isClearAble(item)"
+                  @focus="_mxHandleFocus()"
+                  @change="forceUpdate"
+                >
+                  <el-option
+                    v-for="option in item.optionData"
+                    :value="option.key"
+                    :key="option.key"
+                    :label="option.value"
+                  />
+                </el-select>
+                <el-input
+                  style="width: 69%"
+                  v-model="form[item.key[1]]"
+                  type="number"
+                  size="small"
+                  :placeholder="item.placeholder || `请输入${item.label}`"
+                  :clearable="isClearAble(item)"
+                ></el-input>
+              </template>
+              <!--多选框-->
+              <template v-if="item.type === 'checkbox'">
+                <el-checkbox-group v-model="form[item.key]">
+                  <el-checkbox
+                    v-for="option in item.optionData"
+                    :key="option.key"
+                    :label="option.key"
+                    >{{ option.value }}</el-checkbox
+                  >
+                </el-checkbox-group>
+              </template>
+
+              <!--日期范围选择-->
+              <template v-if="item.type === 'daterange'">
+                <!-- @change="_mxHandleSubmit()" -->
+                <el-date-picker
+                  type="date"
+                  size="small"
+                  :placeholder="item.placeholder || '选择开始日期'"
+                  style="width: 45%"
+                  value-format="yyyy-MM-dd"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key[1]]"
+                ></el-date-picker>
+                -
+                <el-date-picker
+                  type="date"
+                  size="small"
+                  :placeholder="item.placeholder || '选择结束日期'"
+                  style="width: 45%"
+                  value-format="yyyy-MM-dd"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key[2]]"
+                ></el-date-picker>
+                <!-- @change="_mxHandleSubmit()" -->
+              </template>
+              <!--时间范围选择-->
+              <template v-if="item.type === 'timerange'">
+                <!-- @change="_mxHandleSubmit()" -->
+                <el-time-picker
+                  size="small"
+                  :placeholder="item.placeholder || '选择开始时间'"
+                  style="width: 45%"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key[1]]"
+                ></el-time-picker>
+                -
+                <el-time-picker
+                  size="small"
+                  :placeholder="item.placeholder || '选择结束时间'"
+                  style="width: 45%"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key[2]]"
+                ></el-time-picker>
+              </template>
+              <!--单个日期-->
+              <template v-if="item.type === 'date'">
+                <!-- @change="_mxHandleSubmit()" -->
+                <el-date-picker
+                  style="width: 100%"
+                  size="small"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  :placeholder="item.placeholder || '选择日期'"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key]"
+                ></el-date-picker>
+              </template>
+              <!--单个月份-->
+              <template v-if="item.type === 'month'">
+                <!-- @change="_mxHandleSubmit()" -->
+                <el-date-picker
+                  style="width: 100%"
+                  size="small"
+                  type="month"
+                  value-format="yyyy-MM"
+                  :placeholder="item.placeholder || '选择月份'"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key]"
+                  :picker-options="item.pickerOptions || ''"
+                ></el-date-picker>
+              </template>
+              <!--多个日期-选择具体到某天某时某秒-->
+              <template v-if="item.type === 'datetime'">
+                <!-- @change="_mxHandleSubmit()" -->
+                <el-date-picker
+                  type="datetime"
+                  size="small"
+                  :placeholder="item.placeholder || '选择开始日期'"
+                  style="width: 45%"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key[1]]"
+                ></el-date-picker>
+                -
+                <el-date-picker
+                  type="datetime"
+                  size="small"
+                  :placeholder="item.placeholder || '选择结束日期'"
+                  style="width: 45%"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :clearable="isClearAble(item)"
+                  v-model="form[item.key[2]]"
+                ></el-date-picker>
+                <!-- @change="_mxHandleSubmit()" -->
+              </template>
+            </el-form-item>
+          </transition>
         </el-col>
+      </el-row>
+    </el-form>
+
+    <el-row>
+      <el-col>
         <div class="btnStyle">
           <slot name="Btn">
-            <!-- <div> -->
             <el-button
               type="primary"
               @click="_mxHandleSubmit()"
               style="margin-left: 15px"
               size="small"
               v-throttle
-              >查询</el-button
-            >
+              >查询</el-button>
             <el-button size="small" @click="_mxHandleReset()">重置</el-button>
-            <!-- </div> -->
           </slot>
           <slot name="Other" :form="form"></slot>
         </div>
-      </el-row>
-      <el-row>
-        <el-col
-          ><el-button
-            type="primary"
-            v-if="add && searchFormConfig.length"
-            @click="create"
-            size="small"
-            icon="el-icon-plus"
-            >新建</el-button
-          ></el-col
-        >
-      </el-row>
-    </el-form>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col>
+        <el-button
+          style="float: right; margin: 10px 0"
+          type="text"
+          size="mini"
+          @click="handleToggleIsCollapse"
+        >{{ isCollapse ? "收起筛选" : "展开筛选"}}<i :class="isCollapse ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+        </el-button>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col>
+        <el-button
+          v-if="add && searchFormConfig.length"
+          type="primary"
+          size="small"
+          icon="el-icon-plus"
+          @click="create"
+        >新建</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import { getDateTime } from '@/utils';
+
 export default {
   props: {
     searchFormConfig: {
@@ -285,14 +280,29 @@ export default {
   },
   data() {
     return {
+      isCollapse: true, // 默认展开
       form: {}
     };
   },
-  // 注释重复请求列表接口,只在监听searchFormConfig的时候请求即可
-  // mounted() {
-  //   this.initComponent();
-  // },
+  watch: {
+    searchFormConfig: {
+      handler() {
+        this.initComponent();
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   methods: {
+    //切换收起和展开功能
+    handleToggleIsCollapse() {
+      this.isCollapse = !this.isCollapse;
+      this.searchFormConfig.forEach((item, index) => {
+        if (index > 2) {
+          item.isCollapse = this.isCollapse ? false : true;
+        }
+      })
+    },
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
       this.$emit("search", this.form);
@@ -301,14 +311,6 @@ export default {
           this.$emit("isChooseTime", this.form);
         }
       });
-
-      // 彩信分类统计特殊页面搜索时展示时间功能
-      // if (
-      //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
-      //     "hasOwnProperty"
-      //   )
-      // )
-      //   this.$emit("isChooseTime", this.form);
     },
     //传值
     _mxHandleSendData() {
@@ -316,7 +318,8 @@ export default {
     },
     //重置筛选条件
     _mxHandleReset() {
-      let form = this.form;
+      const form = this.form;
+      const { path } = this.$route;
 
       for (let key in form) {
         form[key] = "";
@@ -336,15 +339,28 @@ export default {
         if (key === "billDate") {
           form["billDate"] = new Date();
         }
+
+        if (path === "/OperationLog/index") {
+          if (key === "serverType") {
+            form[key] = 1;
+          }
+          if (key === "startTime") {
+            form[key] = getDateTime('start');
+          }
+          if (key === "endTime") {
+            form[key] = getDateTime('end');
+          }
+        }
       }
 
       this.form = form;
       // this.$emit("search", this.form);
     },
 
+    // 强制更新ui
     forceUpdate() {
       this.$forceUpdate();
-    }, //强制更新ui
+    },
 
     initComponent() {
       const form = {};
@@ -358,17 +374,6 @@ export default {
             form[key[2]] = item.defaultValue[2];
           }
         }
-        // if (api) {
-        //   this.$http[item.api]({ data: { ...params } }).then((res) => {
-        //     res.data.forEach((data) => {
-        //       let obj = {
-        //         key: data[keys[0]],
-        //         value: data[keys[1]],
-        //       };
-        //       item.optionData.push(obj);
-        //     });
-        //   });
-        // }
       });
       this.form = form;
 
@@ -381,13 +386,6 @@ export default {
 
       if (this.notSearch) return; //默认进入该页面不查询
       this._mxHandleSubmit();
-
-      // if (
-      //   this.searchFormConfig[this.searchFormConfig.length - 2].hasOwnProperty(
-      //     "isSpecial"
-      //   )
-      // )
-      //   this.$emit("forms", this.form);
     },
 
     /**
@@ -421,16 +419,21 @@ export default {
     handleExport() {
       this.$emit("exportData", this.form);
     }
-  },
-  computed: {},
-  watch: {
-    searchFormConfig: {
-      handler() {
-        this.initComponent();
-      },
-      deep: true,
-      immediate: true
-    }
   }
 };
 </script>
+
+<style scoped lang="scss">
+.el-form-item {
+  height: 20px;
+}
+
+.searchPanel {
+  background: #fff;
+  padding-bottom: 20px;
+
+  .btnStyle {
+    float: right;
+  }
+}
+</style>

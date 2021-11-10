@@ -26,7 +26,7 @@
         :add="false"
       ></Search>
       <slot name="btnOther"></slot>
-      <el-table :data="listData" highlight-current-row style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column align="center" prop="corpId" label="商户编号" key="0" />
         <el-table-column
           align="center"

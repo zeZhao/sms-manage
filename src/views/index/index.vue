@@ -75,14 +75,156 @@
         <div id="chart_area"></div>
       </el-col>
     </el-row>
+    <el-dialog
+      title="温馨提示"
+      :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <div slot="title" class="header-title">
+        <span
+          ><i
+            class="el-icon-warning"
+            style="color: #FF8800;font-size: 22px;"
+          ></i>
+        </span>
+        <span>温馨提示</span>
+      </div>
+      <p>您的密码已经90天未更新，为了您的安全，请前往修改登录密码。</p>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">稍后</el-button>
+        <el-button
+          type="primary"
+          @click="
+            editVisible = true;
+            dialogVisible = false;
+          "
+          >前往修改</el-button
+        >
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="修改密码"
+      :visible.sync="editVisible"
+      :close-on-click-modal="false"
+      width="50%"
+      :before-close="handleClose"
+    >
+      <el-form :model="form" ref="form" :rules="rulesForm" label-width="120px">
+        <el-form-item label="姓名:">
+          <span>{{ form.name }}</span>
+        </el-form-item>
+        <el-form-item label="手机号:">
+          <span>{{ form.account }}</span>
+        </el-form-item>
+        <el-form-item label="原密码:" prop="oldPass">
+          <el-input
+            show-password
+            v-model="form.oldPass"
+            placeholder="输入原登录密码"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="新密码:" prop="newPass">
+          <el-input
+            show-password
+            v-model="form.newPass"
+            placeholder="包含数字、大小写字母、符号中的三种，且长度在8-18位"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认新密码:" prop="pwd">
+          <el-input
+            placeholder="确认新密码"
+            v-model="form.pwd"
+            show-password
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitForm('form')">确定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import echarts from "echarts";
+import { mapGetters } from "vuex";
+import { isPassword } from "@/utils";
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
+      //弹窗数据
+      dialogVisible: false,
+
+      //修改密码数据
+      editVisible: false,
+      rulesForm: {
+        oldPass: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) callback(new Error("请输入必填项"));
+              if (!isPassword(value)) {
+                callback(
+                  new Error(
+                    "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                  )
+                );
+              }
+              callback();
+            }
+          }
+        ],
+        newPass: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) callback(new Error("请输入必填项"));
+              if (!isPassword(value)) {
+                callback(
+                  new Error(
+                    "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                  )
+                );
+              }
+              callback();
+            }
+          }
+        ],
+        pwd: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) callback(new Error("请输入必填项"));
+              if (value !== this.form.newPass)
+                callback(new Error("新密码请保持一致"));
+              if (!isPassword(value)) {
+                callback(
+                  new Error(
+                    "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                  )
+                );
+              }
+              callback();
+            }
+          }
+        ]
+      },
+      form: {
+        account: "",
+        name: "",
+        suId: "",
+        newPass: "",
+        oldPass: "",
+        pwd: ""
+      },
+
       operator: "1",
       send: "1",
       area: "1",
@@ -188,19 +330,57 @@ export default {
             data: [10, 52, 200, 334, 390, 330, 220]
           }
         ]
-      }
+      },
+      status: Cookies.get("status"),
+      info: JSON.parse(Cookies.get("info"))
     };
+  },
+  computed: {
+    // ...mapGetters(["status", "info"])
   },
   mounted() {
     this.querySendStaticByTime();
     this.queryCountByOpera();
     this.queryCountByArea();
+    if (this.status == 0) {
+      this.dialogVisible = true;
+    }
+    const { account, name, suId } = this.info;
+    this.form.account = account;
+    this.form.name = name;
+    this.form.suId = suId;
     //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
     // window.addEventListener("resize", function() {
     //   chartOperator.resize();
     // });
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$http.user.addOrUpdate({ ...this.form }).then(res => {
+            if (res.code === 200) {
+              this.$message.success("修改成功，请重新登录!");
+              this.editVisible = false;
+              setTimeout(() => {
+                Cookies.remove("Admin-Token");
+                Cookies.remove("token");
+                window.location.reload();
+              }, 300);
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    handleClose() {
+      this.dialogVisible = false;
+      this.editVisible = false;
+    },
     //发送统计
     querySendStaticByTime() {
       this.$http.sendReportStatistic

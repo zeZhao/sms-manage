@@ -3,7 +3,7 @@
   <div>
     <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
 
-    <el-table :data="listData" highlight-current-row style="width: 100%">
+    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
       <el-table-column prop="text" label="审核状态">
         <template slot-scope="{row}">{{ renderText(row.text) }}</template>
       </el-table-column>

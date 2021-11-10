@@ -41,34 +41,29 @@
             />
           </el-form-item>
 
-          <el-tooltip
+          <!-- <el-tooltip
             v-model="capsTooltip"
             content="Caps lock is On"
             placement="right"
             manual
-          >
+          > -->
             <el-form-item prop="verifyCode" label="口令">
               <el-input
                 ref="password"
-                :key="passwordType"
                 v-model="loginForm.verifyCode"
-                :type="passwordType"
                 placeholder="请输入口令"
-                type="password"
+                type="text"
                 tabindex="3"
                 maxlength="6"
-                autocomplete="on"
-                @keyup.native="checkCapslock"
-                @blur="capsTooltip = false"
                 @keyup.enter.native="handleLogin"
               />
-              <span class="show-pwd" @click="showPwd">
+              <!-- <span class="show-pwd" @click="showPwd">
                 <svg-icon
                   :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
                 />
-              </span>
+              </span> -->
             </el-form-item>
-          </el-tooltip>
+          <!-- </el-tooltip> -->
 
           <!-- <el-form-item prop="verifyCode" style="overflow: hidden">
             <el-input
@@ -134,8 +129,12 @@ export default {
       },
       loginRules: {
         username: [{ required: true, trigger: "blur", validator: phone }],
-        password: [{ required: true, trigger: "blur", validator: validatePassword }],
-        verifyCode: [{ required: true, trigger: "blur", validator: validateVerifyCode }]
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword }
+        ],
+        verifyCode: [
+          { required: true, trigger: "blur", validator: validateVerifyCode }
+        ]
       },
       passwordType: "password",
       capsTooltip: false,
@@ -227,12 +226,14 @@ export default {
         if (valid) {
           this.loading = true;
           // 代码调到了src/store下的user.js,调用了里面的LoginByUsername方法
-          this.$store.dispatch("user/LoginByUsername", {
-            account: this.loginForm.username,
-            pwd: this.loginForm.password,
-            verifyCode: this.loginForm.verifyCode
-            // uuId: this.loginForm.uuid
-          }).then(() => {
+          this.$store
+            .dispatch("user/LoginByUsername", {
+              account: this.loginForm.username,
+              pwd: this.loginForm.password,
+              verifyCode: this.loginForm.verifyCode
+              // uuId: this.loginForm.uuid
+            })
+            .then(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
                 path: "/",

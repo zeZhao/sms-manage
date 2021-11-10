@@ -7,23 +7,25 @@ import {
 import {
   Message
 } from 'element-ui'
+import router from '@/router'
 
 axios.defaults.timeout = 500000;
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 // axios.defaults.baseURL = '';
-if (process.env.NODE_ENV === "production") {
-  let baseUrl = ''
-  switch (process.env.VUE_APP_TITLE) {
-    case "development":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
-    case "production":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
-  }
-  axios.defaults.baseURL = baseUrl
-} else {
-  axios.defaults.baseURL = '/api/api'
-}
+// if (process.env.NODE_ENV === "production") {
+//   let baseUrl = ''
+//   switch (process.env.VUE_APP_TITLE) {
+//     case "development":
+//       baseUrl = process.env.VUE_APP_BASE_API
+//       break
+//     case "production":
+//       baseUrl = process.env.VUE_APP_BASE_API
+//       break
+//   }
+//   axios.defaults.baseURL = baseUrl
+// } else {
+
+// }
 
 //http request 拦截器
 axios.interceptors.request.use(
@@ -45,6 +47,13 @@ axios.interceptors.response.use(
   response => {
     if (response.data.code == 401) {
       removeToken()
+      window.location.reload()
+    } else if (response.data.code === 406) {
+      Message({
+        message: response.data.msg,
+        type: 'error',
+      })
+      router.push("/")
       window.location.reload()
     } else if (response.data.code === 999) {
       Message({
@@ -78,10 +87,10 @@ export function fetch(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -102,10 +111,10 @@ export function downLoadGet(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -124,10 +133,10 @@ export function post(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -144,10 +153,10 @@ export function downLoadPost(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -165,10 +174,10 @@ export function patch(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -186,10 +195,10 @@ export function put(url, data = {}) {
       .then(response => {
         resolve(response.data);
       }, err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }
@@ -210,10 +219,10 @@ export function del(url, params = {}) {
         resolve(response.data);
       })
       .catch(err => {
-        Message({
-          message: '网络异常',
-          type: 'error',
-        })
+        // Message({
+        //   message: '网络异常',
+        //   type: 'error',
+        // })
       })
   })
 }

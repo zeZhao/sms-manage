@@ -8,6 +8,7 @@
     ></Search>
     <el-table
       :data="listData"
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -153,7 +154,11 @@ export default {
     const validatorPassword = (rule, value, callback) => {
       if (value) {
         if (!isPassword(value)) {
-          callback(new Error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"));
+          callback(
+            new Error(
+              "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+            )
+          );
         } else {
           callback();
         }
@@ -174,12 +179,25 @@ export default {
       }
     };
     const validatorMobile = (rule, value, callback) => {
+      console.log(this.formTit, "-----this.formTit");
       let regex = /^1(3|4|5|6|7|8|9)\d{9}$/;
-      if (value == "") {
-        callback(new Error("手机号不能为空"));
+      if (this.formTit === "新增") {
+        if (value == "") {
+          callback(new Error("手机号不能为空"));
+        } else {
+          if (!regex.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        }
       } else {
-        if (!regex.test(value)) {
-          callback(new Error("手机号格式不正确"));
+        if (value.indexOf("*") === -1) {
+          if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
         } else {
           callback();
         }
@@ -260,6 +278,7 @@ export default {
           label: "手机号",
           key: "userName",
           defaultValue: "",
+          maxlength: 11,
           rules: [
             {
               required: true,
@@ -275,7 +294,7 @@ export default {
           key: "password",
           defaultValue: "",
           maxlength: 18,
-          rules: [{ trigger: ['blur', 'change'], validator: validatorPassword }]
+          rules: [{ trigger: ["blur", "change"], validator: validatorPassword }]
         },
         // {
         //   type: "input",
@@ -349,13 +368,19 @@ export default {
       // 1:主管 2:组长 3:组员 5:超管
       this.searchFormConfig.forEach(item => {
         if (val.type === 2 && item.key === "type") {
-          item.optionData = [{ key: 2, value: "组长" }, { key: 3, value: "组员" }];
+          item.optionData = [
+            { key: 2, value: "组长" },
+            { key: 3, value: "组员" }
+          ];
         }
-      })
+      });
       this.formConfig.forEach(item => {
         if (val.type === 2 && item.key === "type") {
           // 组长角色选项下拉
-          item.optionData = [{ key: 2, value: "组长", disabled: true }, { key: 3, value: "组员" }];
+          item.optionData = [
+            { key: 2, value: "组长", disabled: true },
+            { key: 3, value: "组员" }
+          ];
         }
         if (item.key === "groupId") {
           item.optionData = val.data.map(t => {
@@ -375,7 +400,11 @@ export default {
   methods: {
     selectChange({ val, item }) {
       if (item.key === "type") {
-        this._setDisplayShow(this.formConfig, "groupId", val === 1 ? true : false);
+        this._setDisplayShow(
+          this.formConfig,
+          "groupId",
+          val === 1 ? true : false
+        );
         if (val === 1) {
           this._deleteDefaultValue(this.formConfig, "groupId");
         }
@@ -387,16 +416,18 @@ export default {
       let str = val === 1 ? "用户启用成功！" : "用户禁用成功";
       let str1 = val === 1 ? "用户启用失败！" : "用户禁用失败";
       const { id, userName } = row;
-      this.$http.sysSales.updateStatus({ id, status: val, userName }).then(res => {
-        this.loading = false;
-        if (res.code === 200) {
-          this.$message.success(str);
-          this._mxGetList();
-        } else {
-          this.$message.error(str1);
-          this._mxGetList();
-        }
-      });
+      this.$http.sysSales
+        .updateStatus({ id, status: val, userName })
+        .then(res => {
+          this.loading = false;
+          if (res.code === 200) {
+            this.$message.success(str);
+            this._mxGetList();
+          } else {
+            this.$message.error(str1);
+            this._mxGetList();
+          }
+        });
     },
     // 检验是否绑定商户账号
     switchChange(val, row) {
@@ -405,15 +436,19 @@ export default {
         return;
       }
       this.$http.sysSales.checkSysSales({ id: row.id }).then(res => {
-        this.$confirm(res.msg, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          res.code === 200 ? this.beginUpdateStatus(val, row) : this._mxGetList();
-        }).catch(() => {
-          this._mxGetList();
-        });
+        this.$confirm(res.msg, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            res.code === 200
+              ? this.beginUpdateStatus(val, row)
+              : this._mxGetList();
+          })
+          .catch(() => {
+            this._mxGetList();
+          });
       });
     },
     refresh() {
@@ -487,7 +522,6 @@ export default {
         .catch(() => {});
     },
     submit(form) {
-      console.log(form, "--------form");
       let params = {};
       if (this.formTit == "新增") {
         params = {
