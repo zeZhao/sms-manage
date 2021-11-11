@@ -69,8 +69,7 @@ export const constantRoutes = [
         redirect: '/index/index',
         children: [{
             path: '',
-            component: () =>
-                import('@/views/index/index'),
+            component: () => import('@/views/index/index'),
             name: 'index',
             meta: {
                 title: '首页',

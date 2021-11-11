@@ -10,21 +10,22 @@ import {
 import router from '@/router'
 
 axios.defaults.timeout = 500000;
+axios.defaults.baseURL = process.env.VUE_APP_BASE_API
 // axios.defaults.baseURL = '';
-if (process.env.NODE_ENV === "production") {
-  let baseUrl = ''
-  switch (process.env.VUE_APP_TITLE) {
-    case "development":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
-    case "production":
-      baseUrl = process.env.VUE_APP_BASE_API
-      break
-  }
-  axios.defaults.baseURL = baseUrl
-} else {
-  axios.defaults.baseURL = '/api/api'
-}
+// if (process.env.NODE_ENV === "production") {
+//   let baseUrl = ''
+//   switch (process.env.VUE_APP_TITLE) {
+//     case "development":
+//       baseUrl = process.env.VUE_APP_BASE_API
+//       break
+//     case "production":
+//       baseUrl = process.env.VUE_APP_BASE_API
+//       break
+//   }
+//   axios.defaults.baseURL = baseUrl
+// } else {
+
+// }
 
 //http request 拦截器
 axios.interceptors.request.use(

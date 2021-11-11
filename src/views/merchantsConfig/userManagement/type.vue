@@ -34,10 +34,30 @@ export default {
       }
     };
     const validCode = (rule, value, callback) => {
-      if (value && (!/^\d{1,12}$/.test(value))) {
+      if (value && !/^\d{1,12}$/.test(value)) {
         callback(new Error("特服号只能为正整数且最大长度为12位"));
       } else {
         callback();
+      }
+    };
+    const validMobile = (rule, value, callback) => {
+      console.log(this.type, "------------type");
+      if (this.type === "create") {
+        if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+          callback(new Error("手机号码格式错误"));
+        } else {
+          callback();
+        }
+      } else {
+        if (value.indexOf("*") === -1) {
+          if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        } else {
+          callback();
+        }
       }
     };
     return {
@@ -321,15 +341,21 @@ export default {
           label: "联系人电话",
           key: "mobile",
           defaultValue: "",
+          maxlength: 11,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
-              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
-              message: "手机号码格式错误",
+              validator: validMobile,
               trigger: "change"
             }
           ]
+          //   {
+          //     ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
+          //     pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+          //     message: "手机号码格式错误",
+          //     trigger: "change"
+          //   }
+          // ]
         },
         {
           type: "select",
@@ -875,7 +901,7 @@ export default {
       this.initData();
       this.currentType = this.type;
     } else {
-      if(this.currentType !== "create"){
+      if (this.currentType !== "create") {
         this.initData();
       } else {
         this.createEnd && this.initData();
@@ -993,7 +1019,31 @@ export default {
     _mxCreate() {
       this.addChannel = true;
       this.formTit = "新增";
+      let arr = [
+        { required: true, message: "请输入必填项", trigger: "blur" },
+        {
+          trigger: "blur",
+          validator: (rule, value, callback) => {
+            if (value) {
+              if (!isPassword(value)) {
+                callback(
+                  new Error(
+                    "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                  )
+                );
+              } else {
+                callback();
+              }
+            } else {
+              callback(new Error("请输入必填项"));
+            }
+          }
+        }
+      ];
       this.formConfig.forEach(item => {
+        if (item.key === "password") {
+          item.rules = arr;
+        }
         if (
           item.key === "productType" ||
           item.key === "mmsProType" ||
@@ -1202,6 +1252,29 @@ export default {
       this.formConfig.forEach(item => {
         if (item.key === "loginName") {
           item.disabled = true;
+        }
+        if (item.key === "password") {
+          let arr = [
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(
+                      new Error(
+                        "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                      )
+                    );
+                  } else {
+                    callback();
+                  }
+                } else {
+                  callback();
+                }
+              }
+            }
+          ];
+          item.rules = arr;
         }
       });
       this.addChannel = true;
