@@ -6,19 +6,23 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-      @exportData="_mxExportData"
+      @exportData="exportData"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="batchModification"
           >批量修改</el-button
         >
-        <el-button type="primary" size="small" @click="$refs.Search.handleExport()"
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
           >导出</el-button
         >
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -682,6 +686,15 @@ export default {
     this.getSensitiveWordGroup();
   },
   methods: {
+    exportData(form) {
+      this.$axios
+        .post("/sysExemptReviewManage/exportExemptReviewManage", {
+          data: { ...form }
+        })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
     //获取敏感词组
     getSensitiveWordGroup() {
       this.$http.sysSensitiveWordGroup.listSensitiveWordGroup().then(res => {

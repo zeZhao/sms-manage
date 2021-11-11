@@ -250,6 +250,8 @@
 </template>
 
 <script>
+import { getDateTime } from '@/utils';
+
 export default {
   props: {
     searchFormConfig: {
@@ -316,7 +318,8 @@ export default {
     },
     //重置筛选条件
     _mxHandleReset() {
-      let form = this.form;
+      const form = this.form;
+      const { path } = this.$route;
 
       for (let key in form) {
         form[key] = "";
@@ -335,6 +338,18 @@ export default {
 
         if (key === "billDate") {
           form["billDate"] = new Date();
+        }
+
+        if (path === "/OperationLog/index") {
+          if (key === "serverType") {
+            form[key] = 1;
+          }
+          if (key === "startTime") {
+            form[key] = getDateTime('start');
+          }
+          if (key === "endTime") {
+            form[key] = getDateTime('end');
+          }
         }
       }
 
