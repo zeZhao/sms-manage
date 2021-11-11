@@ -309,12 +309,7 @@ export default {
         if (value == "") {
           callback(new Error("手机号不能为空"));
         } else {
-          if (
-            (
-              !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
-              value.length !== 11
-            ).test(value)
-          ) {
+          if (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) || value.length !== 11) {
             callback(new Error("手机号码格式错误"));
           } else {
             callback();
