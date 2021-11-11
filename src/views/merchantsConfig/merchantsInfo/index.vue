@@ -518,15 +518,32 @@ export default {
     },
     //新增商户
     addCustomerInfo(formName) {
+      // debugger;
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // debugger;
           this.$http.corp.addOrUpdate({ ...this.addInfo }).then(res => {
             const { code, data, msg } = res;
             if (code == 200) {
+              // debugger;
+              this.customerAddInfo = false;
               this.$message.success(msg);
               this.orderList();
-              this.customerAddInfo = false;
-              this.$refs[formName].resetFields();
+              this.addInfo = {
+                corpName: "",
+                // pwd: "",
+                code: "",
+                sublong: "",
+                reductModel: "",
+                isDirectUser: "",
+                isBusiness: "",
+                cardUnit: "",
+                contact: "",
+                mobile: "",
+                bankAccount: "",
+                root: ""
+              };
+              this.$refs[formName].clearValidate();
             } else {
               this.$message.error(data);
             }
