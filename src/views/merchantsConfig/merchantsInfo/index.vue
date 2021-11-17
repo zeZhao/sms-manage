@@ -306,14 +306,12 @@ export default {
     var validatePhone = (rule, value, callback) => {
       console.log(this.formBtn, "-----this.formBtn");
       if (this.formBtn === "新增") {
-        if (value == "") {
-          callback(new Error("手机号不能为空"));
+        if (value === "") {
+          callback();
         } else {
           if (
-            (
-              !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
-              value.length !== 11
-            ).test(value)
+            !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
+            value.length !== 11
           ) {
             callback(new Error("手机号码格式错误"));
           } else {
@@ -322,14 +320,17 @@ export default {
         }
       } else {
         if (value.indexOf("*") === -1) {
-          if (
-            value &&
-            (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
-              value.length !== 11)
-          ) {
-            callback(new Error("手机号码格式错误"));
-          } else {
+          if (value === "") {
             callback();
+          } else {
+            if (
+              !/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) ||
+              value.length !== 11
+            ) {
+              callback(new Error("手机号码格式错误"));
+            } else {
+              callback();
+            }
           }
         } else {
           callback();
@@ -518,15 +519,32 @@ export default {
     },
     //新增商户
     addCustomerInfo(formName) {
+      // debugger;
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // debugger;
           this.$http.corp.addOrUpdate({ ...this.addInfo }).then(res => {
             const { code, data, msg } = res;
             if (code == 200) {
+              // debugger;
+              this.customerAddInfo = false;
               this.$message.success(msg);
               this.orderList();
-              this.customerAddInfo = false;
-              this.$refs[formName].resetFields();
+              this.addInfo = {
+                corpName: "",
+                // pwd: "",
+                code: "",
+                sublong: "",
+                reductModel: "",
+                isDirectUser: "",
+                isBusiness: "",
+                cardUnit: "",
+                contact: "",
+                mobile: "",
+                bankAccount: "",
+                root: ""
+              };
+              this.$refs[formName].clearValidate();
             } else {
               this.$message.error(data);
             }
