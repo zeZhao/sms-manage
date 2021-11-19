@@ -32,6 +32,7 @@
         min-width="120"
         show-overflow-tooltip
       />
+      <el-table-column prop="counter" label="手机号个数" min-width="90" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
@@ -51,6 +52,9 @@
         }}</template>
       </el-table-column>
     </el-table>
+    <p style="color: red">
+      手机号总条数: {{ tabBottomData || 0 }}
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -97,7 +101,8 @@ export default {
       //接口地址
       searchAPI: {
         namespace: "smsSendTask",
-        list: "queryByPage"
+        list: "queryByPage",
+        tabBottomDataUrl: "selectSendTaskAllNum"
       },
       // 列表参数
       namespace: "sendTask",
@@ -259,7 +264,8 @@ export default {
           label: "特服号",
           key: "code"
         }
-      ]
+      ],
+      tabBottomData: 0
     };
   },
   mounted() {

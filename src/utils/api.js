@@ -1547,9 +1547,13 @@ export default {
         batchModify(params) {
             return post("/smsSendTask/batchModify", params);
         },
-        //查看汇总 
+        //查看汇总
         queryGatewayStockNum(params) {
             return post("/smsSendTask/queryGatewayStockNum", params);
+        },
+        //手机号总个数
+        selectSendTaskAllNum(params) {
+            return post("/smsSendTask/selectSendTaskAllNum", params);
         }
     },
     // 通道错误
