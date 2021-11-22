@@ -8,7 +8,7 @@ export const isPhone = (rule, value, callback) => {
   if (!value) {
     callback(new Error("请输入必填项"));
   }
-  /^1[3-9]\d{9}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重填"));
+  /^1\d{2}(\*|\d){4}\d{4}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重填"));
 };
 
 // 手机号码验证2

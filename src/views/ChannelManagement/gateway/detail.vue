@@ -214,8 +214,8 @@ export default {
           key: "operateStatus",
           defaultValue: "",
           optionData: [
-            { key: 1, value: "使用中" },
-            { key: 2, value: "测试中" },
+            { key: 1, value: "测试中" },
+            { key: 2, value: "使用中" },
             { key: 3, value: "暂停使用" },
             { key: 4, value: "关停" },
             { key: 5, value: "弃用" }
