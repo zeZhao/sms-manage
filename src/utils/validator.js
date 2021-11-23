@@ -8,12 +8,12 @@ export const isPhone = (rule, value, callback) => {
   if (!value) {
     callback(new Error("请输入必填项"));
   }
-  /^1\d{2}(\*|\d){4}\d{4}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重填"));
+  /^1\d{2}((\*{4})|(\d{4}))\d{4}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重填"));
 };
 
 // 手机号码验证2
 export const phone = (rule, value, callback) => {
-  let regex = new RegExp("^(1[3-9][0-9]{9})$");
+  let regex = /^1\d{2}((\*{4})|(\d{4}))\d{4}$/;
   if (value) {
     if (!regex.test(value)) {
       callback(new Error("手机号码有误，请重填"));
