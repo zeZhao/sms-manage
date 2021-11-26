@@ -128,7 +128,6 @@
 import listMixin from "@/mixin/listMixin";
 import { getToken } from "@/utils/auth";
 import { phone } from "@/utils/validator";
-import { Axis } from "echarts/lib/export";
 
 export default {
   mixins: [listMixin],

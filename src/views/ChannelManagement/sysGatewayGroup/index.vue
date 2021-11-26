@@ -265,6 +265,12 @@ export default {
         this.$message.error('分配比例应该大于0且不得大于100');
         return;
       }
+      const isSameType1 = this.gatewayGroupList.every(v => v.type === 1);
+      const isSameType2 = this.gatewayGroupList.every(v => v.type === 2);
+      if (!isSameType1 && !isSameType2) {
+        this.$message.error('通道类型只能为同一种类型');
+        return;
+      }
       let params = {};
       if (this.formTit == "新增") {
         params = {

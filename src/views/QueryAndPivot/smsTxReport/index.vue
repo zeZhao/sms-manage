@@ -127,12 +127,6 @@ export default {
         },
         {
           type: "input",
-          label: "状态",
-          key: "status",
-          placeholder: "请输入状态"
-        },
-        {
-          type: "input",
           label: "CID",
           key: "cid",
           placeholder: "请输入CID"

@@ -183,12 +183,7 @@ export default {
           disabled: false,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            {
-              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
-              message: "手机号格式不对",
-              trigger: ['blur', 'change']
-            }
+            { required: true, trigger: ['blur', 'change'], validator: this.$isPhone }
           ]
         },
         {

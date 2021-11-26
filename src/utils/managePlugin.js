@@ -7,6 +7,7 @@ import BatchModification from "@/components/BatchModification"
 import Api from "@/utils/api.js";
 import Vue from "vue";
 import { Message } from 'element-ui';
+import { isPhone } from "@/utils";
 
 class managePlugin {
 
@@ -350,11 +351,14 @@ class managePlugin {
       }
     };
 
-    //全局导出之后到下载中心的提示
+    // 全局导出之后到下载中心的提示
     const exportSuccessMsg = '数据生成中，请前往下载中心下载';
     Vue.prototype.$exportToast = () => {
       Message.success(exportSuccessMsg);
     };
+
+    // 手机号正则（包含中间带****格式）
+    Vue.prototype.$isPhone = isPhone;
   }
 
   /*------------------安装指令方法------------------*/
