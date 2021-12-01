@@ -400,24 +400,12 @@ export default {
           optionData: [{ key: 0, value: "无" }, { key: 1, value: "有" }]
         },
         {
-          type: "input",
-          label: "限制天数",
-          key: "limitDays",
+          type: "select",
+          label: "是否报备",
+          key: "isReportRemarks",
+          defaultValue: "",
           colSpan: 12,
-          rules: [
-            {
-              required: false,
-              trigger: "blur",
-              validator: (rule, value, callback) => {
-                if (!value) callback();
-                isNaN(value)
-                  ? callback(new Error("只能输入数字"))
-                  : value > 0
-                  ? callback()
-                  : callback(new Error("必须大于0"));
-              }
-            }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "input",
@@ -441,16 +429,37 @@ export default {
         },
         {
           type: "select",
-          label: "是否报备",
-          key: "isReportRemarks",
+          label: "连不上通道自动转",
+          key: "disconnectFailTurn",
           defaultValue: "",
           colSpan: 12,
           optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "限制天数",
+          key: "limitDays",
+          colSpan: 12,
+          rules: [
+            {
+              required: false,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                isNaN(value)
+                  ? callback(new Error("只能输入数字"))
+                  : value > 0
+                  ? callback()
+                  : callback(new Error("必须大于0"));
+              }
+            }
+          ]
         },
         {
           type: "select",
-          label: "连不上通道自动转",
-          key: "disconnectFailTurn",
+          label: "连续提交失败自动转",
+          key: "submitFailTurn",
           defaultValue: "",
           colSpan: 12,
           optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
@@ -478,12 +487,10 @@ export default {
           ]
         },
         {
-          type: "select",
-          label: "连续提交失败自动转",
-          key: "submitFailTurn",
-          defaultValue: "",
-          colSpan: 12,
-          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
+          type: "input",
+          label: "低于成功率自动转",
+          key: "succRate",
+          colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -496,8 +503,8 @@ export default {
         },
         {
           type: "input",
-          label: "低于成功率自动转",
-          key: "succRate",
+          label: "失败状态自动转",
+          key: "fsAutoChange",
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -505,13 +512,6 @@ export default {
           type: "input",
           label: "落地市",
           key: "city",
-          colSpan: 12
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "失败状态自动转",
-          key: "fsAutoChange",
           colSpan: 12
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
