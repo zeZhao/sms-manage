@@ -508,13 +508,15 @@ export default {
           type: "input",
           label: "扩展长度",
           key: "sublong",
+          initDefaultValue: "0",
+          defaultValue: "0",
           tag: "sms",
           maxlength: 2,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              pattern: /^[1-9]\d*$/,
-              message: "只能输入大于0的正整数",
+              pattern: /^[0-9]\d*$/,
+              message: "只能输入正整数",
               trigger: "change"
             }
           ]

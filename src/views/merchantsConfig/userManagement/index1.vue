@@ -72,7 +72,9 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip />
+      <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip>
+        <template slot-scope="{row}">{{ row.sublong !== 0 ? row.sublong : "不扩展" }}</template>
+      </el-table-column>
       <el-table-column
         prop="longCode"
         label="长号码"
