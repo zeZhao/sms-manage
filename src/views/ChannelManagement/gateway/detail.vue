@@ -345,6 +345,14 @@ export default {
           colSpan: 12,
           lock: true
         },
+        {
+          type: "input",
+          label: "计费类型",
+          tag: "encrypt",
+          key: "feeType",
+          colSpan: 12,
+          lock: true
+        },
 
         {
           isTitle: true,
