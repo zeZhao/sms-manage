@@ -21,6 +21,8 @@
 
       <div class="tips">第2步：导入文件</div>
 
+      <div v-if="desc" class="desc">{{ desc }}</div>
+
       <el-upload
         class="upload"
         ref="upload"
@@ -57,6 +59,7 @@
 
 <script>
 import { getToken } from "@/utils/auth";
+
 export default {
   props: {
     isOpen: {
@@ -70,6 +73,14 @@ export default {
     downloadTemplateUrl: {
       type: String,
       default: ""
+    },
+    desc: {
+      type: String,
+      default: ""
+    },
+    limitSize: {
+      type: Number,
+      default: 0
     },
     action: {
       type: String,
@@ -138,6 +149,10 @@ export default {
           callback: action => {}
         });
       } else {
+        this.$nextTick(() => {
+          this.file = "";
+          this.$refs.upload.clearFiles();
+        });
         this.$message.error(response.data || response.msg);
       }
     },
@@ -146,6 +161,11 @@ export default {
       if (!isType) {
         this.file = "";
         this.$message.error("上传文件类型错误，请重新上传");
+        return false;
+      }
+      if (this.limitSize && file.size > this.limitSize) {
+        this.file = "";
+        this.$message.error("上传文件过大，请重新上传");
         return false;
       }
       return true;
@@ -173,6 +193,12 @@ export default {
 
     .tips {
       margin-top: 20px;
+    }
+
+    .desc {
+      color: #7F7F7F;
+      font-size: 12px;
+      margin: 20px 0 0 50px;
     }
 
     .upload {

@@ -37,19 +37,16 @@
       </Search>
 
       <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%;" v-loading="loading">
-        <el-table-column prop="wordName" label="黑名单" show-overflow-tooltip />
-        <el-table-column prop="createBy" label="创建人" />
+        <el-table-column v-if="isShowUserId" prop="userId" label="账户编号" min-width="100" />
+        <el-table-column prop="mobile" label="手机号" min-width="100" />
+        <el-table-column prop="createUser" label="创建人" min-width="100" />
         <el-table-column prop="createTime" label="创建时间" min-width="150">
-          <template slot-scope="scope">{{
-            scope.row.createTime | timeFormat
-          }}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" show-overflow-tooltip>
-          <template slot-scope="scope">{{
-            scope.row.remark ? scope.row.remark : "-"
-          }}</template>
+          <template slot-scope="scope">{{ scope.row.remark ? scope.row.remark : "-" }}</template>
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button @click="editBlackList(scope.row)" type="text" size="small">修改</el-button>
             <el-button @click="deleteBlackList(scope.row.blackId)" type="text" size="small">删除</el-button>
@@ -94,6 +91,11 @@
           <el-button size="small" type="primary" v-throttle @click="handleConfirmBlackList">确认</el-button>
         </div>
       </el-dialog>
+
+      <BatchAddition :isOpen="isOpen" :title="title" desc="文件大小 < 200M，支持xls/xlsx文档" :limitSize="1024 * 1024 * 200"
+        downloadTemplateUrl="/template/smsBlacklist.xlsx" action="/sysBlacklist/importBatchAdd" @submit="batchSubmit"
+        @cancel="cancelBatch">
+      </BatchAddition>
     </section>
   </div>
 </template>
@@ -115,7 +117,7 @@ export default {
         list: "listBlacklistByPage",
         detele: "deleteSysBlackList"
       },
-      // 列表参数
+      //列表参数
       namespace: "",
       //搜索框数据
       searchParam: {},
@@ -123,6 +125,8 @@ export default {
       searchFormConfig: [
         { type: "input", label: "手机号", key: "mobile", isLonger: true }
       ],
+      isOpen: false,
+      title: "批量添加",
       defaultActive: "",
       groupList: [],
       createOrUpdate: "添加黑名单组",
@@ -134,6 +138,15 @@ export default {
       isAddBlackList: false,
       addBlackList: {}
     };
+  },
+  computed: {
+    isShowUserId () {
+      if (this.groupList.length) {
+        const arr = ["系统级", "营销级", "BSATS级"];
+        return arr.indexOf(this.groupList[this.activeIndex].blackGroupName) === -1;
+      }
+      return false;
+    }
   },
   mounted () {
     this.getGroupList();
@@ -234,7 +247,17 @@ export default {
 
     // 批量添加
     handleBatchAdd () {
+      this.isOpen = true;
+    },
 
+    // 批量添加-确认
+    batchSubmit () {
+      this.isOpen = false;
+    },
+
+    // 批量添加-取消
+    cancelBatch () {
+      this.isOpen = false;
     },
 
     // 添加单个黑名单
