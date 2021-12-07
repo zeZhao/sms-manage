@@ -191,6 +191,10 @@ export default {
         configureSubmitRate(params) {
             return fetch("/corpUser/configureSubmitRate", params);
         },
+        // 获取最后的账户编号
+        getLasttUserId(params) {
+            return fetch("/corpUser/getLasttUserId", params);
+        }
     },
     //通道重发配置
     sysResendConfig: {

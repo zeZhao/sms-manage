@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{ renderTitle }}</h2>
+    <h2>{{ renderTitle }}{{ titleTips }}</h2>
     <FormItemTitle
       class="userManagementType"
       :colSpan="8"
@@ -864,7 +864,9 @@ export default {
       //记录当前是创建还是修改
       currentType: "",
       // 添加完成后去除再次点击新建页面保留上次新建的页面数据
-      createEnd: false
+      createEnd: false,
+      // 新增展示上一账户编号和修改展示当前账户编号
+      titleTips: ""
     };
   },
   computed: {
@@ -889,10 +891,12 @@ export default {
     }
   },
   mounted() {
+    this.getUserId();
     this.currentType = this.$route.query.type;
     this.initData();
   },
   activated() {
+    this.getUserId();
     this.getAllCorp();
     this.getSaleman();
     this.getAgent();
@@ -914,6 +918,18 @@ export default {
     this.type === "update" && this.disabledProType();
   },
   methods: {
+    // 获取账户编号
+    getUserId() {
+      this.titleTips = ""; // 重置
+      if (this.type === "create") {
+        this.$http.corpUser.getLasttUserId().then(res => {
+          this.titleTips = `（上一个账户编号为：${res.data}）`;
+        })
+      } else {
+        this.titleTips = `（账户编号为：${JSON.parse(this.$route.query.row).userId}）`;
+      }
+    },
+
     //初始化数据
     initData() {
       const { type, row, ID } = this.$route.query;
