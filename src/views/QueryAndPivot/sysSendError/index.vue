@@ -66,6 +66,7 @@
       :visible.sync="gateway"
       :close-on-click-modal="false"
       style="margin: 0 auto"
+      width="55%"
     >
       <FormItem
         :colSpan="12"

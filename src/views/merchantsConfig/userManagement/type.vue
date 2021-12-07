@@ -345,7 +345,7 @@ export default {
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
-              validator: validMobile,
+              validator: this.$isPhone,
               trigger: "change"
             }
           ]

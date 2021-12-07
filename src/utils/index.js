@@ -381,3 +381,9 @@ export function isPassword(val) {
   }
   return false;
 }
+
+// 手机号正则（包含中间带****格式）
+export const isPhone = (rule, value, callback) => {
+  if (!value) callback(new Error("请输入必填项"));
+  /^1\d{2}((\*{4})|(\d{4}))\d{4}$/.test(value) ? callback() : callback(new Error("手机号码有误，请重新输入"));
+}
