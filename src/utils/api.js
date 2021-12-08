@@ -2285,5 +2285,24 @@ export default {
         exportOperationLog(params) {
             return post("/operationLog/exportOperationLog", params);
         }
+    },
+    // 推送工具
+    pushToolTask: {
+        // 推送工具任务列表分页查询
+        queryByPage(params) {
+            return post("/pushToolTask/queryByPage", params);
+        },
+        // 新增重推任务
+        add(params) {
+            return post("/pushToolTask/add", params);
+        },
+        // 修改重推任务状态
+        updateStatus(params) {
+            return fetch("/pushToolTask/updateStatus", params);
+        },
+        // 删除重推任务
+        delete(params) {
+            return fetch("/pushToolTask/delete", params);
+        }
     }
 }
