@@ -280,6 +280,18 @@ export const constantRoutes = [
                 component: () => import('@/views/ConfigManagement/auditFreeTemplate/type')
             }
         ]
+    },
+    {
+        path: '/rePushTool',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'rePushToolType',
+                name: 'rePushToolType',
+                component: () => import('@/views/SystemManagement1/rePushTool/type')
+            }
+        ]
     }
 ]
 
