@@ -488,7 +488,14 @@ export default {
     userDailyBill: {
         queryUserDailyBill(params) {
             return post("/userDailyBill/queryUserDailyBill", params)
-        }
+        },
+        queryUserDailyBillNum(params) {
+            return post("/userDailyBill/queryUserDailyBillNum", params)
+        },
+        exportUserDailyBill(params) {
+            return post("/userDailyBill/exportUserDailyBill", params)
+        },
+
     },
     //用户月账单
     userMonthlyBill: {
