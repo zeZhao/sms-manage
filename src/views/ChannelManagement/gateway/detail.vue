@@ -342,6 +342,8 @@ export default {
           label: "cmpp版本",
           tag: "encrypt",
           key: "version",
+          initDefaultValue: "20",
+          defaultValue: "20",
           colSpan: 12,
           lock: true
         },
