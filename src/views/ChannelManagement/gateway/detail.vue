@@ -171,11 +171,11 @@ export default {
           type: "select",
           label: "公司服务器ip",
           key: "ip",
-          initDefaultValue: "10.3.0.23",
-          defaultValue: "10.3.0.23",
+          initDefaultValue: "10.10.32.5",
+          defaultValue: "10.10.32.5",
           colSpan: 12,
           optionData: [
-            { key: "10.3.0.23", value: "10.3.0.23" }
+            { key: "10.10.32.5", value: "10.10.32.5" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
