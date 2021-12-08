@@ -5,9 +5,21 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
-    ></Search>
+      ref="Search"
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
+          >导出</el-button
+        >
+      </template></Search
+    >
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -24,7 +36,18 @@
       <el-table-column prop="succCount" label="成功条数" />
       <el-table-column prop="failCount" label="失败条数" />
       <el-table-column prop="submitUnknownCount" label="未知条数" />
+      <el-table-column prop="succRate" label="成功率" />
+      <el-table-column prop="failRate" label="失败率" />
+      <el-table-column prop="unknownRate" label="未知率" />
     </el-table>
+    <p style="color: red" v-if="statistics">
+      总提交数(条):{{ statistics.submitCountAll }} &nbsp;&nbsp;总发送条数(条):{{
+        statistics.sendCountAll
+      }}&nbsp;&nbsp; 总成功数(条):{{ statistics.succCountAll }}&nbsp;&nbsp;
+      总失败数(条):{{ statistics.failCountAll }}&nbsp;&nbsp; 总未知数(条):{{
+        statistics.unknownCountAll
+      }}
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -62,12 +85,37 @@ export default {
           label: "统计日期",
           key: ["", "startTime", "endTime"]
         }
-      ]
+      ],
+      statistics: {}
     };
   },
-  mounted() {},
+  mounted() {
+    this.queryUserDailyBillNum();
+  },
   computed: {},
   methods: {
+    exportData(form) {
+      this.$axios
+        .post("/userDailyBill/exportUserDailyBill", {
+          data: { userMonthlyBill: { ...form }, pageNumber: 1, pageSize: 10 }
+        })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
+    queryUserDailyBillNum() {
+      this.$http.userDailyBill
+        .queryUserDailyBillNum({
+          data: {
+            pageNumber: 1,
+            pageSize: 10,
+            userMonthlyBill: { ...this.searchParam }
+          }
+        })
+        .then(res => {
+          this.statistics = Object.assign({}, res.data);
+        });
+    },
     // 修改搜索参数
     _formatRequestData(data) {
       const { startTime, endTime } = data;
@@ -77,6 +125,7 @@ export default {
       if (endTime) {
         data.endTime = new Date(endTime).Format("yyyy-MM-dd");
       }
+      this.queryUserDailyBillNum(data);
       return data;
     },
     /**
