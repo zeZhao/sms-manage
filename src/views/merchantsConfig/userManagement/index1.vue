@@ -72,7 +72,9 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip />
+      <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip>
+        <template slot-scope="{row}">{{ row.sublong !== 0 ? row.sublong : "不扩展" }}</template>
+      </el-table-column>
       <el-table-column
         prop="longCode"
         label="长号码"
@@ -455,6 +457,7 @@
         <p>产品类型: web</p>
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
+        <p>账户名称: {{ infoData.userName }}</p>
         <p>web账号: {{ infoData.loginName }}</p>
         <p>
           web密码: {{ infoData.webPassword }}
@@ -471,6 +474,7 @@
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>web账号: {{ infoData.loginName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
+        <p>账户名称: {{ infoData.userName }}</p>
         <p>
           密码: {{ infoData.password }}
           <i
@@ -490,6 +494,7 @@
         <p>端口: 7893</p>
         <p>web账号: {{ infoData.loginName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
+        <p>账户名称: {{ infoData.userName }}</p>
         <p>
           密码: {{ infoData.password }}
           <i
