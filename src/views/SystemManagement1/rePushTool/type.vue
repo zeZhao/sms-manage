@@ -2,7 +2,17 @@
   <div>
     <h2>{{ renderTitle }}</h2>
     <div style="width: 60%; margin: auto">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"></FormItem>
+      <FormItem ref="formItem" :formConfig="formConfig" :footerIsCenter="true" @onChange="onChange" @submit="submit">
+        <template slot="Btn">
+          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" v-throttle="3000" @click="pushType = 1; $refs.formItem.onSubmit('form')">
+            报告推送
+          </el-button>
+          <el-button type="primary" v-throttle="3000" @click="pushType = 2; $refs.formItem.onSubmit('form')">
+            上行推送
+          </el-button>
+        </template>
+      </FormItem>
     </div>
   </div>
 </template>
@@ -22,24 +32,31 @@ export default {
           label: "账户编号",
           key: "userId",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{
+            required: true, trigger: "blur", validator: (rule, value, callback) => {
+              if (!value) callback(new Error("请输入必填项"));
+              if (isNaN(value)) callback(new Error("请输入正确的账户编号"));
+              callback();
+            }
+          }]
         },
         {
-          type: "dataTime",
+          type: "dataTimes",
           label: "选择日期",
-          key: "userId",
+          key: "dataTimes",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
           label: "手机号",
-          key: "userId",
+          key: "mobile",
           placeholder: "请输入手机号码，多个用英文逗号隔开",
           defaultValue: "",
-          rules: this.$publicValidators.phone
+          rules: [{ required: false }]
         }
-      ]
+      ],
+      pushType: "" // 1 报告推送 2 上行推送
     };
   },
   computed: {
@@ -54,51 +71,59 @@ export default {
     type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
-    submit (form) {
-      let params = {};
-      if (this.formTit == "新建") {
-        params = {
-          data: {
-            ...form
-          }
-        };
-        this.$http.sysSignRoute.addSignRoute(params).then(res => {
-          if (resOk(res)) {
-            window.history.back();
-            this.$message.success(res.msg || res.data);
-            this._mxGetList();
-          } else {
-            this.$message.error(res.data || res.msg);
-          }
-        });
-      } else {
-        params = {
-          data: {
-            routeId: this.routeId,
-            ...form
-          }
-        };
-        this.$http.sysSignRoute.updateSignRoute(params).then(res => {
-          if (resOk(res)) {
-            window.history.back();
-            this.$message.success(res.msg || res.data);
-            this._mxGetList();
-          } else {
-            this.$message.error(res.data || res.msg);
-          }
-        });
+    onChange ({ val, item }) {
+      if (item.key === "mobile") {
+        item.rules = val ? this.$publicValidators.phone : [{ required: false }];
       }
+    },
+    submit (form) {
+      this.$confirm('推送后可在列表进行查看', '确认推送', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 确认推送
+        let params = {};
+        if (this.formTit == "新建") {
+          params = {
+            ...form
+          };
+          params.pushType = this.pushType;
+          params.startTime = params.dataTimes[0];
+          params.endTime = params.dataTimes[1];
+          this.$http.pushToolTask.add(params).then(res => {
+            if (resOk(res)) {
+              window.history.back();
+              this.$message.success(res.msg || res.data);
+              this._mxGetList();
+            } else {
+              this.$message.error(res.data || res.msg);
+            }
+          });
+        } else {
+          params = {
+            data: {
+              routeId: this.routeId,
+              ...form
+            }
+          };
+          this.$http.sysSignRoute.updateSignRoute(params).then(res => {
+            if (resOk(res)) {
+              window.history.back();
+              this.$message.success(res.msg || res.data);
+              this._mxGetList();
+            } else {
+              this.$message.error(res.data || res.msg);
+            }
+          });
+        }
+      }).catch(() => { });
     },
     _mxCreate () {
       this.formTit = "新建";
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
-      this.formConfig.forEach(item => {
-        if (item.key === "userId") {
-          item.btnDisabled = false;
-        }
-      });
     },
     _mxEdit (row) {
       this.routeId = row.routeId;
