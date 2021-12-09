@@ -37,7 +37,7 @@ export default {
 <style lang="scss" scoped>
 .app-main {
   /* 50= navbar  50  */
-  min-height: calc(100vh - 108px);
+  min-height: calc(100vh - 68px);
   width: 100%;
   background: #e9eaf1;
   position: relative;
@@ -45,23 +45,45 @@ export default {
 }
 
 .fixed-header + .app-main {
-  padding-top: 106px;
+  padding-top: 68px;
 }
 
 .hasTagsView {
   .app-main {
     /* 84 = navbar + tags-view = 50 + 40 + 32 */
-    min-height: calc(100vh - 122px);
+    min-height: calc(100vh - 68px);
   }
 
   .fixed-header + .app-main {
-    padding-top: 106px;
+    padding-top: 68px;
   }
 
   .content {
     background: #fff;
     padding: 24px;
-    min-height: calc(100vh - 122px);
+
+    min-height: calc(100vh - 116px);
+    ::v-deep .el-form-item__label {
+      height: 28px;
+      font-size: 12px;
+    }
+    ::v-deep .el-button {
+      height: 28px;
+      font-size: 12px;
+      padding: 0 16px;
+    }
+    ::v-deep .cell .el-button {
+      padding: 0 0px;
+    }
+    ::v-deep .el-input__inner {
+      height: 28px !important;
+      line-height: 28px !important;
+      font-size: 12px;
+      padding: 0 8px;
+    }
+    ::v-deep .el-date-editor .el-input__inner {
+      padding: 0 30px;
+    }
   }
 }
 </style>

@@ -9,7 +9,7 @@
     <div :class="{ hasTagsView: needTagsView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
-        <nav-menu />
+        <!-- <nav-menu /> -->
         <!-- <tags-view v-if="needTagsView" /> -->
       </div>
       <app-main />

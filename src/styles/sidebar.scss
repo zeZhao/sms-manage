@@ -84,6 +84,15 @@
     .el-submenu__title {
       height: 48px !important;
       line-height: 48px !important;
+      padding-left: 12px !important;
+      padding-right: 16px !important;
+    }
+    .submenu-title-noDropdown {
+      padding-left: 12px !important;
+      padding-right: 16px !important;
+    }
+    .el-submenu__icon-arrow {
+      right: 12px !important;
     }
 
     // menu hover

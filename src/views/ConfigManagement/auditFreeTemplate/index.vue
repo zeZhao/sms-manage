@@ -1,8 +1,17 @@
 <template>
   <!--免审核模板-->
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table
+      :data="listData"
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+    >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
@@ -10,24 +19,56 @@
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">{{ renderType(scope.row.type) }}</template>
       </el-table-column>
-      <el-table-column prop="template" label="模板信息" show-overflow-tooltip min-width="200" />
+      <el-table-column prop="template" label="模板信息" min-width="200" />
       <el-table-column prop="createdAt" label="创建时间" min-width="170">
-        <template slot-scope="scope">{{ scope.row.createdAt | timeFormat }}</template>
+        <template slot-scope="scope">{{
+          scope.row.createdAt | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="170">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'templateId')" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('templateId', scope.row.templateId, false, true)" type="text" size="small">删除
+          <el-button
+            @click="_mxEdit(scope.row, 'templateId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="
+              _mxDeleteItem('templateId', scope.row.templateId, false, true)
+            "
+            type="text"
+            size="small"
+            >删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="_mxHandleSubmit" @cancel="_mxCancel"
-        @choose="choose"></FormItem>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @choose="choose"
+      ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -36,7 +77,7 @@ import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       formTit: "新增",
       addChannel: false,
@@ -160,25 +201,25 @@ export default {
       isChooseUser: false
     };
   },
-  activated () {
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
-    _mxCreate () {
+    _mxCreate() {
       this.$router.push({
         name: "auditFreeTemplateType",
         query: { type: "create" }
       });
     },
-    _mxEdit (row, ID) {
+    _mxEdit(row, ID) {
       this.$router.push({
         name: "auditFreeTemplateType",
         query: { type: "update", row: JSON.stringify(row), ID }
       });
     },
     //选择用户选取赋值
-    chooseUserData (data) {
+    chooseUserData(data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -211,7 +252,7 @@ export default {
      * @returns {*}
      * @private
      */
-    _formatRequestData (data) {
+    _formatRequestData(data) {
       data.status = 4;
       return data;
     }

@@ -54,10 +54,12 @@ export default {
 .page {
   /* margin-top: 20px; */
   padding-top: 20px;
-  padding-bottom: 20px;
-  width: 100%;
+  /* width: 100%; */
   background: #fff;
   text-align: right;
   overflow: hidden;
+  position: absolute;
+  bottom: 29px;
+  right: 33px;
 }
 </style>

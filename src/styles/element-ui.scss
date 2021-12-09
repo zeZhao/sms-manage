@@ -105,6 +105,27 @@
     border-radius: 20px;
   }
 }
+.el-table {
+  height: 50%;
+  overflow-y: auto;
+  font-size: 12px;
+}
+.el-table--medium th,
+.el-table--medium td {
+  padding: 0;
+}
+.el-table .cell {
+  line-height: 16px;
+}
+.el-table--medium th {
+  min-height: 32px;
+  height: 32px;
+  line-height: 16px;
+}
+.el-table .cell.el-tooltip {
+  height: 25px !important;
+  line-height: 25px !important;
+}
 
 .el-table .el-table__header-wrapper th {
   background: rgba(0, 0, 0, 0.02);
