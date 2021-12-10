@@ -6,13 +6,7 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table
-      :data="listData"
-      border
-      max-height="500"
-      highlight-current-row
-      style="width: 100%"
-    >
+    <el-table :data="listData" border highlight-current-row style="width: 100%">
       <el-table-column prop="num" label="账户/通道编号" />
       <el-table-column prop="errNum" label="错误码" />
       <el-table-column prop="serverNum" label="服务器编号	" />

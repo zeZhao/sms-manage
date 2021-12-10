@@ -6,13 +6,7 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table
-      :data="listData"
-      border
-      max-height="500"
-      highlight-current-row
-      style="width: 100%"
-    >
+    <el-table :data="listData" border highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="notSubmitMin" label="未提交报警时间间隔(分)" />
       <el-table-column prop="sucCrate" label="低于设定成功率报警" />

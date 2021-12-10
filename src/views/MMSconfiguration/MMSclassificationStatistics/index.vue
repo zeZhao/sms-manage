@@ -20,7 +20,6 @@
       v-show="formData.statisticType === 2"
       :data="listData"
       border
-      max-height="500"
       highlight-current-row
       v-loading="loading"
     >
@@ -53,7 +52,6 @@
       v-show="formData.statisticType === 1"
       :data="listData"
       border
-      max-height="500"
       highlight-current-row
       v-loading="loading"
     >
@@ -90,7 +88,6 @@
       v-show="formData.statisticType === 3"
       :data="listData"
       border
-      max-height="500"
       highlight-current-row
       v-loading="loading"
     >

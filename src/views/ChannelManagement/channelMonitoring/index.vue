@@ -6,13 +6,7 @@
       :add="false"
     ></Search>
 
-    <el-table
-      :data="listData"
-      border
-      max-height="500"
-      highlight-current-row
-      style="width: 100%"
-    >
+    <el-table :data="listData" border highlight-current-row style="width: 100%">
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="monitorTime" label="监控日期" width="135">
         <template slot-scope="scope">{{

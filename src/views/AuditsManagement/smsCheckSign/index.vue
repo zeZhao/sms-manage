@@ -6,13 +6,7 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table
-      :data="listData"
-      border
-      max-height="500"
-      highlight-current-row
-      style="width: 100%"
-    >
+    <el-table :data="listData" border highlight-current-row style="width: 100%">
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">

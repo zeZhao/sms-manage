@@ -5,13 +5,7 @@
       @search="_mxDoSearch"
       @create="createOrEdit('add')"
     ></Search>
-    <el-table
-      :data="listData"
-      border
-      max-height="500"
-      highlight-current-row
-      style="width: 100%"
-    >
+    <el-table :data="listData" border highlight-current-row style="width: 100%">
       <el-table-column prop="gatewayId" label="通道编号" />
       <el-table-column prop="name" label="通道名称" />
       <el-table-column prop="price" label="通道单价(分)" />
