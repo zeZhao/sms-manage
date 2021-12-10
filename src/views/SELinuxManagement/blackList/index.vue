@@ -6,20 +6,24 @@
         active-text-color="#000" @select="handleSelectGroup">
         <el-menu-item v-for="(item, index) in groupList" :key="item.groupId" :index="item.groupId + ''"
           :class="activeIndex === index ? 'hover' : ''" @click="activeIndex = index">
-          <span slot="title" class="title">{{ item.blackGroupName }}</span>
-          <span v-if="index > 3" slot class="action-bar">
-            <el-popover placement="bottom" trigger="hover">
-              <div style="text-align: center">
-                <i class="el-icon-edit" style="margin: 10px; cursor: pointer"
-                  @click="handleEditGroup(item)">&nbsp;&nbsp;编辑</i>
-              </div>
-              <div style="text-align: center">
-                <i class="el-icon-delete" style="margin: 10px; cursor: pointer"
-                  @click="handleDeleteGroup(item.groupId)">&nbsp;&nbsp;删除</i>
-              </div>
-              <i slot="reference" class="el-icon-more" />
-            </el-popover>
-          </span>
+          <el-tooltip placement="top" :content="item.blackGroupName">
+            <div>
+              <span slot="title" class="title">{{ item.blackGroupName }}</span>
+              <span v-if="index > 3" slot class="action-bar">
+                <el-popover placement="bottom" trigger="hover">
+                  <div style="text-align: center">
+                    <i class="el-icon-edit" style="margin: 10px; cursor: pointer"
+                      @click="handleEditGroup(item)">&nbsp;&nbsp;编辑</i>
+                  </div>
+                  <div style="text-align: center">
+                    <i class="el-icon-delete" style="margin: 10px; cursor: pointer"
+                      @click="handleDeleteGroup(item.groupId)">&nbsp;&nbsp;删除</i>
+                  </div>
+                  <i slot="reference" class="el-icon-more" />
+                </el-popover>
+              </span>
+            </div>
+          </el-tooltip>
         </el-menu-item>
       </el-menu>
 
@@ -343,12 +347,10 @@ export default {
       }
 
       .title {
-        width: 100px;
-        height: 14px;
-        line-height: 1;
         display: inline-block;
+        width: 130px;
+        white-space: nowrap;
         text-overflow: ellipsis;
-        white-space: normal;
         overflow: hidden;
       }
 
