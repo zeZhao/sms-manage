@@ -2305,11 +2305,11 @@ export default {
         },
         // 修改重推任务状态
         updateStatus(params) {
-            return fetch("/pushToolTask/updateStatus", params);
+            return post("/pushToolTask/updateStatus", params);
         },
         // 删除重推任务
         delete(params) {
-            return fetch("/pushToolTask/delete", params);
+            return post("/pushToolTask/delete", params);
         }
     }
 }

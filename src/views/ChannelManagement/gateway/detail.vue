@@ -206,7 +206,7 @@ export default {
               required: true,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback(new Error("请输入必填项"));
+                if (!value && value !== 0) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
                 callback();
               }
