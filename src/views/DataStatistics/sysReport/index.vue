@@ -7,7 +7,9 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -110,12 +112,22 @@
       用户总发送条数: {{ statistics.sendNum }}&nbsp;&nbsp;用户总成功条数:
       {{ statistics.successNum }}&nbsp;&nbsp;用户总成功率:
       {{
-        statistics.successRate !== undefined ? Number(statistics.successRate).toFixed(2) + "%" : ""
+        statistics.successRate !== undefined
+          ? Number(statistics.successRate).toFixed(2) + "%"
+          : ""
       }}&nbsp;&nbsp;用户总失败条数:
       {{ statistics.failNum }}&nbsp;&nbsp;用户总失败率:
-      {{ statistics.failRate !== undefined ? Number(statistics.failRate).toFixed(2) + "%" : "" }}&nbsp;&nbsp;用户总未知条数:
+      {{
+        statistics.failRate !== undefined
+          ? Number(statistics.failRate).toFixed(2) + "%"
+          : ""
+      }}&nbsp;&nbsp;用户总未知条数:
       {{ statistics.unknownNum }}&nbsp;&nbsp;用户总未知率:
-      {{ statistics.unknownRate !== undefined ? Number(statistics.unknownRate).toFixed(2) + "%" : "" }}
+      {{
+        statistics.unknownRate !== undefined
+          ? Number(statistics.unknownRate).toFixed(2) + "%"
+          : ""
+      }}
     </p>
     <Page
       :pageObj="pageObj"

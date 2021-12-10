@@ -7,13 +7,15 @@
       @create="_mxCreate"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
       <el-table-column prop="blackGroupName" label="黑名单组" />
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat }}</span>
         </template>

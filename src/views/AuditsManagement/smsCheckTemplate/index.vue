@@ -6,7 +6,13 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+    >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
@@ -22,8 +28,8 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="template" label="模板信息" show-overflow-tooltip />
-      <el-table-column prop="createdAt" label="创建时间" min-width="170">
+      <el-table-column prop="template" label="模板信息" />
+      <el-table-column prop="createdAt" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createdAt | timeFormat
         }}</template>

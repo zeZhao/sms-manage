@@ -10,23 +10,28 @@
       @exportData="_mxExportData"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="$refs.Search.handleExport()"
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
           >导出</el-button
         >
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="mobile" label="手机号" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="province" label="省份" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
@@ -47,28 +52,28 @@
       </el-table-column>
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="gateway" label="通道" />
-      <el-table-column prop="submitTime" label="提交时间" min-width="170">
+      <el-table-column prop="submitTime" label="提交时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="startTime" label="发送时间" min-width="170">
+      <el-table-column prop="startTime" label="发送时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.sendTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="returnTime" label="返回报告时间" min-width="170">
+      <el-table-column prop="returnTime" label="返回报告时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.returnTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="receiveTime" label="手机接收时间" min-width="170">
+      <el-table-column prop="receiveTime" label="手机接收时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.receiveTime | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="statusj" label="通道状态" />
-      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
+      <el-table-column prop="cid" label="CID" />
     </el-table>
     <Page
       :pageObj="pageObj"

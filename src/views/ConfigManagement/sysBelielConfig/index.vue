@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -22,10 +24,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="optimizePercent" label="优化比例" />
-      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="optimizeTemplate" label="优化关键词" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="startTime" label="开始时间(时:分)" min-width="120" />
-      <el-table-column prop="endTime" label="结束时间(时:分)" min-width="120" />
+      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" />
+      <el-table-column prop="optimizeTemplate" label="优化关键词" />
+      <el-table-column prop="startTime" label="开始时间(时:分)" />
+      <el-table-column prop="endTime" label="结束时间(时:分)" />
       <el-table-column label="操作" width="200"
         >1458
         <template slot-scope="scope">
@@ -92,13 +94,15 @@ export default {
       //   }
       // }
       if (!value && value !== 0) {
-        callback(new Error('请输入必填项'));
+        callback(new Error("请输入必填项"));
       } else {
         if (value == 100) {
           callback();
         }
         const reg = new RegExp("^([1-9]|[1-9][0-9])$");
-        reg.test(value) ? callback() : callback(new Error("请输入大于0且不超过100的整数"));
+        reg.test(value)
+          ? callback()
+          : callback(new Error("请输入大于0且不超过100的整数"));
       }
     };
     const validatorTemplate = (rule, value, callback) => {
@@ -271,7 +275,7 @@ export default {
       isParamsNotData: false
     };
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -279,10 +283,10 @@ export default {
     onChange({ val, item }) {
       let time;
       if (item.key === "startTime") {
-        time = { selectableRange: val ? `${val} - 23:59:59` : '' };
+        time = { selectableRange: val ? `${val} - 23:59:59` : "" };
         this.formConfig[this.formConfig.length - 1].pickerOptions = time;
       } else if (item.key === "endTime") {
-        time = { selectableRange: val ? `00:00:00 - ${val}` : '' };
+        time = { selectableRange: val ? `00:00:00 - ${val}` : "" };
         this.formConfig[this.formConfig.length - 2].pickerOptions = time;
       }
     },
@@ -334,7 +338,10 @@ export default {
       });
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysBelielConfigType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysBelielConfigType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.id = row.id;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {
@@ -385,7 +392,10 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysBelielConfigType', query: { type: 'create' } });
+      this.$router.push({
+        name: "sysBelielConfigType",
+        query: { type: "create" }
+      });
       // this.addChannel = true;
       // this.formTit = "新增";
       // setTimeout(() => {

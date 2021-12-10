@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -16,18 +18,18 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="type" label="重发类型">
-        <template slot-scope="{row}">{{ renderType(row.type) }}</template>
+        <template slot-scope="{ row }">{{ renderType(row.type) }}</template>
       </el-table-column>
-      <el-table-column prop="status" label="不重发状态" show-overflow-tooltip/>
+      <el-table-column prop="status" label="不重发状态" />
       <el-table-column prop="destGateway" label="重发通道" />
       <el-table-column prop="createUser" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
       <el-table-column prop="modifyUser" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间">
+      <el-table-column prop="modifyTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>
@@ -127,7 +129,7 @@ export default {
             { key: 1, value: "发送失败重发" },
             { key: 2, value: "提交失败重发" }
           ]
-        },
+        }
       ],
       // 表单配置
       formConfig: [
@@ -139,7 +141,13 @@ export default {
           btnDisabled: false,
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -150,7 +158,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -168,7 +176,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -177,7 +185,7 @@ export default {
           label: "不重发状态",
           key: "status",
           defaultValue: "",
-          maxlength: 30,
+          maxlength: 30
           // rules: [
           //   {
           //     required: true,
@@ -195,7 +203,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         }
@@ -311,7 +319,7 @@ export default {
           if (key === "gateway" || key === "destGateway") {
             item.optionData = res.data.map(t => {
               return { key: t.gatewayId, value: t.gateway };
-            })
+            });
           }
         });
       });

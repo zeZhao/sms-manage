@@ -8,11 +8,15 @@
       :add="false"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"

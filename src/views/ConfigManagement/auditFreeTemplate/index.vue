@@ -8,6 +8,7 @@
     ></Search>
     <el-table
       :data="listData"
+      border
       max-height="500"
       highlight-current-row
       style="width: 100%"
@@ -19,8 +20,8 @@
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">{{ renderType(scope.row.type) }}</template>
       </el-table-column>
-      <el-table-column prop="template" label="模板信息" min-width="200" />
-      <el-table-column prop="createdAt" label="创建时间" min-width="170">
+      <el-table-column prop="template" label="模板信息" />
+      <el-table-column prop="createdAt" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createdAt | timeFormat
         }}</template>

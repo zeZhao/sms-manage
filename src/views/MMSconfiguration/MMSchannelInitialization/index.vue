@@ -7,7 +7,9 @@
     >
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -69,7 +71,7 @@
               loading-text="加载中..."
               @clear="handleClear(scope.row.type)"
               @focus="handleFocus(scope.row.type)"
-              @change="(e) => handleChange(e, scope.row.type)"
+              @change="e => handleChange(e, scope.row.type)"
             >
               <el-option
                 v-for="item in scope.row.options"
@@ -102,78 +104,78 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin';
+import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'MMSgatewayInitial',
-        list: 'queryByPage'
+        namespace: "MMSgatewayInitial",
+        list: "queryByPage"
       },
       // 列表参数
-      namespace: '',
+      namespace: "",
       //搜索框数据
       searchParam: {},
       isParamsNotData: false,
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '商户编号',
-          key: 'corpId'
+          type: "inputNum",
+          label: "商户编号",
+          key: "corpId"
         },
         {
-          type: 'input',
-          label: '商户名称',
-          key: 'corpName'
+          type: "input",
+          label: "商户名称",
+          key: "corpName"
         },
         {
-          type: 'inputNum',
-          label: '账户编号',
-          key: 'userId'
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId"
         },
         {
-          type: 'input',
-          label: '账户名称',
-          key: 'userName'
+          type: "input",
+          label: "账户名称",
+          key: "userName"
         },
         {
-          type: 'inputNum',
-          label: '移动通道编号',
-          key: 'cmGatewayId'
+          type: "inputNum",
+          label: "移动通道编号",
+          key: "cmGatewayId"
         },
         {
-          type: 'inputNum',
-          label: '联通通道编号',
-          key: 'cuGatewayId'
+          type: "inputNum",
+          label: "联通通道编号",
+          key: "cuGatewayId"
         },
         {
-          type: 'inputNum',
-          label: '电信通道编号',
-          key: 'ctGatewayId'
+          type: "inputNum",
+          label: "电信通道编号",
+          key: "ctGatewayId"
         }
       ],
       dialogVisible: false,
       formData: {},
       tableData: [
         {
-          type: '移动',
+          type: "移动",
           codeName: null,
           options: [],
           code: null,
           loading: true
         },
         {
-          type: '联通',
+          type: "联通",
           codeName: null,
           options: [],
           code: null,
           loading: true
         },
         {
-          type: '电信',
+          type: "电信",
           codeName: null,
           options: [],
           code: null,
@@ -187,7 +189,7 @@ export default {
     handleConfig(userId) {
       this.$http.MMSgatewayInitial.selectMmsInitUserGatewayByUserID({
         userId
-      }).then((res) => {
+      }).then(res => {
         if (res.code === 200) {
           const e = res.data;
           this.formData = e;
@@ -208,7 +210,7 @@ export default {
       const idx = this.returnType(type);
       this.$http.MMSgatewayInitial.selectMmsInitUserGatewayDtoByUserID({
         operaId: idx + 1
-      }).then((res) => {
+      }).then(res => {
         if (res.code === 200) {
           this.tableData[idx].options = res.data;
           this.tableData[idx].loading = false; //取消加载中的样式
@@ -219,11 +221,11 @@ export default {
     },
     //选择通道根据不同的运营商进行通道编号的赋值
     handleChange(val, type) {
-      this.$set(this.tableData[this.returnType(type)], 'code', val);
+      this.$set(this.tableData[this.returnType(type)], "code", val);
     },
     //清楚某一个下拉
     handleClear(type) {
-      this.$set(this.tableData[this.returnType(type)], 'code', null);
+      this.$set(this.tableData[this.returnType(type)], "code", null);
     },
     //确认通道的配置
     handleConfirm() {
@@ -235,7 +237,7 @@ export default {
         cuGatewayId: this.tableData[1].code,
         ctGatewayId: this.tableData[2].code
       };
-      this.$http.MMSgatewayInitial.update(data).then((res) => {
+      this.$http.MMSgatewayInitial.update(data).then(res => {
         if (res.code === 200) {
           this._mxGetList();
           this.dialogVisible = false;
@@ -249,13 +251,13 @@ export default {
     returnType(type) {
       let index;
       switch (type) {
-        case '移动':
+        case "移动":
           index = 0;
           break;
-        case '联通':
+        case "联通":
           index = 1;
           break;
-        case '电信':
+        case "电信":
           index = 2;
           break;
       }

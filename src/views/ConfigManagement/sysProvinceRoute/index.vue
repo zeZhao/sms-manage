@@ -21,14 +21,16 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
@@ -48,7 +50,7 @@
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
       <el-table-column prop="creater" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>

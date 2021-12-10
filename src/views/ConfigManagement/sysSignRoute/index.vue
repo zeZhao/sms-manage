@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -27,14 +29,14 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sign" label="签名" show-overflow-tooltip />
+      <el-table-column prop="sign" label="签名" />
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
       <el-table-column prop="creater" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
-          {{scope.row.createTime | timeFormat}}
+          {{ scope.row.createTime | timeFormat }}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150">
@@ -88,11 +90,12 @@ export default {
       if (!value) {
         callback(new Error("请输入必填项"));
       } else {
-        if (value.indexOf('，') !== -1) callback(new Error("只可以用英文 ',' 分割"));
+        if (value.indexOf("，") !== -1)
+          callback(new Error("只可以用英文 ',' 分割"));
         const reg = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
         const data = value.split(",");
-        for (let i = 0;i < data.length; i++) {
-          if (!(reg.test(data[i]))) {
+        for (let i = 0; i < data.length; i++) {
+          if (!reg.test(data[i])) {
             callback(new Error("输入2-8位，只能输入中文、英文、数字"));
             break;
           }
@@ -199,7 +202,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -214,7 +217,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ],
           placeholder: "选择账户后自动识别"
@@ -230,7 +233,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ],
           placeholder: "选择账户后自动识别"
@@ -239,16 +242,17 @@ export default {
           type: "textarea",
           label: "签名",
           key: "sign",
-          placeholder: "可输入多个签名，用英文“,”隔开，每个签名2-8个字符，支持汉字、数字、英文",
+          placeholder:
+            "可输入多个签名，用英文“,”隔开，每个签名2-8个字符，支持汉字、数字、英文",
           maxlength: "100",
           rules: [
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             },
             {
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: validatorSign
             }
           ]
@@ -283,7 +287,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -296,7 +300,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -309,7 +313,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         }
@@ -324,7 +328,7 @@ export default {
     this.gateway("ct", "3", "1");
     this.gateway("cm", "1", "1");
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -404,7 +408,10 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysSignRouteType', query: { type: 'create' } });
+      this.$router.push({
+        name: "sysSignRouteType",
+        query: { type: "create" }
+      });
       // this.addChannel = true;
       // this.formTit = "新增";
       // setTimeout(() => {
@@ -417,7 +424,10 @@ export default {
       // });
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysSignRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysSignRouteType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.routeId = row.routeId;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {

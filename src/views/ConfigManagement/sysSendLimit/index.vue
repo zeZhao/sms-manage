@@ -1,40 +1,83 @@
 <template>
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="create"></Search>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="create"
+    ></Search>
 
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" v-loading="loading">
-      <el-table-column prop="corpId" label="商户编号" min-width="150" />
-      <el-table-column prop="corpName" label="商户名称" min-width="150" />
-      <el-table-column prop="userId" label="账户编号" min-width="150" />
-      <el-table-column prop="userName" label="账户名称" min-width="150" />
-      <el-table-column prop="userType" label="规则生效对象" min-width="150">
-        <template slot-scope="scope">{{ scope.row.userType === 0 ? '商户' : '账户' }}</template>
+    <el-table
+      :data="listData"
+      border
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="corpName" label="商户名称" />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userType" label="规则生效对象">
+        <template slot-scope="scope">{{
+          scope.row.userType === 0 ? "商户" : "账户"
+        }}</template>
       </el-table-column>
-      <el-table-column prop="limitType" label="上限类型" min-width="150">
-        <template slot-scope="scope">{{ renderLimitType(scope.row.limitType) }}</template>
+      <el-table-column prop="limitType" label="上限类型">
+        <template slot-scope="scope">{{
+          renderLimitType(scope.row.limitType)
+        }}</template>
       </el-table-column>
-      <el-table-column prop="count" label="发送上限" min-width="150" />
-      <el-table-column prop="timeLimit" label="天数" min-width="150" />
-      <el-table-column prop="createName" label="创建人" min-width="150" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
-        <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
+      <el-table-column prop="count" label="发送上限" />
+      <el-table-column prop="timeLimit" label="天数" />
+      <el-table-column prop="createName" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" width="135">
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('limitId', scope.row.limitId)" type="text" size="small">删除</el-button>
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem('limitId', scope.row.limitId)"
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
 
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
 
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
-      <FormItem ref="form" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
-        @choose="choose"></FormItem>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="form"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+      ></FormItem>
     </el-dialog>
 
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -42,7 +85,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     const validatorSign = (rule, value, callback) => {
       if (value === "") {
         callback();
@@ -118,8 +161,8 @@ export default {
           defaultValue: 1,
           disabled: false,
           optionData: [
-            { key: 1, value: '账户编号' },
-            { key: 0, value: '商户编号' }
+            { key: 1, value: "账户编号" },
+            { key: 0, value: "商户编号" }
           ],
           rules: [
             {
@@ -208,24 +251,24 @@ export default {
       isChooseUser: false
     };
   },
-  activated () {
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
-    renderLimitType (v) {
+    renderLimitType(v) {
       if (v === 1) {
-        return '相同内容相同手机号'
+        return "相同内容相同手机号";
       } else if (v === 2) {
-        return '相同手机号'
+        return "相同手机号";
       } else if (v === 3) {
-        return '同CID同手机号'
+        return "同CID同手机号";
       } else {
-        return '-'
+        return "-";
       }
     },
     //选择用户选取赋值
-    chooseUserData (data) {
+    chooseUserData(data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -236,7 +279,7 @@ export default {
         }
       });
     },
-    submit (form) {
+    submit(form) {
       let params = {};
       if (this.formTit == "新增") {
         params = {
@@ -251,9 +294,9 @@ export default {
             this.addChannel = false;
           } else {
             if (res.code === 1099) {
-              this.$alert('已为此商户/账户配置了发送上限，请重新选择', '提示', {
-                confirmButtonText: '确定',
-                callback: action => { }
+              this.$alert("已为此商户/账户配置了发送上限，请重新选择", "提示", {
+                confirmButtonText: "确定",
+                callback: action => {}
               });
               return;
             }
@@ -278,8 +321,11 @@ export default {
         });
       }
     },
-    create () {
-      this.$router.push({ name: 'sysSendLimitType', query: { type: 'create' } });
+    create() {
+      this.$router.push({
+        name: "sysSendLimitType",
+        query: { type: "create" }
+      });
       // this.formTit = "新增";
       // this.formConfig.forEach(item => {
       //   if (item.key === "userId") {
@@ -296,8 +342,11 @@ export default {
       //   this.$refs.form.resetForm();
       // }, 0);
     },
-    edit (row, ID) {
-      this.$router.push({ name: 'sysSendLimitType', query: { type: 'update', row: JSON.stringify(row), ID } });
+    edit(row, ID) {
+      this.$router.push({
+        name: "sysSendLimitType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.limitId = row.limitId;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {
@@ -321,7 +370,7 @@ export default {
       // }, 0);
       // this.addChannel = true;
     },
-    cancel () {
+    cancel() {
       this.addChannel = false;
     }
   }

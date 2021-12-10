@@ -10,10 +10,18 @@
     <el-row>
       <el-form v-model="searchData" inline label-width="120px">
         <el-form-item label="账户编号">
-          <el-input v-model="searchData.userId" type="number" placeholder="请输入账户编号"></el-input>
+          <el-input
+            v-model="searchData.userId"
+            type="number"
+            placeholder="请输入账户编号"
+          ></el-input>
         </el-form-item>
         <el-form-item label="通道编号">
-          <el-input v-model="searchData.gateway" type="number" placeholder="请输入通道编号"></el-input>
+          <el-input
+            v-model="searchData.gateway"
+            type="number"
+            placeholder="请输入通道编号"
+          ></el-input>
         </el-form-item>
         <!-- <el-form-item label="账单类型">
           <el-select v-model="searchData.smsType" placeholder="请选择账单类型">
@@ -28,16 +36,21 @@
             range-separator="-"
             start-placeholder="开始月份"
             end-placeholder="结束月份"
-            :clearable="false">
+            :clearable="false"
+          >
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="exportMonthData('all')">导出</el-button>
+          <el-button type="primary" @click="exportMonthData('all')"
+            >导出</el-button
+          >
         </el-form-item>
       </el-form>
     </el-row>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -177,7 +190,12 @@ export default {
         delete params.nowDate;
       }
       const fileName = `${row ? row.billDate : ""}月账单.xlsx`;
-      this.downloadFileByFile("post", type === "all" ? "/bill/export/exportUp" : "/bill/export/exportDown", params, fileName);
+      this.downloadFileByFile(
+        "post",
+        type === "all" ? "/bill/export/exportUp" : "/bill/export/exportDown",
+        params,
+        fileName
+      );
     },
     // 修改搜索参数
     _formatRequestData(data) {

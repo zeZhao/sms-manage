@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -33,7 +35,7 @@
       <el-table-column prop="cuPassageway" label="联通通道" />
       <el-table-column prop="ctPassageway" label="电信通道" />
       <el-table-column prop="modifier" label="修改人" />
-      <el-table-column prop="modifyTime" label="修改时间">
+      <el-table-column prop="modifyTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>

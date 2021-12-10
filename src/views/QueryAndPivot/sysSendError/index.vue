@@ -16,7 +16,9 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -24,17 +26,13 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column
-        prop="loginName"
-        label="账户名称"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
+      <el-table-column prop="loginName" label="账户名称" />
+      <el-table-column prop="content" label="内容" />
       <el-table-column prop="mobile" label="手机号" width="120" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="errCode" label="错误码" />
       <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="err" label="错误描述" show-overflow-tooltip />
+      <el-table-column prop="err" label="错误描述" />
       <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat

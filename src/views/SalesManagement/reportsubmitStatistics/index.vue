@@ -7,14 +7,16 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="accountType" label="用户类型">
         <template slot-scope="scope">
           <span v-if="scope.row.accountType === 1">行业</span>

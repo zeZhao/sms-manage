@@ -14,7 +14,9 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -43,72 +45,72 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin'
+import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'reports',
-        list: 'queryArrivalDelayStatic',
+        namespace: "reports",
+        list: "queryArrivalDelayStatic"
       },
       // 列表参数
-      namespace: '',
+      namespace: "",
       //搜索框数据
       searchParam: {},
       isParamsNotData: false,
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '商户编号',
-          key: 'corpId',
-          placeholder: '请输入商户编号',
+          type: "inputNum",
+          label: "商户编号",
+          key: "corpId",
+          placeholder: "请输入商户编号"
         },
         {
-          type: 'input',
-          label: '商户名称',
-          key: 'corpName',
-          placeholder: '请输入商户名称',
+          type: "input",
+          label: "商户名称",
+          key: "corpName",
+          placeholder: "请输入商户名称"
         },
         {
-          type: 'inputNum',
-          label: '账户编号',
-          key: 'userId',
-          placeholder: '请输入账户编号',
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId",
+          placeholder: "请输入账户编号"
         },
         {
-          type: 'input',
-          label: '账户名称',
-          key: 'userName',
-          placeholder: '请输入账户名称',
+          type: "input",
+          label: "账户名称",
+          key: "userName",
+          placeholder: "请输入账户名称"
         },
         {
-          type: 'input',
-          label: '通道名称',
-          key: 'gatewayName',
-          placeholder: '请输入通道名称',
+          type: "input",
+          label: "通道名称",
+          key: "gatewayName",
+          placeholder: "请输入通道名称"
         },
         {
-          type: 'daterange',
-          label: '创建时间',
-          key: ['', 'startTime', 'endTime'],
-        },
-      ],
-    }
+          type: "daterange",
+          label: "创建时间",
+          key: ["", "startTime", "endTime"]
+        }
+      ]
+    };
   },
   methods: {
     exportData(form) {
-      const data = { ...this.pageObj, ...form }
-      delete data.total
-      this.$axios.post('/report/exportArrivalDelayStatic', data).then((res) => {
-        if (res.data.code === 200) this.$exportToast()
-      })
+      const data = { ...this.pageObj, ...form };
+      delete data.total;
+      this.$axios.post("/report/exportArrivalDelayStatic", data).then(res => {
+        if (res.data.code === 200) this.$exportToast();
+      });
     },
     exportExe() {
-      this.$refs.Search.handleExport()
-    },
-  },
-}
+      this.$refs.Search.handleExport();
+    }
+  }
+};
 </script>

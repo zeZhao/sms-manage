@@ -7,7 +7,9 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -88,11 +90,27 @@ export default {
           label: "统计日期",
           key: "startTime",
           clearable: false,
-          defaultValue: `${date.getMonth() !== 0 ? date.getFullYear() : date.getFullYear() - 1}-${date.getMonth() < 10 ? (date.getMonth() !== 0 ? '0' + date.getMonth() : 12) : date.getMonth()}`,
+          defaultValue: `${
+            date.getMonth() !== 0 ? date.getFullYear() : date.getFullYear() - 1
+          }-${
+            date.getMonth() < 10
+              ? date.getMonth() !== 0
+                ? "0" + date.getMonth()
+                : 12
+              : date.getMonth()
+          }`,
           pickerOptions: {
             disabledDate(time) {
-              const t = `${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}`;
-              const other = `${time.getFullYear()}-${(time.getMonth() + 1) < 10 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1}`;
+              const t = `${date.getFullYear()}-${
+                date.getMonth() + 1 < 10
+                  ? "0" + (date.getMonth() + 1)
+                  : date.getMonth() + 1
+              }`;
+              const other = `${time.getFullYear()}-${
+                time.getMonth() + 1 < 10
+                  ? "0" + (time.getMonth() + 1)
+                  : time.getMonth() + 1
+              }`;
               return other >= t;
             }
           }
@@ -132,7 +150,6 @@ export default {
     //     this.$set(item, "sumReductType", cardCount + succCount);
     //     this.$set(item, "sumCardMoney", cardMoney + foreignPrice);
     //   });
-
     //   // if()
     //   return rows;
     // },

@@ -7,16 +7,18 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
       <el-table-column prop="createDate" label="日期" width="100" />
       <el-table-column prop="corpId" label="商户编号" />
-      <el-table-column prop="corpName" label="公司全称" show-overflow-tooltip />
+      <el-table-column prop="corpName" label="公司全称" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="客户全称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="客户全称" />
       <el-table-column prop="cardUnit" label="客户单价(分)" width="110" />
       <el-table-column prop="reductModel" label="计费方式" width="110">
         <template slot-scope="scope">
@@ -43,11 +45,7 @@
       <el-table-column prop="saleMan" label="销售" />
       <el-table-column prop="succCount" label="消耗条数" />
       <el-table-column prop="gateway" label="通道号" />
-      <el-table-column
-        prop="gatewayName"
-        label="通道名称"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="unitPrice" label="通道单价(分)" width="100" />
       <el-table-column prop="succcAll" label="商户消耗金额(元)" width="130" />
       <el-table-column prop="chengBenAll" label="通道成本(元)" width="100" />

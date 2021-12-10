@@ -70,19 +70,20 @@
 
       <el-table
         :data="listData"
+        border
         max-height="500"
         highlight-current-row
         style="width: 100%;"
         v-loading="loading"
       >
-        <el-table-column prop="wordName" label="敏感词" show-overflow-tooltip />
+        <el-table-column prop="wordName" label="敏感词" />
         <el-table-column prop="createBy" label="创建人" />
-        <el-table-column prop="createTime" label="创建时间" min-width="150">
+        <el-table-column prop="createTime" label="创建时间" width="135">
           <template slot-scope="scope">{{
             scope.row.createTime | timeFormat
           }}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" show-overflow-tooltip>
+        <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">{{
             scope.row.remark ? scope.row.remark : "-"
           }}</template>

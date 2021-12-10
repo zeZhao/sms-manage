@@ -20,7 +20,9 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -57,10 +59,10 @@
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="debt" label="失败退款" show-overflow-tooltip /> -->
-      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
+      <!-- <el-table-column prop="debt" label="失败退款"  /> -->
+      <el-table-column prop="remark" label="备注" />
       <el-table-column prop="operatorName" label="操作人名称" width="100" />
-      <el-table-column prop="createTime" label="操作时间" width="150">
+      <el-table-column prop="createTime" label="操作时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>

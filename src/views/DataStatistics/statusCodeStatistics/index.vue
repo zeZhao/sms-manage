@@ -1,33 +1,52 @@
 <template>
   <div>
-    <Search ref="Search" :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @exportData="exportData"
-      :add="false" :notSearch="notSearch">
+    <Search
+      ref="Search"
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @exportData="exportData"
+      :add="false"
+      :notSearch="notSearch"
+    >
       <template slot="Other">
-        <el-button type="primary" @click="exportExe" style="margin-left: 15px">导出</el-button>
+        <el-button type="primary" @click="exportExe" style="margin-left: 15px"
+          >导出</el-button
+        >
       </template>
     </Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" v-loading="loading">
+    <el-table
+      :data="listData"
+      border
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+      v-loading="loading"
+    >
       <el-table-column prop="status" label="状态码" />
       <el-table-column prop="count" label="数量" />
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
   </div>
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin';
-import { getDateToString } from '@/utils';
+import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'SmsStatusCodeStatistics',
-        list: 'queryByPage'
+        namespace: "SmsStatusCodeStatistics",
+        list: "queryByPage"
       },
       // 列表参数
-      namespace: '',
+      namespace: "",
       //搜索框数据
       searchParam: {},
       isParamsNotData: false,
@@ -36,33 +55,35 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '账户编号',
-          key: 'userId'
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId"
         },
         {
-          type: 'inputNum',
-          label: '通道编号',
-          key: 'gatewayId'
+          type: "inputNum",
+          label: "通道编号",
+          key: "gatewayId"
         },
         {
-          type: 'daterange',
-          label: '日期',
-          key: ['', 'startTime', 'endTime'],
-          defaultValue: ['', getDateToString(), getDateToString()]
+          type: "daterange",
+          label: "日期",
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
-    }
+    };
   },
   methods: {
-    exportData (form) {
-      this.$http.SmsStatusCodeStatistics.exportSmsStatusCodeStatistics(form).then(res => {
+    exportData(form) {
+      this.$http.SmsStatusCodeStatistics.exportSmsStatusCodeStatistics(
+        form
+      ).then(res => {
         res.code === 200 && this.$exportToast();
-      })
+      });
     },
-    exportExe () {
+    exportExe() {
       this.$refs.Search.handleExport();
     }
   }
-}
+};
 </script>

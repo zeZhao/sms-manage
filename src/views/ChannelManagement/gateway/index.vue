@@ -8,81 +8,55 @@
     ></Search>
     <el-table
       :data="listData"
+      border
       max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
-      <el-table-column prop="gateway" label="通道编号" show-overflow-tooltip />
-      <el-table-column
-        prop="gatewayName"
-        label="通道名称"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="gateway" label="通道编号" />
+      <el-table-column prop="gatewayName" label="通道名称" />
       <!-- <el-table-column prop="gatewayType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column
-        prop="longCode"
-        label="接入号"
-        width="90"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="provinceName" label="省份" show-overflow-tooltip />
-      <el-table-column prop="sendTo" label="运营商" show-overflow-tooltip />
-      <el-table-column
-        prop="unitPrice"
-        label="价格(分)"
-        width="100"
-        show-overflow-tooltip
-      />
-      <el-table-column
-        prop="type"
-        label="通道类型"
-        width="100"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="longCode" label="接入号" width="90" />
+      <el-table-column prop="provinceName" label="省份" />
+      <el-table-column prop="sendTo" label="运营商" />
+      <el-table-column prop="unitPrice" label="价格(分)" width="100" />
+      <el-table-column prop="type" label="通道类型" width="100">
         <template slot-scope="scope">
           <span>{{ renderType(scope.row.type) }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="conRequirements" label="发送内容" show-overflow-tooltip /> -->
-      <el-table-column
-        prop="sendSpeed"
-        label="发送速率"
-        show-overflow-tooltip
-      />
-      <!-- <el-table-column prop="isSub" label="扩展" show-overflow-tooltip>
+      <!-- <el-table-column prop="conRequirements" label="发送内容"  /> -->
+      <el-table-column prop="sendSpeed" label="发送速率" />
+      <!-- <el-table-column prop="isSub" label="扩展" >
         <template slot-scope="scope">
           <span>{{ scope.row.isSub ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="operateStatus" label="运营状态" show-overflow-tooltip>
+      <el-table-column prop="operateStatus" label="运营状态" >
         <template slot-scope="scope">
           <span>{{ scope.row.operateStatus === 1 ? "短信" : "-" }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="isDerect" label="直连" show-overflow-tooltip>
+      <el-table-column prop="isDerect" label="直连">
         <template slot-scope="scope">
           <span>{{ scope.row.isDerect === 1 ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="是否可用" show-overflow-tooltip>
+      <el-table-column prop="status" label="是否可用">
         <template slot-scope="scope">
           <span>{{ scope.row.status ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="otherGateway"
-        label="备用通道"
-        show-overflow-tooltip
-      />
-      <!-- <el-table-column prop="charger" label="通道负责人" width="90" show-overflow-tooltip /> -->
-      <!-- <el-table-column prop="priority" label="优先级" show-overflow-tooltip /> -->
-      <el-table-column prop="clientId" label="账号" show-overflow-tooltip />
-      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
+      <el-table-column prop="otherGateway" label="备用通道" />
+      <!-- <el-table-column prop="charger" label="通道负责人" width="90"  /> -->
+      <!-- <el-table-column prop="priority" label="优先级"  /> -->
+      <el-table-column prop="clientId" label="账号" />
+      <el-table-column prop="remark" label="备注" />
       <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
@@ -99,12 +73,7 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="smsTags"
-        label="标签"
-        width="100"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="smsTags" label="标签" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">

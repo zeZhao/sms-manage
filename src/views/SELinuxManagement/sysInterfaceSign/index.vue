@@ -7,7 +7,9 @@
       @create="_mxCreate"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -31,7 +33,7 @@
       </el-table-column> -->
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="createBy" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" min-width="150">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -142,7 +144,7 @@ export default {
           type: "input",
           label: "签名",
           key: "sign"
-        },
+        }
         // {
         //   type: "select",
         //   label: "类型",
@@ -178,7 +180,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -193,7 +195,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ],
           placeholder: "选择账户后自动识别"
@@ -209,7 +211,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ],
           placeholder: "选择账户后自动识别"
@@ -249,7 +251,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             },
             {
               trigger: "change",

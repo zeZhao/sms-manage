@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -101,13 +103,14 @@ export default {
           key: "groupName",
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" }, 
+            { required: true, message: "请输入必填项", trigger: "blur" },
             {
               min: 2,
               max: 30,
               trigger: "blur",
-              message: '长度在 2 到 30 个字符',
-            }]
+              message: "长度在 2 到 30 个字符"
+            }
+          ]
         }
       ],
       groupId: ""

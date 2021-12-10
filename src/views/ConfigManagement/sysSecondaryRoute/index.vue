@@ -9,12 +9,18 @@
       @exportData="exportData"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="batchAddition">批量添加</el-button>
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
+        <el-button type="primary" size="small" @click="batchAddition"
+          >批量添加</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -27,9 +33,9 @@
       <el-table-column prop="gwcode" label="通道特服号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="sign" label="账户签名" />
-      <el-table-column prop="remark" label="备注信息" show-overflow-tooltip />
+      <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -124,7 +130,7 @@ export default {
           callback(new Error("特服号仅支持4位数字"));
         }
       } else {
-        callback(new Error('请输入必填项'));
+        callback(new Error("请输入必填项"));
       }
     };
     return {
@@ -270,16 +276,18 @@ export default {
   mounted() {
     this.gateway();
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
     //导出
     exportData(data) {
-      this.$axios.post('/sysSecondaryRoute/exportSecondaryRoute', { data }).then(res => {
-        if (res.data.code === 200) this.$exportToast();
-      })
+      this.$axios
+        .post("/sysSecondaryRoute/exportSecondaryRoute", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
     },
     exportExe() {
       this.$refs.Search.handleExport();
@@ -381,7 +389,10 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysSecondaryRouteType', query: { type: 'create' } });
+      this.$router.push({
+        name: "sysSecondaryRouteType",
+        query: { type: "create" }
+      });
       // this.addChannel = true;
       // this.formTit = "新增";
       // setTimeout(() => {
@@ -394,7 +405,10 @@ export default {
       // });
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysSecondaryRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
+      this.$router.push({
+        name: "sysSecondaryRouteType",
+        query: { type: "update", row: JSON.stringify(row), ID }
+      });
       // this.routeId = row.routeId;
       // this.formTit = "修改";
       // this.formConfig.forEach(item => {

@@ -26,28 +26,70 @@
         :add="false"
       ></Search>
       <slot name="btnOther"></slot>
-      <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" @selection-change="handleSelectionChange">
-        <el-table-column align="center" prop="corpId" label="商户编号" key="0" />
+      <el-table
+        :data="listData"
+        border
+        max-height="500"
+        highlight-current-row
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+          align="center"
+          prop="corpId"
+          label="商户编号"
+          key="0"
+        />
         <el-table-column
           align="center"
           prop="corpName"
-          show-overflow-tooltip
           label="商户名称"
           key="1"
         />
-        <el-table-column align="center" prop="userId" label="账户编号" key="2" />
-        <el-table-column align="center" prop="userName" label="账户名称" key="3" />
+        <el-table-column
+          align="center"
+          prop="userId"
+          label="账户编号"
+          key="2"
+        />
+        <el-table-column
+          align="center"
+          prop="userName"
+          label="账户名称"
+          key="3"
+        />
         <el-table-column align="center" prop="code" label="特服号" key="4" />
-        <el-table-column align="center" prop="cardUnit" label="短信单价" key="5" />
-        <el-table-column align="center" prop="mmsCardUnit" label="彩信单价" key="6" />
-        <el-table-column v-if="!isMultiple" align="center" fixed="right" label="操作" key="7">
+        <el-table-column
+          align="center"
+          prop="cardUnit"
+          label="短信单价"
+          key="5"
+        />
+        <el-table-column
+          align="center"
+          prop="mmsCardUnit"
+          label="彩信单价"
+          key="6"
+        />
+        <el-table-column
+          v-if="!isMultiple"
+          align="center"
+          fixed="right"
+          label="操作"
+          key="7"
+        >
           <template slot-scope="scope">
             <el-button @click="selected(scope.row)" type="text" size="small"
               >选中</el-button
             >
           </template>
         </el-table-column>
-         <el-table-column v-if="isMultiple" type="selection" width="55" key="8" />
+        <el-table-column
+          v-if="isMultiple"
+          type="selection"
+          width="55"
+          key="8"
+        />
       </el-table>
       <Page
         :pageObj="pageObj"
@@ -112,7 +154,7 @@ export default {
       ],
       //选中的数组集合
       multipleSelection: []
-    }
+    };
   },
   methods: {
     //选中

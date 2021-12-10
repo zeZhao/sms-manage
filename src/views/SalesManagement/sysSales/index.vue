@@ -8,6 +8,7 @@
     ></Search>
     <el-table
       :data="listData"
+      border
       max-height="500"
       highlight-current-row
       style="width: 100%"
@@ -30,7 +31,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" min-width="170">
+      <el-table-column prop="modifyTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>

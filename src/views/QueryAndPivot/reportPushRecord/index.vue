@@ -8,7 +8,9 @@
     ></Search>
 
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -19,7 +21,7 @@
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="status" label="报告状态" />
       <el-table-column prop="pushId" label="推送ID" />
-      <el-table-column prop="pushTime" label="推送时间">
+      <el-table-column prop="pushTime" label="推送时间" width="135">
         <template slot-scope="scope">{{
           scope.row.pushTime | timeFormat
         }}</template>

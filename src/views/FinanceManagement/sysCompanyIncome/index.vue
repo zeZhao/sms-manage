@@ -7,7 +7,9 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -48,7 +50,11 @@
         label="单价(分)	"
         v-if="searchParam.isDetail === 2"
       />
-      <el-table-column prop="receivableMoney" label="应收款(元)" key="receivableMoney"/>
+      <el-table-column
+        prop="receivableMoney"
+        label="应收款(元)"
+        key="receivableMoney"
+      />
       <el-table-column prop="factMoney" label="	实收款(元)" key="factMoney" />
       <el-table-column prop="poorMoney" label="欠收款(元)" key="poorMoney" />
       <el-table-column

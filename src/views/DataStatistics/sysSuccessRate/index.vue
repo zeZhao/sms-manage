@@ -7,7 +7,9 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
+      max-height="500"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -123,7 +125,7 @@ export default {
             { key: "4", value: "国际" }
           ],
           placeholder: "请选择运营商"
-        },
+        }
         // {
         //   type: "select",
         //   label: "类型",

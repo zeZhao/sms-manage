@@ -19,6 +19,7 @@
     >
     <el-table
       :data="listData"
+      border
       max-height="500"
       highlight-current-row
       style="width: 100%"

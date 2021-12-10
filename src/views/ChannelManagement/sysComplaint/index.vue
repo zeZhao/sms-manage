@@ -6,7 +6,13 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      max-height="500"
+      highlight-current-row
+      style="width: 100%"
+    >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
@@ -15,11 +21,7 @@
       <el-table-column prop="complaintSources" label="投诉来源" />
       <el-table-column prop="result" label="处理方式" />
       <el-table-column prop="content" label="投诉内容" />
-      <el-table-column
-        prop="adContent"
-        label="实际下发内容"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="adContent" label="实际下发内容" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="mobile" label="投诉手机号" width="120" />
       <el-table-column prop="complaintDate" label="投诉时间" width="100">
@@ -372,10 +374,7 @@ export default {
           type: "select",
           label: "是否加入黑名单",
           key: "ifAddBlack",
-          optionData: [
-            { key: "1", value: "是" },
-            { key: "2", value: "否" }
-          ]
+          optionData: [{ key: "1", value: "是" }, { key: "2", value: "否" }]
         },
         {
           type: "select",

@@ -22,14 +22,14 @@
     </Search>
     <el-table
       :data="listData"
-      max-height="500"
+      border
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
@@ -66,7 +66,7 @@
           <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="createBy" label="创建人" min-width="110" />
+      <el-table-column prop="createBy" label="创建人" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -74,13 +74,13 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="createTime" label="创建时间" min-width="170">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="updateBy" label="修改人" min-width="110" />
-      <el-table-column prop="updateTime" label="修改时间" min-width="170">
+      <el-table-column prop="updateBy" label="修改人" />
+      <el-table-column prop="updateTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.updateTime | timeFormat
         }}</template>
