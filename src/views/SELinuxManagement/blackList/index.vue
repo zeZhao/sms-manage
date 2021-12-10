@@ -6,20 +6,24 @@
         active-text-color="#000" @select="handleSelectGroup">
         <el-menu-item v-for="(item, index) in groupList" :key="item.groupId" :index="item.groupId + ''"
           :class="activeIndex === index ? 'hover' : ''" @click="activeIndex = index">
-          <span slot="title" class="title">{{ item.blackGroupName }}</span>
-          <span v-if="index > 3" slot class="action-bar">
-            <el-popover placement="bottom" trigger="hover">
-              <div style="text-align: center">
-                <i class="el-icon-edit" style="margin: 10px; cursor: pointer"
-                  @click="handleEditGroup(item)">&nbsp;&nbsp;编辑</i>
-              </div>
-              <div style="text-align: center">
-                <i class="el-icon-delete" style="margin: 10px; cursor: pointer"
-                  @click="handleDeleteGroup(item.groupId)">&nbsp;&nbsp;删除</i>
-              </div>
-              <i slot="reference" class="el-icon-more" />
-            </el-popover>
-          </span>
+          <el-tooltip placement="top" :content="item.blackGroupName">
+            <div>
+              <span slot="title" class="title">{{ item.blackGroupName }}</span>
+              <span v-if="index > 3" slot class="action-bar">
+                <el-popover placement="bottom" trigger="hover">
+                  <div style="text-align: center">
+                    <i class="el-icon-edit" style="margin: 10px; cursor: pointer"
+                      @click="handleEditGroup(item)">&nbsp;&nbsp;编辑</i>
+                  </div>
+                  <div style="text-align: center">
+                    <i class="el-icon-delete" style="margin: 10px; cursor: pointer"
+                      @click="handleDeleteGroup(item.groupId)">&nbsp;&nbsp;删除</i>
+                  </div>
+                  <i slot="reference" class="el-icon-more" />
+                </el-popover>
+              </span>
+            </div>
+          </el-tooltip>
         </el-menu-item>
       </el-menu>
 
@@ -77,6 +81,11 @@
           <el-form-item label="所属组：" :rules="[{ required: true }]">
             <span>{{ groupList.length && groupList[activeIndex].blackGroupName }}</span>
           </el-form-item>
+          <el-form-item v-if="isShowUserId" label="账户编号：" prop="userId"
+            :rules="[{ required: true, message: '请输入必填项', trigger: 'blur' }]">
+            <el-input v-model="addBlackList.userId" disabled placeholder="请选择账户" style="width: 70%" />
+            <el-button style="border-color: #0964FF; width: 20%" size="small" @click="choose">选择用户</el-button>
+          </el-form-item>
           <el-form-item label="手机号：" prop="mobile" :rules="[{ required: true, trigger: 'blur', validator: $isPhone }]">
             <el-input v-model.trim="addBlackList.mobile" clearable maxlength="11" show-word-limit placeholder="请输入手机号"
               :disabled="!!(createOrUpdateBlackList === '修改黑名单')" />
@@ -96,6 +105,8 @@
         downloadTemplateUrl="/template/smsBlacklist.xlsx" action="/sysBlacklist/importBatchAdd" @submit="batchSubmit"
         @cancel="cancelBatch">
       </BatchAddition>
+
+      <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
     </section>
   </div>
 </template>
@@ -136,7 +147,8 @@ export default {
       activeIndex: 0,
       createOrUpdateBlackList: "添加黑名单",
       isAddBlackList: false,
-      addBlackList: {}
+      addBlackList: {},
+      isChooseUser: false
     };
   },
   computed: {
@@ -156,6 +168,11 @@ export default {
     this.activeIndex = 0;
   },
   methods: {
+    // 选择用户选取赋值
+    chooseUserData (data) {
+      this.$set(this.addBlackList, "userId", data.userId);
+    },
+
     // 点击搜索查询数据
     handleSearch (searchParam) {
       this.$nextTick(() => {
@@ -343,12 +360,10 @@ export default {
       }
 
       .title {
-        width: 100px;
-        height: 14px;
-        line-height: 1;
         display: inline-block;
+        width: 130px;
+        white-space: nowrap;
         text-overflow: ellipsis;
-        white-space: normal;
         overflow: hidden;
       }
 
