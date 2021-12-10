@@ -81,6 +81,11 @@
           <el-form-item label="所属组：" :rules="[{ required: true }]">
             <span>{{ groupList.length && groupList[activeIndex].blackGroupName }}</span>
           </el-form-item>
+          <el-form-item v-if="isShowUserId" label="账户编号：" prop="userId"
+            :rules="[{ required: true, message: '请输入必填项', trigger: 'blur' }]">
+            <el-input v-model="addBlackList.userId" disabled placeholder="请选择账户" style="width: 70%" />
+            <el-button style="border-color: #0964FF; width: 20%" size="small" @click="choose">选择用户</el-button>
+          </el-form-item>
           <el-form-item label="手机号：" prop="mobile" :rules="[{ required: true, trigger: 'blur', validator: $isPhone }]">
             <el-input v-model.trim="addBlackList.mobile" clearable maxlength="11" show-word-limit placeholder="请输入手机号"
               :disabled="!!(createOrUpdateBlackList === '修改黑名单')" />
@@ -100,6 +105,8 @@
         downloadTemplateUrl="/template/smsBlacklist.xlsx" action="/sysBlacklist/importBatchAdd" @submit="batchSubmit"
         @cancel="cancelBatch">
       </BatchAddition>
+
+      <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
     </section>
   </div>
 </template>
@@ -140,7 +147,8 @@ export default {
       activeIndex: 0,
       createOrUpdateBlackList: "添加黑名单",
       isAddBlackList: false,
-      addBlackList: {}
+      addBlackList: {},
+      isChooseUser: false
     };
   },
   computed: {
@@ -160,6 +168,11 @@ export default {
     this.activeIndex = 0;
   },
   methods: {
+    // 选择用户选取赋值
+    chooseUserData (data) {
+      this.$set(this.addBlackList, "userId", data.userId);
+    },
+
     // 点击搜索查询数据
     handleSearch (searchParam) {
       this.$nextTick(() => {
