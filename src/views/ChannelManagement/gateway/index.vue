@@ -83,9 +83,10 @@
       <!-- <el-table-column prop="priority" label="优先级" show-overflow-tooltip /> -->
       <el-table-column prop="clientId" label="账号" show-overflow-tooltip />
       <el-table-column prop="remark" label="备注" show-overflow-tooltip />
-      <el-table-column prop="remark" label="通道状态">
+      <el-table-column prop="serverStatus" label="通道状态">
         <template slot-scope="scope">
           <el-switch
+            v-if="scope.row.remark.indexOf('【手动】') === -1"
             v-model="scope.row.serverStatus"
             active-color="#13ce66"
             inactive-color="#ff4949"
