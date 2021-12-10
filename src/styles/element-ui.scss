@@ -106,9 +106,11 @@
   }
 }
 .el-table {
-  height: 50%;
+  height: auto;
   overflow-y: auto;
   font-size: 12px;
+  margin-bottom: 10px;
+  overflow-y: hidden;
 }
 .el-table--medium th,
 .el-table--medium td {

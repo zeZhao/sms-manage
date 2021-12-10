@@ -61,5 +61,9 @@ export default {
   position: absolute;
   bottom: 29px;
   right: 33px;
+  height: 30px;
+}
+.el-col {
+  margin-top: -21px;
 }
 </style>

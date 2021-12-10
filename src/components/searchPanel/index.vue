@@ -233,7 +233,7 @@
             </el-form-item>
           </transition>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <div class="btnStyle">
             <slot name="Btn">
               <el-button
@@ -246,6 +246,10 @@
               >
               <el-button size="small" @click="_mxHandleReset()">重置</el-button>
             </slot>
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <div class="btnStyle">
             <slot name="Other" :form="form"></slot>
           </div>
         </el-col>
