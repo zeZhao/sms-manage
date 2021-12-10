@@ -52,7 +52,7 @@
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button @click="editBlackList(scope.row)" type="text" size="small">修改</el-button>
+            <!-- <el-button @click="editBlackList(scope.row)" type="text" size="small">修改</el-button> -->
             <el-button @click="deleteBlackList(scope.row.blackId)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -83,8 +83,8 @@
           </el-form-item>
           <el-form-item v-if="isShowUserId" label="账户编号：" prop="userId"
             :rules="[{ required: true, message: '请输入必填项', trigger: 'blur' }]">
-            <el-input v-model="addBlackList.userId" disabled placeholder="请选择账户" style="width: 70%" />
-            <el-button style="border-color: #0964FF; width: 20%" size="small" @click="choose">选择用户</el-button>
+            <el-input v-model="addBlackList.userId" disabled placeholder="请选择账户" style="width: 65%" />
+            <el-button style="border-color: #0964FF" size="small" @click="choose">选择用户</el-button>
           </el-form-item>
           <el-form-item label="手机号：" prop="mobile" :rules="[{ required: true, trigger: 'blur', validator: $isPhone }]">
             <el-input v-model.trim="addBlackList.mobile" clearable maxlength="11" show-word-limit placeholder="请输入手机号"
