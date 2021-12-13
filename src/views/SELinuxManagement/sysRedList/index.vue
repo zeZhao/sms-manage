@@ -60,7 +60,30 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+        @onChange="onChange"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
+      ></FormItem>
+    </el-drawer>
+
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -77,7 +100,7 @@
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       ref="ChooseUser"
       :isChooseUser="isChooseUser"
@@ -520,35 +543,37 @@ export default {
       });
     },
     edit(row, ID) {
-      this.$router.push({
-        name: "sysRedListType",
-        query: { type: "update", row: JSON.stringify(row), ID }
-      });
-      // this.redId = row.redId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = true;
-      //   }
-      //   if (item.key === "mobile") {
-      //     item.rules = [{ required: true, validator: isPhone, trigger: "blur" }];
-      //   }
-      //   if (item.key === "mobileFileUrl") {
-      //     item.isShow = true;
-      //   }
+      // this.$router.push({
+      //   name: "sysRedListType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
       // });
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
+      this.redId = row.redId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
+        if (item.key === "mobile") {
+          item.rules = [
+            { required: true, validator: isPhone, trigger: "blur" }
+          ];
+        }
+        if (item.key === "mobileFileUrl") {
+          item.isShow = true;
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
     },
 
     submit(form) {
@@ -590,29 +615,42 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: "sysRedListType", query: { type: "create" } });
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = false;
-      //   }
-      //   if (item.key === "mobile") {
-      //     item.rules = [
-      //       { required: true, message: "请添加手机号或者上传手机号文件", trigger: "blur" },
-      //       { validator: this.$publicValidators.phone[0]["validator"], trigger: "change" }
-      //     ];
-      //   }
-      //   if (item.key === "mobileFileUrl") {
-      //     item.defaultValue = "";
-      //     item.defaultFileList = [];
-      //     item.isShow = false;
-      //     item.rules = [{ required: true, message: "请上传手机号文件或者添加手机号", trigger: ['blur', 'change']}];
-      //   }
-      // });
-      // this.addChannel = true;
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
+      // this.$router.push({ name: "sysRedListType", query: { type: "create" } });
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+        if (item.key === "mobile") {
+          item.rules = [
+            {
+              required: true,
+              message: "请添加手机号或者上传手机号文件",
+              trigger: "blur"
+            },
+            {
+              validator: this.$publicValidators.phone[0]["validator"],
+              trigger: "change"
+            }
+          ];
+        }
+        if (item.key === "mobileFileUrl") {
+          item.defaultValue = "";
+          item.defaultFileList = [];
+          item.isShow = false;
+          item.rules = [
+            {
+              required: true,
+              message: "请上传手机号文件或者添加手机号",
+              trigger: ["blur", "change"]
+            }
+          ];
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
     cancel() {
       this.addChannel = false;

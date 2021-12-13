@@ -4,10 +4,11 @@
       ref="form"
       :label-width="`${labelWidth}px`"
       :model="formData"
+      :label-position="labelPosition"
       v-if="formConfig.length"
       class="demo-ruleForm"
     >
-      <el-row>
+      <el-row :gutter="gutter">
         <el-col
           :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
@@ -461,10 +462,22 @@ export default {
         return true;
       }
     },
+    labelPosition: {
+      type: String,
+      default() {
+        return "right";
+      }
+    },
     labelWidth: {
       type: [String, Number],
       default() {
         return 150;
+      }
+    },
+    gutter: {
+      type: [String, Number],
+      default() {
+        return 24;
       }
     },
     colSpan: {

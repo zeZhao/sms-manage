@@ -84,6 +84,21 @@ export default {
     ::v-deep .el-date-editor .el-input__inner {
       padding: 0 30px;
     }
+
+    ::v-deep .el-drawer {
+      width: 560px !important;
+      padding: 18px 24px;
+      overflow-y: auto;
+    }
+    ::v-deep .el-drawer__header {
+      padding: 0;
+    }
+    ::v-deep .el-drawer__body .el-form-item {
+      margin-bottom: 10px;
+    }
+    ::v-deep .el-drawer__body .el-form-item__error {
+      padding-top: 1px;
+    }
   }
 }
 </style>

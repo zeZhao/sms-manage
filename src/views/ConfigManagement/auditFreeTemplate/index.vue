@@ -44,7 +44,25 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @choose="choose"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -58,7 +76,7 @@
         @cancel="_mxCancel"
         @choose="choose"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -202,16 +220,43 @@ export default {
   },
   methods: {
     _mxCreate() {
-      this.$router.push({
-        name: "auditFreeTemplateType",
-        query: { type: "create" }
-      });
+      // this.$router.push({
+      //   name: "auditFreeTemplateType",
+      //   query: { type: "create" }
+      // });
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig[0].btnDisabled = false;
     },
     _mxEdit(row, ID) {
-      this.$router.push({
-        name: "auditFreeTemplateType",
-        query: { type: "update", row: JSON.stringify(row), ID }
+      // this.$router.push({
+      //   name: "auditFreeTemplateType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
+      // });
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
       });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     //选择用户选取赋值
     chooseUserData(data) {

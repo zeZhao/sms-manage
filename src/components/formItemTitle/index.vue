@@ -4,14 +4,15 @@
       ref="form"
       :label-width="`${labelWidth}px`"
       :model="formData"
+      :label-position="labelPosition"
       v-if="formConfig.length"
       class="demo-ruleForm"
     >
-      <el-row>
+      <el-row :gutter="gutter">
         <el-col
           v-for="(item, index) in formConfig"
           :key="index"
-          :span="item.colSpan || 8"
+          :span="item.colSpan || colSpan"
           :offset="item.offset"
         >
           <h3 v-if="item.isTitle && !item.isShow">{{ item.title }}</h3>
@@ -30,7 +31,10 @@
             <!--输入框-->
             <template v-if="item.type === 'input'">
               <el-input
-                :class="{ inputWid: item.btnTxt || item.specialSymbols, inputIcon: item.lock }"
+                :class="{
+                  inputWid: item.btnTxt || item.specialSymbols,
+                  inputIcon: item.lock
+                }"
                 v-model.trim="formData[item.key]"
                 clearable
                 :disabled="item.disabled || item.lock"
@@ -57,7 +61,12 @@
                 size="small"
                 >{{ item.btnTxt }}</el-button
               >
-              <i class="el-icon-lock" v-if="item.lock" @click="decode(item)" style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"></i>
+              <i
+                class="el-icon-lock"
+                v-if="item.lock"
+                @click="decode(item)"
+                style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"
+              ></i>
               <span v-if="item.specialSymbols">{{ item.specialSymbols }}</span>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
             </template>
@@ -102,7 +111,10 @@
                   }
                 "
               />
-              <slot v-if="item.isChooseProviceOrCity" name="isChooseProviceOrCity"></slot>
+              <slot
+                v-if="item.isChooseProviceOrCity"
+                name="isChooseProviceOrCity"
+              ></slot>
               <div v-if="item.mobileTips" class="item-tips">
                 {{ returnMobileTips(formData[item.key]) }}
               </div>
@@ -384,18 +396,30 @@ export default {
         return "新增";
       }
     },
+    labelPosition: {
+      type: String,
+      default() {
+        return "right";
+      }
+    },
     labelWidth: {
       type: [String, Number],
       default() {
         return 150;
       }
     },
-    // colSpan: {
-    //   type: [String, Number],
-    //   default() {
-    //     return 24;
-    //   }
-    // }
+    gutter: {
+      type: [String, Number],
+      default() {
+        return 24;
+      }
+    },
+    colSpan: {
+      type: [String, Number],
+      default() {
+        return 24;
+      }
+    }
   },
   data() {
     return {
@@ -432,7 +456,7 @@ export default {
     chooses(item) {
       this.$emit("choose", item);
     },
-    decode(item){
+    decode(item) {
       this.$emit("decode", item);
     },
     /**
@@ -501,7 +525,7 @@ export default {
       });
       this.$nextTick(() => {
         this.clearValidate();
-      })
+      });
       // this.$refs.form.resetFields();
     },
     cancel() {
@@ -616,7 +640,7 @@ export default {
     width: 70%;
   }
   .inputIcon {
-    width: 90%;
+    width: 85%;
   }
   .item-tips {
     color: #999999;

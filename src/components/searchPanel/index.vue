@@ -248,7 +248,7 @@
             </slot>
           </div>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8" v-show="!$slots.default">
           <div class="btnStyle">
             <slot name="Other" :form="form"></slot>
           </div>
@@ -339,6 +339,9 @@ export default {
       isCollapse: true, // 默认展开
       form: {}
     };
+  },
+  mounted() {
+    console.log(this.$slots, "=======");
   },
   watch: {
     searchFormConfig: {

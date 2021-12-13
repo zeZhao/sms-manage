@@ -49,6 +49,24 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+      ></FormItem>
+      <!-- <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"></FormItem> -->
+    </el-drawer>
   </div>
 </template>
 
@@ -103,6 +121,31 @@ export default {
             }
           ]
         }
+      ],
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "账户编号",
+          key: "userId",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "dataTime",
+          label: "选择日期",
+          key: "userId",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "textarea",
+          label: "手机号",
+          key: "userId",
+          placeholder: "请输入手机号码，多个用英文逗号隔开",
+          defaultValue: "",
+          rules: this.$publicValidators.phone
+        }
       ]
     };
   },
@@ -113,7 +156,57 @@ export default {
   },
   methods: {
     create() {
-      this.$router.push({ name: "rePushToolType", query: { type: "create" } });
+      // this.$router.push({ name: "rePushToolType", query: { type: "create" } });
+      this.formTit = "新建";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+      });
+      this.addChannel = true;
+    },
+    submit(form) {
+      let params = {};
+      if (this.formTit == "新建") {
+        params = {
+          data: {
+            ...form
+          }
+        };
+        this.$http.sysSignRoute.addSignRoute(params).then(res => {
+          if (resOk(res)) {
+            window.history.back();
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+      } else {
+        params = {
+          data: {
+            routeId: this.routeId,
+            ...form
+          }
+        };
+        this.$http.sysSignRoute.updateSignRoute(params).then(res => {
+          if (resOk(res)) {
+            window.history.back();
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+      }
+    },
+    cancel() {
+      this.addChannel = false;
     }
   }
 };

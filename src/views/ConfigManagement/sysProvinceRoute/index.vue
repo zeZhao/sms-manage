@@ -73,7 +73,25 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -87,7 +105,7 @@
         @cancel="cancel"
         @choose="choose"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -545,51 +563,51 @@ export default {
       }
     },
     create() {
-      this.$router.push({
-        name: "sysProvinceRouteType",
-        query: { type: "create" }
-      });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === 'userId') {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
+      // this.$router.push({
+      //   name: "sysProvinceRouteType",
+      //   query: { type: "create" }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
     edit(row, ID) {
-      this.$router.push({
-        name: "sysProvinceRouteType",
-        query: { type: "update", row: JSON.stringify(row), ID }
-      });
-      // this.routeId = row.routeId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key) {
-      //       if (row[key] === 0) {
-      //         this.$set(item, "defaultValue", "0");
-      //       } else if (row[key] === "-") {
-      //         this.$set(item, "defaultValue", "");
-      //       } else {
-      //         this.$set(item, "defaultValue", row[key]);
-      //       }
-      //     }
-      //   }
-      //   if (item.key === 'userId') {
-      //     this.$set(item, "btnDisabled", true);
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
+      // this.$router.push({
+      //   name: "sysProvinceRouteType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+      this.routeId = row.routeId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            if (row[key] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else if (row[key] === "-") {
+              this.$set(item, "defaultValue", "");
+            } else {
+              this.$set(item, "defaultValue", row[key]);
+            }
+          }
+        }
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", true);
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     cancel() {
       this.addChannel = false;
