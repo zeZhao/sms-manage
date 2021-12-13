@@ -351,6 +351,12 @@ export default {
             form[key] = getDateTime('end');
           }
         }
+
+        if (path === "/sysReport/index") {
+          if (key === "countDate" || key === "endDate") {
+            form[key] = null;
+          }
+        }
       }
 
       this.form = form;
