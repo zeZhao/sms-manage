@@ -304,7 +304,6 @@ export default {
       }
     };
     var validatePhone = (rule, value, callback) => {
-      console.log(this.formBtn, "-----this.formBtn");
       if (this.formBtn === "新增") {
         if (value === "") {
           callback();
@@ -336,14 +335,6 @@ export default {
           callback();
         }
       }
-      // if (
-      //   value &&
-
-      // ) {
-      //   callback(new Error("手机号码不符合规范"));
-      // } else {
-      //   callback();
-      // }
     };
     var validate = (rule, value, callback) => {
       if (!value) {

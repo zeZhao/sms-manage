@@ -59,6 +59,7 @@
       <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
+            v-if="scope.row.remark.indexOf('【手动】') === -1"
             v-model="scope.row.serverStatus"
             active-color="#13ce66"
             inactive-color="#ff4949"
@@ -462,10 +463,10 @@ export default {
           type: "select",
           label: "公司服务器ip",
           key: "ip",
-          initDefaultValue: "10.10.32.5",
-          defaultValue: "10.10.32.5",
+          initDefaultValue: "10.3.0.23",
+          defaultValue: "10.3.0.23",
           colSpan: 12,
-          optionData: [{ key: "10.10.32.5", value: "10.10.32.5" }],
+          optionData: [{ key: "10.3.0.23", value: "10.3.0.23" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {

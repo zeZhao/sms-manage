@@ -171,11 +171,11 @@ export default {
           type: "select",
           label: "公司服务器ip",
           key: "ip",
-          initDefaultValue: "10.10.32.5",
-          defaultValue: "10.10.32.5",
+          initDefaultValue: "10.3.0.23",
+          defaultValue: "10.3.0.23",
           colSpan: 12,
           optionData: [
-            { key: "10.10.32.5", value: "10.10.32.5" }
+            { key: "10.3.0.23", value: "10.3.0.23" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -206,7 +206,7 @@ export default {
               required: true,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback(new Error("请输入必填项"));
+                if (!value && value !== 0) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
                 callback();
               }
