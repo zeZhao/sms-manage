@@ -3,9 +3,15 @@
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
-      @create="createOrEdit('add')"
+      @create="create"
     ></Search>
-    <el-table :data="listData" border highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="gatewayId" label="通道编号" />
       <el-table-column prop="name" label="通道名称" />
       <el-table-column prop="price" label="通道单价(分)" />
@@ -23,7 +29,7 @@
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
-            @click="createOrEdit('edit', scope.row.gatewayId)"
+            @click="createOrEdit(scope.row, 'gatewayId')"
             type="text"
             size="small"
             >修改</el-button
@@ -51,11 +57,79 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        :footerIsCenter="true"
+        @submit="submit"
+        @cancel="cancel"
+      >
+        <div v-if="formTit !== '新增'" slot="Other">
+          <i
+            class="el-icon-lock"
+            @click="isOpenDialog"
+            style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"
+          ></i>
+          <el-dialog
+            title="登录"
+            :visible.sync="loginVisible"
+            :close-on-click-modal="false"
+            width="30%"
+            :append-to-body="true"
+          >
+            <el-form
+              ref="ruleForm"
+              :model="formData"
+              :rules="rules"
+              label-position="top"
+              label-width="70px"
+              style="width: 100%;"
+            >
+              <el-form-item label="手机号:" prop="account">
+                <el-input v-model="formData.account" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="口令:" prop="pwd">
+                <el-input
+                  v-model="formData.pwd"
+                  clearable
+                  maxlength="6"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="notDisabled">确 定</el-button>
+              <el-button @click="loginVisible = false">取 消</el-button>
+            </span>
+          </el-dialog>
+        </div>
+      </FormItem>
+    </el-drawer>
   </div>
 </template>
 
 <script>
+import { deepClone } from "@/utils";
 import listMixin from "@/mixin/listMixin";
+//operator字段所有可能出现情况
+const models = [
+  { value: 0, arr: [1, 2, 3] },
+  { value: 1, arr: [1] },
+  { value: 2, arr: [2] },
+  { value: 3, arr: [3] },
+  { value: 4, arr: [1, 2] },
+  { value: 5, arr: [1, 3] },
+  { value: 6, arr: [2, 3] }
+];
 export default {
   mixins: [listMixin],
   data() {
@@ -115,16 +189,314 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      formTit: "新增",
+      addChannel: false,
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "通道名称",
+          key: "name",
+          defaultValue: "",
+          maxlength: 30,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            {
+              min: 2,
+              max: 30,
+              message: "长度在 2 到 30 个字符",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "通道公司名称",
+          key: "corpName",
+          defaultValue: "",
+          maxlength: 30,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            {
+              min: 2,
+              max: 30,
+              message: "长度在 2 到 30 个字符",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "通道单价(分)",
+          key: "price",
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: (rule, value, callback) => {
+                if (value === "" || value === undefined || value === null) {
+                  callback(new Error("请输入必填项"));
+                } else {
+                  if (isNaN(value)) {
+                    callback(new Error("通道单价必须为数值"));
+                  } else if (value <= 0) {
+                    callback(new Error("通道单价必须大于0"));
+                  } else if (!/^\d{1,4}(\.\d{1,2})?$/.test(value)) {
+                    callback(
+                      new Error("通道单价可输入1~4位数值，最多可保留两位小数")
+                    );
+                  } else {
+                    callback();
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          type: "checkbox",
+          label: "支持运营商",
+          key: "operator",
+          defaultValue: [],
+          optionData: [
+            {
+              key: 1,
+              value: "移动"
+            },
+            {
+              key: 2,
+              value: "联通"
+            },
+            {
+              key: 3,
+              value: "电信"
+            }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请选择必选项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "映射路由",
+          key: "routeMap",
+          defaultValue: "",
+          disabled: false,
+          maxlength: 30,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "radio",
+          label: "是否可用",
+          key: "status",
+          defaultValue: 1,
+          optionData: [
+            {
+              key: 1,
+              value: "可用"
+            },
+            {
+              key: 0,
+              value: "不可用"
+            }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请选择必选项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "textarea",
+          label: "备注",
+          key: "remark",
+          defaultValue: "",
+          maxlength: 300,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "textarea",
+          label: "对接参数",
+          key: "parameter",
+          defaultValue: "",
+          disabled: false,
+          lock: true,
+          rules: [
+            // {
+            //   required: true,
+            //   message: "请输入必填项",
+            //   trigger: ["blur", "change"]
+            // }
+          ]
+        }
+      ],
+
+      loginVisible: false,
+      formData: {},
+      rules: {
+        account: [
+          {
+            required: true,
+            message: "手机号不能为空",
+            trigger: ["blur", "change"]
+          }
+        ],
+        pwd: [
+          {
+            required: true,
+            message: "口令不能为空",
+            trigger: ["blur", "change"]
+          }
+        ]
+      },
+      gatewayId: ""
     };
   },
   activated() {
     this._mxGetList();
   },
   methods: {
+    isOpenDialog() {
+      this.loginVisible = true;
+    },
+    notDisabled() {
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          const gatewayId = this.gatewayId;
+          this.formData.type = 2;
+          this.formData.soleId = Number(gatewayId);
+
+          this.$http.mmsGateway.viewLogin(this.formData).then(res => {
+            if (res.code === 200) {
+              this.formConfig[4].disabled = false;
+              this.formConfig[7].disabled = false;
+              this.formConfig[7].defaultValue = res.data;
+              this.loginVisible = false;
+              this.formData.account = "";
+              this.formData.pwd = "";
+              this.$message.success("验证成功");
+            } else {
+              this.$message.error(res.data);
+            }
+          });
+        }
+      });
+    },
+    submit(form) {
+      form.operator = this.returnOperator(form.operator);
+      let params = {};
+      if (this.formTit == "新增") {
+        params = {
+          data: {
+            ...form
+          }
+        };
+        this.$http.mmsGateway.addMmsGateway(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+      } else {
+        params = {
+          data: {
+            gatewayId: this.gatewayId,
+            ...form
+          }
+        };
+        this.$http.mmsGateway.updateMmsGateway(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+      }
+    },
+    //格式化operator字段
+    returnOperator(arg) {
+      //数组排序然后进行比较找到返回相对应的value
+      const data = arg.sort((a, b) => a - b);
+      const idx = models.findIndex(
+        v => JSON.stringify(data) === JSON.stringify(v.arr)
+      );
+      return models[idx].value;
+    },
+    cancel() {
+      this.addChannel = false;
+    },
+    create() {
+      // this.$router.push({ name: "sysRedListType", query: { type: "create" } });
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "routeMap" || item.key === "parameter") {
+          item.disabled = false;
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
     //创建或修改的页面跳转
-    createOrEdit(type, gatewayId) {
-      this.$router.push({ name: "MMSchannelType", query: { type, gatewayId } });
+    createOrEdit(row, ID) {
+      this.gatewayId = row.gatewayId;
+      this.formTit = "修改";
+      const idx = models.findIndex(v => row.operator === v.value);
+      let str = models[idx].arr;
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "routeMap" || item.key === "parameter") {
+          item.disabled = true;
+        }
+        if (item.key === "operator") {
+          item.defaultValue = str;
+        }
+      });
+      this.addChannel = true;
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
     },
     //启用/禁用通道
     handleIsDisable(status, gatewayId) {

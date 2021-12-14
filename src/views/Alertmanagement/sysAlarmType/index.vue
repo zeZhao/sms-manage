@@ -7,7 +7,13 @@
       @create="create"
       :add="false"
     ></Search>
-    <el-table :data="listData" border highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="errNum" label="错误码" />
       <el-table-column prop="useModule" label="应用模块" />
       <el-table-column prop="alerType" label="报警类型" width="120" />

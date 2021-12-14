@@ -6,7 +6,14 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table :data="listData" border highlight-current-row style="width: 100%">
+
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
@@ -265,6 +272,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -324,23 +332,6 @@
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateStatus">确 定</el-button>
       </span>
-    </el-dialog>
-    <el-dialog
-      :title="tagStatusTitle"
-      :visible.sync="tagStatus"
-      :close-on-click-modal="false"
-      top="45px"
-      width="30%"
-    >
-      <FormItem
-        :colSpan="24"
-        :labelWidth="50"
-        ref="formItem"
-        :formConfig="tagsData"
-        btnTxt="确定"
-        @submit="submitTags"
-        @cancel="tagStatus = false"
-      ></FormItem>
     </el-dialog>
     <el-dialog
       :title="tagStatusTitle"
@@ -2295,5 +2286,8 @@ export default {
 
 <style lang="scss" scoped>
 .corpUser {
+  .list_table {
+    width: 100%;
+  }
 }
 </style>

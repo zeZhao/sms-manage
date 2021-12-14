@@ -11,6 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="gateway" label="通道编号" />
@@ -100,7 +101,7 @@
             >修改标签</el-button
           >
           <el-button
-            @click="_mxEdit(scope.row, scope.row.gatewayId)"
+            @click="_mxEdit(scope.row, 'gatewayId')"
             type="text"
             size="small"
             >修改</el-button
@@ -1288,24 +1289,6 @@ export default {
     //   // }, 0);
     //   // this.addChannel = true;
     // },
-    //隐藏附加信息
-    handleClick(item) {
-      if (item.show) {
-        this._setTagDisplayShow(this.formConfig, "addition", true);
-        this.formConfig.forEach(items => {
-          if (items.isBtn) {
-            items.show = false;
-          }
-        });
-      } else {
-        this._setTagDisplayShow(this.formConfig, "addition", false);
-        this.formConfig.forEach(items => {
-          if (items.isBtn) {
-            items.show = true;
-          }
-        });
-      }
-    },
     //获取所有标签
     listTag() {
       this.$http.smsTagController
@@ -1472,7 +1455,7 @@ export default {
     },
     submit() {
       const { account, pwd } = this.formData;
-      const { gatewayId } = this.$route.query;
+      const gatewayId = this.id;
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           this.$http.sysLogin
@@ -1528,7 +1511,6 @@ export default {
         });
       }
     },
-    selectChange({ val, item }) {},
     /*
      * 获取省份列表
      * */

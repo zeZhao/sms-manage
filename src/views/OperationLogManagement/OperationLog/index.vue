@@ -19,6 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="serverType" label="产品类型">
@@ -35,8 +36,8 @@
       <el-table-column prop="requIp" label="请求IP" />
       <el-table-column prop="module" label="操作模块" />
       <el-table-column prop="remark" label="描述信息" />
-      <el-table-column prop="requParam" label="请求参数" />
-      <el-table-column prop="respParam" label="返回参数" />
+      <el-table-column prop="requParam" label="请求参数" width="250" />
+      <el-table-column prop="respParam" label="返回参数" width="200" />
     </el-table>
 
     <Page

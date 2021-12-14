@@ -701,8 +701,8 @@ export default {
     display: flex;
     justify-content: center;
   }
-  ::v-deep .el-dialog__header {
-    border-bottom: 1px solid #909399;
-  }
+  // ::v-deep .el-dialog__header {
+  //   border-bottom: 1px solid #909399;
+  // }
 }
 </style>

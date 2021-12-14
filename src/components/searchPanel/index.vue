@@ -6,7 +6,7 @@
       :model="form"
       label-width="auto"
     >
-      <el-row>
+      <el-row :gutter="16">
         <el-col
           v-for="(item, index) in searchFormConfig"
           :key="index"

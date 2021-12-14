@@ -30,7 +30,8 @@
         :data="listData"
         border
         highlight-current-row
-        style="width: 100%"
+        style="width: 100%;margin-bottom: 60px;"
+        height="40vh"
         @selection-change="handleSelectionChange"
       >
         <el-table-column

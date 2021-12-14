@@ -1,6 +1,9 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+      <!-- <span class="scrollPane_bnt left_bnt" @click="handleLeft">
+        <i class="el-icon-arrow-left"></i>
+      </span> -->
       <router-link
         v-for="tag in visitedViews"
         ref="tag"
@@ -19,6 +22,9 @@
           @click.prevent.stop="closeSelectedTag(tag)"
         />
       </router-link>
+      <!-- <span class="scrollPane_bnt right_bnt" @click="handleRight"
+        ><i class="el-icon-arrow-right"></i
+      ></span> -->
     </scroll-pane>
     <ul
       v-show="visible"
@@ -76,6 +82,14 @@ export default {
     this.addTags();
   },
   methods: {
+    handleLeft() {},
+    handleRight() {
+      const w = this.$refs.scrollPane.$el.scrollLeft;
+      const scrollPane = this.$refs.scrollPane;
+      console.log(scrollPane, "----scrollPane");
+      console.log(w, "----w");
+      window.scrollTo(w + 40, 0);
+    },
     isActive(route) {
       return route.path === this.$route.path;
     },
@@ -211,8 +225,25 @@ export default {
   // border-bottom: 1px solid #d8dce5;
   // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   .tags-view-wrapper {
+    .scrollPane_bnt {
+      width: 32px;
+      height: 32px;
+      display: inline-block;
+      text-align: center;
+      line-height: 32px;
+      background: red;
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;
+    }
+    .right_bnt {
+      right: 0;
+    }
+    .left_bnt {
+      left: 0;
+    }
     .tags-view-item {
-      min-width: 88px;
+      min-width: 105px;
       text-align: center;
       display: inline-block;
       position: relative;
@@ -224,6 +255,7 @@ export default {
       background: #f9f9f9;
       padding: 6px 12px;
       font-size: 14px;
+      margin-right: 1px;
       // margin-left: 5px;
       // margin-top: 4px;
       &:last-of-type {

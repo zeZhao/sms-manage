@@ -10,6 +10,7 @@
       border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="gatewayMmsId" label="上游模板编号" />

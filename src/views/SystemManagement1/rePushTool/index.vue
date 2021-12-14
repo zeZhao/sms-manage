@@ -9,7 +9,7 @@
 
     <el-table
       :data="listData"
-      max-height="500"
+      height="50vh"
       highlight-current-row
       style="width: 100%"
       v-loading="loading"

@@ -81,6 +81,9 @@ export default {
       font-size: 12px;
       padding: 0 8px;
     }
+    .el-input-number--medium {
+      line-height: 26px;
+    }
     ::v-deep .el-date-editor .el-input__inner {
       padding: 0 30px;
     }
@@ -98,6 +101,18 @@ export default {
     }
     ::v-deep .el-drawer__body .el-form-item__error {
       padding-top: 1px;
+    }
+    ::v-deep .el-dialog {
+      padding: 24px;
+    }
+    ::v-deep .el-dialog__header,
+    ::v-deep .el-dialog__footer,
+    ::v-deep .el-dialog__body {
+      padding: 0px;
+    }
+    ::v-deep .el-dialog__body {
+      margin-top: 24px;
+      margin-bottom: 24px;
     }
   }
 }

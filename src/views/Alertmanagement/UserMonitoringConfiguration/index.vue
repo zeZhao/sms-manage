@@ -9,7 +9,7 @@
       :data="listData"
       border
       highlight-current-row
-      height="650"
+      height="50vh"
       style="width: 100%"
     >
       <el-table-column prop="corpId" label="商户编号" />

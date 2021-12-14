@@ -11,6 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="keyword" label="敏感词" />

@@ -6,7 +6,13 @@
       @search="_mxDoSearch"
       @create="create"
     ></Search>
-    <el-table :data="listData" border highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="submitFail" label="是否提交失败报警">
         <template slot-scope="scope">
