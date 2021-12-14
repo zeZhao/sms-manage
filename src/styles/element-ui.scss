@@ -116,3 +116,7 @@
 .el-tooltip__popper {
   max-width: 1000px;
 }
+
+.el-dropdown-menu {
+  z-index: 2004 !important;
+}
