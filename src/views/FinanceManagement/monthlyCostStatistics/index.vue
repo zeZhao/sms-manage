@@ -115,7 +115,7 @@ export default {
           placeholder: '请输入账户名称',
         },
         {
-          type: 'input',
+          type: 'inputNum',
           label: '通道编号',
           key: 'gateway',
           placeholder: '请输入通道编号',
