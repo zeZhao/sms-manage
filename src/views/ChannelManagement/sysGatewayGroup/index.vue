@@ -193,10 +193,7 @@ export default {
           type: "input",
           label: "通道组名称",
           key: "groupName",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            { trigger: ['blur', 'change'], validator: validatorGroupName }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
         },
         {
           type: "select",
