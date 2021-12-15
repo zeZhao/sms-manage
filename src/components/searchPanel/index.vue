@@ -340,9 +340,7 @@ export default {
       form: {}
     };
   },
-  mounted() {
-    console.log(this.$slots, "=======");
-  },
+  mounted() {},
   watch: {
     searchFormConfig: {
       handler() {

@@ -86,8 +86,6 @@ export default {
     handleRight() {
       const w = this.$refs.scrollPane.$el.scrollLeft;
       const scrollPane = this.$refs.scrollPane;
-      console.log(scrollPane, "----scrollPane");
-      console.log(w, "----w");
       window.scrollTo(w + 40, 0);
     },
     isActive(route) {

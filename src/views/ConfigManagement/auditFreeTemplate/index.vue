@@ -20,13 +20,13 @@
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">{{ renderType(scope.row.type) }}</template>
       </el-table-column>
-      <el-table-column prop="template" label="模板信息" />
+      <el-table-column prop="template" label="模板信息" width="400" />
       <el-table-column prop="createdAt" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createdAt | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="170">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'templateId')"

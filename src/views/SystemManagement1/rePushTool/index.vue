@@ -4,7 +4,7 @@
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
-      @create="create"
+      @create="_mxCreate"
     ></Search>
 
     <el-table
@@ -96,6 +96,47 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        :footerIsCenter="true"
+        @onChange="onChange"
+        @submit="submit"
+      >
+        <template slot="Btn">
+          <el-button @click="cancelAddChannel">取消</el-button>
+          <el-button
+            type="primary"
+            v-throttle="3000"
+            @click="
+              pushType = 1;
+              $refs.formItem.onSubmit('form');
+            "
+          >
+            报告推送
+          </el-button>
+          <el-button
+            type="primary"
+            v-throttle="3000"
+            @click="
+              pushType = 2;
+              $refs.formItem.onSubmit('form');
+            "
+          >
+            上行推送
+          </el-button>
+        </template>
+      </FormItem>
+    </el-drawer>
   </div>
 </template>
 
@@ -159,24 +200,35 @@ export default {
           label: "账户编号",
           key: "userId",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (isNaN(value)) callback(new Error("请输入正确的账户编号"));
+                callback();
+              }
+            }
+          ]
         },
         {
-          type: "dataTime",
+          type: "dataTimes",
           label: "选择日期",
-          key: "userId",
+          key: "dataTimes",
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
           label: "手机号",
-          key: "userId",
+          key: "mobile",
           placeholder: "请输入手机号码，多个用英文逗号隔开",
           defaultValue: "",
-          rules: this.$publicValidators.phone
+          rules: [{ required: false }]
         }
-      ]
+      ],
+      pushType: "" // 1 报告推送 2 上行推送
     };
   },
   mounted() {
@@ -187,6 +239,59 @@ export default {
     this._mxGetList();
   },
   methods: {
+    onChange({ val, item }) {
+      if (item.key === "mobile") {
+        item.rules = val ? this.$publicValidators.phone : [{ required: false }];
+      }
+    },
+    submit(form) {
+      this.$confirm("推送后可在列表进行查看", "确认推送", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          // 确认推送
+          let params = {};
+          if (this.formTit === "新增") {
+            params = {
+              ...form
+            };
+            params.pushType = this.pushType;
+            params.startTime = params.dataTimes[0];
+            params.endTime = params.dataTimes[1];
+            this.$http.pushToolTask.add(params).then(res => {
+              if (resOk(res)) {
+                this.addChannel = false;
+                this.$message.success(res.msg || res.data);
+                this._mxGetList();
+              } else {
+                this.$message.error(res.data || res.msg);
+              }
+            });
+          } else {
+            params = {
+              data: {
+                routeId: this.routeId,
+                ...form
+              }
+            };
+            this.$http.sysSignRoute.updateSignRoute(params).then(res => {
+              if (resOk(res)) {
+                this.addChannel = false;
+                this.$message.success(res.msg || res.data);
+                this._mxGetList();
+              } else {
+                this.$message.error(res.data || res.msg);
+              }
+            });
+          }
+        })
+        .catch(() => {});
+    },
+    cancelAddChannel() {
+      this.addChannel = false;
+    },
     create() {
       this.$router.push({ name: "rePushToolType", query: { type: "create" } });
     },
