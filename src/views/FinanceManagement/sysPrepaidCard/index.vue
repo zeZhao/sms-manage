@@ -7,25 +7,27 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="商户编号" show-overflow-tooltip />
-      <el-table-column prop="corporateName" label="商户名称" show-overflow-tooltip />
-      <el-table-column prop="cardCount" label="条数" show-overflow-tooltip />
-      <el-table-column prop="cardMoney" label="金额(元)" show-overflow-tooltip />
-      <el-table-column prop="directCount" label="直连条数" show-overflow-tooltip />
-      <el-table-column prop="directPrice" label="直连金额(元)" show-overflow-tooltip />
-      <el-table-column prop="sumCount" label="总条数" show-overflow-tooltip />
-      <el-table-column prop="sumPrice" label="总金额(元)" show-overflow-tooltip />
-      <el-table-column prop="chargeType" label="类型"show-overflow-tooltip>
+      <el-table-column prop="corporateId" label="商户编号" />
+      <el-table-column prop="corporateName" label="商户名称" />
+      <el-table-column prop="cardCount" label="条数" />
+      <el-table-column prop="cardMoney" label="金额(元)" />
+      <el-table-column prop="directCount" label="直连条数" />
+      <el-table-column prop="directPrice" label="直连金额(元)" />
+      <el-table-column prop="sumCount" label="总条数" />
+      <el-table-column prop="sumPrice" label="总金额(元)" />
+      <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" show-overflow-tooltip />
+      <el-table-column prop="remark" label="备注" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="exportPlatform(scope.row)"

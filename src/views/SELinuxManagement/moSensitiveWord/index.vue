@@ -1,29 +1,73 @@
 <template>
   <!--上行敏感词-->
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%" v-loading="loading">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+      v-loading="loading"
+    >
       <el-table-column prop="keyword" label="敏感词" />
       <el-table-column prop="createUserStr" label="创建人" />
-      <el-table-column prop="createdAt" label="创建时间" min-width="150">
+      <el-table-column prop="createdAt" label="创建时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.createdAt | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('id', scope.row.id, false, false, '您确定要删除该条上行敏感词吗？')" type="text"
-            size="small">删除</el-button>
+          <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="
+              _mxDeleteItem(
+                'id',
+                scope.row.id,
+                false,
+                false,
+                '您确定要删除该条上行敏感词吗？'
+              )
+            "
+            type="text"
+            size="small"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="_mxHandleSubmit" @cancel="_mxCancel"
-        @choose="choose"></FormItem>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @choose="choose"
+      ></FormItem>
     </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -31,7 +75,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       formTit: "新增",
       addChannel: false,
@@ -81,7 +125,13 @@ export default {
           key: "keyword",
           defaultValue: "",
           maxlength: 8,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       id: "",
@@ -92,7 +142,7 @@ export default {
   },
   methods: {
     //选择用户选取赋值
-    chooseUserData (data) {
+    chooseUserData(data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {

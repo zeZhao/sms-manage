@@ -7,9 +7,11 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -22,10 +24,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="optimizePercent" label="优化比例" />
-      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="optimizeTemplate" label="优化关键词" min-width="120" show-overflow-tooltip />
-      <el-table-column prop="startTime" label="开始时间(时:分)" min-width="120" />
-      <el-table-column prop="endTime" label="结束时间(时:分)" min-width="120" />
+      <el-table-column prop="noOptimizeTemplate" label="不优化关键词" />
+      <el-table-column prop="optimizeTemplate" label="优化关键词" />
+      <el-table-column prop="startTime" label="开始时间(时:分)" />
+      <el-table-column prop="endTime" label="结束时间(时:分)" />
       <el-table-column label="操作" width="200"
         >1458
         <template slot-scope="scope">
@@ -46,7 +48,26 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+        @onChange="onChange"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -61,7 +82,7 @@
         @choose="choose"
         @onChange="onChange"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -92,13 +113,15 @@ export default {
       //   }
       // }
       if (!value && value !== 0) {
-        callback(new Error('请输入必填项'));
+        callback(new Error("请输入必填项"));
       } else {
         if (value == 100) {
           callback();
         }
         const reg = new RegExp("^([1-9]|[1-9][0-9])$");
-        reg.test(value) ? callback() : callback(new Error("请输入大于0且不超过100的整数"));
+        reg.test(value)
+          ? callback()
+          : callback(new Error("请输入大于0且不超过100的整数"));
       }
     };
     const validatorTemplate = (rule, value, callback) => {
@@ -271,7 +294,7 @@ export default {
       isParamsNotData: false
     };
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
@@ -279,10 +302,10 @@ export default {
     onChange({ val, item }) {
       let time;
       if (item.key === "startTime") {
-        time = { selectableRange: val ? `${val} - 23:59:59` : '' };
+        time = { selectableRange: val ? `${val} - 23:59:59` : "" };
         this.formConfig[this.formConfig.length - 1].pickerOptions = time;
       } else if (item.key === "endTime") {
-        time = { selectableRange: val ? `00:00:00 - ${val}` : '' };
+        time = { selectableRange: val ? `00:00:00 - ${val}` : "" };
         this.formConfig[this.formConfig.length - 2].pickerOptions = time;
       }
     },
@@ -334,23 +357,26 @@ export default {
       });
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysBelielConfigType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.id = row.id;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
+      // this.$router.push({
+      //   name: "sysBelielConfigType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+      this.id = row.id;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
 
     submit(form) {
@@ -385,17 +411,20 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysBelielConfigType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = false;
-      //   }
+      // this.$router.push({
+      //   name: "sysBelielConfigType",
+      //   query: { type: "create" }
       // });
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          item.btnDisabled = false;
+        }
+      });
     },
     cancel() {
       this.addChannel = false;

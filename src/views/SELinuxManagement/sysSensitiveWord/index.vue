@@ -74,19 +74,20 @@
 
       <el-table
         :data="listData"
-        max-height="500"
+        border
         highlight-current-row
         style="width: 100%;"
+        height="50vh"
         v-loading="loading"
       >
-        <el-table-column prop="wordName" label="敏感词" show-overflow-tooltip />
+        <el-table-column prop="wordName" label="敏感词" />
         <el-table-column prop="createBy" label="创建人" />
-        <el-table-column prop="createTime" label="创建时间" min-width="150">
+        <el-table-column prop="createTime" label="创建时间" width="135">
           <template slot-scope="scope">{{
             scope.row.createTime | timeFormat
           }}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" show-overflow-tooltip>
+        <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">{{
             scope.row.remark ? scope.row.remark : "-"
           }}</template>
@@ -149,16 +150,120 @@
           >
         </div>
       </el-dialog>
+
+      <el-drawer
+        :title="formTit"
+        :visible.sync="addChannel"
+        :close-on-press-escape="false"
+        :wrapperClosable="false"
+      >
+        <FormItem
+          ref="formItem"
+          :formConfig="formConfig"
+          :btnTxt="formTit"
+          :colSpan="12"
+          labelWidth="auto"
+          labelPosition="top"
+          @submit="submit"
+          @cancel="cancel"
+          @choose="choose"
+          @inpChange="inpChange"
+          @handleSuccess="handleSuccess"
+          @handleRemove="handleRemove"
+        >
+        </FormItem>
+      </el-drawer>
     </section>
   </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/listMixin";
+const checkwordName = [
+  {
+    required: true,
+    trigger: ["blur", "change"],
+    validator: (rule, value, callback) => {
+      if (!value) callback(new Error(`请输入必填项`));
+      const arr = value.split(",");
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === "") {
+          callback(new Error(`第${i + 1}个敏感词不能为空`));
+          break;
+        }
+        if (arr[i].length < 2 || arr[i].length > 8) {
+          callback(new Error(`第${i + 1}个敏感词长度应在2~8个字符之间`));
+          break;
+        }
+      }
+      callback();
+    }
+  }
+];
 export default {
   mixins: [listMixin],
   data() {
     return {
+      formTit: "新增",
+      addChannel: false,
+      // 表单配置
+      formConfig: [
+        {
+          type: "input",
+          label: "敏感词",
+          key: "wordName",
+          maxlength: 100,
+          defaultValue: "",
+          rules: checkwordName,
+          placeholder: "2-8个字符，添加多个敏感词，用英文“,”隔开"
+        },
+        {
+          type: "uploadXlsx",
+          key: "keywordFile",
+          label: "上传敏感词文件",
+          btnTxt: "批量添加",
+          limit: 1,
+          defaultValue: "",
+          defaultFileList: [],
+          tip: "支持txt、xls、xlsx文件，每行一个敏感词",
+          isShow: false,
+          accept: [
+            "text/plain",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请上传敏感词文件或者添加敏感词",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "敏感词组",
+          key: "groupIds",
+          optionData: [],
+          defaultValue: "",
+          multiple: true,
+          isShow: false,
+          rules: [
+            {
+              required: true,
+              message: "请选择必选项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "textarea",
+          label: "备注",
+          key: "remark",
+          defaultValue: "",
+          maxlength: "100"
+        }
+      ],
       //默认不查所有的，而是单独查groupList[0]的数据
       notSearch: true,
       listData: [],
@@ -167,6 +272,7 @@ export default {
         namespace: "sysSensitiveWord",
         list: "listSensitiveWordByPage"
       },
+
       // 列表参数
       namespace: "sensitiveWord",
       //搜索框数据
@@ -196,6 +302,99 @@ export default {
     });
   },
   methods: {
+    inpChange({ val, item }) {
+      if (item.key === "wordName") {
+        const arr = this.formConfig;
+        const i = arr.findIndex(v => v.key === "keywordFile");
+        arr[i].rules = val
+          ? null
+          : [
+              {
+                required: true,
+                message: "请上传敏感词文件或者添加敏感词",
+                trigger: ["blur", "change"]
+              }
+            ];
+        !arr[i].rules && this.$refs.formItem.clearValidateMore(["keywordFile"]);
+      }
+    },
+    handleSuccess({ response, file, fileList, item }) {
+      if (response.code !== 200) {
+        this.$message.error(response.data || response.msg);
+        return;
+      }
+      const { accept, tip, key } = item;
+      const { type } = file.raw;
+      if (Array.isArray(accept) && accept.length) {
+        const arr = this.formConfig;
+        const i = arr.findIndex(v => v.key === key);
+        if (accept.indexOf(type) === -1) {
+          this.$message.error(tip);
+          arr[i].defaultValue = "";
+          arr[i].defaultFileList = [];
+          return;
+        }
+        arr[i].defaultValue = file.raw;
+
+        const delRuleIdx = arr.findIndex(v => v.key === "wordName");
+        arr[delRuleIdx].rules = null;
+        this.$refs.formItem.clearValidateMore(["wordName", "keywordFile"]);
+      }
+    },
+    handleRemove({ file, fileList }) {
+      const arr = this.formConfig;
+      const i = arr.findIndex(v => v.key === "keywordFile");
+      arr[i].defaultValue = "";
+      arr[i].defaultFileList = [];
+
+      const addRuleIdx = arr.findIndex(v => v.key === "wordName");
+      arr[addRuleIdx].rules = checkwordName;
+    },
+    submit(form) {
+      let params = {};
+      // const { wordName, groupIds } = form;
+      if (this.formTit == "新增") {
+        // this.$http.sysSensitiveWord.checkSensitiveWord({ data: { wordName, groupIds } }).then(res => {
+        // 判断敏感词是否存在
+        // if (res.data === 1) {
+        //   this.$message.error("敏感词已存在！");
+        // } else {
+        // params = { data: { ...form } };
+        params = new FormData();
+        for (let i in form) {
+          params.append(i, form[i]);
+        }
+        this.$http.sysSensitiveWord.importKeywordModel(params).then(res => {
+          if (resOk(res)) {
+            this.$alert(res.data, "添加记录", {
+              showClose: false,
+              confirmButtonText: "确定",
+              callback: action => {
+                this.$message.success("添加成功");
+              }
+            });
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+        // }
+        // });
+      } else {
+        params = { data: { wordId: this.wordId, ...form } };
+        this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
+          if (resOk(res)) {
+            this.$message.success(res.msg || res.data);
+            this._mxGetList();
+            this.addChannel = false;
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+      }
+    },
+    cancel() {
+      this.addChannel = false;
+    },
     //点击搜索查询数据
     handleSearch(searchParam) {
       const groupId =
@@ -333,21 +532,43 @@ export default {
         this.$message.warning("请先添加敏感词组");
         return;
       }
-      this.$router.push({
-        name: "sysSensitiveWordType",
-        query: { type: "create", activeIndex: this.activeIndex }
-      });
-    },
-    edit(row, ID) {
-      this.$router.push({
-        name: "sysSensitiveWordType",
-        query: {
-          type: "update",
-          row: JSON.stringify(row),
-          ID,
-          activeIndex: this.activeIndex
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "keywordFile") {
+          this.$set(item, "isShow", false);
+        }
+        if (item.key === "groupIds") {
+          this.$set(item, "isShow", false);
         }
       });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
+    edit(row, ID) {
+      this.wordId = row.wordId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "keywordFile") {
+          this.$set(item, "isShow", true);
+        }
+        if (item.key === "groupIds") {
+          this.$set(item, "isShow", true);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     _mxDeleteItem(wordId) {
       this.$confirm("删除后将不可找回，请谨慎操作", "您确定要删除敏感词吗？", {

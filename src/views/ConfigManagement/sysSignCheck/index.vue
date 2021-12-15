@@ -7,9 +7,11 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
@@ -39,12 +41,12 @@
           <span v-else style="color:#C0C4CC">暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="申请时间" width="150">
+      <el-table-column prop="createTime" label="申请时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="checkTime" label="审核时间" width="150">
+      <el-table-column prop="checkTime" label="审核时间" width="135">
         <template slot-scope="scope">{{
           scope.row.checkTime | timeFormat
         }}</template>

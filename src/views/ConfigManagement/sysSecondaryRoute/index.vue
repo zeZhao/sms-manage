@@ -9,14 +9,20 @@
       @exportData="exportData"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="batchAddition">批量添加</el-button>
-        <el-button type="primary" size="small" @click="exportExe">导出</el-button>
+        <el-button type="primary" size="small" @click="batchAddition"
+          >批量添加</el-button
+        >
+        <el-button type="primary" size="small" @click="exportExe"
+          >导出</el-button
+        >
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <!-- <el-table-column type="selection" width="55" /> -->
@@ -27,9 +33,9 @@
       <el-table-column prop="gwcode" label="通道特服号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="sign" label="账户签名" />
-      <el-table-column prop="remark" label="备注信息" show-overflow-tooltip />
+      <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -53,7 +59,25 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -67,7 +91,7 @@
         @cancel="cancel"
         @choose="choose"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -124,7 +148,7 @@ export default {
           callback(new Error("特服号仅支持4位数字"));
         }
       } else {
-        callback(new Error('请输入必填项'));
+        callback(new Error("请输入必填项"));
       }
     };
     return {
@@ -270,16 +294,18 @@ export default {
   mounted() {
     this.gateway();
   },
-  activated(){
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
     //导出
     exportData(data) {
-      this.$axios.post('/sysSecondaryRoute/exportSecondaryRoute', { data }).then(res => {
-        if (res.data.code === 200) this.$exportToast();
-      })
+      this.$axios
+        .post("/sysSecondaryRoute/exportSecondaryRoute", { data })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
     },
     exportExe() {
       this.$refs.Search.handleExport();
@@ -381,42 +407,48 @@ export default {
       }
     },
     create() {
-      this.$router.push({ name: 'sysSecondaryRouteType', query: { type: 'create' } });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
-      // this.formConfig.forEach(item => {
-      //   if (item.key === "userId") {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
+      // this.$router.push({
+      //   name: "sysSecondaryRouteType",
+      //   query: { type: "create" }
       // });
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
     },
     edit(row, ID) {
-      this.$router.push({ name: 'sysSecondaryRouteType', query: { type: 'update', row: JSON.stringify(row), ID } });
-      // this.routeId = row.routeId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //     if (item.key === key && (row[key] === "-" || !row[key])) {
-      //       this.$set(item, "defaultValue", "");
-      //     }
-      //     if (item.key === "userId") {
-      //       this.$set(item, "btnDisabled", true);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
+      // this.$router.push({
+      //   name: "sysSecondaryRouteType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+      this.routeId = row.routeId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+          if (item.key === key && (row[key] === "-" || !row[key])) {
+            this.$set(item, "defaultValue", "");
+          }
+          if (item.key === "userId") {
+            this.$set(item, "btnDisabled", true);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     cancel() {
       this.addChannel = false;

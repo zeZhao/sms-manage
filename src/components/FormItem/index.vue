@@ -4,10 +4,11 @@
       ref="form"
       :label-width="`${labelWidth}px`"
       :model="formData"
+      :label-position="labelPosition"
       v-if="formConfig.length"
       class="demo-ruleForm"
     >
-      <el-row>
+      <el-row :gutter="gutter">
         <el-col
           :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
@@ -480,10 +481,22 @@ export default {
         return true;
       }
     },
+    labelPosition: {
+      type: String,
+      default() {
+        return "right";
+      }
+    },
     labelWidth: {
       type: [String, Number],
       default() {
         return 150;
+      }
+    },
+    gutter: {
+      type: [String, Number],
+      default() {
+        return 24;
       }
     },
     colSpan: {
@@ -717,6 +730,7 @@ export default {
   // position: relative;
   .submitBtn {
     float: right;
+    margin-right: 12px;
     // position: absolute;
     // right: 20px;
     // bottom: 20px;
@@ -727,7 +741,7 @@ export default {
     text-align: center;
   }
   .inputWid {
-    width: 70%;
+    width: 63%;
   }
   .item-tips {
     color: #999999;

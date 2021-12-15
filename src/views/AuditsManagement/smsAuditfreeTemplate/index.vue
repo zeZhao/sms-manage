@@ -7,19 +7,16 @@
       @create="_mxCreate"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="corpName" label="商户名称" />
-      <el-table-column
-        prop="content"
-        label="模板内容"
-        width="300"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="content" label="模板内容" width="300" />
       <el-table-column prop="effectiveTime" label="生效日期" />
       <el-table-column prop="invalidTime" label="失效日期" />
       <el-table-column label="操作" width="200">
@@ -123,7 +120,13 @@ export default {
           optionData: [],
 
           colSpan: 24,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -131,7 +134,13 @@ export default {
           key: "corpId",
           disabled: true,
           colSpan: 24,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           isBtn: true,
@@ -145,7 +154,13 @@ export default {
           key: "content",
           colSpan: 24,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
           maxlength: 500
         },
         {
@@ -154,7 +169,13 @@ export default {
           colSpan: 24,
           key: "effectiveTime",
           disabledDate: null,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "date",
@@ -162,7 +183,13 @@ export default {
           colSpan: 24,
           key: "invalidTime",
           disabledDate: null,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       templateId: "",
@@ -180,16 +207,20 @@ export default {
       if (item.key === "effectiveTime") {
         this.formConfig[len - 1].disabledDate = {
           disabledDate(time) {
-            return item.defaultValue ? time < new Date(item.defaultValue).getTime() : null;
+            return item.defaultValue
+              ? time < new Date(item.defaultValue).getTime()
+              : null;
           }
-        }
+        };
       }
       if (item.key === "invalidTime") {
         this.formConfig[len - 2].disabledDate = {
           disabledDate(time) {
-            return item.defaultValue ? time > new Date(item.defaultValue).getTime() : null;
+            return item.defaultValue
+              ? time > new Date(item.defaultValue).getTime()
+              : null;
           }
-        }
+        };
       }
     },
     handleClick(item) {

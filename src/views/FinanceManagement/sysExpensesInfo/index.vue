@@ -7,41 +7,39 @@
       @create="_mxCreate"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
-      <el-table-column type="index" label="序号" show-overflow-tooltip />
-      <el-table-column prop="no" label="下单编号" show-overflow-tooltip />
-      <el-table-column prop="corporateName" label="所属公司" show-overflow-tooltip />
-      <el-table-column prop="orderMonth" label="下单月" width="95" show-overflow-tooltip>
+      <el-table-column type="index" label="序号" />
+      <el-table-column prop="no" label="下单编号" />
+      <el-table-column prop="corporateName" label="所属公司" />
+      <el-table-column prop="orderMonth" label="下单月" width="95">
         <template slot-scope="scope">
           <span>{{ scope.row.orderMonth | FormatMonth }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="theMonth" label="所属月" width="95" show-overflow-tooltip>
+      <el-table-column prop="theMonth" label="所属月" width="95">
         <template slot-scope="scope">
           <span>{{ scope.row.theMonth | FormatMonth }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="dates" label="日期" width="95" show-overflow-tooltip />
-      <el-table-column prop="summary" label="摘要" show-overflow-tooltip />
-      <el-table-column
-        prop="collectionCompany"
-        label="收款单位"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="lender" label="付款金额" show-overflow-tooltip />
-      <el-table-column prop="ticketsPlusNotes" label="是否回票" show-overflow-tooltip />
-      <el-table-column prop="ticketNumber" label="票号" show-overflow-tooltip />
-      <el-table-column prop="billingType" label="开票类型" show-overflow-tooltip />
-      <el-table-column prop="isPay" label="是否已付款" show-overflow-tooltip>
+      <el-table-column prop="dates" label="日期" width="95" />
+      <el-table-column prop="summary" label="摘要" />
+      <el-table-column prop="collectionCompany" label="收款单位" />
+      <el-table-column prop="lender" label="付款金额" />
+      <el-table-column prop="ticketsPlusNotes" label="是否回票" />
+      <el-table-column prop="ticketNumber" label="票号" />
+      <el-table-column prop="billingType" label="开票类型" />
+      <el-table-column prop="isPay" label="是否已付款">
         <template slot-scope="scope">
           <span>{{ scope.row.isPay === 1 ? "是" : "否" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remarks" label="备注" show-overflow-tooltip />
+      <el-table-column prop="remarks" label="备注" />
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
@@ -191,7 +189,13 @@ export default {
           type: "input",
           label: "下单编号",
           key: "no",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -203,28 +207,52 @@ export default {
           //     value: "聚通达"
           //   }
           // ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "month",
           label: "下单月",
           key: "orderMonth",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "month",
           label: "所属月",
           key: "theMonth",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "date",
           label: "日期",
           key: "dates",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
 
         {
@@ -233,7 +261,13 @@ export default {
           key: "summary",
           defaultValue: "",
           maxlength: "300",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -241,7 +275,13 @@ export default {
           key: "collectionCompany",
           defaultValue: "",
           maxlength: "30",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -250,7 +290,11 @@ export default {
           maxlength: 9,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
             {
               pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
               message: "输入大于0的数，小数点保留2位",
@@ -273,7 +317,13 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -282,7 +332,13 @@ export default {
           maxlength: "30",
           key: "ticketNumber",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -299,7 +355,13 @@ export default {
             }
           ],
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "textarea",
@@ -307,7 +369,13 @@ export default {
           key: "remarks",
           maxlength: "300",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -315,7 +383,13 @@ export default {
           key: "billingType",
           maxlength: "30",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ]
     };

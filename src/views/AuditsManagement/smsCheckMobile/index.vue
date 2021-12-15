@@ -7,13 +7,15 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="手机号码" />
       <el-table-column prop="type" label="号码类型">
         <template slot-scope="scope">
           <span>
@@ -37,7 +39,7 @@
         </template>
       </el-table-column>
       <!-- <el-table-column prop="unitPrice" label="分区字段" /> -->
-      <el-table-column prop="createTime" label="提交日期">
+      <el-table-column prop="createTime" label="提交日期" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>

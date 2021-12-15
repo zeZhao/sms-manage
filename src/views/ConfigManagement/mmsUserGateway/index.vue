@@ -7,9 +7,11 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -19,7 +21,7 @@
       <el-table-column prop="cmGatewayId" label="移动通道" />
       <el-table-column prop="cuGatewayId" label="联通通道" />
       <el-table-column prop="ctGatewayId" label="电信通道" />
-      <el-table-column prop="updateTime" label="修改时间">
+      <el-table-column prop="updateTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.updateTime | timeFormat
         }}</template>

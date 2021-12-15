@@ -21,14 +21,16 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
@@ -48,7 +50,7 @@
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
       <el-table-column prop="creater" label="创建人" />
-      <el-table-column prop="createTime" label="创建时间" width="150">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -72,7 +74,25 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -86,7 +106,7 @@
         @cancel="cancel"
         @choose="choose"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -544,51 +564,51 @@ export default {
       }
     },
     create() {
-      this.$router.push({
-        name: "sysProvinceRouteType",
-        query: { type: "create" }
-      });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // this.formConfig.forEach(item => {
-      //   if (item.key === 'userId') {
-      //     this.$set(item, "btnDisabled", false);
-      //   }
+      // this.$router.push({
+      //   name: "sysProvinceRouteType",
+      //   query: { type: "create" }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", false);
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
     },
     edit(row, ID) {
-      this.$router.push({
-        name: "sysProvinceRouteType",
-        query: { type: "update", row: JSON.stringify(row), ID }
-      });
-      // this.routeId = row.routeId;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key) {
-      //       if (row[key] === 0) {
-      //         this.$set(item, "defaultValue", "0");
-      //       } else if (row[key] === "-") {
-      //         this.$set(item, "defaultValue", "");
-      //       } else {
-      //         this.$set(item, "defaultValue", row[key]);
-      //       }
-      //     }
-      //   }
-      //   if (item.key === 'userId') {
-      //     this.$set(item, "btnDisabled", true);
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
+      // this.$router.push({
+      //   name: "sysProvinceRouteType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.addChannel = true;
+      this.routeId = row.routeId;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            if (row[key] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else if (row[key] === "-") {
+              this.$set(item, "defaultValue", "");
+            } else {
+              this.$set(item, "defaultValue", row[key]);
+            }
+          }
+        }
+        if (item.key === "userId") {
+          this.$set(item, "btnDisabled", true);
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     cancel() {
       this.addChannel = false;

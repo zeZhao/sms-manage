@@ -7,12 +7,14 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
-      <el-table-column prop="cardNum" label="卡号" show-overflow-tooltip />
+      <el-table-column prop="cardNum" label="卡号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">

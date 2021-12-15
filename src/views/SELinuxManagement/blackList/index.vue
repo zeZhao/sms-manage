@@ -2,22 +2,41 @@
   <!--黑名单-->
   <div class="blackList">
     <section class="left-menu">
-      <el-menu class="el-menu-group" :default-active="defaultActive" background-color="#F2F2F2" text-color="#000"
-        active-text-color="#000" @select="handleSelectGroup">
-        <el-menu-item v-for="(item, index) in groupList" :key="item.groupId" :index="item.groupId + ''"
-          :class="activeIndex === index ? 'hover' : ''" @click="activeIndex = index">
+      <el-menu
+        class="el-menu-group"
+        :default-active="defaultActive"
+        background-color="#F2F2F2"
+        text-color="#000"
+        active-text-color="#000"
+        @select="handleSelectGroup"
+      >
+        <el-menu-item
+          v-for="(item, index) in groupList"
+          :key="item.groupId"
+          :index="item.groupId + ''"
+          :class="activeIndex === index ? 'hover' : ''"
+          @click="activeIndex = index"
+        >
           <el-tooltip placement="top" :content="item.blackGroupName">
             <div>
               <span slot="title" class="title">{{ item.blackGroupName }}</span>
               <span v-if="index > 3" slot class="action-bar">
                 <el-popover placement="bottom" trigger="hover">
                   <div style="text-align: center">
-                    <i class="el-icon-edit" style="margin: 10px; cursor: pointer"
-                      @click="handleEditGroup(item)">&nbsp;&nbsp;编辑</i>
+                    <i
+                      class="el-icon-edit"
+                      style="margin: 10px; cursor: pointer"
+                      @click="handleEditGroup(item)"
+                      >&nbsp;&nbsp;编辑</i
+                    >
                   </div>
                   <div style="text-align: center">
-                    <i class="el-icon-delete" style="margin: 10px; cursor: pointer"
-                      @click="handleDeleteGroup(item.groupId)">&nbsp;&nbsp;删除</i>
+                    <i
+                      class="el-icon-delete"
+                      style="margin: 10px; cursor: pointer"
+                      @click="handleDeleteGroup(item.groupId)"
+                      >&nbsp;&nbsp;删除</i
+                    >
                   </div>
                   <i slot="reference" class="el-icon-more" />
                 </el-popover>
@@ -27,86 +46,201 @@
         </el-menu-item>
       </el-menu>
 
-      <el-button type="primary" size="medium" style="display: block; width: 50%; margin: 30px auto" @click="addGroup">
+      <el-button
+        type="primary"
+        size="medium"
+        style="display: block; width: 50%; margin: 30px auto"
+        @click="addGroup"
+      >
         添加分组
       </el-button>
     </section>
 
     <section class="right-content">
-      <Search ref="Search" :notSearch="notSearch" :searchFormConfig="searchFormConfig" @search="handleSearch"
-        @create="create">
+      <Search
+        ref="Search"
+        :notSearch="notSearch"
+        :searchFormConfig="searchFormConfig"
+        @search="handleSearch"
+        @create="create"
+      >
         <template slot="Other">
-          <el-button type="primary" size="small" @click="handleBatchAdd">批量添加</el-button>
+          <el-button type="primary" size="small" @click="handleBatchAdd"
+            >批量添加</el-button
+          >
         </template>
       </Search>
 
-      <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%;" v-loading="loading">
-        <el-table-column v-if="isShowUserId" prop="userId" label="账户编号" min-width="100" />
-        <el-table-column prop="mobile" label="手机号" min-width="100" />
-        <el-table-column prop="createUser" label="创建人" min-width="100" />
-        <el-table-column prop="createTime" label="创建时间" min-width="150">
-          <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
+      <el-table
+        :data="listData"
+        border
+        highlight-current-row
+        style="width: 100%;"
+        v-loading="loading"
+      >
+        <el-table-column v-if="isShowUserId" prop="userId" label="账户编号" />
+        <el-table-column prop="mobile" label="手机号" />
+        <el-table-column prop="createUser" label="创建人" />
+        <el-table-column prop="createTime" label="创建时间" width="135">
+          <template slot-scope="scope">{{
+            scope.row.createTime | timeFormat
+          }}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.remark ? scope.row.remark : "-" }}</template>
+        <el-table-column prop="remark" label="备注">
+          <template slot-scope="scope">{{
+            scope.row.remark ? scope.row.remark : "-"
+          }}</template>
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <!-- <el-button @click="editBlackList(scope.row)" type="text" size="small">修改</el-button> -->
-            <el-button @click="deleteBlackList(scope.row.blackId)" type="text" size="small">删除</el-button>
+            <el-button
+              @click="deleteBlackList(scope.row.blackId)"
+              type="text"
+              size="small"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
 
-      <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+      <Page
+        :pageObj="pageObj"
+        @handleSizeChange="handleSizeChange"
+        @handleCurrentChange="handleCurrentChange"
+      ></Page>
 
-      <el-dialog :title="createOrUpdate" :visible.sync="isAddGroup" :close-on-click-modal="false"
-        :close-on-press-escape="false" :show-close="false" top="20vh" width="30%">
+      <el-dialog
+        :title="createOrUpdate"
+        :visible.sync="isAddGroup"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        top="20vh"
+        width="30%"
+      >
         <el-form ref="addGroupObj" :model="addGroupObj" label-width="100px">
-          <el-form-item label="黑名单组：" prop="blackGroupName"
-            :rules="[{ required: true, message: '黑名单组不能为空', trigger: 'blur' }]">
-            <el-input v-model.trim="addGroupObj.blackGroupName" clearable maxlength="15" show-word-limit
-              placeholder="请输入黑名单组" />
+          <el-form-item
+            label="黑名单组："
+            prop="blackGroupName"
+            :rules="[
+              { required: true, message: '黑名单组不能为空', trigger: 'blur' }
+            ]"
+          >
+            <el-input
+              v-model.trim="addGroupObj.blackGroupName"
+              clearable
+              maxlength="15"
+              show-word-limit
+              placeholder="请输入黑名单组"
+            />
           </el-form-item>
         </el-form>
         <div slot="footer">
           <el-button size="small" @click="isAddGroup = false">取消</el-button>
-          <el-button size="small" type="primary" v-throttle @click="handleConfirm">确认</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            v-throttle
+            @click="handleConfirm"
+            >确认</el-button
+          >
         </div>
       </el-dialog>
 
-      <el-dialog :title="createOrUpdateBlackList" :visible.sync="isAddBlackList" :close-on-click-modal="false"
-        :close-on-press-escape="false" :show-close="false" top="20vh" width="30%">
+      <el-dialog
+        :title="createOrUpdateBlackList"
+        :visible.sync="isAddBlackList"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        top="20vh"
+        width="30%"
+      >
         <el-form ref="addBlackList" :model="addBlackList" label-width="100px">
           <el-form-item label="所属组：" :rules="[{ required: true }]">
-            <span>{{ groupList.length && groupList[activeIndex].blackGroupName }}</span>
+            <span>{{
+              groupList.length && groupList[activeIndex].blackGroupName
+            }}</span>
           </el-form-item>
-          <el-form-item v-if="isShowUserId" label="账户编号：" prop="userId"
-            :rules="[{ required: true, message: '请输入必填项', trigger: 'blur' }]">
-            <el-input v-model="addBlackList.userId" disabled placeholder="请选择账户" style="width: 65%" />
-            <el-button style="border-color: #0964FF" size="small" @click="choose">选择用户</el-button>
+          <el-form-item
+            v-if="isShowUserId"
+            label="账户编号："
+            prop="userId"
+            :rules="[
+              { required: true, message: '请输入必填项', trigger: 'blur' }
+            ]"
+          >
+            <el-input
+              v-model="addBlackList.userId"
+              disabled
+              placeholder="请选择账户"
+              style="width: 65%"
+            />
+            <el-button
+              style="border-color: #0964FF"
+              size="small"
+              @click="choose"
+              >选择用户</el-button
+            >
           </el-form-item>
-          <el-form-item label="手机号：" prop="mobile" :rules="[{ required: true, trigger: 'blur', validator: $isPhone }]">
-            <el-input v-model.trim="addBlackList.mobile" clearable maxlength="11" show-word-limit placeholder="请输入手机号"
-              :disabled="!!(createOrUpdateBlackList === '修改黑名单')" />
+          <el-form-item
+            label="手机号："
+            prop="mobile"
+            :rules="[{ required: true, trigger: 'blur', validator: $isPhone }]"
+          >
+            <el-input
+              v-model.trim="addBlackList.mobile"
+              clearable
+              maxlength="11"
+              show-word-limit
+              placeholder="请输入手机号"
+              :disabled="!!(createOrUpdateBlackList === '修改黑名单')"
+            />
           </el-form-item>
           <el-form-item label="备注：" prop="remark">
-            <el-input v-model="addBlackList.remark" type="textarea" clearable show-word-limit placeholder="请输入备注"
-              maxlength="300" :autosize="{ minRows: 3, maxRows: 4 }" />
+            <el-input
+              v-model="addBlackList.remark"
+              type="textarea"
+              clearable
+              show-word-limit
+              placeholder="请输入备注"
+              maxlength="300"
+              :autosize="{ minRows: 3, maxRows: 4 }"
+            />
           </el-form-item>
         </el-form>
         <div slot="footer">
-          <el-button size="small" @click="isAddBlackList = false">取消</el-button>
-          <el-button size="small" type="primary" v-throttle @click="handleConfirmBlackList">确认</el-button>
+          <el-button size="small" @click="isAddBlackList = false"
+            >取消</el-button
+          >
+          <el-button
+            size="small"
+            type="primary"
+            v-throttle
+            @click="handleConfirmBlackList"
+            >确认</el-button
+          >
         </div>
       </el-dialog>
 
-      <BatchAddition :isOpen="isOpen" :title="title" desc="文件大小 < 200M，支持xls/xlsx文档" :limitSize="1024 * 1024 * 200"
-        downloadTemplateUrl="/template/smsBlacklist.xlsx" action="/sysBlacklist/importBatchAdd" @submit="batchSubmit"
-        @cancel="cancelBatch">
+      <BatchAddition
+        :isOpen="isOpen"
+        :title="title"
+        desc="文件大小 < 200M，支持xls/xlsx文档"
+        :limitSize="1024 * 1024 * 200"
+        downloadTemplateUrl="/template/smsBlacklist.xlsx"
+        action="/sysBlacklist/importBatchAdd"
+        @submit="batchSubmit"
+        @cancel="cancelBatch"
+      >
       </BatchAddition>
 
-      <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+      <ChooseUser
+        :isChooseUser="isChooseUser"
+        @chooseUserData="chooseUserData"
+        @cancel="cancelUser"
+      ></ChooseUser>
     </section>
   </div>
 </template>
@@ -117,7 +251,7 @@ import { deepClone } from "@/utils";
 
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       //默认不查所有的，而是单独查groupList[0]的数据
       notSearch: true,
@@ -152,42 +286,46 @@ export default {
     };
   },
   computed: {
-    isShowUserId () {
+    isShowUserId() {
       if (this.groupList.length) {
         const arr = ["系统级", "营销级", "BSATS级"];
-        return arr.indexOf(this.groupList[this.activeIndex].blackGroupName) === -1;
+        return (
+          arr.indexOf(this.groupList[this.activeIndex].blackGroupName) === -1
+        );
       }
       return false;
     }
   },
-  mounted () {
+  mounted() {
     this.getGroupList();
   },
-  activated () {
+  activated() {
     this.getGroupList();
     this.activeIndex = 0;
   },
   methods: {
     // 选择用户选取赋值
-    chooseUserData (data) {
+    chooseUserData(data) {
       this.$set(this.addBlackList, "userId", data.userId);
     },
 
     // 点击搜索查询数据
-    handleSearch (searchParam) {
+    handleSearch(searchParam) {
       this.$nextTick(() => {
         const blackType = this.groupList[this.activeIndex].groupId || "";
         this._mxDoSearch({ blackType, ...searchParam });
-      })
+      });
     },
 
     // 获取黑名单类别分组
-    getGroupList () {
+    getGroupList() {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {
         const { code, data } = res;
         if (code === 200) {
           this.groupList = data.reverse();
-          this.defaultActive = this.groupList.length ? this.groupList[0].groupId + "" : "";
+          this.defaultActive = this.groupList.length
+            ? this.groupList[0].groupId + ""
+            : "";
           // 请求当前选中分组的表格数据
           this.handleSelectGroup();
         } else {
@@ -197,12 +335,12 @@ export default {
     },
 
     // 选中黑名单类别组-切换数据
-    handleSelectGroup () {
+    handleSelectGroup() {
       this.$refs.Search._mxHandleSubmit();
     },
 
     // 添加黑名单分组
-    addGroup () {
+    addGroup() {
       this.createOrUpdate = "添加黑名单组";
       this.addGroupObj = {};
       this.isAddGroup = true;
@@ -212,12 +350,16 @@ export default {
     },
 
     // 确认添加/修改黑名单分组
-    handleConfirm () {
+    handleConfirm() {
       this.$refs.addGroupObj.validate(valid => {
         if (valid) {
           const flag = this.createOrUpdate === "添加黑名单组";
-          const postUrl = flag ? this.$http.smsBlackGroup.addOrUpdate : this.$http.smsBlackGroup.addOrUpdate;
-          const data = flag ? this.addGroupObj : { groupId: this.editId, ...this.addGroupObj };
+          const postUrl = flag
+            ? this.$http.smsBlackGroup.addOrUpdate
+            : this.$http.smsBlackGroup.addOrUpdate;
+          const data = flag
+            ? this.addGroupObj
+            : { groupId: this.editId, ...this.addGroupObj };
           postUrl(data).then(res => {
             if (res.code === 200) {
               this.activeIndex = 0;
@@ -233,7 +375,7 @@ export default {
     },
 
     // 修改黑名单分组
-    handleEditGroup ({ groupId, blackGroupName }) {
+    handleEditGroup({ groupId, blackGroupName }) {
       this.editId = groupId;
       this.createOrUpdate = "修改黑名单组";
       this.addGroupObj = { blackGroupName };
@@ -244,41 +386,47 @@ export default {
     },
 
     // 删除黑名单分组
-    handleDeleteGroup (id) {
-      this.$confirm("删除后组内的黑名单同步删除，请谨慎操作", "您确定要删除黑名单组吗？", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.$http.smsBlackGroup.delete({ id }).then(res => {
-          if (res.code === 200) {
-            this.activeIndex = 0;
-            this.getGroupList();
-            this.$message.success(res.data || res.msg);
-          } else {
-            this.$message.error(res.data || res.msg);
-          }
-        });
-      }).catch(() => { });
+    handleDeleteGroup(id) {
+      this.$confirm(
+        "删除后组内的黑名单同步删除，请谨慎操作",
+        "您确定要删除黑名单组吗？",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }
+      )
+        .then(() => {
+          this.$http.smsBlackGroup.delete({ id }).then(res => {
+            if (res.code === 200) {
+              this.activeIndex = 0;
+              this.getGroupList();
+              this.$message.success(res.data || res.msg);
+            } else {
+              this.$message.error(res.data || res.msg);
+            }
+          });
+        })
+        .catch(() => {});
     },
 
     // 批量添加
-    handleBatchAdd () {
+    handleBatchAdd() {
       this.isOpen = true;
     },
 
     // 批量添加-确认
-    batchSubmit () {
+    batchSubmit() {
       this.isOpen = false;
     },
 
     // 批量添加-取消
-    cancelBatch () {
+    cancelBatch() {
       this.isOpen = false;
     },
 
     // 添加单个黑名单
-    create () {
+    create() {
       if (!this.groupList.length) {
         this.$message.warning("请先添加黑名单组");
         return;
@@ -292,12 +440,21 @@ export default {
     },
 
     // 确认添加/修改黑名单
-    handleConfirmBlackList () {
+    handleConfirmBlackList() {
       this.$refs.addBlackList.validate(valid => {
         if (valid) {
           const flag = this.createOrUpdateBlackList === "添加黑名单";
-          const postUrl = flag ? this.$http.sysBlacklist.addSysBlackList : this.$http.sysBlacklist.updateSysBlackList;
-          const data = flag ? { data: { blackType: this.groupList[this.activeIndex].groupId, ...this.addBlackList } } : { data: this.addBlackList };
+          const postUrl = flag
+            ? this.$http.sysBlacklist.addSysBlackList
+            : this.$http.sysBlacklist.updateSysBlackList;
+          const data = flag
+            ? {
+                data: {
+                  blackType: this.groupList[this.activeIndex].groupId,
+                  ...this.addBlackList
+                }
+              }
+            : { data: this.addBlackList };
           postUrl(data).then(res => {
             if (res.code === 200) {
               this.handleSelectGroup();
@@ -312,7 +469,7 @@ export default {
     },
 
     // 修改黑名单
-    editBlackList (row) {
+    editBlackList(row) {
       this.createOrUpdateBlackList = "修改黑名单";
       this.addBlackList = deepClone(row);
       this.isAddBlackList = true;
@@ -322,21 +479,25 @@ export default {
     },
 
     // 删除某个黑名单
-    deleteBlackList (blackId) {
+    deleteBlackList(blackId) {
       this.$confirm("删除后将不可找回，请谨慎操作", "您确定要删除黑名单吗？", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(() => {
-        this.$http.sysBlacklist.deleteSysBlackList({ data: { blackId } }).then(res => {
-          if (res.code === 200) {
-            this.handleSelectGroup();
-            this.$message.success(res.data || res.msg);
-          } else {
-            this.$message.error(res.data || res.msg);
-          }
-        });
-      }).catch(() => { });
+      })
+        .then(() => {
+          this.$http.sysBlacklist
+            .deleteSysBlackList({ data: { blackId } })
+            .then(res => {
+              if (res.code === 200) {
+                this.handleSelectGroup();
+                this.$message.success(res.data || res.msg);
+              } else {
+                this.$message.error(res.data || res.msg);
+              }
+            });
+        })
+        .catch(() => {});
     }
   }
 };
