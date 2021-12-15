@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData" max-height="500"
@@ -64,8 +65,8 @@
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
     <p style="color: red">
-      总条数: {{ statistics.total }}&nbsp;&nbsp;行业总条数:
-      {{ statistics.industryNum }}
+      总条数: {{ statistics.total || 0 }}&nbsp;&nbsp;行业总条数:
+      {{ statistics.industryNum || 0 }}
       <!-- 
         &nbsp;&nbsp;营销总条数:
         {{ statistics.marketingNum }}
@@ -88,6 +89,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "submitStatistics",
@@ -200,7 +202,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"]
+          key: ["", "countDate", "endDate"],
+          defaultValue: ["", new Date(), new Date()]
         }
       ],
       statistics: {},
@@ -208,7 +211,7 @@ export default {
     };
   },
   mounted() {
-    this.saleSubmitStatistics();
+    // this.saleSubmitStatistics();
   },
   computed: {},
   methods: {

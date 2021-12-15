@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData" max-height="500"
@@ -62,8 +63,8 @@
       />
     </el-table>
     <p style="color: red">
-      总条数: {{ statistics.total }}&nbsp;&nbsp;行业总条数:
-      {{ statistics.industryNum }}
+      总条数: {{ statistics.total || 0 }}&nbsp;&nbsp;行业总条数:
+      {{ statistics.industryNum || 0 }}
       <!-- &nbsp;&nbsp;营销总条数:
       {{ statistics.marketingNum }}
       &nbsp;&nbsp;Vip条数:
@@ -84,6 +85,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "sendReportStatistics",
@@ -199,7 +201,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"]
+          key: ["", "countDate", "endDate"],
+          defaultValue: ["", new Date(), new Date()]
         }
       ],
       statistics: {},
@@ -207,7 +210,7 @@ export default {
     };
   },
   mounted() {
-    this.queryUserSendDetailAll(this.searchParam);
+    // this.queryUserSendDetailAll(this.searchParam);
   },
   computed: {},
   methods: {
