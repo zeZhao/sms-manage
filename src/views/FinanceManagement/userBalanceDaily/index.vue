@@ -7,17 +7,15 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column
-        prop="userName"
-        label="账户名称"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="userName" label="账户名称">
         <template slot-scope="scope">
           <span v-if="scope.row.userName">{{ scope.row.userName }}</span>
           <span v-else>未命名</span>
@@ -63,7 +61,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="sysName" label="操作人" />
-      <el-table-column prop="insertTime" label="统计时间" min-width="170">
+      <el-table-column prop="insertTime" label="统计时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.insertTime | timeFormat }}</span>
         </template>

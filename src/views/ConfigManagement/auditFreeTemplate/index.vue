@@ -1,8 +1,18 @@
 <template>
   <!--免审核模板-->
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" @create="_mxCreate"></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      @create="_mxCreate"
+    ></Search>
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
@@ -10,24 +20,74 @@
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">{{ renderType(scope.row.type) }}</template>
       </el-table-column>
-      <el-table-column prop="template" label="模板信息" show-overflow-tooltip min-width="200" />
-      <el-table-column prop="createdAt" label="创建时间" min-width="170">
-        <template slot-scope="scope">{{ scope.row.createdAt | timeFormat }}</template>
+      <el-table-column prop="template" label="模板信息" width="400" />
+      <el-table-column prop="createdAt" label="创建时间" width="135">
+        <template slot-scope="scope">{{
+          scope.row.createdAt | timeFormat
+        }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="170">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
-          <el-button @click="_mxEdit(scope.row, 'templateId')" type="text" size="small">修改</el-button>
-          <el-button @click="_mxDeleteItem('templateId', scope.row.templateId, false, true)" type="text" size="small">删除
+          <el-button
+            @click="_mxEdit(scope.row, 'templateId')"
+            type="text"
+            size="small"
+            >修改</el-button
+          >
+          <el-button
+            @click="
+              _mxDeleteItem('templateId', scope.row.templateId, false, true)
+            "
+            type="text"
+            size="small"
+            >删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
-    <el-dialog :title="formTit" :visible.sync="addChannel" :close-on-click-modal="false" top="45px">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="_mxHandleSubmit" @cancel="_mxCancel"
-        @choose="choose"></FormItem>
-    </el-dialog>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @choose="choose"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @choose="choose"
+      ></FormItem>
+    </el-dialog> -->
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -36,7 +96,7 @@ import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       formTit: "新增",
       addChannel: false,
@@ -160,25 +220,52 @@ export default {
       isChooseUser: false
     };
   },
-  activated () {
+  activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
-    _mxCreate () {
-      this.$router.push({
-        name: "auditFreeTemplateType",
-        query: { type: "create" }
-      });
+    _mxCreate() {
+      // this.$router.push({
+      //   name: "auditFreeTemplateType",
+      //   query: { type: "create" }
+      // });
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig[0].btnDisabled = false;
     },
-    _mxEdit (row, ID) {
-      this.$router.push({
-        name: "auditFreeTemplateType",
-        query: { type: "update", row: JSON.stringify(row), ID }
+    _mxEdit(row, ID) {
+      // this.$router.push({
+      //   name: "auditFreeTemplateType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
+      // });
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
       });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
     },
     //选择用户选取赋值
-    chooseUserData (data) {
+    chooseUserData(data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -211,7 +298,7 @@ export default {
      * @returns {*}
      * @private
      */
-    _formatRequestData (data) {
+    _formatRequestData(data) {
       data.status = 4;
       return data;
     }

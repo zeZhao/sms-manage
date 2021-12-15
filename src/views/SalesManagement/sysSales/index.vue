@@ -8,9 +8,10 @@
     ></Search>
     <el-table
       :data="listData"
-      max-height="500"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <!-- <el-table-column prop="userName" label="登录账号" /> -->
@@ -30,7 +31,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="modifyTime" label="修改时间" min-width="170">
+      <el-table-column prop="modifyTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
         }}</template>

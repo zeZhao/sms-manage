@@ -15,16 +15,18 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="mobile" label="上行手机号" min-width="150" />
+      <el-table-column prop="mobile" label="上行手机号" />
       <el-table-column prop="province" label="省份" />
       <el-table-column prop="city" label="城市" />
       <el-table-column prop="operaId" label="运营商">
@@ -34,9 +36,9 @@
           <span v-if="scope.row.operaId === 3">电信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
+      <el-table-column prop="content" label="内容" />
       <el-table-column prop="gateway" label="上行通道" />
-      <el-table-column prop="createTime" label="上行时间" min-width="150">
+      <el-table-column prop="createTime" label="上行时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>

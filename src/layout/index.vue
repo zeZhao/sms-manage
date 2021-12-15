@@ -9,7 +9,7 @@
     <div :class="{ hasTagsView: needTagsView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
-        <nav-menu />
+        <!-- <nav-menu /> -->
         <!-- <tags-view v-if="needTagsView" /> -->
       </div>
       <app-main />
@@ -58,7 +58,7 @@ export default {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === "mobile"
+        // mobile: this.device === "mobile"
       };
     }
   },
@@ -99,7 +99,7 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 9;
+  z-index: 2000;
   width: calc(100% - #{$sideBarWidth});
   transition: width 0.28s;
 }

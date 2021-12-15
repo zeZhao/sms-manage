@@ -23,7 +23,8 @@
     </el-col>
     <el-button type="primary" @click="addAccont">新增运营账号</el-button>
     <el-table
-      :data="dataList" max-height="430"
+      :data="dataList"
+      max-height="430"
       highlight-current-row
       style="width: 100%;margin-top:20px"
     >
@@ -33,8 +34,10 @@
       <el-table-column prop="name" label="姓名" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="roleName" label="角色" />
-      <el-table-column prop="createTime" label="创建时间">
-        <template slot-scope="scope">{{ scope.row.createTime | timeFormat }}</template>
+      <el-table-column prop="createTime" label="创建时间" width="135">
+        <template slot-scope="scope">{{
+          scope.row.createTime | timeFormat
+        }}</template>
       </el-table-column>
       <el-table-column label="启用状态">
         <template slot-scope="scope">
@@ -420,7 +423,7 @@ export default {
       this.orderList();
     },
     addAccont() {
-      for(const i in this.addInfo) {
+      for (const i in this.addInfo) {
         this.addInfo[i] = "";
       }
       this.customerAddInfo = true;
@@ -542,7 +545,9 @@ export default {
       } else if (this.addInfo.pwd == "") {
         return this.$message.error("请填写密码");
       } else if (!isPassword(this.addInfo.pwd)) {
-        return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+        return this.$message.error(
+          "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+        );
       } else if (this.addInfo.roleId == "") {
         return this.$message.error("请选择角色");
       }
@@ -635,7 +640,9 @@ export default {
       };
       if (this.setInfo.pwd) {
         if (!isPassword(this.setInfo.pwd)) {
-          return this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+          return this.$message.error(
+            "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+          );
         }
       } else {
         delete params.pwd;
@@ -694,8 +701,8 @@ export default {
     display: flex;
     justify-content: center;
   }
-  ::v-deep .el-dialog__header {
-    border-bottom: 1px solid #909399;
-  }
+  // ::v-deep .el-dialog__header {
+  //   border-bottom: 1px solid #909399;
+  // }
 }
 </style>

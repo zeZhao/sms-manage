@@ -4,10 +4,11 @@
       ref="form"
       :label-width="`${labelWidth}px`"
       :model="formData"
+      :label-position="labelPosition"
       v-if="formConfig.length"
       class="demo-ruleForm"
     >
-      <el-row>
+      <el-row :gutter="gutter">
         <el-col
           :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
@@ -296,6 +297,25 @@
               >
               </el-date-picker>
             </template>
+            <!--日期与时间-双-->
+            <template v-if="item.type === 'dataTimes'">
+              <el-date-picker
+                v-model="formData[item.key]"
+                :value-format="item.format || 'yyyy-MM-dd HH:mm:ss'"
+                type="datetimerange"
+                clearable
+                :range-separator="item.rangeSeparator || '至'"
+                :start-placeholder="item.startPlaceholder || '开始日期'"
+                :end-placeholder="item.endPlaceholder || '结束日期'"
+                :picker-options="item.disabledDate || null"
+                @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+              >
+              </el-date-picker>
+            </template>
             <template v-if="item.type === 'switch'">
               <el-switch
                 style="display: block"
@@ -461,10 +481,22 @@ export default {
         return true;
       }
     },
+    labelPosition: {
+      type: String,
+      default() {
+        return "right";
+      }
+    },
     labelWidth: {
       type: [String, Number],
       default() {
         return 150;
+      }
+    },
+    gutter: {
+      type: [String, Number],
+      default() {
+        return 24;
       }
     },
     colSpan: {

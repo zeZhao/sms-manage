@@ -16,9 +16,11 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="mobile" label="手机号" />
@@ -40,7 +42,7 @@
           <span v-if="scope.row.operaId == 4">国际</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat }}</span>
         </template>
@@ -186,7 +188,11 @@ export default {
           disabled: false,
           defaultValue: "",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
             { validator: phone, trigger: "change" }
           ]
         },
@@ -200,7 +206,13 @@ export default {
             { key: 2, value: "联通" },
             { key: 3, value: "电信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "select",
@@ -212,7 +224,13 @@ export default {
             { key: 2, value: "联通" },
             { key: 3, value: "电信" }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         }
       ],
       id: "",

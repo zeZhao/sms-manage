@@ -7,9 +7,11 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column
@@ -110,12 +112,22 @@
       用户总发送条数: {{ statistics.sendNum }}&nbsp;&nbsp;用户总成功条数:
       {{ statistics.successNum }}&nbsp;&nbsp;用户总成功率:
       {{
-        statistics.successRate !== undefined ? Number(statistics.successRate).toFixed(2) + "%" : ""
+        statistics.successRate !== undefined
+          ? Number(statistics.successRate).toFixed(2) + "%"
+          : ""
       }}&nbsp;&nbsp;用户总失败条数:
       {{ statistics.failNum }}&nbsp;&nbsp;用户总失败率:
-      {{ statistics.failRate !== undefined ? Number(statistics.failRate).toFixed(2) + "%" : "" }}&nbsp;&nbsp;用户总未知条数:
+      {{
+        statistics.failRate !== undefined
+          ? Number(statistics.failRate).toFixed(2) + "%"
+          : ""
+      }}&nbsp;&nbsp;用户总未知条数:
       {{ statistics.unknownNum }}&nbsp;&nbsp;用户总未知率:
-      {{ statistics.unknownRate !== undefined ? Number(statistics.unknownRate).toFixed(2) + "%" : "" }}
+      {{
+        statistics.unknownRate !== undefined
+          ? Number(statistics.unknownRate).toFixed(2) + "%"
+          : ""
+      }}
     </p>
     <Page
       :pageObj="pageObj"
@@ -127,6 +139,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -262,7 +275,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"]
+          key: ["", "countDate", "endDate"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       statistics: {},

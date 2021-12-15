@@ -22,14 +22,15 @@
     </Search>
     <el-table
       :data="listData"
-      max-height="500"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
@@ -66,7 +67,7 @@
           <span>{{ scope.row.isGatewayGroup === 0 ? (scope.row.isLoss == "1" ? "是" : "否") : '-' }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="createBy" label="创建人" min-width="110" />
+      <el-table-column prop="createBy" label="创建人" />
       <!-- <el-table-column prop="isadvice" label="配置方式">
         <template slot-scope="scope">
           <span v-if="!scope.row.isadvice">自定义</span>
@@ -74,13 +75,13 @@
           <span v-else>-</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="createTime" label="创建时间" min-width="170">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="updateBy" label="修改人" min-width="110" />
-      <el-table-column prop="updateTime" label="修改时间" min-width="170">
+      <el-table-column prop="updateBy" label="修改人" />
+      <el-table-column prop="updateTime" label="修改时间" width="135">
         <template slot-scope="scope">{{
           scope.row.updateTime | timeFormat
         }}</template>
@@ -107,7 +108,27 @@
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-    <el-dialog
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @choose="choose"
+        @selectChange="selectChange"
+        @onChange="onChange"
+      ></FormItem>
+    </el-drawer>
+    <!-- <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -123,7 +144,7 @@
         @selectChange="selectChange"
         @onChange="onChange"
       ></FormItem>
-    </el-dialog>
+    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -618,6 +639,7 @@ export default {
           initDefaultValue: [],
           defaultValue: [],
           optionData: [],
+          colSpan: 24,
           key: "sensitiveWord"
         }
         // {
@@ -962,16 +984,16 @@ export default {
      */
 
     _mxCreate() {
-      this.$router.push({
-        name: "sysExemptReviewManageType",
-        query: { type: "create" }
-      });
-      // this.addChannel = true;
-      // this.formTit = "新增";
-      // setTimeout(() => {
-      //   this.$refs.formItem.resetForm();
-      // }, 0);
-      // this.formConfig[0].btnDisabled = false;
+      // this.$router.push({
+      //   name: "sysExemptReviewManageType",
+      //   query: { type: "create" }
+      // });
+      this.addChannel = true;
+      this.formTit = "新增";
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+      this.formConfig[0].btnDisabled = false;
     },
     /**
      * 编辑表单
@@ -981,34 +1003,34 @@ export default {
      */
 
     _mxEdit(row, ID) {
-      this.$router.push({
-        name: "sysExemptReviewManageType",
-        query: { type: "update", row: JSON.stringify(row), ID }
-      });
-      // row = this._mxArrangeEditData(row);
-      // this.id = row[ID];
-      // this.editId = ID;
-      // this.formTit = "修改";
-      // this.formConfig.forEach(item => {
-      //   for (let key in row) {
-      //     if (item.key === key && row[key] !== "-") {
-      //       this.$set(item, "defaultValue", row[key]);
-      //     }
-      //   }
-      //   if (!Object.keys(row).includes(item.key)) {
-      //     this.$set(item, "defaultValue", "");
-      //   }
-      //   if (item.key === "userId") {
-      //     item.btnDisabled = true;
-      //   }
+      // this.$router.push({
+      //   name: "sysExemptReviewManageType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
       // });
-      // setTimeout(() => {
-      //   this.$refs.formItem.clearValidate();
-      // }, 0);
-      // this.listRecommendGatewayAndGroup("cmPassageway", "1", row.userId);
-      // this.listRecommendGatewayAndGroup("cuPassageway", "1", row.userId);
-      // this.listRecommendGatewayAndGroup("ctPassageway", "1", row.userId);
-      // this.addChannel = true;
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "userId") {
+          item.btnDisabled = true;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.listRecommendGatewayAndGroup("cmPassageway", "1", row.userId);
+      this.listRecommendGatewayAndGroup("cuPassageway", "1", row.userId);
+      this.listRecommendGatewayAndGroup("ctPassageway", "1", row.userId);
+      this.addChannel = true;
     },
     /**
      * 提交表单前调整表单内数据
@@ -1038,6 +1060,6 @@ export default {
 
 <style lang="scss" scoped>
 .sysExemptReviewManage {
-  overflow-y: auto;
+  // overflow-y: auto;
 }
 </style>

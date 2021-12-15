@@ -19,9 +19,10 @@
     >
     <el-table
       :data="listData"
-      max-height="500"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -109,7 +110,7 @@ export default {
           data: {
             pageNumber: 1,
             pageSize: 10,
-            userMonthlyBill: { ...this.searchPara }
+            userMonthlyBill: { ...this.searchParam }
           }
         })
         .then(res => {

@@ -1,13 +1,13 @@
 <template>
   <div class="navbar">
-    <!-- <hamburger
+    <hamburger
       id="hamburger-container"
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
 
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
+    <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
 
     <div class="right-menu">
       <span class="el-breadcrumb__item fontColor">
@@ -90,7 +90,6 @@ export default {
     ...mapGetters(["sidebar", "avatar", "device", "info"])
   },
   mounted() {
-    console.log(JSON.parse(Cookies.get("info")), "------------");
     this.custName = JSON.parse(Cookies.get("info")).name;
     //每一秒都获取当前时间
     setInterval(() => {

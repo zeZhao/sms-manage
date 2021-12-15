@@ -4,8 +4,8 @@ import FormItem from "@/components/FormItem"
 import ChooseUser from "@/components/ChooseUser"
 import BatchAddition from "@/components/BatchAddition"
 import BatchModification from "@/components/BatchModification"
+import Moment from 'moment';
 import Api from "@/utils/api.js";
-import Vue from "vue";
 import { Message } from 'element-ui';
 import { isPhone } from "@/utils";
 
@@ -55,7 +55,9 @@ class managePlugin {
           if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
       }
-    } {
+    }
+
+    {
       /**
        * 金额单位转换：厘转换到元
        * @return {string}
@@ -156,7 +158,6 @@ class managePlugin {
         }
       }
     }
-
   }
 
   /*------------------添加vue组件------------------*/
@@ -172,24 +173,24 @@ class managePlugin {
   /*------------------添加vue过滤器------------------*/
   installFilter(Vue) {
     Vue.filter('timeFormat', function (time) {
-      if (time && time !== '-' && time !== null) {
-        return new Date(time).Format('yyyy-MM-dd hh:mm:ss')
+      if (time && time !== '-') {
+        return Moment(time).format('YYYY-MM-DD HH:mm:ss');
       } else {
-        return '-'
+        return '-';
       }
     })
     Vue.filter('Format', function (time) {
-      if (time && time !== '-' && time !== null) {
-        return new Date(time).Format('yyyy-MM-dd')
+      if (time && time !== '-') {
+        return Moment(time).format('YYYY-MM-DD');
       } else {
-        return '-'
+        return '-';
       }
     })
     Vue.filter('FormatMonth', function (time) {
-      if (time && time !== '-' && time !== null) {
-        return new Date(time).Format('yyyy-MM')
+      if (time && time !== '-') {
+        return Moment(time).format('YYYY-MM');
       } else {
-        return '-'
+        return '-';
       }
     })
   }

@@ -7,15 +7,17 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="groupId" label="通道组编号" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />
-      <el-table-column prop="notes" label="备注" show-overflow-tooltip />
+      <el-table-column prop="notes" label="备注" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
@@ -50,7 +52,11 @@
       >
         <div slot="Other">
           <el-button class="m-b" @click="addGatewayGroup">添加通道</el-button>
-          <el-table class="m-b" :data="gatewayGroupList" v-if="gatewayGroupList.length">
+          <el-table
+            class="m-b"
+            :data="gatewayGroupList"
+            v-if="gatewayGroupList.length"
+          >
             <el-table-column prop="gateway" label="通道编号">
               <template slot-scope="scope">
                 <el-select v-model="scope.row.gateway">
@@ -181,7 +187,11 @@ export default {
           key: "groupId",
           maxlength: "4",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
             {
               pattern: /^9\d{3}$/,
               message: "9开头4位数",
@@ -194,8 +204,11 @@ export default {
           label: "通道组名称",
           key: "groupName",
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] },
-            { trigger: ['blur', 'change'], validator: validatorGroupName }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
           ]
         },
         {
@@ -212,7 +225,11 @@ export default {
             { key: "联通,电信", value: "联通,电信" }
           ],
           rules: [
-            { required: true, message: "请输入必填项", trigger: ['blur', 'change'] }
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
             // { trigger: ['blur', 'change'], validator: validatorSendTo }
           ]
         },
@@ -257,18 +274,20 @@ export default {
     submit(form) {
       const isGateway = this.gatewayGroupList.every(v => v.gateway !== "");
       if (!isGateway) {
-        this.$message.error('通道编号不能为空');
+        this.$message.error("通道编号不能为空");
         return;
       }
-      const isDecimal = this.gatewayGroupList.every(v => v.ratio > 0 && v.ratio <= 100);
+      const isDecimal = this.gatewayGroupList.every(
+        v => v.ratio > 0 && v.ratio <= 100
+      );
       if (!isDecimal) {
-        this.$message.error('分配比例应该大于0且不得大于100');
+        this.$message.error("分配比例应该大于0且不得大于100");
         return;
       }
       const isSameType1 = this.gatewayGroupList.every(v => v.type === 1);
       const isSameType2 = this.gatewayGroupList.every(v => v.type === 2);
       if (!isSameType1 && !isSameType2) {
-        this.$message.error('通道类型只能为同一种类型');
+        this.$message.error("通道类型只能为同一种类型");
         return;
       }
       let params = {};

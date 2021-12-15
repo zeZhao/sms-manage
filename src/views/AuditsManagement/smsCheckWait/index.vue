@@ -9,7 +9,12 @@
       @getForm="getForm"
     >
       <template slot="Other">
-        <el-button type="primary" size="small" @click="$refs.search.renderForm()">超审</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.search.renderForm()"
+          >超审</el-button
+        >
         <el-button type="primary" size="small" @click="addCheck"
           >增加分配</el-button
         >
@@ -25,9 +30,11 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       @selection-change="selectionChange"
     >
       <!-- <el-table-column type="selection" width="55" /> -->
@@ -40,10 +47,13 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" min-width="200">
+      <el-table-column prop="content" label="内容">
         <template slot-scope="scope">
           <el-tooltip placement="top">
-            <div v-html="scope.row.content" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></div>
+            <div
+              v-html="scope.row.content"
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
+            ></div>
             <div slot="content" v-html="scope.row.content"></div>
           </el-tooltip>
         </template>
@@ -101,7 +111,7 @@
           <span v-if="scope.row.submitType == 2">接口提交</span>
         </template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间" min-width="150">
+      <el-table-column prop="submitTime" label="提交时间" width="135">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
@@ -296,16 +306,16 @@ export default {
             }
           ],
           rules: [
-            { 
-              required: true, 
-              trigger: "blur", 
+            {
+              required: true,
+              trigger: "blur",
               validator: (rule, value, callback) => {
                 if (!value || value == "1") {
-                  callback(new Error('请选择审核状态'));
+                  callback(new Error("请选择审核状态"));
                 } else {
                   callback();
                 }
-              } 
+              }
             }
           ]
         }
@@ -390,33 +400,35 @@ export default {
         });
       });
     },
-    getForm(form){
+    getForm(form) {
       const { userId, content } = form;
       if (!userId) {
-        this.$alert('请输入账户编号进行超审', '提示', {
-          confirmButtonText: '确定',
-          callback: action => { }
+        this.$alert("请输入账户编号进行超审", "提示", {
+          confirmButtonText: "确定",
+          callback: action => {}
         });
         return;
       }
-      this.$http.smsCheckWait.supperCheckUser({ data: { userId } }).then(res => {
-        if (res.code === 200) {
-          const code = res.data;
-          this.supperCheck(userId, code, content);
-        } else {
-          this.$message.error(res.data);
-        }
-      });
+      this.$http.smsCheckWait
+        .supperCheckUser({ data: { userId } })
+        .then(res => {
+          if (res.code === 200) {
+            const code = res.data;
+            this.supperCheck(userId, code, content);
+          } else {
+            this.$message.error(res.data);
+          }
+        });
     },
     supperCheck(userId, code, content) {
       this.formConfig.forEach(item => {
-        if (item.key === 'userId') {
+        if (item.key === "userId") {
           this.$set(item, "defaultValue", userId);
         }
         // if (item.key === 'code') {
         //   this.$set(item, "defaultValue", code);
         // }
-        if (item.key === 'content') {
+        if (item.key === "content") {
           this.$set(item, "defaultValue", content);
         }
       });
@@ -456,10 +468,16 @@ export default {
     listData(newArr) {
       if (newArr.length) {
         newArr.forEach(v => {
-          v.cuGateway = this.gatewayCuList.length ? this.gatewayCuList[0].id : '';
-          v.cmGateway = this.gatewayCmList.length ? this.gatewayCmList[0].id : '';
-          v.ctGateway = this.gatewayCtList.length ? this.gatewayCtList[0].id : '';
-        })
+          v.cuGateway = this.gatewayCuList.length
+            ? this.gatewayCuList[0].id
+            : "";
+          v.cmGateway = this.gatewayCmList.length
+            ? this.gatewayCmList[0].id
+            : "";
+          v.ctGateway = this.gatewayCtList.length
+            ? this.gatewayCtList[0].id
+            : "";
+        });
       }
     }
   }
