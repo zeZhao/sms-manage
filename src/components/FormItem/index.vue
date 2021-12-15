@@ -730,6 +730,7 @@ export default {
   // position: relative;
   .submitBtn {
     float: right;
+    margin-right: 12px;
     // position: absolute;
     // right: 20px;
     // bottom: 20px;
@@ -740,7 +741,7 @@ export default {
     text-align: center;
   }
   .inputWid {
-    width: 70%;
+    width: 63%;
   }
   .item-tips {
     color: #999999;

@@ -233,7 +233,7 @@
             </el-form-item>
           </transition>
         </el-col>
-        <el-col :span="4">
+        <el-col :md="6" :lg="4" :xl="3">
           <div class="btnStyle">
             <slot name="Btn">
               <el-button
@@ -290,7 +290,7 @@
       </el-col>
     </el-row> -->
 
-    <el-row style="margin-top:8px">
+    <el-row style="margin-top:8px" v-show="add">
       <el-col>
         <el-button
           v-if="add && searchFormConfig.length"
@@ -489,9 +489,13 @@ export default {
 
 .searchPanel {
   background: #fff;
+  margin-bottom: 8px;
   ::v-deep .el-col {
     height: 28px;
     margin-bottom: 8px;
+  }
+  ::v-deep .el-col:last-child {
+    margin-bottom: 0;
   }
 
   .btnStyle {

@@ -82,12 +82,14 @@
       width: 100% !important;
     }
     .el-submenu__title {
-      height: 48px !important;
-      line-height: 48px !important;
+      height: 40px !important;
+      line-height: 40px !important;
       padding-left: 12px !important;
       padding-right: 16px !important;
     }
     .submenu-title-noDropdown {
+      height: 40px !important;
+      line-height: 40px !important;
       padding-left: 12px !important;
       padding-right: 16px !important;
     }
@@ -128,8 +130,8 @@
     & .el-submenu .el-menu-item {
       padding-left: 48px !important;
       min-width: $sideBarWidth !important;
-      height: 48px !important;
-      line-height: 48px !important;
+      height: 40px !important;
+      line-height: 40px !important;
       // background-color: $subMenuBg !important;
 
       &:hover {
