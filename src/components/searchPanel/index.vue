@@ -248,7 +248,7 @@
             </slot>
           </div>
         </el-col>
-        <el-col :span="8" v-show="!$slots.default">
+        <el-col :span="8" v-show="$slots.Other">
           <div class="btnStyle">
             <slot name="Other" :form="form"></slot>
           </div>

@@ -1060,6 +1060,6 @@ export default {
 
 <style lang="scss" scoped>
 .sysExemptReviewManage {
-  overflow-y: auto;
+  // overflow-y: auto;
 }
 </style>
