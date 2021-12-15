@@ -208,8 +208,7 @@ export default {
               required: true,
               message: "请输入必填项",
               trigger: ["blur", "change"]
-            },
-            { trigger: ["blur", "change"], validator: validatorGroupName }
+            }
           ]
         },
         {

@@ -103,7 +103,7 @@ export default {
           placeholder: "请输入商户名称"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId",
           placeholder: "请输入账户编号"

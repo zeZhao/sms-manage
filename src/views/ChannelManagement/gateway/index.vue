@@ -436,14 +436,7 @@ export default {
           key: "companyName",
           maxlength: "30",
           colSpan: 12,
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -451,14 +444,7 @@ export default {
           colSpan: 12,
           key: "gatewayName",
           maxlength: "30",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -971,15 +957,7 @@ export default {
           label: "结算公司",
           key: "clearingCorp",
           tag: "addition",
-          maxlength: "30",
-          colSpan: 12,
-          rules: [
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
+          maxlength: "50"
         },
         {
           type: "input",

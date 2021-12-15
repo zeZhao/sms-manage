@@ -361,28 +361,14 @@ export default {
           label: "公司名称",
           key: "companyName",
           maxlength: "30",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
           label: "付款单位",
           key: "payCompany",
           maxlength: "30",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "input",
@@ -500,14 +486,7 @@ export default {
           isShow: false,
           key: "privateName",
           maxlength: "30",
-          rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,30}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
-          ]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
