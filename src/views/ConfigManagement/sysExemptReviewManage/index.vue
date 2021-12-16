@@ -1106,6 +1106,30 @@ export default {
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
+    },
+
+    /**
+     * 提交成功后执行
+     * @param res
+     */
+    _mxSuccess(res, params) {
+      if (resOk(res)) {
+        //如果是页面新增、修改，则返回列表页
+        if (this.isPage) {
+          window.history.back();
+        }
+        this.$message.success(res.msg || res.data);
+        this._mxGetList();
+        this.addChannel = false;
+      } else {
+        this.formConfig.forEach(item => {
+          if (item.key === "sensitiveWord") {
+            let arr = params.sensitiveWord.split(",");
+            item.defaultValue = arr.map(item => Number(item));
+          }
+        });
+        this.$message.error(res.data || res.msg);
+      }
     }
   },
   watch: {}
