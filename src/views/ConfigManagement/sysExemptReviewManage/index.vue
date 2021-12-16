@@ -1129,9 +1129,10 @@ export default {
       } else {
         this.formConfig.forEach(item => {
           if (item.key === "sensitiveWord") {
-            let arr = params.sensitiveWord
-              ? params.sensitiveWord.split(",")
-              : "";
+            let arr =
+              params.sensitiveWord && params.sensitiveWord.length
+                ? params.sensitiveWord.split(",")
+                : [];
             item.defaultValue = arr.map(item => Number(item));
           }
         });
