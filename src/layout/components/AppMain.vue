@@ -60,8 +60,7 @@ export default {
 
   .content {
     background: #fff;
-    padding: 24px;
-
+    padding: 8px 24px;
     min-height: calc(100vh - 116px);
     ::v-deep .el-form-item__label {
       height: 28px;

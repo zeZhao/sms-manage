@@ -150,7 +150,13 @@ export default {
               value: "商户编号"
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "radio",
@@ -686,7 +692,12 @@ export default {
         }
         if (key === "sensitiveWord") {
           if (obj.hasOwnProperty("sensitiveWord")) {
-            if (typeof obj[key] === "string" && obj[key] && obj[key] !== "-" && obj[key] != null) {
+            if (
+              typeof obj[key] === "string" &&
+              obj[key] &&
+              obj[key] !== "-" &&
+              obj[key] != null
+            ) {
               obj[key] = obj[key].split(",").map(item => {
                 return Number(item);
               });
@@ -756,7 +767,11 @@ export default {
     _mxArrangeSubmitData(formData) {
       for (let key in formData) {
         if (key === "sensitiveWord") {
-          if (formData[key] && Array.isArray(formData[key]) && formData[key].length) {
+          if (
+            formData[key] &&
+            Array.isArray(formData[key]) &&
+            formData[key].length
+          ) {
             formData[key] = formData[key].join(",");
           } else {
             formData[key] = [];

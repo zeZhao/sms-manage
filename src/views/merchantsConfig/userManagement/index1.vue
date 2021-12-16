@@ -498,10 +498,30 @@ export default {
       }
     };
     const validCode = (rule, value, callback) => {
-      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
-        callback(new Error("请输入4位特服号"));
+      if (value && !/^\d{1,12}$/.test(value)) {
+        callback(new Error("特服号只能为正整数且最大长度为12位"));
       } else {
         callback();
+      }
+    };
+    const validMobile = (rule, value, callback) => {
+      console.log(this.type, "------------type");
+      if (this.type === "create") {
+        if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+          callback(new Error("手机号码格式错误"));
+        } else {
+          callback();
+        }
+      } else {
+        if (value.indexOf("*") === -1) {
+          if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        } else {
+          callback();
+        }
       }
     };
     return {
@@ -1371,6 +1391,10 @@ export default {
         }）`;
       }
     },
+    disabledProType() {
+      const idx = this.formConfig.findIndex(v => v.key === "proType");
+      this.formConfig[idx].disabled = true;
+    },
     //多选移除操作
     removeTag({ val, item }) {
       if (this.formTit == "修改") {
@@ -1656,9 +1680,9 @@ export default {
             row[key] = [];
           }
         }
-        if (key === "proType") {
-          row["proType"] = row["proTypes"];
-        }
+        // if (key === "proType") {
+        //   row["proType"] = row["proTypes"];
+        // }
         if (key === "mmsProType") {
           row["mmsProType"] = row["mmsProTypes"];
         }
@@ -1690,6 +1714,7 @@ export default {
       this.getRole();
       this.getAgent();
       this.getSaleman();
+      this.disabledProType();
       this.formConfig.forEach(item => {
         if (item.key === "loginName") {
           item.disabled = true;
@@ -1991,7 +2016,6 @@ export default {
     messageShow(row) {
       this.$nextTick(() => {
         this.infoData = Object.assign(row);
-        console.log(this.infoData, "-------this.infoData");
       });
 
       this.infoVisible = true;
@@ -2007,6 +2031,18 @@ export default {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           let arr = [];
+          this.formConfig.forEach(item => {
+            if (item.key === "corpId") {
+              res.data.forEach(t => {
+                let obj = {
+                  key: t.corpId,
+                  value: t.corpName
+                };
+                arr.push(obj);
+              });
+              item.optionData = arr;
+            }
+          });
         }
       });
     },
@@ -2015,6 +2051,13 @@ export default {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this.saleList = res.data;
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "saleMan",
+            "userName",
+            "actualName"
+          );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
@@ -2029,13 +2072,13 @@ export default {
     getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
-          // this._setDefaultValue(
-          //   this.formConfig,
-          //   res.data,
-          //   "agentId",
-          //   "agentId",
-          //   "agentName"
-          // );
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "agentId",
+            "agentId",
+            "agentName"
+          );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
@@ -2054,13 +2097,13 @@ export default {
       };
       this.$http.role.getRoleByType(params).then(res => {
         if (resOk(res)) {
-          // this._setDefaultValue(
-          //   this.formConfig,
-          //   res.data,
-          //   "roleId",
-          //   "roleId",
-          //   "roleName"
-          // );
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "roleId",
+            "roleId",
+            "roleName"
+          );
         }
       });
     },
