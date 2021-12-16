@@ -52,7 +52,7 @@
       />
       <el-table-column prop="pid" label="PID" show-overflow-tooltip />
     </el-table>
-    <p style="color: red">总条数：{{ total }}</p>
+    <p style="color: red">总条数：{{ total || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -120,13 +120,15 @@ export default {
         {
           type: "timerange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(2021, 12, 16, 0, 0, 0), new Date(2021, 12, 16, 23, 59, 59)]
         },
         {
           type: "date",
           label: "提交日期",
           key: "submitDate",
-          placeholder: "提交日期"
+          placeholder: "提交日期",
+          defaultValue: new Date()
         }
       ],
       total: 0

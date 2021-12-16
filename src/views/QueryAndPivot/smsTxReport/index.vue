@@ -51,6 +51,7 @@
         prop="platformTaking"
         label="平台耗时:秒"
         show-overflow-tooltip
+        min-width="100"
       />
       <el-table-column prop="seqId" label="SEQID" show-overflow-tooltip />
       <el-table-column prop="cid" label="CID" show-overflow-tooltip />
@@ -142,13 +143,15 @@ export default {
         {
           type: "timerange",
           label: "发送时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(2021, 12, 16, 0, 0, 0), new Date(2021, 12, 16, 23, 59, 59)]
         },
         {
           type: "date",
           label: "发送日期",
           key: "sendTime",
-          placeholder: "发送日期"
+          placeholder: "发送日期",
+          defaultValue: new Date()
         }
       ]
     };

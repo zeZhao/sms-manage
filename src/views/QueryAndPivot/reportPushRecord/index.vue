@@ -110,7 +110,8 @@ export default {
         {
           type: "date",
           label: "推送日期",
-          key: "pushTimeStr"
+          key: "pushTimeStr",
+          defaultValue: new Date().Format("yyyy-MM-dd")
         }
       ]
     };

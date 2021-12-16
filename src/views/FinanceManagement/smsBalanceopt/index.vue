@@ -8,6 +8,7 @@
       @exportData="exportData"
       @create="create"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button
@@ -96,6 +97,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -113,6 +115,7 @@ export default {
       }
     };
     return {
+      notSearch: true,
       formTit: "新增",
       addChannel: false,
       //接口地址
@@ -187,7 +190,8 @@ export default {
         {
           type: "daterange",
           label: "日期",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       // 表单配置
