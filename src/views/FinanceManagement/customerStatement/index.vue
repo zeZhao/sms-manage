@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData" max-height="500"
@@ -70,11 +71,13 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin'
+import listMixin from '@/mixin/listMixin';
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       formTit: '修改客户对账单',
       addChannel: false,
       //接口地址
@@ -117,6 +120,7 @@ export default {
           label: '日期',
           key: 'billTime',
           placeholder: '请选择日期',
+          defaultValue: new Date().Format("yyyy-MM")
         },
       ],
       // 表单配置

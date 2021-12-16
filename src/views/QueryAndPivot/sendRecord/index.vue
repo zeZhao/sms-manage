@@ -74,7 +74,7 @@
         </template>
       </el-table-column> -->
     </el-table>
-    <p style="color: red">总条数：{{ total }}</p>
+    <p style="color: red">总条数：{{ total || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -147,12 +147,14 @@ export default {
         {
           type: "date",
           label: "创建日期",
-          key: "createTime"
+          key: "createTime",
+          defaultValue: new Date()
         },
         {
           type: "timerange",
           label: "创建时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(2021, 12, 16, 0, 0, 0), new Date(2021, 12, 16, 23, 59, 59)]
         }
       ],
       total: 0

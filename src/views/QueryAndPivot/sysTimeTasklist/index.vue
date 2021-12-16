@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="edit"
@@ -93,6 +94,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       isChooseUser: false,
       //接口地址
       searchAPI: {

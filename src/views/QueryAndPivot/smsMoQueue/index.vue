@@ -7,6 +7,7 @@
       @search="_mxDoSearch"
       :add="false"
       @exportData="exportData"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="exportExe"
@@ -57,10 +58,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "smsMoQueue",
@@ -121,7 +125,8 @@ export default {
         {
           type: "daterange",
           label: "上行时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
     };

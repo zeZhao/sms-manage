@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData" max-height="500"
@@ -84,6 +85,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "userBalanceDaily",
@@ -128,7 +130,8 @@ export default {
         {
           type: "daterange",
           label: "按统计时间查询",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date().Format("yyyy-MM-dd"), new Date().Format("yyyy-MM-dd")]
         }
       ]
     };

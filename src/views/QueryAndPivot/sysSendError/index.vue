@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     >
       <template v-slot:Other="form">
         <el-button type="primary" size="small" @click="editContent"
@@ -82,11 +83,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       content: false,
       gateway: false,
       // 接口地址
@@ -157,7 +160,8 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       // 修改内容表单配置
