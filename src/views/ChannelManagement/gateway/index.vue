@@ -132,6 +132,11 @@
       :close-on-press-escape="false"
       :wrapperClosable="false"
     >
+      <h2>
+        <span v-if="formTit === '新增'"
+          >(上一通道编号为：{{ lastGateway }})</span
+        >
+      </h2>
       <FormItemTitle
         ref="formItem"
         :colSpan="12"
@@ -270,6 +275,7 @@ export default {
   data() {
     return {
       formTit: "新增",
+      lastGateway: "",
       addChannel: false,
       configDialog: false,
       tagStatusTitle: undefined,
@@ -1244,29 +1250,42 @@ export default {
       //   }
       // });
     },
-    // _mxEdit(row, gatewayId) {
-    //   // this.$router.push({
-    //   //   path: "/geteway/getewayDetail",
-    //   //   query: {
-    //   //     type: "edit",
-    //   //     row: JSON.stringify(row),
-    //   //     gatewayId
-    //   //   }
-    //   // });
-    //   // row = this._mxArrangeEditData(row);
-    //   // this.id = row[ID];
-    //   // this.editId = ID;
-    //   // this.formTit = "修改";
-    //   // this.formConfig.forEach(item => {
-    //   //   if (item.tag === "encrypt") {
-    //   //     item.lock = true;
-    //   //   }
-    //   // });
-    //   // setTimeout(() => {
-    //   //   this.$refs.formItem.clearValidate();
-    //   // }, 0);
-    //   // this.addChannel = true;
-    // },
+    _mxEdit(row, ID) {
+      // this.$router.push({
+      //   path: "/geteway/getewayDetail",
+      //   query: {
+      //     type: "edit",
+      //     row: JSON.stringify(row),
+      //     gatewayId
+      //   }
+      // });
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        this.formConfig.forEach(item => {
+          if (item.tag === "encrypt") {
+            item.lock = true;
+          }
+          if (item.key === "gateway") {
+            item.disabled = true;
+          }
+        });
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
     //获取所有标签
     listTag() {
       this.$http.smsTagController

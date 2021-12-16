@@ -301,7 +301,7 @@
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
       ></FormItem> -->
-      <h3>{{ formTit }}账户{{ titleTips }}</h3>
+      <h3>{{ titleTips }}</h3>
       <FormItemTitle
         class="userManagementType"
         :colSpan="12"
@@ -1340,6 +1340,7 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
+    this.getUserId();
   },
   activated() {
     //重新获取数据
@@ -1349,6 +1350,7 @@ export default {
     this.getRole();
     this.listTag();
     this._mxGetList();
+    this.getUserId();
   },
   computed: {
     renderTitle() {
@@ -1359,7 +1361,7 @@ export default {
     // 获取账户编号
     getUserId() {
       this.titleTips = ""; // 重置
-      if (this.type === "create") {
+      if (this.formTit === "新增") {
         this.$http.corpUser.getLasttUserId().then(res => {
           this.titleTips = `（上一个账户编号为：${res.data}）`;
         });
