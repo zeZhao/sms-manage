@@ -119,6 +119,7 @@ export default {
     }
     ::v-deep .el-drawer__body {
       padding-bottom: 64px;
+      overflow: initial !important;
     }
     ::v-deep .el-dialog {
       padding: 24px;
