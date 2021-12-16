@@ -74,28 +74,9 @@
         @onChange="onChange"
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
+        @handleExceed="handleExceed"
       ></FormItem>
     </el-drawer>
-
-    <!-- <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
-        @choose="choose"
-        @selectChange="selectChange"
-        @onChange="onChange"
-        @handleSuccess="handleSuccess"
-        @handleRemove="handleRemove"
-      ></FormItem>
-    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -331,6 +312,9 @@ export default {
           trigger: "change"
         }
       ];
+    },
+    handleExceed() {
+      this.$message.error("当前仅限制上传1个文件!");
     },
     //选择控制
     selectChange({ val, item }) {
