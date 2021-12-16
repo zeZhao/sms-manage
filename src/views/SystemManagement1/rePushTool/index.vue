@@ -22,7 +22,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column prop="mobile" label="手机号" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="pushType" label="推送类型">
         <template slot-scope="scope">{{
           scope.row.pushType === 1 ? "报告推送" : "上行推送"

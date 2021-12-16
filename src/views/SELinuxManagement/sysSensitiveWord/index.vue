@@ -633,7 +633,7 @@ export default {
 
     .el-menu-group {
       width: 100%;
-      height: 600px;
+      height: 65vh;
       overflow-y: auto;
 
       .hover {
