@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      isOther="true"
     >
       <template v-slot:Other="form">
         <el-button type="primary" @click="exported(form)" size="small"

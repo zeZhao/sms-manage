@@ -141,11 +141,18 @@ export default {
           type: "input",
           label: "账户编号",
           key: "userId",
-          //   btnTxt: "选择用户",
+          btnTxt: "选择用户",
+          btnDisabled: false,
           disabled: true,
           defaultValue: "",
           // change: this.selectUser,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -153,7 +160,13 @@ export default {
           key: "corpId",
           disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -161,60 +174,94 @@ export default {
           disabled: true,
           key: "code",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
-        // {
-        //   type: "select",
-        //   label: "类型",
-        //   key: "type",
-        //   defaultValue: "",
-        //   optionData: [
-        //     {
-        //       key: "1",
-        //       value: "特服号"
-        //     },
-        //     {
-        //       key: "2",
-        //       value: "账户编号"
-        //     },
-        //     {
-        //       key: "3",
-        //       value: "商户编号"
-        //     }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
         {
           type: "select",
-          label: "审核状态",
-          key: "status",
-          defaultValue: "",
+          label: "类型",
+          key: "type",
+          initDefaultValue: "2",
+          defaultValue: "2",
           optionData: [
-            {
-              key: 1,
-              value: "待审核"
-            },
             // {
-            //   key: 2,
-            //   value: "审核处理中",
+            //   key: "1",
+            //   value: "特服号"
             // },
             {
-              key: 4,
-              value: "审核通过"
+              key: "2",
+              value: "账户编号"
             },
             {
-              key: 5,
-              value: "审核拒绝"
+              key: "3",
+              value: "商户编号"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
+          type: "select",
+          label: "匹配类型",
+          key: "matchType",
+          initDefaultValue: 1,
+          defaultValue: 1,
+          optionData: [
+            {
+              key: 1,
+              value: "正常发送"
+            },
+            {
+              key: 2,
+              value: "拦截"
+            }
+          ],
+          rules: [
+            { required: true, message: "请选择必填项", trigger: "change" }
+          ]
+        },
+        {
+          type: "select",
+          label: "是否公用",
+          key: "isShared",
+          initDefaultValue: 0,
+          defaultValue: 0,
+          optionData: [
+            {
+              key: 0,
+              value: "不公用"
+            },
+            {
+              key: 1,
+              value: "公用"
+            }
+          ],
+          rules: [
+            { required: true, message: "请选择必填项", trigger: "change" }
+          ]
+        },
+        {
           type: "textarea",
           label: "模板信息",
           key: "template",
-          maxlength: 500,
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          maxlength: 300,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "textarea",
+          label: "审核内容",
+          key: "content",
+          maxlength: 300
         }
       ],
       isChooseUser: false

@@ -24,6 +24,9 @@
         :searchFormConfig="searchFormConfig"
         @search="_mxDoSearch"
         :add="false"
+        :mxCol="6"
+        :lgCol="5"
+        :xlCol="4"
       ></Search>
       <slot name="btnOther"></slot>
       <el-table

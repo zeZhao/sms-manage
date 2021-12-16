@@ -160,6 +160,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corpId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           placeholder: "选择账户后自动识别",
@@ -227,17 +228,8 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: "blur"
-            },
-            {
-              pattern: /^\+?[1-9]\d*$/,
-              message: "请输入大于0的正整数",
-              trigger: "blur"
-            },
-            {
-              trigger: "change",
-              validator: validatorSign
+              validator: validatorSign,
+              trigger: "change"
             }
           ]
         },
@@ -357,8 +349,8 @@ export default {
       });
       this.addChannel = true;
       setTimeout(() => {
-        this.$refs.form.resetForm();
-      }, 0);
+        this.$refs.formItem.resetForm();
+      }, 100);
     },
     edit(row, ID) {
       // this.$router.push({
