@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData" max-height="500"
@@ -55,6 +56,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "sysPrepaidCard",
@@ -87,7 +89,8 @@ export default {
         {
           type: "month",
           label: "月份",
-          key: "remark"
+          key: "remark",
+          defaultValue: new Date().Format("yyyy-MM")
         }
         // {
         //   type: "select",
