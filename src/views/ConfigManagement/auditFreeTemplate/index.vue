@@ -66,7 +66,17 @@
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
         @choose="choose"
-      ></FormItem>
+        @getFormData="getFormData"
+      >
+        <div slot="Other">
+          <el-button
+            style="float: left; margin-left: 60%"
+            size="small"
+            @click="handleCheckTemplate"
+            >内容检测
+          </el-button>
+        </div>
+      </FormItem>
     </el-drawer>
     <!-- <el-dialog
       :title="formTit"
@@ -272,6 +282,31 @@ export default {
     this._mxGetList();
   },
   methods: {
+    handleCheckTemplate() {
+      this.$refs.formItem.renderFormData();
+    },
+    getFormData(formData) {
+      const { template, content } = formData;
+      if (!template) {
+        this.$message.warning("模板信息不能为空");
+        return;
+      }
+      if (!content) {
+        this.$message.warning("审核内容不能为空");
+        return;
+      }
+      this.$http.smsCheckTemplate
+        .checkTemplate({ template, content })
+        .then(res => {
+          if (res.code === 200) {
+            res.data
+              ? this.$message.success("模板匹配成功")
+              : this.$message.error("模板匹配失败");
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
+    },
     _mxCreate() {
       // this.$router.push({
       //   name: "auditFreeTemplateType",

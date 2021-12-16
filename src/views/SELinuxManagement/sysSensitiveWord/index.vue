@@ -293,11 +293,13 @@ export default {
   mounted() {
     //获取敏感词分组
     this.getGroupList();
+    this.listSensitiveWordGroup();
   },
   activated() {
     this.$nextTick(() => {
       this.getGroupList(); //获取敏感词分组
       this._mxGetList(); //获取列表敏感词
+      this.listSensitiveWordGroup();
       this.activeIndex = this.$route.query.activeIndex || 0;
     });
   },
@@ -569,6 +571,24 @@ export default {
         this.$refs.formItem.clearValidate();
       }, 0);
       this.addChannel = true;
+    },
+    //敏感词组
+    async listSensitiveWordGroup() {
+      await this.$http.sysSensitiveWordGroup
+        .listSensitiveWordGroup()
+        .then(res => {
+          if (res.code === 200) {
+            this._setDefaultValue(
+              this.formConfig,
+              res.data,
+              "groupIds",
+              "groupId",
+              "groupName"
+            );
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
     },
     _mxDeleteItem(wordId) {
       this.$confirm("删除后将不可找回，请谨慎操作", "您确定要删除敏感词吗？", {

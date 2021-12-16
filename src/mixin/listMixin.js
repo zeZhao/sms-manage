@@ -488,7 +488,7 @@ export default {
 
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, hasData && this.submitParamsIsData ? params.data : params);
         });
       } else {
         if (hasData && this.submitParamsIsData) {
@@ -504,7 +504,7 @@ export default {
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
         this.$http[namespace][edit](params).then(res => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, hasData && this.submitParamsIsData ? params.data : params);
         });
       }
     },
@@ -512,7 +512,7 @@ export default {
      * 提交成功后执行
      * @param res
      */
-    _mxSuccess(res) {
+    _mxSuccess(res, params) {
       if (resOk(res)) {
         //如果是页面新增、修改，则返回列表页
         if (this.isPage) {
