@@ -373,6 +373,8 @@ export default {
               confirmButtonText: "确定",
               callback: action => {
                 this.$message.success("添加成功");
+                this._mxGetList();
+                this.addChannel = false;
               }
             });
           } else {
@@ -547,6 +549,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
+      this.listSensitiveWordGroup();
     },
     edit(row, ID) {
       this.wordId = row.wordId;
@@ -570,6 +573,7 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
+      this.listSensitiveWordGroup();
       this.addChannel = true;
     },
     //敏感词组
