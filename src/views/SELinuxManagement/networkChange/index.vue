@@ -3,6 +3,7 @@
   <div class="networkChange">
     <Search
       :searchFormConfig="searchFormConfig"
+      isOther="true"
       @search="_mxDoSearch"
       @create="_mxCreate"
     >

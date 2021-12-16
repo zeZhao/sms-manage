@@ -233,13 +233,12 @@
             </el-form-item>
           </transition>
         </el-col>
-        <el-col :md="6" :lg="4" :xl="3">
+        <el-col :md="mxCol" :lg="lgCol" :xl="xlCol">
           <div class="btnStyle">
             <slot name="Btn">
               <el-button
                 type="primary"
                 @click="_mxHandleSubmit()"
-                style="margin-left: 15px"
                 size="small"
                 v-throttle
                 >查询</el-button
@@ -248,7 +247,7 @@
             </slot>
           </div>
         </el-col>
-        <el-col :span="8" v-show="$slots.Other">
+        <el-col :span="8" v-show="$slots.Other || isOther">
           <div class="btnStyle">
             <slot name="Other" :form="form"></slot>
           </div>
@@ -320,6 +319,10 @@ export default {
       type: Boolean,
       default: true
     },
+    isOther: {
+      type: Boolean,
+      default: false
+    },
     search: {
       type: Boolean,
       default: true
@@ -327,6 +330,18 @@ export default {
     reset: {
       type: Boolean,
       default: true
+    },
+    mxCol: {
+      type: Number,
+      default: 6
+    },
+    lgCol: {
+      type: Number,
+      default: 4
+    },
+    xlCol: {
+      type: Number,
+      default: 3
     },
     //默认进入该页面不查询
     notSearch: {

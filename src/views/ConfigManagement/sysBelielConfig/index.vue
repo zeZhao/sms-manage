@@ -208,6 +208,7 @@ export default {
           type: "input",
           label: "商户编号",
           key: "corporateId",
+          isShow: true,
           disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -215,8 +216,9 @@ export default {
         {
           type: "input",
           label: "客户特服号",
-          disabled: true,
           key: "code",
+          isShow: true,
+          disabled: true,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -242,6 +244,7 @@ export default {
           type: "input",
           label: "优化比例",
           key: "optimizePercent",
+          specialSymbols: "%",
           rules: [
             {
               required: true,
@@ -254,7 +257,8 @@ export default {
           type: "textarea",
           label: "不优化关键词",
           key: "noOptimizeTemplate",
-          placeholder: "多个关键词请用'|'隔开",
+          maxlength: 200,
+          placeholder: "请输入模板内容，多条内容请用英文“,”隔开",
           rules: [
             // { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -267,7 +271,8 @@ export default {
           type: "textarea",
           label: "优化关键词",
           key: "optimizeTemplate",
-          placeholder: "多个关键词请用'|'隔开",
+          maxlength: 200,
+          placeholder: "请输入模板内容，多条内容请用英文“,”隔开",
           rules: [
             // { required: true, message: "请输入必填项", trigger: "blur" },
             {
@@ -278,13 +283,13 @@ export default {
         },
         {
           type: "time",
-          label: "开始时间(时:分)",
+          label: "开始时间",
           key: "startTime"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "time",
-          label: "结束时间(时:分)",
+          label: "结束时间",
           key: "endTime"
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }

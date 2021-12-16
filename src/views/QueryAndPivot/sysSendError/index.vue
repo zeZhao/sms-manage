@@ -3,6 +3,7 @@
   <div class="sysSendError">
     <Search
       :searchFormConfig="searchFormConfig"
+      isOther="true"
       @search="_mxDoSearch"
       :add="false"
     >

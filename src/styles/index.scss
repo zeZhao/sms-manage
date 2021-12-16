@@ -213,3 +213,14 @@ aside {
 .headClass {
   background: rgba(0, 0, 0, 0.02);
 }
+/* 去除数字输入框小箭头 */
+/* chrome */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* 火狐浏览器 */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

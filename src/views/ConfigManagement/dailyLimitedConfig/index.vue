@@ -69,7 +69,16 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
-      ></FormItem>
+      >
+        <template slot="Other">
+          <p
+            style="padding-left: 60px; font-size: 13px; line-height: 1.5; color: #999"
+          >
+            规则：只要有相关通道的配置数据，该通道加载后则认为当前通道需要限量。配置了该设置的客户进行限量处理，超量后进入到14号通道形成超量的失败状态返回给客户。未进行配置走到当前通道的客户，则不进行限速处理。
+            如果想取消当前通道的限速逻辑，需要清理掉该通道的所有限速配置数据。
+          </p>
+        </template>
+      </FormItem>
     </el-drawer>
     <!-- <el-dialog
       :title="formTit"

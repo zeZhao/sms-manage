@@ -114,41 +114,41 @@ import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
   data() {
-    const validatorSign = (rule, value, callback) => {
-      let regex = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
-      if (value == "") {
-        callback(new Error("客户签名不能为空"));
-      } else {
-        if (!regex.test(value)) {
-          callback(new Error("输入2-8个字符，只能输入中文、英文、数字"));
-        } else {
-          callback();
-        }
-      }
-    };
+    // const validatorSign = (rule, value, callback) => {
+    //   let regex = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
+    //   if (value == "") {
+    //     callback(new Error("客户签名不能为空"));
+    //   } else {
+    //     if (!regex.test(value)) {
+    //       callback(new Error("输入2-8个字符，只能输入中文、英文、数字"));
+    //     } else {
+    //       callback();
+    //     }
+    //   }
+    // };
 
-    const validatorRemark = (rule, value, callback) => {
-      let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
-      if (value == "") {
-        callback();
-        // callback(new Error("备注信息不能为空"));
-      } else {
-        if (!regex.test(value)) {
-          callback(new Error("支持汉字/数字/字母/标点符号"));
-        } else {
-          callback();
-        }
-      }
-    };
+    // const validatorRemark = (rule, value, callback) => {
+    //   let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
+    //   if (value == "") {
+    //     callback();
+    //     // callback(new Error("备注信息不能为空"));
+    //   } else {
+    //     if (!regex.test(value)) {
+    //       callback(new Error("支持汉字/数字/字母/标点符号"));
+    //     } else {
+    //       callback();
+    //     }
+    //   }
+    // };
     const validatorCode = (rule, value, callback) => {
       if (value) {
-        if (/^\d{4}$/.test(value)) {
+        if (/^\d{1,12}$/.test(value)) {
           callback();
         } else {
-          callback(new Error("特服号仅支持4位数字"));
+          callback(new Error("通道特服号只能为正整数且最大长度为12位"));
         }
       } else {
-        callback(new Error("请输入必填项"));
+        callback();
       }
     };
     return {
@@ -261,8 +261,9 @@ export default {
           label: "通道特服号",
           key: "gwcode",
           defaultValue: "",
+          maxlength: "12",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: false, message: "请输入必填项", trigger: "blur" },
             { trigger: "blur", validator: validatorCode }
           ]
         },
@@ -272,17 +273,18 @@ export default {
           label: "账户签名",
           key: "sign",
           defaultValue: "",
+          maxlength: "100",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            { trigger: "blur", validator: validatorSign }
+            { required: true, message: "请输入必填项", trigger: "blur" }
+            // { trigger: "blur", validator: validatorSign }
           ]
         },
         {
           type: "textarea",
           label: "备注信息",
           key: "remark",
-          maxlength: "300",
-          rules: [{ trigger: "blur", validator: validatorRemark }]
+          maxlength: "300"
+          // rules: [{ trigger: "blur", validator: validatorRemark }]
         }
       ],
       routeId: "",
