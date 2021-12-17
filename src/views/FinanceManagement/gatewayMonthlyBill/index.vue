@@ -1,10 +1,11 @@
 <template>
-  <!--通道月账单（运营）-->
+  <!--通道月账单-->
   <div class="gatewayMonthlyBill">
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -37,11 +38,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "gatewayMonthlyBill",
@@ -66,7 +69,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
     };

@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -84,6 +85,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "smsCheck",
@@ -147,12 +149,14 @@ export default {
           type: "date",
           label: "审核日期",
           key: "checkDate",
-          placeholder: "审核日期"
+          placeholder: "审核日期",
+          defaultValue: new Date()
         },
         {
           type: "date",
           label: "提交日期",
-          key: "startTime"
+          key: "startTime",
+          defaultValue: new Date()
         }
       ]
     };
@@ -168,11 +172,11 @@ export default {
      * @private
      */
     _formatRequestData(data) {
+      if (data.checkDate) {
+        data.checkDate = new Date(data.checkDate).Format("yyyy-MM-dd");
+      }
       if (data.startTime) {
         data.startTime = new Date(data.startTime).Format("yyyy-MM-dd");
-      }
-      if (data.endTime) {
-        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
       return data;
     }

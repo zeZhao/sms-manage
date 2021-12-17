@@ -438,12 +438,15 @@ export default {
 
     initComponent() {
       const form = {};
+      const doubleValue = ["daterange", "datetime", "timerange"]; // 双值的type类型
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (type !== "daterange" && type !== "datetime") {
+          if (doubleValue.indexOf(type) === -1) {
+            // 单值
             form[key] = item.defaultValue;
           } else {
+            // 双值
             form[key[1]] = item.defaultValue[1];
             form[key[2]] = item.defaultValue[2];
           }

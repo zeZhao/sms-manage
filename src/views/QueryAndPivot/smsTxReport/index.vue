@@ -49,7 +49,11 @@
           <span>{{ scope.row.sendTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="platformTaking" label="平台耗时:秒" />
+      <el-table-column
+        prop="platformTaking"
+        label="平台耗时:秒"
+        min-width="100"
+      />
       <el-table-column prop="seqId" label="SEQID" />
       <el-table-column prop="cid" label="CID" />
     </el-table>
@@ -140,13 +144,19 @@ export default {
         {
           type: "timerange",
           label: "发送时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: [
+            "",
+            new Date(2021, 12, 16, 0, 0, 0),
+            new Date(2021, 12, 16, 23, 59, 59)
+          ]
         },
         {
           type: "date",
           label: "发送日期",
           key: "sendTime",
-          placeholder: "发送日期"
+          placeholder: "发送日期",
+          defaultValue: new Date()
         }
       ]
     };

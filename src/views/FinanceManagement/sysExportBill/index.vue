@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <h3>按照筛选条件导出多月账单</h3>
     <el-row>
@@ -114,6 +115,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       searchData: {
         userId: "",
         gateway: "",

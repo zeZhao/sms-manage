@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -48,10 +49,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "sysAlarmMessage",
@@ -113,7 +117,8 @@ export default {
         {
           type: "date",
           label: "发生时间",
-          key: "occurTime"
+          key: "occurTime",
+          defaultValue: getDateToString()
         }
       ]
     };

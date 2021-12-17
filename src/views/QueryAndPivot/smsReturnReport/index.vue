@@ -123,12 +123,14 @@ export default {
           type: "date",
           label: "返回日期",
           key: "returnTime",
-          placeholder: "返回日期"
+          placeholder: "返回日期",
+          defaultValue: new Date()
         },
         {
           type: "timerange",
           label: "返回报告时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(2021, 12, 16, 0, 0, 0), new Date(2021, 12, 16, 23, 59, 59)]
         }
         // {
         //   type: "select",

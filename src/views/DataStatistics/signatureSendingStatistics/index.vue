@@ -6,6 +6,7 @@
       @search="_mxDoSearch"
       @exportData="exportData"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="exportExe"
@@ -60,10 +61,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "reports",
@@ -123,7 +127,8 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       //请求表格下方展示数据的接口凭证

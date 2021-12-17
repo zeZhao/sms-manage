@@ -36,6 +36,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
