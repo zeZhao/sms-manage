@@ -7,6 +7,7 @@
       @search="_mxDoSearch"
       :add="false"
       @exportData="exportData"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button
@@ -93,10 +94,12 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       formTit: "新增",
       addChannel: false,
       // 接口地址
@@ -143,7 +146,8 @@ export default {
         {
           type: "daterange",
           label: "定时时间",
-          key: ["", "sendStartTime", "sendEndTime"]
+          key: ["", "sendStartTime", "sendEndTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       // 表单配置

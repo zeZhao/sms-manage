@@ -6,6 +6,7 @@
       @search="_mxDoSearch"
       @exportData="exportData"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" @click="exportExe" style="margin-left: 15px"
@@ -57,11 +58,11 @@
       <el-table-column prop="stProfit" label="利润(元)" />
     </el-table>
     <p style="color: red">
-      总消耗条数:{{ obj.succcAll }}&nbsp;&nbsp;总收入款(元):{{
-        obj.shouRuAll
-      }}&nbsp;&nbsp;总成本款(元):{{ obj.chengBenAll }}&nbsp;&nbsp;总利润(元):{{
-        obj.profitAll
-      }}
+      总消耗条数:{{ obj.succcAll || 0 }}&nbsp;&nbsp;总收入款(元):{{
+        obj.shouRuAll || 0
+      }}&nbsp;&nbsp;总成本款(元):{{
+        obj.chengBenAll || 0
+      }}&nbsp;&nbsp;总利润(元):{{ obj.profitAll || 0 }}
     </p>
     <Page
       :pageObj="pageObj"
@@ -77,6 +78,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "smsProfit",
@@ -133,7 +135,12 @@ export default {
         {
           type: "daterange",
           label: "日期",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: [
+            "",
+            new Date().Format("yyyy-MM-dd"),
+            new Date().Format("yyyy-MM-dd")
+          ]
         }
       ],
       obj: {}

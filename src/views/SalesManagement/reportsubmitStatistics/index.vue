@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -61,11 +62,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "reportsubmitStatistics",
@@ -149,7 +152,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"]
+          key: ["", "countDate", "endDate"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       total: {
@@ -162,11 +166,11 @@ export default {
     };
   },
   mounted() {
-    this.saleSubmitStatistics();
+    // this.saleSubmitStatistics();
     this.getSaleman();
   },
   activated() {
-    this.saleSubmitStatistics();
+    // this.saleSubmitStatistics();
     this.getSaleman();
   },
   methods: {

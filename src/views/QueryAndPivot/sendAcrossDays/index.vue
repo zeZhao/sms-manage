@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -74,10 +75,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "sendAcrossDays",
@@ -125,7 +129,8 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
     };

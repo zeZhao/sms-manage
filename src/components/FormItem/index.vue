@@ -130,6 +130,7 @@
                 filterable
                 :clearable="item.clearable || true"
                 :multiple="item.multiple"
+                :collapse-tags="item.collapseTags"
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="

@@ -105,15 +105,10 @@ export default {
   mixins: [listMixin],
   data() {
     const validatorSign = (rule, value, callback) => {
-      if (value === "") {
-        callback();
-      } else {
-        if (value > 10) {
-          callback(new Error("不能大于10"));
-        } else {
-          callback();
-        }
-      }
+      if (!value) callback(new Error("请输入必填项"));
+      if (!/^\+?[1-9]\d*$/.test(value))
+        callback(new Error("请输入大于0的正整数"));
+      callback();
     };
     return {
       formTit: "新增",

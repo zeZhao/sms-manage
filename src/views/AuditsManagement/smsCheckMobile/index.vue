@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -60,6 +61,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "smsCheckMobile",
@@ -87,7 +89,8 @@ export default {
           type: "date",
           label: "提交日期",
           key: "createTime",
-          placeholder: "请选择提交日期"
+          placeholder: "请选择提交日期",
+          defaultValue: new Date().Format("yyyy-MM-dd")
         }
       ]
     };

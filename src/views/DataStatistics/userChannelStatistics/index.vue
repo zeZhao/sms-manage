@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -27,7 +28,7 @@
       <el-table-column prop="succcount" label="成功条数" />
       <el-table-column prop="share" label="占比" />
     </el-table>
-    <p style="color: red">总条数: {{ statistics }}</p>
+    <p style="color: red">总条数: {{ statistics || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -43,6 +44,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "userChannelStatistics",
@@ -91,14 +93,15 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(), new Date()]
         }
       ],
       statistics: 0
     };
   },
   mounted() {
-    this.queryChannelSuccNum(this.searchParam);
+    // this.queryChannelSuccNum(this.searchParam);
   },
   computed: {},
   methods: {

@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
@@ -54,6 +55,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "sysAlarmMessage",
@@ -116,7 +118,8 @@ export default {
         {
           type: "daterange",
           label: "时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(), new Date()]
         }
       ]
     };
