@@ -6,50 +6,33 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
+
     <el-table
       :data="listData"
-      max-height="500"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column
-        prop="userName"
-        label="账户名称"
-        width="100"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="userName" label="账户名称" />
       <!-- <el-table-column
         prop="loginName"
         label="登录账号"
         width="100"
-        show-overflow-tooltip
+        
       /> -->
-      <el-table-column
-        prop="agentName"
-        label="代理商"
-        width="100"
-        show-overflow-tooltip
-      />
-      <el-table-column
-        prop="saleName"
-        label="销售员"
-        width="100"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="agentName" label="代理商" />
+      <el-table-column prop="saleName" label="销售员" />
       <!-- <el-table-column
         prop="password"
         label="密码"
         width="100"
-        show-overflow-tooltip
+        
       /> -->
-      <el-table-column prop="code" label="特服号" show-overflow-tooltip />
-      <el-table-column
-        prop="accountType"
-        label="业务类型"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="code" label="特服号" />
+      <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
           <span>{{
             scope.row.accountType == "1"
@@ -63,8 +46,7 @@
       <!-- <el-table-column
         prop="reductType"
         label="计费类型"
-        width="100"
-        show-overflow-tooltip
+        
       >
         <template slot-scope="scope">
           <span>{{
@@ -72,16 +54,13 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sublong" label="扩展长度" show-overflow-tooltip>
-        <template slot-scope="{row}">{{ row.sublong !== 0 ? row.sublong : "不扩展" }}</template>
+      <el-table-column prop="sublong" label="扩展长度">
+        <template slot-scope="{ row }">{{
+          row.sublong !== 0 ? row.sublong : "不扩展"
+        }}</template>
       </el-table-column>
-      <el-table-column
-        prop="longCode"
-        label="长号码"
-        min-width="130"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="productType" label="产品" min-width="120">
+      <el-table-column prop="longCode" label="长号码" />
+      <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
           <span>{{
             scope.row.productType == "1"
@@ -94,12 +73,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="sendType"
-        label="短信运营商"
-        width="100"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="sendType" label="短信运营商">
         <template slot-scope="scope">
           <span v-if="scope.row.sendType === 1">移动</span>
           <span v-else-if="scope.row.sendType === 2">联通</span>
@@ -111,12 +85,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="proTypes"
-        label="短信产品类型"
-        min-width="130"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="proTypes" label="短信产品类型">
         <template slot-scope="scope">
           <span v-for="(item, index) in scope.row.proTypes" :key="index">
             {{
@@ -131,12 +100,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="reductModel"
-        label="短信计费方式"
-        width="110"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="reductModel" label="短信计费方式">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -154,21 +118,11 @@
       <!-- <el-table-column
         prop="smsBalance"
         label="短信余额"
-        show-overflow-tooltip
+        
       /> -->
-      <!-- <el-table-column prop="debt" label="借款" show-overflow-tooltip /> -->
-      <el-table-column
-        prop="cardUnit"
-        label="单价（分）"
-        width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column
-        prop="mmsSendType"
-        label="彩信运营商"
-        width="100"
-        show-overflow-tooltip
-      >
+      <!-- <el-table-column prop="debt" label="借款"  /> -->
+      <el-table-column prop="cardUnit" label="单价（分）"></el-table-column>
+      <el-table-column prop="mmsSendType" label="彩信运营商">
         <template slot-scope="scope">
           <span v-if="scope.row.mmsSendType === 1">移动</span>
           <span v-else-if="scope.row.mmsSendType === 2">联通</span>
@@ -183,8 +137,7 @@
       <!-- <el-table-column
         prop="mmsProType"
         label="彩信产品类型"
-        min-width="130"
-        show-overflow-tooltip
+        
       >
         <template slot-scope="scope">
           <span v-for="(item, index) in scope.row.mmsProTypes" :key="index">
@@ -200,12 +153,7 @@
           </span>
         </template>
       </el-table-column> -->
-      <el-table-column
-        prop="mmsReductModel"
-        label="彩信计费方式"
-        width="110"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="mmsReductModel" label="彩信计费方式">
         <template slot-scope="scope">
           <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
           <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
@@ -218,31 +166,16 @@
       <!-- <el-table-column
         prop="mmsBalance"
         label="彩信余额"
-        show-overflow-tooltip
+        
       />
-      <el-table-column prop="mmsDebt" label="借款" show-overflow-tooltip /> -->
-      <el-table-column
-        prop="mmsCardUnit"
-        label="单价（分）"
-        width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column
-        prop="submitSpeed"
-        label="提交速率"
-        width="100"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="mmsDebt" label="借款"  /> -->
+      <el-table-column prop="mmsCardUnit" label="单价（分）"></el-table-column>
+      <el-table-column prop="submitSpeed" label="提交速率">
         <template slot-scope="{ row }">{{
           row.submitSpeed ? row.submitSpeed : "不限"
         }}</template>
       </el-table-column>
-      <el-table-column
-        prop="smsTags"
-        label="标签"
-        min-width="120"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="smsTags" label="标签">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -252,13 +185,8 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="roleName"
-        label="角色"
-        min-width="100"
-        show-overflow-tooltip
-      ></el-table-column>
-      <el-table-column prop="status" label="状态" show-overflow-tooltip>
+      <el-table-column prop="roleName" label="角色"></el-table-column>
+      <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{
             scope.row.status == "0"
@@ -271,18 +199,8 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="createUser"
-        label="创建人"
-        width="150"
-        show-overflow-tooltip
-      />
-      <el-table-column
-        prop="createTime"
-        label="创建时间"
-        width="150"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="createUser" label="创建人" />
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -290,8 +208,7 @@
       <!-- <el-table-column
         prop="modifyTime"
         label="修改时间"
-        width="150"
-        show-overflow-tooltip
+        
       >
         <template slot-scope="scope">{{
           scope.row.modifyTime | timeFormat
@@ -355,11 +272,51 @@
         </template>
       </el-table-column>
     </el-table>
+
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
+
+    <!-- 新增修改用户 -->
+    <el-drawer
+      :title="formTit"
+      :visible.sync="addChannel"
+      :close-on-press-escape="false"
+      :wrapperClosable="false"
+    >
+      <!-- <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+        @selectChange="selectChange"
+        @onChange="onChange"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
+      ></FormItem> -->
+      <h3>{{ titleTips }}</h3>
+      <FormItemTitle
+        class="userManagementType"
+        :colSpan="12"
+        labelWidth="auto"
+        labelPosition="top"
+        ref="formItemTit"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="_mxHandleSubmit"
+        @cancel="_mxCancel"
+        @selectChange="selectChange"
+        @removeTag="removeTag"
+      >
+      </FormItemTitle>
+    </el-drawer>
 
     <el-dialog
       :title="dialogTit"
@@ -375,23 +332,6 @@
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateStatus">确 定</el-button>
       </span>
-    </el-dialog>
-    <el-dialog
-      :title="tagStatusTitle"
-      :visible.sync="tagStatus"
-      :close-on-click-modal="false"
-      top="45px"
-      width="30%"
-    >
-      <FormItem
-        :colSpan="24"
-        :labelWidth="50"
-        ref="formItem"
-        :formConfig="tagsData"
-        btnTxt="确定"
-        @submit="submitTags"
-        @cancel="tagStatus = false"
-      ></FormItem>
     </el-dialog>
     <el-dialog
       :title="tagStatusTitle"
@@ -545,6 +485,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
+import { isPassword } from "@/utils";
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -557,10 +498,30 @@ export default {
       }
     };
     const validCode = (rule, value, callback) => {
-      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
-        callback(new Error("请输入4位特服号"));
+      if (value && !/^\d{1,12}$/.test(value)) {
+        callback(new Error("特服号只能为正整数且最大长度为12位"));
       } else {
         callback();
+      }
+    };
+    const validMobile = (rule, value, callback) => {
+      console.log(this.type, "------------type");
+      if (this.type === "create") {
+        if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+          callback(new Error("手机号码格式错误"));
+        } else {
+          callback();
+        }
+      } else {
+        if (value.indexOf("*") === -1) {
+          if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        } else {
+          callback();
+        }
       }
     };
     return {
@@ -762,7 +723,635 @@ export default {
             trigger: ["blur", "change"]
           }
         ]
-      }
+      },
+      // 表单配置
+      formConfig: [
+        {
+          isTitle: true,
+          title: "账户信息",
+          colSpan: 24
+        },
+        {
+          type: "select",
+          label: "所在商户",
+          key: "corpId",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "账户名称",
+          key: "userName",
+          maxlength: "20",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
+              message: "不支持特殊字符",
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "登录账号",
+          key: "loginName",
+          maxlength: "20",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              min: 6,
+              max: 20,
+              message: "长度在 6 到 20 个字符",
+              trigger: "blur"
+            },
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (/\p{Unified_Ideograph}/u.test(value)) {
+                  callback(new Error("不支持汉字"));
+                }
+                if (
+                  !/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(
+                    value
+                  )
+                ) {
+                  callback(new Error("不支持特殊字符"));
+                }
+                callback();
+              }
+            }
+          ]
+        },
+        {
+          type: "password",
+          label: "密码",
+          key: "password",
+          maxlength: "18",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(
+                      new Error(
+                        "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                      )
+                    );
+                  } else {
+                    callback();
+                  }
+                } else {
+                  callback(new Error("请输入必填项"));
+                }
+              }
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code",
+          maxlength: "12",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              validator: validCode,
+              trigger: "change"
+            }
+          ]
+        },
+
+        {
+          type: "select",
+          label: "计费类型",
+          key: "reductType",
+          initDefaultValue: 1,
+          defaultValue: 1,
+          optionData: [
+            { key: 1, value: "账户计费" }
+            // { key: 2, value: "商户id计费" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "联系人姓名",
+          key: "contact",
+          defaultValue: "",
+          maxlength: "20",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "联系人电话",
+          key: "mobile",
+          defaultValue: "",
+          maxlength: 11,
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              validator: this.$isPhone,
+              trigger: "change"
+            }
+          ]
+          //   {
+          //     ///^[\d0-9a-zA-Z!@#$%^&*~]{8,16}$/
+          //     pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+          //     message: "手机号码格式错误",
+          //     trigger: "change"
+          //   }
+          // ]
+        },
+        {
+          type: "select",
+          label: "是否直客",
+          key: "isDirectUser",
+          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "同行" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "业务类型",
+          key: "accountType",
+          optionData: [
+            { key: 1, value: "行业" },
+            { key: 2, value: "营销" },
+            { key: 3, value: "VIP" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "代理商",
+          key: "agentId",
+          optionData: []
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "客户IP地址",
+          key: "userIp",
+          defaultValue: ""
+        },
+        {
+          type: "select",
+          label: "角色",
+          key: "roleId",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "产品",
+          key: "productType",
+          multiple: true,
+          clearable: true,
+          defaultValue: [],
+          initDefaultValue: [],
+          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "销售员",
+          key: "saleMan",
+          optionData: [],
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
+        },
+        {
+          type: "times",
+          label: "发送时间",
+          key: "times",
+          defaultValue: "",
+          optionData: []
+        },
+        {
+          isTitle: true,
+          title: "短信业务信息",
+          colSpan: 24,
+          tag: "sms"
+        },
+        {
+          type: "select",
+          label: "运营商",
+          key: "sendType",
+          optionData: [
+            { key: 1, value: "移动" },
+            { key: 2, value: "联通" },
+            { key: 3, value: "电信" },
+            { key: 4, value: "三网" },
+            { key: 5, value: "移动联通" },
+            { key: 6, value: "移动电信" },
+            { key: 7, value: "联通电信" }
+          ],
+          tag: "sms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "产品类型",
+          key: "proType",
+          // multiple: true,
+          disabled: this.formTit === "修改",
+          // clearable: true,
+          defaultValue: [],
+          initDefaultValue: [],
+          optionData: [
+            { key: 1, value: "web端" },
+            { key: 2, value: "http接口" },
+            { key: 4, value: "cmpp接口" }
+            // { key: 7, value: "音频接口" }
+          ],
+          tag: "sms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "计费方式",
+          key: "reductModel",
+          optionData: [
+            { key: 1, value: "预付提交计费" },
+            { key: 2, value: "预付成功计费" },
+            { key: 3, value: "后付提交计费" },
+            { key: 4, value: "后付成功计费" }
+          ],
+          tag: "sms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "返还类型",
+          key: "returnBalance",
+          isShow: true,
+          optionData: [
+            { key: "0", value: "不返还" },
+            { key: 1, value: "返失败" },
+            { key: 2, value: "返失败和未知" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "短信单价",
+          key: "cardUnit",
+          tag: "sms",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change"
+            },
+            {
+              validator: validatorPrice,
+              message: "正整数不能超过3位数",
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "扩展长度",
+          key: "sublong",
+          initDefaultValue: "0",
+          defaultValue: "0",
+          tag: "sms",
+          maxlength: 2,
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[0-9]\d*$/,
+              message: "只能输入正整数",
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "协议端口",
+          key: "directPort",
+          defaultValue: "",
+          tag: "sms",
+          disabled: true,
+          placeholder: "无"
+        },
+        {
+          type: "select",
+          label: "上行类型",
+          key: "moType",
+          optionData: [
+            { key: "0", value: "无权限" },
+            { key: 1, value: "推送" },
+            { key: 2, value: "自取(批量)" }
+          ],
+          tag: "sms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "推送上行地址",
+          key: "moUrl",
+          maxlength: "250",
+          tag: "sms",
+          defaultValue: ""
+        },
+        {
+          type: "select",
+          label: "强加签名",
+          key: "httpSign",
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
+          defaultValue: 1,
+          tag: "sms",
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "状态报告类型",
+          key: "reportType",
+          optionData: [
+            { key: "0", value: "无权限" },
+            { key: 1, value: "推送" },
+            { key: 2, value: "自取(批量)" },
+            { key: 3, value: "自取(单条)" }
+          ],
+          tag: "sms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "推送报告地址",
+          key: "reportUrl",
+          maxlength: "250",
+          tag: "sms",
+          defaultValue: ""
+        },
+        {
+          type: "input",
+          label: "失败比例",
+          key: "faToSu",
+          tag: "sms",
+          maxlength: "7"
+          // specialSymbols: "%",
+          // rules: [
+          //   {
+          //     required: false,
+          //     trigger: "blur",
+          //     validator: (rule, value, callback) => {
+          //       if (!value) callback();
+          //       if (isNaN(value)) callback(new Error('只能输入数值'));
+          //       if (value && (value + '').indexOf('.') !== -1) callback(new Error('只能输入正整数'));
+          //       if (value < 1 || value > 99) callback(new Error('只能在1 ~ 99以内'));
+          //       callback();
+          //     }
+          //   }
+          // ]
+        },
+        {
+          type: "input",
+          label: "长号码",
+          key: "longCode",
+          tag: "sms",
+          maxlength: 12,
+          rules: [
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "change"
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "外部黑名单",
+          key: "isPostApi",
+          initDefaultValue: "0",
+          defaultValue: "0",
+          tag: "sms",
+          optionData: [
+            { key: "0", value: "无" },
+            { key: 1, value: "冬云" },
+            { key: 2, value: "棱镜" }
+          ]
+        },
+        {
+          type: "input",
+          label: "链接路数",
+          key: "maxSession",
+          isShow: true,
+          maxlength: 2,
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[1-9]\d*$/,
+              message: "只能输入大于0的正整数",
+              trigger: "blur"
+            }
+          ]
+        },
+        {
+          type: "checkbox",
+          label: "黑名单",
+          key: "blackLevel",
+          initDefaultValue: [2],
+          defaultValue: [2],
+          optionData: [
+            // { key: 0, value: "系统级" },
+            // { key: 2, value: "用户级" },
+            // { key: 3, value: "营销级" },
+            // { key: 4, value: "BSATS级" }
+          ],
+          tag: "sms"
+        },
+        {
+          isTitle: true,
+          title: "彩信业务信息",
+          colSpan: 24,
+          tag: "mms"
+        },
+        {
+          type: "select",
+          label: "运营商",
+          key: "mmsSendType",
+          optionData: [
+            { key: 1, value: "移动" },
+            { key: 2, value: "联通" },
+            { key: 3, value: "电信" },
+            { key: 4, value: "三网" },
+            { key: 5, value: "移动联通" },
+            { key: 6, value: "移动电信" },
+            { key: 7, value: "联通电信" }
+          ],
+          tag: "mms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        // {
+        //   type: "select",
+        //   label: "产品类型",
+        //   key: "mmsProType",
+        //   multiple: true,
+        //   clearable: true,
+        //   disabled: false,
+        //   optionData: [
+        //     { key: 1, value: "web端" }
+        //     // { key: 2, value: "http接口" },
+        //     // { key: 4, value: "cmpp接口" }
+        //     // { key: 7, value: "音频接口" }
+        //   ],
+        //   tag: "mms",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        {
+          type: "select",
+          label: "计费方式",
+          key: "mmsReductModel",
+          optionData: [
+            { key: 1, value: "预付提交计费" },
+            { key: 2, value: "预付成功计费" },
+            { key: 3, value: "后付提交计费" },
+            { key: 4, value: "后付成功计费" }
+          ],
+          tag: "mms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
+          label: "返还类型",
+          key: "mmsReturnBalance",
+          isShow: true,
+          optionData: [
+            { key: "0", value: "不返还" },
+            { key: 1, value: "返失败" },
+            { key: 2, value: "返失败和未知" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "彩信单价",
+          key: "mmsCardUnit",
+          tag: "mms",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: "输入大于0的数，小数点保留2位",
+              trigger: "change"
+            },
+            {
+              validator: validatorPrice,
+              message: "正整数不能超过3位数",
+              trigger: "change"
+            }
+          ]
+        },
+        // {
+        //   type: "select",
+        //   label: "彩信上行类型",
+        //   key: "mmsMoType",
+        //   tag: "mms",
+        //   optionData: [
+        //     { key: "0", value: "无权限" },
+        //     { key: 1, value: "推送" },
+        //     { key: 2, value: "自取(批量)" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "彩信推送上行地址",
+        //   key: "mmsMoUrl",
+        //   tag: "mms",
+        //   defaultValue: ""
+        // },
+        // {
+        //   type: "select",
+        //   label: "彩信报告类型",
+        //   key: "mmsReportType",
+        //   tag: "mms",
+        //   optionData: [
+        //     { key: "0", value: "无权限" },
+        //     { key: 1, value: "推送" },
+        //     { key: 2, value: "自取(批量)" },
+        //     { key: 3, value: "自取(单条)" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "彩信推送报告地址",
+        //   key: "mmsReportUrl",
+        //   tag: "mms",
+        //   defaultValue: ""
+        // },
+        {
+          type: "checkbox",
+          label: "黑名单",
+          initDefaultValue: [],
+          defaultValue: [],
+          key: "mmsBlackLevel",
+          tag: "mms",
+          optionData: [
+            { key: 0, value: "系统级" },
+            { key: 2, value: "账户级" }
+            // { key: 3, value: "营销级" },
+            // { key: 4, value: "BSATS级" }
+          ]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        }
+        // {
+        //   isTitle: true,
+        //   title: "服务信息",
+        //   colSpan: 24
+        // },
+        // {
+        //   type: "textarea",
+        //   label: "备注",
+        //   key: "remark"
+        // }
+
+        // {
+        //   type: "select",
+        //   label: "产品",
+        //   key: "productType",
+        //   optionData: [
+        //     { key: 1, value: "短信" },
+        //     // { key: 2, value: "彩信" },
+        //     { key: 3, value: "屏信" },
+        //     { key: 4, value: "语音" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+
+        // {
+        //   type: "input",
+        //   label: "彩信单价",
+        //   key: "mmsCardUnit",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+
+        // {
+        //   type: "input",
+        //   label: "备份IP",
+        //   key: "userIpBak",
+        //   defaultValue: ""
+        // },
+
+        // {
+        //   type: "select",
+        //   label: "优化类型",
+        //   key: "deductType",
+        //   optionData: [
+        //     { key: 1, value: "正常" },
+        //     { key: 2, value: "对比库" },
+        //   ],
+        //   rules: [{ required: true, message: "请选择必填项", trigger: "blur" }],
+        // },
+      ],
+      // 新增展示上一账户编号和修改展示当前账户编号
+      titleTips: ""
     };
   },
   mounted() {
@@ -771,6 +1360,7 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
+    this.getUserId();
   },
   activated() {
     //重新获取数据
@@ -780,9 +1370,198 @@ export default {
     this.getRole();
     this.listTag();
     this._mxGetList();
+    this.getUserId();
   },
-  computed: {},
+  computed: {
+    renderTitle() {
+      return `${this.formTit}账户`;
+    }
+  },
   methods: {
+    // 获取账户编号
+    getUserId(data) {
+      this.titleTips = ""; // 重置
+      if (this.formTit === "新增") {
+        this.$http.corpUser.getLasttUserId().then(res => {
+          this.titleTips = `（上一个账户编号为：${res.data}）`;
+        });
+      } else {
+        this.titleTips = `（账户编号为：${data.userId}）`;
+      }
+    },
+    disabledProType() {
+      const idx = this.formConfig.findIndex(v => v.key === "proType");
+      this.formConfig[idx].disabled = true;
+    },
+    //多选移除操作
+    removeTag({ val, item }) {
+      if (this.formTit == "修改") {
+        this.formConfig.forEach(el => {
+          if (item.key === "productType" && el.key === item.key) {
+            if (this.currentEditFormData.productType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.productType;
+              this.$message.error("不可修改！");
+              this.selectChange({ val: [val], item });
+              this.editFormConfigHandle(this.currentEditFormData);
+            }
+          }
+          if (item.key === "mmsProType" && el.key === item.key) {
+            if (this.currentEditFormData.mmsProType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.mmsProType;
+              this.$message.error("不可修改！");
+            }
+          }
+          if (item.key === "proType" && el.key === item.key) {
+            if (this.currentEditFormData.proType.includes(val)) {
+              el.defaultValue = this.currentEditFormData.proType;
+              this.$message.error("不可修改！");
+            }
+          }
+        });
+      }
+    },
+    selectChange(data) {
+      const { val, item } = data;
+      if (item.key === "productType") {
+        if (val && val.length != 0) {
+          //根据产品的选择动态显示表单及数据处理
+          if (val.includes(1) && val.includes(2)) {
+            this._setTagDisplayShow(this.formConfig, "sms", false);
+            this._setTagDisplayShow(this.formConfig, "mms", false);
+          } else if (val.includes(1)) {
+            this._setTagDisplayShow(this.formConfig, "sms", false);
+            this._setTagDisplayShow(this.formConfig, "mms", true);
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "mms");
+          } else if (val.includes(2)) {
+            this._setTagDisplayShow(this.formConfig, "mms", false);
+            this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setDisplayShow(this.formConfig, "returnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "sms");
+          }
+        } else {
+          this._setTagDisplayShow(this.formConfig, "sms", true);
+          this._setTagDisplayShow(this.formConfig, "mms", true);
+          this._deleteDefaultValue(this.formConfig, "mms");
+          this._deleteDefaultValue(this.formConfig, "sms");
+        }
+      }
+      if (item.key === "reductModel") {
+        //计费方式切换为：预付成功计费时，返还类型显示
+        if (val === 2) {
+          this._setDisplayShow(this.formConfig, "returnBalance", false);
+        } else {
+          this._setDisplayShow(this.formConfig, "returnBalance", true);
+        }
+      }
+      if (item.key === "mmsReductModel") {
+        //计费方式切换为：预付成功计费时，返还类型显示
+        this.$nextTick(() => {
+          if (item.defaultValue === 2) {
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", false);
+          } else {
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+          }
+        });
+      }
+      if (item.key === "proType") {
+        if (val === 1) {
+          this._setDefaultValueKeys("directPort", "无");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
+        } else if (val === 2) {
+          this._setDefaultValueKeys("directPort", "8090");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
+        } else if (val === 3) {
+          this._setDefaultValueKeys("directPort", "7890");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", true);
+        } else {
+          this._setDefaultValueKeys("directPort", "");
+          //cmpp设置
+          this._setDisplayShow(this.formConfig, "maxSession", false);
+          this._setDefaultValueKeys("maxSession", "1");
+        }
+      }
+    },
+    /**
+     * 关闭弹窗
+     */
+    _mxCancel() {
+      this.addChannel = false;
+      setTimeout(() => {
+        this.$refs.formItemTit.resetForm();
+      }, 0);
+    },
+    /**
+     * 提交表单操作
+     * @param form    表单数据
+     * @param editId        编辑修改id
+     * @private
+     */
+    _mxHandleSubmit(form = {}, editId = this.editId) {
+      form = this._mxArrangeSubmitData(form);
+      const { namespace, add, edit, check } = this.searchAPI;
+      let params = {
+        ...form
+      };
+      params.startTime = params.times ? params.times[0] : "";
+      params.endTime = params.times ? params.times[1] : "";
+
+      if (this.formTit == "新增") {
+        this.$http[namespace][add](params).then(res => {
+          this._mxSuccess(res, params);
+          // 添加完成后去除再次点击新建页面保留上次新建的页面数据
+          this.createEnd = true;
+        });
+      } else if (this.formTit == "修改") {
+        params = Object.assign(params, {
+          [editId]: this.id
+        });
+        this.$http[namespace][edit](params).then(res => {
+          this._mxSuccess(res, params);
+        });
+      } else if (this.formTit == "审核") {
+        params = Object.assign(params, {
+          [editId]: this.id,
+          status: "2"
+        });
+        // params.data[editId] = this.id
+        // this.$set(params.data, editId, this.id)
+        this.$http[namespace][check](params).then(res => {
+          this._mxSuccess(res, params);
+        });
+      }
+    },
+
+    //提交表单前调整表单内数据
+    _mxArrangeSubmitData(formData) {
+      let form = Object.assign({}, formData);
+      for (let key in form) {
+        if (key === "blackLevel" || key === "mmsBlackLevel") {
+          form[key] = form[key].join(",");
+        }
+        if (
+          key === "productType" ||
+          key === "mmsProType"
+          // key === "proType"
+        ) {
+          if (
+            form[key] &&
+            form[key].length != 0 &&
+            typeof form[key] !== "string"
+          ) {
+            form[key] = form[key].reduce(function(prev, curr) {
+              return prev + curr;
+            });
+          } else {
+            form[key] = null;
+          }
+        }
+      }
+      return form;
+    },
     isOpenDialog() {
       this.loginVisible = true;
     },
@@ -818,10 +1597,73 @@ export default {
       }
     },
     _mxCreate() {
-      this.$router.push({
-        name: "userManagementType",
-        query: { type: "create" }
+      // this.$router.push({
+      //   name: "userManagementType",
+      //   query: { type: "create" }
+      // });
+      this.addChannel = true;
+      this.formTit = "新增";
+      let arr = [
+        { required: true, message: "请输入必填项", trigger: "blur" },
+        {
+          trigger: "blur",
+          validator: (rule, value, callback) => {
+            if (value) {
+              if (!isPassword(value)) {
+                callback(
+                  new Error(
+                    "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                  )
+                );
+              } else {
+                callback();
+              }
+            } else {
+              callback(new Error("请输入必填项"));
+            }
+          }
+        }
+      ];
+      this.formConfig.forEach(item => {
+        if (item.key === "password") {
+          item.rules = arr;
+        }
+        if (
+          item.key === "productType" ||
+          item.key === "mmsProType" ||
+          item.key === "proType"
+        ) {
+          item.optionData.forEach(el => {
+            this.$set(el, "disabled", false);
+          });
+        }
+        if (item.key == "proType") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "reductModel") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.key == "mmsReductModel") {
+          this.$set(item, "disabled", false);
+        }
+        if (item.tag === "sms" || item.tag === "mms") {
+          item.isShow = true;
+        }
+        if (item.key === "loginName") {
+          item.disabled = false;
+        }
       });
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
+      this.getUserId();
+      setTimeout(() => {
+        this.$refs.formItemTit.resetForm();
+      }, 0);
     },
     //编辑对返回数据进行调整
     _mxArrangeEditData(row) {
@@ -837,9 +1679,9 @@ export default {
             row[key] = [];
           }
         }
-        if (key === "proType") {
-          row["proType"] = row["proTypes"];
-        }
+        // if (key === "proType") {
+        //   row["proType"] = row["proTypes"];
+        // }
         if (key === "mmsProType") {
           row["mmsProType"] = row["mmsProTypes"];
         }
@@ -853,10 +1695,199 @@ export default {
 
     //修改
     _mxEdit(row, ID) {
-      this.$router.push({
-        name: "userManagementType",
-        query: { type: "update", row: JSON.stringify(row), ID }
+      // this.$router.push({
+      //   name: "userManagementType",
+      //   query: { type: "update", row: JSON.stringify(row), ID }
+      // });
+      this.currentEditFormData = {};
+      let lineData = this.$deepClone(row);
+      lineData = this._mxArrangeEditData(lineData);
+      this.id = lineData[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.editFormConfigHandle(lineData);
+      setTimeout(() => {
+        this.$refs.formItemTit.clearValidate();
+      }, 0);
+      this.getAllCorp();
+      this.getRole();
+      this.getAgent();
+      this.getSaleman();
+      this.disabledProType();
+      this.getUserId(lineData);
+      this.formConfig.forEach(item => {
+        if (item.key === "loginName") {
+          item.disabled = true;
+        }
+        if (item.key === "password") {
+          let arr = [
+            {
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (value) {
+                  if (!isPassword(value)) {
+                    callback(
+                      new Error(
+                        "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+                      )
+                    );
+                  } else {
+                    callback();
+                  }
+                } else {
+                  callback();
+                }
+              }
+            }
+          ];
+          item.rules = arr;
+        }
       });
+      this.addChannel = true;
+    },
+    //根据调整的数据 修改表单配置
+    editFormConfigHandle(lineData) {
+      let productTypeVal = [1];
+      this.formConfig.forEach(item => {
+        for (let keys in lineData) {
+          if (item.key === keys && lineData[keys] !== "-") {
+            if (lineData[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", lineData[keys]);
+            }
+          } else if (item.key === keys && lineData[keys] === "-") {
+            this.$set(item, "defaultValue", "");
+          }
+        }
+        if (item.key === "reductModel") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === 2) {
+              this._setDisplayShow(this.formConfig, "returnBalance", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "returnBalance", true);
+            }
+          });
+        }
+        if (item.key === "mmsReductModel") {
+          //计费方式切换为：预付成功计费时，返还类型显示
+          this.$nextTick(() => {
+            if (item.defaultValue === 2) {
+              this._setDisplayShow(this.formConfig, "mmsReturnBalance", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            }
+          });
+        }
+        if (item.key === "productType") {
+          let val = item.defaultValue;
+          productTypeVal = item.defaultValue;
+          if (val && val.length != 0) {
+            if (val.includes(1) && val.includes(2)) {
+              this._setTagDisplayShow(this.formConfig, "sms", false);
+              this._setTagDisplayShow(this.formConfig, "mms", false);
+            } else if (val.includes(1)) {
+              this._setTagDisplayShow(this.formConfig, "sms", false);
+              this._setTagDisplayShow(this.formConfig, "mms", true);
+            } else if (val.includes(2)) {
+              this._setTagDisplayShow(this.formConfig, "mms", false);
+              this._setTagDisplayShow(this.formConfig, "sms", true);
+            }
+          } else {
+            this._setTagDisplayShow(this.formConfig, "sms", true);
+            this._setTagDisplayShow(this.formConfig, "mms", true);
+          }
+        }
+        if (
+          item.key === "productType" ||
+          item.key === "mmsProType"
+          // item.key === "proType"
+        ) {
+          let val = item.defaultValue;
+          if (val && val.length !== 0) {
+            item.optionData.forEach(el => {
+              if (val.includes(el.key)) {
+                this.$set(el, "disabled", true);
+              } else {
+                this.$set(el, "disabled", false);
+              }
+            });
+          }
+        }
+
+        if (item.key === "proType") {
+          //产品类型如果是cmpp就展示链接路数
+          this.$nextTick(() => {
+            if (item.defaultValue === 4) {
+              this._setDisplayShow(this.formConfig, "maxSession", false);
+            } else {
+              this._setDisplayShow(this.formConfig, "maxSession", true);
+            }
+          });
+        }
+        // if (item.key == "proType") {
+        //   this.$set(item, "disabled", true);
+        // }
+        // if (item.key == "mmsProType") {
+        //   this.$set(item, "disabled", true);
+        // }
+        if (item.key == "corpId") {
+          this.$set(item, "disabled", true);
+        }
+        // if (item.key == "reductModel") {
+        //   if (productTypeVal.includes(1)) {
+        //     this.$set(item, "disabled", true);
+        //   } else {
+        //     this.$set(item, "disabled", false);
+        //   }
+        // }
+        if (item.key == "mmsReductModel") {
+          if (productTypeVal.includes(2)) {
+            this.$set(item, "disabled", true);
+          } else {
+            this.$set(item, "disabled", false);
+          }
+        }
+
+        if (!Object.keys(lineData).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "times") {
+          if (
+            lineData.startTime !== "-" &&
+            lineData.startTime &&
+            lineData.endTime !== "-" &&
+            lineData.endTime
+          ) {
+            this.$set(item, "defaultValue", [
+              lineData.startTime,
+              lineData.endTime
+            ]);
+          } else {
+            this.$set(item, "defaultValue", "");
+          }
+        }
+      });
+    },
+    // 审核
+    _mxCheck(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "审核";
+      this.formConfig.forEach(item => {
+        for (let keys in row) {
+          if (item.key === keys) {
+            if (row[keys] === 0) {
+              this.$set(item, "defaultValue", "0");
+            } else {
+              this.$set(item, "defaultValue", row[keys]);
+            }
+          }
+        }
+      });
+      this.addChannel = true;
     },
     // 审核
     _mxCheck(row, ID) {
@@ -985,7 +2016,6 @@ export default {
     messageShow(row) {
       this.$nextTick(() => {
         this.infoData = Object.assign(row);
-        console.log(this.infoData, "-------this.infoData");
       });
 
       this.infoVisible = true;
@@ -1001,6 +2031,18 @@ export default {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           let arr = [];
+          this.formConfig.forEach(item => {
+            if (item.key === "corpId") {
+              res.data.forEach(t => {
+                let obj = {
+                  key: t.corpId,
+                  value: t.corpName
+                };
+                arr.push(obj);
+              });
+              item.optionData = arr;
+            }
+          });
         }
       });
     },
@@ -1009,6 +2051,13 @@ export default {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
           this.saleList = res.data;
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "saleMan",
+            "userName",
+            "actualName"
+          );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
@@ -1023,13 +2072,13 @@ export default {
     getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
-          // this._setDefaultValue(
-          //   this.formConfig,
-          //   res.data,
-          //   "agentId",
-          //   "agentId",
-          //   "agentName"
-          // );
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "agentId",
+            "agentId",
+            "agentName"
+          );
           this._setDefaultValue(
             this.searchFormConfig,
             res.data,
@@ -1048,13 +2097,13 @@ export default {
       };
       this.$http.role.getRoleByType(params).then(res => {
         if (resOk(res)) {
-          // this._setDefaultValue(
-          //   this.formConfig,
-          //   res.data,
-          //   "roleId",
-          //   "roleId",
-          //   "roleName"
-          // );
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "roleId",
+            "roleId",
+            "roleName"
+          );
         }
       });
     },
@@ -1282,5 +2331,8 @@ export default {
 
 <style lang="scss" scoped>
 .corpUser {
+  .list_table {
+    width: 100%;
+  }
 }
 </style>

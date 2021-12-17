@@ -8,9 +8,11 @@
       :notSearch="notSearch"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" key="corpId" />
@@ -173,30 +175,21 @@ export default {
           label: "是否显示日期",
           key: "showDate",
           defaultValue: "1",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
           label: "显示特服号",
           key: "showCode",
           defaultValue: "0",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "select",
           label: "是否显示通道",
           key: "showGateway",
           defaultValue: "0",
-          optionData: [
-            { key: "0", value: "否" },
-            { key: "1", value: "是" }
-          ]
+          optionData: [{ key: "0", value: "否" }, { key: "1", value: "是" }]
         },
         {
           type: "daterange",

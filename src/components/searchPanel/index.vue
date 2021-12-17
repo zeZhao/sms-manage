@@ -4,15 +4,46 @@
       v-if="searchFormConfig.length"
       ref="form"
       :model="form"
-      label-width="120px"
+      label-width="auto"
     >
-      <el-row>
+      <el-row :gutter="16">
         <el-col
           v-for="(item, index) in searchFormConfig"
           :key="index"
-          :sm="12"
-          :md="8"
-          :lg="(['daterange', 'timerange', 'datetime', 'selectInp', 'checkbox'].includes(item.type) || item.isLonger) ? 12 : 6"
+          :gutter="16"
+          :md="
+            [
+              'daterange',
+              'timerange',
+              'datetime',
+              'selectInp',
+              'checkbox'
+            ].includes(item.type) || item.isLonger
+              ? 12
+              : 6
+          "
+          :lg="
+            [
+              'daterange',
+              'timerange',
+              'datetime',
+              'selectInp',
+              'checkbox'
+            ].includes(item.type) || item.isLonger
+              ? 8
+              : 4
+          "
+          :xl="
+            [
+              'daterange',
+              'timerange',
+              'datetime',
+              'selectInp',
+              'checkbox'
+            ].includes(item.type) || item.isLonger
+              ? 6
+              : 3
+          "
         >
           <transition name="el-zoom-in-top">
             <el-form-item
@@ -68,7 +99,7 @@
 
               <template v-if="item.type === 'selectInp'">
                 <el-select
-                  style="width: 20%"
+                  style="width: 30%"
                   v-model="form[item.key[0]]"
                   :placeholder="item.placeholder || `请选择${item.label}`"
                   filterable
@@ -85,7 +116,7 @@
                   />
                 </el-select>
                 <el-input
-                  style="width: 69%"
+                  style="width: 65%"
                   v-model="form[item.key[1]]"
                   type="number"
                   size="small"
@@ -202,10 +233,29 @@
             </el-form-item>
           </transition>
         </el-col>
+        <el-col :md="mxCol" :lg="lgCol" :xl="xlCol">
+          <div class="btnStyle">
+            <slot name="Btn">
+              <el-button
+                type="primary"
+                @click="_mxHandleSubmit()"
+                size="small"
+                v-throttle
+                >查询</el-button
+              >
+              <el-button size="small" @click="_mxHandleReset()">重置</el-button>
+            </slot>
+          </div>
+        </el-col>
+        <el-col :span="8" v-show="$slots.Other || isOther">
+          <div class="btnStyle">
+            <slot name="Other" :form="form"></slot>
+          </div>
+        </el-col>
       </el-row>
     </el-form>
 
-    <el-row>
+    <!-- <el-row>
       <el-col>
         <div class="btnStyle">
           <slot name="Btn">
@@ -215,27 +265,31 @@
               style="margin-left: 15px"
               size="small"
               v-throttle
-              >查询</el-button>
+              >查询</el-button
+            >
             <el-button size="small" @click="_mxHandleReset()">重置</el-button>
           </slot>
           <slot name="Other" :form="form"></slot>
         </div>
       </el-col>
-    </el-row>
+    </el-row> -->
 
-    <el-row>
+    <!-- <el-row>
       <el-col>
         <el-button
           style="float: right; margin: 10px 0"
           type="text"
           size="mini"
           @click="handleToggleIsCollapse"
-        >{{ isCollapse ? "收起筛选" : "展开筛选"}}<i :class="isCollapse ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"></i>
+          >{{ isCollapse ? "收起筛选" : "展开筛选"
+          }}<i
+            :class="isCollapse ? 'el-icon-arrow-up' : 'el-icon-arrow-down'"
+          ></i>
         </el-button>
       </el-col>
-    </el-row>
+    </el-row> -->
 
-    <el-row>
+    <el-row style="margin-top:8px" v-show="add">
       <el-col>
         <el-button
           v-if="add && searchFormConfig.length"
@@ -243,14 +297,15 @@
           size="small"
           icon="el-icon-plus"
           @click="create"
-        >新建</el-button>
+          >新建</el-button
+        >
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { getDateTime } from '@/utils';
+import { getDateTime } from "@/utils";
 
 export default {
   props: {
@@ -264,6 +319,10 @@ export default {
       type: Boolean,
       default: true
     },
+    isOther: {
+      type: Boolean,
+      default: false
+    },
     search: {
       type: Boolean,
       default: true
@@ -271,6 +330,18 @@ export default {
     reset: {
       type: Boolean,
       default: true
+    },
+    mxCol: {
+      type: Number,
+      default: 6
+    },
+    lgCol: {
+      type: Number,
+      default: 4
+    },
+    xlCol: {
+      type: Number,
+      default: 3
     },
     //默认进入该页面不查询
     notSearch: {
@@ -284,6 +355,7 @@ export default {
       form: {}
     };
   },
+  mounted() {},
   watch: {
     searchFormConfig: {
       handler() {
@@ -301,7 +373,7 @@ export default {
         if (index > 2) {
           item.isCollapse = this.isCollapse ? false : true;
         }
-      })
+      });
     },
     //提交表单，通知列表做一次查询操作
     _mxHandleSubmit() {
@@ -311,10 +383,6 @@ export default {
           this.$emit("isChooseTime", this.form);
         }
       });
-    },
-    //传值
-    _mxHandleSendData() {
-      this.$;
     },
     //重置筛选条件
     _mxHandleReset() {
@@ -345,10 +413,10 @@ export default {
             form[key] = 1;
           }
           if (key === "startTime") {
-            form[key] = getDateTime('start');
+            form[key] = getDateTime("start");
           }
           if (key === "endTime") {
-            form[key] = getDateTime('end');
+            form[key] = getDateTime("end");
           }
         }
 
@@ -439,10 +507,18 @@ export default {
 
 .searchPanel {
   background: #fff;
-  padding-bottom: 20px;
+  margin-bottom: 8px;
+  ::v-deep .el-col {
+    height: 28px;
+    margin-bottom: 8px;
+  }
+  ::v-deep .el-col:last-child {
+    margin-bottom: 0;
+  }
 
   .btnStyle {
-    float: right;
+    margin-top: 3px;
+    // float: right;
   }
 }
 </style>

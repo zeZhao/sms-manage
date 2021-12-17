@@ -8,9 +8,11 @@
       :notSearch="notSearch"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -125,7 +127,7 @@ export default {
             { key: "4", value: "国际" }
           ],
           placeholder: "请选择运营商"
-        },
+        }
         // {
         //   type: "select",
         //   label: "类型",

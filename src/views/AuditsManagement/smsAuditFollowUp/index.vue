@@ -1,22 +1,38 @@
 <template>
   <!--审核跟进管理-->
   <div>
-    <Search :searchFormConfig="searchFormConfig" @search="_mxDoSearch" :add="false"></Search>
+    <Search
+      :searchFormConfig="searchFormConfig"
+      @search="_mxDoSearch"
+      :add="false"
+    ></Search>
 
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="text" label="审核状态">
-        <template slot-scope="{row}">{{ renderText(row.text) }}</template>
+        <template slot-scope="{ row }">{{ renderText(row.text) }}</template>
       </el-table-column>
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="content" label="内容" />
       <el-table-column label="操作" width="100">
-        <template slot-scope="{row}">
-          <el-button type="text" size="small" @click="handleDelete(row)">删除</el-button>
+        <template slot-scope="{ row }">
+          <el-button type="text" size="small" @click="handleDelete(row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
 
-    <Page :pageObj="pageObj" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange"></Page>
+    <Page
+      :pageObj="pageObj"
+      @handleSizeChange="handleSizeChange"
+      @handleCurrentChange="handleCurrentChange"
+    ></Page>
   </div>
 </template>
 
@@ -25,7 +41,7 @@ import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       // 接口地址
       searchAPI: {
@@ -69,7 +85,7 @@ export default {
   },
   methods: {
     // 格式化字段
-    renderText (v) {
+    renderText(v) {
       switch (v) {
         case "checkPass":
           return "审核通过";
@@ -80,7 +96,7 @@ export default {
       }
     },
     // 删除
-    handleDelete (row) {
+    handleDelete(row) {
       const h = this.$createElement;
       const tip = "您确定要删除此项吗？";
       this.$msgbox({
@@ -89,16 +105,18 @@ export default {
         showCancelButton: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消"
-      }).then(action => {
-        this.$http.YtCheckFollow.del(row).then(res => {
-          if (res.code === 200) {
-            this._mxGetList();
-            this.$message.success("删除成功");
-          } else {
-            this.$message.error(res.msg || res.data);
-          }
+      })
+        .then(action => {
+          this.$http.YtCheckFollow.del(row).then(res => {
+            if (res.code === 200) {
+              this._mxGetList();
+              this.$message.success("删除成功");
+            } else {
+              this.$message.error(res.msg || res.data);
+            }
+          });
         })
-      }).catch(() => { });
+        .catch(() => {});
     }
   }
 };

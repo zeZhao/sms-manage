@@ -20,38 +20,25 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="taskId" label="任务ID" width="100" />
-      <el-table-column
-        prop="content"
-        label="内容"
-        show-overflow-tooltip
-        width="200"
-      />
+      <el-table-column prop="content" label="内容" width="200" />
       <el-table-column prop="count" label="条数" />
       <el-table-column prop="mobilesCount" label="手机号数量" width="100" />
-      <el-table-column
-        prop="submitTime"
-        label="提交时间"
-        width="170"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="submitTime" label="提交时间" width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="definiteTime"
-        label="定时时间"
-        width="170"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="definiteTime" label="定时时间" width="170">
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime | timeFormat }}</span>
         </template>
@@ -298,7 +285,7 @@ export default {
     selectChange(data) {},
     //字符串隐式转换数字
     toNumber(val) {
-      return + val;
+      return +val;
     },
     /**
      * 提交表单操作
@@ -317,8 +304,15 @@ export default {
         failCount,
         unknowCount
       } = form;
-      if (this.toNumber(successCount) + this.toNumber(failCount) + this.toNumber(unknowCount) !== this.toNumber(sendCount)) {
-        this.$message.error('"发送条数" = "成功条数" + "失败条数" + "未知条数"');
+      if (
+        this.toNumber(successCount) +
+          this.toNumber(failCount) +
+          this.toNumber(unknowCount) !==
+        this.toNumber(sendCount)
+      ) {
+        this.$message.error(
+          '"发送条数" = "成功条数" + "失败条数" + "未知条数"'
+        );
         return;
       }
       let params = {

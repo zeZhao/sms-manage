@@ -9,7 +9,7 @@
     <div :class="{ hasTagsView: needTagsView }" class="main-container">
       <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
-        <nav-menu />
+        <!-- <nav-menu /> -->
         <!-- <tags-view v-if="needTagsView" /> -->
       </div>
       <app-main />
@@ -99,7 +99,7 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 2002;
+  z-index: 2000;
   width: calc(100% - #{$sideBarWidth});
   transition: width 0.28s;
 }

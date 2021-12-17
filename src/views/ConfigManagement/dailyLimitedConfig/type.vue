@@ -2,17 +2,29 @@
   <div>
     <h2>{{ renderTitle }}</h2>
     <div style="width: 60%; margin: auto">
-      <FormItem ref="formItem" :formConfig="formConfig" :btnTxt="formTit" @submit="submit" @cancel="cancel"
-        @choose="choose">
+      <FormItem
+        ref="formItem"
+        :formConfig="formConfig"
+        :btnTxt="formTit"
+        @submit="submit"
+        @cancel="cancel"
+        @choose="choose"
+      >
         <template slot="Other">
-          <p style="padding-left: 60px; font-size: 13px; line-height: 1.5; color: #999">
+          <p
+            style="padding-left: 60px; font-size: 13px; line-height: 1.5; color: #999"
+          >
             规则：只要有相关通道的配置数据，该通道加载后则认为当前通道需要限量。配置了该设置的客户进行限量处理，超量后进入到14号通道形成超量的失败状态返回给客户。未进行配置走到当前通道的客户，则不进行限速处理。
             如果想取消当前通道的限速逻辑，需要清理掉该通道的所有限速配置数据。
           </p>
         </template>
       </FormItem>
     </div>
-    <ChooseUser :isChooseUser="isChooseUser" @chooseUserData="chooseUserData" @cancel="cancelUser"></ChooseUser>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -20,7 +32,7 @@
 import listMixin from "@/mixin/listMixin";
 export default {
   mixins: [listMixin],
-  data () {
+  data() {
     return {
       formTit: "新增",
       addChannel: false,
@@ -65,7 +77,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -80,7 +92,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ],
           placeholder: "选择账户后自动识别"
@@ -96,7 +108,7 @@ export default {
             {
               required: true,
               message: "请输入必填项",
-              trigger: ['blur', 'change']
+              trigger: ["blur", "change"]
             }
           ]
         },
@@ -109,11 +121,12 @@ export default {
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
                 if (!value) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("日限量必须为数值"));
-                if ((value + '').indexOf('.') !== -1 || value <= 0) callback(new Error("日限量只能输入正整数"));
+                if ((value + "").indexOf(".") !== -1 || value <= 0)
+                  callback(new Error("日限量只能输入正整数"));
                 callback();
               }
             }
@@ -125,23 +138,23 @@ export default {
     };
   },
   computed: {
-    renderTitle () {
+    renderTitle() {
       const { type } = this.$route.query;
-      const str = '日限量配置';
-      return type === 'create' ? `新增${str}` : `修改${str}`;
+      const str = "日限量配置";
+      return type === "create" ? `新增${str}` : `修改${str}`;
     },
-    renderBtnTxt () {
+    renderBtnTxt() {
       const { type } = this.$route.query;
-      return type === 'create' ? '新增' : '修改';
+      return type === "create" ? "新增" : "修改";
     }
   },
-  mounted () {
+  mounted() {
     this.getGatewayList();
     const { type, row, ID } = this.$route.query;
-    type === 'create' ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
+    type === "create" ? this._mxCreate() : this._mxEdit(JSON.parse(row), ID);
   },
   methods: {
-    getGatewayList () {
+    getGatewayList() {
       const params = {
         data: {
           serverStatus: 1,
@@ -155,14 +168,16 @@ export default {
         for (let i = 0, len = this.formConfig.length; i < len; i++) {
           const { key } = this.formConfig[i];
           if (key === "gateway") {
-            this.formConfig[i].optionData = res.data.map(v => { return { key: v.gatewayId, value: v.gateway } })
+            this.formConfig[i].optionData = res.data.map(v => {
+              return { key: v.gatewayId, value: v.gateway };
+            });
             break;
           }
         }
       });
     },
     //选择用户选取赋值
-    chooseUserData (data) {
+    chooseUserData(data) {
       this.formConfig.map(t => {
         const { key } = t;
         if (key === "userId") {
@@ -171,13 +186,15 @@ export default {
         if (key === "corporateId") {
           t.defaultValue = data.corpId;
         }
-      })
+      });
     },
-    submit (form) {
+    submit(form) {
       let params = {};
       if (this.formTit == "新增") {
         params = { ...form };
-        this.$http.SmsGatewayUserSendControl.addSmsGatewayUserSendControl(params).then(res => {
+        this.$http.SmsGatewayUserSendControl.addSmsGatewayUserSendControl(
+          params
+        ).then(res => {
           if (resOk(res)) {
             window.history.back();
             this.$message.success(res.msg || res.data);
@@ -192,7 +209,9 @@ export default {
           id: this.id,
           ...form
         };
-        this.$http.SmsGatewayUserSendControl.updateSmsGatewayUserSendControl(params).then(res => {
+        this.$http.SmsGatewayUserSendControl.updateSmsGatewayUserSendControl(
+          params
+        ).then(res => {
           if (resOk(res)) {
             window.history.back();
             this.$message.success(res.msg || res.data);
@@ -204,7 +223,7 @@ export default {
         });
       }
     },
-    _mxCreate () {
+    _mxCreate() {
       this.formTit = "新增";
       this.formConfig.forEach(item => {
         if (item.key === "userId") {
@@ -216,7 +235,7 @@ export default {
         this.$refs.formItem.resetForm();
       }, 0);
     },
-    _mxEdit (row) {
+    _mxEdit(row) {
       this.id = row.id;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
@@ -237,7 +256,7 @@ export default {
         this.$refs.formItem.clearValidate();
       }, 0);
     },
-    cancel () {
+    cancel() {
       this.addChannel = false;
       window.history.back();
     }

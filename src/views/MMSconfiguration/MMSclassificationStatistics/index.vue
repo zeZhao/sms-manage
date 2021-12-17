@@ -18,30 +18,31 @@
 
     <el-table
       v-show="formData.statisticType === 2"
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
-      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="gatewayName" label="通道名称" min-width="150" show-overflow-tooltip />
-      <el-table-column prop="gatewayRatio" label="通道占比" show-overflow-tooltip>
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="corpName" label="商户名称" />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="gatewayName" label="通道名称" />
+      <el-table-column prop="gatewayRatio" label="通道占比">
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.gatewayRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送数" show-overflow-tooltip />
-      <el-table-column prop="successNum" label="成功数" show-overflow-tooltip />
-      <el-table-column prop="failNum" label="失败数" show-overflow-tooltip />
-      <el-table-column prop="unknownNum" label="未知数" show-overflow-tooltip />
-      <el-table-column label="成功率" show-overflow-tooltip>
+      <el-table-column prop="sendNum" label="发送数" />
+      <el-table-column prop="successNum" label="成功数" />
+      <el-table-column prop="failNum" label="失败数" />
+      <el-table-column prop="unknownNum" label="未知数" />
+      <el-table-column label="成功率">
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.successRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="统计日期" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="createTime" label="统计日期">
         <template slot-scope="scope">
           {{ scope.row.createTime | Format }}
         </template>
@@ -49,34 +50,35 @@
     </el-table>
     <el-table
       v-show="formData.statisticType === 1"
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
-      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
-      <el-table-column prop="operaId" label="运营商" show-overflow-tooltip>
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="corpName" label="商户名称" />
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           {{ renderOperaId(scope.row.operaId) }}
         </template>
       </el-table-column>
-      <el-table-column prop="operatorRatio" label="运营商占比" min-width="100" show-overflow-tooltip>
+      <el-table-column prop="operatorRatio" label="运营商占比">
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.operatorRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送数" show-overflow-tooltip />
-      <el-table-column prop="successNum" label="成功数" show-overflow-tooltip />
-      <el-table-column prop="failNum" label="失败数" show-overflow-tooltip />
-      <el-table-column prop="unknownNum" label="未知数" show-overflow-tooltip />
-      <el-table-column label="成功率" show-overflow-tooltip>
+      <el-table-column prop="sendNum" label="发送数" />
+      <el-table-column prop="successNum" label="成功数" />
+      <el-table-column prop="failNum" label="失败数" />
+      <el-table-column prop="unknownNum" label="未知数" />
+      <el-table-column label="成功率">
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.successRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="统计日期" min-width="150" show-overflow-tooltip>
+      <el-table-column prop="createTime" label="统计日期">
         <template slot-scope="scope">
           {{ scope.row.createTime | Format }}
         </template>
@@ -84,23 +86,24 @@
     </el-table>
     <el-table
       v-show="formData.statisticType === 3"
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       v-loading="loading"
     >
-      <el-table-column prop="corpId" label="商户编号" show-overflow-tooltip />
-      <el-table-column prop="corpName" label="商户名称" show-overflow-tooltip />
-      <el-table-column prop="province" label="省份名称" show-overflow-tooltip />
-      <el-table-column prop="provinceRatio" label="省份占比" show-overflow-tooltip>
-         <template slot-scope="scope">
+      <el-table-column prop="corpId" label="商户编号" />
+      <el-table-column prop="corpName" label="商户名称" />
+      <el-table-column prop="province" label="省份名称" />
+      <el-table-column prop="provinceRatio" label="省份占比">
+        <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.provinceRatio) }}
         </template>
       </el-table-column>
-      <el-table-column prop="sendNum" label="发送数" show-overflow-tooltip />
-      <el-table-column prop="successNum" label="成功数" show-overflow-tooltip />
-      <el-table-column prop="failNum" label="失败数" show-overflow-tooltip />
-      <el-table-column prop="unknownNum" label="未知数" show-overflow-tooltip />
-      <el-table-column label="成功率" show-overflow-tooltip>
+      <el-table-column prop="sendNum" label="发送数" />
+      <el-table-column prop="successNum" label="成功数" />
+      <el-table-column prop="failNum" label="失败数" />
+      <el-table-column prop="unknownNum" label="未知数" />
+      <el-table-column label="成功率">
         <template slot-scope="scope">
           {{ renderSuccessRatio(scope.row.successRatio) }}
         </template>
@@ -280,14 +283,20 @@ export default {
       this.formData = form;
     },
     listMmsGateway() {
-      this.$http.mmsGateway.listMmsGatewayByPage({ data: { pageNumber:1, pageSize: 99999, mmsGateway: {}} }).then(res => {
-        if (res.data.list.length) {
-          this.mmsGatewayArr = res.data.list.map(v => {
-            return { key: v.gatewayId, value: v.name };
-          });
-          this.searchFormConfig[this.searchFormConfig.length - 1].optionData = this.mmsGatewayArr;
-        }
-      });
+      this.$http.mmsGateway
+        .listMmsGatewayByPage({
+          data: { pageNumber: 1, pageSize: 99999, mmsGateway: {} }
+        })
+        .then(res => {
+          if (res.data.list.length) {
+            this.mmsGatewayArr = res.data.list.map(v => {
+              return { key: v.gatewayId, value: v.name };
+            });
+            this.searchFormConfig[
+              this.searchFormConfig.length - 1
+            ].optionData = this.mmsGatewayArr;
+          }
+        });
     },
     listProvince() {
       this.$http.listSysProvince({ data: { provinceName: "" } }).then(res => {
@@ -305,7 +314,7 @@ export default {
       return idx !== -1 ? operaIdArr[idx].value : "-";
     },
     renderSuccessRatio(x) {
-      return ((x && x !== '-') || (x === 0)) ? ((x * 100).toFixed(2) + "%") : "-";
+      return (x && x !== "-") || x === 0 ? (x * 100).toFixed(2) + "%" : "-";
     },
     exportExe() {
       this.$refs.Search.handleExport();

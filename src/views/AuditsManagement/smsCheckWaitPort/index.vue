@@ -19,9 +19,11 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       @selection-change="selectionChange"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -35,7 +37,7 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
+      <el-table-column prop="content" label="内容" />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
           <span v-if="scope.row.source === '1'">没有配置免审</span>
@@ -82,7 +84,7 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间">
+      <el-table-column prop="submitTime" label="提交时间" width="135">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>

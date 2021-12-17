@@ -7,21 +7,21 @@
       @create="create"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
-      <el-table-column prop="userId" label="账户编号" show-overflow-tooltip>
-        <template slot-scope="{row}">{{ row.userId ? row.userId : "" }}</template>
+      <el-table-column prop="userId" label="账户编号">
+        <template slot-scope="{ row }">{{
+          row.userId ? row.userId : ""
+        }}</template>
       </el-table-column>
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
 
-      <el-table-column
-        prop="blackGroupName"
-        label="黑名单类型"
-        show-overflow-tooltip
-      >
+      <el-table-column prop="blackGroupName" label="黑名单类型">
         <!-- <template slot-scope="scope">
           <span>
             {{
@@ -38,17 +38,15 @@
           </span>
         </template> -->
       </el-table-column>
-      <el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
-      <!-- <el-table-column prop="gateway" label="通道" show-overflow-tooltip /> -->
+      <el-table-column prop="mobile" label="手机号码" />
+      <!-- <el-table-column prop="gateway" label="通道"  /> -->
 
-      <el-table-column
-        prop="modifyTime"
-        label="修改日期"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="remark" label="描述" show-overflow-tooltip />
-      <el-table-column prop="status" label="状态" show-overflow-tooltip>
-        <template slot-scope="scope">{{ scope.row.status === "1" ? "正常" : "正常" }}</template>
+      <el-table-column prop="modifyTime" label="修改日期" />
+      <el-table-column prop="remark" label="描述" />
+      <el-table-column prop="status" label="状态">
+        <template slot-scope="scope">{{
+          scope.row.status === "1" ? "正常" : "正常"
+        }}</template>
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
@@ -183,7 +181,11 @@ export default {
           disabled: false,
           defaultValue: "",
           rules: [
-            { required: true, trigger: ['blur', 'change'], validator: this.$isPhone }
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: this.$isPhone
+            }
           ]
         },
         {
@@ -214,14 +216,26 @@ export default {
             //   value: "BSATS级"
             // }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
           label: "通道编号",
           key: "gateway",
           isShow: true,
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -232,7 +246,13 @@ export default {
           btnDisabled: false,
           isShow: true,
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "input",
@@ -241,7 +261,13 @@ export default {
           disabled: true,
           isShow: true,
           optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
         },
         {
           type: "textarea",

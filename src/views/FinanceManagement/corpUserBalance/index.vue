@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      isOther="true"
     >
       <template v-slot:Other="form">
         <el-button type="primary" @click="exported(form)" size="small"
@@ -13,13 +14,15 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" show-overflow-tooltip />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="smsBalance" label="短信余额(条)" />
       <el-table-column prop="debt" label="短信借款(条)" />
       <el-table-column prop="unitPrice" label="短信单价(分)" />
@@ -35,7 +38,7 @@
         </template>
       </el-table-column> -->
       <el-table-column prop="operaName" label="操作人" />
-      <el-table-column label="操作时间" width="155">
+      <el-table-column label="操作时间" width="135">
         <template slot-scope="scope">{{
           scope.row.operDate | timeFormat
         }}</template>

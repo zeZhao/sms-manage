@@ -9,16 +9,17 @@
     ></Search>
     <el-table
       :data="listData"
-      max-height="500"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
     >
       <el-table-column type="index" label="序号" />
-      <el-table-column prop="agentId" label="代理商编号" width="100" />
+      <el-table-column prop="agentId" label="代理商编号" />
       <el-table-column prop="loginName" label="登录账号" />
-      <el-table-column prop="agentName" label="代理商名称" width="130" />
+      <el-table-column prop="agentName" label="代理商名称" />
       <el-table-column prop="contact" label="联系人" />
-      <el-table-column prop="mobile" label="联系电话" width="130" />
+      <el-table-column prop="mobile" label="联系电话" />
       <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
@@ -26,7 +27,7 @@
           <span v-if="scope.row.status == 2">禁用</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" min-width="170">
+      <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
           <span v-if="scope.row.createTime">{{
             scope.row.createTime | timeFormat

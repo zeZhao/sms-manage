@@ -15,9 +15,11 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -34,7 +36,7 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin';
+import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
@@ -43,50 +45,50 @@ export default {
       notSearch: true,
       //接口地址
       searchAPI: {
-        namespace: 'reports',
-        list: 'queryMerchSendSuccStatistics',
+        namespace: "reports",
+        list: "queryMerchSendSuccStatistics"
       },
       // 列表参数
-      namespace: '',
+      namespace: "",
       //搜索框数据
       searchParam: {},
       isParamsNotData: false,
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '商户编号',
-          key: 'corpId',
-          placeholder: '请输入商户编号',
+          type: "inputNum",
+          label: "商户编号",
+          key: "corpId",
+          placeholder: "请输入商户编号"
         },
         {
-          type: 'input',
-          label: '商户名称',
-          key: 'corpName',
-          placeholder: '请输入商户名称',
+          type: "input",
+          label: "商户名称",
+          key: "corpName",
+          placeholder: "请输入商户名称"
         },
         {
-          type: 'month',
-          label: '统计月份',
-          key: 'countDate',
+          type: "month",
+          label: "统计月份",
+          key: "countDate",
           defaultValue: new Date().Format("yyyy-MM")
-        },
-      ],
-    }
+        }
+      ]
+    };
   },
   methods: {
     exportData(form) {
-      const data = { ...this.pageObj, ...form }
-      delete data.total
+      const data = { ...this.pageObj, ...form };
+      delete data.total;
       this.$axios
-        .post('/report/exportMerchSendSuccStatistics', data)
-        .then((res) => {
-          if (res.data.code === 200) this.$exportToast()
-        })
+        .post("/report/exportMerchSendSuccStatistics", data)
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
     },
     exportExe() {
-      this.$refs.Search.handleExport()
-    },
-  },
-}
+      this.$refs.Search.handleExport();
+    }
+  }
+};
 </script>

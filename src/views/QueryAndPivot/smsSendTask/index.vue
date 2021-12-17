@@ -17,23 +17,20 @@
       </template>
     </Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column
-        prop="mobile"
-        label="手机号"
-        min-width="120"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="counter" label="手机号个数" min-width="90" />
+      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="counter" label="手机号个数" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" />
       <el-table-column prop="hasSend" label="发送状态">
@@ -42,20 +39,18 @@
           <span v-if="scope.row.hasSend === '1'">已发送</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" min-width="170">
+      <el-table-column prop="definiteTime" label="定时时间" width="135">
         <template slot-scope="scope">{{
           scope.row.definiteTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="submitTime" label="提交时间" min-width="170">
+      <el-table-column prop="submitTime" label="提交时间" width="135">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
     </el-table>
-    <p style="color: red">
-      手机号总条数: {{ tabBottomData || 0 }}
-    </p>
+    <p style="color: red">手机号总条数: {{ tabBottomData || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -175,11 +170,18 @@ export default {
           label: "账户编号",
           key: "userId",
           maxlength: 9,
-          rules: [{ required: false, trigger: "blur", validator: (rule, value, callback) => {
-            if (!value) callback();
-            if (!/^\d{0,9}$/.test(value)) callback(new Error('账户编号为正整数类型，且小于9位'));
-            callback();
-          }}]
+          rules: [
+            {
+              required: false,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                if (!/^\d{0,9}$/.test(value))
+                  callback(new Error("账户编号为正整数类型，且小于9位"));
+                callback();
+              }
+            }
+          ]
         },
         {
           type: "input",
@@ -192,11 +194,18 @@ export default {
           label: "处理条数",
           key: "batchCount",
           maxlength: 9,
-          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
-            if (!value) callback(new Error('请输入必填项'));
-            if (!/^\d{0,9}$/.test(value)) callback(new Error('处理条数为正整数类型，且小于9位'));
-            callback();
-          }}]
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (!/^\d{0,9}$/.test(value))
+                  callback(new Error("处理条数为正整数类型，且小于9位"));
+                callback();
+              }
+            }
+          ]
         },
         {
           type: "input",
@@ -208,11 +217,17 @@ export default {
           label: "原通道",
           key: "gateway",
           optionData: [],
-          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
-            if (!value) callback(new Error('请输入必填项'));
-            if (!/^\d+$/.test(value)) callback(new Error('原通道为正整数'));
-            callback();
-          }}]
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (!/^\d+$/.test(value)) callback(new Error("原通道为正整数"));
+                callback();
+              }
+            }
+          ]
         },
         {
           type: "select",

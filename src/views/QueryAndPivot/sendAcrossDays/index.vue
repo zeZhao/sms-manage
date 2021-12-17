@@ -8,9 +8,11 @@
       :notSearch="notSearch"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -18,7 +20,7 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="longCode" label="通道码号" /> -->
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
+      <el-table-column prop="content" label="内容" />
       <el-table-column prop="mobile" label="手机号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="operaId" label="运营商">
@@ -39,7 +41,7 @@
           scope.row.sendTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
+      <el-table-column prop="cid" label="CID" />
       <el-table-column prop="seqId" label="SEQ编号" />
       <!-- <el-table-column prop="reductModel" label="计费类型">
         <template slot-scope="scope">

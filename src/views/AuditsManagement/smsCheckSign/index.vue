@@ -6,7 +6,13 @@
       @search="_mxDoSearch"
       :add="false"
     ></Search>
-    <el-table :data="listData" max-height="500" highlight-current-row style="width: 100%">
+    <el-table
+      :data="listData"
+      border
+      highlight-current-row
+      style="width: 100%"
+      height="50vh"
+    >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="licenceUrl" label="营业执照">
@@ -33,7 +39,7 @@
           <span v-else style="color:#C0C4CC">暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="申请时间">
+      <el-table-column prop="createTime" label="申请时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
         }}</template>
@@ -134,11 +140,18 @@ export default {
           key: "code",
           defaultValue: "",
           maxlength: "12",
-          rules: [{ required: false, trigger: "blur", validator: (rule, value, callback) => {
-            if (!value) callback();
-            if (!/^\d{1,12}$/.test(value)) callback(new Error('签名特服号只能为正整数且最大长度为12位'));
-            callback();
-          }}]
+          rules: [
+            {
+              required: false,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                if (!/^\d{1,12}$/.test(value))
+                  callback(new Error("签名特服号只能为正整数且最大长度为12位"));
+                callback();
+              }
+            }
+          ]
         },
         {
           type: "radio",
@@ -146,10 +159,7 @@ export default {
           key: "status",
           initDefaultValue: 4,
           defaultValue: 4,
-          optionData: [
-            { key: 4, value: "通过" },
-            { key: 5, value: "拒绝" }
-          ],
+          optionData: [{ key: 4, value: "通过" }, { key: 5, value: "拒绝" }],
           rules: [
             { required: true, message: "请选择审核状态", trigger: "change" }
           ]

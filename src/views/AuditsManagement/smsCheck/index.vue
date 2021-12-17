@@ -8,20 +8,18 @@
       :notSearch="notSearch"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column
-        prop="loginName"
-        label="账户名称"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="content" label="内容" show-overflow-tooltip />
-      <el-table-column prop="counter" label="手机个数" show-overflow-tooltip />
+      <el-table-column prop="loginName" label="账户名称" />
+      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cm" label="移动" />
       <el-table-column prop="cu" label="联通" />
       <el-table-column prop="ct" label="电信" />
@@ -52,13 +50,8 @@
           <span v-if="scope.row.source == '7'">组合超时</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cid" label="CID" show-overflow-tooltip />
-      <el-table-column
-        prop="mobile"
-        label="手机号"
-        width="150"
-        show-overflow-tooltip
-      />
+      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="mobile" label="手机号" width="150" />
       <el-table-column prop="combined" label="是否处理"
         ><template slot-scope="scope">
           <span v-if="scope.row.handleStatus == 0">未处理</span>
@@ -66,12 +59,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="userName" label="审核人" />
-      <el-table-column prop="submitTime" label="提交时间" min-width="170">
+      <el-table-column prop="submitTime" label="提交时间" width="135">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="checkDate" label="审核时间" min-width="170">
+      <el-table-column prop="checkDate" label="审核时间" width="135">
         <template slot-scope="scope">{{
           scope.row.checkDate | timeFormat
         }}</template>

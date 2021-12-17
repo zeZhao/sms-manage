@@ -36,7 +36,8 @@
       </el-form>
     </el-col>
     <el-table
-      :data="dataList" max-height="430"
+      :data="dataList"
+      height="50vh"
       highlight-current-row
       style="width: 100%"
     >

@@ -8,9 +8,11 @@
       :add="false"
     ></Search>
     <el-table
-      :data="listData" max-height="500"
+      :data="listData"
+      border
       highlight-current-row
       style="width: 100%"
+      height="50vh"
       v-loading="loading"
     >
       <el-table-column type="index" label="序号" />
@@ -22,24 +24,24 @@
         </template>
       </el-table-column>
       <el-table-column prop="downloadNum" label="导出条数" />
-      <el-table-column
-        prop="downloadContent"
-        label="导出内容"
-        show-overflow-tooltip
-      />
-      <el-table-column prop="submitTime" label="提交任务时间">
+      <el-table-column prop="downloadContent" label="导出内容" />
+      <el-table-column prop="submitTime" label="提交任务时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.submitTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="generationTime" label="生成成功时间"
+      <el-table-column prop="generationTime" label="生成成功时间" width="135"
         ><template slot-scope="scope">
           <span>{{ scope.row.generationTime | timeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="fileSize" label="导出文件大小">
         <template slot-scope="scope">
-          <span>{{ scope.row.fileSize && scope.row.fileSize !== '-' ? (scope.row.fileSize + 'KB') : '-' }}</span>
+          <span>{{
+            scope.row.fileSize && scope.row.fileSize !== "-"
+              ? scope.row.fileSize + "KB"
+              : "-"
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="status" label="处理状态">
