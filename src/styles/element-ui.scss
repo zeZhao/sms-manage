@@ -153,6 +153,11 @@
   -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.4);
   background-color: #fafafa;
 }
+.el-table:not(.el-table--scrollable-x) {
+  .el-table__fixed-right {
+    height: 100% !important;
+  }
+}
 .el-table--medium th,
 .el-table--medium td {
   padding: 0 !important;

@@ -247,7 +247,9 @@ export default {
           optionData: [],
           defaultValue: "",
           multiple: true,
+          collapseTags: true,
           isShow: false,
+          colSpan: 24,
           rules: [
             {
               required: true,
@@ -541,10 +543,14 @@ export default {
       this.formConfig.forEach(item => {
         if (item.key === "keywordFile") {
           this.$set(item, "isShow", false);
+          item.defaultFileList = [];
         }
         if (item.key === "groupIds") {
           this.$set(item, "isShow", false);
         }
+        // if (item.key === "keywordFile") {
+        //   item.defaultFileList = [];
+        // }
       });
       setTimeout(() => {
         this.$refs.formItem.resetForm();

@@ -47,7 +47,11 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容">
+        <template slot-scope="scope">
+          <span v-html="scope.row.content"></span>
+        </template>
+      </el-table-column>
       <el-table-column prop="counter" label="条数" />
       <el-table-column prop="source" label="审核根源">
         <template slot-scope="scope">
