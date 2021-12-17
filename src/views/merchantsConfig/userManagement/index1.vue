@@ -1379,16 +1379,14 @@ export default {
   },
   methods: {
     // 获取账户编号
-    getUserId() {
+    getUserId(data) {
       this.titleTips = ""; // 重置
       if (this.formTit === "新增") {
         this.$http.corpUser.getLasttUserId().then(res => {
           this.titleTips = `（上一个账户编号为：${res.data}）`;
         });
       } else {
-        this.titleTips = `（账户编号为：${
-          JSON.parse(this.$route.query.row).userId
-        }）`;
+        this.titleTips = `（账户编号为：${data.userId}）`;
       }
     },
     disabledProType() {
@@ -1662,6 +1660,7 @@ export default {
       this.getRole();
       this.getAgent();
       this.getSaleman();
+      this.getUserId();
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
@@ -1715,6 +1714,7 @@ export default {
       this.getAgent();
       this.getSaleman();
       this.disabledProType();
+      this.getUserId(lineData);
       this.formConfig.forEach(item => {
         if (item.key === "loginName") {
           item.disabled = true;
