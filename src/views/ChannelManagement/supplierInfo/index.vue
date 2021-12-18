@@ -40,6 +40,7 @@
           <el-button
             type="text"
             size="small"
+            style="color: red"
             @click="handleDeactivate('routeId', scope.row.routeId)"
             >停用</el-button
           >
