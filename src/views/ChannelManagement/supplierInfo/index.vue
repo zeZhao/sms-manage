@@ -15,33 +15,39 @@
       height="50vh"
       v-loading="loading"
     >
-      <el-table-column prop="corporateId" label="供应商编号" />
-      <el-table-column prop="userName" label="供应商名称" />
-      <el-table-column prop="sign" label="联系人" />
-      <el-table-column prop="cm" label="手机号" />
-      <el-table-column prop="cu" label="创建人" />
+      <el-table-column prop="supplierId" label="供应商编号" />
+      <el-table-column prop="supplierName" label="供应商名称" />
+      <el-table-column prop="contacts" label="联系人" />
+      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="name" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" min-width="150">
         <template slot-scope="scope">
           {{ scope.row.createTime | timeFormat }}
         </template>
       </el-table-column>
-      <el-table-column prop="cu" label="状态" />
+      <el-table-column prop="state" label="状态">
+        <template slot-scope="scope">
+          {{ scope.row.state === 1 ? '正常' : '停用' }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="edit(scope.row)"
             >修改</el-button
           >
           <el-button
+            v-if="scope.row.state === 2"
             type="text"
             size="small"
-            @click="handleEnable('routeId', scope.row.routeId)"
+            @click="handleUpdateState(scope.row.supplierId, 1)"
             >启用</el-button
           >
           <el-button
+            v-else
             type="text"
             size="small"
             style="color: red"
-            @click="handleDeactivate('routeId', scope.row.routeId)"
+            @click="handleUpdateState(scope.row.supplierId, 2)"
             >停用</el-button
           >
         </template>
@@ -87,12 +93,11 @@ export default {
       addChannel: false,
       //接口地址
       searchAPI: {
-        namespace: 'sysSignRoute',
-        list: 'listSignRouteByPage',
-        detele: 'deleteSignRoute'
+        namespace: 'smsSupplierInfo',
+        list: 'queryByPage'
       },
       // 列表参数
-      namespace: 'signRoute',
+      namespace: 'smsSupplierInfo',
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -100,17 +105,17 @@ export default {
         {
           type: 'inputNum',
           label: '供应商编号',
-          key: 'corporateId'
+          key: 'supplierId'
         },
         {
           type: 'input',
           label: '供应商名称',
-          key: 'userName'
+          key: 'supplierName'
         },
         {
           type: 'select',
           label: '状态',
-          key: 'type',
+          key: 'state',
           optionData: [
             {
               key: 1,
@@ -128,7 +133,7 @@ export default {
         {
           type: 'input',
           label: '供应商名称',
-          key: 'corporateId',
+          key: 'supplierName',
           maxlength: 20,
           defaultValue: '',
           rules: [
@@ -142,7 +147,7 @@ export default {
         {
           type: 'input',
           label: '联系人',
-          key: 'asd',
+          key: 'contacts',
           maxlength: 10,
           defaultValue: '',
           rules: [
@@ -156,7 +161,7 @@ export default {
         {
           type: 'input',
           label: '手机号',
-          key: 'ad',
+          key: 'mobile',
           maxlength: 11,
           defaultValue: '',
           rules: [
@@ -168,32 +173,47 @@ export default {
           ]
         }
       ],
-      routeId: ''
+      supplierId: ''
     };
   },
   activated() {
     this._mxGetList();
   },
   methods: {
-    handleEnable() {},
-    handleDeactivate() {
-      // this.$alert(
-      //   '此供应商有关联通道，请与全部通道取消关联后再进行停用。',
-      //   '禁止停用',
-      //   {
-      //     confirmButtonText: '确定',
-      //     showClose: false,
-      //     type: 'warning',
-      //     callback: (action) => {}
-      //   }
-      // );
-      // this.$confirm('停用后在短信通道中此供应商将不可被选择', '确认停用？', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // })
-      //   .then(() => {})
-      //   .catch(() => {});
+    handleUpdateState(supplierId, state) {
+      const params = { data: { supplierId, state } };
+      if (state === 2) {
+        this.$confirm('停用后在短信通道中此供应商将不可被选择', '确认停用？', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+          .then(() => {
+            this.updateState(params);
+          })
+          .catch(() => {});
+      } else {
+        this.updateState(params);
+      }
+    },
+    updateState(source) {
+      this.$http.smsSupplierInfo.updateState(source).then((res) => {
+        if (res.code === 1009) {
+          this.$alert(
+            '此供应商有关联通道，请与全部通道取消关联后再进行停用。',
+            '禁止停用',
+            {
+              confirmButtonText: '确定',
+              showClose: false,
+              type: 'warning',
+              callback: (action) => {}
+            }
+          );
+        } else {
+          this._mxGetList();
+          this.$message.success(res.msg || res.data);
+        }
+      });
     },
     submit(form) {
       let params = {};
@@ -203,7 +223,7 @@ export default {
             ...form
           }
         };
-        this.$http.sysSignRoute.addSignRoute(params).then((res) => {
+        this.$http.smsSupplierInfo.addSupplierInfo(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -215,11 +235,11 @@ export default {
       } else {
         params = {
           data: {
-            routeId: this.routeId,
+            supplierId: this.supplierId,
             ...form
           }
         };
-        this.$http.sysSignRoute.updateSignRoute(params).then((res) => {
+        this.$http.smsSupplierInfo.updateSupplierInfo(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -239,7 +259,7 @@ export default {
     },
     edit(row, ID) {
       this.formTit = '修改';
-      this.routeId = row.routeId;
+      this.supplierId = row.supplierId;
       this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key && row[key] !== '-') {
