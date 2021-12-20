@@ -1519,6 +1519,15 @@ export default {
       };
       this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName };
+            });
+          }
+        });
+
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
