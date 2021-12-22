@@ -93,6 +93,12 @@
                   :clearable="isClearAble(item)"
                   oninput="if(value.length > 11) value = value.slice(0,11)"
                   onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                  @blur="
+                    item.defaultValue = form[item.key] = $event.target.value = $event.target.value.replace(
+                      /\D+/gm,
+                      ''
+                    )
+                  "
                 ></el-input>
                 <!-- @input="_mxHandleSubmit()" -->
               </template>
