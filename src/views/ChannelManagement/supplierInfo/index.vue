@@ -83,7 +83,6 @@
 
 <script>
 import listMixin from '@/mixin/listMixin';
-import { isPhone } from '@/utils';
 
 export default {
   mixins: [listMixin],
@@ -149,14 +148,7 @@ export default {
           label: '联系人',
           key: 'contacts',
           maxlength: 10,
-          defaultValue: '',
-          rules: [
-            {
-              required: true,
-              message: '请输入必填项',
-              trigger: 'blur'
-            }
-          ]
+          defaultValue: ''
         },
         {
           type: 'input',
@@ -166,9 +158,14 @@ export default {
           defaultValue: '',
           rules: [
             {
-              required: true,
+              required: false,
               trigger: 'blur',
-              validator: isPhone
+              validator: (rule, value, callback) => {
+                if (!value) callback();
+                /^1\d{2}((\*{4})|(\d{4}))\d{4}$/.test(value)
+                  ? callback()
+                  : callback(new Error('手机号码有误，请重新输入'));
+              }
             }
           ]
         }
@@ -183,33 +180,41 @@ export default {
     handleUpdateState(supplierId, state) {
       const params = { data: { supplierId, state } };
       if (state === 2) {
-        this.$confirm('停用后在短信通道中此供应商将不可被选择', '确认停用？', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-          .then(() => {
-            this.updateState(params);
-          })
-          .catch(() => {});
+        this.$http.smsSupplierInfo.checkState(params).then((res) => {
+          if (!res.data) {
+            this.$confirm(
+              '停用后在短信通道中此供应商将不可被选择',
+              '确认停用？',
+              {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }
+            )
+              .then(() => {
+                this.updateState(params);
+              })
+              .catch(() => {});
+          } else {
+            this.$alert(
+              '此供应商有关联通道，请与全部通道取消关联后再进行停用。',
+              '禁止停用',
+              {
+                confirmButtonText: '确定',
+                showClose: false,
+                type: 'warning',
+                callback: (action) => {}
+              }
+            );
+          }
+        });
       } else {
         this.updateState(params);
       }
     },
     updateState(source) {
       this.$http.smsSupplierInfo.updateState(source).then((res) => {
-        if (res.code === 1009) {
-          this.$alert(
-            '此供应商有关联通道，请与全部通道取消关联后再进行停用。',
-            '禁止停用',
-            {
-              confirmButtonText: '确定',
-              showClose: false,
-              type: 'warning',
-              callback: (action) => {}
-            }
-          );
-        } else {
+        if (res.code === 200) {
           this._mxGetList();
           this.$message.success(
             source.data.state === 2 ? '停用成功' : '启用成功'
