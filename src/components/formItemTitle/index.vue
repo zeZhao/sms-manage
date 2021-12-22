@@ -41,8 +41,8 @@
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
-                @keyup.native="
-                  $event.target.value = $event.target.value.replace(
+                @blur="
+                  item.defaultValue = $event.target.value = $event.target.value.replace(
                     /^\s+|\s+$/gm,
                     ''
                   )
@@ -81,8 +81,8 @@
                 :placeholder="item.placeholder || `请输入${item.label}`"
                 :maxlength="item.maxlength"
                 show-word-limit
-                @keyup.native="
-                  $event.target.value = $event.target.value.replace(
+                @blur="
+                  item.defaultValue = $event.target.value = $event.target.value.replace(
                     /^\s+|\s+$/gm,
                     ''
                   )

@@ -2333,6 +2333,10 @@ export default {
         // 更新供应商信息
         updateSupplierInfo(params) {
             return post("/smsSupplierInfo/updateSupplierInfo", params);
+        },
+        // 检查供应商是否被通道绑定
+        checkState(params) {
+            return post("/smsSupplierInfo/checkState", params);
         }
     }
 }
