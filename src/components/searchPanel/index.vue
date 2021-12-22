@@ -11,6 +11,28 @@
           v-for="(item, index) in searchFormConfig"
           :key="index"
           :gutter="16"
+          :xs="
+            [
+              'daterange',
+              'timerange',
+              'datetime',
+              'selectInp',
+              'checkbox'
+            ].includes(item.type) || item.isLonger
+              ? 12
+              : 6
+          "
+          :sm="
+            [
+              'daterange',
+              'timerange',
+              'datetime',
+              'selectInp',
+              'checkbox'
+            ].includes(item.type) || item.isLonger
+              ? 12
+              : 6
+          "
           :md="
             [
               'daterange',
