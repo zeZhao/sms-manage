@@ -211,7 +211,9 @@ export default {
           );
         } else {
           this._mxGetList();
-          this.$message.success(res.msg || res.data);
+          this.$message.success(
+            source.data.state === 2 ? '停用成功' : '启用成功'
+          );
         }
       });
     },
