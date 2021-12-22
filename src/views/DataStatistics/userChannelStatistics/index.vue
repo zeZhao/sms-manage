@@ -20,11 +20,12 @@
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="longCode" label="通道长号码" />
-      <el-table-column prop="smsType" label="通道类型">
+      <!-- <el-table-column prop="smsType" label="通道类型">
         <template slot-scope="scope">
           <span>{{ scope.row.smsType == 1 ? "短信" : "" }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
+      <el-table-column prop="supplierId" label="供应商编号" />
       <el-table-column prop="succcount" label="成功条数" />
       <el-table-column prop="share" label="占比" />
     </el-table>
@@ -78,17 +79,22 @@ export default {
           label: "通道名称",
           key: "gatewayName"
         },
+        // {
+        //   type: "select",
+        //   label: "通道类型",
+        //   key: "reductType",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "短信"
+        //     }
+        //   ],
+        //   placeholder: "请选择通道类型"
+        // },
         {
-          type: "select",
-          label: "通道类型",
-          key: "reductType",
-          optionData: [
-            {
-              key: 1,
-              value: "短信"
-            }
-          ],
-          placeholder: "请选择通道类型"
+          type: "inputNum",
+          label: "供应商编号",
+          key: "supplierId"
         },
         {
           type: "daterange",

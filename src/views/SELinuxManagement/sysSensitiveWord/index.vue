@@ -542,11 +542,22 @@ export default {
       this.formTit = "新增";
       this.formConfig.forEach(item => {
         if (item.key === "keywordFile") {
+          let arr = [
+            {
+              required: true,
+              message: "请上传敏感词文件或者添加敏感词",
+              trigger: ["blur", "change"]
+            }
+          ];
           this.$set(item, "isShow", false);
+          this.$set(item, "rules", arr);
           item.defaultFileList = [];
         }
         if (item.key === "groupIds") {
           this.$set(item, "isShow", false);
+        }
+        if (item.key === "wordName") {
+          this.$set(item, "rules", checkwordName);
         }
         // if (item.key === "keywordFile") {
         //   item.defaultFileList = [];
@@ -574,6 +585,9 @@ export default {
         }
         if (item.key === "groupIds") {
           this.$set(item, "isShow", true);
+        }
+        if (item.key === "wordName") {
+          this.$set(item, "rules", checkwordName);
         }
       });
       setTimeout(() => {

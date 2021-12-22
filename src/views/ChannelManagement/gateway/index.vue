@@ -25,6 +25,8 @@
       <el-table-column prop="provinceName" label="省份" />
       <el-table-column prop="sendTo" label="运营商" />
       <el-table-column prop="unitPrice" label="价格(分)" width="100" />
+      <el-table-column prop="companyName" label="供应商" />
+      <el-table-column prop="supplierId" label="供应商编号" width="90" />
       <el-table-column prop="type" label="通道类型" width="100">
         <template slot-scope="scope">
           <span>{{ renderType(scope.row.type) }}</span>
@@ -401,6 +403,16 @@ export default {
           key: "clientId"
         },
         {
+          type: "input",
+          label: "供应商",
+          key: "companyName"
+        },
+        {
+          type: "inputNum",
+          label: "供应商编号",
+          key: "supplierId"
+        },
+        {
           type: "selectInp",
           label: "通道价格",
           key: ["priceCompare", "unitPrice"],
@@ -437,11 +449,11 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "通道公司名称",
-          key: "companyName",
-          maxlength: "30",
+          type: "select",
+          label: "供应商",
+          key: "supplierId",
           colSpan: 12,
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -1171,6 +1183,7 @@ export default {
     this.listTag();
     this.getLastGateway();
     this.getProvinceTree();
+    this.getsmsSupplierInfoQueryList();
   },
   computed: {
     // 目标通道--关联屏蔽省份 (校验)
@@ -1213,8 +1226,23 @@ export default {
     this.listTag();
     this.getLastGateway();
     this.getProvinceTree();
+    this.getsmsSupplierInfoQueryList();
   },
   methods: {
+    // 获取供应商下拉
+    getsmsSupplierInfoQueryList() {
+      this.$http.smsSupplierInfo.queryList({}).then(res => {
+        const { code, data } = res;
+        if (code === 200) {
+          const idx = this.formConfig.findIndex(v => v.key === "supplierId");
+          if (idx !== -1) {
+            this.formConfig[idx].optionData = data.map(v => {
+              return { key: v.supplierId, value: v.supplierName };
+            });
+          }
+        } 
+      })
+    },
     renderType(v) {
       switch (v) {
         case 1:
@@ -1519,6 +1547,15 @@ export default {
       };
       this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName };
+            });
+          }
+        });
+
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
