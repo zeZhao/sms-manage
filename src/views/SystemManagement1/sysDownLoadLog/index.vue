@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column type="index" label="序号" />
@@ -51,7 +51,7 @@
           <span v-if="row.status == 3">失败</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="50">
         <template slot-scope="scope">
           <el-button
             @click="install(scope.row)"

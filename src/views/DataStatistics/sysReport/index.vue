@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column
@@ -109,21 +109,21 @@
         </template>
       </el-table-column>
     </el-table>
-    <p style="color: red">
-      用户总发送条数: {{ statistics.sendNum || 0 }}&nbsp;&nbsp;用户总成功条数:
-      {{ statistics.successNum || 0 }}&nbsp;&nbsp;用户总成功率:
+    <p style="color: red;font-size: 12px;">
+      总发送条数: {{ statistics.sendNum || 0 }}&nbsp;&nbsp;总成功条数:
+      {{ statistics.successNum || 0 }}&nbsp;&nbsp;总成功率:
       {{
         statistics.successRate !== undefined
           ? Number(statistics.successRate).toFixed(2) + "%"
           : "0"
-      }}&nbsp;&nbsp;用户总失败条数:
-      {{ statistics.failNum || 0 }}&nbsp;&nbsp;用户总失败率:
+      }}&nbsp;&nbsp;总失败条数:
+      {{ statistics.failNum || 0 }}&nbsp;&nbsp;总失败率:
       {{
         statistics.failRate !== undefined
           ? Number(statistics.failRate).toFixed(2) + "%"
           : "0"
-      }}&nbsp;&nbsp;用户总未知条数:
-      {{ statistics.unknownNum || 0 }}&nbsp;&nbsp;用户总未知率:
+      }}&nbsp;&nbsp;总未知条数:
+      {{ statistics.unknownNum || 0 }}&nbsp;&nbsp;总未知率:
       {{
         statistics.unknownRate !== undefined
           ? Number(statistics.unknownRate).toFixed(2) + "%"

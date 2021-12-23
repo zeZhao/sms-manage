@@ -22,7 +22,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="gateway" label="通道编号" />
@@ -88,7 +88,7 @@
           <span>{{ scope.row.serverStatus ? "开启" : "关闭" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsTags" label="标签" width="100">
+      <el-table-column prop="smsTags" label="标签" width="150">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">

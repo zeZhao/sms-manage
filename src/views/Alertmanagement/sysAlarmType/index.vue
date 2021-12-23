@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="errNum" label="错误码" />
       <el-table-column prop="useModule" label="应用模块" />
@@ -37,10 +37,14 @@
           {{ renderAlarmModes(scope.row.alarmModes) }}
         </template>
       </el-table-column>
-      <el-table-column prop="smsContentTemp" label="短信报警模板" />
-      <el-table-column prop="wetContentTemp" label="微信报警模板" />
-      <el-table-column prop="emailContentTemp" label="邮件报警模板" />
-      <el-table-column label="操作" width="200">
+      <el-table-column prop="smsContentTemp" label="短信报警模板" width="250" />
+      <el-table-column prop="wetContentTemp" label="微信报警模板" width="250" />
+      <el-table-column
+        prop="emailContentTemp"
+        label="邮件报警模板"
+        width="250"
+      />
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button

@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="num" label="账户/通道编号" />
       <el-table-column prop="errNum" label="错误码" />

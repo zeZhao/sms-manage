@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column type="index" label="序号" />
@@ -40,7 +40,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="remarks" label="备注" />
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
             >修改</el-button

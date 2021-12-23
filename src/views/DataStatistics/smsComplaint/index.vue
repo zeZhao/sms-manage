@@ -15,7 +15,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userid" label="账户编号" />
@@ -66,7 +66,7 @@
             <el-table-column prop="9" label="其他"></el-table-column>
           </el-table-column>
         </el-table>
-        <p style="color: red">
+        <p style="color: red;font-size: 12px;">
           当天投诉总数:{{ count }}；处理个数：0；审核通过个数：0
         </p>
       </template>

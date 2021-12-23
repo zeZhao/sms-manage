@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column type="index" label="序号" />
@@ -135,7 +135,7 @@
         }}</template> -->
       </el-table-column>
     </el-table>
-    <p style="color: red" v-if="this.statistics">
+    <p style="color: red;font-size: 12px;" v-if="this.statistics">
       提交数:{{ this.statistics.count }} &nbsp;&nbsp;应收款:{{
         this.statistics.receivableMoney
       }}&nbsp;&nbsp; 实收款:{{ this.statistics.factMoney }}&nbsp;&nbsp;

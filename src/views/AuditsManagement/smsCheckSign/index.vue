@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="sign" label="签名" />
@@ -57,7 +57,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'signCheckId')"

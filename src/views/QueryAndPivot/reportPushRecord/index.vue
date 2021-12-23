@@ -12,13 +12,13 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="status" label="报告状态" />
       <el-table-column prop="pushId" label="推送ID" />
       <el-table-column prop="pushTime" label="推送时间" width="135">
@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column prop="pushStatus" label="推送状态" />
       <el-table-column prop="repeatNum" label="重复次数" />
-      <el-table-column prop="seqId" label="SEQID" />
+      <el-table-column prop="seqId" label="SEQID" width="155" />
       <el-table-column prop="gateway" label="通道" />
     </el-table>
 

@@ -24,7 +24,8 @@
     <el-button type="primary" @click="addAccont">新增运营账号</el-button>
     <el-table
       :data="dataList"
-      max-height="430"
+      :height="tableHeight"
+      border
       highlight-current-row
       style="width: 100%;margin-top:20px"
     >
@@ -58,7 +59,7 @@
       <!--</template>-->
       <!--</el-table-column>-->
       <!--<el-table-column prop="memo" label="描述" />-->
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button @click="infoShow(scope.row)" type="text" size="small"
             >修改</el-button
