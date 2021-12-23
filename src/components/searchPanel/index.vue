@@ -1,5 +1,5 @@
 <template>
-  <div class="searchPanel">
+  <div class="searchPanel" id="searchPanel">
     <el-form
       v-if="searchFormConfig.length"
       ref="form"

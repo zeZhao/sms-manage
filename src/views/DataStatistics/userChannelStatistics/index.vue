@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
@@ -28,7 +28,7 @@
       <el-table-column prop="succcount" label="成功条数" />
       <el-table-column prop="share" label="占比" />
     </el-table>
-    <p style="color: red">总条数: {{ statistics || 0 }}</p>
+    <p style="color: red;font-size: 12px;">总条数: {{ statistics || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"

@@ -21,18 +21,18 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="counter" label="手机号个数" />
+      <el-table-column prop="content" label="内容" width="110" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column prop="counter" label="手机号个数" width="90" />
       <el-table-column prop="gateway" label="通道" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="hasSend" label="发送状态">
         <template slot-scope="scope">
           <span v-if="scope.row.hasSend === '0'">未发</span>
@@ -50,7 +50,9 @@
         }}</template>
       </el-table-column>
     </el-table>
-    <p style="color: red">手机号总条数: {{ tabBottomData || 0 }}</p>
+    <p style="color: red;font-size: 12px;">
+      手机号总条数: {{ tabBottomData || 0 }}
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"

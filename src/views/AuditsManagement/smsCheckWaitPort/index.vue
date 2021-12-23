@@ -23,7 +23,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       @selection-change="selectionChange"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
@@ -89,7 +89,7 @@
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button type="text" @click="supperCheck(scope.row)"
             >超审</el-button

@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -26,10 +26,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
-      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="content" label="内容" width="300" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="count" label="条数" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="definiteTime" label="定时时间" width="155">
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime | timeFormat }}</span>
@@ -44,7 +44,7 @@
       <el-table-column prop="pkNumber" label="PK NUMBER" width="110" />
       <el-table-column prop="pid" label="PID" />
     </el-table>
-    <p style="color: red">总条数：{{ total || 0 }}</p>
+    <p style="color: red;">总条数：{{ total || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -113,7 +113,11 @@ export default {
           type: "timerange",
           label: "提交时间",
           key: ["", "startTime", "endTime"],
-          defaultValue: ["", new Date(2021, 12, 16, 0, 0, 0), new Date(2021, 12, 16, 23, 59, 59)]
+          defaultValue: [
+            "",
+            new Date(2021, 12, 16, 0, 0, 0),
+            new Date(2021, 12, 16, 23, 59, 59)
+          ]
         },
         {
           type: "date",
@@ -126,9 +130,7 @@ export default {
       total: 0
     };
   },
-  mounted() {
-    // this.selectSendLogAllNum(this.searchParam);
-  },
+  mounted() {},
   computed: {},
   methods: {
     selectSendLogAllNum(data) {

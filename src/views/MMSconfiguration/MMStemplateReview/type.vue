@@ -134,7 +134,12 @@
             </el-col>
           </el-row>
         </el-form>
-        <el-table :data="tableData" style="width: 100%" border height="50vh">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          border
+          :height="tableHeight"
+        >
           <el-table-column prop="type" label="通道类型" align="center" />
           <el-table-column label="通道" align="center">
             <template slot-scope="scope">

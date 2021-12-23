@@ -19,7 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -29,13 +29,13 @@
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="sendNum" label="发送总数" />
-      <el-table-column prop="oneLevelCountStr" label="5秒以下" />
+      <el-table-column prop="oneLevelCountStr" label="5秒以下" width="90" />
       <el-table-column prop="twoLevelCountStr" label="5-10秒" />
       <el-table-column prop="threeLevelCountStr" label="10-20秒" />
       <el-table-column prop="fourLevelCountStr" label="20-30秒" />
       <el-table-column prop="fiveLevelCountStr" label="30-60秒" />
       <el-table-column prop="sixLevelCountStr" label="60秒以上" />
-      <el-table-column prop="countDate" label="时间" />
+      <el-table-column prop="countDate" label="时间" width="100" />
     </el-table>
     <Page
       :pageObj="pageObj"

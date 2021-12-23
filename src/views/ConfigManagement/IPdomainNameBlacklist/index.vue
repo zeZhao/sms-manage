@@ -10,7 +10,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="wordName" label="IP/域名" />
@@ -20,7 +20,7 @@
       <el-table-column prop="remark" label="告警邮箱" />
       <el-table-column prop="remark" label="创建时间" />
       <el-table-column prop="remark" label="创建人" />
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button

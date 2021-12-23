@@ -11,14 +11,14 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="groupId" label="通道组编号" />
       <el-table-column prop="groupName" label="通道组名称" />
       <el-table-column prop="sendTo" label="发送对象" />
       <el-table-column prop="notes" label="备注" />
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="200" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button

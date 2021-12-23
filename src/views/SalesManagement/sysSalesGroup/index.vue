@@ -37,7 +37,7 @@
             type="text"
             size="small"
             v-if="scope.row.status === 1"
-            style="color: red"
+            style="color: red;font-size: 12px;"
             >停用</el-button
           >
           <el-button

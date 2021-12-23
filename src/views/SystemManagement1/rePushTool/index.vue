@@ -9,7 +9,8 @@
 
     <el-table
       :data="listData"
-      height="50vh"
+      :height="tableHeight"
+      border
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -22,7 +23,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="pushType" label="推送类型">
         <template slot-scope="scope">{{
           scope.row.pushType === 1 ? "报告推送" : "上行推送"
@@ -40,7 +41,7 @@
           {{ scope.row.updateTime | timeFormat }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button v-if="scope.row.taskStatus === 1" type="text" size="small"
             >列队中</el-button

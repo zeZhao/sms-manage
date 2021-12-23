@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -19,7 +19,7 @@
       <el-table-column prop="content" label="模板内容" width="300" />
       <el-table-column prop="effectiveTime" label="生效日期" />
       <el-table-column prop="invalidTime" label="失效日期" />
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="200" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'templateId')"

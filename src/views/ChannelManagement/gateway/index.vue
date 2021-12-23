@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="gateway" label="通道编号" />
@@ -56,7 +56,7 @@
       <!-- <el-table-column prop="charger" label="通道负责人" width="90"  /> -->
       <!-- <el-table-column prop="priority" label="优先级"  /> -->
       <el-table-column prop="clientId" label="账号" />
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column prop="remark" label="备注" width="150" />
       <el-table-column prop="remark" label="通道状态">
         <template slot-scope="scope">
           <el-switch
@@ -74,7 +74,7 @@
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="smsTags" label="标签" width="100">
+      <el-table-column prop="smsTags" label="标签" width="150">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -84,7 +84,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.smsTags.length"
