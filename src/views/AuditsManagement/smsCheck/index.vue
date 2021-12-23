@@ -12,13 +12,13 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="账户名称" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容" width="250" />
       <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cm" label="移动" />
       <el-table-column prop="cu" label="联通" />
@@ -50,8 +50,8 @@
           <span v-if="scope.row.source == '7'">组合超时</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="mobile" label="手机号" width="150" />
+      <el-table-column prop="cid" label="CID" width="155" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="combined" label="是否处理"
         ><template slot-scope="scope">
           <span v-if="scope.row.handleStatus == 0">未处理</span>

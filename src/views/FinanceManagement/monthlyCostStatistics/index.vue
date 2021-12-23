@@ -19,7 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="createDate" label="日期" />
@@ -57,7 +57,7 @@
       <!-- unitPrice * succCount * 0.01 -->
       <el-table-column prop="stProfit" label="利润(元)" />
     </el-table>
-    <p style="color: red">
+    <p style="color: red;font-size: 12px;">
       总消耗条数:{{ obj.succcAll || 0 }}&nbsp;&nbsp;总收入款(元):{{
         obj.shouRuAll || 0
       }}&nbsp;&nbsp;总成本款(元):{{

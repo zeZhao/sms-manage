@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -28,7 +28,7 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="template" label="模板信息" />
+      <el-table-column prop="template" label="模板信息" width="400" />
       <el-table-column prop="createdAt" label="创建时间" width="135">
         <template slot-scope="scope">{{
           scope.row.createdAt | timeFormat
@@ -47,7 +47,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'templateId')"

@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" key="corpId" />
@@ -53,7 +53,7 @@
         key="countDate"
       />
     </el-table>
-    <p style="color: red">
+    <p style="color: red;font-size: 12px;">
       总数: {{ statistics.returnNum || 0 }}&nbsp;&nbsp;成功数:
       {{ statistics.successNum || 0 }}&nbsp;&nbsp;失败数:
       {{ statistics.failNum || 0 }}&nbsp;&nbsp;

@@ -12,12 +12,12 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="activityName" label="活动名称" />
-      <el-table-column prop="content" label="短信内容" />
+      <el-table-column prop="content" label="短信内容" width="110" />
       <el-table-column prop="activityUrl" label="活动链接" />
       <el-table-column prop="messageNum" label="短信条数" />
       <el-table-column prop="clickTimes" label="活动访问次数" />

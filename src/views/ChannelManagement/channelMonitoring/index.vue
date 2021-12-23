@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="monitorTime" label="监控日期" width="135">
@@ -19,11 +19,19 @@
           scope.row.monitorTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column prop="linkStatus" label="链接状态(0正常)其他失败" />
+      <el-table-column
+        prop="linkStatus"
+        label="链接状态(0正常)其他失败"
+        width="160"
+      />
       <el-table-column prop="current_SendSpeed" label="	发送速度" />
       <el-table-column prop="max_SendSpeed" label="最大发送速度" />
       <el-table-column prop="current_ReportSpeed" label="报告接收速度" />
-      <el-table-column prop="max_ReportSpeed" label="最大报告接收速度" />
+      <el-table-column
+        prop="max_ReportSpeed"
+        label="最大报告接收速度"
+        width="150"
+      />
       <el-table-column prop="today_Submit_Count" label="提交个数" />
       <el-table-column prop="today_Submit_SuccCount" label="提交成功个数" />
       <el-table-column prop="today_Submit_FailCount" label="提交失败个数" />

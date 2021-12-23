@@ -11,7 +11,7 @@
       :data="listData"
       border
       highlight-current-row
-      height="50vh"
+      :height="tableHeight"
       style="width: 100%"
     >
       <el-table-column prop="errNum" label="错误码" />

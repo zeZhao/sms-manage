@@ -11,17 +11,18 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="blackGroupName" label="黑名单组" />
+      <el-table-column prop="createUserName" label="创建人" width="100" />
       <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createUserName" label="创建人" />
-      <el-table-column label="操作" width="200">
+
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'groupId')"

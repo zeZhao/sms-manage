@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -28,7 +28,7 @@
       <el-table-column prop="optimizeTemplate" label="优化关键词" />
       <el-table-column prop="startTime" label="开始时间(时:分)" />
       <el-table-column prop="endTime" label="结束时间(时:分)" />
-      <el-table-column label="操作" width="200"
+      <el-table-column label="操作" width="200" fixed="right"
         >1458
         <template slot-scope="scope">
           <el-button @click="edit(scope.row, 'id')" type="text" size="small"

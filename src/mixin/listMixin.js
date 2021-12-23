@@ -204,20 +204,39 @@ export default {
       submitParamsIsData: true,
       // 删除时参数是否需要data包含
       deleteParamsIsData: true,
+      //表格默认高度
+      tableHeight: "50vh"
     };
   },
 
   created() { },
 
   mounted() {
+    //动态计算表格高度
+    this.handleTableResize()
+    window.addEventListener("resize", this.handleTableResize);
     // 默认进入该页面不查询
     if (this.notSearch) return;
 
     // 请求数据
     this._mxGetBeforeListData();
+
+
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleTableResize);
   },
 
   methods: {
+    handleTableResize() {
+      let contentClientHeight = document.getElementById("content").clientHeight;
+      let searchPanelClientHeight = document.getElementById("searchPanel")
+        .clientHeight;
+      this.$nextTick(() => {
+        // 70为底部距离分页器
+        this.tableHeight = `${(contentClientHeight - searchPanelClientHeight - 70).toString()}px`;
+      });
+    },
     /***
      * 请求数据
      * @private

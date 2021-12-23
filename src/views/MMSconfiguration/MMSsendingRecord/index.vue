@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -20,8 +20,8 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="mmsId" label="模板编号" />
-      <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="mobile" label="手机号码" />
+      <el-table-column prop="cid" label="CID" width="155" />
+      <el-table-column prop="mobile" label="手机号码" width="100" />
       <el-table-column prop="title" label="彩信标题" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">

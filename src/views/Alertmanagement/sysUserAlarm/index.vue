@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="notSubmitMin" label="未提交报警时间间隔(分)" />
@@ -37,7 +37,7 @@
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
