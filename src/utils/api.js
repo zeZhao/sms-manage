@@ -2311,5 +2311,32 @@ export default {
         delete(params) {
             return post("/pushToolTask/delete", params);
         }
+    },
+    // 供应商信息
+    smsSupplierInfo: {
+        // 分页查询供应商信息
+        queryByPage(params) {
+            return post("/smsSupplierInfo/queryByPage", params);
+        },
+        // 查询供应商信息列表
+        queryList(params) {
+            return post("/smsSupplierInfo/queryList", params);
+        },
+        // 新增供应商信息
+        addSupplierInfo(params) {
+            return post("/smsSupplierInfo/addSupplierInfo", params);
+        },
+        // 更新状态
+        updateState(params) {
+            return post("/smsSupplierInfo/updateState", params);
+        },
+        // 更新供应商信息
+        updateSupplierInfo(params) {
+            return post("/smsSupplierInfo/updateSupplierInfo", params);
+        },
+        // 检查供应商是否被通道绑定
+        checkState(params) {
+            return post("/smsSupplierInfo/checkState", params);
+        }
     }
 }

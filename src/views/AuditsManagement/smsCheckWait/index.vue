@@ -128,6 +128,7 @@
       :visible.sync="addChannel"
       :close-on-click-modal="false"
       top="45px"
+      width="80%"
     >
       <FormItem
         ref="formItem"
@@ -439,7 +440,13 @@ export default {
         }
       }
       this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
-        this._mxSuccess(res);
+        if (resOk(res)) {
+          this.$message.success("超审成功！");
+          this._mxGetList();
+          this.addChannel = false;
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
       });
     },
     addCheck() {

@@ -51,6 +51,7 @@
       :visible.sync="content"
       :close-on-click-modal="false"
       style="margin: 0 auto"
+      width="80%"
     >
       <FormItem
         :colSpan="12"
@@ -66,7 +67,7 @@
       :visible.sync="gateway"
       :close-on-click-modal="false"
       style="margin: 0 auto"
-      width="55%"
+      width="80%"
     >
       <FormItem
         :colSpan="12"
@@ -82,7 +83,6 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -159,8 +159,7 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"],
-          defaultValue: ["", getDateToString(), getDateToString()]
+          key: ["", "startTime", "endTime"]
         }
       ],
       // 修改内容表单配置
@@ -275,7 +274,7 @@ export default {
     submitContent(form) {
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success(res.msg || "修改成功！");
+          this.$message.success("修改成功！");
           this._mxGetList();
           this.content = false;
         } else {
@@ -298,7 +297,7 @@ export default {
       // }
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success(res.msg || "修改成功！");
+          this.$message.success("修改成功！");
           this._mxGetList();
           this.gateway = false;
         } else {
