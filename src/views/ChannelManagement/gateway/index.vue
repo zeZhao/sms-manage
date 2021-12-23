@@ -59,9 +59,9 @@
       <!-- <el-table-column prop="priority" label="优先级"  /> -->
       <el-table-column prop="clientId" label="账号" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="remark" label="通道状态">
+      <el-table-column prop="serverStatus" label="通道状态">
         <template slot-scope="scope">
-          <el-switch
+          <!-- <el-switch
             v-if="scope.row.remark.indexOf('【手动】') === -1"
             v-model="scope.row.serverStatus"
             active-color="#13ce66"
@@ -73,7 +73,8 @@
                 switchChange(val, scope.row.gateway);
               }
             "
-          ></el-switch>
+          ></el-switch> -->
+          <span>{{ scope.row.serverStatus ? "开启" : "关闭" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsTags" label="标签" width="100">
@@ -86,7 +87,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="230">
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.smsTags.length"
@@ -107,6 +108,22 @@
             type="text"
             size="small"
             >修改</el-button
+          >
+          <el-button
+            v-if="!scope.row.serverStatus"
+            @click="switchChange(1, scope.row.gateway)"
+            :disabled="!!(scope.row.remark.indexOf('【手动】') !== -1)"
+            type="text"
+            size="small"
+            >开启</el-button
+          >
+          <el-button
+            v-if="scope.row.serverStatus"
+            @click="switchChange(0, scope.row.gateway)"
+            :disabled="!!(scope.row.remark.indexOf('【手动】') !== -1)"
+            type="text"
+            size="small"
+            >关闭</el-button
           >
           <el-button
             @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
@@ -271,6 +288,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -423,6 +441,12 @@ export default {
             { key: "<", value: "<" },
             { key: "=", value: "=" }
           ]
+        },
+        {
+          type: "select",
+          label: "通道状态",
+          key: "serverStatus",
+          optionData: [{ key: 1, value: "开启" }, { key: 0, value: "关闭" }]
         }
       ],
       // 表单配置
@@ -1293,8 +1317,8 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key] !== "-" ? row[key] : "");
           }
         }
         if (!Object.keys(row).includes(item.key)) {
@@ -1388,9 +1412,16 @@ export default {
     },
     //开启关闭通道
     switchChange(val, gateway) {
-      this.loading = true;
       if (val) {
-        this.$http.gateway
+        this.$confirm('开启后可利用此通道发送短信。', '确定开启？',
+          {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          this.loading = true;
+          this.$http.gateway
           .startGateway({
             data: {
               gatewayId: gateway
@@ -1399,6 +1430,7 @@ export default {
           .then(res => {
             this.loading = false;
             if (resOk(res)) {
+              this._mxGetList();
               this.$message.success("通道启用成功！");
             } else {
               this.$message.error("通道启用失败！");
@@ -1409,8 +1441,17 @@ export default {
               });
             }
           });
+        }).catch(() => {});
       } else {
-        this.$http.gateway
+        this.$confirm('关闭后利用此通道发送的短信全部进入待发，请谨慎操作。', '确定关闭？',
+          {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          this.loading = true;
+          this.$http.gateway
           .stopGateway({
             data: {
               gatewayId: gateway
@@ -1419,6 +1460,7 @@ export default {
           .then(res => {
             this.loading = false;
             if (resOk(res)) {
+              this._mxGetList();
               this.$message.success("通道停止成功！");
             } else {
               this.$message.error("通道停止失败！");
@@ -1429,6 +1471,7 @@ export default {
               });
             }
           });
+        }).catch(() => {});
       }
     },
     selectChange({ val, item }) {
