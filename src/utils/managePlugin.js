@@ -238,7 +238,7 @@ class managePlugin {
           }
         )
         .then(res => {
-          if (res.data.type == "application/octet-stream") {
+          if (["application/octet-stream", "application/vnd.ms-excel"].includes(res.data.type)) {
             let blob = new Blob([res.data], {
               type: "application/vnd.ms-excel;charset=utf-8"
             });

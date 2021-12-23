@@ -2,10 +2,21 @@
   <!--短信通道-->
   <div class="gateway">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-    ></Search>
+      @exportData="_mxExportData"
+    >
+      <template slot="Other">
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
@@ -307,7 +318,9 @@ export default {
         list: "listGatewayByPage",
         detele: "deleteGateway",
         add: "addGateway",
-        edit: "updateGateway"
+        edit: "updateGateway",
+        exportUrl: "/gateway/exportGateway",
+        fileName: "短信通道"
       },
       // 列表参数
       namespace: "gateway",
