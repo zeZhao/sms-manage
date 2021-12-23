@@ -44,7 +44,7 @@
       <el-table-column prop="pkNumber" label="PK NUMBER" width="110" />
       <el-table-column prop="pid" label="PID" />
     </el-table>
-    <p style="color: red;">总条数：{{ total || 0 }}</p>
+    <p style="color: red;font-size:12px">总条数：{{ total || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
