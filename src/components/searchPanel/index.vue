@@ -20,6 +20,8 @@
               'checkbox'
             ].includes(item.type) || item.isLonger
               ? 12
+              : ['date'].includes(item.type)
+              ? 8
               : 6
           "
           :sm="
@@ -31,6 +33,8 @@
               'checkbox'
             ].includes(item.type) || item.isLonger
               ? 12
+              : ['date'].includes(item.type)
+              ? 8
               : 6
           "
           :md="
@@ -42,6 +46,8 @@
               'checkbox'
             ].includes(item.type) || item.isLonger
               ? 12
+              : ['date'].includes(item.type)
+              ? 8
               : 6
           "
           :lg="
@@ -53,6 +59,8 @@
               'checkbox'
             ].includes(item.type) || item.isLonger
               ? 8
+              : ['date'].includes(item.type)
+              ? 6
               : 4
           "
           :xl="
@@ -64,6 +72,8 @@
               'checkbox'
             ].includes(item.type) || item.isLonger
               ? 6
+              : ['date'].includes(item.type)
+              ? 5
               : 3
           "
         >
@@ -94,7 +104,9 @@
                   oninput="if(value.length > 11) value = value.slice(0,11)"
                   onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
                   @blur="
-                    item.defaultValue = form[item.key] = $event.target.value = $event.target.value.replace(
+                    item.defaultValue = form[
+                      item.key
+                    ] = $event.target.value = $event.target.value.replace(
                       /\D+/gm,
                       ''
                     )
