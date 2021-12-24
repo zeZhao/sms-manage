@@ -19,7 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -42,7 +42,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <p style="color: red">
+    <p style="color: red;font-size: 12px;">
       <span v-if="isChooseTimeData.startTime || isChooseTimeData.endTime">
         <span v-if="isChooseTimeData.startTime">
           {{ isChooseTimeData.startTime }}日

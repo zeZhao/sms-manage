@@ -2,6 +2,7 @@
   <!--商户用户-->
   <div class="corpUser">
     <Search
+      ref="search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
@@ -12,7 +13,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -100,7 +101,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="短信计费方式">
+      <el-table-column prop="reductModel" label="短信计费方式" width="100">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -153,7 +154,7 @@
           </span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="mmsReductModel" label="彩信计费方式">
+      <el-table-column prop="mmsReductModel" label="彩信计费方式" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
           <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
@@ -175,7 +176,7 @@
           row.submitSpeed ? row.submitSpeed : "不限"
         }}</template>
       </el-table-column>
-      <el-table-column prop="smsTags" label="标签">
+      <el-table-column prop="smsTags" label="标签" min-width="150">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -185,7 +186,11 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="roleName" label="角色"></el-table-column>
+      <el-table-column
+        prop="roleName"
+        label="角色"
+        width="110"
+      ></el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{
@@ -1354,6 +1359,7 @@ export default {
       titleTips: ""
     };
   },
+  created() {},
   mounted() {
     this.getAllCorp();
     this.getSaleman();
@@ -1361,6 +1367,7 @@ export default {
     this.getRole();
     this.listTag();
     this.getUserId();
+    this.getBlackFroup();
   },
   activated() {
     //重新获取数据
@@ -1371,6 +1378,7 @@ export default {
     this.listTag();
     this._mxGetList();
     this.getUserId();
+    this.getBlackFroup();
   },
   computed: {
     renderTitle() {
@@ -1378,6 +1386,25 @@ export default {
     }
   },
   methods: {
+    //获取黑名单类型
+    getBlackFroup() {
+      this.$http.smsBlackGroup.listBlackGroup().then(res => {
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "blackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+        // this._setDefaultValue(
+        //   this.formConfig,
+        //   res.data,
+        //   "mmsBlackLevel",
+        //   "groupId",
+        //   "blackGroupName"
+        // );
+      });
+    },
     // 获取账户编号
     getUserId(data) {
       this.titleTips = ""; // 重置

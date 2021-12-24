@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <!-- <el-table-column prop="userName" label="登录账号" /> -->
@@ -66,7 +66,7 @@
             type="text"
             size="small"
             v-if="scope.row.status === 1"
-            style="color: red"
+            style="color: red;font-size: 12px;"
             >停用</el-button
           >
           <el-button

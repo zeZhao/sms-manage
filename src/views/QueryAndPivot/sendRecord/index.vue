@@ -12,15 +12,15 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
-      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="content" label="内容" width="110" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span>
@@ -38,7 +38,7 @@
       </el-table-column>
       <el-table-column prop="counter" label="条数" />
       <el-table-column prop="gateway" label="通道" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="hasSend" label="发送状态">
         <template slot-scope="scope">
           <span>
@@ -76,7 +76,7 @@
         </template>
       </el-table-column> -->
     </el-table>
-    <p style="color: red">总条数：{{ total || 0 }}</p>
+    <p style="color: red;font-size: 12px;">总条数：{{ total || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -156,7 +156,11 @@ export default {
           type: "timerange",
           label: "创建时间",
           key: ["", "startTime", "endTime"],
-          defaultValue: ["", new Date(2021, 12, 16, 0, 0, 0), new Date(2021, 12, 16, 23, 59, 59)]
+          defaultValue: [
+            "",
+            new Date(2021, 12, 16, 0, 0, 0),
+            new Date(2021, 12, 16, 23, 59, 59)
+          ]
         }
       ],
       total: 0

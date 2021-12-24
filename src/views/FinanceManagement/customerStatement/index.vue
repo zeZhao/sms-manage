@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column prop="billTime" label="日期" />
       <el-table-column prop="remark" label="备注" />
-      <el-table-column label="操作" width="200" fixed="right">
+      <el-table-column label="操作" width="110" fixed="right">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.status === 1"

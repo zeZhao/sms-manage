@@ -10,7 +10,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="gatewayId" label="通道编号" />
       <el-table-column prop="name" label="通道名称" />

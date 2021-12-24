@@ -1,5 +1,5 @@
 <template>
-  <div class="searchPanel">
+  <div class="searchPanel" id="searchPanel">
     <el-form
       v-if="searchFormConfig.length"
       ref="form"
@@ -12,58 +12,58 @@
           :key="index"
           :gutter="16"
           :xs="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
+            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
+              item.type
+            ) || item.isLonger
               ? 12
+              : ['date'].includes(item.type)
+              ? 8
+              : ['datetime'].includes(item.type)
+              ? 16
               : 6
           "
           :sm="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
+            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
+              item.type
+            ) || item.isLonger
               ? 12
+              : ['date'].includes(item.type)
+              ? 8
+              : ['datetime'].includes(item.type)
+              ? 16
               : 6
           "
           :md="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
+            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
+              item.type
+            ) || item.isLonger
               ? 12
+              : ['date'].includes(item.type)
+              ? 8
+              : ['datetime'].includes(item.type)
+              ? 16
               : 6
           "
           :lg="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
+            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
+              item.type
+            ) || item.isLonger
               ? 8
+              : ['date'].includes(item.type)
+              ? 6
+              : ['datetime'].includes(item.type)
+              ? 12
               : 4
           "
           :xl="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
+            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
+              item.type
+            ) || item.isLonger
               ? 6
+              : ['date'].includes(item.type)
+              ? 5
+              : ['datetime'].includes(item.type)
+              ? 8
               : 3
           "
         >
@@ -94,7 +94,9 @@
                   oninput="if(value.length > 11) value = value.slice(0,11)"
                   onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
                   @blur="
-                    item.defaultValue = form[item.key] = $event.target.value = $event.target.value.replace(
+                    item.defaultValue = form[
+                      item.key
+                    ] = $event.target.value = $event.target.value.replace(
                       /\D+/gm,
                       ''
                     )
@@ -542,6 +544,9 @@ export default {
   }
   ::v-deep .el-col:last-child {
     margin-bottom: 0;
+  }
+  ::v-deep .el-date-editor .el-input__inner {
+    padding: 0 0 0 30px !important;
   }
 
   .btnStyle {

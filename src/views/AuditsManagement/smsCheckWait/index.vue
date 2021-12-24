@@ -34,7 +34,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       @selection-change="selectionChange"
     >
       <!-- <el-table-column type="selection" width="55" /> -->
@@ -47,7 +47,7 @@
       </el-table-column>-->
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容">
+      <el-table-column prop="content" label="内容" width="350">
         <template slot-scope="scope">
           <span v-html="scope.row.content"></span>
         </template>

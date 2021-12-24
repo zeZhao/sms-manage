@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="supplierId" label="供应商编号" />
@@ -27,7 +27,7 @@
       </el-table-column>
       <el-table-column prop="state" label="状态">
         <template slot-scope="scope">
-          {{ scope.row.state === 1 ? '正常' : '停用' }}
+          {{ scope.row.state === 1 ? "正常" : "停用" }}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
@@ -82,47 +82,47 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin';
+import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
-      formTit: '新增',
+      formTit: "新增",
       addChannel: false,
       //接口地址
       searchAPI: {
-        namespace: 'smsSupplierInfo',
-        list: 'queryByPage'
+        namespace: "smsSupplierInfo",
+        list: "queryByPage"
       },
       // 列表参数
-      namespace: 'smsSupplierInfo',
+      namespace: "smsSupplierInfo",
       //搜索框数据
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '供应商编号',
-          key: 'supplierId'
+          type: "inputNum",
+          label: "供应商编号",
+          key: "supplierId"
         },
         {
-          type: 'input',
-          label: '供应商名称',
-          key: 'supplierName'
+          type: "input",
+          label: "供应商名称",
+          key: "supplierName"
         },
         {
-          type: 'select',
-          label: '状态',
-          key: 'state',
+          type: "select",
+          label: "状态",
+          key: "state",
           optionData: [
             {
               key: 1,
-              value: '正常'
+              value: "正常"
             },
             {
               key: 2,
-              value: '停用'
+              value: "停用"
             }
           ]
         }
@@ -130,47 +130,47 @@ export default {
       // 表单配置
       formConfig: [
         {
-          type: 'input',
-          label: '供应商名称',
-          key: 'supplierName',
+          type: "input",
+          label: "供应商名称",
+          key: "supplierName",
           maxlength: 20,
-          defaultValue: '',
+          defaultValue: "",
           rules: [
             {
               required: true,
-              message: '请输入必填项',
-              trigger: 'blur'
+              message: "请输入必填项",
+              trigger: "blur"
             }
           ]
         },
         {
-          type: 'input',
-          label: '联系人',
-          key: 'contacts',
+          type: "input",
+          label: "联系人",
+          key: "contacts",
           maxlength: 10,
-          defaultValue: ''
+          defaultValue: ""
         },
         {
-          type: 'input',
-          label: '手机号',
-          key: 'mobile',
+          type: "input",
+          label: "手机号",
+          key: "mobile",
           maxlength: 11,
-          defaultValue: '',
+          defaultValue: "",
           rules: [
             {
               required: false,
-              trigger: 'blur',
+              trigger: "blur",
               validator: (rule, value, callback) => {
                 if (!value) callback();
                 /^1\d{2}((\*{4})|(\d{4}))\d{4}$/.test(value)
                   ? callback()
-                  : callback(new Error('手机号码有误，请重新输入'));
+                  : callback(new Error("手机号码有误，请重新输入"));
               }
             }
           ]
         }
       ],
-      supplierId: ''
+      supplierId: ""
     };
   },
   activated() {
@@ -180,15 +180,15 @@ export default {
     handleUpdateState(supplierId, state) {
       const params = { data: { supplierId, state } };
       if (state === 2) {
-        this.$http.smsSupplierInfo.checkState(params).then((res) => {
+        this.$http.smsSupplierInfo.checkState(params).then(res => {
           if (!res.data) {
             this.$confirm(
-              '停用后在短信通道中此供应商将不可被选择',
-              '确认停用？',
+              "停用后在短信通道中此供应商将不可被选择",
+              "确认停用？",
               {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                type: "warning"
               }
             )
               .then(() => {
@@ -197,13 +197,13 @@ export default {
               .catch(() => {});
           } else {
             this.$alert(
-              '此供应商有关联通道，请与全部通道取消关联后再进行停用。',
-              '禁止停用',
+              "此供应商有关联通道，请与全部通道取消关联后再进行停用。",
+              "禁止停用",
               {
-                confirmButtonText: '确定',
+                confirmButtonText: "确定",
                 showClose: false,
-                type: 'warning',
-                callback: (action) => {}
+                type: "warning",
+                callback: action => {}
               }
             );
           }
@@ -213,24 +213,24 @@ export default {
       }
     },
     updateState(source) {
-      this.$http.smsSupplierInfo.updateState(source).then((res) => {
+      this.$http.smsSupplierInfo.updateState(source).then(res => {
         if (res.code === 200) {
           this._mxGetList();
           this.$message.success(
-            source.data.state === 2 ? '停用成功' : '启用成功'
+            source.data.state === 2 ? "停用成功" : "启用成功"
           );
         }
       });
     },
     submit(form) {
       let params = {};
-      if (this.formTit == '新增') {
+      if (this.formTit == "新增") {
         params = {
           data: {
             ...form
           }
         };
-        this.$http.smsSupplierInfo.addSupplierInfo(params).then((res) => {
+        this.$http.smsSupplierInfo.addSupplierInfo(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -246,7 +246,7 @@ export default {
             ...form
           }
         };
-        this.$http.smsSupplierInfo.updateSupplierInfo(params).then((res) => {
+        this.$http.smsSupplierInfo.updateSupplierInfo(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -258,23 +258,23 @@ export default {
       }
     },
     create() {
-      this.formTit = '新增';
+      this.formTit = "新增";
       this.addChannel = true;
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
     },
     edit(row, ID) {
-      this.formTit = '修改';
+      this.formTit = "修改";
       this.supplierId = row.supplierId;
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key) {
-            this.$set(item, 'defaultValue', row[key] !== '-' ? row[key] : '');
+            this.$set(item, "defaultValue", row[key] !== "-" ? row[key] : "");
           }
         }
         if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, 'defaultValue', '');
+          this.$set(item, "defaultValue", "");
         }
       });
       setTimeout(() => {

@@ -11,13 +11,13 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="gateway" label="通道" />
-      <el-table-column prop="type" label="重发类型">
+      <el-table-column prop="type" label="重发类型" width="100">
         <template slot-scope="{ row }">{{ renderType(row.type) }}</template>
       </el-table-column>
       <el-table-column prop="status" label="不重发状态" />
@@ -34,7 +34,7 @@
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button

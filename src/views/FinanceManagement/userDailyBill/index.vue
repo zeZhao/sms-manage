@@ -23,7 +23,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -42,13 +42,14 @@
       <el-table-column prop="failRate" label="失败率" />
       <el-table-column prop="unknownRate" label="未知率" />
     </el-table>
-    <p style="color: red" v-if="statistics">
-      总提交数(条):{{ statistics.submitCountAll || 0 }} &nbsp;&nbsp;总发送条数(条):{{
-        statistics.sendCountAll || 0
-      }}&nbsp;&nbsp; 总成功数(条):{{ statistics.succCountAll || 0 }}&nbsp;&nbsp;
-      总失败数(条):{{ statistics.failCountAll || 0 }}&nbsp;&nbsp; 总未知数(条):{{
-        statistics.unknownCountAll || 0
+    <p style="color: red;font-size: 12px;" v-if="statistics">
+      总提交数(条):{{
+        statistics.submitCountAll || 0
       }}
+      &nbsp;&nbsp;总发送条数(条):{{ statistics.sendCountAll || 0 }}&nbsp;&nbsp;
+      总成功数(条):{{ statistics.succCountAll || 0 }}&nbsp;&nbsp;
+      总失败数(条):{{ statistics.failCountAll || 0 }}&nbsp;&nbsp;
+      总未知数(条):{{ statistics.unknownCountAll || 0 }}
     </p>
     <Page
       :pageObj="pageObj"

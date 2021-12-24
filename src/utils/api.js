@@ -1781,6 +1781,10 @@ export default {
         //获取下拉省份和城市
         getProvinceTree(params) {
             return fetch("/gateway/getProvinceTree", params);
+        },
+        //导出
+        exportGateway(params) {
+            return post("/gateway/exportGateway", params);
         }
     },
     //彩信通道

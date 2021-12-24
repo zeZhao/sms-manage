@@ -9,7 +9,7 @@
       :data="listData"
       border
       highlight-current-row
-      height="50vh"
+      :height="tableHeight"
       style="width: 100%"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -30,7 +30,7 @@
           {{ scope.row.balanceMonitor ? scope.row.balanceMonitor : "-" }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="330">
+      <el-table-column label="操作" width="330" fixed="right">
         <template slot-scope="scope">
           <el-button
             type="text"

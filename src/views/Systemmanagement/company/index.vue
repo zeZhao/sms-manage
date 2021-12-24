@@ -36,7 +36,7 @@
     </el-col>
     <el-table
       :data="dataList"
-      height="50vh"
+      :height="tableHeight"
       highlight-current-row
       style="width: 100%"
     >

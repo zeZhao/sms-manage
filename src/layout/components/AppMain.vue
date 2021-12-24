@@ -1,7 +1,7 @@
 <template>
   <section class="app-main">
     <tags-view v-if="needTagsView" />
-    <div class="content">
+    <div class="content" ref="content" id="content">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>

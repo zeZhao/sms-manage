@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -29,7 +29,7 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sign" label="签名" />
+      <el-table-column prop="sign" label="签名" width="150" />
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
@@ -39,7 +39,7 @@
           {{ scope.row.createTime | timeFormat }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
