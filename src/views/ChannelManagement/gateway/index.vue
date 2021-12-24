@@ -635,7 +635,21 @@ export default {
           tag: "encrypt",
           key: "sendSpeed",
           colSpan: 12,
-          lock: true
+          lock: true,
+          maxlength: "4",
+          defaultValue: "",
+          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
+            if (!value) callback(new Error("请输入必填项"));
+            if (isNaN(value)) {
+              callback(new Error("只能输入数字"));
+            } else {
+              if (value > 0 && (value + "").indexOf(".") === -1) {
+                callback();
+              } else {
+                callback(new Error("发送速率必须为大于0的正整数"));
+              }
+            }
+          } }]
         },
         {
           type: "input",
