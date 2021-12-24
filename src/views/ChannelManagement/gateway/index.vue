@@ -758,13 +758,14 @@ export default {
           type: "input",
           label: "限制条数",
           key: "limitCount",
+          defaultValue: "",
           colSpan: 12,
           rules: [
             {
               required: false,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback();
+                if (value === "") callback();
                 isNaN(value)
                   ? callback(new Error("只能输入数字"))
                   : value > 0
