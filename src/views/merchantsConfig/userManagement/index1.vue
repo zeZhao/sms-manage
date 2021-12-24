@@ -1367,6 +1367,7 @@ export default {
     this.getRole();
     this.listTag();
     this.getUserId();
+    this.getBlackFroup();
   },
   activated() {
     //重新获取数据
@@ -1377,6 +1378,7 @@ export default {
     this.listTag();
     this._mxGetList();
     this.getUserId();
+    this.getBlackFroup();
   },
   computed: {
     renderTitle() {
@@ -1384,6 +1386,25 @@ export default {
     }
   },
   methods: {
+    //获取黑名单类型
+    getBlackFroup() {
+      this.$http.smsBlackGroup.listBlackGroup().then(res => {
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "blackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+        // this._setDefaultValue(
+        //   this.formConfig,
+        //   res.data,
+        //   "mmsBlackLevel",
+        //   "groupId",
+        //   "blackGroupName"
+        // );
+      });
+    },
     // 获取账户编号
     getUserId(data) {
       this.titleTips = ""; // 重置
