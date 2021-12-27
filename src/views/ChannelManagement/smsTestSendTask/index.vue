@@ -66,8 +66,9 @@ export default {
         {
           type: "input",
           label: "特服号",
-          disabled: true,
+          // disabled: true,
           key: "code",
+          maxlength: "20",
           defaultValue: "",
           rules: [
             {
