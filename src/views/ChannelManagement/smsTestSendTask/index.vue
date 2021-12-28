@@ -79,10 +79,10 @@ export default {
                 if (isNaN(value)) {
                   callback(new Error('特服号只能为数字'));
                 } else {
-                  if ((value + '').indexOf('.') === -1) {
+                  if (value > 0 && (value + '').indexOf('.') === -1) {
                     callback();
                   } else {
-                    callback(new Error('特服号只能为整数'));
+                    callback(new Error('特服号只能为正整数'));
                   }
                 }
               }
