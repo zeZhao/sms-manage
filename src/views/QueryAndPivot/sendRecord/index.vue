@@ -20,7 +20,11 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" width="110" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column prop="mobile" label="手机号" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span>

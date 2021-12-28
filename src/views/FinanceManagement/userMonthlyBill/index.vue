@@ -114,7 +114,7 @@ export default {
                   ? "0" + (time.getMonth() + 1)
                   : time.getMonth() + 1
               }`;
-              return other >= t;
+              return other > t;
             }
           }
           // key: ["", "startTime", "endTime"]
