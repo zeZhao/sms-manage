@@ -408,11 +408,21 @@
           web密码: {{ infoData.webPassword }}
           <i
             class="el-icon-lock"
-            @click="isOpenDialog"
+            v-show="!infoData.password || infoData.password === '-'"
+            @click="isOpenDialog('password')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
         <p>网址: sms.jvtd.cn</p>
+        <p>
+          秘钥: {{ infoData.secretKey }}
+          <i
+            class="el-icon-lock"
+            v-show="!infoData.secretKey || infoData.secretKey === '-'"
+            @click="isOpenDialog('secretKey')"
+            style="font-size: 20px;color: #909399;margin-left:5px"
+          ></i>
+        </p>
       </div>
       <div v-if="infoData.proType == 2">
         <p>产品类型: HTTP/WEB</p>
@@ -424,13 +434,23 @@
           密码: {{ infoData.password }}
           <i
             class="el-icon-lock"
-            @click="isOpenDialog"
+            v-show="!infoData.password || infoData.password === '-'"
+            @click="isOpenDialog('password')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
         <p>客户端IP: {{ infoData.userIp || "" }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+        <p>
+          秘钥: {{ infoData.secretKey }}
+          <i
+            class="el-icon-lock"
+            v-show="!infoData.secretKey || infoData.secretKey === '-'"
+            @click="isOpenDialog('secretKey')"
+            style="font-size: 20px;color: #909399;margin-left:5px"
+          ></i>
+        </p>
       </div>
       <div v-if="infoData.proType == 4">
         <p>产品类型: CMPP2.0/WEB</p>
@@ -444,7 +464,8 @@
           密码: {{ infoData.password }}
           <i
             class="el-icon-lock"
-            @click="isOpenDialog"
+            v-show="!infoData.password || infoData.password === '-'"
+            @click="isOpenDialog('password')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
@@ -456,6 +477,15 @@
           通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
           ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
         </p>
+        <p>
+          秘钥: {{ infoData.secretKey }}
+          <i
+            class="el-icon-lock"
+            v-show="!infoData.secretKey || infoData.secretKey === '-'"
+            @click="isOpenDialog('secretKey')"
+            style="font-size: 20px;color: #909399;margin-left:5px"
+          ></i>
+        </p>
       </div>
     </el-dialog>
     <el-dialog
@@ -466,7 +496,7 @@
       custom-class="loginDialog"
     >
       <el-form
-        ref="ruleForm"
+        ref="loginForm"
         :model="formData"
         :rules="rules"
         label-width="70px"
@@ -712,6 +742,8 @@ export default {
       infoData: {},
       //二次登录数据
       loginVisible: false,
+      //登录查看类型
+      loginType: "",
       formData: {},
       rules: {
         account: [
@@ -1589,11 +1621,12 @@ export default {
       }
       return form;
     },
-    isOpenDialog() {
+    isOpenDialog(type) {
       this.loginVisible = true;
+      this.loginType = type;
     },
     notDisabled() {
-      this.$refs["ruleForm"].validate(valid => {
+      this.$refs["loginForm"].validate(valid => {
         if (valid) {
           const { userId } = this.infoData;
           this.formData.type = 4;
@@ -1601,15 +1634,23 @@ export default {
 
           this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
-              this.$nextTick(() => {
-                this.infoData.password = res.data.password;
-                this.infoData.webPassword = res.data.webPassword;
-              });
-
+              if (this.loginType === "password") {
+                this.$nextTick(() => {
+                  this.infoData.password = res.data.password;
+                  this.infoData.webPassword = res.data.webPassword;
+                });
+              } else if (this.loginType === "secretKey") {
+                this.$http.corpUser.getSecretKeyById(userId).then(res => {
+                  this.$nextTick(() => {
+                    this.$set(this.infoData, "secretKey", res.data.publicKey);
+                  });
+                });
+              }
               this.loginVisible = false;
               this.$message.success("验证成功");
-              this.formData.account = "";
-              this.formData.pwd = "";
+              this.$nextTick(() => {
+                this.$refs["loginForm"].resetFields();
+              });
             } else {
               this.$message.error(res.data);
             }

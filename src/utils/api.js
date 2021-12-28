@@ -194,6 +194,10 @@ export default {
         // 获取最后的账户编号
         getLasttUserId(params) {
             return fetch("/corpUser/getLasttUserId", params);
+        },
+        // 获取秘钥
+        getSecretKeyById(params) {
+            return post(`/corpUser/getSecretKeyById?userId=${params}`,);
         }
     },
     //通道重发配置
