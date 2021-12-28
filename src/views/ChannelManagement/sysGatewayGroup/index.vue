@@ -249,6 +249,9 @@ export default {
   mounted() {
     this.gateway();
   },
+  activated() {
+    this.gateway();
+  },
   computed: {},
   methods: {
     // 获取通道

@@ -395,6 +395,7 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.gateway();
   },
   methods: {
     handleBatchUpdate() {
@@ -509,10 +510,8 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "gateway") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gateway);
-              item.optionData.push(t);
+            item.optionData = res.data.map(t => {
+              return { key: t.gatewayId, value: t.gateway };
             });
           }
         });
