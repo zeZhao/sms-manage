@@ -376,6 +376,20 @@ export default {
     },
     _mxCancel() {
       this.editGateway = false;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        if (item.mobile) {
+          item.mobile = item.mobile.split(",")[0];
+        }
+      });
+      return listData;
     }
   },
   watch: {}
