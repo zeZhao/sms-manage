@@ -10,12 +10,11 @@
     <!-- <breadcrumb id="breadcrumb-container" class="breadcrumb-container" /> -->
 
     <div class="right-menu">
-      <span class="el-breadcrumb__item fontColor">
-        登录名：{{ custName }}
-      </span>
-
       <span class="el-breadcrumb__item fontColor" style="margin: 0 30px 0 30px">
         平台时间：{{ oneSecondForGetNow }}
+      </span>
+      <span class="el-breadcrumb__item fontColor">
+        登录名：{{ custName }}
       </span>
 
       <template v-if="device !== 'mobile'">
@@ -26,9 +25,9 @@
         <!-- <screenfull id="screenfull" class="right-menu-item hover-effect" /> -->
       </template>
 
-      <div class="right-menu-item split ">
-        <!-- <span class="line"></span> -->
-      </div>
+      <!-- <div class="right-menu-item split ">
+        <span class="line"></span>
+      </div> -->
 
       <el-dropdown
         class="avatar-container right-menu-item"
