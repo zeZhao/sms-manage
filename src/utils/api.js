@@ -1789,6 +1789,10 @@ export default {
         //导出
         exportGateway(params) {
             return post("/gateway/exportGateway", params);
+        },
+        //删除前判断通道是否关联其他数据
+        judgeGateway(params) {
+            return fetch("/gateway/judgeGateway", params);
         }
     },
     //彩信通道
