@@ -351,6 +351,9 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.gateway("cu", "2", "1");
+    this.gateway("ct", "3", "1");
+    this.gateway("cm", "1", "1");
   },
   methods: {
     //选择用户选取赋值
@@ -382,7 +385,8 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (key == keys) {
+          if (key === keys) {
+            item.optionData = [];
             res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
