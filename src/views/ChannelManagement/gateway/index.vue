@@ -137,7 +137,7 @@
             >关闭</el-button
           >
           <el-button
-            @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
+            @click="_mxDeleteItem(scope.row.gatewayId)"
             type="text"
             size="small"
             >删除</el-button
@@ -540,6 +540,7 @@ export default {
               validator: (rule, value, callback) => {
                 if (!value) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
+                if (value <= 0) callback(new Error("通道单价只能为大于0的正数"));
                 callback();
               }
             }
@@ -1282,6 +1283,39 @@ export default {
     this.getsmsSupplierInfoQueryList();
   },
   methods: {
+    // 删除通道逻辑
+    _mxDeleteItem(gatewayId) {
+      this.$http.gateway.judgeGateway({ gatewayId }).then(response => {
+        const { code, data } = response;
+        if (code !== 200) {
+          this.$alert(data, "禁止删除",
+            {
+              confirmButtonText: "确定",
+              showClose: false,
+              type: "warning",
+              callback: action => {}
+            }
+          );
+        } else {
+          this.$confirm("删除后将不可找回，请谨慎操作", "确定删除？",
+            {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            }
+          ).then(() => {
+            this.$http.gateway.deleteGateway({ data: { gatewayId: gatewayId.toString() } }).then(res => {
+              if (resOk(res)) {
+                this._mxGetList();
+                this.$message.success("删除成功！");
+              } else {
+                this.$message.error(res.msg || "删除失败！");
+              }
+            })
+          }).catch(() => {});
+        }
+      })
+    },
     // 获取供应商下拉
     getsmsSupplierInfoQueryList() {
       this.$http.smsSupplierInfo.queryList({}).then(res => {
