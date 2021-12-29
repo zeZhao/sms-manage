@@ -966,6 +966,13 @@ export default {
           optionData: []
         },
         {
+          type: "select",
+          label: "发送设置",
+          key: "sendSettings",
+          defaultValue: "",
+          optionData: [{ key: 1, value: "进入缓存列队" }, { key: 2, value: "返回失败" }]
+        },
+        {
           isTitle: true,
           title: "短信业务信息",
           colSpan: 24,

@@ -220,8 +220,6 @@ export default {
 
     // 请求数据
     this._mxGetBeforeListData();
-
-
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleTableResize);
@@ -229,9 +227,10 @@ export default {
 
   methods: {
     handleTableResize() {
-      let contentClientHeight = document.getElementById("content").clientHeight;
-      let searchPanelClientHeight = document.getElementById("searchPanel")
-        .clientHeight;
+      const content = document.getElementById("content");
+      const searchPanel = document.getElementById("searchPanel");
+      const contentClientHeight = content ? content.clientHeight : 0;
+      const searchPanelClientHeight = searchPanel ? searchPanel.clientHeight : 0;
       this.$nextTick(() => {
         // 70为底部距离分页器
         this.tableHeight = `${(contentClientHeight - searchPanelClientHeight - 70).toString()}px`;

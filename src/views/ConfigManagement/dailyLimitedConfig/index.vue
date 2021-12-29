@@ -219,6 +219,7 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.getGatewayList();
   },
   methods: {
     getGatewayList() {
