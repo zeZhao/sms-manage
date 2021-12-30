@@ -703,7 +703,7 @@ export default {
         },
         {
           type: "input",
-          label: "费用类型",
+          label: "feeType",
           tag: "encrypt",
           key: "feeType",
           colSpan: 12,

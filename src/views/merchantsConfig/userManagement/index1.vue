@@ -2465,7 +2465,17 @@ export default {
       // ]);
     }
   },
-  watch: {}
+  watch: {
+    formConfig: {
+      handler(newVal) {
+        const idx = newVal.findIndex(v => v.key === "times");
+        const idx1 = newVal.findIndex(v => v.key === "sendSettings");
+        newVal[idx].rules =  [{ required: !!newVal[idx1].defaultValue, message: "请选择必选项", trigger: "change" }];
+        newVal[idx1].rules =  [{ required: !!newVal[idx].defaultValue, message: "请选择必选项", trigger: "change" }];
+      },
+      deep: true
+    }
+  }
 };
 </script>
 
