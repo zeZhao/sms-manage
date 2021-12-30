@@ -1398,19 +1398,109 @@ export default {
         // },
       ],
       // 新增展示上一账户编号和修改展示当前账户编号
-      titleTips: ""
+      titleTips: "",
+
+      agentListData: [],
+      salemanListData: [],
+      listTagData: []
     };
   },
   created() {},
   mounted() {
     this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
     this.getRole();
-    this.listTag();
     this.getUserId();
     this.getBlackFroup();
     this._mxGetList();
+    this.$http.agent.queryAgent({ status: 1 }).then(res => {
+      if (resOk(res)) {
+        this.agentListData = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "agentId") {
+            item.optionData = [];
+            this.agentListData.forEach(t => {
+              let obj = {
+                key: t.agentId,
+                value: t.agentName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.sysSales.queryAvailableSaleman().then(res => {
+      if (resOk(res)) {
+        this.salemanListData = res.data;
+        this.saleList = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "saleMan") {
+            item.optionData = [];
+            this.salemanListData.forEach(t => {
+              let obj = {
+                key: t.userName,
+                value: t.actualName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.smsTagController
+      .listTag({ pageNumber: 1, pageSize: 9999 })
+      .then(res => {
+        if (resOk(res)) {
+          this.listTagData = res.data.list;
+          this.tagsData[0].optionData = res.data.list.map(v => {
+            return { key: v.id, value: v.name };
+          });
+          this.searchFormConfig.forEach(item => {
+            if (item.key === "tag") {
+              item.optionData = [];
+              this.listTagData.forEach(t => {
+                let obj = {
+                  key: t.id,
+                  value: t.name
+                };
+                item.optionData.push(obj);
+              });
+            }
+          });
+        }
+      });
+    this.searchFormConfig.forEach(item => {
+      if (item.key === "agentId") {
+        item.optionData = [];
+        this.agentListData.forEach(t => {
+          let obj = {
+            key: t.agentId,
+            value: t.agentName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "saleMan") {
+        item.optionData = [];
+        this.salemanListData.forEach(t => {
+          let obj = {
+            key: t.userName,
+            value: t.actualName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "tag") {
+        item.optionData = [];
+        this.listTagData.forEach(t => {
+          let obj = {
+            key: t.id,
+            value: t.name
+          };
+          item.optionData.push(obj);
+        });
+      }
+    });
   },
   activated() {
     //重新获取数据
@@ -1421,7 +1511,6 @@ export default {
     this.listTag();
     this.getUserId();
     this.getBlackFroup();
-    this._mxGetList();
   },
   computed: {
     renderTitle() {
@@ -1439,13 +1528,6 @@ export default {
           "groupId",
           "blackGroupName"
         );
-        // this._setDefaultValue(
-        //   this.formConfig,
-        //   res.data,
-        //   "mmsBlackLevel",
-        //   "groupId",
-        //   "blackGroupName"
-        // );
       });
     },
     // 获取账户编号
@@ -1737,6 +1819,8 @@ export default {
           item.disabled = false;
         }
       });
+      await this.getAllCorp();
+      await this.getRole();
       await this.getUserId();
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
@@ -2044,16 +2128,10 @@ export default {
         .listTag({ pageNumber: 1, pageSize: 9999 })
         .then(res => {
           if (resOk(res)) {
+            this.listTagData = res.data.list;
             this.tagsData[0].optionData = res.data.list.map(v => {
               return { key: v.id, value: v.name };
             });
-            this._setDefaultValue(
-              this.searchFormConfig,
-              res.data.list,
-              "tag",
-              "id",
-              "name"
-            );
           }
         });
     },
@@ -2124,16 +2202,10 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.salemanListData = res.data;
           this.saleList = res.data;
           this._setDefaultValue(
             this.formConfig,
-            res.data,
-            "saleMan",
-            "userName",
-            "actualName"
-          );
-          this._setDefaultValue(
-            this.searchFormConfig,
             res.data,
             "saleMan",
             "userName",
@@ -2146,15 +2218,9 @@ export default {
     getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
+          this.agentListData = res.data;
           this._setDefaultValue(
             this.formConfig,
-            res.data,
-            "agentId",
-            "agentId",
-            "agentName"
-          );
-          this._setDefaultValue(
-            this.searchFormConfig,
             res.data,
             "agentId",
             "agentId",
