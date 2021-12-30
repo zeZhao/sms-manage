@@ -540,8 +540,8 @@ export default {
               validator: (rule, value, callback) => {
                 if (!value) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
-                if (value <= 0)
-                  callback(new Error("通道单价只能为大于0的正数"));
+                if (value < 0)
+                  callback(new Error("通道单价只能为正数"));
                 callback();
               }
             }
