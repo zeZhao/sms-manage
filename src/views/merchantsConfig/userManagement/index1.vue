@@ -970,7 +970,10 @@ export default {
           label: "发送设置",
           key: "sendSettings",
           defaultValue: "",
-          optionData: [{ key: 1, value: "进入缓存列队" }, { key: 2, value: "返回失败" }]
+          optionData: [
+            { key: 1, value: "进入缓存列队" },
+            { key: 2, value: "返回失败" }
+          ]
         },
         {
           isTitle: true,
@@ -1407,6 +1410,7 @@ export default {
     this.listTag();
     this.getUserId();
     this.getBlackFroup();
+    this._mxGetList();
   },
   activated() {
     //重新获取数据
@@ -1415,9 +1419,9 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
-    this._mxGetList();
     this.getUserId();
     this.getBlackFroup();
+    this._mxGetList();
   },
   computed: {
     renderTitle() {
@@ -1486,6 +1490,7 @@ export default {
         });
       }
     },
+    //根据下拉选择对表单项进行展示
     selectChange(data) {
       const { val, item } = data;
       if (item.key === "productType") {
@@ -1632,6 +1637,7 @@ export default {
       this.loginVisible = true;
       this.loginType = type;
     },
+    //二次登录验证
     notDisabled() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
@@ -1671,7 +1677,7 @@ export default {
         this.speedVal = null;
       }
     },
-    _mxCreate() {
+    async _mxCreate() {
       // this.$router.push({
       //   name: "userManagementType",
       //   query: { type: "create" }
@@ -1731,11 +1737,7 @@ export default {
           item.disabled = false;
         }
       });
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
-      this.getUserId();
+      await this.getUserId();
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
@@ -1784,10 +1786,6 @@ export default {
       setTimeout(() => {
         this.$refs.formItemTit.clearValidate();
       }, 0);
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
       this.disabledProType();
       this.getUserId(lineData);
       this.formConfig.forEach(item => {
@@ -1994,6 +1992,7 @@ export default {
       this.isRestricted = submitSpeed ? 1 : 0;
       this.speedVisible = true;
     },
+    //提交速率
     submitSpeeds() {
       let params;
       if (this.isRestricted === 0) {
