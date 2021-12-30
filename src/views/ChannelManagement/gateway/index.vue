@@ -540,7 +540,8 @@ export default {
               validator: (rule, value, callback) => {
                 if (!value) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
-                if (value <= 0) callback(new Error("通道单价只能为大于0的正数"));
+                if (value <= 0)
+                  callback(new Error("通道单价只能为大于0的正数"));
                 callback();
               }
             }
@@ -639,18 +640,24 @@ export default {
           lock: true,
           maxlength: "4",
           defaultValue: "",
-          rules: [{ required: true, trigger: "blur", validator: (rule, value, callback) => {
-            if (!value) callback(new Error("请输入必填项"));
-            if (isNaN(value)) {
-              callback(new Error("只能输入数字"));
-            } else {
-              if (value > 0 && (value + "").indexOf(".") === -1) {
-                callback();
-              } else {
-                callback(new Error("发送速率必须为大于0的正整数"));
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (isNaN(value)) {
+                  callback(new Error("只能输入数字"));
+                } else {
+                  if (value > 0 && (value + "").indexOf(".") === -1) {
+                    callback();
+                  } else {
+                    callback(new Error("发送速率必须为大于0的正整数"));
+                  }
+                }
               }
             }
-          } }]
+          ]
         },
         {
           type: "input",
@@ -1238,6 +1245,23 @@ export default {
     this.getLastGateway();
     this.getProvinceTree();
     this.getsmsSupplierInfoQueryList();
+    this.$http
+      .listSysProvince({
+        data: {
+          provinceName: ""
+        }
+      })
+      .then(res => {
+        this.ProvinceList = res.data;
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName };
+            });
+          }
+        });
+      });
   },
   computed: {
     // 目标通道--关联屏蔽省份 (校验)
@@ -1288,33 +1312,33 @@ export default {
       this.$http.gateway.judgeGateway({ gatewayId }).then(response => {
         const { code, data } = response;
         if (code !== 200) {
-          this.$alert(data, "禁止删除",
-            {
-              confirmButtonText: "确定",
-              showClose: false,
-              type: "warning",
-              callback: action => {}
-            }
-          );
+          this.$alert(data, "禁止删除", {
+            confirmButtonText: "确定",
+            showClose: false,
+            type: "warning",
+            callback: action => {}
+          });
         } else {
-          this.$confirm("删除后将不可找回，请谨慎操作", "确定删除？",
-            {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
-            }
-          ).then(() => {
-            this.$http.gateway.deleteGateway({ data: { gatewayId: gatewayId.toString() } }).then(res => {
-              if (resOk(res)) {
-                this._mxGetList();
-                this.$message.success("删除成功！");
-              } else {
-                this.$message.error(res.msg || "删除失败！");
-              }
+          this.$confirm("删除后将不可找回，请谨慎操作", "确定删除？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+            .then(() => {
+              this.$http.gateway
+                .deleteGateway({ data: { gatewayId: gatewayId.toString() } })
+                .then(res => {
+                  if (resOk(res)) {
+                    this._mxGetList();
+                    this.$message.success("删除成功！");
+                  } else {
+                    this.$message.error(res.msg || "删除失败！");
+                  }
+                });
             })
-          }).catch(() => {});
+            .catch(() => {});
         }
-      })
+      });
     },
     // 获取供应商下拉
     getsmsSupplierInfoQueryList() {
@@ -1327,8 +1351,8 @@ export default {
               return { key: v.supplierId, value: v.supplierName };
             });
           }
-        } 
-      })
+        }
+      });
     },
     renderType(v) {
       switch (v) {
@@ -1476,65 +1500,69 @@ export default {
     //开启关闭通道
     switchChange(val, gateway) {
       if (val) {
-        this.$confirm('开启后可利用此通道发送短信。', '确定开启？',
-          {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }
-        ).then(() => {
-          this.loading = true;
-          this.$http.gateway
-          .startGateway({
-            data: {
-              gatewayId: gateway
-            }
-          })
-          .then(res => {
-            this.loading = false;
-            if (resOk(res)) {
-              this._mxGetList();
-              this.$message.success("通道启用成功！");
-            } else {
-              this.$message.error("通道启用失败！");
-              this.listData.forEach(item => {
-                if (item.gateway == gateway) {
-                  item.serverStatus = 0;
+        this.$confirm("开启后可利用此通道发送短信。", "确定开启？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.loading = true;
+            this.$http.gateway
+              .startGateway({
+                data: {
+                  gatewayId: gateway
+                }
+              })
+              .then(res => {
+                this.loading = false;
+                if (resOk(res)) {
+                  this._mxGetList();
+                  this.$message.success("通道启用成功！");
+                } else {
+                  this.$message.error("通道启用失败！");
+                  this.listData.forEach(item => {
+                    if (item.gateway == gateway) {
+                      item.serverStatus = 0;
+                    }
+                  });
                 }
               });
-            }
-          });
-        }).catch(() => {});
+          })
+          .catch(() => {});
       } else {
-        this.$confirm('关闭后利用此通道发送的短信全部进入待发，请谨慎操作。', '确定关闭？',
+        this.$confirm(
+          "关闭后利用此通道发送的短信全部进入待发，请谨慎操作。",
+          "确定关闭？",
           {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
           }
-        ).then(() => {
-          this.loading = true;
-          this.$http.gateway
-          .stopGateway({
-            data: {
-              gatewayId: gateway
-            }
-          })
-          .then(res => {
-            this.loading = false;
-            if (resOk(res)) {
-              this._mxGetList();
-              this.$message.success("通道停止成功！");
-            } else {
-              this.$message.error("通道停止失败！");
-              this.listData.forEach(item => {
-                if (item.gateway == gateway) {
-                  item.serverStatus = 1;
+        )
+          .then(() => {
+            this.loading = true;
+            this.$http.gateway
+              .stopGateway({
+                data: {
+                  gatewayId: gateway
+                }
+              })
+              .then(res => {
+                this.loading = false;
+                if (resOk(res)) {
+                  this._mxGetList();
+                  this.$message.success("通道停止成功！");
+                } else {
+                  this.$message.error("通道停止失败！");
+                  this.listData.forEach(item => {
+                    if (item.gateway == gateway) {
+                      item.serverStatus = 1;
+                    }
+                  });
                 }
               });
-            }
-          });
-        }).catch(() => {});
+          })
+          .catch(() => {});
       }
     },
     selectChange({ val, item }) {
@@ -1653,14 +1681,6 @@ export default {
       };
       this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
-        this.searchFormConfig.forEach(item => {
-          const { key } = item;
-          if (key === "province") {
-            item.optionData = res.data.map(t => {
-              return { key: t.provinceId, value: t.provinceName };
-            });
-          }
-        });
 
         this.formConfig.forEach(item => {
           const { key } = item;

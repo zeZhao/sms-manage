@@ -970,7 +970,10 @@ export default {
           label: "发送设置",
           key: "sendSettings",
           defaultValue: "",
-          optionData: [{ key: 1, value: "进入缓存列队" }, { key: 2, value: "返回失败" }]
+          optionData: [
+            { key: 1, value: "进入缓存列队" },
+            { key: 2, value: "返回失败" }
+          ]
         },
         {
           isTitle: true,
@@ -1395,18 +1398,109 @@ export default {
         // },
       ],
       // 新增展示上一账户编号和修改展示当前账户编号
-      titleTips: ""
+      titleTips: "",
+
+      agentListData: [],
+      salemanListData: [],
+      listTagData: []
     };
   },
   created() {},
   mounted() {
     this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
     this.getRole();
-    this.listTag();
     this.getUserId();
     this.getBlackFroup();
+    this._mxGetList();
+    this.$http.agent.queryAgent({ status: 1 }).then(res => {
+      if (resOk(res)) {
+        this.agentListData = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "agentId") {
+            item.optionData = [];
+            this.agentListData.forEach(t => {
+              let obj = {
+                key: t.agentId,
+                value: t.agentName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.sysSales.queryAvailableSaleman().then(res => {
+      if (resOk(res)) {
+        this.salemanListData = res.data;
+        this.saleList = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "saleMan") {
+            item.optionData = [];
+            this.salemanListData.forEach(t => {
+              let obj = {
+                key: t.userName,
+                value: t.actualName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.smsTagController
+      .listTag({ pageNumber: 1, pageSize: 9999 })
+      .then(res => {
+        if (resOk(res)) {
+          this.listTagData = res.data.list;
+          this.tagsData[0].optionData = res.data.list.map(v => {
+            return { key: v.id, value: v.name };
+          });
+          this.searchFormConfig.forEach(item => {
+            if (item.key === "tag") {
+              item.optionData = [];
+              this.listTagData.forEach(t => {
+                let obj = {
+                  key: t.id,
+                  value: t.name
+                };
+                item.optionData.push(obj);
+              });
+            }
+          });
+        }
+      });
+    this.searchFormConfig.forEach(item => {
+      if (item.key === "agentId") {
+        item.optionData = [];
+        this.agentListData.forEach(t => {
+          let obj = {
+            key: t.agentId,
+            value: t.agentName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "saleMan") {
+        item.optionData = [];
+        this.salemanListData.forEach(t => {
+          let obj = {
+            key: t.userName,
+            value: t.actualName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "tag") {
+        item.optionData = [];
+        this.listTagData.forEach(t => {
+          let obj = {
+            key: t.id,
+            value: t.name
+          };
+          item.optionData.push(obj);
+        });
+      }
+    });
   },
   activated() {
     //重新获取数据
@@ -1415,7 +1509,6 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
-    this._mxGetList();
     this.getUserId();
     this.getBlackFroup();
   },
@@ -1435,13 +1528,6 @@ export default {
           "groupId",
           "blackGroupName"
         );
-        // this._setDefaultValue(
-        //   this.formConfig,
-        //   res.data,
-        //   "mmsBlackLevel",
-        //   "groupId",
-        //   "blackGroupName"
-        // );
       });
     },
     // 获取账户编号
@@ -1486,6 +1572,7 @@ export default {
         });
       }
     },
+    //根据下拉选择对表单项进行展示
     selectChange(data) {
       const { val, item } = data;
       if (item.key === "productType") {
@@ -1632,6 +1719,7 @@ export default {
       this.loginVisible = true;
       this.loginType = type;
     },
+    //二次登录验证
     notDisabled() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
@@ -1671,7 +1759,7 @@ export default {
         this.speedVal = null;
       }
     },
-    _mxCreate() {
+    async _mxCreate() {
       // this.$router.push({
       //   name: "userManagementType",
       //   query: { type: "create" }
@@ -1731,11 +1819,9 @@ export default {
           item.disabled = false;
         }
       });
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
-      this.getUserId();
+      await this.getAllCorp();
+      await this.getRole();
+      await this.getUserId();
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
@@ -1784,10 +1870,6 @@ export default {
       setTimeout(() => {
         this.$refs.formItemTit.clearValidate();
       }, 0);
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
       this.disabledProType();
       this.getUserId(lineData);
       this.formConfig.forEach(item => {
@@ -1994,6 +2076,7 @@ export default {
       this.isRestricted = submitSpeed ? 1 : 0;
       this.speedVisible = true;
     },
+    //提交速率
     submitSpeeds() {
       let params;
       if (this.isRestricted === 0) {
@@ -2045,16 +2128,10 @@ export default {
         .listTag({ pageNumber: 1, pageSize: 9999 })
         .then(res => {
           if (resOk(res)) {
+            this.listTagData = res.data.list;
             this.tagsData[0].optionData = res.data.list.map(v => {
               return { key: v.id, value: v.name };
             });
-            this._setDefaultValue(
-              this.searchFormConfig,
-              res.data.list,
-              "tag",
-              "id",
-              "name"
-            );
           }
         });
     },
@@ -2125,16 +2202,10 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.salemanListData = res.data;
           this.saleList = res.data;
           this._setDefaultValue(
             this.formConfig,
-            res.data,
-            "saleMan",
-            "userName",
-            "actualName"
-          );
-          this._setDefaultValue(
-            this.searchFormConfig,
             res.data,
             "saleMan",
             "userName",
@@ -2147,15 +2218,9 @@ export default {
     getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
+          this.agentListData = res.data;
           this._setDefaultValue(
             this.formConfig,
-            res.data,
-            "agentId",
-            "agentId",
-            "agentName"
-          );
-          this._setDefaultValue(
-            this.searchFormConfig,
             res.data,
             "agentId",
             "agentId",
