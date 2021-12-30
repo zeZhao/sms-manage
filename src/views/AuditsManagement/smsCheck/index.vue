@@ -51,7 +51,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="cid" label="CID" width="155" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column prop="mobile" label="手机号" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="combined" label="是否处理"
         ><template slot-scope="scope">
           <span v-if="scope.row.handleStatus == 0">未处理</span>
