@@ -29,7 +29,11 @@
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" width="110" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column prop="mobile" label="手机号" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="counter" label="手机号个数" width="90" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="cid" label="CID" width="155" />
@@ -376,6 +380,20 @@ export default {
     },
     _mxCancel() {
       this.editGateway = false;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        if (item.mobile) {
+          item.mobile = item.mobile.split(",")[0];
+        }
+      });
+      return listData;
     }
   },
   watch: {}

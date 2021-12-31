@@ -86,14 +86,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       // 请求后台登陆
       googleAuthLogin(userInfo).then(data => {
-        // console.log(data, '----data')
-        if (data.code === 500) {
-          Message({
-            message: data.data || data.msg,
-            // message: error.message,
-            type: 'error',
-          })
-        } else {
+        if (data.code === 200) {
           // 设置 token，作为用户已登陆的商户端标识，存在 cookie 中
           setToken(data.data.token)
 
@@ -104,11 +97,17 @@ const actions = {
           localStorage.token = data.data.token;
           Cookies.set('info', data.data.sysUser)
           Cookies.set('status', data.data.status)
+          resolve();
+        } else {
+          Message({
+            message: data.data || data.msg,
+            // message: error.message,
+            type: 'error',
+          })
+          reject();
         }
-        resolve()
       }).catch(error => {
-        console.log(error, '----error')
-        reject(error)
+        reject(error);
       })
     })
   },

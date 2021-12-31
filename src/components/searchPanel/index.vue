@@ -11,61 +11,11 @@
           v-for="(item, index) in searchFormConfig"
           :key="index"
           :gutter="16"
-          :xs="
-            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
-              item.type
-            ) || item.isLonger
-              ? 12
-              : ['date'].includes(item.type)
-              ? 8
-              : ['datetime'].includes(item.type)
-              ? 16
-              : 6
-          "
-          :sm="
-            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
-              item.type
-            ) || item.isLonger
-              ? 12
-              : ['date'].includes(item.type)
-              ? 8
-              : ['datetime'].includes(item.type)
-              ? 16
-              : 6
-          "
-          :md="
-            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
-              item.type
-            ) || item.isLonger
-              ? 12
-              : ['date'].includes(item.type)
-              ? 8
-              : ['datetime'].includes(item.type)
-              ? 16
-              : 6
-          "
-          :lg="
-            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
-              item.type
-            ) || item.isLonger
-              ? 8
-              : ['date'].includes(item.type)
-              ? 6
-              : ['datetime'].includes(item.type)
-              ? 12
-              : 4
-          "
-          :xl="
-            ['daterange', 'timerange', 'selectInp', 'checkbox'].includes(
-              item.type
-            ) || item.isLonger
-              ? 6
-              : ['date'].includes(item.type)
-              ? 5
-              : ['datetime'].includes(item.type)
-              ? 8
-              : 3
-          "
+          :xs="grid(item, 'xs', 12, 8, 16, 6)"
+          :sm="grid(item, 'sm', 12, 8, 16, 6)"
+          :md="grid(item, 'md', 12, 8, 16, 6)"
+          :lg="grid(item, 'lg', 8, 6, 12, 4)"
+          :xl="grid(item, 'xl', 6, 5, 8, 3)"
         >
           <transition name="el-zoom-in-top">
             <el-form-item
@@ -396,6 +346,29 @@ export default {
     }
   },
   methods: {
+    //栅格占比
+    grid(item, type, combinationGrid, dateGrid, datetimeGrid, defaultGrid) {
+      let combinationGridList = ["daterange", "timerange", "selectInp"];
+      let checkboxGrid = null;
+      if (item.type === "checkbox") {
+        if (item.gridList && item.gridList.length > 0) {
+          item.gridList.forEach(item => {
+            if (item.type === type) {
+              checkboxGrid = item.grid;
+            }
+          });
+        }
+      }
+      return combinationGridList.includes(item.type) || item.isLonger
+        ? combinationGrid
+        : ["date"].includes(item.type)
+        ? dateGrid
+        : ["datetime"].includes(item.type)
+        ? datetimeGrid
+        : ["checkbox"].includes(item.type)
+        ? checkboxGrid || combinationGrid
+        : defaultGrid;
+    },
     //切换收起和展开功能
     handleToggleIsCollapse() {
       this.isCollapse = !this.isCollapse;

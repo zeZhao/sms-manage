@@ -292,9 +292,11 @@
 </template>
 <script>
 import Util from "@/utils/reg";
+import listMixin from "@/mixin/listMixin";
 import ChooseEnterprise from "@/components/ChooseEnterprise";
 
 export default {
+  mixins: [listMixin],
   components: { ChooseEnterprise },
   data() {
     var validCode = (rule, value, callback) => {

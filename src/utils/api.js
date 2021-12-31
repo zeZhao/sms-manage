@@ -194,6 +194,10 @@ export default {
         // 获取最后的账户编号
         getLasttUserId(params) {
             return fetch("/corpUser/getLasttUserId", params);
+        },
+        // 获取秘钥
+        getSecretKeyById(params) {
+            return post(`/corpUser/getSecretKeyById?userId=${params}`,);
         }
     },
     //通道重发配置
@@ -1785,6 +1789,10 @@ export default {
         //导出
         exportGateway(params) {
             return post("/gateway/exportGateway", params);
+        },
+        //删除前判断通道是否关联其他数据
+        judgeGateway(params) {
+            return fetch("/gateway/judgeGateway", params);
         }
     },
     //彩信通道

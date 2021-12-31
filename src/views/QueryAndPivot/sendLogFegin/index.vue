@@ -27,7 +27,11 @@
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" width="300" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column prop="mobile" label="手机号" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="count" label="条数" />
       <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="definiteTime" label="定时时间" width="155">
@@ -164,6 +168,20 @@ export default {
       }
       this.selectSendLogAllNum(data);
       return data;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        if (item.mobile) {
+          item.mobile = item.mobile.split(",")[0];
+        }
+      });
+      return listData;
     }
   }
   // watch: {

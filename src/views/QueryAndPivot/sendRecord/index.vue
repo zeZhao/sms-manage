@@ -19,8 +19,22 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" width="110" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="110"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span>
@@ -123,12 +137,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
         {
           type: "input",
           label: "手机号",
@@ -160,6 +174,29 @@ export default {
             "",
             new Date(2021, 12, 16, 0, 0, 0),
             new Date(2021, 12, 16, 23, 59, 59)
+          ]
+        },
+        {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          // gridList: [
+          //   { type: "xs", grid: 6 },
+          //   { type: "sm", grid: 6 },
+          //   { type: "md", grid: 6 },
+          //   { type: "lg", grid: 4 },
+          //   { type: "xl", grid: 3 }
+          // ],
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
           ]
         }
       ],
@@ -202,6 +239,20 @@ export default {
       }
       this.selectSendBackAllNum(data);
       return data;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        if (item.mobile) {
+          item.mobile = item.mobile.split(",")[0];
+        }
+      });
+      return listData;
     }
   },
   watch: {}

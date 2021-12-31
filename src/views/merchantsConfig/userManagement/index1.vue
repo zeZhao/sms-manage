@@ -408,11 +408,21 @@
           web密码: {{ infoData.webPassword }}
           <i
             class="el-icon-lock"
-            @click="isOpenDialog"
+            v-show="!infoData.password || infoData.password === '-'"
+            @click="isOpenDialog('password')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
         <p>网址: sms.jvtd.cn</p>
+        <p>
+          秘钥: {{ infoData.secretKey }}
+          <i
+            class="el-icon-lock"
+            v-show="!infoData.secretKey || infoData.secretKey === '-'"
+            @click="isOpenDialog('secretKey')"
+            style="font-size: 20px;color: #909399;margin-left:5px"
+          ></i>
+        </p>
       </div>
       <div v-if="infoData.proType == 2">
         <p>产品类型: HTTP/WEB</p>
@@ -424,13 +434,23 @@
           密码: {{ infoData.password }}
           <i
             class="el-icon-lock"
-            @click="isOpenDialog"
+            v-show="!infoData.password || infoData.password === '-'"
+            @click="isOpenDialog('password')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
         <p>客户端IP: {{ infoData.userIp || "" }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+        <p>
+          秘钥: {{ infoData.secretKey }}
+          <i
+            class="el-icon-lock"
+            v-show="!infoData.secretKey || infoData.secretKey === '-'"
+            @click="isOpenDialog('secretKey')"
+            style="font-size: 20px;color: #909399;margin-left:5px"
+          ></i>
+        </p>
       </div>
       <div v-if="infoData.proType == 4">
         <p>产品类型: CMPP2.0/WEB</p>
@@ -444,7 +464,8 @@
           密码: {{ infoData.password }}
           <i
             class="el-icon-lock"
-            @click="isOpenDialog"
+            v-show="!infoData.password || infoData.password === '-'"
+            @click="isOpenDialog('password')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
@@ -456,6 +477,15 @@
           通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
           ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
         </p>
+        <p>
+          秘钥: {{ infoData.secretKey }}
+          <i
+            class="el-icon-lock"
+            v-show="!infoData.secretKey || infoData.secretKey === '-'"
+            @click="isOpenDialog('secretKey')"
+            style="font-size: 20px;color: #909399;margin-left:5px"
+          ></i>
+        </p>
       </div>
     </el-dialog>
     <el-dialog
@@ -466,7 +496,7 @@
       custom-class="loginDialog"
     >
       <el-form
-        ref="ruleForm"
+        ref="loginForm"
         :model="formData"
         :rules="rules"
         label-width="70px"
@@ -712,6 +742,8 @@ export default {
       infoData: {},
       //二次登录数据
       loginVisible: false,
+      //登录查看类型
+      loginType: "",
       formData: {},
       rules: {
         account: [
@@ -932,6 +964,16 @@ export default {
           key: "times",
           defaultValue: "",
           optionData: []
+        },
+        {
+          type: "select",
+          label: "发送设置",
+          key: "sendSettings",
+          defaultValue: "",
+          optionData: [
+            { key: 1, value: "进入缓存列队" },
+            { key: 2, value: "返回失败" }
+          ]
         },
         {
           isTitle: true,
@@ -1356,18 +1398,109 @@ export default {
         // },
       ],
       // 新增展示上一账户编号和修改展示当前账户编号
-      titleTips: ""
+      titleTips: "",
+
+      agentListData: [],
+      salemanListData: [],
+      listTagData: []
     };
   },
   created() {},
   mounted() {
     this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
     this.getRole();
-    this.listTag();
     this.getUserId();
     this.getBlackFroup();
+    this._mxGetList();
+    this.$http.agent.queryAgent({ status: 1 }).then(res => {
+      if (resOk(res)) {
+        this.agentListData = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "agentId") {
+            item.optionData = [];
+            this.agentListData.forEach(t => {
+              let obj = {
+                key: t.agentId,
+                value: t.agentName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.sysSales.queryAvailableSaleman().then(res => {
+      if (resOk(res)) {
+        this.salemanListData = res.data;
+        this.saleList = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "saleMan") {
+            item.optionData = [];
+            this.salemanListData.forEach(t => {
+              let obj = {
+                key: t.userName,
+                value: t.actualName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.smsTagController
+      .listTag({ pageNumber: 1, pageSize: 9999 })
+      .then(res => {
+        if (resOk(res)) {
+          this.listTagData = res.data.list;
+          this.tagsData[0].optionData = res.data.list.map(v => {
+            return { key: v.id, value: v.name };
+          });
+          this.searchFormConfig.forEach(item => {
+            if (item.key === "tag") {
+              item.optionData = [];
+              this.listTagData.forEach(t => {
+                let obj = {
+                  key: t.id,
+                  value: t.name
+                };
+                item.optionData.push(obj);
+              });
+            }
+          });
+        }
+      });
+    this.searchFormConfig.forEach(item => {
+      if (item.key === "agentId") {
+        item.optionData = [];
+        this.agentListData.forEach(t => {
+          let obj = {
+            key: t.agentId,
+            value: t.agentName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "saleMan") {
+        item.optionData = [];
+        this.salemanListData.forEach(t => {
+          let obj = {
+            key: t.userName,
+            value: t.actualName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "tag") {
+        item.optionData = [];
+        this.listTagData.forEach(t => {
+          let obj = {
+            key: t.id,
+            value: t.name
+          };
+          item.optionData.push(obj);
+        });
+      }
+    });
   },
   activated() {
     //重新获取数据
@@ -1376,7 +1509,6 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
-    this._mxGetList();
     this.getUserId();
     this.getBlackFroup();
   },
@@ -1396,13 +1528,6 @@ export default {
           "groupId",
           "blackGroupName"
         );
-        // this._setDefaultValue(
-        //   this.formConfig,
-        //   res.data,
-        //   "mmsBlackLevel",
-        //   "groupId",
-        //   "blackGroupName"
-        // );
       });
     },
     // 获取账户编号
@@ -1447,6 +1572,7 @@ export default {
         });
       }
     },
+    //根据下拉选择对表单项进行展示
     selectChange(data) {
       const { val, item } = data;
       if (item.key === "productType") {
@@ -1589,11 +1715,13 @@ export default {
       }
       return form;
     },
-    isOpenDialog() {
+    isOpenDialog(type) {
       this.loginVisible = true;
+      this.loginType = type;
     },
+    //二次登录验证
     notDisabled() {
-      this.$refs["ruleForm"].validate(valid => {
+      this.$refs["loginForm"].validate(valid => {
         if (valid) {
           const { userId } = this.infoData;
           this.formData.type = 4;
@@ -1601,15 +1729,23 @@ export default {
 
           this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
-              this.$nextTick(() => {
-                this.infoData.password = res.data.password;
-                this.infoData.webPassword = res.data.webPassword;
-              });
-
+              if (this.loginType === "password") {
+                this.$nextTick(() => {
+                  this.infoData.password = res.data.password;
+                  this.infoData.webPassword = res.data.webPassword;
+                });
+              } else if (this.loginType === "secretKey") {
+                this.$http.corpUser.getSecretKeyById(userId).then(res => {
+                  this.$nextTick(() => {
+                    this.$set(this.infoData, "secretKey", res.data.publicKey);
+                  });
+                });
+              }
               this.loginVisible = false;
               this.$message.success("验证成功");
-              this.formData.account = "";
-              this.formData.pwd = "";
+              this.$nextTick(() => {
+                this.$refs["loginForm"].resetFields();
+              });
             } else {
               this.$message.error(res.data);
             }
@@ -1623,7 +1759,7 @@ export default {
         this.speedVal = null;
       }
     },
-    _mxCreate() {
+    async _mxCreate() {
       // this.$router.push({
       //   name: "userManagementType",
       //   query: { type: "create" }
@@ -1683,11 +1819,9 @@ export default {
           item.disabled = false;
         }
       });
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
-      this.getUserId();
+      await this.getAllCorp();
+      await this.getRole();
+      await this.getUserId();
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
@@ -1736,10 +1870,6 @@ export default {
       setTimeout(() => {
         this.$refs.formItemTit.clearValidate();
       }, 0);
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
       this.disabledProType();
       this.getUserId(lineData);
       this.formConfig.forEach(item => {
@@ -1946,6 +2076,7 @@ export default {
       this.isRestricted = submitSpeed ? 1 : 0;
       this.speedVisible = true;
     },
+    //提交速率
     submitSpeeds() {
       let params;
       if (this.isRestricted === 0) {
@@ -1997,16 +2128,10 @@ export default {
         .listTag({ pageNumber: 1, pageSize: 9999 })
         .then(res => {
           if (resOk(res)) {
+            this.listTagData = res.data.list;
             this.tagsData[0].optionData = res.data.list.map(v => {
               return { key: v.id, value: v.name };
             });
-            this._setDefaultValue(
-              this.searchFormConfig,
-              res.data.list,
-              "tag",
-              "id",
-              "name"
-            );
           }
         });
     },
@@ -2077,16 +2202,10 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.salemanListData = res.data;
           this.saleList = res.data;
           this._setDefaultValue(
             this.formConfig,
-            res.data,
-            "saleMan",
-            "userName",
-            "actualName"
-          );
-          this._setDefaultValue(
-            this.searchFormConfig,
             res.data,
             "saleMan",
             "userName",
@@ -2099,15 +2218,9 @@ export default {
     getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
+          this.agentListData = res.data;
           this._setDefaultValue(
             this.formConfig,
-            res.data,
-            "agentId",
-            "agentId",
-            "agentName"
-          );
-          this._setDefaultValue(
-            this.searchFormConfig,
             res.data,
             "agentId",
             "agentId",
@@ -2352,7 +2465,17 @@ export default {
       // ]);
     }
   },
-  watch: {}
+  watch: {
+    formConfig: {
+      handler(newVal) {
+        const idx = newVal.findIndex(v => v.key === "times");
+        const idx1 = newVal.findIndex(v => v.key === "sendSettings");
+        newVal[idx].rules =  [{ required: !!newVal[idx1].defaultValue, message: "请选择必选项", trigger: "change" }];
+        newVal[idx1].rules =  [{ required: !!newVal[idx].defaultValue, message: "请选择必选项", trigger: "change" }];
+      },
+      deep: true
+    }
+  }
 };
 </script>
 
