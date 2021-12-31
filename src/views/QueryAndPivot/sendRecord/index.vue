@@ -137,12 +137,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
         {
           type: "input",
           label: "手机号",
