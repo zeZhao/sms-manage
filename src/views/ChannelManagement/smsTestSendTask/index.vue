@@ -64,12 +64,12 @@ export default {
           ]
         },
         {
-          type: 'input',
-          label: '特服号',
+          type: "input",
+          label: "特服号",
           // disabled: true,
-          key: 'code',
-          maxlength: '20',
-          defaultValue: '',
+          key: "code",
+          maxlength: "20",
+          defaultValue: "",
           rules: [
             {
               required: true,
