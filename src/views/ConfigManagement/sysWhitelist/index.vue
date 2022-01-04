@@ -389,6 +389,8 @@ export default {
           item.btnDisabled = false;
         }
         if (item.key === "mobile") {
+          this.$set(item, "maxlength", 100);
+          this.$set(item, "placeholder", "可输入多个手机号，用英文“,”隔开");
           item.rules = [
             {
               required: true,
@@ -450,6 +452,8 @@ export default {
           item.btnDisabled = true;
         }
         if (item.key === "mobile") {
+          this.$set(item, "maxlength", 11);
+          this.$set(item, "placeholder", "");
           item.rules = [
             { required: true, validator: isPhone, trigger: "change" }
           ];
