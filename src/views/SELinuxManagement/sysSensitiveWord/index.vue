@@ -573,6 +573,8 @@ export default {
           this.$set(item, "isShow", false);
         }
         if (item.key === "wordName") {
+          this.$set(item, "maxlength", 100);
+          this.$set(item, "placeholder", "2-8个字符，添加多个敏感词，用英文“,”隔开");
           this.$set(item, "rules", checkwordName);
         }
         // if (item.key === "keywordFile") {
@@ -603,6 +605,8 @@ export default {
           this.$set(item, "isShow", true);
         }
         if (item.key === "wordName") {
+          this.$set(item, "maxlength", 8);
+          this.$set(item, "placeholder", "");
           this.$set(item, "rules", checkEditwordName);
         }
       });
