@@ -89,12 +89,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        // {
-        //   type: "input",
-        //   label: "手机号",
-        //   key: "mobile",
-        //   placeholder: "请输入手机号"
-        // },
+        {
+          type: "input",
+          label: "手机号",
+          key: "mobile",
+          placeholder: "请输入手机号"
+        },
         {
           type: "input",
           label: "通道编号",

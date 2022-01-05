@@ -126,11 +126,11 @@ export default {
         //   label: "内容",
         //   key: "content"
         // },
-        // {
-        //   type: "input",
-        //   label: "手机号",
-        //   key: "mobile"
-        // },
+        {
+          type: "input",
+          label: "手机号",
+          key: "mobile"
+        },
         {
           type: "input",
           label: "通道编号",
