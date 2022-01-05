@@ -109,11 +109,11 @@ export default {
           label: "特服号",
           key: "code"
         },
-        // {
-        //   type: "inputNum",
-        //   label: "上行手机号",
-        //   key: "mobile"
-        // },
+        {
+          type: "inputNum",
+          label: "上行手机号",
+          key: "mobile"
+        },
         // {
         //   type: "input",
         //   label: "内容",

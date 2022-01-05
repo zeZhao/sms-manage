@@ -143,12 +143,12 @@ export default {
         //   key: "content",
         //   placeholder: "请输入内容"
         // },
-        // {
-        //   type: "input",
-        //   label: "手机号",
-        //   key: "mobile",
-        //   placeholder: "请输入手机号"
-        // },
+        {
+          type: "input",
+          label: "手机号",
+          key: "mobile",
+          placeholder: "请输入手机号"
+        },
         {
           type: "input",
           label: "CID",
