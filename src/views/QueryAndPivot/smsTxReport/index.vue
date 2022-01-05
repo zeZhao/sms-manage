@@ -113,18 +113,18 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
-        {
-          type: "input",
-          label: "手机号",
-          key: "mobile",
-          placeholder: "请输入手机号"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
+        // {
+        //   type: "input",
+        //   label: "手机号",
+        //   key: "mobile",
+        //   placeholder: "请输入手机号"
+        // },
         {
           type: "input",
           label: "通道编号",
@@ -152,6 +152,22 @@ export default {
           optionData: []
         },
         {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
+        },
+        {
           type: "timerange",
           label: "发送时间",
           key: ["", "startTime", "endTime"],
@@ -167,22 +183,6 @@ export default {
           key: "sendTime",
           placeholder: "发送日期",
           defaultValue: new Date()
-        },
-        {
-          type: "select",
-          label: "显示内容",
-          key: "showDecrypt",
-          defaultValue: -1,
-          optionData: [
-            {
-              key: 1,
-              value: "显示"
-            },
-            {
-              key: -1,
-              value: "不显示"
-            }
-          ]
         }
       ]
     };

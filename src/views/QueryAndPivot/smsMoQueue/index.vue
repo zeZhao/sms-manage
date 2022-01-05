@@ -109,16 +109,16 @@ export default {
           label: "特服号",
           key: "code"
         },
-        {
-          type: "inputNum",
-          label: "上行手机号",
-          key: "mobile"
-        },
-        {
-          type: "input",
-          label: "内容",
-          key: "content"
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "上行手机号",
+        //   key: "mobile"
+        // },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content"
+        // },
         {
           type: "inputNum",
           label: "上行通道",
@@ -136,12 +136,6 @@ export default {
           key: "city"
         },
         {
-          type: "daterange",
-          label: "上行时间",
-          key: ["", "startTime", "endTime"],
-          defaultValue: ["", getDateToString(), getDateToString()]
-        },
-        {
           type: "select",
           label: "显示内容",
           key: "showDecrypt",
@@ -156,6 +150,12 @@ export default {
               value: "不显示"
             }
           ]
+        },
+        {
+          type: "daterange",
+          label: "上行时间",
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
     };
