@@ -121,26 +121,20 @@ export default {
           key: "userName",
           placeholder: "请输入账户名称"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content"
-        },
-        {
-          type: "input",
-          label: "手机号",
-          key: "mobile"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content"
+        // },
+        // {
+        //   type: "input",
+        //   label: "手机号",
+        //   key: "mobile"
+        // },
         {
           type: "input",
           label: "通道编号",
           key: "gateway"
-        },
-        {
-          type: "daterange",
-          label: "提交时间",
-          key: ["", "startTime", "endTime"],
-          defaultValue: ["", getDateToString(), getDateToString()]
         },
         {
           type: "select",
@@ -157,6 +151,12 @@ export default {
               value: "不显示"
             }
           ]
+        },
+        {
+          type: "daterange",
+          label: "提交时间",
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
     };
