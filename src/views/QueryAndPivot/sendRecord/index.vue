@@ -161,6 +161,22 @@ export default {
           key: "gateway"
         },
         {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
+        },
+        {
           type: "date",
           label: "创建日期",
           key: "createTime",
@@ -175,30 +191,14 @@ export default {
             new Date(2021, 12, 16, 0, 0, 0),
             new Date(2021, 12, 16, 23, 59, 59)
           ]
-        },
-        {
-          type: "select",
-          label: "显示内容",
-          key: "showDecrypt",
-          defaultValue: -1,
-          // gridList: [
-          //   { type: "xs", grid: 6 },
-          //   { type: "sm", grid: 6 },
-          //   { type: "md", grid: 6 },
-          //   { type: "lg", grid: 4 },
-          //   { type: "xl", grid: 3 }
-          // ],
-          optionData: [
-            {
-              key: 1,
-              value: "显示"
-            },
-            {
-              key: -1,
-              value: "不显示"
-            }
-          ]
         }
+        // gridList: [
+        //   { type: "xs", grid: 6 },
+        //   { type: "sm", grid: 6 },
+        //   { type: "md", grid: 6 },
+        //   { type: "lg", grid: 4 },
+        //   { type: "xl", grid: 3 }
+        // ],
       ],
       total: 0
     };

@@ -414,7 +414,7 @@
           ></i>
         </p>
         <p>网址: sms.jvtd.cn</p>
-        <p>
+        <!-- <p>
           秘钥: {{ infoData.secretKey }}
           <i
             class="el-icon-lock"
@@ -422,7 +422,7 @@
             @click="isOpenDialog('secretKey')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
-        </p>
+        </p> -->
       </div>
       <div v-if="infoData.proType == 2">
         <p>产品类型: HTTP/WEB</p>
@@ -477,7 +477,7 @@
           通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
           ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
         </p>
-        <p>
+        <!-- <p>
           秘钥: {{ infoData.secretKey }}
           <i
             class="el-icon-lock"
@@ -485,7 +485,7 @@
             @click="isOpenDialog('secretKey')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
-        </p>
+        </p> -->
       </div>
     </el-dialog>
     <el-dialog
@@ -2470,8 +2470,20 @@ export default {
       handler(newVal) {
         const idx = newVal.findIndex(v => v.key === "times");
         const idx1 = newVal.findIndex(v => v.key === "sendSettings");
-        newVal[idx].rules =  [{ required: !!newVal[idx1].defaultValue, message: "请选择必选项", trigger: "change" }];
-        newVal[idx1].rules =  [{ required: !!newVal[idx].defaultValue, message: "请选择必选项", trigger: "change" }];
+        newVal[idx].rules = [
+          {
+            required: !!newVal[idx1].defaultValue,
+            message: "请选择必选项",
+            trigger: "change"
+          }
+        ];
+        newVal[idx1].rules = [
+          {
+            required: !!newVal[idx].defaultValue,
+            message: "请选择必选项",
+            trigger: "change"
+          }
+        ];
       },
       deep: true
     }

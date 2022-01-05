@@ -20,8 +20,18 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="longCode" label="通道码号" /> -->
-      <el-table-column prop="content" label="内容" width="110" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="110"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
@@ -111,11 +121,11 @@ export default {
           key: "userName",
           placeholder: "请输入账户名称"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content"
+        // },
         {
           type: "input",
           label: "手机号",
@@ -125,6 +135,22 @@ export default {
           type: "input",
           label: "通道编号",
           key: "gateway"
+        },
+        {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
         },
         {
           type: "daterange",

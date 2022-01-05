@@ -26,9 +26,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" width="300" />
-      <el-table-column prop="mobile" label="手机号" width="100">
-        <template slot-scope="{row}">
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="300"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      >
+        <template slot-scope="{ row }">
           <span>{{ row.mobile.slice(0, 11) }}</span>
         </template>
       </el-table-column>
@@ -95,12 +105,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
         {
           type: "input",
           label: "手机号",
@@ -112,6 +122,22 @@ export default {
           label: "CID",
           key: "cid",
           placeholder: "请输入CID"
+        },
+        {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
         },
         {
           type: "timerange",
