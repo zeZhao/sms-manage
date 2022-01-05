@@ -224,10 +224,10 @@
         style="width: 80%; margin: auto"
       >
         <el-form-item label="手机号:" prop="account">
-          <el-input v-model="formData.account" clearable></el-input>
+          <el-input v-model="formData.account" type="number" name="account" placeholder="请输入手机号" clearable maxlength="11"></el-input>
         </el-form-item>
         <el-form-item label="口令:" prop="pwd">
-          <el-input v-model="formData.pwd" clearable maxlength="6"></el-input>
+          <el-input v-model="formData.pwd" type="password" name="pwd" placeholder="请输入口令" clearable maxlength="6" show-password @keyup.enter.native="submit"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -576,13 +576,14 @@ export default {
         {
           isTitle: true,
           title: "加密信息",
-          colSpan: 24
+          colSpan: 24,
+          lock: true
         },
         {
           type: "select",
           label: "通道类型",
           key: "type",
-          //   tag:"encrypt",
+          // tag:"encrypt",
           optionData: [
             { key: 1, value: "Cmpp" },
             { key: 2, value: "Sgip" },
@@ -595,7 +596,7 @@ export default {
         {
           type: "input",
           label: "接入号",
-          //   tag: "encrypt",
+          tag: "encrypt",
           key: "srcId",
           colSpan: 12
         },
@@ -605,7 +606,7 @@ export default {
           tag: "encrypt",
           key: "serverIp",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -613,7 +614,7 @@ export default {
           tag: "encrypt",
           key: "srcIdLength",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -621,7 +622,7 @@ export default {
           tag: "encrypt",
           key: "serverPort",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -629,7 +630,7 @@ export default {
           tag: "encrypt",
           key: "serviceId",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -637,7 +638,7 @@ export default {
           tag: "encrypt",
           key: "sendSpeed",
           colSpan: 12,
-          lock: true,
+          // lock: true,
           maxlength: "4",
           defaultValue: "",
           rules: [
@@ -665,7 +666,7 @@ export default {
           tag: "encrypt",
           key: "msgSrc",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -673,7 +674,7 @@ export default {
           tag: "encrypt",
           key: "clientId",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -681,7 +682,7 @@ export default {
           tag: "encrypt",
           key: "gatewayRecordId",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -689,17 +690,17 @@ export default {
           tag: "encrypt",
           key: "sharedSecret",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
           label: "cmpp版本",
-          tag: "encrypt",
+          // tag: "encrypt",
           key: "version",
           initDefaultValue: "20",
           defaultValue: "20",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
         {
           type: "input",
@@ -707,7 +708,7 @@ export default {
           tag: "encrypt",
           key: "feeType",
           colSpan: 12,
-          lock: true
+          // lock: true
         },
 
         {
@@ -1375,8 +1376,11 @@ export default {
         this.$refs.formItem.resetForm();
       }, 0);
       this.formConfig.forEach(item => {
-        if (item.tag === "encrypt") {
+        if (item.title === "加密信息") {
           item.lock = false;
+        }
+        if (item.tag === "encrypt") {
+          item.disabled = false;
         }
         if (item.key === "gateway") {
           item.disabled = false;
@@ -1412,8 +1416,11 @@ export default {
           this.$set(item, "defaultValue", "");
         }
         this.formConfig.forEach(item => {
-          if (item.tag === "encrypt") {
+          if (item.title === "加密信息") {
             item.lock = true;
+          }
+          if (item.tag === "encrypt") {
+            item.disabled = true;
           }
           if (item.key === "gateway") {
             item.disabled = true;
@@ -1625,11 +1632,12 @@ export default {
               soleId: Number(gatewayId)
             })
             .then(res => {
-              if (res.code == 200) {
-                this.$message.success(res.msg);
+              if (res.code === 200) {
+                this.$message.success("验证成功");
                 this.loginState = false;
                 this.formData.account = "";
                 this.formData.pwd = "";
+                // 解锁
                 const { key } = this.temporaryItem;
                 this.formConfig.forEach(item => {
                   if (key === "sharedSecret") {
@@ -1637,8 +1645,11 @@ export default {
                       item.defaultValue = res.data;
                     }
                   }
-                  if (item.key === key) {
+                  if (item.title === "加密信息") {
                     item.lock = false;
+                  }
+                  if (item.tag === "encrypt") {
+                    item.disabled = false;
                   }
                 });
               } else {
@@ -1651,6 +1662,9 @@ export default {
     _mxHandleDecode(item) {
       this.loginState = true;
       this.temporaryItem = item;
+      this.$nextTick(() => {
+        this.$refs["ruleForm"] && this.$refs["ruleForm"].clearValidate();
+      })
     },
     //隐藏附加信息
     handleClick(item) {

@@ -15,7 +15,15 @@
           :span="item.colSpan || colSpan"
           :offset="item.offset"
         >
-          <h3 v-if="item.isTitle && !item.isShow">{{ item.title }}</h3>
+          <h3 v-if="item.isTitle && !item.isShow">
+            {{ item.title }}
+            <i
+              class="el-icon-lock"
+              v-if="item.lock"
+              @click="decode(item)"
+              style="font-size: 22px; vertical-align: middle; color: #909399; margin-left: 5px"
+            ></i>
+          </h3>
           <el-button
             v-if="item.isBtn && !item.isShow"
             size="small"
@@ -65,7 +73,7 @@
                 class="el-icon-lock"
                 v-if="item.lock"
                 @click="decode(item)"
-                style="font-size: 22px;vertical-align: sub;color: #909399;margin-left:5px"
+                style="font-size: 22px; vertical-align: middle; color: #909399; margin-left: 5px"
               ></i>
               <span v-if="item.specialSymbols">{{ item.specialSymbols }}</span>
               <div v-if="item.tips" class="item-tips">{{ item.tips }}</div>
