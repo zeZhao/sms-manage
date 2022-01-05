@@ -176,18 +176,18 @@ export default {
             new Date(2021, 12, 16, 23, 59, 59)
           ]
         },
+        // gridList: [
+        //   { type: "xs", grid: 6 },
+        //   { type: "sm", grid: 6 },
+        //   { type: "md", grid: 6 },
+        //   { type: "lg", grid: 4 },
+        //   { type: "xl", grid: 3 }
+        // ],
         {
           type: "select",
           label: "显示内容",
           key: "showDecrypt",
           defaultValue: -1,
-          // gridList: [
-          //   { type: "xs", grid: 6 },
-          //   { type: "sm", grid: 6 },
-          //   { type: "md", grid: 6 },
-          //   { type: "lg", grid: 4 },
-          //   { type: "xl", grid: 3 }
-          // ],
           optionData: [
             {
               key: 1,

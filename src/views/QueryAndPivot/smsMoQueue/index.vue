@@ -27,7 +27,18 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="mobile" label="上行手机号" width="100" />
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="110"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="上行手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      />
       <el-table-column prop="province" label="省份" />
       <el-table-column prop="city" label="城市" />
       <el-table-column prop="operaId" label="运营商">
@@ -37,7 +48,7 @@
           <span v-if="scope.row.operaId === 3">电信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容" width="110" />
+
       <el-table-column prop="gateway" label="上行通道" />
       <el-table-column prop="createTime" label="上行时间" width="135">
         <template slot-scope="scope">{{
@@ -129,6 +140,22 @@ export default {
           label: "上行时间",
           key: ["", "startTime", "endTime"],
           defaultValue: ["", getDateToString(), getDateToString()]
+        },
+        {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
         }
       ]
     };
