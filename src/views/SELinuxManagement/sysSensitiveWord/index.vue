@@ -179,6 +179,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+
 const checkwordName = [
   {
     required: true,
@@ -197,6 +198,21 @@ const checkwordName = [
         }
       }
       callback();
+    }
+  }
+];
+const checkEditwordName = [
+  {
+    required: true,
+    trigger: ["blur", "change"],
+    validator: (rule, value, callback) => {
+      if (!value) callback(new Error("请输入必填项"));
+      const len = value.length;
+      if (len < 2 || len > 8) {
+        callback(new Error("敏感词长度在2~8个字符之间"));
+      } else {
+        callback();
+      }
     }
   }
 ];
@@ -557,6 +573,8 @@ export default {
           this.$set(item, "isShow", false);
         }
         if (item.key === "wordName") {
+          this.$set(item, "maxlength", 100);
+          this.$set(item, "placeholder", "2-8个字符，添加多个敏感词，用英文“,”隔开");
           this.$set(item, "rules", checkwordName);
         }
         // if (item.key === "keywordFile") {
@@ -587,7 +605,9 @@ export default {
           this.$set(item, "isShow", true);
         }
         if (item.key === "wordName") {
-          this.$set(item, "rules", checkwordName);
+          this.$set(item, "maxlength", 8);
+          this.$set(item, "placeholder", "");
+          this.$set(item, "rules", checkEditwordName);
         }
       });
       setTimeout(() => {
