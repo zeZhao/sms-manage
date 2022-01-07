@@ -498,7 +498,7 @@ export default {
           label: "通道名称",
           colSpan: 12,
           key: "gatewayName",
-          maxlength: "30",
+          maxlength: "40",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
