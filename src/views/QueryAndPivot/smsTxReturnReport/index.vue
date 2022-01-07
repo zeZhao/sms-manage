@@ -170,12 +170,12 @@ export default {
           placeholder: "请输入CID"
         },
         {
-          type: "date",
-          label: "发送日期",
-          key: "sendTime",
-          placeholder: "发送日期",
-          defaultValue: new Date()
+          type: "input",
+          label: "签名",
+          key: "sign",
+          placeholder: "请输入签名"
         },
+
         {
           type: "select",
           label: "是否有状态",
@@ -220,6 +220,13 @@ export default {
               value: "不显示"
             }
           ]
+        },
+        {
+          type: "date",
+          label: "发送日期",
+          key: "sendTime",
+          placeholder: "发送日期",
+          defaultValue: new Date()
         },
         {
           type: "timerange",
