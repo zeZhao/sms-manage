@@ -133,7 +133,7 @@ export default {
           type: "input",
           label: "供应商名称",
           key: "supplierName",
-          maxlength: 20,
+          maxlength: 40,
           defaultValue: "",
           rules: [
             {

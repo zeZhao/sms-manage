@@ -17,7 +17,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <!-- <el-table-column
         prop="loginName"
         label="登录账号"
@@ -470,7 +470,7 @@
           ></i>
         </p>
         <p>协议: CMPP</p>
-        <p>通道接入码: {{ infoData.longCode }}</p>
+        <p>通道接入码: {{ (infoData.longCode && infoData.longCode !== "-") ? infoData.longCode : "置空" }}</p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
         <p>

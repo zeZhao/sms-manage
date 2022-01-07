@@ -1,7 +1,7 @@
 <template>
   <section>
     <!--工具条-->
-    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
       <el-form :inline="true">
         <el-form-item label="商户编号">
           <el-input v-model="search.corpId" clearable placeholder="商户编号" />
@@ -108,7 +108,12 @@
         </el-form-item>
       </el-form>
     </el-col>
-    <el-table :data="dataList" max-height="430" highlight-current-row style="width: 100%;">
+    <el-table
+      :data="dataList"
+      max-height="430"
+      highlight-current-row
+      style="width: 100%"
+    >
       <!--商户编号 特服号 用户商户名称 客户联系人姓名 客户联系人电话 扩展位数 计费方式 短信余额 状态 操作 -->
       <el-table-column prop="corpId" label="商户/代理编号" />
       <el-table-column prop="userId" label="账户编号" />
@@ -118,11 +123,11 @@
       <el-table-column prop="accountType" label="业务类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.accountType == "1"
-              ? "行业"
-              : scope.row.accountType == "2"
-              ? "营销"
-              : "vip"
+            scope.row.accountType == '1'
+              ? '行业'
+              : scope.row.accountType == '2'
+              ? '营销'
+              : 'vip'
           }}</span>
         </template>
       </el-table-column>
@@ -132,13 +137,13 @@
       <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
           <span>{{
-            scope.row.productType == "1"
-              ? "短信"
-              : scope.row.productType == "2"
-              ? "彩信"
-              : scope.row.productType == "3"
-              ? "屏信"
-              : "语音"
+            scope.row.productType == '1'
+              ? '短信'
+              : scope.row.productType == '2'
+              ? '彩信'
+              : scope.row.productType == '3'
+              ? '屏信'
+              : '语音'
           }}</span>
         </template>
       </el-table-column>
@@ -147,12 +152,12 @@
           <div v-for="(item, index) in scope.row.proTypes" :key="index">
             <span>{{
               item === 1
-                ? "web端"
+                ? 'web端'
                 : item === 2
-                ? "http接口"
+                ? 'http接口'
                 : item === 4
-                ? "cmpp接口"
-                : ""
+                ? 'cmpp接口'
+                : ''
             }}</span>
           </div>
         </template>
@@ -160,39 +165,39 @@
       <el-table-column prop="sendType" label="发送运营商">
         <template slot-scope="scope">
           <span>{{
-            scope.row.sendType == "1"
-              ? "移动"
-              : scope.row.reductModel == "2"
-              ? "联通 "
-              : scope.row.reductModel == "3"
-              ? "电信"
-              : scope.row.reductModel == "4"
-              ? "三网"
-              : scope.row.reductModel == "5"
-              ? "移动联通"
-              : scope.row.reductModel == "6"
-              ? "移动电信"
-              : "联通电信"
+            scope.row.sendType == '1'
+              ? '移动'
+              : scope.row.reductModel == '2'
+              ? '联通 '
+              : scope.row.reductModel == '3'
+              ? '电信'
+              : scope.row.reductModel == '4'
+              ? '三网'
+              : scope.row.reductModel == '5'
+              ? '移动联通'
+              : scope.row.reductModel == '6'
+              ? '移动电信'
+              : '联通电信'
           }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductModel" label="计费方式">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductModel == "1"
-              ? "预付提交计费"
-              : scope.row.reductModel == "2"
-              ? "预付成功计费"
-              : scope.row.reductModel == "3"
-              ? "后付提交计费"
-              : "后付成功计费"
+            scope.row.reductModel == '1'
+              ? '预付提交计费'
+              : scope.row.reductModel == '2'
+              ? '预付成功计费'
+              : scope.row.reductModel == '3'
+              ? '后付提交计费'
+              : '后付成功计费'
           }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="reductType" label="计费类型">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType == "1" ? "账户计费" : "为商户id计费"
+            scope.row.reductType == '1' ? '账户计费' : '为商户id计费'
           }}</span>
         </template>
       </el-table-column>
@@ -202,13 +207,13 @@
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{
-            scope.row.status == "0"
-              ? "删除"
-              : scope.row.status == "1"
-              ? "待审核"
-              : scope.row.status == "2"
-              ? "正常"
-              : "停用"
+            scope.row.status == '0'
+              ? '删除'
+              : scope.row.status == '1'
+              ? '待审核'
+              : scope.row.status == '2'
+              ? '正常'
+              : '停用'
           }}</span>
         </template>
       </el-table-column>
@@ -559,7 +564,12 @@
             <el-option value="2" label="对比库" />
           </el-select>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item
+          label="备注"
+          width="160"
+          show-overflow-tooltip
+          prop="remark"
+        >
           <el-input
             maxlength="300"
             type="textarea"
@@ -584,7 +594,7 @@
       width="30%"
     >
       <span>{{ information }}</span>
-      <p v-show="dialogTit === '停用'" style="color: #EC5858">
+      <p v-show="dialogTit === '停用'" style="color: #ec5858">
         停用后将无法使用，请谨慎操作！
       </p>
       <span slot="footer" class="dialog-footer">
@@ -600,9 +610,9 @@
   </section>
 </template>
 <script>
-import Util from "@/utils/reg";
-import ChooseEnterprise from "../components/ChooseEnterprise";
-import { isArray } from "@/utils/validate";
+import Util from '@/utils/reg';
+import ChooseEnterprise from '../components/ChooseEnterprise';
+import { isArray } from '@/utils/validate';
 
 export default {
   components: { ChooseEnterprise },
@@ -612,7 +622,7 @@ export default {
         value &&
         (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) || value.length !== 11)
       ) {
-        callback(new Error("手机号码不符合规范"));
+        callback(new Error('手机号码不符合规范'));
       } else {
         callback();
       }
@@ -622,55 +632,55 @@ export default {
       cur_page: 1, // 默认在第一页
       pageNum: 10, // 默认每页显示1条数据
       totalCount: 1, // 默认总条数为一条
-      count: "",
+      count: '',
       dataList: [],
       customerAddInfo: false,
       search: {
-        userId: "",
-        corpId: "",
-        userName: "",
-        code: "",
-        isDirectUser: "",
-        accountType: "",
-        productType: "",
-        proType: "",
-        reductModel: "",
-        reductType: "",
-        saleMan: "",
-        startDate: "",
-        endDate: ""
+        userId: '',
+        corpId: '',
+        userName: '',
+        code: '',
+        isDirectUser: '',
+        accountType: '',
+        productType: '',
+        proType: '',
+        reductModel: '',
+        reductType: '',
+        saleMan: '',
+        startDate: '',
+        endDate: ''
       },
       // 新增商户
       addInfo: {
-        userId: "",
+        userId: '',
         // mqIp:"",
-        corpId: "",
-        loginName: "",
-        userName: "",
-        password: "",
-        code: "",
-        sublong: "",
-        reductType: "",
-        reductModel: "",
-        returnBalance: "2",
-        cardUnit: "",
-        mmsCardUnit: "",
-        productType: "",
-        proType: "",
-        reportType: "",
-        moType: "",
-        reportUrl: "",
-        moUrl: "",
-        userIp: "",
-        userIpBak: "",
-        contact: "",
-        mobile: "",
-        accountType: "",
-        isDirectUser: "",
+        corpId: '',
+        loginName: '',
+        userName: '',
+        password: '',
+        code: '',
+        sublong: '',
+        reductType: '',
+        reductModel: '',
+        returnBalance: '2',
+        cardUnit: '',
+        mmsCardUnit: '',
+        productType: '',
+        proType: '',
+        reportType: '',
+        moType: '',
+        reportUrl: '',
+        moUrl: '',
+        userIp: '',
+        userIpBak: '',
+        contact: '',
+        mobile: '',
+        accountType: '',
+        isDirectUser: '',
         blackLevel: [],
-        saleMan: "朱小五",
-        remark: "",
-        directPort: "",
+        saleMan: '朱小五',
+        remark: '',
+        directPort: '',
         // mmsAuditCallBack:"",
         // longCode:"",
         // maxSession:"",
@@ -682,76 +692,76 @@ export default {
         // deductPercent:"",
         // httpSign:"",
         // faToSu:"",
-        isPostApi: "",
-        deductType: ""
+        isPostApi: '',
+        deductType: ''
       },
       updateFormRules: {
         userName: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         loginName: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
-        code: [{ required: true, message: "必填项不能为空", trigger: "blur" }],
+        code: [{ required: true, message: '必填项不能为空', trigger: 'blur' }],
         sublong: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         reductType: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         reductModel: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         cardUnit: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         mmsCardUnit: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         productType: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         proType: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         reportType: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         moType: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         contact: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         mobile: [
-          { required: true, message: "必填项不能为空", trigger: "blur" },
-          { validator: validatePhone, trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' },
+          { validator: validatePhone, trigger: 'blur' }
         ],
         accountType: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         isDirectUser: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ],
         saleMan: [
-          { required: true, message: "必填项不能为空", trigger: "blur" }
+          { required: true, message: '必填项不能为空', trigger: 'blur' }
         ]
       },
-      formTit: "新增商户用户",
-      formBtn: "新增",
+      formTit: '新增商户用户',
+      formBtn: '新增',
       // 初始/停用/启用 公共弹窗
       dialogVisible: false,
-      dialogTit: "",
-      information: "",
-      dialogType: "disable",
+      dialogTit: '',
+      information: '',
+      dialogType: 'disable',
       currentRowData: {},
       //选择商户
       isEnterprise: false,
-      status: "",
-      blackLevel: ["系统级", "客户级"]
+      status: '',
+      blackLevel: ['系统级', '客户级']
     };
   },
   mounted() {
@@ -760,8 +770,8 @@ export default {
   },
   methods: {
     getsysSalemanList() {
-      this.$http.sysSales.queryByPage().then(res => {
-        console.log(res, "销售");
+      this.$http.sysSales.queryByPage().then((res) => {
+        console.log(res, '销售');
       });
     },
     getCorpId(id) {
@@ -788,7 +798,7 @@ export default {
       this.orderList(); // 确定当前页面后刷新页面
     },
     // 列表
-    orderList: function() {
+    orderList: function () {
       const params = {
         data: {
           corpUser: {
@@ -798,8 +808,8 @@ export default {
           pageSize: this.pageNum
         }
       };
-      this.$http.corpUser.queryByPage(params).then(res => {
-        if (res.code == "200") {
+      this.$http.corpUser.queryByPage(params).then((res) => {
+        if (res.code == '200') {
           this.dataList = res.data.list;
           this.totalCount = Number(res.data.total);
         } else {
@@ -809,19 +819,19 @@ export default {
     },
     newEnterprise() {
       this.customerAddInfo = true;
-      this.formBtn = "新增";
-      this.formTit = "新增商户用户";
+      this.formBtn = '新增';
+      this.formTit = '新增商户用户';
       setTimeout(() => {
         this.$refs.addForm.resetFields();
       }, 0);
     },
     //新增商户
     addCustomerInfo(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.addInfo.blackLevel = this.blackLevel.join(",");
+          this.addInfo.blackLevel = this.blackLevel.join(',');
           this.addInfo.corpId = this.addInfo.corpId.toString();
-          this.$http.corpUser.addOrUpdate({ ...this.addInfo }).then(res => {
+          this.$http.corpUser.addOrUpdate({ ...this.addInfo }).then((res) => {
             const { code, data, msg } = res;
             if (code == 200) {
               this.$message.success(msg);
@@ -833,14 +843,14 @@ export default {
             }
           });
         } else {
-          this.$message.error("请输入必填项");
+          this.$message.error('请输入必填项');
           return false;
         }
       });
     },
     infoShow(row) {
-      this.formBtn = "修改";
-      this.formTit = "修改商户用户";
+      this.formBtn = '修改';
+      this.formTit = '修改商户用户';
       this.customerAddInfo = true;
       if (row.isDirectUser) {
         row.isDirectUser = row.isDirectUser.toString();
@@ -871,7 +881,7 @@ export default {
       }
 
       this.addInfo = Object.assign(this.addInfo, row);
-      console.log(this.addInfo, "xiugai------=====");
+      console.log(this.addInfo, 'xiugai------=====');
     },
 
     //修改状态
@@ -885,17 +895,17 @@ export default {
     dialogTitle(type) {
       let str = {};
       switch (type) {
-        case "disable":
-          str.title = "停用";
-          str.information = "您确定要停用商户吗？";
+        case 'disable':
+          str.title = '停用';
+          str.information = '您确定要停用商户吗？';
           break;
-        case "init":
-          str.title = "审核";
-          str.information = "审核后，商户将正常使用，您确认要审核吗？";
+        case 'init':
+          str.title = '审核';
+          str.information = '审核后，商户将正常使用，您确认要审核吗？';
           break;
-        case "enabled":
-          str.title = "启用";
-          str.information = "启用后商户将正常使用，您确定要启用商户吗？";
+        case 'enabled':
+          str.title = '启用';
+          str.information = '启用后商户将正常使用，您确定要启用商户吗？';
           break;
       }
       this.dialogTit = str.title;
@@ -905,7 +915,7 @@ export default {
       const { userId } = this.currentRowData;
       this.$http.corpUser
         .updateStatus({ userId: userId, status: this.status })
-        .then(res => {
+        .then((res) => {
           const { code, msg } = res;
           if (code === 200) {
             this.$message.success(msg);
@@ -918,7 +928,7 @@ export default {
     messageShow(row) {
       const h = this.$createElement;
       this.$msgbox({
-        title: "信息",
+        title: '信息',
         message: this.createElement(h, row),
         showConfirmButton: false
       });
@@ -927,106 +937,106 @@ export default {
     createElement(h, row) {
       switch (row.proType) {
         case 1:
-          row.proType = "web商户端";
+          row.proType = 'web商户端';
           break;
         case 2:
-          row.proType = "http接口";
+          row.proType = 'http接口';
           break;
         case 4:
-          row.proType = "cmpp接口";
+          row.proType = 'cmpp接口';
           break;
       }
-      if (row.proType === "web商户端") {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`)
+      if (row.proType === 'web商户端') {
+        return h('div', null, [
+          h('p', null, [
+            h('span', null, '产品类型: '),
+            h('span', null, `${row.proType}`)
           ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.userName}`)
+          h('p', null, [
+            h('span', null, '商户名称: '),
+            h('span', null, `${row.userName}`)
           ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
+          h('p', null, [
+            h('span', null, '登录账号: '),
+            h('span', null, `${row.loginName}`)
           ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
+          h('p', null, [
+            h('span', null, '密码: '),
+            h('span', null, `${row.password}`)
           ]),
-          h("p", null, [
-            h("span", null, "网址: "),
-            h("span", null, `${row.mmsAuditCallBack}`)
+          h('p', null, [
+            h('span', null, '网址: '),
+            h('span', null, `${row.mmsAuditCallBack}`)
           ])
         ]);
       }
-      if (row.proType === "http接口") {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`)
+      if (row.proType === 'http接口') {
+        return h('div', null, [
+          h('p', null, [
+            h('span', null, '产品类型: '),
+            h('span', null, `${row.proType}`)
           ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.userName}`)
+          h('p', null, [
+            h('span', null, '商户名称: '),
+            h('span', null, `${row.userName}`)
           ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
+          h('p', null, [
+            h('span', null, '登录账号: '),
+            h('span', null, `${row.loginName}`)
           ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
+          h('p', null, [
+            h('span', null, '密码: '),
+            h('span', null, `${row.password}`)
           ]),
-          h("p", null, [
-            h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp}`)
+          h('p', null, [
+            h('span', null, '客户端IP: '),
+            h('span', null, `${row.userIp}`)
           ]),
-          h("p", null, [
-            h("span", null, "接口地址: "),
-            h("span", null, `${row.mmsAuditCallBack}`)
+          h('p', null, [
+            h('span', null, '接口地址: '),
+            h('span', null, `${row.mmsAuditCallBack}`)
           ])
         ]);
       }
-      if (row.proType === "cmpp接口") {
-        return h("div", null, [
-          h("p", null, [
-            h("span", null, "产品类型: "),
-            h("span", null, `${row.proType}`)
+      if (row.proType === 'cmpp接口') {
+        return h('div', null, [
+          h('p', null, [
+            h('span', null, '产品类型: '),
+            h('span', null, `${row.proType}`)
           ]),
-          h("p", null, [
-            h("span", null, "商户名称: "),
-            h("span", null, `${row.userName}`)
+          h('p', null, [
+            h('span', null, '商户名称: '),
+            h('span', null, `${row.userName}`)
           ]),
-          h("p", null, [
-            h("span", null, "登录账号: "),
-            h("span", null, `${row.loginName}`)
+          h('p', null, [
+            h('span', null, '登录账号: '),
+            h('span', null, `${row.loginName}`)
           ]),
-          h("p", null, [
-            h("span", null, "密码: "),
-            h("span", null, `${row.password}`)
+          h('p', null, [
+            h('span', null, '密码: '),
+            h('span', null, `${row.password}`)
           ]),
-          h("p", null, [h("span", null, "接口地址: "), h("span", null, ``)]),
-          h("p", null, [
-            h("span", null, "端口: "),
-            h("span", null, `${row.directPort}`)
+          h('p', null, [h('span', null, '接口地址: '), h('span', null, ``)]),
+          h('p', null, [
+            h('span', null, '端口: '),
+            h('span', null, `${row.directPort}`)
           ]),
-          h("p", null, [
-            h("span", null, "协议: "),
-            h("span", null, `${row.password}`)
+          h('p', null, [
+            h('span', null, '协议: '),
+            h('span', null, `${row.password}`)
           ]),
-          h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
-          h("p", null, [
-            h("span", null, "客户端IP: "),
-            h("span", null, `${row.userIp}`)
+          h('p', null, [h('span', null, '通道接入码: '), h('span', null, ``)]),
+          h('p', null, [
+            h('span', null, '客户端IP: '),
+            h('span', null, `${row.userIp}`)
           ]),
-          h("p", null, [
-            h("span", null, "链接路数: "),
-            h("span", null, `${row.maxSession}`)
+          h('p', null, [
+            h('span', null, '链接路数: '),
+            h('span', null, `${row.maxSession}`)
           ]),
-          h("p", null, [
-            h("span", null, "通道速率: "),
-            h("span", null, `${row.alertBalance}`)
+          h('p', null, [
+            h('span', null, '通道速率: '),
+            h('span', null, `${row.alertBalance}`)
           ])
         ]);
       }
