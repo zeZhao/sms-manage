@@ -33,7 +33,7 @@
       <el-table-column
         prop="content"
         label="内容"
-        width="110"
+        width="310"
         v-if="searchParam.showDecrypt === 1"
       />
       <el-table-column
