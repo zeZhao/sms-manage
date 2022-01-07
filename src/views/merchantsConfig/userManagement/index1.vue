@@ -17,7 +17,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <!-- <el-table-column
         prop="loginName"
         label="登录账号"

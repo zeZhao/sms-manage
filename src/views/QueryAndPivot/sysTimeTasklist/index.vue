@@ -25,7 +25,7 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" width="110" />
+      <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="operaid" label="运营商">

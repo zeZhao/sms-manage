@@ -18,7 +18,7 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="账户名称" />
-      <el-table-column prop="content" label="内容" width="250" />
+      <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cm" label="移动" />
       <el-table-column prop="cu" label="联通" />
