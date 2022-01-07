@@ -17,7 +17,7 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="submitType" label="产品类型">
         <template slot-scope="scope">
           <span v-if="scope.row.submitType == 1">web端</span>
