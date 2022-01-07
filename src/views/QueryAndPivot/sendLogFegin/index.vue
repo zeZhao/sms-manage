@@ -124,6 +124,12 @@ export default {
           placeholder: "请输入CID"
         },
         {
+          type: "input",
+          label: "签名",
+          key: "sign",
+          placeholder: "请输入签名"
+        },
+        {
           type: "select",
           label: "显示内容",
           key: "showDecrypt",
