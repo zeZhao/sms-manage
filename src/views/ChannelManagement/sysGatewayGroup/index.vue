@@ -24,7 +24,7 @@
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('groupId', scope.row.groupId)"
+            @click="_mxDeleteItem(scope.row.groupId)"
             type="text"
             size="small"
             >删除</el-button
@@ -254,6 +254,39 @@ export default {
   },
   computed: {},
   methods: {
+    // 删除通道组逻辑
+    _mxDeleteItem(groupId) {
+      this.$http.sysGatewayGroup.judgeGatewayGroup({ groupId }).then(response => {
+        const { code, data } = response;
+        if (code !== 200) {
+          this.$alert(data, "禁止删除", {
+            confirmButtonText: "确定",
+            showClose: false,
+            type: "warning",
+            callback: action => {}
+          });
+        } else {
+          this.$confirm("删除后将不可找回，请谨慎操作", "确定删除？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+            .then(() => {
+              this.$http.sysGatewayGroup
+                .deleteGatewayGroup({ data: { groupId: groupId.toString() } })
+                .then(res => {
+                  if (resOk(res)) {
+                    this._mxGetList();
+                    this.$message.success("删除成功！");
+                  } else {
+                    this.$message.error(res.msg || "删除失败！");
+                  }
+                });
+            })
+            .catch(() => {});
+        }
+      });
+    },
     // 获取通道
     gateway() {
       const params = {
