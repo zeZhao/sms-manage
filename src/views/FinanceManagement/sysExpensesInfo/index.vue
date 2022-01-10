@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="dates" label="日期" width="95" />
-      <el-table-column prop="summary" label="摘要" />
+      <el-table-column prop="summary" label="摘要" width="160" show-overflow-tooltip />
       <el-table-column prop="collectionCompany" label="收款单位" />
       <el-table-column prop="lender" label="付款金额" />
       <el-table-column prop="ticketsPlusNotes" label="是否回票" />

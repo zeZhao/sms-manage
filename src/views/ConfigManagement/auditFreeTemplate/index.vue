@@ -258,7 +258,7 @@ export default {
           type: "textarea",
           label: "模板信息",
           key: "template",
-          maxlength: 300,
+          maxlength: 500,
           rules: [
             {
               required: true,
@@ -271,7 +271,7 @@ export default {
           type: "textarea",
           label: "审核内容",
           key: "content",
-          maxlength: 300
+          maxlength: 500
         }
       ],
       isChooseUser: false
