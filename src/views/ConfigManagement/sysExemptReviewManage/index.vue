@@ -772,18 +772,18 @@ export default {
           "groupId",
           "groupName"
         );
-        this.$nextTick(() => {
-          this.formConfig.forEach(item => {
-            if (item.key === "sensitiveWord") {
-              item.initDefaultValue = [];
-              res.data.forEach(t => {
-                item.initDefaultValue.push(t.groupId);
-                // item.defaultValue.push(t.groupId);
-              });
-              //initDefaultValue
-            }
-          });
-        });
+        // this.$nextTick(() => {
+        //   this.formConfig.forEach(item => {
+        //     if (item.key === "sensitiveWord") {
+        //       item.initDefaultValue = [];
+        //       res.data.forEach(t => {
+        //         item.initDefaultValue.push(t.groupId);
+        //         // item.defaultValue.push(t.groupId);
+        //       });
+        //       //initDefaultValue
+        //     }
+        //   });
+        // });
       });
     },
     //提交批量修改
@@ -897,7 +897,6 @@ export default {
         key === "ctPassageway" ||
         key === "cmPassageway"
       ) {
-        console.log(optionData, "------------optionData");
         optionData.forEach(el => {
           el.options.forEach(t => {
             if (t.key === val) {
@@ -920,10 +919,6 @@ export default {
           });
         });
         // optionData[1].options
-      }
-      if (key === "sensitiveWord") {
-        console.log(item, "------------------item");
-        console.log(val, "------------------val");
       }
     },
     //显示选择用户弹窗
