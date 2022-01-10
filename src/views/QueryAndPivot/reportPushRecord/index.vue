@@ -16,7 +16,7 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="status" label="报告状态" />
