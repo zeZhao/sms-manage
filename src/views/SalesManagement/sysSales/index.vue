@@ -22,11 +22,11 @@
         <template slot-scope="scope">
           <span>{{
             scope.row.type === 1
-              ? "主管"
+              ? "【销售】主管"
               : scope.row.type === 2
-              ? "组长"
+              ? "【销售】组长"
               : scope.row.type === 3
-              ? "组员"
+              ? "【销售】组员"
               : ""
           }}</span>
         </template>
@@ -241,15 +241,15 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "主管"
+              value: "【销售】主管"
             },
             {
               key: 2,
-              value: "组长"
+              value: "【销售】组长"
             },
             {
               key: 3,
-              value: "组员"
+              value: "【销售】组员"
             }
             // {
             //   key: 4,
@@ -320,15 +320,15 @@ export default {
           optionData: [
             {
               key: 1,
-              value: "主管"
+              value: "【销售】主管"
             },
             {
               key: 2,
-              value: "组长"
+              value: "【销售】组长"
             },
             {
               key: 3,
-              value: "组员"
+              value: "【销售】组员"
             }
             // {
             //   key: 4,
@@ -370,8 +370,8 @@ export default {
       this.searchFormConfig.forEach(item => {
         if (val.type === 2 && item.key === "type") {
           item.optionData = [
-            { key: 2, value: "组长" },
-            { key: 3, value: "组员" }
+            { key: 2, value: "【销售】组长" },
+            { key: 3, value: "【销售】组员" }
           ];
         }
       });
@@ -379,8 +379,8 @@ export default {
         if (val.type === 2 && item.key === "type") {
           // 组长角色选项下拉
           item.optionData = [
-            { key: 2, value: "组长", disabled: true },
-            { key: 3, value: "组员" }
+            { key: 2, value: "【销售】组长", disabled: true },
+            { key: 3, value: "【销售】组员" }
           ];
         }
         if (item.key === "groupId") {
