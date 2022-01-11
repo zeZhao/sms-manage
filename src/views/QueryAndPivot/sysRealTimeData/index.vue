@@ -16,7 +16,7 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="sendNum" label="发送数" />

@@ -26,7 +26,7 @@
               <!--输入框-->
               <template v-if="item.type === 'input'">
                 <el-input
-                  v-model="form[item.key]"
+                  v-model.trim="form[item.key]"
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
