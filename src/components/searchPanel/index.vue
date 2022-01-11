@@ -41,8 +41,8 @@
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
-                  oninput="if(value.length > 11) value = value.slice(0,11)"
-                  onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                  oninput="if(value.length > 11)value=value.slice(0,11)"
+                  onKeypress="this.value=this.value.replace(/\D/g,'')"
                   @blur="
                     item.defaultValue = form[
                       item.key
