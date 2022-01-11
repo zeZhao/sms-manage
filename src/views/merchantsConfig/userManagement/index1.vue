@@ -470,7 +470,14 @@
           ></i>
         </p>
         <p>协议: CMPP</p>
-        <p>通道接入码: {{ (infoData.longCode && infoData.longCode !== "-") ? infoData.longCode : "置空" }}</p>
+        <p>
+          通道接入码:
+          {{
+            infoData.longCode && infoData.longCode !== "-"
+              ? infoData.longCode
+              : "置空"
+          }}
+        </p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
         <p>
@@ -781,12 +788,12 @@ export default {
           key: "userName",
           maxlength: "20",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
+            { required: true, message: "请输入必填项", trigger: "blur" }
+            // {
+            //   pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
+            //   message: "不支持特殊字符",
+            //   trigger: "change"
+            // }
           ]
         },
         {
