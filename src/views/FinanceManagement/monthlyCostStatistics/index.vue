@@ -182,7 +182,7 @@ export default {
       if (item == "1") {
         return "直客";
       } else if (item == "2") {
-        return "不是直客(代理商)";
+        return "代理商";
       } else {
         return "";
       }
