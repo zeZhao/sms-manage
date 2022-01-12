@@ -6,14 +6,12 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :isOther="true"
       :notSearch="notSearch"
       @exportData="_mxExportData"
     >
-      <template slot="Other">
-        <el-button
-          type="primary"
-          size="small"
-          @click="$refs.Search.handleExport()"
+      <template v-slot:Other="form">
+        <el-button type="primary" size="small" @click="exported(form)"
           >导出</el-button
         >
       </template>
@@ -246,6 +244,17 @@ export default {
   },
   computed: {},
   methods: {
+    exported(form) {
+      this.$http.smsTxReturnReport
+        .exportSendReturn({ data: { ...form.form } })
+        .then(res => {
+          if (res.code === 200) {
+            this.$message.success("提交下载成功，请前往下载中心下载文件。");
+          } else {
+            this.$message.error(res.data);
+          }
+        });
+    },
     /*
      * 获取省份列表
      * */
