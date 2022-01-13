@@ -17,7 +17,7 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="submitType" label="产品类型">
         <template slot-scope="scope">
           <span v-if="scope.row.submitType == 1">web端</span>
@@ -26,9 +26,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" width="300" />
-      <el-table-column prop="mobile" label="手机号" width="100">
-        <template slot-scope="{row}">
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="310"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      >
+        <template slot-scope="{ row }">
           <span>{{ row.mobile.slice(0, 11) }}</span>
         </template>
       </el-table-column>
@@ -95,12 +105,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
         {
           type: "input",
           label: "手机号",
@@ -112,6 +122,28 @@ export default {
           label: "CID",
           key: "cid",
           placeholder: "请输入CID"
+        },
+        {
+          type: "input",
+          label: "签名",
+          key: "sign",
+          placeholder: "请输入签名"
+        },
+        {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
         },
         {
           type: "timerange",

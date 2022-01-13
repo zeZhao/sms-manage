@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="dates" label="日期" width="95" />
-      <el-table-column prop="summary" label="摘要" />
+      <el-table-column prop="summary" label="摘要" width="160" show-overflow-tooltip />
       <el-table-column prop="collectionCompany" label="收款单位" />
       <el-table-column prop="lender" label="付款金额" />
       <el-table-column prop="ticketsPlusNotes" label="是否回票" />
@@ -36,10 +36,15 @@
       <el-table-column prop="billingType" label="开票类型" />
       <el-table-column prop="isPay" label="是否已付款">
         <template slot-scope="scope">
-          <span>{{ scope.row.isPay === 1 ? "是" : "否" }}</span>
+          <span>{{ scope.row.isPay === 1 ? '是' : '否' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remarks" label="备注" />
+      <el-table-column
+        prop="remarks"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
@@ -78,129 +83,129 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
+import listMixin from '@/mixin/listMixin';
 
 export default {
   mixins: [listMixin],
   data() {
     return {
-      formTit: "新增",
+      formTit: '新增',
       addChannel: false,
       // 接口地址
       searchAPI: {
-        namespace: "sysExpensesInfo",
-        list: "listExpensesInfoByPage",
-        detele: "deleteExpensesInfo",
-        add: "addExpensesInfo",
-        edit: "updateExpensesInfo"
+        namespace: 'sysExpensesInfo',
+        list: 'listExpensesInfoByPage',
+        detele: 'deleteExpensesInfo',
+        add: 'addExpensesInfo',
+        edit: 'updateExpensesInfo'
       },
       // 列表参数
-      namespace: "expensesInfo",
+      namespace: 'expensesInfo',
       // 搜索框数据
       searchParam: {},
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
-          label: "收款单位",
-          key: "collectionCompany",
-          placeholder: "请输入收款单位"
+          type: 'input',
+          label: '收款单位',
+          key: 'collectionCompany',
+          placeholder: '请输入收款单位'
         },
         {
-          type: "inputNum",
-          label: "票号",
-          key: "ticketNumber",
-          placeholder: "请输入票号"
+          type: 'inputNum',
+          label: '票号',
+          key: 'ticketNumber',
+          placeholder: '请输入票号'
         },
         {
-          type: "select",
-          label: "是否回票",
-          key: "ticketsPlusNotes",
+          type: 'select',
+          label: '是否回票',
+          key: 'ticketsPlusNotes',
           optionData: [
             {
-              key: "已回",
-              value: "已回"
+              key: '已回',
+              value: '已回'
             },
             {
-              key: "未回",
-              value: "未回"
+              key: '未回',
+              value: '未回'
             }
           ]
         },
         {
-          type: "select",
-          label: "是否已付款",
-          key: "isPay",
+          type: 'select',
+          label: '是否已付款',
+          key: 'isPay',
           optionData: [
             {
-              key: "1",
-              value: "是"
+              key: '1',
+              value: '是'
             },
             {
-              key: "2",
-              value: "否"
+              key: '2',
+              value: '否'
             }
           ]
         },
         {
-          type: "input",
-          label: "金额",
-          key: "lender",
-          placeholder: "请输入金额"
+          type: 'input',
+          label: '金额',
+          key: 'lender',
+          placeholder: '请输入金额'
         },
         {
-          type: "month",
-          label: "下单月",
-          key: "orderMonthS",
-          placeholder: "请选择下单月"
+          type: 'month',
+          label: '下单月',
+          key: 'orderMonthS',
+          placeholder: '请选择下单月'
         },
         {
-          type: "month",
-          label: "所属月",
-          key: "theMonthS",
-          placeholder: "请选择所属月"
+          type: 'month',
+          label: '所属月',
+          key: 'theMonthS',
+          placeholder: '请选择所属月'
         },
         {
-          type: "input",
-          label: "下单编号",
-          key: "no",
-          placeholder: "请输入下单编号"
+          type: 'input',
+          label: '下单编号',
+          key: 'no',
+          placeholder: '请输入下单编号'
         },
         {
-          type: "select",
-          label: "所属公司",
-          key: "corporateName",
+          type: 'select',
+          label: '所属公司',
+          key: 'corporateName',
           optionData: [
             {
-              key: "聚通达",
-              value: "聚通达"
+              key: '聚通达',
+              value: '聚通达'
             }
           ]
         },
         {
-          type: "daterange",
-          label: "日期",
-          key: ["", "startTime", "endTime"]
+          type: 'daterange',
+          label: '日期',
+          key: ['', 'startTime', 'endTime']
         }
       ],
       // 表单配置
       formConfig: [
         {
-          type: "input",
-          label: "下单编号",
-          key: "no",
+          type: 'input',
+          label: '下单编号',
+          key: 'no',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "账单所属公司",
-          key: "corporateName",
+          type: 'input',
+          label: '账单所属公司',
+          key: 'corporateName',
           // optionData: [
           //   {
           //     key: "聚通达",
@@ -210,184 +215,185 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "month",
-          label: "下单月",
-          key: "orderMonth",
-          defaultValue: "",
+          type: 'month',
+          label: '下单月',
+          key: 'orderMonth',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "month",
-          label: "所属月",
-          key: "theMonth",
-          defaultValue: "",
+          type: 'month',
+          label: '所属月',
+          key: 'theMonth',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "date",
-          label: "日期",
-          key: "dates",
-          defaultValue: "",
+          type: 'date',
+          label: '日期',
+          key: 'dates',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
 
         {
-          type: "textarea",
-          label: "摘要",
-          key: "summary",
-          defaultValue: "",
-          maxlength: "300",
+          type: 'textarea',
+          label: '摘要',
+          key: 'summary',
+          defaultValue: '',
+          maxlength: '300',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "收付款单位",
-          key: "collectionCompany",
-          defaultValue: "",
-          maxlength: "30",
+          type: 'input',
+          label: '收付款单位',
+          key: 'collectionCompany',
+          defaultValue: '',
+          maxlength: '30',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "付款金额",
-          key: "lender",
+          type: 'input',
+          label: '付款金额',
+          key: 'lender',
           maxlength: 9,
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             },
             {
-              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
-              message: "输入大于0的数，小数点保留2位",
-              trigger: "change"
+              pattern:
+                /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
+              message: '输入大于0的数，小数点保留2位',
+              trigger: 'change'
             }
           ]
         },
         {
-          type: "select",
-          label: "是否回票",
-          key: "ticketsPlusNotes",
+          type: 'select',
+          label: '是否回票',
+          key: 'ticketsPlusNotes',
           optionData: [
             {
-              key: "已回",
-              value: "已回"
+              key: '已回',
+              value: '已回'
             },
             {
-              key: "未回",
-              value: "未回"
+              key: '未回',
+              value: '未回'
             }
           ],
           // change: this.selectUser,
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "票号",
+          type: 'input',
+          label: '票号',
           isShow: false,
-          maxlength: "30",
-          key: "ticketNumber",
-          defaultValue: "",
+          maxlength: '30',
+          key: 'ticketNumber',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "select",
-          label: "是否已支付",
-          key: "isPay",
+          type: 'select',
+          label: '是否已支付',
+          key: 'isPay',
           optionData: [
             {
               key: 1,
-              value: "是"
+              value: '是'
             },
             {
               key: 2,
-              value: "否"
+              value: '否'
             }
           ],
           // change: this.selectUser,
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "textarea",
-          label: "备注",
-          key: "remarks",
-          maxlength: "300",
-          defaultValue: "",
+          type: 'textarea',
+          label: '备注',
+          key: 'remarks',
+          maxlength: '300',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "开票类型",
-          key: "billingType",
-          maxlength: "30",
-          defaultValue: "",
+          type: 'input',
+          label: '开票类型',
+          key: 'billingType',
+          maxlength: '30',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         }
@@ -401,12 +407,12 @@ export default {
       const { val, item } = data;
       let obj = {};
 
-      if (item.key === "ticketsPlusNotes") {
+      if (item.key === 'ticketsPlusNotes') {
         this.$nextTick(() => {
-          if (item.defaultValue === "未回") {
-            this._setDisplayShow(this.formConfig, "ticketNumber", true);
+          if (item.defaultValue === '未回') {
+            this._setDisplayShow(this.formConfig, 'ticketNumber', true);
           } else {
-            this._setDisplayShow(this.formConfig, "ticketNumber", false);
+            this._setDisplayShow(this.formConfig, 'ticketNumber', false);
           }
         });
       }
@@ -422,23 +428,23 @@ export default {
       row = this._mxArrangeEditData(row);
       this.id = row[ID];
       this.editId = ID;
-      this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formTit = '修改';
+      this.formConfig.forEach((item) => {
         for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
+          if (item.key === key && row[key] !== '-') {
+            this.$set(item, 'defaultValue', row[key]);
           }
         }
         if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
+          this.$set(item, 'defaultValue', '');
         }
-        if (item.key === "ticketsPlusNotes") {
+        if (item.key === 'ticketsPlusNotes') {
           //计费方式切换为：预付成功计费时，返还类型显示
           this.$nextTick(() => {
-            if (item.defaultValue === "未回") {
-              this._setDisplayShow(this.formConfig, "ticketNumber", true);
+            if (item.defaultValue === '未回') {
+              this._setDisplayShow(this.formConfig, 'ticketNumber', true);
             } else {
-              this._setDisplayShow(this.formConfig, "ticketNumber", false);
+              this._setDisplayShow(this.formConfig, 'ticketNumber', false);
             }
           });
         }
@@ -450,15 +456,15 @@ export default {
     },
     // 表格列表数据
     _mxFormListData(data) {
-      data.forEach(item => {
+      data.forEach((item) => {
         if (item.orderMonth) {
-          item.orderMonth = new Date(item.orderMonth).Format("yyyy-MM-dd");
+          item.orderMonth = new Date(item.orderMonth).Format('yyyy-MM-dd');
         }
         if (item.theMonth) {
-          item.theMonth = new Date(item.theMonth).Format("yyyy-MM-dd");
+          item.theMonth = new Date(item.theMonth).Format('yyyy-MM-dd');
         }
         if (item.dates) {
-          item.dates = new Date(item.dates).Format("yyyy-MM-dd");
+          item.dates = new Date(item.dates).Format('yyyy-MM-dd');
         }
       });
       return data;
@@ -467,10 +473,10 @@ export default {
     _formatRequestData(data) {
       const { theMonthS, orderMonthS } = data;
       if (theMonthS) {
-        data.theMonthS = new Date(theMonthS).Format("yyyy-MM");
+        data.theMonthS = new Date(theMonthS).Format('yyyy-MM');
       }
       if (orderMonthS) {
-        data.orderMonthS = new Date(orderMonthS).Format("yyyy-MM");
+        data.orderMonthS = new Date(orderMonthS).Format('yyyy-MM');
       }
       return data;
     },
@@ -478,11 +484,11 @@ export default {
     _mxArrangeSubmitData(formData) {
       if (formData.orderMonth) {
         formData.orderMonth = new Date(formData.orderMonth).Format(
-          "yyyy-MM-01"
+          'yyyy-MM-01'
         );
       }
       if (formData.theMonth) {
-        formData.theMonth = new Date(formData.theMonth).Format("yyyy-MM-01");
+        formData.theMonth = new Date(formData.theMonth).Format('yyyy-MM-01');
       }
       return formData;
     }

@@ -69,7 +69,12 @@
       <!-- <el-table-column prop="charger" label="通道负责人" width="90"  /> -->
       <!-- <el-table-column prop="priority" label="优先级"  /> -->
       <el-table-column prop="clientId" label="账号" />
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
       <el-table-column prop="serverStatus" label="通道状态">
         <template slot-scope="scope">
           <!-- <el-switch
@@ -224,10 +229,26 @@
         style="width: 80%; margin: auto"
       >
         <el-form-item label="手机号:" prop="account">
-          <el-input v-model="formData.account" type="number" name="account" placeholder="请输入手机号" clearable maxlength="11"></el-input>
+          <el-input
+            v-model="formData.account"
+            type="number"
+            name="account"
+            placeholder="请输入手机号"
+            clearable
+            maxlength="11"
+          ></el-input>
         </el-form-item>
         <el-form-item label="口令:" prop="pwd">
-          <el-input v-model="formData.pwd" type="password" name="pwd" placeholder="请输入口令" clearable maxlength="6" show-password @keyup.enter.native="submit"></el-input>
+          <el-input
+            v-model="formData.pwd"
+            type="password"
+            name="pwd"
+            placeholder="请输入口令"
+            clearable
+            maxlength="6"
+            show-password
+            @keyup.enter.native="submit"
+          ></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -498,7 +519,7 @@ export default {
           label: "通道名称",
           colSpan: 12,
           key: "gatewayName",
-          maxlength: "30",
+          maxlength: "40",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -538,10 +559,9 @@ export default {
               required: true,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback(new Error("请输入必填项"));
+                if (!value && value !== 0) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
-                if (value < 0)
-                  callback(new Error("通道单价只能为正数"));
+                if (value < 0) callback(new Error("通道单价只能为正数"));
                 callback();
               }
             }
@@ -605,7 +625,7 @@ export default {
           label: "服务端ip",
           tag: "encrypt",
           key: "serverIp",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -613,7 +633,7 @@ export default {
           label: "端口长短信限制",
           tag: "encrypt",
           key: "srcIdLength",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -621,7 +641,7 @@ export default {
           label: "服务器端口",
           tag: "encrypt",
           key: "serverPort",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -629,7 +649,7 @@ export default {
           label: "业务代码",
           tag: "encrypt",
           key: "serviceId",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -665,7 +685,7 @@ export default {
           label: "企业代码",
           tag: "encrypt",
           key: "msgSrc",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -673,7 +693,7 @@ export default {
           label: "账号",
           tag: "encrypt",
           key: "clientId",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -681,7 +701,7 @@ export default {
           label: "通道主链接编号",
           tag: "encrypt",
           key: "gatewayRecordId",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -689,7 +709,7 @@ export default {
           label: "密码",
           tag: "encrypt",
           key: "sharedSecret",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -699,7 +719,7 @@ export default {
           key: "version",
           initDefaultValue: "20",
           defaultValue: "20",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
         {
@@ -707,7 +727,7 @@ export default {
           label: "feeType",
           tag: "encrypt",
           key: "feeType",
-          colSpan: 12,
+          colSpan: 12
           // lock: true
         },
 
@@ -1664,7 +1684,7 @@ export default {
       this.temporaryItem = item;
       this.$nextTick(() => {
         this.$refs["ruleForm"] && this.$refs["ruleForm"].clearValidate();
-      })
+      });
     },
     //隐藏附加信息
     handleClick(item) {

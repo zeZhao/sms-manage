@@ -26,6 +26,7 @@
         label="账户名称"
         v-if="searchParam.showUser === '1'"
         key="userName"
+        width="120"
       />
       <el-table-column
         prop="gateway"

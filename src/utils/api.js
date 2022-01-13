@@ -302,6 +302,10 @@ export default {
         listGatewayAndGroup(params) {
             return post("/sysGatewayGroup/listGatewayAndGroup", params);
         },
+        // 查询是否含有绑定
+        judgeGatewayGroup(params) {
+            return fetch("/sysGatewayGroup/judgeGatewayGroup", params);
+        }
     },
     //分省路由
     sysProvinceRoute: {
@@ -1543,6 +1547,10 @@ export default {
         // 查询列表
         searchSendReturnReport(params) {
             return post("/sendLogFegin/selectSendReturnByPage", params);
+        },
+        // 导出
+        exportSendReturn(params) {
+            return post("/sendLogFegin/exportSendReturn", params);
         }
     },
     // 发送跨天列表查询

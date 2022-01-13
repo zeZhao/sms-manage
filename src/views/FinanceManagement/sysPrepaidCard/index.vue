@@ -25,10 +25,15 @@
       <el-table-column prop="sumPrice" label="总金额(元)" />
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
+          <span>{{ scope.row.chargeType === 1 ? '短信' : '彩信' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="exportPlatform(scope.row)"
@@ -52,7 +57,7 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
+import listMixin from '@/mixin/listMixin';
 
 export default {
   mixins: [listMixin],
@@ -61,38 +66,38 @@ export default {
       notSearch: true,
       //接口地址
       searchAPI: {
-        namespace: "sysPrepaidCard",
-        list: "listCorporateBillByPage"
+        namespace: 'sysPrepaidCard',
+        list: 'listCorporateBillByPage'
       },
       // 列表参数
-      namespace: "prepaidCard",
+      namespace: 'prepaidCard',
       //搜索框数据
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
         {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corporateId"
+          type: 'inputNum',
+          label: '商户编号',
+          key: 'corporateId'
         },
         {
-          type: "select",
-          label: "类型",
-          key: "chargeType",
-          defaultValue: "",
+          type: 'select',
+          label: '类型',
+          key: 'chargeType',
+          defaultValue: '',
           optionData: [
             {
               key: 1,
-              value: "短信"
+              value: '短信'
             }
           ],
-          placeholder: "请选择类型"
+          placeholder: '请选择类型'
         },
         {
-          type: "month",
-          label: "月份",
-          key: "remark",
-          defaultValue: new Date().Format("yyyy-MM")
+          type: 'month',
+          label: '月份',
+          key: 'remark',
+          defaultValue: new Date().Format('yyyy-MM')
         }
         // {
         //   type: "select",
@@ -121,22 +126,22 @@ export default {
       const countDate = remark.substring(0, 7);
       this.$axios
         .post(
-          "/sysPrepaidCard/exportPlatform",
-          { smsType: chargeType, corporateId, countDate, direct: "1" },
+          '/sysPrepaidCard/exportPlatform',
+          { smsType: chargeType, corporateId, countDate, direct: '1' },
           {
-            responseType: "blob",
-            headers: { token: window.localStorage.getItem("token") }
+            responseType: 'blob',
+            headers: { token: window.localStorage.getItem('token') }
           }
         )
-        .then(res => {
+        .then((res) => {
           let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel"
+            type: 'application/vnd.ms-excel'
           });
           let url = window.URL.createObjectURL(blob);
-          let aLink = document.createElement("a");
-          aLink.style.display = "none";
+          let aLink = document.createElement('a');
+          aLink.style.display = 'none';
           aLink.href = url;
-          aLink.setAttribute("download", `${countDate}月平台账单.xlsx`);
+          aLink.setAttribute('download', `${countDate}月平台账单.xlsx`);
           document.body.appendChild(aLink);
           aLink.click();
           document.body.removeChild(aLink);
@@ -160,22 +165,22 @@ export default {
       const countDate = remark.substring(0, 7);
       this.$axios
         .post(
-          "/sysPrepaidCard/exportPlatform",
-          { smsType: chargeType, corporateId, countDate, direct: "2" },
+          '/sysPrepaidCard/exportPlatform',
+          { smsType: chargeType, corporateId, countDate, direct: '2' },
           {
-            responseType: "blob",
-            headers: { token: window.localStorage.getItem("token") }
+            responseType: 'blob',
+            headers: { token: window.localStorage.getItem('token') }
           }
         )
-        .then(res => {
+        .then((res) => {
           let blob = new Blob([res.data], {
-            type: "application/vnd.ms-excel;charset=utf-8"
+            type: 'application/vnd.ms-excel;charset=utf-8'
           });
           let url = window.URL.createObjectURL(blob);
-          let aLink = document.createElement("a");
-          aLink.style.display = "none";
+          let aLink = document.createElement('a');
+          aLink.style.display = 'none';
           aLink.href = url;
-          aLink.setAttribute("download", `${countDate}月直连账单.xlsx`);
+          aLink.setAttribute('download', `${countDate}月直连账单.xlsx`);
           document.body.appendChild(aLink);
           aLink.click();
           document.body.removeChild(aLink);
@@ -186,7 +191,7 @@ export default {
     _formatRequestData(data) {
       const { remark } = data;
       if (remark) {
-        data.remark = new Date(remark).Format("yyyy-MM");
+        data.remark = new Date(remark).Format('yyyy-MM');
       }
       data.isBill = 1;
       return data;
@@ -198,7 +203,7 @@ export default {
      * @private
      */
     _mxFormListData(rows) {
-      rows.forEach(item => {
+      rows.forEach((item) => {
         const { cardCount, cardMoney, succCount, foreignPrice } = item;
         if (!succCount) {
           item.succCount = 0;
@@ -206,8 +211,8 @@ export default {
         if (!foreignPrice) {
           item.foreignPrice = 0;
         }
-        this.$set(item, "sumReductType", cardCount + succCount);
-        this.$set(item, "sumCardMoney", cardMoney + foreignPrice);
+        this.$set(item, 'sumReductType', cardCount + succCount);
+        this.$set(item, 'sumCardMoney', cardMoney + foreignPrice);
       });
 
       // if()

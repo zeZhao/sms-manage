@@ -26,7 +26,7 @@
               <!--输入框-->
               <template v-if="item.type === 'input'">
                 <el-input
-                  v-model="form[item.key]"
+                  v-model.trim="form[item.key]"
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
@@ -41,8 +41,10 @@
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
-                  oninput="if(value.length > 11) value = value.slice(0,11)"
-                  onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                  oninput="if(value.length > 11)value=value.slice(0,11)"
+                  onKeypress="this.value=this.value.replace(/\D/g,'')"
+                ></el-input>
+                <!-- 
                   @blur="
                     item.defaultValue = form[
                       item.key
@@ -51,7 +53,7 @@
                       ''
                     )
                   "
-                ></el-input>
+                 -->
                 <!-- @input="_mxHandleSubmit()" -->
               </template>
 

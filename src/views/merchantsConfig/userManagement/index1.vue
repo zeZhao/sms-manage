@@ -17,7 +17,7 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <!-- <el-table-column
         prop="loginName"
         label="登录账号"
@@ -414,7 +414,7 @@
           ></i>
         </p>
         <p>网址: sms.jvtd.cn</p>
-        <p>
+        <!-- <p>
           秘钥: {{ infoData.secretKey }}
           <i
             class="el-icon-lock"
@@ -422,7 +422,7 @@
             @click="isOpenDialog('secretKey')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
-        </p>
+        </p> -->
       </div>
       <div v-if="infoData.proType == 2">
         <p>产品类型: HTTP/WEB</p>
@@ -470,14 +470,21 @@
           ></i>
         </p>
         <p>协议: CMPP</p>
-        <p>通道接入码: {{ (infoData.longCode && infoData.longCode !== "-") ? infoData.longCode : "置空" }}</p>
+        <p>
+          通道接入码:
+          {{
+            infoData.longCode && infoData.longCode !== "-"
+              ? infoData.longCode
+              : "置空"
+          }}
+        </p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
         <p>
           通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
           ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
         </p>
-        <p>
+        <!-- <p>
           秘钥: {{ infoData.secretKey }}
           <i
             class="el-icon-lock"
@@ -485,7 +492,7 @@
             @click="isOpenDialog('secretKey')"
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
-        </p>
+        </p> -->
       </div>
     </el-dialog>
     <el-dialog
@@ -781,12 +788,12 @@ export default {
           key: "userName",
           maxlength: "20",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
+            { required: true, message: "请输入必填项", trigger: "blur" }
+            // {
+            //   pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
+            //   message: "不支持特殊字符",
+            //   trigger: "change"
+            // }
           ]
         },
         {
@@ -1637,6 +1644,30 @@ export default {
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
+      // if (item.key === "moType") {
+      //   if (val == "0") {
+      //     this.formConfig.forEach(el => {
+      //       if (el.key === "moUrl" || el.key === "reportUrl") {
+      //         this.$nextTick(() => {
+      //           this.$set(el, "rules", [
+      //             { required: false, message: "请输入必填项", trigger: "blur" }
+      //           ]);
+      //         });
+      //       }
+      //     });
+      //   } else {
+      //     this.formConfig.forEach(el => {
+      //       if (el.key === "moUrl" || el.key === "reportUrl") {
+      //         let rules = [
+      //           { required: true, message: "请输入必填项", trigger: "blur" }
+      //         ];
+      //         this.$nextTick(() => {
+      //           this.$set(el, "rules", rules);
+      //         });
+      //       }
+      //     });
+      //   }
+      // }
     },
     /**
      * 关闭弹窗
@@ -1818,6 +1849,11 @@ export default {
         if (item.key === "loginName") {
           item.disabled = false;
         }
+        // if (item.key === "moUrl" || item.key === "reportUrl") {
+        //   this.$set(item, "rules", [
+        //     { required: false, message: "请输入必填项", trigger: "blur" }
+        //   ]);
+        // }
       });
       await this.getAllCorp();
       await this.getRole();
@@ -2470,8 +2506,20 @@ export default {
       handler(newVal) {
         const idx = newVal.findIndex(v => v.key === "times");
         const idx1 = newVal.findIndex(v => v.key === "sendSettings");
-        newVal[idx].rules =  [{ required: !!newVal[idx1].defaultValue, message: "请选择必选项", trigger: "change" }];
-        newVal[idx1].rules =  [{ required: !!newVal[idx].defaultValue, message: "请选择必选项", trigger: "change" }];
+        newVal[idx].rules = [
+          {
+            required: !!newVal[idx1].defaultValue,
+            message: "请选择必选项",
+            trigger: "change"
+          }
+        ];
+        newVal[idx1].rules = [
+          {
+            required: !!newVal[idx].defaultValue,
+            message: "请选择必选项",
+            trigger: "change"
+          }
+        ];
       },
       deep: true
     }

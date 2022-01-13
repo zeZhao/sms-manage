@@ -28,9 +28,9 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="taskId" label="任务ID" width="100" />
-      <el-table-column prop="content" label="内容" width="200" />
+      <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="count" label="条数" />
       <el-table-column prop="mobilesCount" label="手机号数量" width="100" />
       <el-table-column prop="submitTime" label="提交时间" width="170">

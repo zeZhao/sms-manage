@@ -6,14 +6,12 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :isOther="true"
       :notSearch="notSearch"
       @exportData="_mxExportData"
     >
-      <template slot="Other">
-        <el-button
-          type="primary"
-          size="small"
-          @click="$refs.Search.handleExport()"
+      <template v-slot:Other="form">
+        <el-button type="primary" size="small" @click="exported(form)"
           >导出</el-button
         >
       </template>
@@ -28,10 +26,20 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" width="110" />
-      <el-table-column prop="mobile" label="手机号" width="100" />
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="310"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      />
       <el-table-column prop="province" label="省份" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
@@ -123,12 +131,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
         {
           type: "input",
           label: "手机号",
@@ -160,12 +168,12 @@ export default {
           placeholder: "请输入CID"
         },
         {
-          type: "date",
-          label: "发送日期",
-          key: "sendTime",
-          placeholder: "发送日期",
-          defaultValue: new Date()
+          type: "input",
+          label: "签名",
+          key: "sign",
+          placeholder: "请输入签名"
         },
+
         {
           type: "select",
           label: "是否有状态",
@@ -196,6 +204,29 @@ export default {
           ]
         },
         {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
+        },
+        {
+          type: "date",
+          label: "发送日期",
+          key: "sendTime",
+          placeholder: "发送日期",
+          defaultValue: new Date()
+        },
+        {
           type: "timerange",
           label: "发送时间",
           key: ["", "startTime", "endTime"],
@@ -213,6 +244,17 @@ export default {
   },
   computed: {},
   methods: {
+    exported(form) {
+      this.$http.smsTxReturnReport
+        .exportSendReturn({ data: { ...form.form } })
+        .then(res => {
+          if (res.code === 200) {
+            this.$message.success("提交下载成功，请前往下载中心下载文件。");
+          } else {
+            this.$message.error(res.data);
+          }
+        });
+    },
     /*
      * 获取省份列表
      * */
