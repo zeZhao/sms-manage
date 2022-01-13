@@ -37,7 +37,7 @@
           <span v-if="scope.row.operaId === 3">电信</span>
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容" width="110" />
+      <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="gateway" label="上行通道" />
       <el-table-column prop="createTime" label="上行时间" width="135">
         <template slot-scope="scope">{{

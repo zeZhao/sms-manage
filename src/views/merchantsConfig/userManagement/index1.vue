@@ -1644,30 +1644,30 @@ export default {
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
-      if (item.key === "moType") {
-        if (val == "0") {
-          this.formConfig.forEach(el => {
-            if (el.key === "moUrl" || el.key === "reportUrl") {
-              this.$nextTick(() => {
-                this.$set(el, "rules", [
-                  { required: false, message: "请输入必填项", trigger: "blur" }
-                ]);
-              });
-            }
-          });
-        } else {
-          this.formConfig.forEach(el => {
-            if (el.key === "moUrl" || el.key === "reportUrl") {
-              let rules = [
-                { required: true, message: "请输入必填项", trigger: "blur" }
-              ];
-              this.$nextTick(() => {
-                this.$set(el, "rules", rules);
-              });
-            }
-          });
-        }
-      }
+      // if (item.key === "moType") {
+      //   if (val == "0") {
+      //     this.formConfig.forEach(el => {
+      //       if (el.key === "moUrl" || el.key === "reportUrl") {
+      //         this.$nextTick(() => {
+      //           this.$set(el, "rules", [
+      //             { required: false, message: "请输入必填项", trigger: "blur" }
+      //           ]);
+      //         });
+      //       }
+      //     });
+      //   } else {
+      //     this.formConfig.forEach(el => {
+      //       if (el.key === "moUrl" || el.key === "reportUrl") {
+      //         let rules = [
+      //           { required: true, message: "请输入必填项", trigger: "blur" }
+      //         ];
+      //         this.$nextTick(() => {
+      //           this.$set(el, "rules", rules);
+      //         });
+      //       }
+      //     });
+      //   }
+      // }
     },
     /**
      * 关闭弹窗
@@ -1849,11 +1849,11 @@ export default {
         if (item.key === "loginName") {
           item.disabled = false;
         }
-        if (item.key === "moUrl" || item.key === "reportUrl") {
-          this.$set(item, "rules", [
-            { required: false, message: "请输入必填项", trigger: "blur" }
-          ]);
-        }
+        // if (item.key === "moUrl" || item.key === "reportUrl") {
+        //   this.$set(item, "rules", [
+        //     { required: false, message: "请输入必填项", trigger: "blur" }
+        //   ]);
+        // }
       });
       await this.getAllCorp();
       await this.getRole();
