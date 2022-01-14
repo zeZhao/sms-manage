@@ -893,13 +893,10 @@ export default {
         // 查询列表
         selectReturnReportByPage(params) {
             return post("/sendLogFegin/selectReturnReportByPage", params);
-        }
-    },
-    // 发送返回报告
-    smsTxReturnReport: {
-        // 查询列表
-        searchSendReturnReport(params) {
-            return post("/sendLogFegin/selectSendReturnByPage", params);
+        },
+        // 导出
+        asyncExportDecrypt(params) {
+            return post("/sendLogFegin/asyncExport/decrypt", params);
         }
     },
     // 定时
@@ -1533,13 +1530,6 @@ export default {
         // 查询列表
         searchSendReport(params) {
             return post("/sendLogFegin/selectSendreportByPage", params);
-        }
-    },
-    // 返回报告
-    smsReturnReport: {
-        // 查询列表
-        selectReturnReportByPage(params) {
-            return post("/sendLogFegin/selectReturnReportByPage", params);
         }
     },
     // 发送返回报告
