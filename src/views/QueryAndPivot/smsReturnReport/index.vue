@@ -187,8 +187,18 @@ export default {
   computed: {},
   methods: {
     exported(form) {
+      let forms = form.form;
+      if (forms.returnTime) {
+        forms.returnTime = new Date(forms.returnTime).Format("yyyy-MM-dd");
+      }
+      if (forms.startTime) {
+        forms.startTime = new Date(forms.startTime).Format("hh:mm:ss");
+      }
+      if (forms.endTime) {
+        forms.endTime = new Date(forms.endTime).Format("hh:mm:ss");
+      }
       this.$http.smsReturnReport
-        .asyncExportDecrypt({ data: { ...form.form } })
+        .asyncExportDecrypt({ data: { ...forms } })
         .then(res => {
           if (res.code === 200) {
             this.$message.success("提交下载成功，请前往下载中心下载文件。");
