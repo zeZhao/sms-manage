@@ -245,8 +245,9 @@ export default {
   computed: {},
   methods: {
     exported(form) {
+      let data = this._formatRequestData(form.form);
       this.$http.smsTxReturnReport
-        .exportSendReturn({ data: { ...form.form } })
+        .exportSendReturn({ data: { ...data } })
         .then(res => {
           if (res.code === 200) {
             this.$message.success("提交下载成功，请前往下载中心下载文件。");
