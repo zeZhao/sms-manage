@@ -1,6 +1,6 @@
 <template>
-  <!--用户余额-->
-  <div class="mmsUserGateway">
+  <!--账户余额-->
+  <div class="corpUserBalance">
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
@@ -126,6 +126,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mmsUserGateway {
+.corpUserBalance {
 }
 </style>
