@@ -2,11 +2,20 @@
   <!--返回报告-->
   <div class="smsReturnReport">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :isOther="true"
       :notSearch="notSearch"
-    ></Search>
+      @exportData="_mxExportData"
+    >
+      <template v-slot:Other="form">
+        <el-button type="primary" size="small" @click="exported(form)"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
@@ -177,6 +186,17 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    exported(form) {
+      this.$http.smsReturnReport
+        .asyncExportDecrypt({ data: { ...form.form } })
+        .then(res => {
+          if (res.code === 200) {
+            this.$message.success("提交下载成功，请前往下载中心下载文件。");
+          } else {
+            this.$message.error(res.data);
+          }
+        });
+    },
     /**
      * 调整提交的参数
      *
