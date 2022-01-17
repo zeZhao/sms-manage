@@ -65,6 +65,7 @@
         min-width="100"
       />
       <el-table-column prop="seqId" label="SEQID" width="155" />
+      <el-table-column prop="srcId" label="SRCID" width="155" />
       <el-table-column prop="cid" label="CID" width="155" />
     </el-table>
     <Page
@@ -241,6 +242,19 @@ export default {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
       return data;
+    },
+
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        item.srcId = (item.srcId || item.srcId === 0) ? item.srcId : "-";
+      });
+      return listData;
     }
   },
   watch: {}

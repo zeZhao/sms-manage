@@ -439,6 +439,7 @@
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
+        <p v-if="infoData.webPassword">web端密码: {{infoData.webPassword}}</p>
         <p>客户端IP: {{ infoData.userIp || "" }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
@@ -469,6 +470,7 @@
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
+        <p v-if="infoData.webPassword">web端密码: {{infoData.webPassword}}</p>
         <p>协议: CMPP</p>
         <p>
           通道接入码:
