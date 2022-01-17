@@ -245,7 +245,8 @@ export default {
   computed: {},
   methods: {
     exported(form) {
-      let data = this._formatRequestData(form.form);
+      let formData = Object.assign(form);
+      let data = this._formatRequestData(formData);
       this.$http.smsTxReturnReport
         .exportSendReturn({ data: { ...data } })
         .then(res => {
