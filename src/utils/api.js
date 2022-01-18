@@ -198,6 +198,10 @@ export default {
         // 获取秘钥
         getSecretKeyById(params) {
             return post(`/corpUser/getSecretKeyById?userId=${params}`,);
+        },
+        // 修改商户端用户账号的密码
+        updateWebPassword(params) {
+            return post("/corpUser/updateWebPassword", params);
         }
     },
     //通道重发配置

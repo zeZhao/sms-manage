@@ -412,7 +412,13 @@
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
         <p>web登录账号: {{ infoData.loginName }}</p>
-        <p>web密码: {{ infoData.webPassword || "-" }}</p>
+        <p>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
+        </p>
         <p>网址: sms.jvtd.cn</p>
       </div>
 
@@ -423,7 +429,13 @@
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
         <p>http密码: {{ infoData.password || "-" }}</p>
-        <p>web密码: {{infoData.webPassword || "-" }}</p>
+        <p>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
+        </p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
@@ -439,7 +451,13 @@
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
         <p>cmpp密码: {{ infoData.password || "-" }}</p>
-        <p>web密码: {{infoData.webPassword || "-" }}</p>
+        <p>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
+        </p>
         <p>协议: CMPP</p>
         <p>通道接入码: {{ infoData.longCode && infoData.longCode !== "-" ? infoData.longCode : "置空" }}</p>
         <p>客户端IP: {{ infoData.userIp }}</p>
@@ -1359,7 +1377,9 @@ export default {
 
       agentListData: [],
       salemanListData: [],
-      listTagData: []
+      listTagData: [],
+      // 修改商户端用户账号密码
+      editUserPassword: false
     };
   },
   created() {},
@@ -1488,6 +1508,20 @@ export default {
     }
   },
   methods: {
+    // 确认修改商户端用户密码
+    handleEditUserPassword() {
+      const { userId, webPassword } = this.infoData;
+      if (!isPassword(webPassword)) {
+        this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+        return;
+      }
+      this.$http.corpUser.updateWebPassword({ userId, webPassword }).then(res => {
+        if (res.code === 200) {
+          this.editUserPassword = false;
+          this.$message.success(res.data || res.msg);
+        }
+      })
+    },
     //获取黑名单类型
     getBlackFroup() {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {
@@ -2307,6 +2341,14 @@ export default {
 .corpUser {
   .list_table {
     width: 100%;
+  }
+  .pwd {
+    width: 40%;
+  }
+  .edit-user-password {
+    color: #0964ff;
+    margin-left: 10px;
+    cursor: pointer;
   }
 }
 </style>
