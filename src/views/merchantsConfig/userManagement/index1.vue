@@ -392,109 +392,78 @@
       </span>
     </el-dialog>
     <el-dialog
-      title="信息"
       :visible.sync="infoVisible"
       :close-on-click-modal="false"
       width="30%"
+      :before-close="handleClose"
     >
-      <!-- <p>{{ infoData.createUser }}</p> -->
-      <div v-if="infoData.proType == 1">
+      <span slot="title">
+        信息
+        <i
+          v-if="renderLock && !editUserPassword"
+          class="el-icon-lock"
+          style="font-size: 20px; color: #909399; margin-left: 5px"
+          @click="isOpenDialog"
+        ></i>
+      </span>
+
+      <div v-if="infoData.proType === 1">
         <p>产品类型: web</p>
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
-        <p>web账号: {{ infoData.loginName }}</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>
-          web密码: {{ infoData.webPassword }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.password || infoData.password === '-'"
-            @click="isOpenDialog('password')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
         </p>
         <p>网址: sms.jvtd.cn</p>
-        <!-- <p>
-          秘钥: {{ infoData.secretKey }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.secretKey || infoData.secretKey === '-'"
-            @click="isOpenDialog('secretKey')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
-        </p> -->
       </div>
-      <div v-if="infoData.proType == 2">
+
+      <div v-if="infoData.proType === 2">
         <p>产品类型: HTTP/WEB</p>
         <p>企业名称: {{ infoData.corpName }}</p>
-        <p>web账号: {{ infoData.loginName }}</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>http密码: {{ infoData.password || "-" }}</p>
         <p>
-          密码: {{ infoData.password }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.password || infoData.password === '-'"
-            @click="isOpenDialog('password')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
         </p>
-        <p v-if="infoData.webPassword">web端密码: {{infoData.webPassword}}</p>
-        <p>客户端IP: {{ infoData.userIp || "" }}</p>
+        <p>客户端IP: {{ infoData.userIp }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
-        <p>
-          秘钥: {{ infoData.secretKey }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.secretKey || infoData.secretKey === '-'"
-            @click="isOpenDialog('secretKey')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
-        </p>
+        <p>秘钥: {{ infoData.secretKey || "-" }}</p>
       </div>
-      <div v-if="infoData.proType == 4">
+
+      <div v-if="infoData.proType === 4">
         <p>产品类型: CMPP2.0/WEB</p>
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>接口地址: 39.107.120.170</p>
         <p>端口: 7893</p>
-        <p>web账号: {{ infoData.loginName }}</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>cmpp密码: {{ infoData.password || "-" }}</p>
         <p>
-          密码: {{ infoData.password }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.password || infoData.password === '-'"
-            @click="isOpenDialog('password')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
         </p>
-        <p v-if="infoData.webPassword">web端密码: {{infoData.webPassword}}</p>
         <p>协议: CMPP</p>
-        <p>
-          通道接入码:
-          {{
-            infoData.longCode && infoData.longCode !== "-"
-              ? infoData.longCode
-              : "置空"
-          }}
-        </p>
+        <p>通道接入码: {{ infoData.longCode && infoData.longCode !== "-" ? infoData.longCode : "置空" }}</p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
-        <p>
-          通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
-          ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
-        </p>
-        <!-- <p>
-          秘钥: {{ infoData.secretKey }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.secretKey || infoData.secretKey === '-'"
-            @click="isOpenDialog('secretKey')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
-        </p> -->
+        <p>通道速率: {{ infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒" }}</p>
       </div>
     </el-dialog>
     <el-dialog
@@ -512,10 +481,10 @@
         style="width: 80%; margin: auto"
       >
         <el-form-item label="手机号:" prop="account">
-          <el-input v-model="formData.account" clearable></el-input>
+          <el-input v-model="formData.account" clearable placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="口令:" prop="pwd">
-          <el-input v-model="formData.pwd" clearable maxlength="6"></el-input>
+          <el-input v-model="formData.pwd" type="password" maxlength="6" clearable placeholder="请输入口令" @keyup.enter.native="notDisabled"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -751,8 +720,6 @@ export default {
       infoData: {},
       //二次登录数据
       loginVisible: false,
-      //登录查看类型
-      loginType: "",
       formData: {},
       rules: {
         account: [
@@ -1411,7 +1378,9 @@ export default {
 
       agentListData: [],
       salemanListData: [],
-      listTagData: []
+      listTagData: [],
+      // 修改商户端用户账号密码
+      editUserPassword: false
     };
   },
   created() {},
@@ -1524,9 +1493,41 @@ export default {
   computed: {
     renderTitle() {
       return `${this.formTit}账户`;
+    },
+    renderLock() {
+      const { proType, password, webPassword, secretKey } = this.infoData;
+      switch (proType) {
+        case 1:
+          return !!(!webPassword || webPassword === "-");
+        case 2:
+          const http = [password, webPassword, secretKey].some(v => !v || v === "-");
+          return http;
+        case 4:
+          const cmpp = [password, webPassword].some(v => !v || v === "-");
+          return cmpp;
+      }
     }
   },
   methods: {
+    // 关闭信息弹窗后重置web密码为不可修改状态
+    handleClose(done) {
+      done();
+      this.editUserPassword = false;
+    },
+    // 确认修改商户端用户密码
+    handleEditUserPassword() {
+      const { userId, webPassword } = this.infoData;
+      if (!isPassword(webPassword)) {
+        this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+        return;
+      }
+      this.$http.corpUser.updateWebPassword({ userId, webPassword }).then(res => {
+        if (res.code === 200) {
+          this.editUserPassword = false;
+          this.$message.success(res.data || res.msg);
+        }
+      })
+    },
     //获取黑名单类型
     getBlackFroup() {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {
@@ -1748,11 +1749,13 @@ export default {
       }
       return form;
     },
-    isOpenDialog(type) {
+    isOpenDialog() {
       this.loginVisible = true;
-      this.loginType = type;
+      this.$nextTick(() => {
+        this.$refs["loginForm"].clearValidate();
+      });
     },
-    //二次登录验证
+    // 二次登录验证
     notDisabled() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
@@ -1762,25 +1765,22 @@ export default {
 
           this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
-              if (this.loginType === "password") {
-                this.$nextTick(() => {
-                  this.infoData.password = res.data.password;
-                  this.infoData.webPassword = res.data.webPassword;
-                });
-              } else if (this.loginType === "secretKey") {
-                this.$http.corpUser.getSecretKeyById(userId).then(res => {
+              if (this.infoData.proType === 2) { // HTTP类型 ------ 查秘钥
+                this.$http.corpUser.getSecretKeyById(userId).then(response => {
                   this.$nextTick(() => {
-                    this.$set(this.infoData, "secretKey", res.data.publicKey);
+                    this.$set(this.infoData, "secretKey", response.data.publicKey);
                   });
                 });
               }
+              this.$nextTick(() => {
+                this.infoData.password = res.data.password;
+                this.infoData.webPassword = res.data.webPassword;
+              });
+
               this.loginVisible = false;
               this.$message.success("验证成功");
-              this.$nextTick(() => {
-                this.$refs["loginForm"].resetFields();
-              });
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.data || res.msg);
             }
           });
         }
@@ -2204,17 +2204,8 @@ export default {
 
     //信息弹框
     messageShow(row) {
-      this.$nextTick(() => {
-        this.infoData = Object.assign(row);
-      });
-
+      this.infoData = this.$deepClone(row);
       this.infoVisible = true;
-      // const h = this.$createElement;
-      // this.$msgbox({
-      //   title: "信息",
-      //   message: this.createElement(h, row),
-      //   showConfirmButton: false
-      // }).catch(() => {});
     },
     //获取所有商户
     getAllCorp() {
@@ -2324,183 +2315,6 @@ export default {
           }
         });
       this.dialogVisible = false;
-    },
-
-    createElement(h, row) {
-      switch (row.proType) {
-        case 1:
-          return h("div", null, [
-            h("p", null, [
-              h("span", null, "产品类型: "),
-              h("span", null, "web")
-            ]),
-            h("p", null, [
-              h("span", null, "企业名称: "),
-              h("span", null, `${row.corpName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "web账号: "),
-              h("span", null, `${row.loginName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "web密码: "),
-              h("span", null, `${row.webPassword}`)
-            ]),
-            h("p", null, [
-              h("span", null, "网址: "),
-              h("span", null, "sms.jvtd.cn")
-            ])
-          ]);
-
-        case 2:
-          return h("div", null, [
-            h("p", null, [
-              h("span", null, "产品类型: "),
-              h("span", null, "HTTP/WEB")
-            ]),
-            h("p", null, [
-              h("span", null, "企业名称: "),
-              h("span", null, `${row.corpName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "web账号: "),
-              h("span", null, `${row.loginName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "账号: "),
-              h("span", null, `${row.userId}`)
-            ]),
-            h("p", null, [
-              h("span", null, "密码: "),
-              h("span", null, `${row.password}`)
-            ]),
-            h("p", null, [
-              h("span", null, "客户端IP: "),
-              h("span", null, `${row.userIp || ""}`)
-            ]),
-            h("p", null, [
-              h("span", null, "接口地址: "),
-              h("span", null, "http://sms3api.jvtd.cn/jtdsms/smsSend")
-            ]),
-            h("p", null, [
-              h("span", null, "接口文档: "),
-              h("span", null, "https://jvtd.cn/duanxinApi/")
-            ])
-          ]);
-
-        case 4:
-          return h("div", null, [
-            h("p", null, [
-              h("span", null, "产品类型: "),
-              h("span", null, "CMPP2.0/WEB")
-            ]),
-            h("p", null, [
-              h("span", null, "企业名称: "),
-              h("span", null, `${row.corpName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "接口地址: "),
-              h("span", null, "39.107.120.170")
-            ]),
-            h("p", null, [h("span", null, "端口: "), h("span", null, "7893")]),
-            h("p", null, [
-              h("span", null, "web账号: "),
-              h("span", null, `${row.loginName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "账号: "),
-              h("span", null, `${row.userId}`)
-            ]),
-            h("p", null, [
-              h("span", null, "密码: "),
-              h("span", null, `${row.password}`)
-            ]),
-            h("p", null, [h("span", null, "协议: "), h("span", null, "CMPP")]),
-            h("p", null, [
-              h("span", null, "通道接入码: "),
-              h("span", null, `${row.longCode}`)
-            ]),
-            h("p", null, [
-              h("span", null, "客户端IP: "),
-              h("span", null, `${row.userIp || ""}`)
-            ]),
-            h("p", null, [
-              h("span", null, "链接路数: "),
-              h("span", null, `${row.maxSession || ""}`)
-            ]),
-            h("p", null, [
-              h("span", null, "通道速率: "),
-              h("span", null, `${row.submitSpeed || ""}条/秒`)
-            ])
-          ]);
-
-        default:
-          break;
-      }
-      // let arr = [];
-      // if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
-      //   arr = row.proTypes;
-      // } else {
-      //   arr = row.mmsProTypes;
-      // }
-      // let proType = [];
-      // arr.forEach(item => {
-      //   if (item == 1) {
-      //     proType.push("web端");
-      //   } else if (item == 2) {
-      //     proType.push("http接口");
-      //   } else if (item == 4) {
-      //     proType.push("cmpp接口");
-      //   }
-      // });
-      // let strType = proType.join("、");
-      // return h("div", null, [
-      //   h("p", null, [
-      //     h("span", null, "产品类型: "),
-      //     h("span", null, `${strType || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "商户名称: "),
-      //     h("span", null, `${row.corpName}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "登录账号: "),
-      //     h("span", null, `${row.loginName}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "密码: "),
-      //     h("span", null, `${row.password}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "网址: "),
-      //     h("span", null, "http://user.sms.jvtdtest.top")
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "客户端IP: "),
-      //     h("span", null, `${row.userIp || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "接口地址: "),
-      //     h("span", null, `${row.mmsAuditCallBack || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "协议端口: "),
-      //     h("span", null, `${row.directPort || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "协议: "),
-      //     h("span", null, `${row.directPort}`)
-      //   ]),
-      //   h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
-      //   h("p", null, [
-      //     h("span", null, "链接路数: "),
-      //     h("span", null, `${row.maxSession || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "通道速率: "),
-      //     h("span", null, `${row.submitSpeed || ""}`)
-      //   ])
-      // ]);
     }
   },
   watch: {
@@ -2533,6 +2347,14 @@ export default {
 .corpUser {
   .list_table {
     width: 100%;
+  }
+  .pwd {
+    width: 40%;
+  }
+  .edit-user-password {
+    color: #0964ff;
+    margin-left: 10px;
+    cursor: pointer;
   }
 }
 </style>
