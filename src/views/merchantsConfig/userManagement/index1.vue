@@ -395,11 +395,12 @@
       :visible.sync="infoVisible"
       :close-on-click-modal="false"
       width="30%"
+      :before-close="handleClose"
     >
       <span slot="title">
         信息
         <i
-          v-if="renderLock"
+          v-if="renderLock && !editUserPassword"
           class="el-icon-lock"
           style="font-size: 20px; color: #909399; margin-left: 5px"
           @click="isOpenDialog"
@@ -1508,6 +1509,11 @@ export default {
     }
   },
   methods: {
+    // 关闭信息弹窗后重置web密码为不可修改状态
+    handleClose(done) {
+      done();
+      this.editUserPassword = false;
+    },
     // 确认修改商户端用户密码
     handleEditUserPassword() {
       const { userId, webPassword } = this.infoData;
