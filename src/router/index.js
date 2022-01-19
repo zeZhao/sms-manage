@@ -75,7 +75,8 @@ export const constantRoutes = [
                 title: '首页',
                 affix: true,
                 breadcrumb: false,
-                icon: 'index'
+                icon: 'index',
+                keepAlive: true
             }
         }]
     },
@@ -125,7 +126,7 @@ export const constantRoutes = [
                 name: 'userManagementType',
                 meta: { title: '', keepAlive: true },
                 component: () => import('@/views/merchantsConfig/userManagement/type'),
-                beforeEnter (to, from, next) {
+                beforeEnter(to, from, next) {
                     if (to.query.type) {
                         metaGenerator('/userManagement', 'userManagementType', to.query.type, '账户信息管理');
                         next();
@@ -1213,7 +1214,7 @@ export const asyncRoutes = [
 ]
 
 //meta生成器
-function metaGenerator (str1, str2, type, title) {
+function metaGenerator(str1, str2, type, title) {
     let idx1, idx2, result;
     idx1 = constantRoutes.findIndex(v => str1 === v.path);
     if (idx1 !== -1 && constantRoutes[idx1].children.length > 0) {

@@ -2,6 +2,7 @@
   <!--商户用户-->
   <div class="corpUser">
     <Search
+      ref="search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
@@ -12,11 +13,11 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <!-- <el-table-column
         prop="loginName"
         label="登录账号"
@@ -100,7 +101,7 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column prop="reductModel" label="短信计费方式">
+      <el-table-column prop="reductModel" label="短信计费方式" width="100">
         <template slot-scope="scope">
           <span>{{
             scope.row.reductModel == "1"
@@ -153,7 +154,7 @@
           </span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="mmsReductModel" label="彩信计费方式">
+      <el-table-column prop="mmsReductModel" label="彩信计费方式" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.mmsReductModel == 1">预付提交计费</span>
           <span v-else-if="scope.row.mmsReductModel == 2">预付成功计费</span>
@@ -175,7 +176,7 @@
           row.submitSpeed ? row.submitSpeed : "不限"
         }}</template>
       </el-table-column>
-      <el-table-column prop="smsTags" label="标签">
+      <el-table-column prop="smsTags" label="标签" min-width="150">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -185,7 +186,11 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column prop="roleName" label="角色"></el-table-column>
+      <el-table-column
+        prop="roleName"
+        label="角色"
+        width="110"
+      ></el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span>{{
@@ -301,7 +306,7 @@
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
       ></FormItem> -->
-      <h3>{{ formTit }}账户{{ titleTips }}</h3>
+      <h3>{{ titleTips }}</h3>
       <FormItemTitle
         class="userManagementType"
         :colSpan="12"
@@ -387,70 +392,78 @@
       </span>
     </el-dialog>
     <el-dialog
-      title="信息"
       :visible.sync="infoVisible"
       :close-on-click-modal="false"
       width="30%"
+      :before-close="handleClose"
     >
-      <!-- <p>{{ infoData.createUser }}</p> -->
-      <div v-if="infoData.proType == 1">
+      <span slot="title">
+        信息
+        <i
+          v-if="renderLock && !editUserPassword"
+          class="el-icon-lock"
+          style="font-size: 20px; color: #909399; margin-left: 5px"
+          @click="isOpenDialog"
+        ></i>
+      </span>
+
+      <div v-if="infoData.proType === 1">
         <p>产品类型: web</p>
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
-        <p>web账号: {{ infoData.loginName }}</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>
-          web密码: {{ infoData.webPassword }}
-          <i
-            class="el-icon-lock"
-            @click="isOpenDialog"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
         </p>
         <p>网址: sms.jvtd.cn</p>
       </div>
-      <div v-if="infoData.proType == 2">
+
+      <div v-if="infoData.proType === 2">
         <p>产品类型: HTTP/WEB</p>
         <p>企业名称: {{ infoData.corpName }}</p>
-        <p>web账号: {{ infoData.loginName }}</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>http密码: {{ infoData.password || "-" }}</p>
         <p>
-          密码: {{ infoData.password }}
-          <i
-            class="el-icon-lock"
-            @click="isOpenDialog"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
         </p>
-        <p>客户端IP: {{ infoData.userIp || "" }}</p>
+        <p>客户端IP: {{ infoData.userIp }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+        <p>秘钥: {{ infoData.secretKey || "-" }}</p>
       </div>
-      <div v-if="infoData.proType == 4">
+
+      <div v-if="infoData.proType === 4">
         <p>产品类型: CMPP2.0/WEB</p>
         <p>企业名称: {{ infoData.corpName }}</p>
         <p>接口地址: 39.107.120.170</p>
         <p>端口: 7893</p>
-        <p>web账号: {{ infoData.loginName }}</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>cmpp密码: {{ infoData.password || "-" }}</p>
         <p>
-          密码: {{ infoData.password }}
-          <i
-            class="el-icon-lock"
-            @click="isOpenDialog"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
+          web密码: 
+          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
+          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
+          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
+          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
         </p>
         <p>协议: CMPP</p>
-        <p>通道接入码: {{ infoData.longCode }}</p>
+        <p>通道接入码: {{ infoData.longCode && infoData.longCode !== "-" ? infoData.longCode : "置空" }}</p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
-        <p>
-          通道速率: <span v-if="infoData.submitSpeed == 0">不限</span
-          ><span v-else>{{ infoData.submitSpeed }}条/秒</span>
-        </p>
+        <p>通道速率: {{ infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒" }}</p>
       </div>
     </el-dialog>
     <el-dialog
@@ -461,17 +474,17 @@
       custom-class="loginDialog"
     >
       <el-form
-        ref="ruleForm"
+        ref="loginForm"
         :model="formData"
         :rules="rules"
         label-width="70px"
         style="width: 80%; margin: auto"
       >
         <el-form-item label="手机号:" prop="account">
-          <el-input v-model="formData.account" clearable></el-input>
+          <el-input v-model="formData.account" clearable placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item label="口令:" prop="pwd">
-          <el-input v-model="formData.pwd" clearable maxlength="6"></el-input>
+          <el-input v-model="formData.pwd" type="password" maxlength="6" clearable placeholder="请输入口令" @keyup.enter.native="notDisabled"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -498,10 +511,30 @@ export default {
       }
     };
     const validCode = (rule, value, callback) => {
-      if (value && (!/^\d+$/.test(value) || value.length !== 4)) {
-        callback(new Error("请输入4位特服号"));
+      if (value && !/^\d{1,12}$/.test(value)) {
+        callback(new Error("特服号只能为正整数且最大长度为12位"));
       } else {
         callback();
+      }
+    };
+    const validMobile = (rule, value, callback) => {
+      console.log(this.type, "------------type");
+      if (this.type === "create") {
+        if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+          callback(new Error("手机号码格式错误"));
+        } else {
+          callback();
+        }
+      } else {
+        if (value.indexOf("*") === -1) {
+          if (value && !/^1(3|4|5|6|7|8|9)\d{9}$/.test(value)) {
+            callback(new Error("手机号码格式错误"));
+          } else {
+            callback();
+          }
+        } else {
+          callback();
+        }
       }
     };
     return {
@@ -724,12 +757,12 @@ export default {
           key: "userName",
           maxlength: "20",
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
-              message: "不支持特殊字符",
-              trigger: "change"
-            }
+            { required: true, message: "请输入必填项", trigger: "blur" }
+            // {
+            //   pattern: /^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/,
+            //   message: "不支持特殊字符",
+            //   trigger: "change"
+            // }
           ]
         },
         {
@@ -907,6 +940,16 @@ export default {
           key: "times",
           defaultValue: "",
           optionData: []
+        },
+        {
+          type: "select",
+          label: "发送设置",
+          key: "sendSettings",
+          defaultValue: "",
+          optionData: [
+            { key: 1, value: "进入缓存列队" },
+            { key: 2, value: "返回失败" }
+          ]
         },
         {
           isTitle: true,
@@ -1331,15 +1374,111 @@ export default {
         // },
       ],
       // 新增展示上一账户编号和修改展示当前账户编号
-      titleTips: ""
+      titleTips: "",
+
+      agentListData: [],
+      salemanListData: [],
+      listTagData: [],
+      // 修改商户端用户账号密码
+      editUserPassword: false
     };
   },
+  created() {},
   mounted() {
     this.getAllCorp();
-    this.getSaleman();
-    this.getAgent();
     this.getRole();
-    this.listTag();
+    this.getUserId();
+    this.getBlackFroup();
+    this._mxGetList();
+    this.$http.agent.queryAgent({ status: 1 }).then(res => {
+      if (resOk(res)) {
+        this.agentListData = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "agentId") {
+            item.optionData = [];
+            this.agentListData.forEach(t => {
+              let obj = {
+                key: t.agentId,
+                value: t.agentName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.sysSales.queryAvailableSaleman().then(res => {
+      if (resOk(res)) {
+        this.salemanListData = res.data;
+        this.saleList = res.data;
+        this.searchFormConfig.forEach(item => {
+          if (item.key === "saleMan") {
+            item.optionData = [];
+            this.salemanListData.forEach(t => {
+              let obj = {
+                key: t.userName,
+                value: t.actualName
+              };
+              item.optionData.push(obj);
+            });
+          }
+        });
+      }
+    });
+    this.$http.smsTagController
+      .listTag({ pageNumber: 1, pageSize: 9999 })
+      .then(res => {
+        if (resOk(res)) {
+          this.listTagData = res.data.list;
+          this.tagsData[0].optionData = res.data.list.map(v => {
+            return { key: v.id, value: v.name };
+          });
+          this.searchFormConfig.forEach(item => {
+            if (item.key === "tag") {
+              item.optionData = [];
+              this.listTagData.forEach(t => {
+                let obj = {
+                  key: t.id,
+                  value: t.name
+                };
+                item.optionData.push(obj);
+              });
+            }
+          });
+        }
+      });
+    this.searchFormConfig.forEach(item => {
+      if (item.key === "agentId") {
+        item.optionData = [];
+        this.agentListData.forEach(t => {
+          let obj = {
+            key: t.agentId,
+            value: t.agentName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "saleMan") {
+        item.optionData = [];
+        this.salemanListData.forEach(t => {
+          let obj = {
+            key: t.userName,
+            value: t.actualName
+          };
+          item.optionData.push(obj);
+        });
+      }
+      if (item.key === "tag") {
+        item.optionData = [];
+        this.listTagData.forEach(t => {
+          let obj = {
+            key: t.id,
+            value: t.name
+          };
+          item.optionData.push(obj);
+        });
+      }
+    });
   },
   activated() {
     //重新获取数据
@@ -1348,26 +1487,73 @@ export default {
     this.getAgent();
     this.getRole();
     this.listTag();
-    this._mxGetList();
+    this.getUserId();
+    this.getBlackFroup();
   },
   computed: {
     renderTitle() {
       return `${this.formTit}账户`;
+    },
+    renderLock() {
+      const { proType, password, webPassword, secretKey } = this.infoData;
+      switch (proType) {
+        case 1:
+          return !!(!webPassword || webPassword === "-");
+        case 2:
+          const http = [password, webPassword, secretKey].some(v => !v || v === "-");
+          return http;
+        case 4:
+          const cmpp = [password, webPassword].some(v => !v || v === "-");
+          return cmpp;
+      }
     }
   },
   methods: {
+    // 关闭信息弹窗后重置web密码为不可修改状态
+    handleClose(done) {
+      done();
+      this.editUserPassword = false;
+    },
+    // 确认修改商户端用户密码
+    handleEditUserPassword() {
+      const { userId, webPassword } = this.infoData;
+      if (!isPassword(webPassword)) {
+        this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+        return;
+      }
+      this.$http.corpUser.updateWebPassword({ userId, webPassword }).then(res => {
+        if (res.code === 200) {
+          this.editUserPassword = false;
+          this.$message.success(res.data || res.msg);
+        }
+      })
+    },
+    //获取黑名单类型
+    getBlackFroup() {
+      this.$http.smsBlackGroup.listBlackGroup().then(res => {
+        this._setDefaultValue(
+          this.formConfig,
+          res.data,
+          "blackLevel",
+          "groupId",
+          "blackGroupName"
+        );
+      });
+    },
     // 获取账户编号
-    getUserId() {
+    getUserId(data) {
       this.titleTips = ""; // 重置
-      if (this.type === "create") {
+      if (this.formTit === "新增") {
         this.$http.corpUser.getLasttUserId().then(res => {
           this.titleTips = `（上一个账户编号为：${res.data}）`;
         });
       } else {
-        this.titleTips = `（账户编号为：${
-          JSON.parse(this.$route.query.row).userId
-        }）`;
+        this.titleTips = `（账户编号为：${data.userId}）`;
       }
+    },
+    disabledProType() {
+      const idx = this.formConfig.findIndex(v => v.key === "proType");
+      this.formConfig[idx].disabled = true;
     },
     //多选移除操作
     removeTag({ val, item }) {
@@ -1396,6 +1582,7 @@ export default {
         });
       }
     },
+    //根据下拉选择对表单项进行展示
     selectChange(data) {
       const { val, item } = data;
       if (item.key === "productType") {
@@ -1460,6 +1647,30 @@ export default {
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
+      // if (item.key === "moType") {
+      //   if (val == "0") {
+      //     this.formConfig.forEach(el => {
+      //       if (el.key === "moUrl" || el.key === "reportUrl") {
+      //         this.$nextTick(() => {
+      //           this.$set(el, "rules", [
+      //             { required: false, message: "请输入必填项", trigger: "blur" }
+      //           ]);
+      //         });
+      //       }
+      //     });
+      //   } else {
+      //     this.formConfig.forEach(el => {
+      //       if (el.key === "moUrl" || el.key === "reportUrl") {
+      //         let rules = [
+      //           { required: true, message: "请输入必填项", trigger: "blur" }
+      //         ];
+      //         this.$nextTick(() => {
+      //           this.$set(el, "rules", rules);
+      //         });
+      //       }
+      //     });
+      //   }
+      // }
     },
     /**
      * 关闭弹窗
@@ -1540,9 +1751,13 @@ export default {
     },
     isOpenDialog() {
       this.loginVisible = true;
+      this.$nextTick(() => {
+        this.$refs["loginForm"].clearValidate();
+      });
     },
+    // 二次登录验证
     notDisabled() {
-      this.$refs["ruleForm"].validate(valid => {
+      this.$refs["loginForm"].validate(valid => {
         if (valid) {
           const { userId } = this.infoData;
           this.formData.type = 4;
@@ -1550,6 +1765,13 @@ export default {
 
           this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
+              if (this.infoData.proType === 2) { // HTTP类型 ------ 查秘钥
+                this.$http.corpUser.getSecretKeyById(userId).then(response => {
+                  this.$nextTick(() => {
+                    this.$set(this.infoData, "secretKey", response.data.publicKey);
+                  });
+                });
+              }
               this.$nextTick(() => {
                 this.infoData.password = res.data.password;
                 this.infoData.webPassword = res.data.webPassword;
@@ -1557,10 +1779,8 @@ export default {
 
               this.loginVisible = false;
               this.$message.success("验证成功");
-              this.formData.account = "";
-              this.formData.pwd = "";
             } else {
-              this.$message.error(res.data);
+              this.$message.error(res.data || res.msg);
             }
           });
         }
@@ -1572,7 +1792,7 @@ export default {
         this.speedVal = null;
       }
     },
-    _mxCreate() {
+    async _mxCreate() {
       // this.$router.push({
       //   name: "userManagementType",
       //   query: { type: "create" }
@@ -1631,11 +1851,15 @@ export default {
         if (item.key === "loginName") {
           item.disabled = false;
         }
+        // if (item.key === "moUrl" || item.key === "reportUrl") {
+        //   this.$set(item, "rules", [
+        //     { required: false, message: "请输入必填项", trigger: "blur" }
+        //   ]);
+        // }
       });
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
+      await this.getAllCorp();
+      await this.getRole();
+      await this.getUserId();
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
@@ -1654,9 +1878,9 @@ export default {
             row[key] = [];
           }
         }
-        if (key === "proType") {
-          row["proType"] = row["proTypes"];
-        }
+        // if (key === "proType") {
+        //   row["proType"] = row["proTypes"];
+        // }
         if (key === "mmsProType") {
           row["mmsProType"] = row["mmsProTypes"];
         }
@@ -1684,10 +1908,8 @@ export default {
       setTimeout(() => {
         this.$refs.formItemTit.clearValidate();
       }, 0);
-      this.getAllCorp();
-      this.getRole();
-      this.getAgent();
-      this.getSaleman();
+      this.disabledProType();
+      this.getUserId(lineData);
       this.formConfig.forEach(item => {
         if (item.key === "loginName") {
           item.disabled = true;
@@ -1892,6 +2114,7 @@ export default {
       this.isRestricted = submitSpeed ? 1 : 0;
       this.speedVisible = true;
     },
+    //提交速率
     submitSpeeds() {
       let params;
       if (this.isRestricted === 0) {
@@ -1943,16 +2166,10 @@ export default {
         .listTag({ pageNumber: 1, pageSize: 9999 })
         .then(res => {
           if (resOk(res)) {
+            this.listTagData = res.data.list;
             this.tagsData[0].optionData = res.data.list.map(v => {
               return { key: v.id, value: v.name };
             });
-            this._setDefaultValue(
-              this.searchFormConfig,
-              res.data.list,
-              "tag",
-              "id",
-              "name"
-            );
           }
         });
     },
@@ -1987,24 +2204,26 @@ export default {
 
     //信息弹框
     messageShow(row) {
-      this.$nextTick(() => {
-        this.infoData = Object.assign(row);
-        console.log(this.infoData, "-------this.infoData");
-      });
-
+      this.infoData = this.$deepClone(row);
       this.infoVisible = true;
-      // const h = this.$createElement;
-      // this.$msgbox({
-      //   title: "信息",
-      //   message: this.createElement(h, row),
-      //   showConfirmButton: false
-      // }).catch(() => {});
     },
     //获取所有商户
     getAllCorp() {
       this.$http.corp.queryAllCorp().then(res => {
         if (resOk(res)) {
           let arr = [];
+          this.formConfig.forEach(item => {
+            if (item.key === "corpId") {
+              res.data.forEach(t => {
+                let obj = {
+                  key: t.corpId,
+                  value: t.corpName
+                };
+                arr.push(obj);
+              });
+              item.optionData = arr;
+            }
+          });
         }
       });
     },
@@ -2012,9 +2231,10 @@ export default {
     getSaleman() {
       this.$http.sysSales.queryAvailableSaleman().then(res => {
         if (resOk(res)) {
+          this.salemanListData = res.data;
           this.saleList = res.data;
           this._setDefaultValue(
-            this.searchFormConfig,
+            this.formConfig,
             res.data,
             "saleMan",
             "userName",
@@ -2027,15 +2247,9 @@ export default {
     getAgent() {
       this.$http.agent.queryAgent({ status: 1 }).then(res => {
         if (resOk(res)) {
-          // this._setDefaultValue(
-          //   this.formConfig,
-          //   res.data,
-          //   "agentId",
-          //   "agentId",
-          //   "agentName"
-          // );
+          this.agentListData = res.data;
           this._setDefaultValue(
-            this.searchFormConfig,
+            this.formConfig,
             res.data,
             "agentId",
             "agentId",
@@ -2052,13 +2266,13 @@ export default {
       };
       this.$http.role.getRoleByType(params).then(res => {
         if (resOk(res)) {
-          // this._setDefaultValue(
-          //   this.formConfig,
-          //   res.data,
-          //   "roleId",
-          //   "roleId",
-          //   "roleName"
-          // );
+          this._setDefaultValue(
+            this.formConfig,
+            res.data,
+            "roleId",
+            "roleId",
+            "roleName"
+          );
         }
       });
     },
@@ -2101,186 +2315,31 @@ export default {
           }
         });
       this.dialogVisible = false;
-    },
-
-    createElement(h, row) {
-      switch (row.proType) {
-        case 1:
-          return h("div", null, [
-            h("p", null, [
-              h("span", null, "产品类型: "),
-              h("span", null, "web")
-            ]),
-            h("p", null, [
-              h("span", null, "企业名称: "),
-              h("span", null, `${row.corpName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "web账号: "),
-              h("span", null, `${row.loginName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "web密码: "),
-              h("span", null, `${row.webPassword}`)
-            ]),
-            h("p", null, [
-              h("span", null, "网址: "),
-              h("span", null, "sms.jvtd.cn")
-            ])
-          ]);
-
-        case 2:
-          return h("div", null, [
-            h("p", null, [
-              h("span", null, "产品类型: "),
-              h("span", null, "HTTP/WEB")
-            ]),
-            h("p", null, [
-              h("span", null, "企业名称: "),
-              h("span", null, `${row.corpName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "web账号: "),
-              h("span", null, `${row.loginName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "账号: "),
-              h("span", null, `${row.userId}`)
-            ]),
-            h("p", null, [
-              h("span", null, "密码: "),
-              h("span", null, `${row.password}`)
-            ]),
-            h("p", null, [
-              h("span", null, "客户端IP: "),
-              h("span", null, `${row.userIp || ""}`)
-            ]),
-            h("p", null, [
-              h("span", null, "接口地址: "),
-              h("span", null, "http://sms3api.jvtd.cn/jtdsms/smsSend")
-            ]),
-            h("p", null, [
-              h("span", null, "接口文档: "),
-              h("span", null, "https://jvtd.cn/duanxinApi/")
-            ])
-          ]);
-
-        case 4:
-          return h("div", null, [
-            h("p", null, [
-              h("span", null, "产品类型: "),
-              h("span", null, "CMPP2.0/WEB")
-            ]),
-            h("p", null, [
-              h("span", null, "企业名称: "),
-              h("span", null, `${row.corpName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "接口地址: "),
-              h("span", null, "39.107.120.170")
-            ]),
-            h("p", null, [h("span", null, "端口: "), h("span", null, "7893")]),
-            h("p", null, [
-              h("span", null, "web账号: "),
-              h("span", null, `${row.loginName}`)
-            ]),
-            h("p", null, [
-              h("span", null, "账号: "),
-              h("span", null, `${row.userId}`)
-            ]),
-            h("p", null, [
-              h("span", null, "密码: "),
-              h("span", null, `${row.password}`)
-            ]),
-            h("p", null, [h("span", null, "协议: "), h("span", null, "CMPP")]),
-            h("p", null, [
-              h("span", null, "通道接入码: "),
-              h("span", null, `${row.longCode}`)
-            ]),
-            h("p", null, [
-              h("span", null, "客户端IP: "),
-              h("span", null, `${row.userIp || ""}`)
-            ]),
-            h("p", null, [
-              h("span", null, "链接路数: "),
-              h("span", null, `${row.maxSession || ""}`)
-            ]),
-            h("p", null, [
-              h("span", null, "通道速率: "),
-              h("span", null, `${row.submitSpeed || ""}条/秒`)
-            ])
-          ]);
-
-        default:
-          break;
-      }
-      // let arr = [];
-      // if (row.proTypes && row.proTypes !== "-" && row.proTypes.length != 0) {
-      //   arr = row.proTypes;
-      // } else {
-      //   arr = row.mmsProTypes;
-      // }
-      // let proType = [];
-      // arr.forEach(item => {
-      //   if (item == 1) {
-      //     proType.push("web端");
-      //   } else if (item == 2) {
-      //     proType.push("http接口");
-      //   } else if (item == 4) {
-      //     proType.push("cmpp接口");
-      //   }
-      // });
-      // let strType = proType.join("、");
-      // return h("div", null, [
-      //   h("p", null, [
-      //     h("span", null, "产品类型: "),
-      //     h("span", null, `${strType || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "商户名称: "),
-      //     h("span", null, `${row.corpName}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "登录账号: "),
-      //     h("span", null, `${row.loginName}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "密码: "),
-      //     h("span", null, `${row.password}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "网址: "),
-      //     h("span", null, "http://user.sms.jvtdtest.top")
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "客户端IP: "),
-      //     h("span", null, `${row.userIp || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "接口地址: "),
-      //     h("span", null, `${row.mmsAuditCallBack || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "协议端口: "),
-      //     h("span", null, `${row.directPort || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "协议: "),
-      //     h("span", null, `${row.directPort}`)
-      //   ]),
-      //   h("p", null, [h("span", null, "通道接入码: "), h("span", null, ``)]),
-      //   h("p", null, [
-      //     h("span", null, "链接路数: "),
-      //     h("span", null, `${row.maxSession || ""}`)
-      //   ]),
-      //   h("p", null, [
-      //     h("span", null, "通道速率: "),
-      //     h("span", null, `${row.submitSpeed || ""}`)
-      //   ])
-      // ]);
     }
   },
-  watch: {}
+  watch: {
+    formConfig: {
+      handler(newVal) {
+        const idx = newVal.findIndex(v => v.key === "times");
+        const idx1 = newVal.findIndex(v => v.key === "sendSettings");
+        newVal[idx].rules = [
+          {
+            required: !!newVal[idx1].defaultValue,
+            message: "请选择必选项",
+            trigger: "change"
+          }
+        ];
+        newVal[idx1].rules = [
+          {
+            required: !!newVal[idx].defaultValue,
+            message: "请选择必选项",
+            trigger: "change"
+          }
+        ];
+      },
+      deep: true
+    }
+  }
 };
 </script>
 
@@ -2288,6 +2347,14 @@ export default {
 .corpUser {
   .list_table {
     width: 100%;
+  }
+  .pwd {
+    width: 40%;
+  }
+  .edit-user-password {
+    color: #0964ff;
+    margin-left: 10px;
+    cursor: pointer;
   }
 }
 </style>

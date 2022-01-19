@@ -6,6 +6,7 @@
       @search="_mxDoSearch"
       @exportData="exportData"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="exportExe"
@@ -18,7 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -37,7 +38,7 @@
         }}</template>
       </el-table-column>
     </el-table>
-    <p style="color: red">
+    <p style="color: red;font-size: 12px;">
       提交数: {{ tabBottomData.submitCount || 0 }}&nbsp;&nbsp; 发送数:{{
         tabBottomData.sendCount || 0
       }}&nbsp;&nbsp; 成功数:{{ tabBottomData.succCount || 0 }}&nbsp;&nbsp;
@@ -60,10 +61,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "reports",
@@ -123,7 +127,8 @@ export default {
         {
           type: "daterange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       //请求表格下方展示数据的接口凭证

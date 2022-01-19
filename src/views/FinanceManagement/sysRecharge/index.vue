@@ -22,7 +22,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -75,7 +75,12 @@
           <span v-if="scope.row.isBill == 7">余额+记录</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
       <el-table-column prop="creater" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">{{
@@ -180,15 +185,15 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
-import FormItemTitle from "@/components/formItemTitle";
+import listMixin from '@/mixin/listMixin';
+import FormItemTitle from '@/components/formItemTitle';
 
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
   data() {
     return {
-      formTit: "新增",
+      formTit: '新增',
       addChannel: false,
       transfersDialog: false,
       chooseData: {},
@@ -198,14 +203,14 @@ export default {
       chooseDataTo: {},
       //接口地址
       searchAPI: {
-        namespace: "sysRecharge",
-        list: "listPrepaidCardByPage",
-        detele: "deletePrepaidCard",
-        add: "addPrepaidCard",
-        edit: "updatePrepaidCard"
+        namespace: 'sysRecharge',
+        list: 'listPrepaidCardByPage',
+        detele: 'deletePrepaidCard',
+        add: 'addPrepaidCard',
+        edit: 'updatePrepaidCard'
       },
       // 列表参数
-      namespace: "prepaidCard",
+      namespace: 'prepaidCard',
       //搜索框数据
       searchParam: {},
       //搜索框配置
@@ -217,44 +222,47 @@ export default {
         //   placeholder: "请输入充值卡号",
         // },
         {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corporateId"
+          type: 'inputNum',
+          label: '商户编号',
+          key: 'corporateId'
         },
         {
-          type: "input",
-          label: "商户名称",
-          key: "corpName"
+          type: 'input',
+          label: '商户名称',
+          key: 'corpName'
         },
         {
-          type: "inputNum",
-          label: "账户编号",
-          key: "userId"
+          type: 'inputNum',
+          label: '账户编号',
+          key: 'userId'
         },
         {
-          type: "input",
-          label: "账户名称",
-          key: "userName"
+          type: 'input',
+          label: '账户名称',
+          key: 'userName'
         },
         {
-          type: "select",
-          label: "产品",
-          key: "chargeType",
-          optionData: [{ key: "1", value: "短信" }, { key: "2", value: "彩信" }]
-        },
-        {
-          type: "select",
-          label: "操作类型",
-          key: "paidWay",
+          type: 'select',
+          label: '产品',
+          key: 'chargeType',
           optionData: [
-            { key: "0", value: "充值" },
+            { key: '1', value: '短信' },
+            { key: '2', value: '彩信' }
+          ]
+        },
+        {
+          type: 'select',
+          label: '操作类型',
+          key: 'paidWay',
+          optionData: [
+            { key: '0', value: '充值' },
             // { key: 2, value: "扣款" },
             // { key: 1, value: "借款" },
-            { key: 3, value: "还款" },
-            { key: 1, value: "授信" },
-            { key: 4, value: "清授信" },
-            { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" }
+            { key: 3, value: '还款' },
+            { key: 1, value: '授信' },
+            { key: 4, value: '清授信' },
+            { key: 6, value: '余额+' },
+            { key: 2, value: '余额-' }
             // { key: 5, value: "账号互转" }
           ]
         },
@@ -275,185 +283,188 @@ export default {
         //   ]
         // },
         {
-          type: "select",
-          label: "到款方式",
-          key: "direction",
+          type: 'select',
+          label: '到款方式',
+          key: 'direction',
           optionData: [
-            { key: "对公付款", value: "对公付款" },
-            { key: "对私付款", value: "对私付款" },
-            { key: "无", value: "无" }
+            { key: '对公付款', value: '对公付款' },
+            { key: '对私付款', value: '对私付款' },
+            { key: '无', value: '无' }
           ]
         },
         {
-          type: "daterange",
-          label: "按时间查询",
-          key: ["", "startTime", "endTime"],
-          placeholder: "按时间查询"
+          type: 'daterange',
+          label: '按时间查询',
+          key: ['', 'startTime', 'endTime'],
+          placeholder: '按时间查询'
         }
       ],
       // 表单配置
       formConfig: [
         {
-          type: "select",
-          label: "操作类型",
-          key: "paidWay",
-          initDefaultValue: "0",
-          defaultValue: "0",
+          type: 'select',
+          label: '操作类型',
+          key: 'paidWay',
+          initDefaultValue: '0',
+          defaultValue: '0',
           colSpan: 12,
           optionData: [
-            { key: "0", value: "充值" },
+            { key: '0', value: '充值' },
             // { key: 2, value: "扣款" },
             // { key: 1, value: "授信" },
-            { key: 3, value: "还款" },
-            { key: 1, value: "授信" },
-            { key: 4, value: "清授信" },
-            { key: 6, value: "余额+" },
-            { key: 2, value: "余额-" }
+            { key: 3, value: '还款' },
+            { key: 1, value: '授信' },
+            { key: 4, value: '清授信' },
+            { key: 6, value: '余额+' },
+            { key: 2, value: '余额-' }
             // { key: 5, value: "账号互转" }
           ],
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
 
         {
-          type: "input",
-          label: "账户编号",
-          key: "userId",
-          btnTxt: "选择用户",
+          type: 'input',
+          label: '账户编号',
+          key: 'userId',
+          btnTxt: '选择用户',
           disabled: true,
           colSpan: 12,
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "select",
-          label: "产品",
+          type: 'select',
+          label: '产品',
           colSpan: 12,
           // initDefaultValue: 1,
           // defaultValue: 1,
-          key: "chargeType",
-          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
+          key: 'chargeType',
+          optionData: [
+            { key: 1, value: '短信' },
+            { key: 2, value: '彩信' }
+          ],
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "商户编号",
-          key: "corporateId",
+          type: 'input',
+          label: '商户编号',
+          key: 'corporateId',
           disabled: true,
           colSpan: 12,
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "账户名称",
-          key: "userName",
+          type: 'input',
+          label: '账户名称',
+          key: 'userName',
           disabled: true,
           colSpan: 12,
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "select",
-          label: "计费类型",
-          key: "reductType",
+          type: 'select',
+          label: '计费类型',
+          key: 'reductType',
           colSpan: 12,
           initDefaultValue: 1,
           defaultValue: 1,
           optionData: [
-            { key: 1, value: "账户计费" }
+            { key: 1, value: '账户计费' }
             // { key: 2, value: "商户id计费" }
           ],
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
 
         {
-          type: "select",
-          label: "销售员签名",
+          type: 'select',
+          label: '销售员签名',
           colSpan: 12,
-          key: "saleMan",
+          key: 'saleMan',
           optionData: [],
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "textarea",
-          label: "备注",
+          type: 'textarea',
+          label: '备注',
           maxlength: 300,
-          key: "remark",
+          key: 'remark',
           colSpan: 24
         },
         {
           isTitle: false,
-          title: "短信",
+          title: '短信',
           colSpan: 24
         },
         {
-          type: "input",
-          label: "单价(分)",
-          key: "cardUnit",
-          defaultValue: "",
+          type: 'input',
+          label: '单价(分)',
+          key: 'cardUnit',
+          defaultValue: '',
           maxlength: 4,
           rules: [
             {
               required: true,
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === "" || value === undefined || value === null) {
-                  callback(new Error("请输入必填项"));
+                if (value === '' || value === undefined || value === null) {
+                  callback(new Error('请输入必填项'));
                 } else {
                   if (value <= 0) {
-                    callback(new Error("需大于0"));
+                    callback(new Error('需大于0'));
                   } else {
                     const val =
-                      typeof value === "string"
+                      typeof value === 'string'
                         ? value.trim()
-                        : (value + "").trim();
+                        : (value + '').trim();
                     if (/^\d{1,4}(\.\d+)?$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~4位的数值"));
+                      callback(new Error('请输入1~4位的数值'));
                     }
                   }
                 }
@@ -462,30 +473,30 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "充值金额(元)",
-          key: "cardMoney",
-          defaultValue: "",
-          tag: "skype",
+          type: 'input',
+          label: '充值金额(元)',
+          key: 'cardMoney',
+          defaultValue: '',
+          tag: 'skype',
           rules: [
             {
               required: true,
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === "" || value === undefined || value === null) {
-                  callback(new Error("请输入必填项"));
+                if (value === '' || value === undefined || value === null) {
+                  callback(new Error('请输入必填项'));
                 } else {
                   if (value <= 0) {
-                    callback(new Error("需大于0"));
+                    callback(new Error('需大于0'));
                   } else {
                     const val =
-                      typeof value === "string"
+                      typeof value === 'string'
                         ? value.trim()
-                        : (value + "").trim();
+                        : (value + '').trim();
                     if (/^(\d{1,9})$|^(\d{1,9}\.\d{1,2})$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("输入大于0的数，小数点保留2位"));
+                      callback(new Error('输入大于0的数，小数点保留2位'));
                     }
                   }
                 }
@@ -494,30 +505,30 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "条数",
+          type: 'input',
+          label: '条数',
           maxlength: 9,
-          key: "cardCount",
-          defaultValue: "",
+          key: 'cardCount',
+          defaultValue: '',
           rules: [
             {
               required: true,
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === "" || value === undefined || value === null) {
-                  callback(new Error("请输入必填项"));
+                if (value === '' || value === undefined || value === null) {
+                  callback(new Error('请输入必填项'));
                 } else {
                   if (value <= 0) {
-                    callback(new Error("需大于0"));
+                    callback(new Error('需大于0'));
                   } else {
                     const val =
-                      typeof value === "string"
+                      typeof value === 'string'
                         ? value.trim()
-                        : (value + "").trim();
+                        : (value + '').trim();
                     if (/^\d{1,9}$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~9位的正整数"));
+                      callback(new Error('请输入1~9位的正整数'));
                     }
                   }
                 }
@@ -526,50 +537,50 @@ export default {
           ]
         },
         {
-          type: "select",
-          label: "到款方式",
-          key: "direction",
-          tag: "recharge",
+          type: 'select',
+          label: '到款方式',
+          key: 'direction',
+          tag: 'recharge',
           isShow: false,
           optionData: [
-            { key: "对公付款", value: "对公付款" },
-            { key: "对私付款", value: "对私付款" },
-            { key: "无", value: "无" }
+            { key: '对公付款', value: '对公付款' },
+            { key: '对私付款', value: '对私付款' },
+            { key: '无', value: '无' }
           ],
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "实际收款额度",
-          key: "factcardMoney",
+          type: 'input',
+          label: '实际收款额度',
+          key: 'factcardMoney',
           maxlength: 10,
-          tag: "recharge",
+          tag: 'recharge',
           isShow: false,
           rules: [
             {
               required: true,
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === "" || value === undefined || value === null) {
-                  callback(new Error("请输入必填项"));
+                if (value === '' || value === undefined || value === null) {
+                  callback(new Error('请输入必填项'));
                 } else {
                   if (value <= 0) {
-                    callback(new Error("需大于0"));
+                    callback(new Error('需大于0'));
                   } else {
                     const val =
-                      typeof value === "string"
+                      typeof value === 'string'
                         ? value.trim()
-                        : (value + "").trim();
+                        : (value + '').trim();
                     if (/^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~10位数值且最多保留两位小数"));
+                      callback(new Error('请输入1~10位数值且最多保留两位小数'));
                     }
                   }
                 }
@@ -578,150 +589,153 @@ export default {
           ]
         },
         {
-          type: "upload",
-          label: "余额变动凭证",
-          btnTxt: "上传凭证",
-          key: "fileUrl",
+          type: 'upload',
+          label: '余额变动凭证',
+          btnTxt: '上传凭证',
+          key: 'fileUrl',
           limit: 1,
-          defaultValue: "",
-          tip: "支持jpg/jpeg/png,大小在1M之内",
+          defaultValue: '',
+          tip: '支持jpg/jpeg/png,大小在1M之内',
           defaultFileList: [],
-          tag: "recharge",
+          tag: 'recharge',
           isShow: false,
-          accept: ["png", "jpg", "jpeg"],
+          accept: ['png', 'jpg', 'jpeg'],
           rules: [
             {
               required: true,
-              message: "请上传余额变动凭证",
-              trigger: ["blur", "change"]
+              message: '请上传余额变动凭证',
+              trigger: ['blur', 'change']
             }
           ]
         }
       ],
       formConfigTransfers: [
         {
-          type: "select",
-          label: "转移产品",
-          key: "chargeType",
+          type: 'select',
+          label: '转移产品',
+          key: 'chargeType',
           colSpan: 12,
           initDefaultValue: 1,
           defaultValue: 1,
-          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
+          optionData: [
+            { key: 1, value: '短信' },
+            { key: 2, value: '彩信' }
+          ],
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "接收账户编号",
-          key: "userIdTo",
-          btnTxt: "选择用户",
+          type: 'input',
+          label: '接收账户编号',
+          key: 'userIdTo',
+          btnTxt: '选择用户',
           disabled: true,
           colSpan: 12,
-          defaultValue: "",
+          defaultValue: '',
           // change: this.selectUser,
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "转移账户编号",
-          key: "userId",
-          btnTxt: "选择用户",
+          type: 'input',
+          label: '转移账户编号',
+          key: 'userId',
+          btnTxt: '选择用户',
           disabled: true,
-          defaultValue: "",
+          defaultValue: '',
           colSpan: 12,
           // change: this.selectUser,
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "当前接收账户名称",
-          key: "userNameTo",
+          type: 'input',
+          label: '当前接收账户名称',
+          key: 'userNameTo',
           colSpan: 12,
           disabled: true,
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "当前转移账户名称",
-          key: "userName",
+          type: 'input',
+          label: '当前转移账户名称',
+          key: 'userName',
           colSpan: 12,
           disabled: true,
-          defaultValue: "",
+          defaultValue: '',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
 
         {
-          type: "select",
-          label: "销售员签名",
-          key: "saleMan",
+          type: 'select',
+          label: '销售员签名',
+          key: 'saleMan',
           colSpan: 12,
           optionData: []
         },
         {
-          type: "textarea",
-          label: "备注",
+          type: 'textarea',
+          label: '备注',
           maxlength: 300,
           colSpan: 12,
-          key: "remark"
+          key: 'remark'
         },
         {
           isTitle: true,
-          title: "短信",
+          title: '短信',
           colSpan: 24
         },
         {
-          type: "input",
-          label: "转移条数",
-          key: "cardCount",
+          type: 'input',
+          label: '转移条数',
+          key: 'cardCount',
           rules: [
             {
               required: true,
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === "" || value === undefined || value === null) {
-                  callback(new Error("请输入必填项"));
+                if (value === '' || value === undefined || value === null) {
+                  callback(new Error('请输入必填项'));
                 } else {
                   if (value <= 0) {
-                    callback(new Error("需大于0"));
+                    callback(new Error('需大于0'));
                   } else {
                     const val =
-                      typeof value === "string"
+                      typeof value === 'string'
                         ? value.trim()
-                        : (value + "").trim();
+                        : (value + '').trim();
                     if (/^\d{1,12}$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("请输入1~12位的正整数"));
+                      callback(new Error('请输入1~12位的正整数'));
                     }
                   }
                 }
@@ -730,41 +744,41 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "转移方单价(分)",
+          type: 'input',
+          label: '转移方单价(分)',
           disabled: true,
-          key: "cardUnit",
+          key: 'cardUnit',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "转移金额(元)",
-          key: "cardMoney",
+          type: 'input',
+          label: '转移金额(元)',
+          key: 'cardMoney',
           rules: [
             {
               required: true,
-              trigger: ["blur", "change"],
+              trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === "" || value === undefined || value === null) {
-                  callback(new Error("请输入必填项"));
+                if (value === '' || value === undefined || value === null) {
+                  callback(new Error('请输入必填项'));
                 } else {
                   if (value <= 0) {
-                    callback(new Error("需大于0"));
+                    callback(new Error('需大于0'));
                   } else {
                     const val =
-                      typeof value === "string"
+                      typeof value === 'string'
                         ? value.trim()
-                        : (value + "").trim();
+                        : (value + '').trim();
                     if (/^(\d{1,10})$|^(\d{1,10}\.\d{1,2})$/.test(val)) {
                       callback();
                     } else {
-                      callback(new Error("输入大于0的数，小数点保留2位"));
+                      callback(new Error('输入大于0的数，小数点保留2位'));
                     }
                   }
                 }
@@ -774,34 +788,34 @@ export default {
         },
 
         {
-          type: "input",
-          label: "接收方单价(分)",
+          type: 'input',
+          label: '接收方单价(分)',
           disabled: true,
-          key: "cardUnitTo",
+          key: 'cardUnitTo',
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         },
         {
-          type: "input",
-          label: "接收条数",
-          key: "cardCountTo",
+          type: 'input',
+          label: '接收条数',
+          key: 'cardCountTo',
           disabled: true,
           rules: [
             {
               required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
+              message: '请输入必填项',
+              trigger: ['blur', 'change']
             }
           ]
         }
       ],
       isChooseUser: false,
-      chooseKey: ""
+      chooseKey: ''
     };
   },
   mounted() {
@@ -815,7 +829,7 @@ export default {
     isDisabled(row, status) {
       const { parentId, cardStatus } = row;
       //公共方法对返回属性为null的设置为'-'
-      if (parentId === "-") {
+      if (parentId === '-') {
         return cardStatus !== status ? true : false;
       } else {
         return true;
@@ -824,8 +838,8 @@ export default {
     //导出
     exportData(data) {
       this.$axios
-        .post("/sysPrepaidCard/exportPrepaidCard", { data })
-        .then(res => {
+        .post('/sysPrepaidCard/exportPrepaidCard', { data })
+        .then((res) => {
           if (res.data.code === 200) this.$exportToast();
         });
     },
@@ -836,23 +850,23 @@ export default {
     handleSuccess({ response, file, fileList, item }) {
       if (response.code == 200) {
         const { accept, size } = item;
-        let fileType = file.raw.name.split(".")[1];
+        let fileType = file.raw.name.split('.')[1];
         let fileSize = file.size;
         let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
         if (accept && accept.lenght != 0) {
           if (!accept.includes(fileType) || fileSize > isLt1M) {
-            this.$message.error("支持jpg/jpeg/png,大小在1M之内");
-            this.formConfig.forEach(item => {
-              if (item.key === "fileUrl") {
-                item.defaultValue = "";
+            this.$message.error('支持jpg/jpeg/png,大小在1M之内');
+            this.formConfig.forEach((item) => {
+              if (item.key === 'fileUrl') {
+                item.defaultValue = '';
                 item.defaultFileList = [];
               }
             });
             return false;
           }
         }
-        this.formConfig.forEach(item => {
-          if (item.key === "fileUrl") {
+        this.formConfig.forEach((item) => {
+          if (item.key === 'fileUrl') {
             item.defaultValue = response.data;
             item.defaultFileList = response.data;
           }
@@ -862,86 +876,86 @@ export default {
       }
     },
     handleRemove({ file, fileList }) {
-      this.formConfig.forEach(item => {
-        if (item.key === "fileUrl") {
-          item.defaultValue = "";
-          item.defaultFileList = "";
+      this.formConfig.forEach((item) => {
+        if (item.key === 'fileUrl') {
+          item.defaultValue = '';
+          item.defaultFileList = '';
         }
       });
     },
     handleExceed({ file, fileList }) {
-      this.$message.error("仅允许上传一张！");
+      this.$message.error('仅允许上传一张！');
     },
 
     //选择控制
     selectChange({ val, item }) {
-      if (item.key === "chargeType") {
-        this._deleteDefaultValue(this.formConfig, "cardMoney");
-        this._deleteDefaultValue(this.formConfig, "cardCount");
+      if (item.key === 'chargeType') {
+        this._deleteDefaultValue(this.formConfig, 'cardMoney');
+        this._deleteDefaultValue(this.formConfig, 'cardCount');
         if (val === 1) {
-          this.formConfig.forEach(item => {
+          this.formConfig.forEach((item) => {
             if (item.isTitle) {
-              item.title = "短信";
+              item.title = '短信';
             }
-            if (item.key === "cardUnit") {
+            if (item.key === 'cardUnit') {
               let data = this.chooseData;
               item.defaultValue =
-                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+                data.cardUnit && data.cardUnit !== '-' ? data.cardUnit : '';
             }
           });
         } else {
-          this.formConfig.forEach(item => {
+          this.formConfig.forEach((item) => {
             if (item.isTitle) {
-              item.title = "彩信";
+              item.title = '彩信';
             }
-            if (item.key === "cardUnit") {
+            if (item.key === 'cardUnit') {
               let data = this.chooseData;
               item.defaultValue =
-                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                data.mmsCardUnit && data.mmsCardUnit !== '-'
                   ? data.mmsCardUnit
-                  : "";
+                  : '';
             }
           });
         }
       }
       // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
-      if (item.key === "paidWay") {
-        this._deleteDefaultValue(this.formConfig, "cardMoney");
-        this.formConfig.forEach(item => {
-          if (val === "0" || val === 3) {
-            if (val === "0") {
-              if (item.key === "cardMoney") {
-                item.label = "充值金额(元)";
+      if (item.key === 'paidWay') {
+        this._deleteDefaultValue(this.formConfig, 'cardMoney');
+        this.formConfig.forEach((item) => {
+          if (val === '0' || val === 3) {
+            if (val === '0') {
+              if (item.key === 'cardMoney') {
+                item.label = '充值金额(元)';
               }
             } else if (val === 3) {
-              if (item.key === "cardMoney") {
-                item.label = "还款金额(元)";
+              if (item.key === 'cardMoney') {
+                item.label = '还款金额(元)';
               }
             }
-            this._setDisplayShow(this.formConfig, "direction", false);
-            this._setDisplayShow(this.formConfig, "factcardMoney", false);
-            this._setDisplayShow(this.formConfig, "fileUrl", false);
+            this._setDisplayShow(this.formConfig, 'direction', false);
+            this._setDisplayShow(this.formConfig, 'factcardMoney', false);
+            this._setDisplayShow(this.formConfig, 'fileUrl', false);
           } else {
             if (val === 1) {
-              if (item.key === "cardMoney") {
-                item.label = "授信金额(元)";
+              if (item.key === 'cardMoney') {
+                item.label = '授信金额(元)';
               }
             } else if (val === 4) {
-              if (item.key === "cardMoney") {
-                item.label = "清授信金额(元)";
+              if (item.key === 'cardMoney') {
+                item.label = '清授信金额(元)';
               }
             } else if (val === 6) {
-              if (item.key === "cardMoney") {
-                item.label = "余额+金额(元)";
+              if (item.key === 'cardMoney') {
+                item.label = '余额+金额(元)';
               }
             } else if (val === 2) {
-              if (item.key === "cardMoney") {
-                item.label = "余额-金额(元)";
+              if (item.key === 'cardMoney') {
+                item.label = '余额-金额(元)';
               }
             }
-            this._setDisplayShow(this.formConfig, "direction", true);
-            this._setDisplayShow(this.formConfig, "factcardMoney", true);
-            this._setDisplayShow(this.formConfig, "fileUrl", true);
+            this._setDisplayShow(this.formConfig, 'direction', true);
+            this._setDisplayShow(this.formConfig, 'factcardMoney', true);
+            this._setDisplayShow(this.formConfig, 'fileUrl', true);
           }
         });
       }
@@ -954,43 +968,43 @@ export default {
       // }
     },
     selectChangeShift({ val, item }) {
-      if (item.key === "chargeType") {
-        this._deleteDefaultValue(this.formConfigTransfers, "cardCount");
+      if (item.key === 'chargeType') {
+        this._deleteDefaultValue(this.formConfigTransfers, 'cardCount');
         if (val === 1) {
-          this.formConfigTransfers.forEach(item => {
+          this.formConfigTransfers.forEach((item) => {
             if (item.isTitle) {
-              item.title = "短信";
+              item.title = '短信';
             }
-            if (item.key === "cardUnit") {
+            if (item.key === 'cardUnit') {
               let data = this.shiftChooseData;
               item.defaultValue =
-                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+                data.cardUnit && data.cardUnit !== '-' ? data.cardUnit : '';
             }
-            if (item.key === "cardUnitTo") {
+            if (item.key === 'cardUnitTo') {
               let data = this.chooseDataTo;
               item.defaultValue =
-                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+                data.cardUnit && data.cardUnit !== '-' ? data.cardUnit : '';
             }
             //shiftChooseData
           });
         } else {
-          this.formConfigTransfers.forEach(item => {
+          this.formConfigTransfers.forEach((item) => {
             if (item.isTitle) {
-              item.title = "彩信";
+              item.title = '彩信';
             }
-            if (item.key === "cardUnit") {
+            if (item.key === 'cardUnit') {
               let data = this.shiftChooseData;
               item.defaultValue =
-                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                data.mmsCardUnit && data.mmsCardUnit !== '-'
                   ? data.mmsCardUnit
-                  : "";
+                  : '';
             }
-            if (item.key === "cardUnitTo") {
+            if (item.key === 'cardUnitTo') {
               let data = this.chooseDataTo;
               item.defaultValue =
-                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                data.mmsCardUnit && data.mmsCardUnit !== '-'
                   ? data.mmsCardUnit
-                  : "";
+                  : '';
             }
           });
         }
@@ -1000,12 +1014,12 @@ export default {
       let params = {
         cardId: row.cardId
       };
-      this.$http.sysRecharge.withdraw({ ...params }).then(res => {
+      this.$http.sysRecharge.withdraw({ ...params }).then((res) => {
         if (res.code == 200) {
-          this.$message.success("操作成功");
+          this.$message.success('操作成功');
           this._mxGetList();
         } else {
-          this.$message.error("操作失败");
+          this.$message.error('操作失败');
         }
       });
     },
@@ -1020,50 +1034,50 @@ export default {
       row = this._mxArrangeEditData(row);
       this.id = row[ID];
       this.editId = ID;
-      this.formTit = "修改";
+      this.formTit = '修改';
       const val = row.paidWay;
       const productType = row.productType;
 
-      this.formConfig.forEach(item => {
+      this.formConfig.forEach((item) => {
         for (let key in row) {
           if (item.key === key) {
-            this.$set(item, "defaultValue", row[key]);
-            if (key === "fileUrl" && row[key]) {
+            this.$set(item, 'defaultValue', row[key]);
+            if (key === 'fileUrl' && row[key]) {
               let file = [
                 {
-                  name: "凭证",
+                  name: '凭证',
                   url: row[key]
                 }
               ];
-              this.$set(item, "defaultFileList", file);
+              this.$set(item, 'defaultFileList', file);
             }
           }
         }
         if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
+          this.$set(item, 'defaultValue', '');
         }
-        if (item.key === "reductType") {
+        if (item.key === 'reductType') {
           if (item.defaultValue === 2) {
-            this._setDisplayShow(this.formConfig, "corporateId", false);
+            this._setDisplayShow(this.formConfig, 'corporateId', false);
           } else {
-            this._setDisplayShow(this.formConfig, "corporateId", true);
+            this._setDisplayShow(this.formConfig, 'corporateId', true);
           }
         }
         let disabledFormLables = [
-          "paidWay",
-          "chargeType",
-          "userId",
-          "corporateId",
-          "userName",
-          "reductType",
-          "cardUnit"
+          'paidWay',
+          'chargeType',
+          'userId',
+          'corporateId',
+          'userName',
+          'reductType',
+          'cardUnit'
         ];
-        disabledFormLables.forEach(el => {
+        disabledFormLables.forEach((el) => {
           if (item.key === el) {
-            this.$set(item, "disabled", true);
+            this.$set(item, 'disabled', true);
           }
-          if (item.key === "userId") {
-            this.$set(item, "btnDisabled", true);
+          if (item.key === 'userId') {
+            this.$set(item, 'btnDisabled', true);
           }
         });
         // if (item.key !== "remark" && item.key !== "saleMan") {
@@ -1074,40 +1088,40 @@ export default {
         // }
 
         // 0、充值 1、授信 2、余额- 3、还款 4、清授信 6、余额+
-        if (val === "0" || val === 3) {
-          if (val === "0") {
-            if (item.key === "cardMoney") {
-              item.label = "充值金额(元)";
+        if (val === '0' || val === 3) {
+          if (val === '0') {
+            if (item.key === 'cardMoney') {
+              item.label = '充值金额(元)';
             }
           } else if (val === 3) {
-            if (item.key === "cardMoney") {
-              item.label = "还款金额(元)";
+            if (item.key === 'cardMoney') {
+              item.label = '还款金额(元)';
             }
           }
-          this._setDisplayShow(this.formConfig, "direction", false);
-          this._setDisplayShow(this.formConfig, "factcardMoney", false);
-          this._setDisplayShow(this.formConfig, "fileUrl", false);
+          this._setDisplayShow(this.formConfig, 'direction', false);
+          this._setDisplayShow(this.formConfig, 'factcardMoney', false);
+          this._setDisplayShow(this.formConfig, 'fileUrl', false);
         } else {
           if (val === 1) {
-            if (item.key === "cardMoney") {
-              item.label = "授信金额(元)";
+            if (item.key === 'cardMoney') {
+              item.label = '授信金额(元)';
             }
           } else if (val === 4) {
-            if (item.key === "cardMoney") {
-              item.label = "清授信金额(元)";
+            if (item.key === 'cardMoney') {
+              item.label = '清授信金额(元)';
             }
           } else if (val === 6) {
-            if (item.key === "cardMoney") {
-              item.label = "余额+金额(元)";
+            if (item.key === 'cardMoney') {
+              item.label = '余额+金额(元)';
             }
           } else if (val === 2) {
-            if (item.key === "cardMoney") {
-              item.label = "余额-金额(元)";
+            if (item.key === 'cardMoney') {
+              item.label = '余额-金额(元)';
             }
           }
-          this._setDisplayShow(this.formConfig, "direction", true);
-          this._setDisplayShow(this.formConfig, "factcardMoney", true);
-          this._setDisplayShow(this.formConfig, "fileUrl", true);
+          this._setDisplayShow(this.formConfig, 'direction', true);
+          this._setDisplayShow(this.formConfig, 'factcardMoney', true);
+          this._setDisplayShow(this.formConfig, 'fileUrl', true);
         }
       });
       setTimeout(() => {
@@ -1124,38 +1138,38 @@ export default {
 
     _mxCreate() {
       this.addChannel = true;
-      this.formTit = "新增";
+      this.formTit = '新增';
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
       //设置商户显示
-      this._setDisplayShow(this.formConfig, "corporateId", true);
-      this._setDisplayShow(this.formConfig, "cardMoney", false);
-      this._setDisplayShow(this.formConfig, "direction", false);
-      this._setDisplayShow(this.formConfig, "factcardMoney", false);
-      this._setDisplayShow(this.formConfig, "fileUrl", false);
+      this._setDisplayShow(this.formConfig, 'corporateId', true);
+      this._setDisplayShow(this.formConfig, 'cardMoney', false);
+      this._setDisplayShow(this.formConfig, 'direction', false);
+      this._setDisplayShow(this.formConfig, 'factcardMoney', false);
+      this._setDisplayShow(this.formConfig, 'fileUrl', false);
       this.chooseData = {};
       // 初始上传文件为空
-      this.formConfig.forEach(item => {
-        if (item.key === "chargeType") {
-          this.$set(item.optionData[0], "disabled", false);
-          this.$set(item.optionData[1], "disabled", false);
+      this.formConfig.forEach((item) => {
+        if (item.key === 'chargeType') {
+          this.$set(item.optionData[0], 'disabled', false);
+          this.$set(item.optionData[1], 'disabled', false);
         }
-        if (item.key !== "remark" && item.key !== "saleMan") {
-          this.$set(item, "disabled", false);
-          if (item.key === "userId") {
-            this.$set(item, "btnDisabled", false);
-            this.$set(item, "disabled", true);
+        if (item.key !== 'remark' && item.key !== 'saleMan') {
+          this.$set(item, 'disabled', false);
+          if (item.key === 'userId') {
+            this.$set(item, 'btnDisabled', false);
+            this.$set(item, 'disabled', true);
           }
-          if (item.key === "userName") {
-            this.$set(item, "disabled", true);
+          if (item.key === 'userName') {
+            this.$set(item, 'disabled', true);
           }
         }
-        if (item.key === "fileUrl") {
+        if (item.key === 'fileUrl') {
           item.defaultFileList = [];
         }
-        if (item.key === "cardMoney") {
-          item.label = "充值金额(元)";
+        if (item.key === 'cardMoney') {
+          item.label = '充值金额(元)';
         }
       });
     },
@@ -1173,21 +1187,21 @@ export default {
     },
     //获取销售员
     getSaleman() {
-      this.$http.sysSales.queryAvailableSaleman().then(res => {
+      this.$http.sysSales.queryAvailableSaleman().then((res) => {
         if (resOk(res)) {
           this._setDefaultValue(
             this.formConfig,
             res.data,
-            "saleMan",
-            "userName",
-            "actualName"
+            'saleMan',
+            'userName',
+            'actualName'
           );
           this._setDefaultValue(
             this.formConfigTransfers,
             res.data,
-            "saleMan",
-            "userName",
-            "actualName"
+            'saleMan',
+            'userName',
+            'actualName'
           );
         }
       });
@@ -1200,7 +1214,7 @@ export default {
     _mxArrangeEditData(row) {
       for (let key in row) {
         if (row[key] === 0) {
-          row[key] = "0";
+          row[key] = '0';
         }
       }
       return row;
@@ -1210,51 +1224,51 @@ export default {
       const { val, item } = data;
       // 单价 金额 条数 相互计算
       // 权重为 单价>条数>金额
-      let cardMoney = ""; //金额
-      let cardUnit = ""; //单价
-      let cardCount = ""; //条数
+      let cardMoney = ''; //金额
+      let cardUnit = ''; //单价
+      let cardCount = ''; //条数
       if (
-        item.key === "cardMoney" ||
-        item.key === "cardUnit" ||
-        item.key === "cardCount"
+        item.key === 'cardMoney' ||
+        item.key === 'cardUnit' ||
+        item.key === 'cardCount'
       ) {
-        this.formConfig.forEach(el => {
+        this.formConfig.forEach((el) => {
           // 获取默认值
-          if (el.key === "cardUnit") {
+          if (el.key === 'cardUnit') {
             cardUnit = Number(el.defaultValue);
-          } else if (el.key === "cardMoney") {
+          } else if (el.key === 'cardMoney') {
             cardMoney = Number(el.defaultValue);
-          } else if (el.key === "cardCount") {
+          } else if (el.key === 'cardCount') {
             cardCount = Number(el.defaultValue);
           }
         });
       }
 
-      if (item.key === "cardMoney") {
+      if (item.key === 'cardMoney') {
         if (cardUnit) {
           let num = parseInt((cardMoney * 100) / cardUnit);
-          this._setDefaultValue(this.formConfig, [], "cardCount", num);
+          this._setDefaultValue(this.formConfig, [], 'cardCount', num);
         } else if (cardCount) {
           let num = parseInt((cardMoney * 100) / cardCount);
-          this._setDefaultValue(this.formConfig, [], "cardUnit", num);
+          this._setDefaultValue(this.formConfig, [], 'cardUnit', num);
         }
       }
-      if (item.key === "cardUnit") {
+      if (item.key === 'cardUnit') {
         if (cardCount) {
           let cardMoney = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
-          this._setDefaultValue(this.formConfig, [], "cardMoney", cardMoney);
+          this._setDefaultValue(this.formConfig, [], 'cardMoney', cardMoney);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardUnit);
-          this._setDefaultValue(this.formConfig, [], "cardCount", num);
+          this._setDefaultValue(this.formConfig, [], 'cardCount', num);
         }
       }
-      if (item.key === "cardCount") {
+      if (item.key === 'cardCount') {
         if (cardUnit) {
           let num = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
-          this._setDefaultValue(this.formConfig, [], "cardMoney", num);
+          this._setDefaultValue(this.formConfig, [], 'cardMoney', num);
         } else if (cardMoney) {
           let num = parseInt((cardMoney * 100) / cardCount);
-          this._setDefaultValue(this.formConfig, [], "cardUnit", num);
+          this._setDefaultValue(this.formConfig, [], 'cardUnit', num);
         }
       }
     },
@@ -1263,47 +1277,47 @@ export default {
       const { val, item } = data;
       // 单价 金额 条数 相互计算
       // 权重为 单价>条数>金额
-      let cardMoney = ""; //金额
-      let cardUnit = ""; //单价
-      let cardUnitTo = ""; //接收方单价
-      let cardCount = ""; //条数
-      if (item.key === "cardMoney" || item.key === "cardCount") {
-        this.formConfigTransfers.forEach(el => {
+      let cardMoney = ''; //金额
+      let cardUnit = ''; //单价
+      let cardUnitTo = ''; //接收方单价
+      let cardCount = ''; //条数
+      if (item.key === 'cardMoney' || item.key === 'cardCount') {
+        this.formConfigTransfers.forEach((el) => {
           // 获取默认值
-          if (el.key === "cardUnit") {
+          if (el.key === 'cardUnit') {
             cardUnit = el.defaultValue;
-          } else if (el.key === "cardMoney") {
+          } else if (el.key === 'cardMoney') {
             cardMoney = el.defaultValue;
-          } else if (el.key === "cardCount") {
+          } else if (el.key === 'cardCount') {
             cardCount = el.defaultValue;
-          } else if (el.key === "cardUnitTo") {
+          } else if (el.key === 'cardUnitTo') {
             cardUnitTo = el.defaultValue;
           }
         });
       }
 
-      if (item.key === "cardMoney") {
+      if (item.key === 'cardMoney') {
         if (cardUnit && cardUnitTo) {
           let num = Math.round((cardMoney * 100) / cardUnit);
-          this._setDefaultValue(this.formConfigTransfers, [], "cardCount", num);
+          this._setDefaultValue(this.formConfigTransfers, [], 'cardCount', num);
           let count = parseInt((cardMoney * 100) / cardUnitTo);
           this._setDefaultValue(
             this.formConfigTransfers,
             [],
-            "cardCountTo",
+            'cardCountTo',
             count
           );
         }
       }
-      if (item.key === "cardCount") {
+      if (item.key === 'cardCount') {
         if (cardUnit && cardUnitTo) {
           let num = parseFloat((cardUnit * cardCount) / 100).toFixed(2);
-          this._setDefaultValue(this.formConfigTransfers, [], "cardMoney", num);
+          this._setDefaultValue(this.formConfigTransfers, [], 'cardMoney', num);
           let count = parseInt((num * 100) / cardUnitTo);
           this._setDefaultValue(
             this.formConfigTransfers,
             [],
-            "cardCountTo",
+            'cardCountTo',
             count
           );
         }
@@ -1316,109 +1330,109 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      let chargeType = "";
-      let chargeTypeJs = "";
-      this._deleteDefaultValue(this.formConfig, "cardMoney");
+      let chargeType = '';
+      let chargeTypeJs = '';
+      this._deleteDefaultValue(this.formConfig, 'cardMoney');
       this.chooseData = data;
       let productType = data.productType;
       let reductModel = data.reductModel;
 
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
-        if (key === "paidWay") {
+        if (key === 'paidWay') {
           if (reductModel === 3 || reductModel === 4) {
             if ([1, 4, 6, 2].includes(t.defaultValue)) {
-              t.defaultValue = "";
+              t.defaultValue = '';
             }
-            this.$set(t.optionData[2], "disabled", true);
-            this.$set(t.optionData[3], "disabled", true);
-            this.$set(t.optionData[4], "disabled", true);
-            this.$set(t.optionData[5], "disabled", true);
+            this.$set(t.optionData[2], 'disabled', true);
+            this.$set(t.optionData[3], 'disabled', true);
+            this.$set(t.optionData[4], 'disabled', true);
+            this.$set(t.optionData[5], 'disabled', true);
           } else {
-            t.optionData.forEach(v => {
+            t.optionData.forEach((v) => {
               v.disabled = false;
             });
           }
         }
-        if (key === "chargeType") {
-          t.defaultValue = "";
+        if (key === 'chargeType') {
+          t.defaultValue = '';
           if (productType == 1) {
-            this.$set(t.optionData[0], "disabled", false);
-            this.$set(t.optionData[1], "disabled", true);
+            this.$set(t.optionData[0], 'disabled', false);
+            this.$set(t.optionData[1], 'disabled', true);
           } else if (productType == 2) {
-            this.$set(t.optionData[0], "disabled", true);
-            this.$set(t.optionData[1], "disabled", false);
+            this.$set(t.optionData[0], 'disabled', true);
+            this.$set(t.optionData[1], 'disabled', false);
           } else {
-            this.$set(t.optionData[0], "disabled", false);
-            this.$set(t.optionData[1], "disabled", false);
+            this.$set(t.optionData[0], 'disabled', false);
+            this.$set(t.optionData[1], 'disabled', false);
           }
         }
-        if (key === "userId") {
+        if (key === 'userId') {
           t.defaultValue = data.userId;
         }
-        if (key === "userName") {
+        if (key === 'userName') {
           t.defaultValue = data.userName;
         }
-        if (key === "corporateId") {
+        if (key === 'corporateId') {
           t.defaultValue = data.corpId;
         }
-        if (key === "chargeType") {
+        if (key === 'chargeType') {
           chargeType = t.defaultValue;
         }
-        if (key === "cardUnit") {
+        if (key === 'cardUnit') {
           if (chargeType == 2) {
             t.defaultValue =
-              data.mmsCardUnit && data.mmsCardUnit !== "-"
+              data.mmsCardUnit && data.mmsCardUnit !== '-'
                 ? data.mmsCardUnit
-                : "";
+                : '';
           } else {
             t.defaultValue =
-              data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+              data.cardUnit && data.cardUnit !== '-' ? data.cardUnit : '';
           }
         }
       });
-      this.formConfigTransfers.map(t => {
+      this.formConfigTransfers.map((t) => {
         const { key } = t;
 
-        if (key === "chargeType") {
+        if (key === 'chargeType') {
           chargeTypeJs = t.defaultValue;
         }
-        if (this.chooseKey === "userId") {
+        if (this.chooseKey === 'userId') {
           this.shiftChooseData = data;
-          if (key === "userId") {
+          if (key === 'userId') {
             t.defaultValue = data.userId;
           }
-          if (key === "userName") {
+          if (key === 'userName') {
             t.defaultValue = data.userName;
           }
-          if (key === "cardUnit") {
+          if (key === 'cardUnit') {
             if (chargeTypeJs == 2) {
               t.defaultValue =
-                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                data.mmsCardUnit && data.mmsCardUnit !== '-'
                   ? data.mmsCardUnit
-                  : "";
+                  : '';
             } else {
               t.defaultValue =
-                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+                data.cardUnit && data.cardUnit !== '-' ? data.cardUnit : '';
             }
           }
-        } else if (this.chooseKey === "userIdTo") {
+        } else if (this.chooseKey === 'userIdTo') {
           this.chooseDataTo = data;
-          if (key === "userIdTo") {
+          if (key === 'userIdTo') {
             t.defaultValue = data.userId;
           }
-          if (key === "userNameTo") {
+          if (key === 'userNameTo') {
             t.defaultValue = data.userName;
           }
-          if (key === "cardUnitTo") {
+          if (key === 'cardUnitTo') {
             if (chargeTypeJs == 2) {
               t.defaultValue =
-                data.mmsCardUnit && data.mmsCardUnit !== "-"
+                data.mmsCardUnit && data.mmsCardUnit !== '-'
                   ? data.mmsCardUnit
-                  : "";
+                  : '';
             } else {
               t.defaultValue =
-                data.cardUnit && data.cardUnit !== "-" ? data.cardUnit : "";
+                data.cardUnit && data.cardUnit !== '-' ? data.cardUnit : '';
             }
           }
         }
@@ -1437,7 +1451,7 @@ export default {
           ...form
         }
       };
-      this.$http.sysRecharge.refundPrepaidCard(params).then(res => {
+      this.$http.sysRecharge.refundPrepaidCard(params).then((res) => {
         if (resOk(res)) {
           this.$message.success(res.msg);
           this.transfersDialog = false;

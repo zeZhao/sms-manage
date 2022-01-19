@@ -19,7 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="status" label="状态码" />
@@ -36,6 +36,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {

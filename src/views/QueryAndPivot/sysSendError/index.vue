@@ -3,8 +3,10 @@
   <div class="sysSendError">
     <Search
       :searchFormConfig="searchFormConfig"
+      :isOther="true"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     >
       <template v-slot:Other="form">
         <el-button type="primary" size="small" @click="editContent"
@@ -20,18 +22,18 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="loginName" label="账户名称" />
-      <el-table-column prop="content" label="内容" />
-      <el-table-column prop="mobile" label="手机号" width="120" />
+      <el-table-column prop="loginName" label="账户名称" width="120" />
+      <el-table-column prop="content" label="内容" width="310" />
+      <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="gateway" label="通道" />
       <el-table-column prop="errCode" label="错误码" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="err" label="错误描述" />
       <el-table-column prop="submitTime" label="提交时间" width="150">
         <template slot-scope="scope">{{
@@ -49,6 +51,7 @@
       :visible.sync="content"
       :close-on-click-modal="false"
       style="margin: 0 auto"
+      width="80%"
     >
       <FormItem
         :colSpan="12"
@@ -64,7 +67,7 @@
       :visible.sync="gateway"
       :close-on-click-modal="false"
       style="margin: 0 auto"
-      width="55%"
+      width="80%"
     >
       <FormItem
         :colSpan="12"
@@ -85,6 +88,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       content: false,
       gateway: false,
       // 接口地址
@@ -270,7 +274,7 @@ export default {
     submitContent(form) {
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success(res.msg || "修改成功！");
+          this.$message.success("修改成功！");
           this._mxGetList();
           this.content = false;
         } else {
@@ -293,7 +297,7 @@ export default {
       // }
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success(res.msg || "修改成功！");
+          this.$message.success("修改成功！");
           this._mxGetList();
           this.gateway = false;
         } else {

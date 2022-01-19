@@ -33,7 +33,7 @@
       <svg-icon icon-class="12" /> 
     </div> -->
 
-    <el-row>
+    <el-row v-if="isSale">
       <el-col :span="12" style="border-right:1px solid gray">
         <el-row>
           <el-col :span="14"><h3>运营商统计图（单位:万条）</h3></el-col>
@@ -61,7 +61,7 @@
         <div id="chart_send"></div>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row v-if="isSale">
       <el-col :span="24">
         <el-row>
           <el-col :span="14"><h3>区域统计图（单位:万条）</h3></el-col>
@@ -75,6 +75,7 @@
         <div id="chart_area"></div>
       </el-col>
     </el-row>
+    <h1 v-if="!isSale">欢迎进入短信运营平台</h1>
     <el-dialog
       title="温馨提示"
       :visible.sync="dialogVisible"
@@ -332,7 +333,8 @@ export default {
         ]
       },
       status: Cookies.get("status"),
-      info: JSON.parse(Cookies.get("info"))
+      info: JSON.parse(Cookies.get("info")),
+      isSale: true
     };
   },
   computed: {
@@ -345,10 +347,11 @@ export default {
     if (this.status == 0) {
       this.dialogVisible = true;
     }
-    const { account, name, suId } = this.info;
+    const { account, name, suId, roleName } = this.info;
     this.form.account = account;
     this.form.name = name;
     this.form.suId = suId;
+    this.isSale = roleName.indexOf("销售") === -1 ? true : false;
     //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
     // window.addEventListener("resize", function() {
     //   chartOperator.resize();

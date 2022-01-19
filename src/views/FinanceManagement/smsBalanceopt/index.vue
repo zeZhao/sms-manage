@@ -8,6 +8,7 @@
       @exportData="exportData"
       @create="create"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button
@@ -24,7 +25,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -56,11 +57,16 @@
       </el-table-column> -->
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
-          <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
+          <span>{{ scope.row.chargeType === 1 ? '短信' : '彩信' }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column prop="debt" label="失败退款"  /> -->
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
       <el-table-column prop="operatorName" label="操作人名称" width="100" />
       <el-table-column prop="createTime" label="操作时间" width="135">
         <template slot-scope="scope">{{
@@ -97,46 +103,48 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
+import listMixin from '@/mixin/listMixin';
+import { getDateToString } from '@/utils';
 
 export default {
   mixins: [listMixin],
   data() {
     const validatorRemark = (rule, value, callback) => {
       let regex = /^[\u4e00-\u9fa5_\d0-9a-zA-Z!@#$%^&*~]{0,300}$/;
-      if (value == "") {
-        callback(new Error("备注信息不能为空"));
+      if (value == '') {
+        callback(new Error('备注信息不能为空'));
       } else {
         if (!regex.test(value)) {
-          callback(new Error("支持汉字/数字/字母/标点符号"));
+          callback(new Error('支持汉字/数字/字母/标点符号'));
         } else {
           callback();
         }
       }
     };
     return {
-      formTit: "新增",
+      notSearch: true,
+      formTit: '新增',
       addChannel: false,
       //接口地址
       searchAPI: {
-        namespace: "smsBalanceopt",
-        list: "queryByPage"
+        namespace: 'smsBalanceopt',
+        list: 'queryByPage'
       },
       // 列表参数
-      namespace: "balanceopt",
+      namespace: 'balanceopt',
       //搜索框数据
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
         {
-          type: "inputNum",
-          label: "账户编号",
-          key: "userId"
+          type: 'inputNum',
+          label: '账户编号',
+          key: 'userId'
         },
         {
-          type: "input",
-          label: "账户名称",
-          key: "userName"
+          type: 'input',
+          label: '账户名称',
+          key: 'userName'
         },
         // {
         //   type: "select",
@@ -172,106 +180,107 @@ export default {
         //   ]
         // },
         {
-          type: "select",
-          label: "产品",
-          key: "chargeType",
+          type: 'select',
+          label: '产品',
+          key: 'chargeType',
           optionData: [
             {
               key: 1,
-              value: "短信"
+              value: '短信'
             },
             {
               key: 2,
-              value: "彩信"
+              value: '彩信'
             }
           ]
         },
         {
-          type: "daterange",
-          label: "日期",
-          key: ["", "startTime", "endTime"]
+          type: 'daterange',
+          label: '日期',
+          key: ['', 'startTime', 'endTime'],
+          defaultValue: ['', getDateToString(), getDateToString()]
         }
       ],
       // 表单配置
       formConfig: [
         {
-          type: "input",
-          label: "账户编号",
-          key: "userId",
-          btnTxt: "选择用户",
+          type: 'input',
+          label: '账户编号',
+          key: 'userId',
+          btnTxt: '选择用户',
           disabled: true,
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          defaultValue: '',
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "input",
-          label: "商户编号",
-          key: "corpId",
+          type: 'input',
+          label: '商户编号',
+          key: 'corpId',
           disabled: true,
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          defaultValue: '',
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "select",
-          label: "计费类型",
-          key: "reductType",
+          type: 'select',
+          label: '计费类型',
+          key: 'reductType',
           optionData: [
             {
               key: 1,
-              value: "账户计费"
+              value: '账户计费'
             },
             {
               key: 2,
-              value: "商户id计费"
+              value: '商户id计费'
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "select",
-          label: "信息类型",
-          key: "chargeType",
+          type: 'select',
+          label: '信息类型',
+          key: 'chargeType',
           optionData: [
             {
-              key: "1",
-              value: "短信"
+              key: '1',
+              value: '短信'
             }
             // {
             //   key: "2",
             //   value: "彩信"
             // }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "select",
-          label: "操作类型",
-          key: "optType",
+          type: 'select',
+          label: '操作类型',
+          key: 'optType',
           optionData: [
             // { key: 1, value: "充值" },
-            { key: 5, value: "借款" },
-            { key: 3, value: "扣款" }
+            { key: 5, value: '借款' },
+            { key: 3, value: '扣款' }
             // { key: 2, value: "还款" },
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "input",
-          label: "当前操作条数",
-          key: "optBalance",
+          type: 'input',
+          label: '当前操作条数',
+          key: 'optBalance',
           maxlength: 10,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
+            { required: true, message: '请输入必填项', trigger: 'blur' },
             {
               pattern: /^\+?[1-9]\d*$/,
-              message: "请输入大于0的正整数",
-              trigger: "change"
+              message: '请输入大于0的正整数',
+              trigger: 'change'
             },
             {
-              trigger: "change",
+              trigger: 'change',
               validator: (rule, value, callback) => {
                 if (value > 1000000000) {
-                  callback(new Error("不能超过1000000000"));
+                  callback(new Error('不能超过1000000000'));
                 } else {
                   callback();
                 }
@@ -280,17 +289,17 @@ export default {
           ]
         },
         {
-          type: "textarea",
-          label: "备注信息",
-          key: "remark",
+          type: 'textarea',
+          label: '备注信息',
+          key: 'remark',
           maxlength: 300,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" }
+            { required: true, message: '请输入必填项', trigger: 'blur' }
             // { trigger: "blur", validator: validatorRemark },
           ]
         }
       ],
-      ugId: "",
+      ugId: '',
       GatewayList: [], // 通道列表
       isChooseUser: false
     };
@@ -301,34 +310,36 @@ export default {
     exportData(form) {
       const data = { data: { ...this.pageObj, ...form } };
       delete data.total;
-      this.$axios.post("/smsBalanceopt/exportSmsBalanceopt", data).then(res => {
-        if (res.data.code === 200) this.$exportToast();
-      });
+      this.$axios
+        .post('/smsBalanceopt/exportSmsBalanceopt', data)
+        .then((res) => {
+          if (res.data.code === 200) this.$exportToast();
+        });
     },
     exportExe() {
       this.$refs.Search.handleExport();
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      this.formConfig.map((t) => {
         const { key } = t;
-        if (key === "userId") {
+        if (key === 'userId') {
           t.defaultValue = data.userId;
         }
-        if (key === "corpId") {
+        if (key === 'corpId') {
           t.defaultValue = data.corpId;
         }
       });
     },
     submit(form) {
       let params = {};
-      if (this.formTit == "新增") {
+      if (this.formTit == '新增') {
         params = {
           ...form
           // userId:"5826",
           // corpId:"3",
         };
-        this.$http.smsBalanceopt.add(params).then(res => {
+        this.$http.smsBalanceopt.add(params).then((res) => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
             this._mxGetList();
@@ -342,22 +353,22 @@ export default {
     },
     create() {
       this.addChannel = true;
-      this.formTit = "新增";
+      this.formTit = '新增';
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
     },
     edit(row) {
       this.ugId = row.ugId;
-      this.formTit = "修改";
-      this.formConfig.forEach(item => {
+      this.formTit = '修改';
+      this.formConfig.forEach((item) => {
         for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
+          if (item.key === key && row[key] !== '-') {
+            this.$set(item, 'defaultValue', row[key]);
           }
         }
         if (!Object.keys(row).includes(item.key)) {
-          this.$set(item, "defaultValue", "");
+          this.$set(item, 'defaultValue', '');
         }
       });
 

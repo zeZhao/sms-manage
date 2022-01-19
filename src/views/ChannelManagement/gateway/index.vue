@@ -2,16 +2,27 @@
   <!--短信通道-->
   <div class="gateway">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
-    ></Search>
+      @exportData="_mxExportData"
+    >
+      <template slot="Other">
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="gateway" label="通道编号" />
@@ -25,6 +36,8 @@
       <el-table-column prop="provinceName" label="省份" />
       <el-table-column prop="sendTo" label="运营商" />
       <el-table-column prop="unitPrice" label="价格(分)" width="100" />
+      <el-table-column prop="companyName" label="供应商" />
+      <el-table-column prop="supplierId" label="供应商编号" width="90" />
       <el-table-column prop="type" label="通道类型" width="100">
         <template slot-scope="scope">
           <span>{{ renderType(scope.row.type) }}</span>
@@ -56,10 +69,15 @@
       <!-- <el-table-column prop="charger" label="通道负责人" width="90"  /> -->
       <!-- <el-table-column prop="priority" label="优先级"  /> -->
       <el-table-column prop="clientId" label="账号" />
-      <el-table-column prop="remark" label="备注" />
-      <el-table-column prop="remark" label="通道状态">
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
+      <el-table-column prop="serverStatus" label="通道状态">
         <template slot-scope="scope">
-          <el-switch
+          <!-- <el-switch
             v-if="scope.row.remark.indexOf('【手动】') === -1"
             v-model="scope.row.serverStatus"
             active-color="#13ce66"
@@ -71,10 +89,11 @@
                 switchChange(val, scope.row.gateway);
               }
             "
-          ></el-switch>
+          ></el-switch> -->
+          <span>{{ scope.row.serverStatus ? "开启" : "关闭" }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="smsTags" label="标签" width="100">
+      <el-table-column prop="smsTags" label="标签" width="150">
         <template slot-scope="scope">
           <span v-if="scope.row.smsTags.length">
             <span v-for="(item, index) in scope.row.smsTags" :key="index">
@@ -84,7 +103,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="230">
         <template slot-scope="scope">
           <el-button
             v-if="!scope.row.smsTags.length"
@@ -107,7 +126,23 @@
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('gatewayId', scope.row.gatewayId)"
+            v-if="!scope.row.serverStatus"
+            @click="switchChange(1, scope.row.gateway)"
+            :disabled="!!(scope.row.remark.indexOf('【手动】') !== -1)"
+            type="text"
+            size="small"
+            >开启</el-button
+          >
+          <el-button
+            v-if="scope.row.serverStatus"
+            @click="switchChange(0, scope.row.gateway)"
+            :disabled="!!(scope.row.remark.indexOf('【手动】') !== -1)"
+            type="text"
+            size="small"
+            >关闭</el-button
+          >
+          <el-button
+            @click="_mxDeleteItem(scope.row.gatewayId)"
             type="text"
             size="small"
             >删除</el-button
@@ -132,6 +167,11 @@
       :close-on-press-escape="false"
       :wrapperClosable="false"
     >
+      <h2>
+        <span v-if="formTit === '新增'"
+          >(上一通道编号为：{{ lastGateway }})</span
+        >
+      </h2>
       <FormItemTitle
         ref="formItem"
         :colSpan="12"
@@ -189,10 +229,26 @@
         style="width: 80%; margin: auto"
       >
         <el-form-item label="手机号:" prop="account">
-          <el-input v-model="formData.account" clearable></el-input>
+          <el-input
+            v-model="formData.account"
+            type="number"
+            name="account"
+            placeholder="请输入手机号"
+            clearable
+            maxlength="11"
+          ></el-input>
         </el-form-item>
         <el-form-item label="口令:" prop="pwd">
-          <el-input v-model="formData.pwd" clearable maxlength="6"></el-input>
+          <el-input
+            v-model="formData.pwd"
+            type="password"
+            name="pwd"
+            placeholder="请输入口令"
+            clearable
+            maxlength="6"
+            show-password
+            @keyup.enter.native="submit"
+          ></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -264,12 +320,14 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
   data() {
     return {
       formTit: "新增",
+      lastGateway: "",
       addChannel: false,
       configDialog: false,
       tagStatusTitle: undefined,
@@ -281,7 +339,9 @@ export default {
         list: "listGatewayByPage",
         detele: "deleteGateway",
         add: "addGateway",
-        edit: "updateGateway"
+        edit: "updateGateway",
+        exportUrl: "/gateway/exportGateway",
+        fileName: "短信通道"
       },
       // 列表参数
       namespace: "gateway",
@@ -395,6 +455,16 @@ export default {
           key: "clientId"
         },
         {
+          type: "input",
+          label: "供应商",
+          key: "companyName"
+        },
+        {
+          type: "inputNum",
+          label: "供应商编号",
+          key: "supplierId"
+        },
+        {
           type: "selectInp",
           label: "通道价格",
           key: ["priceCompare", "unitPrice"],
@@ -405,6 +475,12 @@ export default {
             { key: "<", value: "<" },
             { key: "=", value: "=" }
           ]
+        },
+        {
+          type: "select",
+          label: "通道状态",
+          key: "serverStatus",
+          optionData: [{ key: 1, value: "开启" }, { key: 0, value: "关闭" }]
         }
       ],
       // 表单配置
@@ -431,11 +507,11 @@ export default {
           ]
         },
         {
-          type: "input",
-          label: "通道公司名称",
-          key: "companyName",
-          maxlength: "30",
+          type: "select",
+          label: "供应商",
+          key: "supplierId",
           colSpan: 12,
+          optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -443,7 +519,7 @@ export default {
           label: "通道名称",
           colSpan: 12,
           key: "gatewayName",
-          maxlength: "30",
+          maxlength: "40",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -483,8 +559,9 @@ export default {
               required: true,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback(new Error("请输入必填项"));
+                if (!value && value !== 0) callback(new Error("请输入必填项"));
                 if (isNaN(value)) callback(new Error("通道单价只能输入数值"));
+                if (value < 0) callback(new Error("通道单价只能为正数"));
                 callback();
               }
             }
@@ -519,13 +596,14 @@ export default {
         {
           isTitle: true,
           title: "加密信息",
-          colSpan: 24
+          colSpan: 24,
+          lock: true
         },
         {
           type: "select",
           label: "通道类型",
           key: "type",
-          //   tag:"encrypt",
+          // tag:"encrypt",
           optionData: [
             { key: 1, value: "Cmpp" },
             { key: 2, value: "Sgip" },
@@ -538,7 +616,7 @@ export default {
         {
           type: "input",
           label: "接入号",
-          //   tag: "encrypt",
+          tag: "encrypt",
           key: "srcId",
           colSpan: 12
         },
@@ -547,32 +625,32 @@ export default {
           label: "服务端ip",
           tag: "encrypt",
           key: "serverIp",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "端口长短信限制",
           tag: "encrypt",
           key: "srcIdLength",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "服务器端口",
           tag: "encrypt",
           key: "serverPort",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "业务代码",
           tag: "encrypt",
           key: "serviceId",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
@@ -580,57 +658,77 @@ export default {
           tag: "encrypt",
           key: "sendSpeed",
           colSpan: 12,
-          lock: true
+          // lock: true,
+          maxlength: "4",
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (isNaN(value)) {
+                  callback(new Error("只能输入数字"));
+                } else {
+                  if (value > 0 && (value + "").indexOf(".") === -1) {
+                    callback();
+                  } else {
+                    callback(new Error("发送速率必须为大于0的正整数"));
+                  }
+                }
+              }
+            }
+          ]
         },
         {
           type: "input",
           label: "企业代码",
           tag: "encrypt",
           key: "msgSrc",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "账号",
           tag: "encrypt",
           key: "clientId",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "通道主链接编号",
           tag: "encrypt",
           key: "gatewayRecordId",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "密码",
           tag: "encrypt",
           key: "sharedSecret",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
           label: "cmpp版本",
-          tag: "encrypt",
+          // tag: "encrypt",
           key: "version",
           initDefaultValue: "20",
           defaultValue: "20",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
         {
           type: "input",
-          label: "费用类型",
+          label: "feeType",
           tag: "encrypt",
           key: "feeType",
-          colSpan: 12,
-          lock: true
+          colSpan: 12
+          // lock: true
         },
 
         {
@@ -703,13 +801,14 @@ export default {
           type: "input",
           label: "限制条数",
           key: "limitCount",
+          defaultValue: "",
           colSpan: 12,
           rules: [
             {
               required: false,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback();
+                if (value === "") callback();
                 isNaN(value)
                   ? callback(new Error("只能输入数字"))
                   : value > 0
@@ -732,13 +831,14 @@ export default {
           type: "input",
           label: "限制天数",
           key: "limitDays",
+          defaultValue: "",
           colSpan: 12,
           rules: [
             {
               required: false,
               trigger: "blur",
               validator: (rule, value, callback) => {
-                if (!value) callback();
+                if (value === "") callback();
                 isNaN(value)
                   ? callback(new Error("只能输入数字"))
                   : value > 0
@@ -1165,6 +1265,24 @@ export default {
     this.listTag();
     this.getLastGateway();
     this.getProvinceTree();
+    this.getsmsSupplierInfoQueryList();
+    this.$http
+      .listSysProvince({
+        data: {
+          provinceName: ""
+        }
+      })
+      .then(res => {
+        this.ProvinceList = res.data;
+        this.searchFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
+              return { key: t.provinceId, value: t.provinceName };
+            });
+          }
+        });
+      });
   },
   computed: {
     // 目标通道--关联屏蔽省份 (校验)
@@ -1207,8 +1325,56 @@ export default {
     this.listTag();
     this.getLastGateway();
     this.getProvinceTree();
+    this.getsmsSupplierInfoQueryList();
   },
   methods: {
+    // 删除通道逻辑
+    _mxDeleteItem(gatewayId) {
+      this.$http.gateway.judgeGateway({ gatewayId }).then(response => {
+        const { code, data } = response;
+        if (code !== 200) {
+          this.$alert(data, "禁止删除", {
+            confirmButtonText: "确定",
+            showClose: false,
+            type: "warning",
+            callback: action => {}
+          });
+        } else {
+          this.$confirm("删除后将不可找回，请谨慎操作", "确定删除？", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+            .then(() => {
+              this.$http.gateway
+                .deleteGateway({ data: { gatewayId: gatewayId.toString() } })
+                .then(res => {
+                  if (resOk(res)) {
+                    this._mxGetList();
+                    this.$message.success("删除成功！");
+                  } else {
+                    this.$message.error(res.msg || "删除失败！");
+                  }
+                });
+            })
+            .catch(() => {});
+        }
+      });
+    },
+    // 获取供应商下拉
+    getsmsSupplierInfoQueryList() {
+      this.$http.smsSupplierInfo.queryList({}).then(res => {
+        const { code, data } = res;
+        if (code === 200) {
+          const idx = this.formConfig.findIndex(v => v.key === "supplierId");
+          if (idx !== -1) {
+            this.formConfig[idx].optionData = data.map(v => {
+              return { key: v.supplierId, value: v.supplierName };
+            });
+          }
+        }
+      });
+    },
     renderType(v) {
       switch (v) {
         case 1:
@@ -1230,8 +1396,11 @@ export default {
         this.$refs.formItem.resetForm();
       }, 0);
       this.formConfig.forEach(item => {
-        if (item.tag === "encrypt") {
+        if (item.title === "加密信息") {
           item.lock = false;
+        }
+        if (item.tag === "encrypt") {
+          item.disabled = false;
         }
         if (item.key === "gateway") {
           item.disabled = false;
@@ -1244,29 +1413,45 @@ export default {
       //   }
       // });
     },
-    // _mxEdit(row, gatewayId) {
-    //   // this.$router.push({
-    //   //   path: "/geteway/getewayDetail",
-    //   //   query: {
-    //   //     type: "edit",
-    //   //     row: JSON.stringify(row),
-    //   //     gatewayId
-    //   //   }
-    //   // });
-    //   // row = this._mxArrangeEditData(row);
-    //   // this.id = row[ID];
-    //   // this.editId = ID;
-    //   // this.formTit = "修改";
-    //   // this.formConfig.forEach(item => {
-    //   //   if (item.tag === "encrypt") {
-    //   //     item.lock = true;
-    //   //   }
-    //   // });
-    //   // setTimeout(() => {
-    //   //   this.$refs.formItem.clearValidate();
-    //   // }, 0);
-    //   // this.addChannel = true;
-    // },
+    _mxEdit(row, ID) {
+      // this.$router.push({
+      //   path: "/geteway/getewayDetail",
+      //   query: {
+      //     type: "edit",
+      //     row: JSON.stringify(row),
+      //     gatewayId
+      //   }
+      // });
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key] !== "-" ? row[key] : "");
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        this.formConfig.forEach(item => {
+          if (item.title === "加密信息") {
+            item.lock = true;
+          }
+          if (item.tag === "encrypt") {
+            item.disabled = true;
+          }
+          if (item.key === "gateway") {
+            item.disabled = true;
+          }
+        });
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
     //获取所有标签
     listTag() {
       this.$http.smsTagController
@@ -1341,47 +1526,70 @@ export default {
     },
     //开启关闭通道
     switchChange(val, gateway) {
-      this.loading = true;
       if (val) {
-        this.$http.gateway
-          .startGateway({
-            data: {
-              gatewayId: gateway
-            }
-          })
-          .then(res => {
-            this.loading = false;
-            if (resOk(res)) {
-              this.$message.success("通道启用成功！");
-            } else {
-              this.$message.error("通道启用失败！");
-              this.listData.forEach(item => {
-                if (item.gateway == gateway) {
-                  item.serverStatus = 0;
+        this.$confirm("开启后可利用此通道发送短信。", "确定开启？", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.loading = true;
+            this.$http.gateway
+              .startGateway({
+                data: {
+                  gatewayId: gateway
+                }
+              })
+              .then(res => {
+                this.loading = false;
+                if (resOk(res)) {
+                  this._mxGetList();
+                  this.$message.success("通道启用成功！");
+                } else {
+                  this.$message.error("通道启用失败！");
+                  this.listData.forEach(item => {
+                    if (item.gateway == gateway) {
+                      item.serverStatus = 0;
+                    }
+                  });
                 }
               });
-            }
-          });
+          })
+          .catch(() => {});
       } else {
-        this.$http.gateway
-          .stopGateway({
-            data: {
-              gatewayId: gateway
-            }
-          })
-          .then(res => {
-            this.loading = false;
-            if (resOk(res)) {
-              this.$message.success("通道停止成功！");
-            } else {
-              this.$message.error("通道停止失败！");
-              this.listData.forEach(item => {
-                if (item.gateway == gateway) {
-                  item.serverStatus = 1;
+        this.$confirm(
+          "关闭后利用此通道发送的短信全部进入待发，请谨慎操作。",
+          "确定关闭？",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }
+        )
+          .then(() => {
+            this.loading = true;
+            this.$http.gateway
+              .stopGateway({
+                data: {
+                  gatewayId: gateway
+                }
+              })
+              .then(res => {
+                this.loading = false;
+                if (resOk(res)) {
+                  this._mxGetList();
+                  this.$message.success("通道停止成功！");
+                } else {
+                  this.$message.error("通道停止失败！");
+                  this.listData.forEach(item => {
+                    if (item.gateway == gateway) {
+                      item.serverStatus = 1;
+                    }
+                  });
                 }
               });
-            }
-          });
+          })
+          .catch(() => {});
       }
     },
     selectChange({ val, item }) {
@@ -1444,11 +1652,12 @@ export default {
               soleId: Number(gatewayId)
             })
             .then(res => {
-              if (res.code == 200) {
-                this.$message.success(res.msg);
+              if (res.code === 200) {
+                this.$message.success("验证成功");
                 this.loginState = false;
                 this.formData.account = "";
                 this.formData.pwd = "";
+                // 解锁
                 const { key } = this.temporaryItem;
                 this.formConfig.forEach(item => {
                   if (key === "sharedSecret") {
@@ -1456,8 +1665,11 @@ export default {
                       item.defaultValue = res.data;
                     }
                   }
-                  if (item.key === key) {
+                  if (item.title === "加密信息") {
                     item.lock = false;
+                  }
+                  if (item.tag === "encrypt") {
+                    item.disabled = false;
                   }
                 });
               } else {
@@ -1470,6 +1682,9 @@ export default {
     _mxHandleDecode(item) {
       this.loginState = true;
       this.temporaryItem = item;
+      this.$nextTick(() => {
+        this.$refs["ruleForm"] && this.$refs["ruleForm"].clearValidate();
+      });
     },
     //隐藏附加信息
     handleClick(item) {
@@ -1500,6 +1715,7 @@ export default {
       };
       this.$http.listSysProvince(params).then(res => {
         this.ProvinceList = res.data;
+
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {

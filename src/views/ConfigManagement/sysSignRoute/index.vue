@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -29,7 +29,7 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="sign" label="签名" />
+      <el-table-column prop="sign" label="签名" width="150" />
       <el-table-column prop="cm" label="移动通道" />
       <el-table-column prop="cu" label="联通通道" />
       <el-table-column prop="ct" label="电信通道" />
@@ -39,7 +39,7 @@
           {{ scope.row.createTime | timeFormat }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
@@ -351,6 +351,9 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.gateway("cu", "2", "1");
+    this.gateway("ct", "3", "1");
+    this.gateway("cm", "1", "1");
   },
   methods: {
     //选择用户选取赋值
@@ -382,7 +385,8 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (key == keys) {
+          if (key === keys) {
+            item.optionData = [];
             res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);

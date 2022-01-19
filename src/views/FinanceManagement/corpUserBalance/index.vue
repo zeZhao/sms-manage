@@ -1,10 +1,11 @@
 <template>
-  <!--用户余额-->
-  <div class="mmsUserGateway">
+  <!--账户余额-->
+  <div class="corpUserBalance">
     <Search
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :isOther="true"
     >
       <template v-slot:Other="form">
         <el-button type="primary" @click="exported(form)" size="small"
@@ -17,7 +18,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
@@ -125,6 +126,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mmsUserGateway {
+.corpUserBalance {
 }
 </style>

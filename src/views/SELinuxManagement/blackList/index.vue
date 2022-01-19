@@ -75,7 +75,7 @@
         :data="listData"
         border
         highlight-current-row
-        style="width: 100%;"
+        style="width: 100%"
         v-loading="loading"
       >
         <el-table-column v-if="isShowUserId" prop="userId" label="账户编号" />
@@ -86,9 +86,14 @@
             scope.row.createTime | timeFormat
           }}</template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注">
+        <el-table-column
+          prop="remark"
+          label="备注"
+          width="160"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">{{
-            scope.row.remark ? scope.row.remark : "-"
+            scope.row.remark ? scope.row.remark : '-'
           }}</template>
         </el-table-column>
         <el-table-column label="操作" width="200">
@@ -178,7 +183,7 @@
               style="width: 65%"
             />
             <el-button
-              style="border-color: #0964FF"
+              style="border-color: #0964ff"
               size="small"
               @click="choose"
               >选择用户</el-button
@@ -246,8 +251,8 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
-import { deepClone } from "@/utils";
+import listMixin from '@/mixin/listMixin';
+import { deepClone } from '@/utils';
 
 export default {
   mixins: [listMixin],
@@ -258,28 +263,28 @@ export default {
       listData: [],
       //接口地址
       searchAPI: {
-        namespace: "sysBlacklist",
-        list: "listBlacklistByPage",
-        detele: "deleteSysBlackList"
+        namespace: 'sysBlacklist',
+        list: 'listBlacklistByPage',
+        detele: 'deleteSysBlackList'
       },
       //列表参数
-      namespace: "",
+      namespace: '',
       //搜索框数据
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
-        { type: "input", label: "手机号", key: "mobile", isLonger: true }
+        { type: 'input', label: '手机号', key: 'mobile', isLonger: true }
       ],
       isOpen: false,
-      title: "批量添加",
-      defaultActive: "",
+      title: '批量添加',
+      defaultActive: '',
       groupList: [],
-      createOrUpdate: "添加黑名单组",
+      createOrUpdate: '添加黑名单组',
       isAddGroup: false,
       addGroupObj: {},
-      editId: "",
+      editId: '',
       activeIndex: 0,
-      createOrUpdateBlackList: "添加黑名单",
+      createOrUpdateBlackList: '添加黑名单',
       isAddBlackList: false,
       addBlackList: {},
       isChooseUser: false
@@ -288,7 +293,7 @@ export default {
   computed: {
     isShowUserId() {
       if (this.groupList.length) {
-        const arr = ["系统级", "营销级", "BSATS级"];
+        const arr = ['系统级', '营销级', 'BSATS级'];
         return (
           arr.indexOf(this.groupList[this.activeIndex].blackGroupName) === -1
         );
@@ -306,26 +311,26 @@ export default {
   methods: {
     // 选择用户选取赋值
     chooseUserData(data) {
-      this.$set(this.addBlackList, "userId", data.userId);
+      this.$set(this.addBlackList, 'userId', data.userId);
     },
 
     // 点击搜索查询数据
     handleSearch(searchParam) {
       this.$nextTick(() => {
-        const blackType = this.groupList[this.activeIndex].groupId || "";
+        const blackType = this.groupList[this.activeIndex].groupId || '';
         this._mxDoSearch({ blackType, ...searchParam });
       });
     },
 
     // 获取黑名单类别分组
     getGroupList() {
-      this.$http.smsBlackGroup.listBlackGroup().then(res => {
+      this.$http.smsBlackGroup.listBlackGroup().then((res) => {
         const { code, data } = res;
         if (code === 200) {
           this.groupList = data.reverse();
           this.defaultActive = this.groupList.length
-            ? this.groupList[0].groupId + ""
-            : "";
+            ? this.groupList[0].groupId + ''
+            : '';
           // 请求当前选中分组的表格数据
           this.handleSelectGroup();
         } else {
@@ -341,7 +346,7 @@ export default {
 
     // 添加黑名单分组
     addGroup() {
-      this.createOrUpdate = "添加黑名单组";
+      this.createOrUpdate = '添加黑名单组';
       this.addGroupObj = {};
       this.isAddGroup = true;
       this.$nextTick(() => {
@@ -351,16 +356,16 @@ export default {
 
     // 确认添加/修改黑名单分组
     handleConfirm() {
-      this.$refs.addGroupObj.validate(valid => {
+      this.$refs.addGroupObj.validate((valid) => {
         if (valid) {
-          const flag = this.createOrUpdate === "添加黑名单组";
+          const flag = this.createOrUpdate === '添加黑名单组';
           const postUrl = flag
             ? this.$http.smsBlackGroup.addOrUpdate
             : this.$http.smsBlackGroup.addOrUpdate;
           const data = flag
             ? this.addGroupObj
             : { groupId: this.editId, ...this.addGroupObj };
-          postUrl(data).then(res => {
+          postUrl(data).then((res) => {
             if (res.code === 200) {
               this.activeIndex = 0;
               this.getGroupList();
@@ -377,7 +382,7 @@ export default {
     // 修改黑名单分组
     handleEditGroup({ groupId, blackGroupName }) {
       this.editId = groupId;
-      this.createOrUpdate = "修改黑名单组";
+      this.createOrUpdate = '修改黑名单组';
       this.addGroupObj = { blackGroupName };
       this.isAddGroup = true;
       this.$nextTick(() => {
@@ -388,16 +393,16 @@ export default {
     // 删除黑名单分组
     handleDeleteGroup(id) {
       this.$confirm(
-        "删除后组内的黑名单同步删除，请谨慎操作",
-        "您确定要删除黑名单组吗？",
+        '删除后组内的黑名单同步删除，请谨慎操作',
+        '您确定要删除黑名单组吗？',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
       )
         .then(() => {
-          this.$http.smsBlackGroup.delete({ id }).then(res => {
+          this.$http.smsBlackGroup.delete({ id }).then((res) => {
             if (res.code === 200) {
               this.activeIndex = 0;
               this.getGroupList();
@@ -428,10 +433,10 @@ export default {
     // 添加单个黑名单
     create() {
       if (!this.groupList.length) {
-        this.$message.warning("请先添加黑名单组");
+        this.$message.warning('请先添加黑名单组');
         return;
       }
-      this.createOrUpdateBlackList = "添加黑名单";
+      this.createOrUpdateBlackList = '添加黑名单';
       this.addBlackList = {};
       this.isAddBlackList = true;
       this.$nextTick(() => {
@@ -441,9 +446,9 @@ export default {
 
     // 确认添加/修改黑名单
     handleConfirmBlackList() {
-      this.$refs.addBlackList.validate(valid => {
+      this.$refs.addBlackList.validate((valid) => {
         if (valid) {
-          const flag = this.createOrUpdateBlackList === "添加黑名单";
+          const flag = this.createOrUpdateBlackList === '添加黑名单';
           const postUrl = flag
             ? this.$http.sysBlacklist.addSysBlackList
             : this.$http.sysBlacklist.updateSysBlackList;
@@ -455,7 +460,7 @@ export default {
                 }
               }
             : { data: this.addBlackList };
-          postUrl(data).then(res => {
+          postUrl(data).then((res) => {
             if (res.code === 200) {
               this.handleSelectGroup();
               this.isAddBlackList = false;
@@ -470,7 +475,7 @@ export default {
 
     // 修改黑名单
     editBlackList(row) {
-      this.createOrUpdateBlackList = "修改黑名单";
+      this.createOrUpdateBlackList = '修改黑名单';
       this.addBlackList = deepClone(row);
       this.isAddBlackList = true;
       this.$nextTick(() => {
@@ -480,15 +485,15 @@ export default {
 
     // 删除某个黑名单
     deleteBlackList(blackId) {
-      this.$confirm("删除后将不可找回，请谨慎操作", "您确定要删除黑名单吗？", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('删除后将不可找回，请谨慎操作', '您确定要删除黑名单吗？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           this.$http.sysBlacklist
             .deleteSysBlackList({ data: { blackId } })
-            .then(res => {
+            .then((res) => {
               if (res.code === 200) {
                 this.handleSelectGroup();
                 this.$message.success(res.data || res.msg);
@@ -513,7 +518,7 @@ export default {
 
     .el-menu-group {
       width: 100%;
-      height: 600px;
+      height: 65vh;
       overflow-y: auto;
 
       .hover {

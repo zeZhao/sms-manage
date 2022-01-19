@@ -9,7 +9,8 @@
 
     <el-table
       :data="listData"
-      height="50vh"
+      :height="tableHeight"
+      border
       highlight-current-row
       style="width: 100%"
       v-loading="loading"
@@ -22,7 +23,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column prop="mobile" label="手机号" show-overflow-tooltip />
+      <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="pushType" label="推送类型">
         <template slot-scope="scope">{{
           scope.row.pushType === 1 ? "报告推送" : "上行推送"
@@ -40,7 +41,7 @@
           {{ scope.row.updateTime | timeFormat }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button v-if="scope.row.taskStatus === 1" type="text" size="small"
             >列队中</el-button
@@ -142,7 +143,23 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-
+// 手机号码验证(多个用逗号隔开)
+const validatePhone = (rule, value, callback) => {
+  if (value) {
+    if (value.indexOf("，") !== -1)
+      callback(new Error("手机号只能用英文逗号分隔"));
+    const reg = /^1\d{2}((\*{4})|(\d{4}))\d{4}$/;
+    const arr = value.split(",");
+    const idx = arr.findIndex(v => !reg.test(v));
+    idx === -1
+      ? callback()
+      : arr[arr.length - 1] === "" && reg.test(arr[arr.length - 2])
+      ? callback()
+      : callback(new Error(`第${idx + 1}个手机号格式不正确`));
+  } else {
+    callback();
+  }
+};
 export default {
   mixins: [listMixin],
   data() {
@@ -225,7 +242,13 @@ export default {
           key: "mobile",
           placeholder: "请输入手机号码，多个用英文逗号隔开",
           defaultValue: "",
-          rules: [{ required: false }]
+          rules: [
+            {
+              required: false,
+              trigger: "blur",
+              validator: validatePhone
+            }
+          ]
         }
       ],
       pushType: "" // 1 报告推送 2 上行推送
@@ -241,7 +264,7 @@ export default {
   methods: {
     onChange({ val, item }) {
       if (item.key === "mobile") {
-        item.rules = val ? this.$publicValidators.phone : [{ required: false }];
+        // item.rules = val ? this.$publicValidators.phone : [{ required: false }];
       }
     },
     submit(form) {
@@ -291,9 +314,6 @@ export default {
     },
     cancelAddChannel() {
       this.addChannel = false;
-    },
-    create() {
-      this.$router.push({ name: "rePushToolType", query: { type: "create" } });
     },
     // 取消队列中-操作
     cancel(id) {

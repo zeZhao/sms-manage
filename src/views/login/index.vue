@@ -47,22 +47,22 @@
             placement="right"
             manual
           > -->
-            <el-form-item prop="verifyCode" label="口令">
-              <el-input
-                ref="password"
-                v-model="loginForm.verifyCode"
-                placeholder="请输入口令"
-                type="text"
-                tabindex="3"
-                maxlength="6"
-                @keyup.enter.native="handleLogin"
-              />
-              <!-- <span class="show-pwd" @click="showPwd">
+          <el-form-item prop="verifyCode" label="口令">
+            <el-input
+              ref="password"
+              v-model="loginForm.verifyCode"
+              placeholder="请输入口令"
+              type="text"
+              tabindex="3"
+              maxlength="6"
+              @keyup.enter.native="handleLogin"
+            />
+            <!-- <span class="show-pwd" @click="showPwd">
                 <svg-icon
                   :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
                 />
               </span> -->
-            </el-form-item>
+          </el-form-item>
           <!-- </el-tooltip> -->
 
           <!-- <el-form-item prop="verifyCode" style="overflow: hidden">
@@ -240,6 +240,7 @@ export default {
                 query: this.otherQuery
               });
               this.loading = false;
+              this.$message.success("登陆成功！");
             })
             .catch(() => {
               localStorage.userName = this.loginForm.username;

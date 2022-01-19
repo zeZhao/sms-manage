@@ -5,13 +5,14 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" key="corpId" />
@@ -52,10 +53,10 @@
         key="countDate"
       />
     </el-table>
-    <p style="color: red">
-      总数: {{ statistics.returnNum }}&nbsp;&nbsp;成功数:
-      {{ statistics.successNum }}&nbsp;&nbsp;失败数:
-      {{ statistics.failNum }}&nbsp;&nbsp;
+    <p style="color: red;font-size: 12px;">
+      总数: {{ statistics.returnNum || 0 }}&nbsp;&nbsp;成功数:
+      {{ statistics.successNum || 0 }}&nbsp;&nbsp;失败数:
+      {{ statistics.failNum || 0 }}&nbsp;&nbsp;
     </p>
     <Page
       :pageObj="pageObj"
@@ -72,6 +73,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "returnReportStatistics",
@@ -163,7 +165,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"]
+          key: ["", "countDate", "endDate"],
+          defaultValue: ["", new Date(), new Date()]
         }
       ],
       statistics: {},
@@ -171,7 +174,7 @@ export default {
     };
   },
   mounted() {
-    this.queryUserSendDetailAll();
+    // this.queryUserSendDetailAll();
   },
   computed: {},
   methods: {
@@ -193,7 +196,6 @@ export default {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
       this.queryUserSendDetailAll(data);
-      console.log(this.searchParam, "searchParam");
       return data;
     },
     /**

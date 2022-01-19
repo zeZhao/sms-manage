@@ -194,6 +194,14 @@ export default {
         // 获取最后的账户编号
         getLasttUserId(params) {
             return fetch("/corpUser/getLasttUserId", params);
+        },
+        // 获取秘钥
+        getSecretKeyById(params) {
+            return post(`/corpUser/getSecretKeyById?userId=${params}`,);
+        },
+        // 修改商户端用户账号的密码
+        updateWebPassword(params) {
+            return post("/corpUser/updateWebPassword", params);
         }
     },
     //通道重发配置
@@ -298,6 +306,10 @@ export default {
         listGatewayAndGroup(params) {
             return post("/sysGatewayGroup/listGatewayAndGroup", params);
         },
+        // 查询是否含有绑定
+        judgeGatewayGroup(params) {
+            return fetch("/sysGatewayGroup/judgeGatewayGroup", params);
+        }
     },
     //分省路由
     sysProvinceRoute: {
@@ -885,13 +897,10 @@ export default {
         // 查询列表
         selectReturnReportByPage(params) {
             return post("/sendLogFegin/selectReturnReportByPage", params);
-        }
-    },
-    // 发送返回报告
-    smsTxReturnReport: {
-        // 查询列表
-        searchSendReturnReport(params) {
-            return post("/sendLogFegin/selectSendReturnByPage", params);
+        },
+        // 导出
+        asyncExportDecrypt(params) {
+            return post("/sendLogFegin/asyncExport/decrypt", params);
         }
     },
     // 定时
@@ -1527,18 +1536,15 @@ export default {
             return post("/sendLogFegin/selectSendreportByPage", params);
         }
     },
-    // 返回报告
-    smsReturnReport: {
-        // 查询列表
-        selectReturnReportByPage(params) {
-            return post("/sendLogFegin/selectReturnReportByPage", params);
-        }
-    },
     // 发送返回报告
     smsTxReturnReport: {
         // 查询列表
         searchSendReturnReport(params) {
             return post("/sendLogFegin/selectSendReturnByPage", params);
+        },
+        // 导出
+        exportSendReturn(params) {
+            return post("/sendLogFegin/exportSendReturn", params);
         }
     },
     // 发送跨天列表查询
@@ -1781,6 +1787,14 @@ export default {
         //获取下拉省份和城市
         getProvinceTree(params) {
             return fetch("/gateway/getProvinceTree", params);
+        },
+        //导出
+        exportGateway(params) {
+            return post("/gateway/exportGateway", params);
+        },
+        //删除前判断通道是否关联其他数据
+        judgeGateway(params) {
+            return fetch("/gateway/judgeGateway", params);
         }
     },
     //彩信通道
@@ -2310,6 +2324,33 @@ export default {
         // 删除重推任务
         delete(params) {
             return post("/pushToolTask/delete", params);
+        }
+    },
+    // 供应商信息
+    smsSupplierInfo: {
+        // 分页查询供应商信息
+        queryByPage(params) {
+            return post("/smsSupplierInfo/queryByPage", params);
+        },
+        // 查询供应商信息列表
+        queryList(params) {
+            return post("/smsSupplierInfo/queryList", params);
+        },
+        // 新增供应商信息
+        addSupplierInfo(params) {
+            return post("/smsSupplierInfo/addSupplierInfo", params);
+        },
+        // 更新状态
+        updateState(params) {
+            return post("/smsSupplierInfo/updateState", params);
+        },
+        // 更新供应商信息
+        updateSupplierInfo(params) {
+            return post("/smsSupplierInfo/updateSupplierInfo", params);
+        },
+        // 检查供应商是否被通道绑定
+        checkState(params) {
+            return post("/smsSupplierInfo/checkState", params);
         }
     }
 }

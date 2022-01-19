@@ -1,7 +1,7 @@
 <template>
   <section class="app-main">
     <tags-view v-if="needTagsView" />
-    <div class="content">
+    <div class="content" ref="content" id="content">
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
@@ -60,12 +60,13 @@ export default {
 
   .content {
     background: #fff;
-    padding: 24px;
-
+    padding: 8px 24px;
     min-height: calc(100vh - 116px);
     ::v-deep .el-form-item__label {
       height: 28px;
       font-size: 12px;
+      font-weight: normal;
+      padding-top: 2px;
     }
     ::v-deep .el-button {
       height: 28px;
@@ -101,6 +102,23 @@ export default {
     }
     ::v-deep .el-drawer__body .el-form-item__error {
       padding-top: 1px;
+    }
+    ::v-deep .el-drawer__body .submitBtn {
+      position: fixed;
+      bottom: 0px;
+      right: 16px;
+      width: 544px;
+      height: 64px;
+      line-height: 64px;
+      text-align: right;
+      background: #fff;
+      padding-right: 24px;
+      margin-right: 0;
+      z-index: 2;
+    }
+    ::v-deep .el-drawer__body {
+      padding-bottom: 64px;
+      overflow: initial !important;
     }
     ::v-deep .el-dialog {
       padding: 24px;

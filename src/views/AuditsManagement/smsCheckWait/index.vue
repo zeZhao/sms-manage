@@ -34,7 +34,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       @selection-change="selectionChange"
     >
       <!-- <el-table-column type="selection" width="55" /> -->
@@ -45,17 +45,11 @@
           <span>{{ scope.row.gatewayType === 1 ? "短信" : "" }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容">
+      <el-table-column prop="content" label="内容" width="310">
         <template slot-scope="scope">
-          <el-tooltip placement="top">
-            <div
-              v-html="scope.row.content"
-              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
-            ></div>
-            <div slot="content" v-html="scope.row.content"></div>
-          </el-tooltip>
+          <span v-html="scope.row.content"></span>
         </template>
       </el-table-column>
       <el-table-column prop="counter" label="条数" />
@@ -134,6 +128,7 @@
       :visible.sync="addChannel"
       :close-on-click-modal="false"
       top="45px"
+      width="80%"
     >
       <FormItem
         ref="formItem"
@@ -445,7 +440,13 @@ export default {
         }
       }
       this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
-        this._mxSuccess(res);
+        if (resOk(res)) {
+          this.$message.success("超审成功！");
+          this._mxGetList();
+          this.addChannel = false;
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
       });
     },
     addCheck() {

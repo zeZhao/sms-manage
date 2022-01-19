@@ -12,12 +12,12 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="submitType" label="产品类型">
         <template slot-scope="scope">
           <span v-if="scope.row.submitType == 1">web端</span>
@@ -26,10 +26,24 @@
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
-      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column
+        prop="content"
+        label="内容"
+        width="310"
+        v-if="searchParam.showDecrypt === 1"
+      />
+      <el-table-column
+        prop="mobile"
+        label="手机号"
+        width="100"
+        v-if="searchParam.showDecrypt === 1"
+      >
+        <template slot-scope="{ row }">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="count" label="条数" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="definiteTime" label="定时时间" width="155">
         <template slot-scope="scope">
           <span>{{ scope.row.definiteTime | timeFormat }}</span>
@@ -44,7 +58,7 @@
       <el-table-column prop="pkNumber" label="PK NUMBER" width="110" />
       <el-table-column prop="pid" label="PID" />
     </el-table>
-    <p style="color: red">总条数：{{ total }}</p>
+    <p style="color: red;font-size:12px">总条数：{{ total || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -91,12 +105,12 @@ export default {
           key: "code",
           placeholder: "请输入特服号"
         },
-        {
-          type: "input",
-          label: "内容",
-          key: "content",
-          placeholder: "请输入内容"
-        },
+        // {
+        //   type: "input",
+        //   label: "内容",
+        //   key: "content",
+        //   placeholder: "请输入内容"
+        // },
         {
           type: "input",
           label: "手机号",
@@ -110,23 +124,49 @@ export default {
           placeholder: "请输入CID"
         },
         {
+          type: "input",
+          label: "签名",
+          key: "sign",
+          placeholder: "请输入签名"
+        },
+        {
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
+          defaultValue: -1,
+          optionData: [
+            {
+              key: 1,
+              value: "显示"
+            },
+            {
+              key: -1,
+              value: "不显示"
+            }
+          ]
+        },
+        {
           type: "timerange",
           label: "提交时间",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: [
+            "",
+            new Date(2021, 12, 16, 0, 0, 0),
+            new Date(2021, 12, 16, 23, 59, 59)
+          ]
         },
         {
           type: "date",
           label: "提交日期",
           key: "submitDate",
-          placeholder: "提交日期"
+          placeholder: "提交日期",
+          defaultValue: new Date()
         }
       ],
       total: 0
     };
   },
-  mounted() {
-    // this.selectSendLogAllNum(this.searchParam);
-  },
+  mounted() {},
   computed: {},
   methods: {
     selectSendLogAllNum(data) {
@@ -160,6 +200,20 @@ export default {
       }
       this.selectSendLogAllNum(data);
       return data;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        if (item.mobile) {
+          item.mobile = item.mobile.split(",")[0];
+        }
+      });
+      return listData;
     }
   }
   // watch: {

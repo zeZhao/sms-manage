@@ -5,17 +5,22 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="mobile" label="手机号码" />
+      <el-table-column prop="mobile" label="手机号码">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="type" label="号码类型">
         <template slot-scope="scope">
           <span>
@@ -60,6 +65,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "smsCheckMobile",
@@ -87,7 +93,8 @@ export default {
           type: "date",
           label: "提交日期",
           key: "createTime",
-          placeholder: "请选择提交日期"
+          placeholder: "请选择提交日期",
+          defaultValue: new Date().Format("yyyy-MM-dd")
         }
       ]
     };

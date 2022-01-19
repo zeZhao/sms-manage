@@ -7,6 +7,7 @@
       @search="_mxDoSearch"
       :add="false"
       @exportData="exportData"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button
@@ -23,13 +24,13 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="taskId" label="任务ID" width="100" />
-      <el-table-column prop="content" label="内容" width="200" />
+      <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="count" label="条数" />
       <el-table-column prop="mobilesCount" label="手机号数量" width="100" />
       <el-table-column prop="submitTime" label="提交时间" width="170">
@@ -93,10 +94,12 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getDateToString } from "@/utils";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       formTit: "新增",
       addChannel: false,
       // 接口地址
@@ -143,7 +146,8 @@ export default {
         {
           type: "daterange",
           label: "定时时间",
-          key: ["", "sendStartTime", "sendEndTime"]
+          key: ["", "sendStartTime", "sendEndTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       // 表单配置

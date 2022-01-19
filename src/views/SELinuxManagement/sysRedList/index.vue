@@ -17,7 +17,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
@@ -42,7 +42,7 @@
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column> -->
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row, 'redId')" type="text" size="small"
             >修改</el-button
@@ -333,9 +333,9 @@ export default {
           type: "uploadXlsx",
           key: "mobileFileUrl",
           label: "上传手机号文件",
-          action: "/api/sysPrepaidCard/uploadFileUnify",
+          uploadUrl: "/api/sysPrepaidCard/uploadFileUnify",
           isShow: false,
-          btnTxt: "导入",
+          btnTxt: "批量添加",
           limit: 1,
           defaultValue: "",
           defaultFileList: [],
@@ -395,6 +395,7 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.gateway();
   },
   methods: {
     handleBatchUpdate() {
@@ -509,10 +510,8 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key === "gateway") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gateway);
-              item.optionData.push(t);
+            item.optionData = res.data.map(t => {
+              return { key: t.gatewayId, value: t.gateway };
             });
           }
         });
@@ -563,6 +562,8 @@ export default {
           item.btnDisabled = true;
         }
         if (item.key === "mobile") {
+          this.$set(item, "maxlength", 11);
+          this.$set(item, "placeholder", "");
           item.rules = [
             { required: true, validator: isPhone, trigger: "blur" }
           ];
@@ -623,6 +624,8 @@ export default {
           item.btnDisabled = false;
         }
         if (item.key === "mobile") {
+          this.$set(item, "maxlength", 100);
+          this.$set(item, "placeholder", "可输入多个手机号，用英文“,”隔开");
           item.rules = [
             {
               required: true,

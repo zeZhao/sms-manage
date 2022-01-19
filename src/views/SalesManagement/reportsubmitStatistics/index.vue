@@ -5,13 +5,14 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -47,7 +48,7 @@
       <el-table-column prop="saleName" label="销售" />
       <el-table-column prop="countDate" label="统计日期" />
     </el-table>
-    <p style="color: red">
+    <p style="color: red;font-size: 12px;">
       总条数: {{ total.total }}；行业条数: {{ total.industryNum }}；营销条数:
       {{ total.marketingNum }} ；Vip条数: {{ total.vipNum }}
     </p>
@@ -61,11 +62,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "reportsubmitStatistics",
@@ -149,7 +152,8 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "countDate", "endDate"]
+          key: ["", "countDate", "endDate"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       total: {
@@ -162,11 +166,11 @@ export default {
     };
   },
   mounted() {
-    this.saleSubmitStatistics();
+    // this.saleSubmitStatistics();
     this.getSaleman();
   },
   activated() {
-    this.saleSubmitStatistics();
+    // this.saleSubmitStatistics();
     this.getSaleman();
   },
   methods: {

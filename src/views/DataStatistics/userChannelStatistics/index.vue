@@ -5,13 +5,14 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
@@ -19,15 +20,16 @@
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="longCode" label="通道长号码" />
-      <el-table-column prop="smsType" label="通道类型">
+      <!-- <el-table-column prop="smsType" label="通道类型">
         <template slot-scope="scope">
           <span>{{ scope.row.smsType == 1 ? "短信" : "" }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
+      <el-table-column prop="supplierId" label="供应商编号" />
       <el-table-column prop="succcount" label="成功条数" />
       <el-table-column prop="share" label="占比" />
     </el-table>
-    <p style="color: red">总条数: {{ statistics }}</p>
+    <p style="color: red;font-size: 12px;">总条数: {{ statistics || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -43,6 +45,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "userChannelStatistics",
@@ -76,29 +79,35 @@ export default {
           label: "通道名称",
           key: "gatewayName"
         },
+        // {
+        //   type: "select",
+        //   label: "通道类型",
+        //   key: "reductType",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "短信"
+        //     }
+        //   ],
+        //   placeholder: "请选择通道类型"
+        // },
         {
-          type: "select",
-          label: "通道类型",
-          key: "reductType",
-          optionData: [
-            {
-              key: 1,
-              value: "短信"
-            }
-          ],
-          placeholder: "请选择通道类型"
+          type: "inputNum",
+          label: "供应商编号",
+          key: "supplierId"
         },
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", new Date(), new Date()]
         }
       ],
       statistics: 0
     };
   },
   mounted() {
-    this.queryChannelSuccNum(this.searchParam);
+    // this.queryChannelSuccNum(this.searchParam);
   },
   computed: {},
   methods: {

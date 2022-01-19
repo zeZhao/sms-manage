@@ -12,15 +12,15 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column type="index" label="序号" />
-      <el-table-column prop="agentId" label="代理商编号" />
+      <el-table-column prop="agentId" label="代理商编号" width="100" />
       <el-table-column prop="loginName" label="登录账号" />
-      <el-table-column prop="agentName" label="代理商名称" />
+      <el-table-column prop="agentName" label="代理商名称" width="100" />
       <el-table-column prop="contact" label="联系人" />
-      <el-table-column prop="mobile" label="联系电话" />
-      <el-table-column prop="saleName" label="销售" />
+      <el-table-column prop="mobile" label="联系电话" width="100" />
+      <el-table-column prop="saleName" label="销售" width="100" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 1">正常</span>
@@ -35,7 +35,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="operator" label="操作人" width="130" />
-      <el-table-column prop="logo" label="logo" width="130">
+      <el-table-column prop="logo" label="logo" width="60">
         <template slot-scope="scope">
           <!-- <img :src="scope.row.logo" alt="" style="width: 50px; height: 50px" /> -->
           <el-image
@@ -48,7 +48,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.status == 1"
@@ -254,7 +254,7 @@ export default {
           key: "agentName",
           // disabled: true,
           defaultValue: "",
-          maxlength: 15,
+          maxlength: 40,
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             { validator: character, trigger: "change" }

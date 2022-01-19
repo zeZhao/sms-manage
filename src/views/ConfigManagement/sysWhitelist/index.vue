@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <!-- <el-table-column prop="type" label="类型">
@@ -34,7 +34,7 @@
           scope.row.modifyTime | timeFormat
         }}</template>
       </el-table-column> -->
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
@@ -74,28 +74,9 @@
         @onChange="onChange"
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
+        @handleExceed="handleExceed"
       ></FormItem>
     </el-drawer>
-
-    <!-- <el-dialog
-      :title="formTit"
-      :visible.sync="addChannel"
-      :close-on-click-modal="false"
-      top="45px"
-    >
-      <FormItem
-        ref="formItem"
-        :formConfig="formConfig"
-        :btnTxt="formTit"
-        @submit="submit"
-        @cancel="cancel"
-        @choose="choose"
-        @selectChange="selectChange"
-        @onChange="onChange"
-        @handleSuccess="handleSuccess"
-        @handleRemove="handleRemove"
-      ></FormItem>
-    </el-dialog> -->
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -332,6 +313,9 @@ export default {
         }
       ];
     },
+    handleExceed() {
+      this.$message.error("当前仅限制上传1个文件!");
+    },
     //选择控制
     selectChange({ val, item }) {
       if (item.key === "type") {
@@ -405,6 +389,8 @@ export default {
           item.btnDisabled = false;
         }
         if (item.key === "mobile") {
+          this.$set(item, "maxlength", 100);
+          this.$set(item, "placeholder", "可输入多个手机号，用英文“,”隔开");
           item.rules = [
             {
               required: true,
@@ -466,6 +452,8 @@ export default {
           item.btnDisabled = true;
         }
         if (item.key === "mobile") {
+          this.$set(item, "maxlength", 11);
+          this.$set(item, "placeholder", "");
           item.rules = [
             { required: true, validator: isPhone, trigger: "change" }
           ];

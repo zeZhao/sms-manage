@@ -7,6 +7,7 @@
       :add="false"
       ref="Search"
       @exportData="exportData"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button
@@ -22,7 +23,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -41,13 +42,14 @@
       <el-table-column prop="failRate" label="失败率" />
       <el-table-column prop="unknownRate" label="未知率" />
     </el-table>
-    <p style="color: red" v-if="statistics">
-      总提交数(条):{{ statistics.submitCountAll }} &nbsp;&nbsp;总发送条数(条):{{
-        statistics.sendCountAll
-      }}&nbsp;&nbsp; 总成功数(条):{{ statistics.succCountAll }}&nbsp;&nbsp;
-      总失败数(条):{{ statistics.failCountAll }}&nbsp;&nbsp; 总未知数(条):{{
-        statistics.unknownCountAll
+    <p style="color: red;font-size: 12px;" v-if="statistics">
+      总提交数(条):{{
+        statistics.submitCountAll || 0
       }}
+      &nbsp;&nbsp;总发送条数(条):{{ statistics.sendCountAll || 0 }}&nbsp;&nbsp;
+      总成功数(条):{{ statistics.succCountAll || 0 }}&nbsp;&nbsp;
+      总失败数(条):{{ statistics.failCountAll || 0 }}&nbsp;&nbsp;
+      总未知数(条):{{ statistics.unknownCountAll || 0 }}
     </p>
     <Page
       :pageObj="pageObj"
@@ -59,11 +61,13 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "userDailyBill",
@@ -84,14 +88,15 @@ export default {
         {
           type: "daterange",
           label: "统计日期",
-          key: ["", "startTime", "endTime"]
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ],
       statistics: {}
     };
   },
   mounted() {
-    this.queryUserDailyBillNum();
+    // this.queryUserDailyBillNum();
   },
   computed: {},
   methods: {

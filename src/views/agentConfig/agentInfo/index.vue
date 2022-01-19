@@ -12,7 +12,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
     >
       <el-table-column type="index" label="序号" />
       <el-table-column prop="agentId" label="代理商编号" />
@@ -48,7 +48,7 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.status == 1"

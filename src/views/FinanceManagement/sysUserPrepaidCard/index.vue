@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="cardNum" label="卡号" />
@@ -19,7 +19,7 @@
       <el-table-column prop="reductType" label="计费类型" width="100">
         <template slot-scope="scope">
           <span>{{
-            scope.row.reductType === 1 ? "账户计费" : "商户id计费"
+            scope.row.reductType === 1 ? '账户计费' : '商户id计费'
           }}</span>
         </template>
       </el-table-column>
@@ -27,13 +27,13 @@
         <template slot-scope="scope">
           <span>
             {{
-              scope.row.reductModel == "1"
-                ? "预付提交计费"
-                : scope.row.reductModel == "2"
-                ? "预付成功计费"
-                : scope.row.reductModel == "3"
-                ? "后付提交计费"
-                : "后付成功计费"
+              scope.row.reductModel == '1'
+                ? '预付提交计费'
+                : scope.row.reductModel == '2'
+                ? '预付成功计费'
+                : scope.row.reductModel == '3'
+                ? '后付提交计费'
+                : '后付成功计费'
             }}
           </span>
         </template>
@@ -46,22 +46,27 @@
           <span>
             {{
               scope.row.paidWay == 0
-                ? "充值"
+                ? '充值'
                 : scope.row.paidWay == 1
-                ? "借款"
+                ? '借款'
                 : scope.row.paidWay == 2
-                ? "扣款"
-                : "还款"
+                ? '扣款'
+                : '还款'
             }}
           </span>
         </template>
       </el-table-column>
       <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.chargeType === 1 ? "短信" : "彩信" }}</span>
+          <span>{{ scope.row.chargeType === 1 ? '短信' : '彩信' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" />
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
       <el-table-column prop="createTime" label="生成时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
@@ -107,7 +112,7 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
+import listMixin from '@/mixin/listMixin';
 
 export default {
   mixins: [listMixin],
@@ -117,11 +122,11 @@ export default {
       detailList: {},
       //接口地址
       searchAPI: {
-        namespace: "sysUserPrepaidCard",
-        list: "listPrepaidCardByPage"
+        namespace: 'sysUserPrepaidCard',
+        list: 'listPrepaidCardByPage'
       },
       // 列表参数
-      namespace: "prepaidCard",
+      namespace: 'prepaidCard',
       //搜索框数据
       searchParam: {
         isBill: 1
@@ -129,54 +134,54 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "inputNum",
-          label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          type: 'inputNum',
+          label: '账户编号',
+          key: 'userId',
+          placeholder: '请输入账户编号'
         },
         {
-          type: "select",
-          label: "类型",
-          key: "chargeType",
+          type: 'select',
+          label: '类型',
+          key: 'chargeType',
           defaultValue: 1,
           clearable: false,
           optionData: [
             {
               key: 1,
-              value: "短信"
+              value: '短信'
             }
             // {
             //   key: 2,
             //   value: "彩信"
             // }
           ],
-          placeholder: "请选择类型"
+          placeholder: '请选择类型'
         },
         {
-          type: "month",
-          label: "月份",
-          key: "queryMonth"
+          type: 'month',
+          label: '月份',
+          key: 'queryMonth'
         },
         {
-          type: "select",
-          key: "paidWay",
-          label: "付款状态",
+          type: 'select',
+          key: 'paidWay',
+          label: '付款状态',
           optionData: [
             {
               key: 0,
-              value: "充值"
+              value: '充值'
             },
             {
               key: 1,
-              value: "借款"
+              value: '借款'
             },
             {
               key: 2,
-              value: "扣款"
+              value: '扣款'
             },
             {
               key: 3,
-              value: "还款"
+              value: '还款'
             }
           ]
         }
@@ -194,7 +199,7 @@ export default {
     _formatRequestData(data) {
       const { queryMonth } = data;
       if (queryMonth) {
-        data.queryMonth = new Date(queryMonth).Format("yyyy-MM");
+        data.queryMonth = new Date(queryMonth).Format('yyyy-MM');
       }
       data.isBill = 1;
       return data;

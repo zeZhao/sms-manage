@@ -6,12 +6,7 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-    <el-table
-      :data="listData"
-      border
-      highlight-current-row
-      style="width: 100%;"
-    >
+    <el-table :data="listData" border highlight-current-row style="width: 100%">
       <el-table-column prop="gatewayId" label="通道编号" />
       <el-table-column prop="name" label="通道名称" />
       <!-- <el-table-column prop="gatewayType" label="类型">
@@ -23,23 +18,28 @@
         <template slot-scope="scope">
           <span>{{
             scope.row.type === 0
-              ? "三网"
+              ? '三网'
               : scope.row.type === 1
-              ? "移动"
+              ? '移动'
               : scope.row.type === 2
-              ? "联通"
-              : "电信"
+              ? '联通'
+              : '电信'
           }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="price" label="通道价格(分)" />
       <el-table-column prop="status" label="是否可用">
         <template slot-scope="scope">
-          <span>{{ scope.row.status === 0 ? "不可用" : "可用" }}</span>
+          <span>{{ scope.row.status === 0 ? '不可用' : '可用' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" />
-      <el-table-column label="操作" width="200">
+      <el-table-column
+        prop="remark"
+        label="备注"
+        width="160"
+        show-overflow-tooltip
+      />
+      <el-table-column label="操作" width="200" fixed="right">
         <template slot-scope="scope">
           <el-button
             @click="_mxEdit(scope.row, 'gatewayId')"
@@ -79,124 +79,124 @@
 </template>
 
 <script>
-import listMixin from "@/mixin/listMixin";
+import listMixin from '@/mixin/listMixin';
 
 export default {
   mixins: [listMixin],
   data() {
     return {
-      formTit: "新增",
+      formTit: '新增',
       addChannel: false,
       // 接口地址
       searchAPI: {
-        namespace: "mmsGateway",
-        list: "listMmsGatewayByPage",
-        detele: "deleteMmsGateway",
-        add: "addMmsGateway",
-        edit: "updateMmsGateway"
+        namespace: 'mmsGateway',
+        list: 'listMmsGatewayByPage',
+        detele: 'deleteMmsGateway',
+        add: 'addMmsGateway',
+        edit: 'updateMmsGateway'
       },
       // 列表参数
-      namespace: "mmsGateway",
+      namespace: 'mmsGateway',
       // 搜索框数据
       searchParam: {},
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "inputNum",
-          label: "通道编号",
-          key: "gatewayId",
-          placeholder: "请输入通道编号"
+          type: 'inputNum',
+          label: '通道编号',
+          key: 'gatewayId',
+          placeholder: '请输入通道编号'
         },
         {
-          type: "input",
-          label: "通道名称",
-          key: "name",
-          placeholder: "请输入通道名称"
+          type: 'input',
+          label: '通道名称',
+          key: 'name',
+          placeholder: '请输入通道名称'
         },
         {
-          type: "select",
-          label: "是否可用",
-          key: "status",
+          type: 'select',
+          label: '是否可用',
+          key: 'status',
           optionData: [
             {
-              key: "0",
-              value: "可用"
+              key: '0',
+              value: '可用'
             },
             {
-              key: "1",
-              value: "不可用"
+              key: '1',
+              value: '不可用'
             }
           ],
-          placeholder: "请选择类型"
+          placeholder: '请选择类型'
         },
         {
-          type: "select",
-          label: "运营商",
-          key: "type",
+          type: 'select',
+          label: '运营商',
+          key: 'type',
           optionData: [
             {
-              key: "0",
-              value: "三网"
+              key: '0',
+              value: '三网'
             },
             {
-              key: "1",
-              value: "移动"
+              key: '1',
+              value: '移动'
             },
             {
-              key: "2",
-              value: "联通"
+              key: '2',
+              value: '联通'
             },
             {
-              key: "3",
-              value: "电信"
+              key: '3',
+              value: '电信'
             }
           ],
-          placeholder: "请选择运营商"
+          placeholder: '请选择运营商'
         }
       ],
       // 表单配置
       formConfig: [
         {
-          type: "input",
-          label: "通道名称",
-          key: "name",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          type: 'input',
+          label: '通道名称',
+          key: 'name',
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "input",
-          label: "通道公司名称",
-          key: "corpName"
+          type: 'input',
+          label: '通道公司名称',
+          key: 'corpName'
         },
         {
-          type: "select",
-          label: "运营商",
-          key: "type",
-          defaultValue: "",
+          type: 'select',
+          label: '运营商',
+          key: 'type',
+          defaultValue: '',
           optionData: [
             {
-              key: "0",
-              value: "三网"
+              key: '0',
+              value: '三网'
             },
             {
               key: 1,
-              value: "移动"
+              value: '移动'
             },
             {
               key: 2,
-              value: "联通"
+              value: '联通'
             },
             {
               key: 3,
-              value: "电信"
+              value: '电信'
             }
           ],
-          placeholder: "请选择运营商"
+          placeholder: '请选择运营商'
         },
         {
-          type: "input",
-          label: "通道单价(分)",
-          key: "price",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          type: 'input',
+          label: '通道单价(分)',
+          key: 'price',
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         // {
         //   type: "input",
@@ -204,56 +204,56 @@ export default {
         //   key: "url"
         // },
         {
-          type: "input",
-          label: "通道账户名称",
-          key: "urlUserName"
+          type: 'input',
+          label: '通道账户名称',
+          key: 'urlUserName'
         },
         {
-          type: "input",
-          label: "通道密码",
-          key: "urlPwd"
+          type: 'input',
+          label: '通道密码',
+          key: 'urlPwd'
         },
         {
-          type: "input",
-          label: "提审URL",
-          key: "arraignUrl"
+          type: 'input',
+          label: '提审URL',
+          key: 'arraignUrl'
         },
         {
-          type: "input",
-          label: "主动查询提审结果URL",
-          key: "arraignSearchUrl"
+          type: 'input',
+          label: '主动查询提审结果URL',
+          key: 'arraignSearchUrl'
         },
         {
-          type: "input",
-          label: "主动查询返回报告URL",
-          key: "returnReportUrl"
+          type: 'input',
+          label: '主动查询返回报告URL',
+          key: 'returnReportUrl'
         },
         {
-          type: "input",
-          label: "余额查询URL",
-          key: "balanceUrl"
+          type: 'input',
+          label: '余额查询URL',
+          key: 'balanceUrl'
         },
         {
-          type: "select",
-          label: "是否可用",
-          key: "status",
-          defaultValue: "",
+          type: 'select',
+          label: '是否可用',
+          key: 'status',
+          defaultValue: '',
           optionData: [
             {
-              key: "0",
-              value: "不可用"
+              key: '0',
+              value: '不可用'
             },
             {
               key: 1,
-              value: "可用"
+              value: '可用'
             }
           ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: '请输入必填项', trigger: 'blur' }]
         },
         {
-          type: "textarea",
-          key: "remark",
-          label: "备注"
+          type: 'textarea',
+          key: 'remark',
+          label: '备注'
         }
       ]
     };
@@ -263,9 +263,9 @@ export default {
   methods: {
     _mxArrangeEditData(row) {
       for (let key in row) {
-        if (key === "status" || key === "type") {
+        if (key === 'status' || key === 'type') {
           if (row[key] === 0) {
-            row[key] = "0";
+            row[key] = '0';
           }
         }
       }

@@ -5,13 +5,14 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -58,10 +59,12 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 const date = new Date();
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "userMonthlyBill",
@@ -111,7 +114,7 @@ export default {
                   ? "0" + (time.getMonth() + 1)
                   : time.getMonth() + 1
               }`;
-              return other >= t;
+              return other > t;
             }
           }
           // key: ["", "startTime", "endTime"]

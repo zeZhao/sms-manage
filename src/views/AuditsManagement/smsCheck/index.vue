@@ -5,19 +5,20 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     ></Search>
     <el-table
       :data="listData"
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="账户名称" />
-      <el-table-column prop="content" label="内容" />
+      <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cm" label="移动" />
       <el-table-column prop="cu" label="联通" />
@@ -49,8 +50,12 @@
           <span v-if="scope.row.source == '7'">组合超时</span>
         </template>
       </el-table-column>
-      <el-table-column prop="cid" label="CID" />
-      <el-table-column prop="mobile" label="手机号" width="150" />
+      <el-table-column prop="cid" label="CID" width="155" />
+      <el-table-column prop="mobile" label="手机号" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="combined" label="是否处理"
         ><template slot-scope="scope">
           <span v-if="scope.row.handleStatus == 0">未处理</span>
@@ -84,6 +89,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "smsCheck",
@@ -147,12 +153,14 @@ export default {
           type: "date",
           label: "审核日期",
           key: "checkDate",
-          placeholder: "审核日期"
+          placeholder: "审核日期",
+          defaultValue: new Date()
         },
         {
           type: "date",
           label: "提交日期",
-          key: "startTime"
+          key: "startTime",
+          defaultValue: new Date()
         }
       ]
     };
@@ -168,11 +176,11 @@ export default {
      * @private
      */
     _formatRequestData(data) {
+      if (data.checkDate) {
+        data.checkDate = new Date(data.checkDate).Format("yyyy-MM-dd");
+      }
       if (data.startTime) {
         data.startTime = new Date(data.startTime).Format("yyyy-MM-dd");
-      }
-      if (data.endTime) {
-        data.endTime = new Date(data.endTime).Format("yyyy-MM-dd 23:59:59");
       }
       return data;
     }

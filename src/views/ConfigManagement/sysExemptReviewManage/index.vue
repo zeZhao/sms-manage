@@ -25,12 +25,12 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="code" label="特服号" />
       <!-- <el-table-column prop="exemptReviewType" label="类型">
         <template slot-scope="scope">
@@ -445,28 +445,34 @@ export default {
           ],
           placeholder: "选择账户后自动识别"
         },
-        // {
-        //   type: "select",
-        //   label: "类型",
-        //   key: "exemptReviewType",
-        //   initDefaultValue: 2,
-        //   defaultValue: 2,
-        //   optionData: [
-        //     {
-        //       key: 1,
-        //       value: "特服号"
-        //     },
-        //     {
-        //       key: 2,
-        //       value: "账户编号"
-        //     },
-        //     {
-        //       key: 3,
-        //       value: "商户编号"
-        //     }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        // },
+        {
+          type: "select",
+          label: "类型",
+          key: "exemptReviewType",
+          initDefaultValue: 2,
+          defaultValue: 2,
+          optionData: [
+            // {
+            //   key: 1,
+            //   value: "特服号"
+            // },
+            {
+              key: 2,
+              value: "账户编号"
+            },
+            {
+              key: 3,
+              value: "商户编号"
+            }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
         {
           type: "radio",
           label: "通道排序",
@@ -477,14 +483,14 @@ export default {
             { key: 1, value: "按价格排序" },
             { key: 2, value: "按通道号排序" },
             { key: 3, value: "按通道名称排序" }
-          ],
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            }
           ]
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请输入必填项",
+          //     trigger: ["blur", "change"]
+          //   }
+          // ]
         },
         {
           type: "selectGroup",
@@ -587,30 +593,30 @@ export default {
             }
           ]
         },
-        {
-          type: "select",
-          label: "组合长信息",
-          initDefaultValue: "0",
-          defaultValue: "0",
-          optionData: [
-            {
-              key: "1",
-              value: "是"
-            },
-            {
-              key: "0",
-              value: "否"
-            }
-          ],
-          key: "isCombination",
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "组合长信息",
+        //   initDefaultValue: "0",
+        //   defaultValue: "0",
+        //   optionData: [
+        //     {
+        //       key: "1",
+        //       value: "是"
+        //     },
+        //     {
+        //       key: "0",
+        //       value: "否"
+        //     }
+        //   ],
+        //   key: "isCombination",
+        //   rules: [
+        //     {
+        //       required: true,
+        //       message: "请输入必填项",
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ]
+        // },
         {
           type: "select",
           label: "需要模板",
@@ -633,53 +639,85 @@ export default {
             }
           ]
         },
+
+        {
+          type: "select",
+          label: "拦截处理方式",
+          key: "unqualifiedsms",
+          initDefaultValue: 1,
+          defaultValue: 1,
+          optionData: [
+            {
+              key: 2,
+              value: "返回失败"
+            },
+            {
+              key: 1,
+              value: "人工审核"
+            }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "并行检测",
+          initDefaultValue: "0",
+          defaultValue: "0",
+          optionData: [
+            {
+              key: "1",
+              value: "是"
+            },
+            {
+              key: "0",
+              value: "否"
+            }
+          ],
+          key: "isParallelDetection",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "checkbox",
+          label: "特殊需求",
+          key: "isSpecials",
+          initDefaultValue: [],
+          defaultValue: [],
+          optionData: [
+            {
+              key: 1,
+              value: "扩展位数"
+            },
+            {
+              key: 2,
+              value: "显示号码"
+            },
+            {
+              key: 4,
+              value: "特殊内容"
+            }
+          ],
+          placeholder: "请选择特殊需求"
+        },
         {
           type: "checkbox",
           label: "敏感词组",
           initDefaultValue: [],
           defaultValue: [],
           optionData: [],
-          colSpan: 24,
           key: "sensitiveWord"
         }
-        // {
-        //   type: "select",
-        //   label: "是否检测并行",
-        //   initDefaultValue: "0",
-        //   defaultValue: "0",
-        //   optionData: [
-        //     {
-        //       key: "1",
-        //       value: "是"
-        //     },
-        //     {
-        //       key: "0",
-        //       value: "否"
-        //     }
-        //   ],
-        //   key: "isParallelDetection",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: ['blur', 'change'] }]
-        // },
-        // {
-        //   type: "select",
-        //   label: "特殊需求",
-        //   key: "specialNeeds",
-        //   optionData: [
-        //     {
-        //       key: "扩展位数",
-        //       value: "扩展位数"
-        //     },
-        //     {
-        //       key: "显示号码",
-        //       value: "显示号码"
-        //     },
-        //     {
-        //       key: "特殊内容",
-        //       value: "特殊内容"
-        //     }
-        //   ],
-        //   placeholder: "请选择特殊需求"
-        // },
         // {
         //   type: "textarea",
         //   label: "备注信息",
@@ -734,6 +772,18 @@ export default {
           "groupId",
           "groupName"
         );
+        // this.$nextTick(() => {
+        //   this.formConfig.forEach(item => {
+        //     if (item.key === "sensitiveWord") {
+        //       item.initDefaultValue = [];
+        //       res.data.forEach(t => {
+        //         item.initDefaultValue.push(t.groupId);
+        //         // item.defaultValue.push(t.groupId);
+        //       });
+        //       //initDefaultValue
+        //     }
+        //   });
+        // });
       });
     },
     //提交批量修改
@@ -847,7 +897,6 @@ export default {
         key === "ctPassageway" ||
         key === "cmPassageway"
       ) {
-        console.log(optionData, "------------optionData");
         optionData.forEach(el => {
           el.options.forEach(t => {
             if (t.key === val) {
@@ -959,19 +1008,23 @@ export default {
             obj[key] = "0";
           }
         }
-        if (obj.hasOwnProperty("sensitiveWord")) {
-          if (key === "sensitiveWord") {
-            if (typeof obj[key] === "string" && obj[key] && obj[key] != null) {
-              let arr = obj[key].split(",");
-              obj[key] = arr.map(item => {
+        if (key === "sensitiveWord") {
+          if (obj.hasOwnProperty("sensitiveWord")) {
+            if (
+              typeof obj[key] === "string" &&
+              obj[key] &&
+              obj[key] !== "-" &&
+              obj[key] != null
+            ) {
+              obj[key] = obj[key].split(",").map(item => {
                 return Number(item);
               });
             } else {
               obj[key] = [];
             }
+          } else {
+            obj[key] = [];
           }
-        } else {
-          obj["sensitiveWord"] = [];
         }
       }
       return obj;
@@ -1041,17 +1094,45 @@ export default {
       for (let key in formData) {
         if (key === "sensitiveWord") {
           if (
-            formData["sensitiveWord"] &&
-            Array.isArray(formData["sensitiveWord"])
+            formData[key] &&
+            Array.isArray(formData[key]) &&
+            formData[key].length
           ) {
             formData[key] = formData[key].join(",");
           } else {
-            formData["sensitiveWord"] = [];
+            formData[key] = [];
           }
         }
       }
       this.$set(formData, "isGatewayGroup", this.isGatewayGroup);
       return formData;
+    },
+
+    /**
+     * 提交成功后执行
+     * @param res
+     */
+    _mxSuccess(res, params) {
+      if (resOk(res)) {
+        //如果是页面新增、修改，则返回列表页
+        if (this.isPage) {
+          window.history.back();
+        }
+        this.$message.success(res.msg || res.data);
+        this._mxGetList();
+        this.addChannel = false;
+      } else {
+        this.formConfig.forEach(item => {
+          if (item.key === "sensitiveWord") {
+            let arr =
+              params.sensitiveWord && params.sensitiveWord.length
+                ? params.sensitiveWord.split(",")
+                : [];
+            item.defaultValue = arr.map(item => Number(item));
+          }
+        });
+        this.$message.error(res.data || res.msg);
+      }
     }
   },
   watch: {}

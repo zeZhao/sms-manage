@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" size="small" @click="edit"
@@ -20,18 +21,22 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="loginName" label="账户名称" />
+      <el-table-column prop="loginName" label="账户名称" width="120" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="content" label="内容" />
-      <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="counter" label="手机号个数" />
+      <el-table-column prop="content" label="内容" width="310" />
+      <el-table-column prop="mobile" label="手机号" width="100">
+        <template slot-scope="{row}">
+          <span>{{ row.mobile.slice(0, 11) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="counter" label="手机号个数" width="90" />
       <el-table-column prop="gateway" label="通道" />
-      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="hasSend" label="发送状态">
         <template slot-scope="scope">
           <span v-if="scope.row.hasSend === '0'">未发</span>
@@ -49,7 +54,9 @@
         }}</template>
       </el-table-column>
     </el-table>
-    <p style="color: red">手机号总条数: {{ tabBottomData || 0 }}</p>
+    <p style="color: red;font-size: 12px;">
+      手机号总条数: {{ tabBottomData || 0 }}
+    </p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -89,6 +96,7 @@ export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       editGateway: false,
       ViewTheSummary: false,
       date: new Date().Format("yyyy-MM-dd"),
@@ -372,6 +380,20 @@ export default {
     },
     _mxCancel() {
       this.editGateway = false;
+    },
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item => {
+        if (item.mobile) {
+          item.mobile = item.mobile.split(",")[0];
+        }
+      });
+      return listData;
     }
   },
   watch: {}

@@ -52,7 +52,8 @@
     <el-button type="primary" @click="newEnterprise">新增商户</el-button>
     <el-table
       :data="dataList"
-      max-height="430"
+      :height="tableHeight"
+      border
       highlight-current-row
       style="width: 100%;margin-top:20px"
     >
@@ -94,7 +95,7 @@
           }}</span> -->
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <!--修改 初始 禁用 启用-->
           <el-button @click="infoShow(scope.row)" type="text" size="small"
@@ -291,9 +292,11 @@
 </template>
 <script>
 import Util from "@/utils/reg";
+import listMixin from "@/mixin/listMixin";
 import ChooseEnterprise from "@/components/ChooseEnterprise";
 
 export default {
+  mixins: [listMixin],
   components: { ChooseEnterprise },
   data() {
     var validCode = (rule, value, callback) => {
@@ -608,8 +611,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-/deep/ .el-textarea .el-input__count {
-  bottom: -40px;
-}
-</style>
+<style lang="scss" scoped></style>

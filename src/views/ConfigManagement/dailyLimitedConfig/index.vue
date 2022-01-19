@@ -11,7 +11,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corporateId" label="商户编号" />
@@ -26,7 +26,7 @@
           scope.row.createTime | timeFormat
         }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="scope">
           <el-button @click="edit(scope.row)" type="text" size="small"
             >修改</el-button
@@ -69,7 +69,16 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
-      ></FormItem>
+      >
+        <template slot="Other">
+          <p
+            style="padding-left: 60px; font-size: 13px; line-height: 1.5; color: #999"
+          >
+            规则：只要有相关通道的配置数据，该通道加载后则认为当前通道需要限量。配置了该设置的客户进行限量处理，超量后进入到14号通道形成超量的失败状态返回给客户。未进行配置走到当前通道的客户，则不进行限速处理。
+            如果想取消当前通道的限速逻辑，需要清理掉该通道的所有限速配置数据。
+          </p>
+        </template>
+      </FormItem>
     </el-drawer>
     <!-- <el-dialog
       :title="formTit"
@@ -210,6 +219,7 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.getGatewayList();
   },
   methods: {
     getGatewayList() {

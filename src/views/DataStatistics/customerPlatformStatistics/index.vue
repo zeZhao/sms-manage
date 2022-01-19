@@ -6,6 +6,7 @@
       @search="_mxDoSearch"
       @exportData="exportData"
       :add="false"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" @click="exportExe" style="margin-left: 15px"
@@ -18,7 +19,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -36,10 +37,12 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+
 export default {
   mixins: [listMixin],
   data() {
     return {
+      notSearch: true,
       //接口地址
       searchAPI: {
         namespace: "reports",
@@ -67,7 +70,8 @@ export default {
         {
           type: "month",
           label: "统计月份",
-          key: "countDate"
+          key: "countDate",
+          defaultValue: new Date().Format("yyyy-MM")
         }
       ]
     };

@@ -21,6 +21,7 @@
       :data="listData"
       border
       highlight-current-row
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="corpId" label="商户编号" />
@@ -110,7 +111,7 @@
       </el-table-column>
     </el-table>
 
-    <p style="color: red">
+    <p style="color: red;font-size: 12px;">
       <span
         v-if="
           isChooseTimeData.createStartTime || isChooseTimeData.createEndTime

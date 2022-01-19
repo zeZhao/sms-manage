@@ -1,5 +1,5 @@
 <template>
-  <div class="searchPanel">
+  <div class="searchPanel" id="searchPanel">
     <el-form
       v-if="searchFormConfig.length"
       ref="form"
@@ -11,39 +11,11 @@
           v-for="(item, index) in searchFormConfig"
           :key="index"
           :gutter="16"
-          :md="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
-              ? 12
-              : 6
-          "
-          :lg="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
-              ? 8
-              : 4
-          "
-          :xl="
-            [
-              'daterange',
-              'timerange',
-              'datetime',
-              'selectInp',
-              'checkbox'
-            ].includes(item.type) || item.isLonger
-              ? 6
-              : 3
-          "
+          :xs="grid(item, 'xs', 12, 8, 16, 6)"
+          :sm="grid(item, 'sm', 12, 8, 16, 6)"
+          :md="grid(item, 'md', 12, 8, 16, 6)"
+          :lg="grid(item, 'lg', 8, 6, 12, 4)"
+          :xl="grid(item, 'xl', 6, 5, 8, 3)"
         >
           <transition name="el-zoom-in-top">
             <el-form-item
@@ -54,7 +26,7 @@
               <!--输入框-->
               <template v-if="item.type === 'input'">
                 <el-input
-                  v-model="form[item.key]"
+                  v-model.trim="form[item.key]"
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
@@ -69,9 +41,19 @@
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
-                  oninput="if(value.length > 11) value = value.slice(0,11)"
-                  onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+                  oninput="if(value.length > 11)value=value.slice(0,11)"
+                  onKeypress="this.value=this.value.replace(/\D/g,'')"
                 ></el-input>
+                <!-- 
+                  @blur="
+                    item.defaultValue = form[
+                      item.key
+                    ] = $event.target.value = $event.target.value.replace(
+                      /\D+/gm,
+                      ''
+                    )
+                  "
+                 -->
                 <!-- @input="_mxHandleSubmit()" -->
               </template>
 
@@ -233,13 +215,12 @@
             </el-form-item>
           </transition>
         </el-col>
-        <el-col :span="4">
+        <el-col :md="mxCol" :lg="lgCol" :xl="xlCol">
           <div class="btnStyle">
             <slot name="Btn">
               <el-button
                 type="primary"
                 @click="_mxHandleSubmit()"
-                style="margin-left: 15px"
                 size="small"
                 v-throttle
                 >查询</el-button
@@ -248,7 +229,7 @@
             </slot>
           </div>
         </el-col>
-        <el-col :span="8" v-show="$slots.Other">
+        <el-col :span="8" v-show="$slots.Other || isOther">
           <div class="btnStyle">
             <slot name="Other" :form="form"></slot>
           </div>
@@ -290,7 +271,7 @@
       </el-col>
     </el-row> -->
 
-    <el-row style="margin-top:8px">
+    <el-row style="margin-top:8px" v-show="add">
       <el-col>
         <el-button
           v-if="add && searchFormConfig.length"
@@ -320,6 +301,10 @@ export default {
       type: Boolean,
       default: true
     },
+    isOther: {
+      type: Boolean,
+      default: false
+    },
     search: {
       type: Boolean,
       default: true
@@ -327,6 +312,18 @@ export default {
     reset: {
       type: Boolean,
       default: true
+    },
+    mxCol: {
+      type: Number,
+      default: 6
+    },
+    lgCol: {
+      type: Number,
+      default: 4
+    },
+    xlCol: {
+      type: Number,
+      default: 3
     },
     //默认进入该页面不查询
     notSearch: {
@@ -351,6 +348,29 @@ export default {
     }
   },
   methods: {
+    //栅格占比
+    grid(item, type, combinationGrid, dateGrid, datetimeGrid, defaultGrid) {
+      let combinationGridList = ["daterange", "timerange", "selectInp"];
+      let checkboxGrid = null;
+      if (item.type === "checkbox") {
+        if (item.gridList && item.gridList.length > 0) {
+          item.gridList.forEach(item => {
+            if (item.type === type) {
+              checkboxGrid = item.grid;
+            }
+          });
+        }
+      }
+      return combinationGridList.includes(item.type) || item.isLonger
+        ? combinationGrid
+        : ["date"].includes(item.type)
+        ? dateGrid
+        : ["datetime"].includes(item.type)
+        ? datetimeGrid
+        : ["checkbox"].includes(item.type)
+        ? checkboxGrid || combinationGrid
+        : defaultGrid;
+    },
     //切换收起和展开功能
     handleToggleIsCollapse() {
       this.isCollapse = !this.isCollapse;
@@ -423,12 +443,15 @@ export default {
 
     initComponent() {
       const form = {};
+      const doubleValue = ["daterange", "datetime", "timerange"]; // 双值的type类型
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (type !== "daterange" && type !== "datetime") {
+          if (doubleValue.indexOf(type) === -1) {
+            // 单值
             form[key] = item.defaultValue;
           } else {
+            // 双值
             form[key[1]] = item.defaultValue[1];
             form[key[2]] = item.defaultValue[2];
           }
@@ -489,9 +512,16 @@ export default {
 
 .searchPanel {
   background: #fff;
+  margin-bottom: 8px;
   ::v-deep .el-col {
     height: 28px;
     margin-bottom: 8px;
+  }
+  ::v-deep .el-col:last-child {
+    margin-bottom: 0;
+  }
+  ::v-deep .el-date-editor .el-input__inner {
+    padding: 0 0 0 30px !important;
   }
 
   .btnStyle {

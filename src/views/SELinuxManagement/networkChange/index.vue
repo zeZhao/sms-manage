@@ -3,6 +3,7 @@
   <div class="networkChange">
     <Search
       :searchFormConfig="searchFormConfig"
+      :isOther="true"
       @search="_mxDoSearch"
       @create="_mxCreate"
     >
@@ -20,7 +21,7 @@
       border
       highlight-current-row
       style="width: 100%"
-      height="50vh"
+      :height="tableHeight"
       v-loading="loading"
     >
       <el-table-column prop="mobile" label="手机号" />
@@ -48,7 +49,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createUser" label="操作人" />
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="_mxEdit(scope.row, 'id')" type="text" size="small"
             >修改</el-button

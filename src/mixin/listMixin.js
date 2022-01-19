@@ -204,20 +204,38 @@ export default {
       submitParamsIsData: true,
       // 删除时参数是否需要data包含
       deleteParamsIsData: true,
+      //表格默认高度
+      tableHeight: "50vh"
     };
   },
 
   created() { },
 
   mounted() {
+    //动态计算表格高度
+    this.handleTableResize()
+    window.addEventListener("resize", this.handleTableResize);
     // 默认进入该页面不查询
     if (this.notSearch) return;
 
     // 请求数据
     this._mxGetBeforeListData();
   },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleTableResize);
+  },
 
   methods: {
+    handleTableResize() {
+      const content = document.getElementById("content");
+      const searchPanel = document.getElementById("searchPanel");
+      const contentClientHeight = content ? content.clientHeight : 0;
+      const searchPanelClientHeight = searchPanel ? searchPanel.clientHeight : 0;
+      this.$nextTick(() => {
+        // 70为底部距离分页器
+        this.tableHeight = `${(contentClientHeight - searchPanelClientHeight - 70).toString()}px`;
+      });
+    },
     /***
      * 请求数据
      * @private
@@ -488,7 +506,7 @@ export default {
 
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, hasData && this.submitParamsIsData ? params.data : params);
         });
       } else {
         if (hasData && this.submitParamsIsData) {
@@ -504,7 +522,7 @@ export default {
         // params.data[editId] = this.id
         // this.$set(params.data, editId, this.id)
         this.$http[namespace][edit](params).then(res => {
-          this._mxSuccess(res);
+          this._mxSuccess(res, hasData && this.submitParamsIsData ? params.data : params);
         });
       }
     },
@@ -512,7 +530,7 @@ export default {
      * 提交成功后执行
      * @param res
      */
-    _mxSuccess(res) {
+    _mxSuccess(res, params) {
       if (resOk(res)) {
         //如果是页面新增、修改，则返回列表页
         if (this.isPage) {
