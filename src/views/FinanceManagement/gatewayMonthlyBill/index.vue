@@ -17,6 +17,7 @@
     >
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="gatewayName" label="通道名称" />
+      <el-table-column prop="supplierName" label="供应商名称" />
       <el-table-column prop="countDateStr" label="月份" width="150">
         <template slot-scope="scope">{{
           scope.row.countDateStr | FormatMonth
@@ -65,6 +66,11 @@ export default {
           type: "input",
           label: "通道名称",
           key: "gatewayName"
+        },
+        {
+          type: "input",
+          label: "供应商名称",
+          key: "supplierName"
         },
         {
           type: "daterange",

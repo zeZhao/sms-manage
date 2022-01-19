@@ -978,7 +978,7 @@ export default {
           label: "产品类型",
           key: "proType",
           // multiple: true,
-          disabled: this.formTit === "修改",
+          // disabled: this.formTit === "修改",
           // clearable: true,
           defaultValue: [],
           initDefaultValue: [],
@@ -1908,12 +1908,12 @@ export default {
       setTimeout(() => {
         this.$refs.formItemTit.clearValidate();
       }, 0);
-      this.disabledProType();
+      // this.disabledProType();
       this.getUserId(lineData);
       this.formConfig.forEach(item => {
-        if (item.key === "loginName") {
-          item.disabled = true;
-        }
+        // if (item.key === "loginName") {
+        //   item.disabled = true;
+        // }
         if (item.key === "password") {
           let arr = [
             {
@@ -2027,9 +2027,9 @@ export default {
         // if (item.key == "mmsProType") {
         //   this.$set(item, "disabled", true);
         // }
-        if (item.key == "corpId") {
-          this.$set(item, "disabled", true);
-        }
+        // if (item.key == "corpId") {
+        //   this.$set(item, "disabled", true);
+        // }
         // if (item.key == "reductModel") {
         //   if (productTypeVal.includes(1)) {
         //     this.$set(item, "disabled", true);
