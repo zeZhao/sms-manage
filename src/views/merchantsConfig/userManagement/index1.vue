@@ -880,9 +880,9 @@ export default {
         },
         {
           type: "select",
-          label: "是否直客",
+          label: "客户类型",
           key: "isDirectUser",
-          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "同行" }],
+          optionData: [{ key: 1, value: "直客" }, { key: 2, value: "渠道" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
