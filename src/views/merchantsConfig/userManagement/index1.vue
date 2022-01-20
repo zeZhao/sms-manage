@@ -1375,6 +1375,8 @@ export default {
       ],
       // 新增展示上一账户编号和修改展示当前账户编号
       titleTips: "",
+      // 新建时用于给登录账号赋值
+      prevUserId: "",
 
       agentListData: [],
       salemanListData: [],
@@ -1543,12 +1545,12 @@ export default {
       });
     },
     // 获取账户编号
-    getUserId(data) {
+    async getUserId(data) {
       this.titleTips = ""; // 重置
       if (this.formTit === "新增") {
-        this.$http.corpUser.getLasttUserId().then(res => {
-          this.titleTips = `（上一个账户编号为：${res.data}）`;
-        });
+        const res = await this.$http.corpUser.getLasttUserId();
+        this.titleTips = `（上一个账户编号为：${res.data}）`;
+        this.prevUserId = res.data;
       } else {
         this.titleTips = `（账户编号为：${data.userId}）`;
       }
@@ -1799,7 +1801,6 @@ export default {
       //   name: "userManagementType",
       //   query: { type: "create" }
       // });
-      this.addChannel = true;
       this.formTit = "新增";
       let arr = [
         { required: true, message: "请输入必填项", trigger: "blur" },
@@ -1822,6 +1823,9 @@ export default {
           }
         }
       ];
+      await this.getAllCorp();
+      await this.getRole();
+      await this.getUserId();
       this.formConfig.forEach(item => {
         if (item.key === "password") {
           item.rules = arr;
@@ -1851,7 +1855,10 @@ export default {
           item.isShow = true;
         }
         if (item.key === "loginName") {
-          item.disabled = false;
+          // item.disabled = false;
+          const val = `u${this.prevUserId + 1}`;
+          this.$set(item, "defaultValue", val);
+          this.$set(item, "initDefaultValue", val);
         }
         // if (item.key === "moUrl" || item.key === "reportUrl") {
         //   this.$set(item, "rules", [
@@ -1859,9 +1866,7 @@ export default {
         //   ]);
         // }
       });
-      await this.getAllCorp();
-      await this.getRole();
-      await this.getUserId();
+      this.addChannel = true;
       setTimeout(() => {
         this.$refs.formItemTit.resetForm();
       }, 0);
