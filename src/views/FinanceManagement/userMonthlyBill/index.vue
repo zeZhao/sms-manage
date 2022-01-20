@@ -58,6 +58,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateToString } from "@/utils";
 const date = new Date();
 
 export default {
@@ -89,35 +90,36 @@ export default {
           placeholder: "请输入账户名称"
         },
         {
-          type: "month",
+          type: "daterange",
           label: "统计日期",
-          key: "startTime",
+          // key: "startTime",
           clearable: false,
-          defaultValue: `${
-            date.getMonth() !== 0 ? date.getFullYear() : date.getFullYear() - 1
-          }-${
-            date.getMonth() < 10
-              ? date.getMonth() !== 0
-                ? "0" + date.getMonth()
-                : 12
-              : date.getMonth()
-          }`,
-          pickerOptions: {
-            disabledDate(time) {
-              const t = `${date.getFullYear()}-${
-                date.getMonth() + 1 < 10
-                  ? "0" + (date.getMonth() + 1)
-                  : date.getMonth() + 1
-              }`;
-              const other = `${time.getFullYear()}-${
-                time.getMonth() + 1 < 10
-                  ? "0" + (time.getMonth() + 1)
-                  : time.getMonth() + 1
-              }`;
-              return other > t;
-            }
-          }
-          // key: ["", "startTime", "endTime"]
+          // defaultValue: `${
+          //   date.getMonth() !== 0 ? date.getFullYear() : date.getFullYear() - 1
+          // }-${
+          //   date.getMonth() < 10
+          //     ? date.getMonth() !== 0
+          //       ? "0" + date.getMonth()
+          //       : 12
+          //     : date.getMonth()
+          // }`,
+          // pickerOptions: {
+          //   disabledDate(time) {
+          //     const t = `${date.getFullYear()}-${
+          //       date.getMonth() + 1 < 10
+          //         ? "0" + (date.getMonth() + 1)
+          //         : date.getMonth() + 1
+          //     }`;
+          //     const other = `${time.getFullYear()}-${
+          //       time.getMonth() + 1 < 10
+          //         ? "0" + (time.getMonth() + 1)
+          //         : time.getMonth() + 1
+          //     }`;
+          //     return other > t;
+          //   }
+          // }
+          key: ["", "startTime", "endTime"],
+          defaultValue: ["", getDateToString(), getDateToString()]
         }
       ]
     };
