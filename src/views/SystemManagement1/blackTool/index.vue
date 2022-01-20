@@ -6,8 +6,11 @@
       :add="false"
       @search="_mxDoSearch"
       @create="_mxCreate"
-    ></Search>
-    <el-button type="primary" @click="Import">导入</el-button>
+    >
+      <template slot="Other">
+        <el-button type="primary" @click="Import">导入</el-button>
+      </template>
+    </Search>
 
     <el-table
       :data="listData"
@@ -26,7 +29,7 @@
         </template>
       </el-table-column>
       <el-table-column label="状态" width="150" fixed="right">
-        <template slot-scope="scope">
+        <template>
           <el-button type="text" size="small">导入完成</el-button>
           <!-- <el-button v-if="scope.row.taskStatus === 2" type="text" size="small"
             >导入失败</el-button
@@ -110,13 +113,17 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-// const validateBlackNum = (rule, value, callback) => {
-//   if (value) {
-//     this
-//   } else {
-//     callback(new Error("请输入账户编号"));
-//   }
-// };
+const validateBlackNum = (rule, value, callback) => {
+  if (value) {
+    if (value.split(",").length > 10) {
+      callback(new Error("账户编号不能超过10个~"));
+    } else {
+      callback();
+    }
+  } else {
+    callback(new Error("请输入账户编号"));
+  }
+};
 export default {
   mixins: [listMixin],
   data() {
@@ -153,8 +160,8 @@ export default {
           {
             required: true,
             trigger: ["change", "blur"],
-            message: "请输入账户编号"
-            // validator: validateBlackNum
+            // message: "请输入账户编号"
+            validator: validateBlackNum
           }
         ]
       },
