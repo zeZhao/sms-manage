@@ -31,7 +31,18 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="账户特服号" />
       <el-table-column prop="gwcode" label="通道特服号" />
-      <el-table-column prop="gateway" label="通道编号" />
+      <el-table-column prop="gateway" label="通道编号">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="sign" label="账户签名" />
       <el-table-column prop="remark" label="备注信息" />
       <el-table-column prop="createby" label="创建人" />

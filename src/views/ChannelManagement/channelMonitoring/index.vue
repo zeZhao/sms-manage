@@ -13,7 +13,18 @@
       style="width: 100%"
       :height="tableHeight"
     >
-      <el-table-column prop="gateway" label="通道编号" />
+      <el-table-column prop="gateway" label="通道编号"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="monitorTime" label="监控日期" width="135">
         <template slot-scope="scope">{{
           scope.row.monitorTime | timeFormat
