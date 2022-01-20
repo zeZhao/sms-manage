@@ -1525,6 +1525,8 @@ export default {
         if (res.code === 200) {
           this.editUserPassword = false;
           this.$message.success(res.data || res.msg);
+        } else {
+          this.$message.error(res.data || res.msg);
         }
       })
     },
