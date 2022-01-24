@@ -175,16 +175,16 @@ export default {
       } else if (item == "4") {
         return "后付成功计费";
       } else {
-        return "";
+        return "-";
       }
     },
     renderIsDirectUser(item) {
       if (item == "1") {
         return "直客";
       } else if (item == "2") {
-        return "代理商";
+        return "渠道";
       } else {
-        return "";
+        return "-";
       }
     },
     //格式化表格数据且初始化数据
