@@ -31,7 +31,18 @@
       <el-table-column prop="loginName" label="账户名称" width="120" />
       <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="mobile" label="手机号" width="100" />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="errCode" label="错误码" />
       <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="err" label="错误描述" />

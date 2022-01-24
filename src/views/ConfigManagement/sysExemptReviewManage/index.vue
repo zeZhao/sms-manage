@@ -43,9 +43,42 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="cmPassageway" label="移动通道" />
-      <el-table-column prop="cuPassageway" label="联通通道" />
-      <el-table-column prop="ctPassageway" label="电信通道" />
+      <el-table-column prop="cmPassageway" label="移动通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cmGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cmPassageway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cuPassageway" label="联通通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cuGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cuPassageway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ctPassageway" label="电信通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.ctGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.ctPassageway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="exemptReviewNum" label="免审数量" />
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">

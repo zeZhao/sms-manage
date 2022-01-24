@@ -2326,6 +2326,21 @@ export default {
             return post("/pushToolTask/delete", params);
         }
     },
+    // 黑名单工具
+    sysBlacklist: {
+        // 列表
+        queryTaskByPage(params) {
+            return post("/sysBlacklist/queryTaskByPage", params);
+        },
+        // 转入
+        addSmartUserBlackToSms(params) {
+            return fetch("/sysBlacklist/addSmartUserBlackToSms", params);
+        },
+        // 数量检测
+        queryBlackCountAndUserId(params) {
+            return fetch("/sysBlacklist/queryBlackCountAndUserId", params);
+        },
+    },
     // 供应商信息
     smsSupplierInfo: {
         // 分页查询供应商信息

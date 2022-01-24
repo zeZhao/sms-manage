@@ -414,13 +414,31 @@
         <p>账户名称: {{ infoData.userName }}</p>
         <p>web登录账号: {{ infoData.loginName }}</p>
         <p>
-          web密码: 
-          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
-          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
-          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
-          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
+          web密码:
+          <span v-if="!editUserPassword">{{
+            infoData.webPassword || "-"
+          }}</span>
+          <span v-else
+            ><el-input
+              v-model="infoData.webPassword"
+              clearable
+              placeholder="请输入web密码"
+              class="pwd"
+          /></span>
+          <span
+            v-if="!renderLock && !editUserPassword"
+            class="edit-user-password"
+            @click="editUserPassword = true"
+            >修改</span
+          >
+          <span
+            v-if="!renderLock && editUserPassword"
+            class="edit-user-password"
+            @click="handleEditUserPassword"
+            >确定</span
+          >
         </p>
-        <p>网址: sms.jvtd.cn</p>
+        <p>网址: https://sms.jvtd.cn/#/login</p>
       </div>
 
       <div v-if="infoData.proType === 2">
@@ -431,11 +449,29 @@
         <p>账户名称: {{ infoData.userName }}</p>
         <p>http密码: {{ infoData.password || "-" }}</p>
         <p>
-          web密码: 
-          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
-          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
-          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
-          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
+          web密码:
+          <span v-if="!editUserPassword">{{
+            infoData.webPassword || "-"
+          }}</span>
+          <span v-else
+            ><el-input
+              v-model="infoData.webPassword"
+              clearable
+              placeholder="请输入web密码"
+              class="pwd"
+          /></span>
+          <span
+            v-if="!renderLock && !editUserPassword"
+            class="edit-user-password"
+            @click="editUserPassword = true"
+            >修改</span
+          >
+          <span
+            v-if="!renderLock && editUserPassword"
+            class="edit-user-password"
+            @click="handleEditUserPassword"
+            >确定</span
+          >
         </p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
@@ -453,17 +489,47 @@
         <p>账户名称: {{ infoData.userName }}</p>
         <p>cmpp密码: {{ infoData.password || "-" }}</p>
         <p>
-          web密码: 
-          <span v-if="!editUserPassword">{{ infoData.webPassword || "-" }}</span>
-          <span v-else><el-input v-model="infoData.webPassword" clearable placeholder="请输入web密码" class="pwd" /></span>
-          <span v-if="!renderLock && !editUserPassword" class="edit-user-password" @click="editUserPassword = true">修改</span>
-          <span v-if="!renderLock && editUserPassword" class="edit-user-password" @click="handleEditUserPassword">确定</span>
+          web密码:
+          <span v-if="!editUserPassword">{{
+            infoData.webPassword || "-"
+          }}</span>
+          <span v-else
+            ><el-input
+              v-model="infoData.webPassword"
+              clearable
+              placeholder="请输入web密码"
+              class="pwd"
+          /></span>
+          <span
+            v-if="!renderLock && !editUserPassword"
+            class="edit-user-password"
+            @click="editUserPassword = true"
+            >修改</span
+          >
+          <span
+            v-if="!renderLock && editUserPassword"
+            class="edit-user-password"
+            @click="handleEditUserPassword"
+            >确定</span
+          >
         </p>
         <p>协议: CMPP</p>
-        <p>通道接入码: {{ infoData.longCode && infoData.longCode !== "-" ? infoData.longCode : "置空" }}</p>
+        <p>
+          通道接入码:
+          {{
+            infoData.longCode && infoData.longCode !== "-"
+              ? infoData.longCode
+              : "置空"
+          }}
+        </p>
         <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
-        <p>通道速率: {{ infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒" }}</p>
+        <p>
+          通道速率:
+          {{
+            infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒"
+          }}
+        </p>
       </div>
     </el-dialog>
     <el-dialog
@@ -481,10 +547,21 @@
         style="width: 80%; margin: auto"
       >
         <el-form-item label="手机号:" prop="account">
-          <el-input v-model="formData.account" clearable placeholder="请输入手机号"></el-input>
+          <el-input
+            v-model="formData.account"
+            clearable
+            placeholder="请输入手机号"
+          ></el-input>
         </el-form-item>
         <el-form-item label="口令:" prop="pwd">
-          <el-input v-model="formData.pwd" type="password" maxlength="6" clearable placeholder="请输入口令" @keyup.enter.native="notDisabled"></el-input>
+          <el-input
+            v-model="formData.pwd"
+            type="password"
+            maxlength="6"
+            clearable
+            placeholder="请输入口令"
+            @keyup.enter.native="notDisabled"
+          ></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -1502,7 +1579,9 @@ export default {
         case 1:
           return !!(!webPassword || webPassword === "-");
         case 2:
-          const http = [password, webPassword, secretKey].some(v => !v || v === "-");
+          const http = [password, webPassword, secretKey].some(
+            v => !v || v === "-"
+          );
           return http;
         case 4:
           const cmpp = [password, webPassword].some(v => !v || v === "-");
@@ -1520,17 +1599,21 @@ export default {
     handleEditUserPassword() {
       const { userId, webPassword } = this.infoData;
       if (!isPassword(webPassword)) {
-        this.$message.error("密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位");
+        this.$message.error(
+          "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+        );
         return;
       }
-      this.$http.corpUser.updateWebPassword({ userId, webPassword }).then(res => {
-        if (res.code === 200) {
-          this.editUserPassword = false;
-          this.$message.success(res.data || res.msg);
-        } else {
-          this.$message.error(res.data || res.msg);
-        }
-      })
+      this.$http.corpUser
+        .updateWebPassword({ userId, webPassword })
+        .then(res => {
+          if (res.code === 200) {
+            this.editUserPassword = false;
+            this.$message.success(res.data || res.msg);
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        });
     },
     //获取黑名单类型
     getBlackFroup() {
@@ -1769,10 +1852,15 @@ export default {
 
           this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
-              if (this.infoData.proType === 2) { // HTTP类型 ------ 查秘钥
+              if (this.infoData.proType === 2) {
+                // HTTP类型 ------ 查秘钥
                 this.$http.corpUser.getSecretKeyById(userId).then(response => {
                   this.$nextTick(() => {
-                    this.$set(this.infoData, "secretKey", response.data.publicKey);
+                    this.$set(
+                      this.infoData,
+                      "secretKey",
+                      response.data.publicKey
+                    );
                   });
                 });
               }
