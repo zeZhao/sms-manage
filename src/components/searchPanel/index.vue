@@ -447,17 +447,16 @@ export default {
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (doubleValue.indexOf(type) === -1) {
-            // 单值
+          if (doubleValue.indexOf(type) === -1) { // 单值
             form[key] = item.defaultValue;
-          } else {
-            // 双值
+          } else {                                // 双值
             form[key[1]] = item.defaultValue[1];
             form[key[2]] = item.defaultValue[2];
           }
         }
       });
-      this.form = form;
+
+      this.form = Object.assign({}, this.form, form);
 
       // 彩信分类统计特殊页面传该form引用类型数据
       this.searchFormConfig.forEach(item => {
@@ -466,7 +465,8 @@ export default {
         }
       });
 
-      if (this.notSearch) return; //默认进入该页面不查询
+      if (this.notSearch) return; // 默认进入该页面不查询
+
       this._mxHandleSubmit();
     },
 
