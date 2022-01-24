@@ -413,7 +413,7 @@
             style="font-size: 20px;color: #909399;margin-left:5px"
           ></i>
         </p>
-        <p>网址: sms.jvtd.cn</p>
+        <p>网址: https://sms.jvtd.cn/#/login</p>
         <!-- <p>
           秘钥: {{ infoData.secretKey }}
           <i
