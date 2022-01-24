@@ -31,7 +31,18 @@
         width="100"
         v-if="searchParam.showDecrypt === 1"
       />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span>{{
@@ -252,7 +263,7 @@ export default {
      */
     _mxFormListData(listData) {
       listData.forEach(item => {
-        item.srcId = (item.srcId || item.srcId === 0) ? item.srcId : "-";
+        item.srcId = item.srcId || item.srcId === 0 ? item.srcId : "-";
       });
       return listData;
     }

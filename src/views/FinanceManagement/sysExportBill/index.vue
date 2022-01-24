@@ -58,7 +58,18 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span v-if="scope.row.smsType === 1">短信</span>
