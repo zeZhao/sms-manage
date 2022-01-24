@@ -29,7 +29,18 @@
       <el-table-column prop="pushStatus" label="推送状态" />
       <el-table-column prop="repeatNum" label="重复次数" />
       <el-table-column prop="seqId" label="SEQID" width="155" />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
     </el-table>
 
     <Page
