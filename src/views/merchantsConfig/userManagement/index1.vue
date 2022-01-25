@@ -483,7 +483,7 @@
           >
         </p>
         <p>客户端IP: {{ infoData.userIp }}</p>
-        <p>接口地址: http://sms3api.jvtd.cn/jtdsms/smsSend</p>
+        <p>接口地址: https://sms3api.jvtd.cn/jtdsms/smsSend</p>
         <p>接口文档: https://jvtd.cn/duanxinApi/</p>
         <p>秘钥: {{ infoData.secretKey || "-" }}</p>
       </div>
