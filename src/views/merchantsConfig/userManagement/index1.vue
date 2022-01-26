@@ -408,10 +408,10 @@
       </span>
 
       <div v-if="infoData.proType === 1">
-        <p>产品类型: web</p>
+        <p>产品类型: WEB</p>
         <p>企业名称: {{ infoData.corpName }}</p>
-        <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>账户编号: {{ infoData.userId }}</p>
         <p>web登录账号: {{ infoData.loginName }}</p>
         <p>
           web密码:
@@ -438,7 +438,7 @@
             >确定</span
           >
         </p>
-        <p>网址: https://sms.jvtd.cn/#/login</p>
+        <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
         <!-- <p>
           秘钥: {{ infoData.secretKey }}
           <i
@@ -451,12 +451,17 @@
       </div>
 
       <div v-if="infoData.proType === 2">
-        <p>产品类型: HTTP/WEB</p>
+        <p>产品类型: HTTP</p>
         <p>企业名称: {{ infoData.corpName }}</p>
-        <p>web登录账号: {{ infoData.loginName }}</p>
-        <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>账户编号: {{ infoData.userId }}</p>
         <p>http密码: {{ infoData.password || "-" }}</p>
+        <p>客户端IP: {{ infoData.userIp }}</p>
+        <p>接口地址: https://sms3api.jvtd.cn/jtdsms/smsSend</p>
+        <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+        <el-divider></el-divider>
+        <p>产品类型: WEB端</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
         <p>
           web密码:
           <span v-if="!editUserPassword">{{
@@ -482,63 +487,64 @@
             >确定</span
           >
         </p>
-        <p>客户端IP: {{ infoData.userIp }}</p>
-        <p>接口地址: https://sms3api.jvtd.cn/jtdsms/smsSend</p>
-        <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+        <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+        <p>加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption</p>
         <p>秘钥: {{ infoData.secretKey || "-" }}</p>
       </div>
 
       <div v-if="infoData.proType === 4">
-        <p>产品类型: CMPP2.0/WEB</p>
+        <p>产品类型: CMPP2.0</p>
         <p>企业名称: {{ infoData.corpName }}</p>
-        <p>接口地址: 39.107.120.170</p>
-        <p>端口: 7893</p>
-        <p>web登录账号: {{ infoData.loginName }}</p>
-        <p>账户编号: {{ infoData.userId }}</p>
         <p>账户名称: {{ infoData.userName }}</p>
+        <p>账户编号: {{ infoData.userId }}</p>
         <p>cmpp密码: {{ infoData.password || "-" }}</p>
+        <p>端口: 7893</p>
+        <p>IP地址: 39.107.120.170</p>
         <p>
-          web密码:
-          <span v-if="!editUserPassword">{{
-            infoData.webPassword || "-"
-          }}</span>
-          <span v-else
-            ><el-input
-              v-model="infoData.webPassword"
-              clearable
-              placeholder="请输入web密码"
-              class="pwd"
-          /></span>
-          <span
-            v-if="!renderLock && !editUserPassword"
-            class="edit-user-password"
-            @click="editUserPassword = true"
-            >修改</span
-          >
-          <span
-            v-if="!renderLock && editUserPassword"
-            class="edit-user-password"
-            @click="handleEditUserPassword"
-            >确定</span
-          >
-        </p>
-        <p>协议: CMPP</p>
-        <p>
-          通道接入码:
+          接入码:
           {{
             infoData.longCode && infoData.longCode !== "-"
               ? infoData.longCode
               : "置空"
           }}
         </p>
-        <p>客户端IP: {{ infoData.userIp }}</p>
         <p>链接路数: {{ infoData.maxSession }}</p>
         <p>
-          通道速率:
+          速率:
           {{
             infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒"
           }}
         </p>
+        <p>客户端IP: {{ infoData.userIp }}</p>
+        <el-divider></el-divider>
+        <p>产品类型: WEB端</p>
+        <p>web登录账号: {{ infoData.loginName }}</p>
+        <p>
+          web密码:
+          <span v-if="!editUserPassword">{{
+            infoData.webPassword || "-"
+          }}</span>
+          <span v-else
+            ><el-input
+              v-model="infoData.webPassword"
+              clearable
+              placeholder="请输入web密码"
+              class="pwd"
+          /></span>
+          <span
+            v-if="!renderLock && !editUserPassword"
+            class="edit-user-password"
+            @click="editUserPassword = true"
+            >修改</span
+          >
+          <span
+            v-if="!renderLock && editUserPassword"
+            class="edit-user-password"
+            @click="handleEditUserPassword"
+            >确定</span
+          >
+        </p>
+        <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
       </div>
     </el-dialog>
     <el-dialog
