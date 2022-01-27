@@ -788,6 +788,21 @@ export default {
         deleteSysBlackList(params) {
             return post("/sysBlacklist/deleteSysBlackList", params);
         },
+
+        // 以下api为黑名单工具页面api
+
+        // 列表
+        queryTaskByPage(params) {
+            return post("/sysBlacklist/queryTaskByPage", params);
+        },
+        // 转入
+        addSmartUserBlackToSms(params) {
+            return fetch("/sysBlacklist/addSmartUserBlackToSms", params);
+        },
+        // 数量检测
+        queryBlackCountAndUserId(params) {
+            return fetch("/sysBlacklist/queryBlackCountAndUserId", params);
+        }
     },
     // 红名单管理
     sysRedList: {
@@ -1407,25 +1422,6 @@ export default {
         //  检测是否存在
         checkSensitiveWordGroup(params) {
             return post("/sysSensitiveWordGroup/checkSensitiveWordGroup", params);
-        },
-    },
-    // 黑名单管理
-    sysBlacklist: {
-        // 查询列表
-        listBlacklistByPage(params) {
-            return post("/sysBlacklist/listBlacklistByPage", params);
-        },
-        // 新增
-        addSysBlackList(params) {
-            return post("/sysBlacklist/addSysBlackList", params);
-        },
-        // 修改
-        updateSysBlackList(params) {
-            return post("/sysBlacklist/updateSysBlackList", params);
-        },
-        //  删除
-        deleteSysBlackList(params) {
-            return post("/sysBlacklist/deleteSysBlackList", params);
         },
     },
     // 红名单管理
@@ -2325,21 +2321,6 @@ export default {
         delete(params) {
             return post("/pushToolTask/delete", params);
         }
-    },
-    // 黑名单工具
-    sysBlacklist: {
-        // 列表
-        queryTaskByPage(params) {
-            return post("/sysBlacklist/queryTaskByPage", params);
-        },
-        // 转入
-        addSmartUserBlackToSms(params) {
-            return fetch("/sysBlacklist/addSmartUserBlackToSms", params);
-        },
-        // 数量检测
-        queryBlackCountAndUserId(params) {
-            return fetch("/sysBlacklist/queryBlackCountAndUserId", params);
-        },
     },
     // 供应商信息
     smsSupplierInfo: {
