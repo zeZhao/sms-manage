@@ -18,9 +18,42 @@
       <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="cmGatewayId" label="彩信移动通道编号" />
-      <el-table-column prop="cuGatewayId" label="彩信联通通道编号" />
-      <el-table-column prop="ctGatewayId" label="彩信电信通道编号" />
+      <el-table-column prop="cmGatewayId" label="彩信移动通道编号"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cmGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cmGatewayId }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cuGatewayId" label="彩信联通通道编号"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cuGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cuGatewayId }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ctGatewayId" label="彩信电信通道编号"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.ctGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.ctGatewayId }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="200" fixed="right">
         <template slot-scope="scope">
           <el-button type="text" @click="handleConfig(scope.row.userId)"

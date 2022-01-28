@@ -34,7 +34,18 @@
         width="100"
         v-if="searchParam.showDecrypt === 1"
       />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="error" label="错误描述" />
       <el-table-column prop="returnTime" label="返回报告时间" width="135">

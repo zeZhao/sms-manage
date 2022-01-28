@@ -23,7 +23,18 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="mobile" label="手机号" />
-      <el-table-column prop="gateway" label="通道编号" />
+      <el-table-column prop="gateway" label="通道编号">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="gatewayName" label="通道名称" />
       <!-- <el-table-column prop="codeType" label="账号类型">
         <template slot-scope="scope">

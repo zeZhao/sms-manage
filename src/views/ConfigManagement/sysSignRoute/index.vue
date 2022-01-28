@@ -30,9 +30,42 @@
         </template>
       </el-table-column> -->
       <el-table-column prop="sign" label="签名" width="150" />
-      <el-table-column prop="cm" label="移动通道" />
-      <el-table-column prop="cu" label="联通通道" />
-      <el-table-column prop="ct" label="电信通道" />
+      <el-table-column prop="cm" label="移动通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cmGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cm }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cu" label="联通通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cuGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cu }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ct" label="电信通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.ctGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.ct }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="creater" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
