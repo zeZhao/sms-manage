@@ -1175,15 +1175,6 @@ export default {
         },
         {
           type: "select",
-          label: "强加签名",
-          key: "httpSign",
-          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
-          defaultValue: 1,
-          tag: "sms",
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
           label: "状态报告类型",
           key: "reportType",
           optionData: [
@@ -1202,6 +1193,15 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: ""
+        },
+        {
+          type: "select",
+          label: "强加签名",
+          key: "httpSign",
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
+          defaultValue: 1,
+          tag: "sms",
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },
         {
           type: "input",

@@ -139,7 +139,8 @@ export const limitMenuName = (rule, value, callback) => {
       if (reg.test(value)) {
         callback();
       } else {
-        callback(new Error('菜单名称仅支持输入汉字'));
+        callback();
+        // callback(new Error('菜单名称仅支持输入汉字'));
       }
     }
   }

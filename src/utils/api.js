@@ -2352,5 +2352,20 @@ export default {
         checkState(params) {
             return post("/smsSupplierInfo/checkState", params);
         }
+    },
+    // 设置logo
+    smsUserLogo: {
+        // 分页查询供应商信息
+        listUserLogoByPage(params) {
+            return post("/smsUserLogo/listUserLogoByPage", params);
+        },
+        // 添加logo
+        addUserLogo(params) {
+            return post("/smsUserLogo/addUserLogo", params);
+        },
+        // 删除logo
+        deleteUserLogo(params) {
+            return post("/smsUserLogo/deleteUserLogo", params);
+        },
     }
 }
