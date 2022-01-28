@@ -44,6 +44,7 @@
                   @input="limitNumberTypeLength(item)"
                   onKeypress="this.value = this.value.replace(/\D/g, '')"
                 ></el-input>
+                <!-- oninput="if(value.length > 11)value=value.slice(0,11)" -->
                 <!-- 
                   @blur="
                     item.defaultValue = form[
