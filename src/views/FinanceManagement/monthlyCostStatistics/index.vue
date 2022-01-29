@@ -39,8 +39,9 @@
         </template>
       </el-table-column>
       <el-table-column prop="saleMan" label="销售" />
-      <el-table-column prop="succCount" label="消耗条数" />
+      <el-table-column prop="succCount" label="成功条数" />
       <el-table-column prop="gateway" label="通道号" />
+      <el-table-column prop="supplierName" label="供应商名称" />
       <el-table-column prop="gatewayName" label="通道名称" />
       <el-table-column prop="unitPrice" label="通道单价(分)" />
       <el-table-column label="商户消耗金额(元)">

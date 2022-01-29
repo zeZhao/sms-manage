@@ -85,7 +85,7 @@ export default {
           key: "userName"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "特服号",
           key: "code",
           placeholder: "请输入特服号"
