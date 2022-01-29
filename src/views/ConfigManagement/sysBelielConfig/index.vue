@@ -158,7 +158,7 @@ export default {
           key: "corporateId"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId"
         },
