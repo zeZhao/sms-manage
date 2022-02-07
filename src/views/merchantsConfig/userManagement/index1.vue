@@ -1053,6 +1053,8 @@ export default {
           type: "select",
           label: "运营商",
           key: "sendType",
+          initDefaultValue: 4,
+          defaultValue: 4,
           optionData: [
             { key: 1, value: "移动" },
             { key: 2, value: "联通" },
