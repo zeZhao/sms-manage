@@ -294,7 +294,7 @@ export default {
           label: "签名",
           key: "sign",
           placeholder: "可输入多个签名，用英文“,”隔开，每个签名2~30个字符",
-          maxlength: "200",
+          maxlength: "500",
           rules: [
             {
               required: true,
