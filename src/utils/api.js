@@ -1704,6 +1704,10 @@ export default {
         // 查询table下方数据
         queryAll(params) {
             return post("/smsProfit/queryAll", params);
+        },
+        // 调价
+        changePrice(params) {
+            return post("/smsProfit/changePrice", params);
         }
     },
     // 免审未发统计

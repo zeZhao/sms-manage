@@ -106,12 +106,15 @@ export default {
   data() {
     return {
       notSearch: true,
+      formTit: '新增',
       addChannel: false,
       //接口地址
       searchAPI: {
         namespace: 'smsProfit',
-        list: 'queryByPage'
+        list: 'queryByPage',
+        add: 'changePrice'
       },
+      submitParamsIsData: false,
       // 列表参数
       namespace: 'smsProfit',
       //搜索框数据
@@ -172,11 +175,11 @@ export default {
           key: 'type',
           optionData: [
             {
-              key: '1',
+              key: 1,
               value: '账户价格调整'
             },
             {
-              key: '2',
+              key: 2,
               value: '通道价格调整'
             }
           ],
@@ -202,24 +205,15 @@ export default {
         {
           type: 'select',
           label: '通道编号',
-          key: 'type2',
-          optionData: [
-            {
-              key: '1',
-              value: '1通道'
-            },
-            {
-              key: '2',
-              value: '2通道'
-            }
-          ],
+          key: 'gateway',
+          optionData: [],
           isShow: true,
           rules: [{ required: true, message: '请选择通道', trigger: 'change' }]
         },
         {
           type: 'dates',
           label: '选择时间',
-          key: 'type1',
+          key: 'dates',
           disabledDate: {
             disabledDate(time) {
               return time.getTime() >= Date.now();
@@ -230,13 +224,18 @@ export default {
         {
           type: 'input',
           label: '单价',
-          key: 'content',
+          key: 'unitPrice',
           specialSymbols: '分',
           rules: [
             {
               required: true,
-              message: '请调整单价',
-              trigger: ['blur', 'change']
+              trigger: ['blur', 'change'],
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error('请调整单价'));
+                if (isNaN(value)) callback(new Error('单价必须为数字'));
+                if (value < 0) callback(new Error('单价必须大于等于0'));
+                callback();
+              }
             }
           ]
         }
@@ -245,30 +244,81 @@ export default {
       isChooseUser: false
     };
   },
+  mounted() {
+    this.gateway();
+  },
+  activated() {
+    this.gateway();
+  },
   methods: {
+    // 获取通道
+    gateway() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: '',
+          isCu: '',
+          isCt: '',
+          isCm: ''
+        }
+      };
+      this.$http.gateway.listGateway(params).then((res) => {
+        this.formConfig.forEach((item) => {
+          if (item.key === 'gateway') {
+            item.optionData = res.data.map((t) => {
+              return {
+                key: t.gatewayId,
+                value: `${t.unitPrice}_${t.gateway}_${t.gatewayName}`
+              };
+            });
+          }
+        });
+      });
+    },
+    // 调整提交数据
+    _mxArrangeSubmitData(form) {
+      if (form.dates) {
+        const [val, val1] = form.dates;
+        form.startTime = val;
+        form.endTime = val1;
+      }
+      return form;
+    },
     // 调价
     handleModifyPrice() {
-      this.addChannel = true;
       this.formConfig.forEach((item) => {
         const { key } = item;
-        if (key === 'userId' || key === 'type2') {
+        if (key === 'userId' || key === 'gateway') {
           this.$set(item, 'isShow', true);
         }
       });
+      this.addChannel = true;
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
     },
     selectChange({ val, item }) {
-      if (item.label === '选择类型') {
-        if (val === '1') {
+      if (item.key === 'type') {
+        if (val === 1) {
           this.formConfig[1].isShow = false;
           this.formConfig[2].isShow = true;
-        } else if (val === '2') {
+        } else if (val === 2) {
           this.formConfig[2].isShow = false;
           this.formConfig[1].isShow = true;
         } else {
           this.formConfig[1].isShow = this.formConfig[2].isShow = true;
+        }
+      } else if (item.key === 'gateway') {
+        const idx = this.formConfig[2].optionData.findIndex(
+          (v) => v.key === item.defaultValue
+        );
+        if (idx !== -1) {
+          const val = this.formConfig[2].optionData[idx].value;
+          this.$set(
+            this.formConfig[this.formConfig.length - 1],
+            'defaultValue',
+            val.split('_')[0]
+          );
         }
       }
     },
@@ -277,6 +327,11 @@ export default {
       this.formConfig.map((t) => {
         if (t.key === 'userId') {
           t.defaultValue = data.userId;
+          this.$set(
+            this.formConfig[this.formConfig.length - 1],
+            'defaultValue',
+            data.cardUnit
+          );
         }
       });
     },
