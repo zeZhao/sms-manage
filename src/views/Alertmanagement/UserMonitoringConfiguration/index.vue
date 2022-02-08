@@ -81,12 +81,12 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "商户编号",
           key: "corpId"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "账户编号",
           key: "userId"
         },
