@@ -128,7 +128,7 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "routeId",
           placeholder: "请输入通道编号"
