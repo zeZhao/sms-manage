@@ -27,7 +27,18 @@
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="mobile" label="手机号" width="100" />
-      <el-table-column prop="gateway" label="通道" />
+      <el-table-column prop="gateway" label="通道"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="operaid" label="运营商">
         <template slot-scope="scope">
           <span v-if="scope.row.operaid === 0">非法</span>

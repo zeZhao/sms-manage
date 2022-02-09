@@ -25,7 +25,18 @@
       :height="tableHeight"
       v-loading="loading"
     >
-      <el-table-column prop="routeId" label="通道编号" />
+      <el-table-column prop="routeId" label="通道编号"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.routeId }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="result" label="通道返回值" />
       <el-table-column prop="type" label="类型">
         <template slot-scope="scope">
@@ -117,7 +128,7 @@ export default {
       // 搜索框配置
       searchFormConfig: [
         {
-          type: "input",
+          type: "inputNum",
           label: "通道编号",
           key: "routeId",
           placeholder: "请输入通道编号"

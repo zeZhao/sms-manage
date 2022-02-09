@@ -2,11 +2,22 @@
   <!--通道月账单-->
   <div class="gatewayMonthlyBill">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
       :notSearch="notSearch"
-    ></Search>
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
@@ -84,6 +95,12 @@ export default {
   mounted() {},
   computed: {},
   methods: {
+    // 导出
+    exportData(form) {
+      this.$axios.post("/gatewayMonthlyBill/exportGatewayMonthlyBill", { data: { gatewayMonthlyBill: { ...form } } }).then(res => {
+        if (res.data.code === 200) this.$exportToast();
+      });
+    },
     // 修改搜索参数
     _formatRequestData(data) {
       const { startTime, endTime } = data;

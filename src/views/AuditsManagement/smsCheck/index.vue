@@ -20,9 +20,42 @@
       <el-table-column prop="loginName" label="账户名称" />
       <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="counter" label="手机个数" />
-      <el-table-column prop="cm" label="移动" />
-      <el-table-column prop="cu" label="联通" />
-      <el-table-column prop="ct" label="电信" />
+      <el-table-column prop="cm" label="移动"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cmGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cm }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cu" label="联通"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cuGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cu }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ct" label="电信"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.ctGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.ct }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="checkStatus" label="审核状态">
         <template slot-scope="scope">
           <span>
@@ -52,7 +85,7 @@
       </el-table-column>
       <el-table-column prop="cid" label="CID" width="155" />
       <el-table-column prop="mobile" label="手机号" width="100">
-        <template slot-scope="{row}">
+        <template slot-scope="{ row }">
           <span>{{ row.mobile.slice(0, 11) }}</span>
         </template>
       </el-table-column>

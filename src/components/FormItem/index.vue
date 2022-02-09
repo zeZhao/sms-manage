@@ -264,6 +264,25 @@
               ></el-date-picker>
             </template>
 
+            <!--双日期-->
+            <template v-if="item.type === 'dates'">
+              <el-date-picker
+                type="daterange"
+                clearable
+                :value-format="item.format || 'yyyy-MM-dd'"
+                :range-separator="item.rangeSeparator || '至'"
+                :start-placeholder="item.startPlaceholder || '开始日期'"
+                :end-placeholder="item.endPlaceholder || '结束日期'"
+                :picker-options="item.disabledDate || null"
+                v-model="formData[item.key]"
+                @change="
+                  (val) => {
+                    onChange(val, item);
+                  }
+                "
+              ></el-date-picker>
+            </template>
+
             <!--单个月份-->
             <template v-if="item.type === 'month'">
               <el-date-picker

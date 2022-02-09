@@ -18,7 +18,18 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" width="120" />
       <el-table-column prop="code" label="特服号" />
-      <el-table-column prop="gateway" label="通道编号" />
+      <el-table-column prop="gateway" label="通道编号"
+        ><template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.gatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.gateway }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="sendNum" label="发送数" />
       <el-table-column prop="reportNum" label="返回报告数" />
       <el-table-column prop="successNum" label="成功数" />
@@ -74,7 +85,7 @@ export default {
           key: "userName"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "特服号",
           key: "code",
           placeholder: "请输入特服号"

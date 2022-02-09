@@ -41,7 +41,8 @@
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
-                  onKeypress="this.value=this.value.replace(/\D/g,'')"
+                  @input="limitNumberTypeLength(item)"
+                  onKeypress="this.value = this.value.replace(/\D/g, '')"
                 ></el-input>
                 <!-- oninput="if(value.length > 11)value=value.slice(0,11)" -->
                 <!-- 
@@ -348,6 +349,20 @@ export default {
     }
   },
   methods: {
+    // 限制数字类型长度
+    limitNumberTypeLength({ key, label }) {
+      // cid、CID、特服号限制长度20位，其余数字类型限制11位（防止查询报错）
+      const limitObject = { "cid": true, "CID": true, "特服号": true };
+      if (!limitObject[label]) {
+        if (this.form[key].length > 11) {
+          this.form[key] = this.form[key].slice(0, 11);
+        }
+      } else {
+        if (this.form[key].length > 20) {
+          this.form[key] = this.form[key].slice(0, 20);
+        }
+      }
+    },
     //栅格占比
     grid(item, type, combinationGrid, dateGrid, datetimeGrid, defaultGrid) {
       let combinationGridList = ["daterange", "timerange", "selectInp"];
@@ -447,17 +462,16 @@ export default {
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (doubleValue.indexOf(type) === -1) {
-            // 单值
+          if (doubleValue.indexOf(type) === -1) { // 单值
             form[key] = item.defaultValue;
-          } else {
-            // 双值
+          } else {                                // 双值
             form[key[1]] = item.defaultValue[1];
             form[key[2]] = item.defaultValue[2];
           }
         }
       });
-      this.form = form;
+
+      this.form = Object.assign({}, this.form, form);
 
       // 彩信分类统计特殊页面传该form引用类型数据
       this.searchFormConfig.forEach(item => {
@@ -466,7 +480,8 @@ export default {
         }
       });
 
-      if (this.notSearch) return; //默认进入该页面不查询
+      if (this.notSearch) return; // 默认进入该页面不查询
+
       this._mxHandleSubmit();
     },
 

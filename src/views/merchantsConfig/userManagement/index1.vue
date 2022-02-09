@@ -847,7 +847,7 @@ export default {
           type: "input",
           label: "账户名称",
           key: "userName",
-          maxlength: "20",
+          maxlength: "30",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" }
             // {
@@ -861,13 +861,13 @@ export default {
           type: "input",
           label: "登录账号",
           key: "loginName",
-          maxlength: "20",
+          maxlength: "30",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             {
               min: 6,
-              max: 20,
-              message: "长度在 6 到 20 个字符",
+              max: 30,
+              message: "长度在 6 到 30 个字符",
               trigger: "blur"
             },
             {
@@ -876,13 +876,13 @@ export default {
                 if (/\p{Unified_Ideograph}/u.test(value)) {
                   callback(new Error("不支持汉字"));
                 }
-                if (
-                  !/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(
-                    value
-                  )
-                ) {
-                  callback(new Error("不支持特殊字符"));
-                }
+                // if (
+                //   !/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){1,20}$/.test(
+                //     value
+                //   )
+                // ) {
+                //   callback(new Error("不支持特殊字符"));
+                // }
                 callback();
               }
             }
@@ -1053,6 +1053,8 @@ export default {
           type: "select",
           label: "运营商",
           key: "sendType",
+          initDefaultValue: 4,
+          defaultValue: 4,
           optionData: [
             { key: 1, value: "移动" },
             { key: 2, value: "联通" },

@@ -30,9 +30,42 @@
         </template>
       </el-table-column> -->
       <el-table-column prop="sign" label="签名" width="150" />
-      <el-table-column prop="cm" label="移动通道" />
-      <el-table-column prop="cu" label="联通通道" />
-      <el-table-column prop="ct" label="电信通道" />
+      <el-table-column prop="cm" label="移动通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cmGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cm }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="cu" label="联通通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.cuGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.cu }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="ct" label="电信通道">
+        <template slot-scope="scope">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="scope.row.ctGatewayName"
+            placement="top"
+          >
+            <span>{{ scope.row.ct }}</span>
+          </el-tooltip>
+        </template>
+      </el-table-column>
       <el-table-column prop="creater" label="创建人" />
       <el-table-column prop="createTime" label="创建时间" width="135">
         <template slot-scope="scope">
@@ -103,6 +136,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+
 export default {
   mixins: [listMixin],
   data() {
@@ -110,14 +144,11 @@ export default {
       if (!value) {
         callback(new Error("请输入必填项"));
       } else {
-        if (value.indexOf("，") !== -1)
-          callback(new Error("只可以用英文 ',' 分割"));
-        const reg = /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
         const data = value.split(",");
         for (let i = 0; i < data.length; i++) {
-          if (!reg.test(data[i])) {
-            callback(new Error("输入2-8位，只能输入中文、英文、数字"));
-            break;
+          const len = data[i].length;
+          if (len < 2 || len > 30) {
+            callback(new Error("每个签名2~30个字符"));
           }
         }
         callback();
@@ -262,9 +293,8 @@ export default {
           type: "textarea",
           label: "签名",
           key: "sign",
-          placeholder:
-            "可输入多个签名，用英文“,”隔开，每个签名2-8个字符，支持汉字、数字、英文",
-          maxlength: "100",
+          placeholder: "可输入多个签名，用英文“,”隔开，每个签名2~30个字符",
+          maxlength: "500",
           rules: [
             {
               required: true,
