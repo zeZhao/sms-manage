@@ -66,7 +66,7 @@
       </el-table-column>
     </el-table>
     <p style="color: red;font-size: 12px;">
-      手机号总条数: {{ tabBottomData || 0 }}
+      总条数: {{ tabBottomData || 0 }}
     </p>
     <Page
       :pageObj="pageObj"
