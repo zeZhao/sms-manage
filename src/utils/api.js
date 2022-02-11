@@ -222,6 +222,14 @@ export default {
         addResendConfig(params) {
             return post("/sysResendConfig/addResendConfig", params);
         },
+        // 通道列表查询
+        getTtype(params) {
+            return post(`/sysResendConfig/gateway/list/${params}`);
+        },
+        // 批量修改
+        batchmd(gtype, params) {
+            return post(`/sysResendConfig/gateway/batchmd/${gtype}`, params);
+        },
     },
     // 签名路由配置
     sysSignRoute: {

@@ -5,7 +5,11 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="create"
-    ></Search>
+    >
+      <template slot="Other">
+        <el-button type="primary" @click="bulkEditing">批量修改</el-button>
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
@@ -31,6 +35,7 @@
       <el-table-column prop="type" label="重发类型" width="100">
         <template slot-scope="{ row }">{{ renderType(row.type) }}</template>
       </el-table-column>
+      <el-table-column prop="statusYes" label="重发状态" />
       <el-table-column prop="status" label="不重发状态" />
       <el-table-column prop="destGateway" label="重发通道">
         <template slot-scope="scope">
@@ -90,6 +95,22 @@
         @choose="choose"
       ></FormItem>
     </el-dialog>
+    <el-dialog
+      title="批量修改"
+      :visible.sync="bulkEditingVisible"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="editFormItem"
+        :formConfig="editFormConfig"
+        btnTxt="确定"
+        @submit="submitBulkEdit"
+        @cancel="cancel"
+        @selectChange="selectChange"
+        @choose="choose"
+      ></FormItem>
+    </el-dialog>
     <ChooseUser
       :isChooseUser="isChooseUser"
       @chooseUserData="chooseUserData"
@@ -106,6 +127,7 @@ export default {
     return {
       formTit: "新增",
       addChannel: false,
+      bulkEditingVisible: false,
       //接口地址
       searchAPI: {
         namespace: "sysResendConfig",
@@ -204,6 +226,13 @@ export default {
         },
         {
           type: "input",
+          label: "重发状态",
+          key: "statusYes",
+          defaultValue: "",
+          maxlength: 30
+        },
+        {
+          type: "input",
           label: "不重发状态",
           key: "status",
           defaultValue: "",
@@ -230,6 +259,110 @@ export default {
           ]
         }
       ],
+      //批量修改
+      editFormConfig: [
+        {
+          type: "select",
+          label: "修改类型",
+          key: "gtype",
+          initDefaultValue: 2,
+          defaultValue: 2,
+          optionData: [
+            { key: 2, value: "重发通道批量修改" },
+            { key: 1, value: "原通道批量修改" }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "重发原通道",
+          key: "resendGorign",
+          optionData: [],
+          tag: "resend",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "重发目标通道",
+          key: "resendGdest",
+          optionData: [],
+          tag: "resend",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "原通道",
+          key: "gorign",
+          optionData: [],
+          tag: "raw",
+          isShow: true,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "目标通道",
+          key: "gdest",
+          optionData: [],
+          tag: "raw",
+          isShow: true,
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "重发状态",
+          key: "statusYes",
+          defaultValue: "",
+          tag: "raw",
+          isShow: true,
+          maxlength: 30
+        },
+        {
+          type: "input",
+          label: "不重发状态",
+          key: "status",
+          defaultValue: "",
+          tag: "raw",
+          isShow: true,
+          maxlength: 30
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请输入必填项",
+          //     trigger: ['blur', 'change']
+          //   }
+          // ]
+        }
+      ],
       resendId: "",
       isChooseUser: false
     };
@@ -243,6 +376,87 @@ export default {
   },
   computed: {},
   methods: {
+    selectChange({ val, item }) {
+      const { key } = item;
+      if (key === "gtype") {
+        this.$http.sysResendConfig.getTtype(val).then(res => {
+          this.editFormConfig.forEach(item => {
+            const { key } = item;
+            if (val === 2) {
+              if (key === "resendGorign") {
+                item.optionData = res.data.map(t => {
+                  return { key: t, value: t };
+                });
+              }
+            } else {
+              if (key === "gorign") {
+                item.optionData = res.data.map(t => {
+                  return { key: t, value: t };
+                });
+              }
+            }
+          });
+        });
+        if (val === 2) {
+          this._setTagDisplayShow(this.editFormConfig, "resend", false);
+          this._setTagDisplayShow(this.editFormConfig, "raw", true);
+          this.editFormConfig.forEach(item => {
+            if (item.tag === "raw") {
+              item.defaultValue = "";
+            }
+          });
+        } else {
+          this._setTagDisplayShow(this.editFormConfig, "resend", true);
+          this._setTagDisplayShow(this.editFormConfig, "raw", false);
+          this.editFormConfig.forEach(item => {
+            if (item.tag === "resend") {
+              item.defaultValue = "";
+            }
+          });
+        }
+      }
+      // console.log(val, item);
+    },
+    bulkEditing() {
+      this.bulkEditingVisible = true;
+      this._setTagDisplayShow(this.editFormConfig, "raw", true);
+      this._setTagDisplayShow(this.editFormConfig, "resend", false);
+      setTimeout(() => {
+        this.$refs.editFormItem.resetForm();
+      }, 0);
+    },
+    submitBulkEdit(form) {
+      console.log(form, "-------------");
+      const { gtype, resendGdest, resendGorign } = form;
+      let param = {};
+      if (gtype === 2) {
+        param = {
+          data: {
+            gorign: resendGorign,
+            gdest: resendGdest
+          }
+        };
+      } else {
+        param = {
+          data: {
+            gorign: form.gorign,
+            gdest: form.gdest,
+            statusYes: form.statusYes,
+            status: form.status
+          }
+        };
+      }
+      this.$http.sysResendConfig.batchmd(gtype, param).then(res => {
+        if (resOk(res)) {
+          this.$message.success(res.msg || res.data);
+          this.bulkEditingVisible = false;
+          this._mxGetList();
+        } else {
+          this.$message.error(res.msg || res.data);
+        }
+        console.log(res, "============res");
+      });
+    },
     renderType(v) {
       switch (v) {
         case 1:
@@ -324,6 +538,7 @@ export default {
     },
     cancel() {
       this.addChannel = false;
+      this.bulkEditingVisible = false;
     },
     gateway() {
       const params = {
@@ -341,6 +556,24 @@ export default {
           if (key === "gateway" || key === "destGateway") {
             item.optionData = res.data.map(t => {
               return { key: t.gatewayId, value: t.gateway };
+            });
+          }
+        });
+        this.editFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "resendGdest" || key === "gdest") {
+            item.optionData = res.data.map(t => {
+              return { key: t.gatewayId, value: t.gateway };
+            });
+          }
+        });
+      });
+      this.$http.sysResendConfig.getTtype(2).then(res => {
+        this.editFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "resendGorign") {
+            item.optionData = res.data.map(t => {
+              return { key: t, value: t };
             });
           }
         });
