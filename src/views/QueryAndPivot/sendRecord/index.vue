@@ -181,7 +181,7 @@ export default {
           type: "select",
           label: "显示内容",
           key: "showDecrypt",
-          defaultValue: -1,
+          defaultValue: 1,
           optionData: [
             {
               key: 1,
