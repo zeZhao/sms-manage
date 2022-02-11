@@ -197,8 +197,8 @@ const checkwordName = [
           callback(new Error(`第${i + 1}个敏感词不能为空`));
           break;
         }
-        if (arr[i].length < 2 || arr[i].length > 8) {
-          callback(new Error(`第${i + 1}个敏感词长度应在2~8个字符之间`));
+        if (arr[i].length < 2 || arr[i].length > 100) {
+          callback(new Error(`第${i + 1}个敏感词长度应在2~100个字符之间`));
           break;
         }
       }
@@ -213,8 +213,8 @@ const checkEditwordName = [
     validator: (rule, value, callback) => {
       if (!value) callback(new Error('请输入必填项'));
       const len = value.length;
-      if (len < 2 || len > 8) {
-        callback(new Error('敏感词长度在2~8个字符之间'));
+      if (len < 2 || len > 100) {
+        callback(new Error('敏感词长度在2~100个字符之间'));
       } else {
         callback();
       }
@@ -233,10 +233,10 @@ export default {
           type: 'input',
           label: '敏感词',
           key: 'wordName',
-          maxlength: 100,
+          maxlength: 500,
           defaultValue: '',
           rules: checkwordName,
-          placeholder: '2-8个字符，添加多个敏感词，用英文“,”隔开'
+          placeholder: '2~100个字符，添加多个敏感词，用英文“,”隔开'
         },
         {
           type: 'uploadXlsx',
@@ -578,11 +578,11 @@ export default {
           this.$set(item, 'isShow', false);
         }
         if (item.key === 'wordName') {
-          this.$set(item, 'maxlength', 100);
+          this.$set(item, 'maxlength', 500);
           this.$set(
             item,
             'placeholder',
-            '2-8个字符，添加多个敏感词，用英文“,”隔开'
+            '2~100个字符，添加多个敏感词，用英文“,”隔开'
           );
           this.$set(item, 'rules', checkwordName);
         }
@@ -614,7 +614,7 @@ export default {
           this.$set(item, 'isShow', true);
         }
         if (item.key === 'wordName') {
-          this.$set(item, 'maxlength', 8);
+          this.$set(item, 'maxlength', 100);
           this.$set(item, 'placeholder', '');
           this.$set(item, 'rules', checkEditwordName);
         }
