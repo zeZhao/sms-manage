@@ -212,6 +212,10 @@ export default {
             {
               key: "7",
               value: "组合超时"
+            },
+            {
+              key: "10",
+              value: "触发链接拦截"
             }
           ],
           placeholder: "请选择类型"
