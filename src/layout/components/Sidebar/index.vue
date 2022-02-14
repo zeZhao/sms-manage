@@ -76,6 +76,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.el-menu-item {
+::v-deep .el-menu--collapse .svg-icon {
+  margin-left: 16px;
 }
 </style>
