@@ -407,7 +407,6 @@
         ></i>
       </span>
 
-
       <el-tabs type="border-card" tabPosition="bottom" v-model="activeName" v-if="Array.isArray(infoData.productTypes)">
         <el-tab-pane label="短信" name="1" v-if="infoData.productTypes.includes(1)">
           <div v-if="infoData.proType === 1">
