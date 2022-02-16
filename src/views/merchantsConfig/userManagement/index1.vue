@@ -1053,6 +1053,8 @@ export default {
           type: "select",
           label: "运营商",
           key: "sendType",
+          initDefaultValue: 4,
+          defaultValue: 4,
           optionData: [
             { key: 1, value: "移动" },
             { key: 2, value: "联通" },
@@ -1175,15 +1177,6 @@ export default {
         },
         {
           type: "select",
-          label: "强加签名",
-          key: "httpSign",
-          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
-          defaultValue: 1,
-          tag: "sms",
-          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
-        },
-        {
-          type: "select",
           label: "状态报告类型",
           key: "reportType",
           optionData: [
@@ -1202,6 +1195,15 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: ""
+        },
+        {
+          type: "select",
+          label: "强加签名",
+          key: "httpSign",
+          optionData: [{ key: "0", value: "否" }, { key: 1, value: "是" }],
+          defaultValue: 1,
+          tag: "sms",
+          rules: [{ required: true, message: "请选择必填项", trigger: "blur" }]
         },
         {
           type: "input",
