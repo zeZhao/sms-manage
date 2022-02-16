@@ -5,7 +5,11 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="create"
-    ></Search>
+    >
+      <template slot="Other">
+        <el-button type="primary" @click="bulkAdding">批量添加</el-button>
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
@@ -88,6 +92,26 @@
       @chooseUserData="chooseUserData"
       @cancel="cancelUser"
     ></ChooseUser>
+    <!-- 批量添加 -->
+    <el-dialog
+      title="批量修改"
+      :visible.sync="bulkEditingVisible"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="editFormItem"
+        :formConfig="editFormConfig"
+        btnTxt="确定"
+        @submit="submitBulkEdit"
+        @cancel="cancel"
+        @selectChange="selectChangeAdd"
+        @choose="choose"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
+        @handleExceed="handleExceed"
+      ></FormItem>
+    </el-dialog>
   </div>
 </template>
 
@@ -113,6 +137,7 @@ export default {
     return {
       formTit: "新增",
       addChannel: false,
+      bulkEditingVisible: false,
       //接口地址
       searchAPI: {
         namespace: "sysBlacklist",
@@ -279,7 +304,71 @@ export default {
         }
       ],
       blackId: "",
-      isChooseUser: false
+      isChooseUser: false,
+      //批量添加表单配置
+      //批量修改
+      editFormConfig: [
+        {
+          type: "uploadXlsx",
+          label: "导入文件",
+          key: "filePath",
+          accept: ["xls", "xlsx", "txt"],
+          defaultValue: "",
+          size: 20,
+          tip: "文件大小<200M，支持xls/xlsx/txt文档，每行一个手机号码",
+          defaultFileList: [],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "select",
+          label: "所属组",
+          key: "blackType",
+          disabled: false,
+          defaultValue: "1",
+          initDefaultValue: "1",
+          optionData: [
+            {
+              key: "1",
+              value: "系统级"
+            },
+            {
+              key: "2",
+              value: "账户级"
+            }
+          ],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "账户编号",
+          key: "userId",
+          btnTxt: "选择用户",
+          disabled: true,
+          btnDisabled: false,
+          isShow: true,
+          optionData: [],
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        }
+      ],
+      origin: window.location.origin
     };
   },
   mounted() {
@@ -289,6 +378,93 @@ export default {
     this.getBlackFroup();
   },
   methods: {
+    //文件上传成功
+    handleSuccess({ response, file, fileList, item }) {
+      if (response.code == 200) {
+        const { accept, size, key } = item;
+        let fileType = file.raw.name.split(".")[1];
+        let fileSize = file.size;
+        let isLt1M = size ? size * 1024 * 1024 : 1 * 1024 * 1024;
+        if (accept && accept.lenght != 0) {
+          if (!accept.includes(fileType) || fileSize > isLt1M) {
+            this.$message.error(
+              "文件大小<200M，支持xls/xlsx/txt文档，每行一个手机号码"
+            );
+            this.editFormConfig.forEach(item => {
+              if (item.key === key) {
+                item.defaultValue = "";
+                item.defaultFileList = [];
+              }
+            });
+            return false;
+          }
+        }
+        this.editFormConfig.forEach(item => {
+          if (item.key === key) {
+            item.defaultValue = response.data;
+            item.defaultFileList = [response.data];
+          }
+        });
+      } else {
+        this.$message.error(response.data);
+      }
+    },
+    handleRemove({ file, fileList, item }) {
+      const { key } = item;
+      this.editFormConfig.forEach(item => {
+        if (item.key === key) {
+          item.defaultValue = "";
+          item.defaultFileList = [];
+        }
+      });
+    },
+    handleExceed({ file, fileList }) {
+      this.$message.error("仅允许上传一张！");
+    },
+
+    //批量添加根据select显示不同表单项
+    selectChangeAdd({ val, item }) {
+      const { key } = item;
+      if (key === "blackType") {
+        if (val == "2") {
+          console.log(val, "----");
+          this._setDisplayShow(this.editFormConfig, "userId", false);
+        } else {
+          this._setDisplayShow(this.editFormConfig, "userId", true);
+        }
+      }
+    },
+    //点击批量添加
+    bulkAdding() {
+      this.bulkEditingVisible = true;
+      this._setDisplayShow(this.editFormConfig, "userId", true);
+      setTimeout(() => {
+        this.$refs.editFormItem.resetForm();
+      }, 0);
+    },
+    //批量添加提交
+    submitBulkEdit(form) {
+      this.$http.sysBlacklist
+        .importBatchAddBlacklist({ data: { ...form } })
+        .then(res => {
+          if (resOk(res)) {
+            this.$confirm(`${res.msg}`, "添加记录", {
+              confirmButtonText: "确定",
+              center: true,
+              showCancelButton: false,
+              customClass: "confirm",
+              top: "30px"
+            }).then(() => {
+              this._mxGetList();
+            });
+            // this.$message.success(res.msg || res.data);
+            this.bulkEditingVisible = false;
+          } else {
+            this.$message.error(res.msg || res.data);
+          }
+        });
+    },
+    //获取黑名单
     getBlackFroup() {
       this.$http.smsBlackGroup.listBlackGroup().then(res => {
         this._setDefaultValue(
@@ -317,6 +493,12 @@ export default {
         }
         if (key === "corporateId") {
           this.$set(t, "defaultValue", data.corpId);
+        }
+      });
+      this.editFormConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          this.$set(t, "defaultValue", data.userId);
         }
       });
     },
@@ -445,6 +627,7 @@ export default {
     },
     cancel() {
       this.addChannel = false;
+      this.bulkEditingVisible = false;
     },
     //修改表格数据
     _mxFormListData(data) {
