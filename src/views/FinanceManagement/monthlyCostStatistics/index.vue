@@ -216,7 +216,12 @@ export default {
           key: 'dates',
           disabledDate: {
             disabledDate(time) {
-              return time.getTime() >= Date.now();
+              const nTime = new Date(),
+                nY = nTime.getFullYear(),
+                nM = nTime.getMonth() + 1,
+                nD = nTime.getDate();
+              const nTimeDay = `${nY}-${nM}-${nD}`;
+              return time.getTime() >= new Date(nTimeDay).getTime();
             }
           },
           rules: [{ required: true, message: '请选择时间', trigger: 'change' }]
@@ -235,7 +240,8 @@ export default {
                 if (!value) callback(new Error('请输入单价'));
                 if (isNaN(value)) callback(new Error('单价必须为数字'));
                 if (value < 0) callback(new Error('单价必须大于等于0'));
-                if (this.selectedUnitPrice == value) callback(new Error('请调整单价'));
+                if (this.selectedUnitPrice == value)
+                  callback(new Error('请调整单价'));
                 callback();
               }
             }
