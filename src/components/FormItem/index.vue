@@ -32,11 +32,13 @@
                 :maxlength="item.maxlength"
                 show-word-limit
                 @blur="
-                  item.defaultValue = $event.target.value =
-                    $event.target.value.replace(/^\s+|\s+$/gm, '')
+                  item.defaultValue = $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
                 "
                 @input="
-                  (val) => {
+                  val => {
                     onInputChange(val, item);
                   }
                 "
@@ -65,11 +67,13 @@
                 :maxlength="item.maxlength"
                 show-word-limit
                 @blur="
-                  item.defaultValue = $event.target.value =
-                    $event.target.value.replace(/^\s+|\s+$/gm, '')
+                  item.defaultValue = $event.target.value = $event.target.value.replace(
+                    /^\s+|\s+$/gm,
+                    ''
+                  )
                 "
                 @input="
-                  (val) => {
+                  val => {
                     onInputChange(val, item);
                   }
                 "
@@ -87,7 +91,7 @@
                 :maxlength="item.maxlength"
                 :autosize="{ minRows: 3, maxRows: 4 }"
                 @input="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -111,7 +115,7 @@
                 :precision="item.precision || 0"
                 :controls-position="item.position || 'right'"
                 @input="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -130,7 +134,7 @@
                 :disabled="item.disabled"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  (val) => {
+                  val => {
                     selectChange(val, item);
                   }
                 "
@@ -160,7 +164,7 @@
                   :disabled="it.disabled"
                   :placeholder="it.placeholder || `请选择${it.label}`"
                   @change="
-                    (val) => {
+                    val => {
                       selectChange(val, it);
                     }
                   "
@@ -184,7 +188,7 @@
                 clearable
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  (val) => {
+                  val => {
                     selectChange(val, item);
                   }
                 "
@@ -210,7 +214,7 @@
               <el-checkbox-group
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -229,7 +233,7 @@
               <el-radio-group
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -253,6 +257,25 @@
                 :picker-options="item.disabledDate || null"
                 v-model="formData[item.key]"
                 @change="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+              ></el-date-picker>
+            </template>
+
+            <!--双日期-->
+            <template v-if="item.type === 'dates'">
+              <el-date-picker
+                type="daterange"
+                clearable
+                :value-format="item.format || 'yyyy-MM-dd'"
+                :range-separator="item.rangeSeparator || '至'"
+                :start-placeholder="item.startPlaceholder || '开始日期'"
+                :end-placeholder="item.endPlaceholder || '结束日期'"
+                :picker-options="item.disabledDate || null"
+                v-model="formData[item.key]"
+                @change="
                   (val) => {
                     onChange(val, item);
                   }
@@ -269,7 +292,7 @@
                 :value-format="item.format || 'yyyy-MM'"
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -285,7 +308,7 @@
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 :picker-options="item.pickerOptions || ''"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -303,7 +326,7 @@
                 :end-placeholder="item.endPlaceholder || '结束时间'"
                 :placeholder="item.placeholder || '选择时间范围'"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -319,7 +342,7 @@
                 :picker-options="item.disabledDate || null"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -338,7 +361,7 @@
                 :end-placeholder="item.endPlaceholder || '结束日期'"
                 :picker-options="item.disabledDate || null"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -350,7 +373,7 @@
                 style="display: block"
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -371,14 +394,18 @@
                   :action="action"
                   :headers="header"
                   :on-preview="handlePreview"
-                  :on-remove="handleRemove"
+                  :on-remove="
+                    (file, fileList) => {
+                      handleRemove(file, fileList, item);
+                    }
+                  "
                   :on-success="
                     (res, file, fileList) => {
                       handleSuccess(item, res, file, fileList);
                     }
                   "
                   :before-upload="
-                    (file) => {
+                    file => {
                       beforeUpload(item, file);
                     }
                   "
@@ -393,7 +420,7 @@
                   :on-exceed="handleExceed"
                 >
                   <el-button size="small" type="primary">{{
-                    item.btnTxt ? item.btnTxt : '上传文件'
+                    item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
                 </el-upload>
               </div>
@@ -435,7 +462,7 @@
                     }
                   "
                   :before-upload="
-                    (file) => {
+                    file => {
                       beforeUpload(item, file);
                     }
                   "
@@ -450,7 +477,7 @@
                   :on-exceed="handleExceed"
                 >
                   <el-button size="small" type="primary">{{
-                    item.btnTxt ? item.btnTxt : '上传文件'
+                    item.btnTxt ? item.btnTxt : "上传文件"
                   }}</el-button>
                 </el-upload>
               </div>
@@ -489,7 +516,7 @@
 </template>
 
 <script>
-import { getToken } from '@/utils/auth';
+import { getToken } from "@/utils/auth";
 
 export default {
   props: {
@@ -502,7 +529,7 @@ export default {
     btnTxt: {
       type: String,
       default() {
-        return '新增';
+        return "新增";
       }
     },
     isCancel: {
@@ -514,7 +541,7 @@ export default {
     labelPosition: {
       type: String,
       default() {
-        return 'right';
+        return "right";
       }
     },
     labelWidth: {
@@ -546,13 +573,13 @@ export default {
   data() {
     return {
       formData: {},
-      action: '/api/sysPrepaidCard/uploadFile',
+      action: `${process.env.VUE_APP_BASE_API}/sysPrepaidCard/uploadFile`,
       header: {
         token: getToken()
       },
       href: window.location.origin,
       dialogVisible: false,
-      dialogImageUrl: ''
+      dialogImageUrl: ""
     };
   },
   mounted() {
@@ -566,24 +593,24 @@ export default {
     //input Change事件
     onInputChange(val, item) {
       this._setDefaultVal(val, item);
-      this.$emit('inpChange', { val, item });
+      this.$emit("inpChange", { val, item });
     },
     //  select 事件
     onChange(val, item) {
       this._setDefaultVal(val, item);
-      this.$emit('onChange', { val, item });
+      this.$emit("onChange", { val, item });
     },
     // 选择组件
     chooses(item) {
-      this.$emit('choose', item);
+      this.$emit("choose", item);
     },
     /**
      * 提交验证
      */
     onSubmit(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$emit('submit', this.formData);
+          this.$emit("submit", this.formData);
         } else {
           // this.$message.error("请输入必填项");
           return false;
@@ -592,19 +619,19 @@ export default {
     },
     //返回该formData对象
     renderFormData() {
-      this.$emit('getFormData', this.formData);
+      this.$emit("getFormData", this.formData);
     },
     /**
      * 回显数据
      */
     initComponent() {
       const form = {};
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         const { key, type } = item;
         form[key] = item.defaultValue;
 
-        if (type === 'selects') {
-          item.list.forEach((v) => {
+        if (type === "selects") {
+          item.list.forEach(v => {
             form[v.key] = v.defaultValue;
           });
         }
@@ -623,28 +650,28 @@ export default {
      * 重置表单
      */
     resetForm() {
-      this.formConfig.forEach((item) => {
+      this.formConfig.forEach(item => {
         const { defaultValue, key, type } = item;
         if (defaultValue || this.formData[key]) {
-          if (type === 'checkbox') {
+          if (type === "checkbox") {
             if (item.initDefaultValue) {
-              this.$set(item, 'defaultValue', item.initDefaultValue);
+              this.$set(item, "defaultValue", item.initDefaultValue);
             } else {
               item.defaultValue = [];
               this.formData[key] = [];
             }
           } else if (
             [
-              'select',
-              'radio',
-              'switch',
-              'date',
-              'time',
-              'selectGroup'
+              "select",
+              "radio",
+              "switch",
+              "date",
+              "time",
+              "selectGroup"
             ].includes(type)
           ) {
             if (item.initDefaultValue) {
-              this.$set(item, 'defaultValue', item.initDefaultValue);
+              this.$set(item, "defaultValue", item.initDefaultValue);
             } else {
               item.defaultValue = null;
             }
@@ -652,8 +679,8 @@ export default {
             item.defaultValue = null;
             this.formData[key] = null;
           }
-        } else if (type === 'selects') {
-          item.list.forEach((v) => {
+        } else if (type === "selects") {
+          item.list.forEach(v => {
             v.defaultValue = null;
           });
         }
@@ -664,7 +691,7 @@ export default {
       // this.$refs.form.resetFields();
     },
     cancel() {
-      this.$emit('cancel');
+      this.$emit("cancel");
     },
     /**
      * 是否可以清除
@@ -674,21 +701,21 @@ export default {
     },
     selectChange(val, item) {
       this._setDefaultVal(val, item);
-      this.$emit('selectChange', { val, item });
+      this.$emit("selectChange", { val, item });
     },
 
     //设置默认值
     _setDefaultVal(val, item) {
-      if (item.hasOwnProperty('defaultValue')) {
+      if (item.hasOwnProperty("defaultValue")) {
         item.defaultValue = val;
       } else {
-        this.$set(item, 'defaultValue', val);
+        this.$set(item, "defaultValue", val);
       }
     },
     //  文件上传成功时的钩子
     handleSuccess(item, response, file, fileList) {
       if (response.code == 200) {
-        this.$emit('handleSuccess', { response, file, fileList, item });
+        this.$emit("handleSuccess", { response, file, fileList, item });
       } else {
         this.$message.error(response.data);
         item.defaultFileList = [];
@@ -701,11 +728,11 @@ export default {
     handleProgress(item, event, file, fileList) {},
     //  文件上传失败时的钩子
     handleError(err, file, fileList) {
-      this.$emit('handleError', { err, file, fileList });
+      this.$emit("handleError", { err, file, fileList });
     },
     //  文件列表移除文件时的钩子
-    handleRemove(file, fileList) {
-      this.$emit('handleRemove', { file, fileList });
+    handleRemove(file, fileList,item) {
+      this.$emit("handleRemove", { file, fileList,item });
     },
     // 点击文件列表中已上传的文件时的钩子
     handlePreview(file) {
@@ -713,12 +740,12 @@ export default {
     },
     //  文件超出个数限制时的钩子
     handleExceed(files, fileList) {
-      this.$emit('handleExceed', { files, fileList });
+      this.$emit("handleExceed", { files, fileList });
     },
     //删除图片
     handleRemoveImg(item) {
       // console.log(file);
-      item.defaultValue = '';
+      item.defaultValue = "";
       item.defaultFileList = [];
     },
     //查看图片
@@ -733,10 +760,10 @@ export default {
 
     //回显input下列提示
     returnMobileTips(value) {
-      if (!value) return '已输入0个手机号';
-      const arr = value.split(',');
+      if (!value) return "已输入0个手机号";
+      const arr = value.split(",");
       let num = 0;
-      arr.forEach((item) => {
+      arr.forEach(item => {
         if (item) num++;
       });
       return `已输入${num}个手机号`;
