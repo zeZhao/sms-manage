@@ -39,6 +39,24 @@
             </span>
           </a>
         </el-menu-item>
+        <el-menu-item index="5" class="submenu-title-noDropdown">
+          <svg-icon
+            icon-class="duanxin"
+            style="width: 20px;
+            height: 20px;
+            fill: currentColor;
+            overflow: hidden;"
+          />
+          <a
+            href="https://rce-demo.rongcloud.net/admin/#/contact/org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span slot="title">
+              移动端管理
+            </span>
+          </a>
+        </el-menu-item>
       </el-menu>
     </el-scrollbar>
   </div>
