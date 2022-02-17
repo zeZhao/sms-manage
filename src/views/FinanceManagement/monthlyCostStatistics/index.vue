@@ -226,6 +226,7 @@ export default {
           label: '单价',
           key: 'unitPrice',
           specialSymbols: '分',
+          maxlength: '5',
           rules: [
             {
               required: true,
