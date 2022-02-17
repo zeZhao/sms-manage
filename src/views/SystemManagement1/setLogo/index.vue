@@ -202,8 +202,8 @@ export default {
         }
       ],
       isChooseUser: false,
-      // origin: window.location.origin
-      origin: "http://manage.sms.jvtdtest.top/"
+      origin: window.location.origin
+      // origin: "http://manage.sms.jvtdtest.top/"
     };
   },
   mounted() {},
