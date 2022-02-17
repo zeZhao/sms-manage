@@ -2,11 +2,22 @@
   <!--用户日账单-->
   <div class="userDailyBill">
     <Search
+      ref="Search"
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       :add="false"
       :notSearch="notSearch"
-    ></Search>
+      @exportData="exportData"
+    >
+      <template slot="Other">
+        <el-button
+          type="primary"
+          size="small"
+          @click="$refs.Search.handleExport()"
+          >导出</el-button
+        >
+      </template>
+    </Search>
     <el-table
       :data="listData"
       border
@@ -292,6 +303,15 @@ export default {
   },
   computed: {},
   methods: {
+    exportData(form) {
+      this.$axios
+        .get("/report/exportUserSendDetail", {
+          params: form
+        })
+        .then(res => {
+          if (res.data.code === 200) this.$exportToast();
+        });
+    },
     /*
      * 获取省份列表
      * */
