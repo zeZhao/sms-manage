@@ -203,6 +203,7 @@ export default {
       ],
       isChooseUser: false,
       origin: window.location.origin
+      // origin: "http://manage.sms.jvtdtest.top/"
     };
   },
   mounted() {},
