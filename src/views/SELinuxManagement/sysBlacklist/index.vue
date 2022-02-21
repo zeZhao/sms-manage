@@ -421,7 +421,7 @@ export default {
       });
     },
     handleExceed({ file, fileList }) {
-      this.$message.error("仅允许上传一张！");
+      this.$message.error("仅允许上传一个文件！");
     },
 
     //批量添加根据select显示不同表单项
