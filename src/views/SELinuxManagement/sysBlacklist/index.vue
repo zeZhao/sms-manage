@@ -320,7 +320,7 @@ export default {
           rules: [
             {
               required: true,
-              message: "请输入必填项",
+              message: "请上传文件",
               trigger: ["blur", "change"]
             }
           ]
@@ -413,8 +413,10 @@ export default {
       const { key } = item;
       this.editFormConfig.forEach(item => {
         if (item.key === key) {
-          item.defaultValue = "";
-          item.defaultFileList = [];
+          this.$nextTick(() => {
+            item.defaultValue = "";
+            item.defaultFileList = [];
+          });
         }
       });
     },

@@ -276,7 +276,7 @@
                 :picker-options="item.disabledDate || null"
                 v-model="formData[item.key]"
                 @change="
-                  (val) => {
+                  val => {
                     onChange(val, item);
                   }
                 "
@@ -455,7 +455,16 @@
                   :action="upLoadUrl(item)"
                   :headers="header"
                   :on-preview="handlePreview"
-                  :on-remove="handleRemove"
+                  :on-remove="
+                    (file, fileList) => {
+                      handleRemove(file, fileList, item);
+                    }
+                  "
+                  :before-remove="
+                    (file, fileList) => {
+                      handleRemove(file, fileList, item);
+                    }
+                  "
                   :on-success="
                     (res, file, fileList) => {
                       handleSuccess(item, res, file, fileList);
@@ -731,8 +740,8 @@ export default {
       this.$emit("handleError", { err, file, fileList });
     },
     //  文件列表移除文件时的钩子
-    handleRemove(file, fileList,item) {
-      this.$emit("handleRemove", { file, fileList,item });
+    handleRemove(file, fileList, item) {
+      this.$emit("handleRemove", { file, fileList, item });
     },
     // 点击文件列表中已上传的文件时的钩子
     handlePreview(file) {
