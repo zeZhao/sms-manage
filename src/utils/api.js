@@ -802,7 +802,11 @@ export default {
         // 数量检测
         queryBlackCountAndUserId(params) {
             return fetch("/sysBlacklist/queryBlackCountAndUserId", params);
-        }
+        },
+        // 批量添加
+        importBatchAddBlacklist(params) {
+            return post("/sysBlacklist/importBatchAddBlacklist", params);
+        },
     },
     // 红名单管理
     sysRedList: {
