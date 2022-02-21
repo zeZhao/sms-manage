@@ -188,7 +188,7 @@ export default {
           key: "masterLogoUrl",
           accept: ["png", "jpg", "jpeg"],
           defaultValue: "",
-          tip: "支持jpg/jpeg/png,大小在200kb之内",
+          tip: "支持jpg/jpeg/png,大小在200kb之内,尺寸为157*48",
           defaultFileList: []
         },
         {
@@ -197,7 +197,7 @@ export default {
           key: "slaveLogoUrl",
           accept: ["png", "jpg", "jpeg"],
           defaultValue: "",
-          tip: "支持jpg/jpeg/png,大小在200kb之内",
+          tip: "支持jpg/jpeg/png,大小在200kb之内,尺寸为40*48",
           defaultFileList: []
         }
       ],

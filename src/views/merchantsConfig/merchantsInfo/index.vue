@@ -52,7 +52,6 @@
     <el-button type="primary" @click="newEnterprise">新增商户</el-button>
     <el-table
       :data="dataList"
-      :height="tableHeight"
       border
       highlight-current-row
       style="width: 100%;margin-top:20px"

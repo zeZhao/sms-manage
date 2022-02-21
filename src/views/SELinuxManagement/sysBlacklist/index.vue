@@ -94,7 +94,7 @@
     ></ChooseUser>
     <!-- 批量添加 -->
     <el-dialog
-      title="批量修改"
+      title="批量添加"
       :visible.sync="bulkEditingVisible"
       :close-on-click-modal="false"
       top="45px"
@@ -439,6 +439,12 @@ export default {
       this.bulkEditingVisible = true;
       this._setDisplayShow(this.editFormConfig, "userId", true);
       setTimeout(() => {
+        this.editFormConfig.forEach(item => {
+          if (item.key === "filePath") {
+            item.defaultValue = "";
+            item.defaultFileList = [];
+          }
+        });
         this.$refs.editFormItem.resetForm();
       }, 0);
     },
