@@ -18,7 +18,11 @@
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="loginName" label="账户名称" />
-      <el-table-column prop="content" label="内容" width="310" />
+      <el-table-column prop="content" label="内容" width="310">
+        <template slot-scope="scope">
+          <span v-html="scope.row.content"></span>
+        </template>
+      </el-table-column>
       <el-table-column prop="counter" label="手机个数" />
       <el-table-column prop="cm" label="移动"
         ><template slot-scope="scope">
@@ -81,6 +85,7 @@
           <span v-if="scope.row.source == '5'">数量超标</span>
           <span v-if="scope.row.source == '6'">组合redis出错</span>
           <span v-if="scope.row.source == '7'">组合超时</span>
+          <span v-if="scope.row.source == '9'">触发链接拦截</span>
         </template>
       </el-table-column>
       <el-table-column prop="cid" label="CID" width="155" />
