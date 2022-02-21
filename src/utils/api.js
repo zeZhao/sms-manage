@@ -1708,6 +1708,10 @@ export default {
         // 查询table下方数据
         queryAll(params) {
             return post("/smsProfit/queryAll", params);
+        },
+        // 调价
+        changePrice(params) {
+            return post("/smsProfit/changePrice", params);
         }
     },
     // 免审未发统计
@@ -2352,5 +2356,20 @@ export default {
         checkState(params) {
             return post("/smsSupplierInfo/checkState", params);
         }
+    },
+    // 设置logo
+    smsUserLogo: {
+        // 分页查询供应商信息
+        listUserLogoByPage(params) {
+            return post("/smsUserLogo/listUserLogoByPage", params);
+        },
+        // 添加logo
+        addUserLogo(params) {
+            return post("/smsUserLogo/addUserLogo", params);
+        },
+        // 删除logo
+        deleteUserLogo(params) {
+            return post("/smsUserLogo/deleteUserLogo", params);
+        },
     }
 }
