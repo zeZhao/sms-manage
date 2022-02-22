@@ -330,18 +330,9 @@ export default {
           label: "所属组",
           key: "blackType",
           disabled: false,
-          defaultValue: "1",
-          initDefaultValue: "1",
-          optionData: [
-            {
-              key: "1",
-              value: "系统级"
-            },
-            {
-              key: "2",
-              value: "账户级"
-            }
-          ],
+          defaultValue: 1,
+          initDefaultValue: 1,
+          optionData: [],
           rules: [
             {
               required: true,
@@ -484,6 +475,13 @@ export default {
         );
         this._setDefaultValue(
           this.formConfig,
+          res.data,
+          "blackType",
+          "groupId",
+          "blackGroupName"
+        );
+        this._setDefaultValue(
+          this.editFormConfig,
           res.data,
           "blackType",
           "groupId",
