@@ -509,6 +509,7 @@
                 @click="onSubmit('form')"
                 v-throttle="3000"
                 size="small"
+                :disabled="submitDisabled"
                 class="submit"
               >
                 {{ btnTxt }}
@@ -588,7 +589,8 @@ export default {
       },
       href: window.location.origin,
       dialogVisible: false,
-      dialogImageUrl: ""
+      dialogImageUrl: "",
+      submitDisabled: false
     };
   },
   mounted() {
@@ -723,6 +725,7 @@ export default {
     },
     //  文件上传成功时的钩子
     handleSuccess(item, response, file, fileList) {
+      this.submitDisabled = false;
       if (response.code == 200) {
         this.$emit("handleSuccess", { response, file, fileList, item });
       } else {
@@ -732,15 +735,23 @@ export default {
       }
     },
     //上传前
-    beforeUpload(item, file) {},
+    beforeUpload(item, file) {
+      this.$nextTick(() => {
+        this.submitDisabled = true;
+      });
+    },
     //  文件上传时的钩子
-    handleProgress(item, event, file, fileList) {},
+    handleProgress(item, event, file, fileList) {
+      this.$emit("handleProgress", { item, event, file, fileList });
+    },
     //  文件上传失败时的钩子
     handleError(err, file, fileList) {
+      this.submitDisabled = false;
       this.$emit("handleError", { err, file, fileList });
     },
     //  文件列表移除文件时的钩子
     handleRemove(file, fileList, item) {
+      this.submitDisabled = false;
       this.$emit("handleRemove", { file, fileList, item });
     },
     // 点击文件列表中已上传的文件时的钩子
