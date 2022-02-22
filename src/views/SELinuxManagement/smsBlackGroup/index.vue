@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="_mxCreate"
+      :add="false"
     ></Search>
     <el-table
       :data="listData"

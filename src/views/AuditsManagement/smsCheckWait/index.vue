@@ -61,7 +61,7 @@
           <span v-if="scope.row.source === '5'">免审数量超标</span>
           <span v-if="scope.row.source === '6'">组合redis出错</span>
           <span v-if="scope.row.source === '7'">组合超时</span>
-          <span v-if="scope.row.source === '9'">触发链接拦截</span>
+          <!-- <span v-if="scope.row.source === '9'">触发链接拦截</span> -->
         </template>
       </el-table-column>
       <!-- <el-table-column prop="cmGateway" label="移动通道">
@@ -213,10 +213,10 @@ export default {
               key: "7",
               value: "组合超时"
             },
-            {
-              key: "9",
-              value: "触发链接拦截"
-            }
+            // {
+            //   key: "9",
+            //   value: "触发链接拦截"
+            // }
           ],
           placeholder: "请选择类型"
         },
