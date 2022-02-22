@@ -99,18 +99,23 @@
       :close-on-click-modal="false"
       top="45px"
     >
-      <FormItem
-        ref="editFormItem"
-        :formConfig="editFormConfig"
-        btnTxt="确定"
-        @submit="submitBulkEdit"
-        @cancel="cancel"
-        @selectChange="selectChangeAdd"
-        @choose="choose"
-        @handleSuccess="handleSuccess"
-        @handleRemove="handleRemove"
-        @handleExceed="handleExceed"
-      ></FormItem>
+      <div
+        v-loading="visibleLoading"
+        element-loading-text="提交成功，正在分析文件~"
+      >
+        <FormItem
+          ref="editFormItem"
+          :formConfig="editFormConfig"
+          btnTxt="确定"
+          @submit="submitBulkEdit"
+          @cancel="cancel"
+          @selectChange="selectChangeAdd"
+          @choose="choose"
+          @handleSuccess="handleSuccess"
+          @handleRemove="handleRemove"
+          @handleExceed="handleExceed"
+        ></FormItem>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -359,7 +364,8 @@ export default {
           ]
         }
       ],
-      origin: window.location.origin
+      origin: window.location.origin,
+      visibleLoading: false
     };
   },
   mounted() {
@@ -420,7 +426,6 @@ export default {
       const { key } = item;
       if (key === "blackType") {
         if (val == "2") {
-          console.log(val, "----");
           this._setDisplayShow(this.editFormConfig, "userId", false);
         } else {
           this._setDisplayShow(this.editFormConfig, "userId", true);
@@ -443,9 +448,11 @@ export default {
     },
     //批量添加提交
     submitBulkEdit(form) {
+      this.visibleLoading = true;
       this.$http.sysBlacklist
         .importBatchAddBlacklist({ data: { ...form } })
         .then(res => {
+          this.visibleLoading = false;
           if (resOk(res)) {
             this.$confirm(`${res.msg}`, "添加记录", {
               confirmButtonText: "确定",
@@ -457,6 +464,7 @@ export default {
               this._mxGetList();
             });
             // this.$message.success(res.msg || res.data);
+
             this.bulkEditingVisible = false;
           } else {
             this.$message.error(res.msg || res.data);
@@ -487,7 +495,6 @@ export default {
           "groupId",
           "blackGroupName"
         );
-        console.log(res, "-------------");
       });
     },
     //选择用户选取赋值
@@ -589,7 +596,6 @@ export default {
       row.blackType = row.groupId;
       const { blackId, blackType } = row;
       this.blackId = blackId;
-      console.log(blackType, "----------");
       if (blackType === "1") {
         this._setDisplayShow(this.formConfig, "gateway", false);
         this._setDisplayShow(this.formConfig, "userId", true);
