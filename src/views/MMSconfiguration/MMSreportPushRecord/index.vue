@@ -15,21 +15,26 @@
       :height="tableHeight"
       v-loading="loading"
     >
-      <el-table-column prop="gatewayMmsId" label="账户编号" />
-      <el-table-column prop="mmsId" label="账户名称" />
-      <el-table-column prop="corpId" label="手机号" />
-      <el-table-column prop="userId" label="模板编号" />
-      <el-table-column prop="userName" label="CID" />
-      <el-table-column prop="title" label="报告状态" />
-      <el-table-column prop="sign" label="推送ID" />
-      <el-table-column prop="submitTime" label="推送时间" width="135">
+      <el-table-column prop="userId" label="账户编号" />
+      <el-table-column prop="userName" label="账户名称" />
+      <el-table-column prop="mobile" label="手机号" />
+      <el-table-column prop="mmsId" label="模板编号" />
+      <el-table-column prop="cid" label="CID" />
+      <el-table-column prop="returnStatus" label="报告状态" />
+      <el-table-column prop="pushId" label="推送ID" />
+      <el-table-column prop="pushTime" label="推送时间" width="135">
         <template slot-scope="scope">
-          {{ scope.row.submitTime | timeFormat }}
+          {{ scope.row.pushTime | timeFormat }}
         </template>
       </el-table-column>
-      <el-table-column prop="sign" label="推送状态" />
-      <el-table-column prop="sign" label="重复次数" />
-      <el-table-column prop="sign" label="通道" />
+      <el-table-column prop="pushStatus" label="推送状态">
+        <template slot-scope="scope">
+          {{ scope.row.pushStatus === 1 ? 'success' : 'fail' }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="pushNum" label="重复次数" />
+      <el-table-column prop="seqId" label="SEQID" />
+      <el-table-column prop="gatewayId" label="通道" />
     </el-table>
 
     <Page
@@ -42,6 +47,7 @@
 
 <script>
 import listMixin from '@/mixin/listMixin';
+import { getDateToString } from '@/utils';
 
 export default {
   mixins: [listMixin],
@@ -50,8 +56,8 @@ export default {
       notSearch: true,
       //接口地址
       searchAPI: {
-        namespace: 'mmsTemplateCheckRecord',
-        list: 'listByPage'
+        namespace: 'mmsPushLog',
+        list: 'queryByPage'
       },
       // 列表参数
       namespace: '',
@@ -68,7 +74,7 @@ export default {
         {
           type: 'inputNum',
           label: '通道编号',
-          key: 'gateway'
+          key: 'gatewayId'
         },
         {
           type: 'inputNum',
@@ -88,17 +94,17 @@ export default {
         {
           type: 'input',
           label: '报告状态',
-          key: 'userName'
+          key: 'returnStatus'
         },
         {
           type: 'inputNum',
           label: '推送ID',
-          key: 'seqId1'
+          key: 'pushId'
         },
         {
           type: 'select',
           label: '推送状态',
-          key: 'checkStatus',
+          key: 'pushStatus',
           optionData: [
             { key: 1, value: 'success' },
             { key: 2, value: 'fail' }
@@ -108,11 +114,10 @@ export default {
           type: 'date',
           label: '推送日期',
           key: 'pushTime',
-          defaultValue: new Date()
+          defaultValue: getDateToString()
         }
       ]
     };
-  },
-  methods: {}
+  }
 };
 </script>
