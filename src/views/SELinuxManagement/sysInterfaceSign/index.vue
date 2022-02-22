@@ -90,14 +90,12 @@ export default {
   mixins: [listMixin],
   data() {
     const validatorSign = (rule, value, callback) => {
-      let regex = new RegExp(
-        "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_]){2,8}$"
-      );
-      if (value === "") {
-        callback(new Error("此项不能为空"));
+      if (!value) {
+        callback(new Error("签名不能为空"));
       } else {
-        if (!regex.test(value)) {
-          callback(new Error("输入2-8位，只能输入中文、英文、数字"));
+        const len = value.length;
+        if (len < 2 || len > 19) {
+          callback(new Error("签名输入限制为2~19位"));
         } else {
           callback();
         }
@@ -246,7 +244,7 @@ export default {
           type: "textarea",
           label: "签名",
           key: "sign",
-          maxlength: "8",
+          maxlength: "19",
           rules: [
             {
               required: true,
@@ -254,7 +252,7 @@ export default {
               trigger: ["blur", "change"]
             },
             {
-              trigger: "change",
+              trigger: ["blur", "change"],
               validator: validatorSign
             }
           ]
