@@ -192,7 +192,7 @@ export default {
           label: "审核日期",
           key: "checkDate",
           placeholder: "审核日期",
-          defaultValue: new Date()
+          // defaultValue: new Date()
         },
         {
           type: "date",
