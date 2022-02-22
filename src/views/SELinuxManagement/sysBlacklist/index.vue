@@ -420,7 +420,6 @@ export default {
       const { key } = item;
       if (key === "blackType") {
         if (val == "2") {
-          console.log(val, "----");
           this._setDisplayShow(this.editFormConfig, "userId", false);
         } else {
           this._setDisplayShow(this.editFormConfig, "userId", true);
@@ -443,9 +442,11 @@ export default {
     },
     //批量添加提交
     submitBulkEdit(form) {
+      this.$refs.editFormItem.submitDisabled = true;
       this.$http.sysBlacklist
         .importBatchAddBlacklist({ data: { ...form } })
         .then(res => {
+          this.$refs.editFormItem.submitDisabled = false;
           if (resOk(res)) {
             this.$confirm(`${res.msg}`, "添加记录", {
               confirmButtonText: "确定",
@@ -487,7 +488,6 @@ export default {
           "groupId",
           "blackGroupName"
         );
-        console.log(res, "-------------");
       });
     },
     //选择用户选取赋值
@@ -589,7 +589,6 @@ export default {
       row.blackType = row.groupId;
       const { blackId, blackType } = row;
       this.blackId = blackId;
-      console.log(blackType, "----------");
       if (blackType === "1") {
         this._setDisplayShow(this.formConfig, "gateway", false);
         this._setDisplayShow(this.formConfig, "userId", true);
