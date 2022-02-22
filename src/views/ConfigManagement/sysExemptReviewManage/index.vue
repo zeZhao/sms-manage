@@ -697,6 +697,30 @@ export default {
             }
           ]
         },
+        // {
+        //   type: "select",
+        //   label: "链接拦截",
+        //   initDefaultValue: 1,
+        //   defaultValue: 1,
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "不拦截"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "拦截"
+        //     }
+        //   ],
+        //   key: "interceptLink",
+        //   rules: [
+        //     {
+        //       required: true,
+        //       message: "请输入必填项",
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ]
+        // },
         {
           type: "select",
           label: "并行检测",

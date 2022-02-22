@@ -46,14 +46,14 @@
         </el-menu-item>
       </el-menu>
 
-      <el-button
+      <!-- <el-button
         type="primary"
         size="medium"
         style="display: block; width: 50%; margin: 30px auto"
         @click="addGroup"
       >
         添加分组
-      </el-button>
+      </el-button> -->
     </section>
 
     <section class="right-content">
