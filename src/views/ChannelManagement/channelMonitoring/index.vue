@@ -82,6 +82,17 @@ export default {
           type: "inputNum",
           label: "通道编号",
           key: "gateway"
+        },
+        {
+          type: "select",
+          label: "链接状态",
+          key: "linkStatus",
+          defaultValue: "",
+          optionData: [
+            { key: "", value: "全部" },
+            { key: "0", value: "正常" },
+            { key: "1", value: "异常" }
+          ]
         }
       ]
     };
