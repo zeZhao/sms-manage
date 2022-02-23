@@ -216,7 +216,12 @@ export default {
           key: 'dates',
           disabledDate: {
             disabledDate(time) {
-              return time.getTime() >= Date.now();
+              const nTime = new Date(),
+                nY = nTime.getFullYear(),
+                nM = nTime.getMonth() + 1,
+                nD = nTime.getDate();
+              const nTimeDay = `${nY}-${nM}-${nD}`;
+              return time.getTime() >= new Date(nTimeDay).getTime();
             }
           },
           rules: [{ required: true, message: '请选择时间', trigger: 'change' }]
@@ -226,14 +231,16 @@ export default {
           label: '单价',
           key: 'unitPrice',
           specialSymbols: '分',
+          maxlength: '5',
           rules: [
             {
               required: true,
-              trigger: ['blur', 'change'],
+              trigger: 'blur',
               validator: (rule, value, callback) => {
-                if (!value) callback(new Error('请调整单价'));
+                if (!value) callback(new Error('请输入单价'));
                 if (isNaN(value)) callback(new Error('单价必须为数字'));
                 if (value < 0) callback(new Error('单价必须大于等于0'));
+                if (this.selectedUnitPrice == value) callback(new Error('请调整单价'));
                 callback();
               }
             }
@@ -241,7 +248,9 @@ export default {
         }
       ],
       obj: {},
-      isChooseUser: false
+      isChooseUser: false,
+      // 选中账户或通道的原始单价（用来校验调价单价）
+      selectedUnitPrice: null
     };
   },
   mounted() {
@@ -319,6 +328,7 @@ export default {
             'defaultValue',
             val.split('_')[0]
           );
+          this.selectedUnitPrice = val.split('_')[0];
         }
       }
     },
@@ -332,6 +342,7 @@ export default {
             'defaultValue',
             data.cardUnit
           );
+          this.selectedUnitPrice = data.cardUnit;
         }
       });
     },
