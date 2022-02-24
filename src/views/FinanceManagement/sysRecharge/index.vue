@@ -445,28 +445,18 @@ export default {
           label: '单价(分)',
           key: 'cardUnit',
           defaultValue: '',
-          maxlength: 4,
+          maxlength: 6,
           rules: [
             {
               required: true,
               trigger: ['blur', 'change'],
               validator: (rule, value, callback) => {
-                if (value === '' || value === undefined || value === null) {
-                  callback(new Error('请输入必填项'));
+                if (!value) {
+                  value !== 0 ? callback(new Error("请输入必填项")) : callback(new Error('单价需大于0'));
                 } else {
-                  if (value <= 0) {
-                    callback(new Error('需大于0'));
-                  } else {
-                    const val =
-                      typeof value === 'string'
-                        ? value.trim()
-                        : (value + '').trim();
-                    if (/^\d{1,4}(\.\d+)?$/.test(val)) {
-                      callback();
-                    } else {
-                      callback(new Error('请输入1~4位的数值'));
-                    }
-                  }
+                  if (isNaN(value)) callback(new Error("单价只能为数字"));
+                  if (value <= 0) callback(new Error('单价需大于0'));
+                  callback();
                 }
               }
             }
