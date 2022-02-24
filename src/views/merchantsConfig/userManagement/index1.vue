@@ -596,10 +596,12 @@ export default {
   components: { FormItemTitle },
   data() {
     const validatorPrice = (rule, value, callback) => {
-      if (value && value < 1000) {
-        callback();
+      if (!value) {
+        value !== 0 ? callback(new Error("请输入必填项")) : callback();
       } else {
-        callback("正整数不能超过3位数");
+        if (isNaN(value)) callback(new Error("单价只能为数字"));
+        if (value < 0) callback(new Error("单价不能小于0"));
+        callback();
       }
     };
     const validCode = (rule, value, callback) => {
@@ -1115,18 +1117,9 @@ export default {
           label: "短信单价",
           key: "cardUnit",
           tag: "sms",
+          maxlength: 6,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
-              message: "输入大于0的数，小数点保留2位",
-              trigger: "change"
-            },
-            {
-              validator: validatorPrice,
-              message: "正整数不能超过3位数",
-              trigger: "change"
-            }
+            { required: true, trigger: ["blur", "change"], validator: validatorPrice }
           ]
         },
         {
@@ -1350,18 +1343,9 @@ export default {
           label: "彩信单价",
           key: "mmsCardUnit",
           tag: "mms",
+          maxlength: 6,
           rules: [
-            { required: true, message: "请输入必填项", trigger: "blur" },
-            {
-              pattern: /^0\.([1-9]|\d[1-9])$|^[1-9]\d{0,8}\.\d{0,2}$|^[1-9]\d{0,8}$/,
-              message: "输入大于0的数，小数点保留2位",
-              trigger: "change"
-            },
-            {
-              validator: validatorPrice,
-              message: "正整数不能超过3位数",
-              trigger: "change"
-            }
+            { required: true, trigger: ["blur", "change"], validator: validatorPrice }
           ]
         },
         // {
