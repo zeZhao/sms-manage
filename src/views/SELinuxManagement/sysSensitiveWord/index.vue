@@ -690,7 +690,7 @@ export default {
   justify-content: space-between;
 
   .left-menu {
-    width: 18%;
+    width: 230px;
 
     .el-menu-group {
       width: 100%;
@@ -698,8 +698,8 @@ export default {
       overflow-y: auto;
       .el-menu-item:first-child {
         position: fixed;
-        width: 177px;
-        z-index: 9999;
+        width: 212px;
+        z-index: 9;
       }
       .el-menu-item:nth-of-type(2) {
         margin-top: 56px;
@@ -725,7 +725,7 @@ export default {
   }
 
   .right-content {
-    width: 80%;
+    width: calc(100% - 250px);
   }
 }
 </style>
