@@ -17,7 +17,7 @@
           :class="activeIndex === index ? 'hover' : ''"
           @click="activeIndex = index"
         >
-          <el-tooltip placement="top" :content="item.groupName">
+          <el-tooltip placement="right" :content="item.groupName">
             <div>
               <span slot="title" class="title">{{ item.groupName }}</span>
               <span slot class="action-bar" v-if="item.groupId">
@@ -696,6 +696,14 @@ export default {
       width: 100%;
       height: 65vh;
       overflow-y: auto;
+      .el-menu-item:first-child {
+        position: fixed;
+        width: 177px;
+        z-index: 9999;
+      }
+      .el-menu-item:nth-of-type(2) {
+        margin-top: 56px;
+      }
 
       .hover {
         background-color: #ccc !important;
