@@ -2145,6 +2145,13 @@ export default {
             return post("/mmsTemplateCheckRecord/listByPage", params);
         }
     },
+    //彩信报告推送记录
+    mmsPushLog: {
+        // 彩信报告推送记录列表
+        queryByPage(params) {
+            return post("/mmsPushLog/queryByPage", params);
+        }
+    },
     //状态码统计
     SmsStatusCodeStatistics: {
         // 状态码统计列表分页查询

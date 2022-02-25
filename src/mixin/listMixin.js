@@ -232,8 +232,8 @@ export default {
       const contentClientHeight = content ? content.clientHeight : 0;
       const searchPanelClientHeight = searchPanel ? searchPanel.clientHeight : 0;
       this.$nextTick(() => {
-        // 70为底部距离分页器
-        this.tableHeight = `${(contentClientHeight - searchPanelClientHeight - 70).toString()}px`;
+        // 90为底部距离分页器
+        this.tableHeight = `${(contentClientHeight - searchPanelClientHeight - 90).toString()}px`;
       });
     },
     /***
