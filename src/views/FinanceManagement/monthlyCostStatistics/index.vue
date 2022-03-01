@@ -231,7 +231,7 @@ export default {
           label: '单价',
           key: 'unitPrice',
           specialSymbols: '分',
-          maxlength: '5',
+          maxlength: 6,
           rules: [
             {
               required: true,
@@ -240,8 +240,7 @@ export default {
                 if (!value) callback(new Error('请输入单价'));
                 if (isNaN(value)) callback(new Error('单价必须为数字'));
                 if (value < 0) callback(new Error('单价必须大于等于0'));
-                if (this.selectedUnitPrice == value)
-                  callback(new Error('请调整单价'));
+                if (this.selectedUnitPrice == value) callback(new Error('请调整单价'));
                 callback();
               }
             }

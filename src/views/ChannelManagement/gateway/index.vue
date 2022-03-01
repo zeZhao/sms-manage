@@ -552,7 +552,7 @@ export default {
           type: "input",
           label: "通道单价(分)",
           key: "unitPrice",
-          maxlength: "5",
+          maxlength: 6,
           colSpan: 12,
           rules: [
             {
