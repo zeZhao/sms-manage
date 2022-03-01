@@ -202,8 +202,8 @@ const checkwordName = [
           callback(new Error(`第${i + 1}个敏感词不能为空`));
           break;
         }
-        if (arr[i].length < 2 || arr[i].length > 8) {
-          callback(new Error(`第${i + 1}个敏感词长度应在2~8个字符之间`));
+        if (arr[i].length < 2 || arr[i].length > 100) {
+          callback(new Error(`第${i + 1}个敏感词长度应在2~100个字符之间`));
           break;
         }
       }

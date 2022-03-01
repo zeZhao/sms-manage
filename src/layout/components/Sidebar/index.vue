@@ -21,6 +21,42 @@
           :item="route"
           :base-path="route.path"
         />
+        <el-menu-item index="4" class="submenu-title-noDropdown">
+          <svg-icon
+            icon-class="duanxin"
+            style="width: 20px;
+            height: 20px;
+            fill: currentColor;
+            overflow: hidden;"
+          />
+          <a
+            href="http://cspadmin.jvtd.cn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span slot="title">
+              5G短信
+            </span>
+          </a>
+        </el-menu-item>
+        <el-menu-item index="5" class="submenu-title-noDropdown">
+          <svg-icon
+            icon-class="duanxin"
+            style="width: 20px;
+            height: 20px;
+            fill: currentColor;
+            overflow: hidden;"
+          />
+          <a
+            href="https://rce-demo.rongcloud.net/admin/#/contact/org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span slot="title">
+              移动端管理
+            </span>
+          </a>
+        </el-menu-item>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -57,3 +93,8 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+::v-deep .el-menu--collapse .svg-icon {
+  margin-left: 16px;
+}
+</style>

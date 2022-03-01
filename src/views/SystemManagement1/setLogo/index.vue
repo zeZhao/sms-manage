@@ -243,6 +243,7 @@ export default {
         let fileType = file.raw.name.split(".")[1];
         let fileSize = file.size;
         let isLt1M = size ? size * 1024 * 1024 : 0.2 * 1024 * 1024;
+        console.log(accept, "-----------");
         if (accept && accept.lenght != 0) {
           if (!accept.includes(fileType) || fileSize > isLt1M) {
             this.$message.error("支持jpg/jpeg/png,大小在200kb之内");

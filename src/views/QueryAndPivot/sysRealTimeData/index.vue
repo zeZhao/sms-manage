@@ -50,7 +50,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { getDateToString } from "@/utils";
+import { getDateTime } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -109,10 +109,10 @@ export default {
           placeholder: "请选择省份"
         },
         {
-          type: "daterange",
+          type: "datetime",
           label: "统计日期",
           key: ["", "countDate", "endDate"],
-          defaultValue: ["", getDateToString(), getDateToString()]
+          defaultValue: ["", getDateTime('start'), getDateTime('end')]
         }
       ],
       ProvinceList: []
@@ -149,16 +149,16 @@ export default {
       });
     },
     // 修改搜索参数
-    _formatRequestData(data) {
-      const { countDate, endDate } = data;
-      if (countDate) {
-        data.countDate = new Date(countDate).Format("yyyy-MM-dd");
-      }
-      if (endDate) {
-        data.endDate = new Date(endDate).Format("yyyy-MM-dd");
-      }
-      return data;
-    },
+    // _formatRequestData(data) {
+    //   const { countDate, endDate } = data;
+    //   if (countDate) {
+    //     data.countDate = new Date(countDate).Format("yyyy-MM-dd");
+    //   }
+    //   if (endDate) {
+    //     data.endDate = new Date(endDate).Format("yyyy-MM-dd");
+    //   }
+    //   return data;
+    // },
     /**
      * 对表格数据进行自定义调整
      * @param rows
