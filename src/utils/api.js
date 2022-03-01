@@ -1700,7 +1700,7 @@ export default {
         },
         // 内容检测
         checkTemplate(params) {
-            return fetch("/smsCheckTemplate/checkTemplate", params);
+            return post("/smsCheckTemplate/checkTemplate", params);
         },
         // 修改重写
         updateTemplate(params) {
