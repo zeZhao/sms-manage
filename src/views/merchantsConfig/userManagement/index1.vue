@@ -317,6 +317,7 @@
         :btnTxt="formTit"
         @submit="_mxHandleSubmit"
         @cancel="_mxCancel"
+        @choose="choose"
         @selectChange="selectChange"
         @removeTag="removeTag"
       >
@@ -1177,7 +1178,8 @@ export default {
           key: "moUrl",
           maxlength: "250",
           tag: "sms",
-          defaultValue: ""
+          defaultValue: "",
+          btnTxt: "拉取地址"
         },
         {
           type: "select",
@@ -1198,7 +1200,8 @@ export default {
           key: "reportUrl",
           maxlength: "250",
           tag: "sms",
-          defaultValue: ""
+          defaultValue: "",
+          btnTxt: "拉取地址"
         },
         {
           type: "select",
@@ -1602,6 +1605,11 @@ export default {
     }
   },
   methods: {
+    choose(item) {
+      const { key } = item;
+      const idx = this.formConfig.findIndex(v => v.key === key);
+      this.$set(this.formConfig[idx], "defaultValue", "https://smsmanage.jvtd.cn/#/");
+    },
     // 关闭信息弹窗后重置web密码为不可修改状态
     handleClose(done) {
       done();
