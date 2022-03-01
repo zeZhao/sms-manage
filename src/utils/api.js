@@ -222,6 +222,14 @@ export default {
         addResendConfig(params) {
             return post("/sysResendConfig/addResendConfig", params);
         },
+        // 通道列表查询
+        getTtype(params) {
+            return post(`/sysResendConfig/gateway/list/${params}`);
+        },
+        // 批量修改
+        batchmd(gtype, params) {
+            return post(`/sysResendConfig/gateway/batchmd/${gtype}`, params);
+        },
     },
     // 签名路由配置
     sysSignRoute: {
@@ -1692,7 +1700,7 @@ export default {
         },
         // 内容检测
         checkTemplate(params) {
-            return fetch("/smsCheckTemplate/checkTemplate", params);
+            return post("/smsCheckTemplate/checkTemplate", params);
         },
         // 修改重写
         updateTemplate(params) {
@@ -2139,6 +2147,13 @@ export default {
         // 彩信模板审核记录列表
         listByPage(params) {
             return post("/mmsTemplateCheckRecord/listByPage", params);
+        }
+    },
+    //彩信报告推送记录
+    mmsPushLog: {
+        // 彩信报告推送记录列表
+        queryByPage(params) {
+            return post("/mmsPushLog/queryByPage", params);
         }
     },
     //状态码统计

@@ -85,11 +85,19 @@
       @handleCurrentChange="handleCurrentChange"
     ></Page>
     <el-dialog
-      :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
       top="45px"
     >
+      <span slot="title">
+        {{formTit}}
+        <i
+          v-if="formTit === '修改' && !isCheck"
+          class="el-icon-lock"
+          style="font-size: 20px; color: #909399; margin-left: 5px"
+          @click="isOpenDialog"
+        ></i>
+      </span>
       <FormItem
         ref="formItem"
         :formConfig="formConfig"
@@ -122,6 +130,43 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="statusVisible = false">取 消</el-button>
         <el-button type="primary" @click="updateStatus(1)">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="登录"
+      :visible.sync="loginVisible"
+      :close-on-click-modal="false"
+      width="30%"
+      custom-class="loginDialog"
+    >
+      <el-form
+        ref="loginForm"
+        :model="formData"
+        :rules="rules"
+        label-width="70px"
+        style="width: 80%; margin: auto"
+      >
+        <el-form-item label="手机号:" prop="account">
+          <el-input
+            v-model="formData.account"
+            clearable
+            placeholder="请输入手机号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="口令:" prop="pwd">
+          <el-input
+            v-model="formData.pwd"
+            type="password"
+            maxlength="6"
+            clearable
+            placeholder="请输入口令"
+            @keyup.enter.native="notDisabled"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="notDisabled">确 定</el-button>
+        <el-button @click="loginVisible = false">取 消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -373,7 +418,26 @@ export default {
       statusVisible: false,
       status: 1,
       agentId: "",
-      href: window.location.origin
+      href: window.location.origin,
+      loginVisible: false,
+      formData: {},
+      rules: {
+        account: [
+          {
+            required: true,
+            message: "手机号不能为空",
+            trigger: ["blur", "change"]
+          }
+        ],
+        pwd: [
+          {
+            required: true,
+            message: "口令不能为空",
+            trigger: ["blur", "change"]
+          }
+        ]
+      },
+      isCheck: false // 是否已经验证登录
     };
   },
   computed: {
@@ -388,6 +452,36 @@ export default {
     this.getSaleman();
   },
   methods: {
+    isOpenDialog() {
+      this.loginVisible = true;
+      this.$nextTick(() => {
+        this.$refs["loginForm"].clearValidate();
+      });
+    },
+    // 二次登录验证
+    notDisabled() {
+      this.$refs["loginForm"].validate(valid => {
+        if (valid) {
+          this.formData.type = 5;
+          this.formData.soleId = Number(this.id);
+
+          this.$http.mmsGateway.viewLogin(this.formData).then(res => {
+            if (res.code === 200) {
+              const idx = this.formConfig.findIndex(v => v.key === "password");
+              if (idx === -1) return;
+              this.$set(this.formConfig[idx], "type", "input");
+              this.$set(this.formConfig[idx], "defaultValue", res.data);
+              this.isCheck = true;
+
+              this.loginVisible = false;
+              this.$message.success("验证成功");
+            } else {
+              this.$message.error(res.data || res.msg);
+            }
+          });
+        }
+      });
+    },
     /**
      * 创建表单
      * @param row  当前行数据
@@ -399,12 +493,9 @@ export default {
       this.addChannel = true;
       this.formTit = "新增";
       this.formConfig.forEach(item => {
-        // if (item.key === "password") {
-        //   item.rules = [
-        //     { required: true, message: "请输入必填项", trigger: "blur" },
-        //     { validator: password, trigger: "change" }
-        //   ];
-        // }
+        if (item.key === "password") {
+          item.type = "password";
+        }
         if (item.key === "loginName") {
           item.disabled = false;
         }
@@ -425,6 +516,7 @@ export default {
       this.id = row[ID];
       this.editId = ID;
       this.formTit = "修改";
+      this.isCheck = false;
       this.formConfig.forEach(item => {
         for (let key in row) {
           if (item.key === key && row[key] !== "-") {
@@ -432,14 +524,12 @@ export default {
             if (item.key === "status") {
               this.$set(item, "defaultValue", row[key].toString());
             }
-            if (item.key === "password") {
-              this.$set(item, "defaultValue", "");
-            }
           }
         }
-        // if (item.key === "password") {
-        //   item.rules = [{ validator: password, trigger: "change" }];
-        // }
+        if (item.key === "password") {
+          item.type = "password";
+          item.defaultValue = "";
+        }
 
         if (!Object.keys(row).includes(item.key)) {
           this.$set(item, "defaultValue", "");

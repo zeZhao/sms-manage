@@ -407,145 +407,191 @@
         ></i>
       </span>
 
-      <div v-if="infoData.proType === 1">
-        <p>产品类型: WEB</p>
-        <p>企业名称: {{ infoData.corpName }}</p>
-        <p>账户名称: {{ infoData.userName }}</p>
-        <p>账户编号: {{ infoData.userId }}</p>
-        <p>web登录账号: {{ infoData.loginName }}</p>
-        <p>
-          web密码:
-          <span v-if="!editUserPassword">{{
-            infoData.webPassword || "-"
-          }}</span>
-          <span v-else
-            ><el-input
-              v-model="infoData.webPassword"
-              clearable
-              placeholder="请输入web密码"
-              class="pwd"
-          /></span>
-          <span
-            v-if="!renderLock && !editUserPassword"
-            class="edit-user-password"
-            @click="editUserPassword = true"
-            >修改</span
-          >
-          <span
-            v-if="!renderLock && editUserPassword"
-            class="edit-user-password"
-            @click="handleEditUserPassword"
-            >确定</span
-          >
-        </p>
-        <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
-        <!-- <p>
-          秘钥: {{ infoData.secretKey }}
-          <i
-            class="el-icon-lock"
-            v-show="!infoData.secretKey || infoData.secretKey === '-'"
-            @click="isOpenDialog('secretKey')"
-            style="font-size: 20px;color: #909399;margin-left:5px"
-          ></i>
-        </p> -->
-      </div>
+      <el-tabs type="border-card" tabPosition="bottom" v-model="activeName" v-if="Array.isArray(infoData.productTypes)">
+        <el-tab-pane label="短信" name="1" v-if="infoData.productTypes.includes(1)">
+          <div v-if="infoData.proType === 1">
+            <p>产品类型: WEB</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+            <!-- <p>
+              秘钥: {{ infoData.secretKey }}
+              <i
+                class="el-icon-lock"
+                v-show="!infoData.secretKey || infoData.secretKey === '-'"
+                @click="isOpenDialog('secretKey')"
+                style="font-size: 20px;color: #909399;margin-left:5px"
+              ></i>
+            </p> -->
+          </div>
 
-      <div v-if="infoData.proType === 2">
-        <p>产品类型: HTTP</p>
-        <p>企业名称: {{ infoData.corpName }}</p>
-        <p>账户名称: {{ infoData.userName }}</p>
-        <p>账户编号: {{ infoData.userId }}</p>
-        <p>http密码: {{ infoData.password || "-" }}</p>
-        <p>客户端IP: {{ infoData.userIp }}</p>
-        <p>接口地址: https://sms3api.jvtd.cn/jtdsms/smsSend</p>
-        <p>接口文档: https://jvtd.cn/duanxinApi/</p>
-        <el-divider></el-divider>
-        <p>产品类型: WEB端</p>
-        <p>web登录账号: {{ infoData.loginName }}</p>
-        <p>
-          web密码:
-          <span v-if="!editUserPassword">{{
-            infoData.webPassword || "-"
-          }}</span>
-          <span v-else
-            ><el-input
-              v-model="infoData.webPassword"
-              clearable
-              placeholder="请输入web密码"
-              class="pwd"
-          /></span>
-          <span
-            v-if="!renderLock && !editUserPassword"
-            class="edit-user-password"
-            @click="editUserPassword = true"
-            >修改</span
-          >
-          <span
-            v-if="!renderLock && editUserPassword"
-            class="edit-user-password"
-            @click="handleEditUserPassword"
-            >确定</span
-          >
-        </p>
-        <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
-        <p>加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption</p>
-        <p>秘钥: {{ infoData.secretKey || "-" }}</p>
-      </div>
+          <div v-if="infoData.proType === 2">
+            <p>产品类型: HTTP</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>http密码: {{ infoData.password || "-" }}</p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <p>接口地址: https://sms3api.jvtd.cn/jtdsms/smsSend</p>
+            <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+            <el-divider></el-divider>
+            <p>产品类型: WEB端</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+            <p>加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption</p>
+            <p>秘钥: {{ infoData.secretKey || "-" }}</p>
+          </div>
 
-      <div v-if="infoData.proType === 4">
-        <p>产品类型: CMPP2.0</p>
-        <p>企业名称: {{ infoData.corpName }}</p>
-        <p>账户名称: {{ infoData.userName }}</p>
-        <p>账户编号: {{ infoData.userId }}</p>
-        <p>cmpp密码: {{ infoData.password || "-" }}</p>
-        <p>端口: 7893</p>
-        <p>IP地址: 39.107.120.170</p>
-        <p>
-          接入码:
-          {{
-            infoData.longCode && infoData.longCode !== "-"
-              ? infoData.longCode
-              : "置空"
-          }}
-        </p>
-        <p>链接路数: {{ infoData.maxSession }}</p>
-        <p>
-          速率:
-          {{
-            infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒"
-          }}
-        </p>
-        <p>客户端IP: {{ infoData.userIp }}</p>
-        <el-divider></el-divider>
-        <p>产品类型: WEB端</p>
-        <p>web登录账号: {{ infoData.loginName }}</p>
-        <p>
-          web密码:
-          <span v-if="!editUserPassword">{{
-            infoData.webPassword || "-"
-          }}</span>
-          <span v-else
-            ><el-input
-              v-model="infoData.webPassword"
-              clearable
-              placeholder="请输入web密码"
-              class="pwd"
-          /></span>
-          <span
-            v-if="!renderLock && !editUserPassword"
-            class="edit-user-password"
-            @click="editUserPassword = true"
-            >修改</span
-          >
-          <span
-            v-if="!renderLock && editUserPassword"
-            class="edit-user-password"
-            @click="handleEditUserPassword"
-            >确定</span
-          >
-        </p>
-        <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
-      </div>
+          <div v-if="infoData.proType === 4">
+            <p>产品类型: CMPP2.0</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>cmpp密码: {{ infoData.password || "-" }}</p>
+            <p>端口: 7893</p>
+            <p>IP地址: 39.107.120.170</p>
+            <p>
+              接入码:
+              {{
+                infoData.longCode && infoData.longCode !== "-"
+                  ? infoData.longCode
+                  : "置空"
+              }}
+            </p>
+            <p>链接路数: {{ infoData.maxSession }}</p>
+            <p>
+              速率:
+              {{
+                infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒"
+              }}
+            </p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <el-divider></el-divider>
+            <p>产品类型: WEB端</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+          </div>
+        </el-tab-pane>
+
+        <el-tab-pane label="彩信" name="2" v-if="infoData.productTypes.includes(2)">
+          <div>
+            <p>产品类型: HTTP</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>http密码: {{ infoData.password || "-" }}</p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <p>接口地址: https://sms3api.jvtd.cn/jtdsms/smsSend</p>
+            <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+            <el-divider></el-divider>
+            <p>产品类型: WEB端</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </el-dialog>
     <el-dialog
       title="登录"
@@ -787,6 +833,8 @@ export default {
           key: ["", "startDate", "endDate"]
         }
       ],
+      // 查看信息选中项
+      activeName: "1",
       currentRowData: {},
       tagStatusTitle: "",
       tagStatus: false,
@@ -1076,8 +1124,8 @@ export default {
           // multiple: true,
           // disabled: this.formTit === "修改",
           // clearable: true,
-          defaultValue: [],
-          initDefaultValue: [],
+          defaultValue: null,
+          initDefaultValue: null,
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
@@ -1348,6 +1396,34 @@ export default {
             { required: true, trigger: ["blur", "change"], validator: validatorPrice }
           ]
         },
+        {
+          type: "select",
+          label: "报告类型",
+          key: "mmsReportType",
+          tag: "mms",
+          optionData: [
+            { key: "0", value: "无权限" },
+            { key: 1, value: "推送" },
+            // { key: 2, value: "自取(批量)" },
+            // { key: 3, value: "自取(单条)" }
+          ],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "报告推送地址",
+          key: "mmsReportUrl",
+          tag: "mms",
+          defaultValue: ""
+        },
+        {
+          type: "input",
+          label: "模板推送地址",
+          key: "mmsAuditCallBack",
+          tag: "mms",
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         // {
         //   type: "select",
         //   label: "彩信上行类型",
@@ -1360,33 +1436,6 @@ export default {
         //   ],
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
-        // {
-        //   type: "input",
-        //   label: "彩信推送上行地址",
-        //   key: "mmsMoUrl",
-        //   tag: "mms",
-        //   defaultValue: ""
-        // },
-        // {
-        //   type: "select",
-        //   label: "彩信报告类型",
-        //   key: "mmsReportType",
-        //   tag: "mms",
-        //   optionData: [
-        //     { key: "0", value: "无权限" },
-        //     { key: 1, value: "推送" },
-        //     { key: 2, value: "自取(批量)" },
-        //     { key: 3, value: "自取(单条)" }
-        //   ],
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
-        // {
-        //   type: "input",
-        //   label: "彩信推送报告地址",
-        //   key: "mmsReportUrl",
-        //   tag: "mms",
-        //   defaultValue: ""
-        // },
         {
           type: "checkbox",
           label: "黑名单",
@@ -1395,7 +1444,7 @@ export default {
           key: "mmsBlackLevel",
           tag: "mms",
           optionData: [
-            { key: 0, value: "系统级" },
+            { key: 1, value: "系统级" },
             { key: 2, value: "账户级" }
             // { key: 3, value: "营销级" },
             // { key: 4, value: "BSATS级" }
@@ -2301,6 +2350,8 @@ export default {
     //信息弹框
     messageShow(row) {
       this.infoData = this.$deepClone(row);
+      // 默认选中第一种产品类型
+      this.activeName = this.infoData.productTypes[0] + "";
       this.infoVisible = true;
     },
     //获取所有商户

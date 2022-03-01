@@ -180,32 +180,27 @@ export default {
         {
           type: "inputNum",
           label: "商户编号",
-          key: "corpId",
-          placeholder: "请输入商户编号"
+          key: "corpId"
         },
         {
           type: "inputNum",
           label: "账户编号",
-          key: "userId",
-          placeholder: "请输入账户编号"
+          key: "userId"
         },
         {
           type: "input",
           label: "账户名称",
-          key: "userName",
-          placeholder: "请输入账户名称"
+          key: "userName"
         },
         {
           type: "inputNum",
           label: "通道号",
-          key: "gateway",
-          placeholder: "请输入账户名称"
+          key: "gateway"
         },
         {
           type: "inputNum",
           label: "特服号",
-          key: "code",
-          placeholder: "请输入账户名称"
+          key: "code"
         },
         {
           type: "select",
@@ -216,8 +211,7 @@ export default {
             // { key: "2", value: "彩信" },
             // { key: "3", value: "屏信" },
             // { key: "4", value: "语音" }
-          ],
-          placeholder: "请选择类型"
+          ]
         },
         {
           type: "select",
