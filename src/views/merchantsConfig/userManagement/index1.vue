@@ -1150,6 +1150,17 @@ export default {
         },
         {
           type: "select",
+          label: "推送方式",
+          key: "alertMobile",
+          optionData: [
+            { key: 2, value: "字符串" },
+            { key: 1, value: "JSON" }
+          ],
+          tag: "sms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "select",
           label: "上行类型",
           key: "moType",
           optionData: [
@@ -1175,8 +1186,8 @@ export default {
           optionData: [
             { key: "0", value: "无权限" },
             { key: 1, value: "推送" },
-            { key: 2, value: "自取(批量)" },
-            { key: 3, value: "自取(单条)" }
+            // { key: 2, value: "自取(批量)" },
+            // { key: 3, value: "自取(单条)" }
           ],
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
