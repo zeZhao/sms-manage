@@ -1124,8 +1124,8 @@ export default {
           // multiple: true,
           // disabled: this.formTit === "修改",
           // clearable: true,
-          defaultValue: [],
-          initDefaultValue: [],
+          defaultValue: null,
+          initDefaultValue: null,
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
