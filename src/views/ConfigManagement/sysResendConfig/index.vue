@@ -6,9 +6,9 @@
       @search="_mxDoSearch"
       @create="create"
     >
-      <template slot="Other">
+      <!-- <template slot="Other">
         <el-button type="primary" @click="bulkEditing">批量修改</el-button>
-      </template>
+      </template> -->
     </Search>
     <el-table
       :data="listData"
@@ -35,7 +35,7 @@
       <el-table-column prop="type" label="重发类型" width="100">
         <template slot-scope="{ row }">{{ renderType(row.type) }}</template>
       </el-table-column>
-      <el-table-column prop="statusYes" label="重发状态" />
+      <!-- <el-table-column prop="statusYes" label="重发状态" /> -->
       <el-table-column prop="status" label="不重发状态" />
       <el-table-column prop="destGateway" label="重发通道">
         <template slot-scope="scope">
@@ -224,13 +224,13 @@ export default {
             }
           ]
         },
-        {
-          type: "input",
-          label: "重发状态",
-          key: "statusYes",
-          defaultValue: "",
-          maxlength: 30
-        },
+        // {
+        //   type: "input",
+        //   label: "重发状态",
+        //   key: "statusYes",
+        //   defaultValue: "",
+        //   maxlength: 30
+        // },
         {
           type: "input",
           label: "不重发状态",
@@ -337,15 +337,15 @@ export default {
             }
           ]
         },
-        {
-          type: "input",
-          label: "重发状态",
-          key: "statusYes",
-          defaultValue: "",
-          tag: "raw",
-          isShow: true,
-          maxlength: 30
-        },
+        // {
+        //   type: "input",
+        //   label: "重发状态",
+        //   key: "statusYes",
+        //   defaultValue: "",
+        //   tag: "raw",
+        //   isShow: true,
+        //   maxlength: 30
+        // },
         {
           type: "input",
           label: "不重发状态",
@@ -441,7 +441,7 @@ export default {
           data: {
             gorign: form.gorign,
             gdest: form.gdest,
-            statusYes: form.statusYes,
+            // statusYes: form.statusYes,
             status: form.status
           }
         };
