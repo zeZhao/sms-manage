@@ -21,7 +21,7 @@
           :item="route"
           :base-path="route.path"
         />
-        <el-menu-item index="4" class="submenu-title-noDropdown">
+        <!-- <el-menu-item index="4" class="submenu-title-noDropdown">
           <svg-icon
             icon-class="duanxin"
             style="width: 20px;
@@ -56,7 +56,7 @@
               移动端管理
             </span>
           </a>
-        </el-menu-item>
+        </el-menu-item> -->
       </el-menu>
     </el-scrollbar>
   </div>
