@@ -224,13 +224,13 @@ export default {
             }
           ]
         },
-        {
-          type: "input",
-          label: "重发状态",
-          key: "statusYes",
-          defaultValue: "",
-          maxlength: 30
-        },
+        // {
+        //   type: "input",
+        //   label: "重发状态",
+        //   key: "statusYes",
+        //   defaultValue: "",
+        //   maxlength: 30
+        // },
         {
           type: "input",
           label: "不重发状态",
