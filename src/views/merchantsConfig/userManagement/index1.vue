@@ -1201,6 +1201,8 @@ export default {
           type: "select",
           label: "推送方式",
           key: "alertMobile",
+          initDefaultValue: 2,
+          defaultValue: 2,
           optionData: [
             { key: 2, value: "字符串" },
             { key: 1, value: "JSON" }
@@ -1215,7 +1217,7 @@ export default {
           optionData: [
             { key: "0", value: "无权限" },
             { key: 1, value: "推送" },
-            { key: 2, value: "自取(批量)" }
+            // { key: 2, value: "自取(批量)" }
           ],
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -1227,7 +1229,7 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: "",
-          btnTxt: "拉取地址"
+          // btnTxt: "拉取地址"
         },
         {
           type: "select",
@@ -1249,7 +1251,7 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: "",
-          btnTxt: "拉取地址"
+          // btnTxt: "拉取地址"
         },
         {
           type: "select",
