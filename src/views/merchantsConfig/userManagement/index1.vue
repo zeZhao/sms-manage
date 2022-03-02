@@ -1201,11 +1201,11 @@ export default {
           type: "select",
           label: "推送方式",
           key: "alertMobile",
-          initDefaultValue: 2,
-          defaultValue: 2,
+          initDefaultValue: "2",
+          defaultValue: "2",
           optionData: [
-            { key: 2, value: "字符串" },
-            { key: 1, value: "JSON" }
+            { key: "2", value: "字符串" },
+            { key: "1", value: "JSON" }
           ],
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
