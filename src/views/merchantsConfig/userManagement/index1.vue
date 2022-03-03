@@ -2024,6 +2024,10 @@ export default {
         //     { required: false, message: "请输入必填项", trigger: "blur" }
         //   ]);
         // }
+        if (item.key === "alertMobile") {
+          this.$set(item, "defaultValue", "2");
+          this.$set(item, "initDefaultValue", "2");
+        }
       });
       this.addChannel = true;
       setTimeout(() => {
