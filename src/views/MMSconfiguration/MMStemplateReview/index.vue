@@ -157,7 +157,7 @@ export default {
         { type: "input", label: "商户名称", key: "corpName" },
         { type: "inputNum", label: "账户编号", key: "userId" },
         { type: "input", label: "账户名称", key: "userName" },
-        { type: "inputNum", label: "模板编号", key: "mmsId" },
+        { type: "input", label: "模板编号", key: "mmsId" },
         { type: "input", label: "彩信标题", key: "title" },
         { type: "input", label: "签名", key: "sign" },
         {

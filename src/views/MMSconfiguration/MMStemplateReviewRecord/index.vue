@@ -83,7 +83,7 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: "inputNum",
+          type: "input",
           label: "模板编号",
           key: "mmsId"
         },

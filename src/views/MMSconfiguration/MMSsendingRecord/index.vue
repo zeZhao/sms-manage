@@ -100,7 +100,7 @@ export default {
           key: "cid"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "模板编号",
           key: "mmsId"
         },
