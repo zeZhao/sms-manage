@@ -1208,7 +1208,7 @@ export default {
             { key: "1", value: "JSON" }
           ],
           tag: "sms",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
