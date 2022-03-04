@@ -1209,7 +1209,7 @@ export default {
             { key: "1", value: "JSON" }
           ],
           tag: "sms",
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -1810,6 +1810,21 @@ export default {
           //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", false);
           this._setDefaultValueKeys("maxSession", "1");
+        }
+      }
+
+      if (item.key === "proType") {
+        if (val === 4) { // cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", true);
+          this._setDefaultValueKeys("alertMobile", "");
+          this._setDisplayShow(this.formConfig, "moUrl", true);
+          this._setDefaultValueKeys("moUrl", "");
+          this._setDisplayShow(this.formConfig, "reportUrl", true);
+          this._setDefaultValueKeys("reportUrl", "");
+        } else { // 不是cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", false);
+          this._setDisplayShow(this.formConfig, "moUrl", false);
+          this._setDisplayShow(this.formConfig, "reportUrl", false);
         }
       }
       // if (item.key === "moType") {
