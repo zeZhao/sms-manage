@@ -27,7 +27,7 @@
       :height="tableHeight"
       border
       highlight-current-row
-      style="width: 100%;margin-top:20px"
+      style="width: 100%; margin-top: 20px"
     >
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="账户编号" />
@@ -94,12 +94,12 @@
       center
     >
       <div class="demo-input-suffix">
-        <div style="text-align: center;">
+        <div style="text-align: center">
           <div id="qrcode" ref="qrcode" style=""></div>
-          <p style="margin-bottom:30px">通过密码生成器扫码进行绑定</p>
+          <p style="margin-bottom: 30px">通过密码生成器扫码进行绑定</p>
           <label for="command">管理员口令码：</label>
           <el-input
-            style="width:60%;margin-right:10px"
+            style="width: 60%; margin-right: 10px"
             id="command"
             placeholder=""
             disabled
@@ -286,10 +286,10 @@
   </section>
 </template>
 <script>
-import checkPermission from "@/utils/permission";
-import QRCode from "qrcodejs2";
-import Util from "@/utils/reg";
-import { isPassword } from "@/utils";
+import checkPermission from '@/utils/permission';
+import QRCode from 'qrcodejs2';
+import Util from '@/utils/reg';
+import { isPassword } from '@/utils';
 
 export default {
   data() {
@@ -298,7 +298,7 @@ export default {
         value &&
         (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) || value.length !== 11)
       ) {
-        callback(new Error("手机号码不符合规范"));
+        callback(new Error('手机号码不符合规范'));
       } else {
         callback();
       }
@@ -309,55 +309,55 @@ export default {
       pageNum: 10, // 默认每页显示1条数据
       totalCount: 1, // 默认总条数为一条
       show: true,
-      orderMoney: "0",
+      orderMoney: '0',
       commandVisible: false, //管理员口令码
-      command: "", //管理员口令码
-      suId: "", //管理员口令码
-      count: "",
-      totalAmount: "",
+      command: '', //管理员口令码
+      suId: '', //管理员口令码
+      count: '',
+      totalAmount: '',
       allOrderStatusInfo: false, // 推送界面是否显示
       orderStatusInfo: false, // 推送界面是否显示
       shopInfo: false, // 状态界面是否显示
       cityList: [],
       dataList: [],
-      productId: "",
-      contactMobile: "",
-      contactName: "",
-      supplierId: "",
-      supplierName: "",
-      roleId: "",
-      roleName: "",
-      name: "",
-      mobile: "",
-      roleType: "",
+      productId: '',
+      contactMobile: '',
+      contactName: '',
+      supplierId: '',
+      supplierName: '',
+      roleId: '',
+      roleName: '',
+      name: '',
+      mobile: '',
+      roleType: '',
       customerAddInfo: false,
       customerInfo: false,
       setRoleMenu: false,
       defaultProps: {
-        children: "childMenu",
-        label: "name"
+        children: 'childMenu',
+        label: 'name'
       },
       navList: [],
       navListId: [],
       setInfo: {},
       addInfo: {
-        pwd: "",
-        account: "",
-        number: "",
-        name: "",
-        mobile: "",
-        state: "",
-        roleId: ""
+        pwd: '',
+        account: '',
+        number: '',
+        name: '',
+        mobile: '',
+        state: '',
+        roleId: ''
       },
       updateFormRules: {
-        account: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        pwd: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        name: [{ required: true, message: "请输入必填项", trigger: "blur" }],
-        mobile: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+        account: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+        pwd: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+        name: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
+        mobile: [{ required: true, message: '请输入必填项', trigger: 'blur' }],
         roleId: [
-          { required: true, message: "请选择必选项", trigger: "change" }
+          { required: true, message: '请选择必选项', trigger: 'change' }
         ],
-        state: [{ required: true, message: "请选择必选项", trigger: "change" }]
+        state: [{ required: true, message: '请选择必选项', trigger: 'change' }]
       },
       companyOptions: [] // 商户全称下拉项
     };
@@ -366,53 +366,53 @@ export default {
     this.orderList();
   },
   filters: {
-    formatDate: function(value) {
+    formatDate: function (value) {
       // var val = JSON.parse(value)
       var date = new Date(value); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + "-";
+      var Y = date.getFullYear() + '-';
       var M =
         (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1) + '-';
       var D =
-        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
       var h =
-        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
       var m =
-        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
-        ":";
+        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+        ':';
       var s =
-        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
       return Y + M + D + h + m + s;
     }
   },
   methods: {
     refresh() {
-      this.$http.user.resetGoogleKey({ suId: this.suId }).then(res => {
+      this.$http.user.resetGoogleKey({ suId: this.suId }).then((res) => {
         if (res.code === 200) {
           const { googleKey, googleKeyQrCode } = res.data;
           this.command = googleKey;
           this.qrcode(googleKeyQrCode);
         }
-        console.log(res, "-----------");
+        console.log(res, '-----------');
       });
     },
     checkCommand({ suId }) {
       this.commandVisible = true;
       this.suId = suId;
-      this.$http.user.getGoogleKey({ suId }).then(res => {
+      this.$http.user.getGoogleKey({ suId }).then((res) => {
         if (res.code === 200) {
           const { googleKey, googleKeyQrCode } = res.data;
           this.command = googleKey;
           this.qrcode(googleKeyQrCode);
         } else {
-          this.$message.error("请求异常");
+          this.$message.error('请求异常');
         }
       });
     },
     qrcode(url) {
-      this.$refs.qrcode.innerHTML = ""; // 清空之前生成的二维码内容
-      let qrcode = new QRCode("qrcode", {
+      this.$refs.qrcode.innerHTML = ''; // 清空之前生成的二维码内容
+      let qrcode = new QRCode('qrcode', {
         width: 200, // 设置宽度，单位像素
         height: 200, // 设置高度，单位像素
         text: url // 设置二维码内容或跳转地址(完整链接)
@@ -425,7 +425,7 @@ export default {
     },
     addAccont() {
       for (const i in this.addInfo) {
-        this.addInfo[i] = "";
+        this.addInfo[i] = '';
       }
       this.customerAddInfo = true;
       this.$nextTick(() => {
@@ -435,9 +435,9 @@ export default {
     },
     //重置
     resetList() {
-      this.name = "";
-      this.mobile = "";
-      this.roleType = "";
+      this.name = '';
+      this.mobile = '';
+      this.roleType = '';
     },
     // 分页
     handleSizeChange(val) {
@@ -450,11 +450,11 @@ export default {
       this.orderList(); // 确定当前页面后刷新页面
     },
     // 条件批量推送
-    allPushrderList: function() {
+    allPushrderList: function () {
       this.allOrderStatusInfo = true;
     },
     // 列表
-    orderList: function() {
+    orderList: function () {
       const params = {
         data: {
           sysUser: {
@@ -466,8 +466,8 @@ export default {
           pageSize: this.pageNum
         }
       };
-      this.$http.user.queryByPage(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.queryByPage(params).then((res) => {
+        if (res.code == '200') {
           this.dataList = res.data.list;
           this.totalCount = Number(res.data.total);
         } else {
@@ -480,12 +480,12 @@ export default {
         suId: id,
         state: e
       };
-      this.$http.user.updateStatus(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.updateStatus(params).then((res) => {
+        if (res.code == '200') {
           this.$message({
             showClose: true,
-            message: "修改成功",
-            type: "success"
+            message: '修改成功',
+            type: 'success'
           });
           this.orderList();
         } else {
@@ -497,33 +497,33 @@ export default {
     changSwitch(e, id) {
       console.log(e);
       let statu = 0;
-      let tit = "";
-      let txt = "";
+      let tit = '';
+      let txt = '';
       const h = this.$createElement;
 
       if (e === 2) {
         statu = 1;
-        tit = "禁用";
-        txt = "禁用后将无法登录，确定要禁用吗？";
+        tit = '禁用';
+        txt = '禁用后将无法登录，确定要禁用吗？';
       } else {
         statu = 2;
-        tit = "提示";
-        txt = "开启后将继续使用，确定要开启吗？";
+        tit = '提示';
+        txt = '开启后将继续使用，确定要开启吗？';
       }
       this.$msgbox({
         title: tit,
-        message: h("div", null, [h("p", null, txt)]),
+        message: h('div', null, [h('p', null, txt)]),
         showCancelButton: true,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
       })
-        .then(action => {
+        .then((action) => {
           this.updateStatus(e, id);
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消修改"
+            type: 'info',
+            message: '已取消修改'
           });
           this.orderList();
         });
@@ -537,39 +537,39 @@ export default {
         // state: parseInt(this.addInfo.state),
         // mobile: this.addInfo.mobile
       };
-      if (this.addInfo.name == "") {
-        return this.$message.error("请填写姓名");
-      } else if (this.addInfo.account == "") {
-        return this.$message.error("请填写手机号");
+      if (this.addInfo.name == '') {
+        return this.$message.error('请填写姓名');
+      } else if (this.addInfo.account == '') {
+        return this.$message.error('请填写手机号');
       } else if (!Util.isPoneAvailable(this.addInfo.account)) {
-        return this.$message.error("手机号规则错误");
-      } else if (this.addInfo.pwd == "") {
-        return this.$message.error("请填写密码");
+        return this.$message.error('手机号规则错误');
+      } else if (this.addInfo.pwd == '') {
+        return this.$message.error('请填写密码');
       } else if (!isPassword(this.addInfo.pwd)) {
         return this.$message.error(
-          "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+          '密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'
         );
-      } else if (this.addInfo.roleId == "") {
-        return this.$message.error("请选择角色");
+      } else if (this.addInfo.roleId == '') {
+        return this.$message.error('请选择角色');
       }
       //  else if (this.addInfo.state == "") {
       //   return this.$message.error("请选择状态");
       // }
-      this.$http.user.addOrUpdate(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.addOrUpdate(params).then((res) => {
+        if (res.code == '200') {
           // this.$message({
           //   showClose: true,
           //   message: '新增成功',
           //   type: 'success'
           // });
-          this.setNavuserList(res.data, this.addInfo.roleId, "add");
+          this.setNavuserList(res.data, this.addInfo.roleId, 'add');
           this.checkCommand({ suId: res.data });
-          this.addInfo.account = "";
-          this.addInfo.pwd = "";
-          this.addInfo.state = "";
-          this.addInfo.name = "";
-          this.addInfo.mobile = "";
-          this.addInfo.roleId = "";
+          this.addInfo.account = '';
+          this.addInfo.pwd = '';
+          this.addInfo.state = '';
+          this.addInfo.name = '';
+          this.addInfo.mobile = '';
+          this.addInfo.roleId = '';
           this.customerAddInfo = false;
         } else {
           this.$message.error(res.msg);
@@ -582,30 +582,30 @@ export default {
         this.deleteCustomer();
         this.setInfo = Object.assign({}, row);
         //   this.setInfo.state = row.state;
-        this.setInfo.pwd = "";
+        this.setInfo.pwd = '';
         this.$refs.updateCustomForm.clearValidate();
       });
     },
     delUser(row) {
       this.$confirm(
-        "删除运营账号后，运营人员将无法登陆",
-        "您确定要删除运营账号吗? ",
+        '删除运营账号后，运营人员将无法登录',
+        '您确定要删除运营账号吗? ',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
       )
         .then(() => {
           let params = {
             suId: row.suId
           };
-          this.$http.user.delete(params).then(res => {
-            if (res.code == "200") {
+          this.$http.user.delete(params).then((res) => {
+            if (res.code == '200') {
               this.$message({
                 showClose: true,
-                message: "删除成功",
-                type: "success"
+                message: '删除成功',
+                type: 'success'
               });
               this.orderList();
             } else {
@@ -621,8 +621,8 @@ export default {
         roleType: 2,
         status: 1
       };
-      this.$http.role.getRoleByType(params).then(res => {
-        if (res.code == "200") {
+      this.$http.role.getRoleByType(params).then((res) => {
+        if (res.code == '200') {
           this.navList = res.data;
         } else {
           this.$message.error(res.msg);
@@ -642,15 +642,15 @@ export default {
       if (this.setInfo.pwd) {
         if (!isPassword(this.setInfo.pwd)) {
           return this.$message.error(
-            "密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位"
+            '密码至少包含数字、大小写字母、符号中的三种，且长度在8~18位'
           );
         }
       } else {
         delete params.pwd;
       }
-      this.$http.user.addOrUpdate(params).then(res => {
-        if (res.code == "200") {
-          this.setNavuserList(this.setInfo.suId, this.setInfo.roleId, "edit");
+      this.$http.user.addOrUpdate(params).then((res) => {
+        if (res.code == '200') {
+          this.setNavuserList(this.setInfo.suId, this.setInfo.roleId, 'edit');
         } else {
           this.$message.error(res.msg);
         }
@@ -665,12 +665,12 @@ export default {
         userId: userId,
         roleId: roleId
       };
-      this.$http.user.sysUseOrUpdate(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.sysUseOrUpdate(params).then((res) => {
+        if (res.code == '200') {
           this.$message({
             showClose: true,
-            message: "成功",
-            type: "success"
+            message: '成功',
+            type: 'success'
           });
           this.customerInfo = false;
           this.customerAddInfo = false;
