@@ -27,11 +27,11 @@
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="sign" label="签名" />
-      <el-table-column prop="submitCount" label="提交数" />
+      <!-- <el-table-column prop="submitCount" label="提交数" /> -->
       <el-table-column prop="sendCount" label="发送数" />
       <el-table-column prop="succCount" label="成功数" />
-      <el-table-column prop="failCount" label="失败数" />
-      <el-table-column prop="sendUnknownCount" label="未知数" />
+      <!-- <el-table-column prop="failCount" label="失败数" />
+      <el-table-column prop="sendUnknownCount" label="未知数" /> -->
       <el-table-column prop="sendSuccPercen" label="成功率">
         <template slot-scope="{ row }">{{
           row.sendSuccPercen ? parseFloat(row.sendSuccPercen).toFixed(2) : "-"
