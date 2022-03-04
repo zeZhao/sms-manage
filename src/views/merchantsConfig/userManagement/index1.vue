@@ -1208,7 +1208,7 @@ export default {
             { key: "1", value: "JSON" }
           ],
           tag: "sms",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -1361,22 +1361,22 @@ export default {
           tag: "mms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "产品类型",
-        //   key: "mmsProType",
-        //   multiple: true,
-        //   clearable: true,
-        //   disabled: false,
-        //   optionData: [
-        //     { key: 1, value: "web端" }
-        //     // { key: 2, value: "http接口" },
-        //     // { key: 4, value: "cmpp接口" }
-        //     // { key: 7, value: "音频接口" }
-        //   ],
-        //   tag: "mms",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "select",
+          label: "产品类型",
+          key: "mmsProType",
+          multiple: true,
+          clearable: true,
+          disabled: false,
+          optionData: [
+            { key: 1, value: "web端" },
+            { key: 2, value: "http接口" },
+            // { key: 4, value: "cmpp接口" }
+            // { key: 7, value: "音频接口" }
+          ],
+          tag: "mms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "select",
           label: "计费方式",
@@ -2024,6 +2024,10 @@ export default {
         //     { required: false, message: "请输入必填项", trigger: "blur" }
         //   ]);
         // }
+        if (item.key === "alertMobile") {
+          this.$set(item, "defaultValue", "2");
+          this.$set(item, "initDefaultValue", "2");
+        }
       });
       this.addChannel = true;
       setTimeout(() => {
