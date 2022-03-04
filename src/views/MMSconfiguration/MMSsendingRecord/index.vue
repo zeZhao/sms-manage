@@ -165,6 +165,14 @@ export default {
       } else {
         return "-";
       }
+    },
+    _formatRequestData(data) {
+      for(let i in data) {
+        if (data[i] === "") {
+          data[i] = null;
+        }
+      }
+      return data;
     }
   }
 };

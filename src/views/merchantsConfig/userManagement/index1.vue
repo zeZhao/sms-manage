@@ -638,6 +638,7 @@
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
 import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -1208,7 +1209,7 @@ export default {
             { key: "1", value: "JSON" }
           ],
           tag: "sms",
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "select",
@@ -1640,18 +1641,24 @@ export default {
       return `${this.formTit}账户`;
     },
     renderLock() {
-      const { proType, password, webPassword, secretKey } = this.infoData;
-      switch (proType) {
-        case 1:
-          return !!(!webPassword || webPassword === "-");
-        case 2:
-          const http = [password, webPassword, secretKey].some(
-            v => !v || v === "-"
-          );
-          return http;
-        case 4:
-          const cmpp = [password, webPassword].some(v => !v || v === "-");
-          return cmpp;
+      const { proType, password, webPassword, secretKey, productTypes } = this.infoData;
+      if (!Array.isArray(productTypes)) return false;
+      if (productTypes.includes(1)) {  // 短信
+        switch (proType) {
+          case 1:
+            return !!(!webPassword || webPassword === "-");
+          case 2:
+            const http = [password, webPassword, secretKey].some(
+              v => !v || v === "-"
+            );
+            return http;
+          case 4:
+            const cmpp = [password, webPassword].some(v => !v || v === "-");
+            return cmpp;
+        }
+      } else if (productTypes.includes(2)) { // 彩信
+        const http = [password, webPassword].some(v => !v || v === "-");
+        return http;
       }
     }
   },
@@ -1805,6 +1812,21 @@ export default {
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
+
+      if (item.key === "proType") {
+        if (val === 4) { // cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", true);
+          this._setDefaultValueKeys("alertMobile", "");
+          this._setDisplayShow(this.formConfig, "moUrl", true);
+          this._setDefaultValueKeys("moUrl", "");
+          this._setDisplayShow(this.formConfig, "reportUrl", true);
+          this._setDefaultValueKeys("reportUrl", "");
+        } else { // 不是cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", false);
+          this._setDisplayShow(this.formConfig, "moUrl", false);
+          this._setDisplayShow(this.formConfig, "reportUrl", false);
+        }
+      }
       // if (item.key === "moType") {
       //   if (val == "0") {
       //     this.formConfig.forEach(el => {
@@ -1926,13 +1948,17 @@ export default {
               if (this.infoData.proType === 2) {
                 // HTTP类型 ------ 查秘钥
                 this.$http.corpUser.getSecretKeyById(userId).then(response => {
-                  this.$nextTick(() => {
-                    this.$set(
-                      this.infoData,
-                      "secretKey",
-                      response.data.publicKey
-                    );
-                  });
+                  if (response.code === 200) {
+                    this.$nextTick(() => {
+                      this.$set(
+                        this.infoData,
+                        "secretKey",
+                        response.data.publicKey
+                      );
+                    });
+                  } else {
+                    this.$message.error(response.data || response.msg);
+                  }
                 });
               }
               this.$nextTick(() => {
