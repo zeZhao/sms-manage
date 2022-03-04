@@ -1230,7 +1230,7 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: "",
-          // btnTxt: "拉取地址"
+          btnTxt: "拉取"
         },
         {
           type: "select",
@@ -1252,7 +1252,7 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: "",
-          // btnTxt: "拉取地址"
+          btnTxt: "拉取"
         },
         {
           type: "select",
@@ -1666,7 +1666,12 @@ export default {
     choose(item) {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
-      this.$set(this.formConfig[idx], "defaultValue", "https://smsmanage.jvtd.cn/#/");
+      const isProd = process.env.NODE_ENV === "production";
+      if (key === "moUrl") { // 推送上行地址
+        this.$set(this.formConfig[idx], "defaultValue", isProd ? "http://10.3.0.20:9106/getMo/moJsonList" : "http://10.10.0.32:9106/getMo/moJsonList");
+      } else if (key === "reportUrl") { // 推送报告地址
+        this.$set(this.formConfig[idx], "defaultValue", isProd ? "http://10.3.0.20:9106/getMr/mrJsonList" : "http://10.10.0.32:9106/getMr/mrJsonList");
+      }
     },
     // 关闭信息弹窗后重置web密码为不可修改状态
     handleClose(done) {
