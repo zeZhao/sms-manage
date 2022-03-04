@@ -95,48 +95,48 @@
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
-import { phone } from "@/utils/validator";
-import SocialSign from "./components/SocialSignin";
-import logo from "@/assets/logo.png";
+import { validUsername } from '@/utils/validate';
+import { phone } from '@/utils/validator';
+import SocialSign from './components/SocialSignin';
+import logo from '@/assets/logo.png';
 export default {
-  name: "Login",
+  name: 'Login',
   components: { SocialSign },
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value.length < 8) {
-        callback(new Error("密码至少为8位数"));
+        callback(new Error('密码至少为8位数'));
       } else {
         callback();
       }
     };
     const validateVerifyCode = (rule, value, callback) => {
       if (value.length !== 6) {
-        callback(new Error("口令为6位数"));
+        callback(new Error('口令为6位数'));
       } else {
         callback();
       }
     };
     return {
       logo: logo,
-      captcha: "",
+      captcha: '',
       loginForm: {
-        username: "",
-        password: "",
-        verifyCode: "",
+        username: '',
+        password: '',
+        verifyCode: '',
         uuid: this.common.randomNum(),
         time: this.common.getTime()
       },
       loginRules: {
-        username: [{ required: true, trigger: "blur", validator: phone }],
+        username: [{ required: true, trigger: 'blur', validator: phone }],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword }
+          { required: true, trigger: 'blur', validator: validatePassword }
         ],
         verifyCode: [
-          { required: true, trigger: "blur", validator: validateVerifyCode }
+          { required: true, trigger: 'blur', validator: validateVerifyCode }
         ]
       },
-      passwordType: "password",
+      passwordType: 'password',
       capsTooltip: false,
       loading: false,
       showDialog: false,
@@ -146,7 +146,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         const query = route.query;
         if (query) {
           this.redirect = query.redirect;
@@ -172,23 +172,23 @@ export default {
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
         if (
-          (shiftKey && key >= "a" && key <= "z") ||
-          (!shiftKey && key >= "A" && key <= "Z")
+          (shiftKey && key >= 'a' && key <= 'z') ||
+          (!shiftKey && key >= 'A' && key <= 'Z')
         ) {
           this.capsTooltip = true;
         } else {
           this.capsTooltip = false;
         }
       }
-      if (key === "CapsLock" && this.capsTooltip === true) {
+      if (key === 'CapsLock' && this.capsTooltip === true) {
         this.capsTooltip = false;
       }
     },
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = '';
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password';
       }
       this.$nextTick(() => {
         this.$refs.password.focus();
@@ -204,30 +204,30 @@ export default {
       //   });
       this.captcha =
         process.env.VUE_APP_BASE_API +
-        "/sysLogin/captcha?uuId=" +
+        '/sysLogin/captcha?uuId=' +
         this.loginForm.uuid +
-        "&num=" +
+        '&num=' +
         num;
     },
     handleLogin() {
       if (this.loginForm.username.length === 0) {
-        this.$message.error("请输入手机号");
+        this.$message.error('请输入手机号');
         return;
       }
       if (this.loginForm.password.length === 0) {
-        this.$message.error("请输入密码");
+        this.$message.error('请输入密码');
         return;
       }
       if (this.loginForm.verifyCode.length === 0) {
-        this.$message.error("请输入口令");
+        this.$message.error('请输入口令');
         return;
       }
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           // 代码调到了src/store下的user.js,调用了里面的LoginByUsername方法
           this.$store
-            .dispatch("user/LoginByUsername", {
+            .dispatch('user/LoginByUsername', {
               account: this.loginForm.username,
               pwd: this.loginForm.password,
               verifyCode: this.loginForm.verifyCode
@@ -236,30 +236,30 @@ export default {
             .then(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
-                path: "/",
+                path: '/',
                 query: this.otherQuery
               });
               this.loading = false;
-              this.$message.success("登陆成功！");
+              this.$message.success('登录成功！');
             })
             .catch(() => {
               localStorage.userName = this.loginForm.username;
               this.$router.push({
-                path: "/",
+                path: '/',
                 query: this.otherQuery
               });
               this.getCaptcha();
               this.loading = false;
             });
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== "redirect") {
+        if (cur !== 'redirect') {
           acc[cur] = query[cur];
         }
         return acc;
@@ -370,7 +370,7 @@ $light_gray: #eee;
   width: 100%;
 
   background-color: $bg;
-  background: url("../../assets/images/login-bg.png") no-repeat;
+  background: url('../../assets/images/login-bg.png') no-repeat;
   overflow: hidden;
   .head-logo {
     position: fixed;
