@@ -276,9 +276,9 @@ export default {
       });
     },
     renderSubmitType (v) {
-      if (v === 0) {
+      if (v === 1) {
         return 'web提交';
-      } else if (v === 1) {
+      } else if (v === 2) {
         return 'http提交';
       } else {
         return '-';
