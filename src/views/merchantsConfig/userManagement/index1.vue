@@ -1366,9 +1366,9 @@ export default {
           type: "select",
           label: "产品类型",
           key: "mmsProType",
-          multiple: true,
-          clearable: true,
-          disabled: false,
+          // multiple: true,
+          // clearable: true,
+          // disabled: false,
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
@@ -1915,8 +1915,8 @@ export default {
           form[key] = form[key].join(",");
         }
         if (
-          key === "productType" ||
-          key === "mmsProType"
+          key === "productType"
+          // key === "mmsProType"
           // key === "proType"
         ) {
           if (
@@ -2082,8 +2082,11 @@ export default {
         // if (key === "proType") {
         //   row["proType"] = row["proTypes"];
         // }
-        if (key === "mmsProType") {
-          row["mmsProType"] = row["mmsProTypes"];
+        // if (key === "mmsProType") {
+        //   row["mmsProType"] = row["mmsProTypes"];
+        // }
+        if (key === "mmsProType" && row["mmsProType"] === 3) {
+          row["mmsProType"] = 2; // 前端转换彩信类型-http类型
         }
         if (key === "productType") {
           row["productType"] = row["productTypes"];
@@ -2196,8 +2199,8 @@ export default {
           }
         }
         if (
-          item.key === "productType" ||
-          item.key === "mmsProType"
+          item.key === "productType"
+          // item.key === "mmsProType"
           // item.key === "proType"
         ) {
           let val = item.defaultValue;
