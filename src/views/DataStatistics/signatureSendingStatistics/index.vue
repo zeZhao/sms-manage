@@ -65,7 +65,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
-import { getDateToString } from "@/utils";
+import { getDateTime } from "@/utils";
 
 export default {
   mixins: [listMixin],
@@ -129,10 +129,10 @@ export default {
         //   ]
         // },
         {
-          type: "daterange",
+          type: "datetime",
           label: "提交时间",
           key: ["", "startTime", "endTime"],
-          defaultValue: ["", getDateToString(), getDateToString()]
+          defaultValue: ["", getDateTime("start"), getDateTime("end")]
         }
       ],
       //请求表格下方展示数据的接口凭证
