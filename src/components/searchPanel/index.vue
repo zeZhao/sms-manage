@@ -354,8 +354,14 @@ export default {
       // cid、CID、特服号限制长度20位，其余数字类型限制11位（防止查询报错）
       const limitObject = { "cid": true, "CID": true, "特服号": true };
       if (!limitObject[label]) {
-        if (this.form[key].length > 11) {
-          this.form[key] = this.form[key].slice(0, 11);
+        if (key !== "gwcode") { // 通道特服号
+          if (this.form[key].length > 11) {
+            this.form[key] = this.form[key].slice(0, 11);
+          }
+        } else {
+          if (this.form[key].length > 12) {
+            this.form[key] = this.form[key].slice(0, 12);
+          }
         }
       } else {
         if (this.form[key].length > 20) {
