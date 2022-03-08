@@ -78,48 +78,48 @@ export default {
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
-        {
-          type: "inputNum",
-          label: "商户编号",
-          key: "corpId",
-          placeholder: "请输入商户编号"
-        },
-        {
-          type: "input",
-          label: "商户名称",
-          key: "corpName",
-          placeholder: "请输入商户名称"
-        },
+        // {
+        //   type: "inputNum",
+        //   label: "商户编号",
+        //   key: "corpId",
+        //   placeholder: "请输入商户编号"
+        // },
+        // {
+        //   type: "input",
+        //   label: "商户名称",
+        //   key: "corpName",
+        //   placeholder: "请输入商户名称"
+        // },
         {
           type: "inputNum",
           label: "账户编号",
           key: "userId",
           placeholder: "请输入账户编号"
         },
-        {
-          type: "input",
-          label: "账户名称",
-          key: "userName",
-          placeholder: "请输入账户名称"
-        },
+        // {
+        //   type: "input",
+        //   label: "账户名称",
+        //   key: "userName",
+        //   placeholder: "请输入账户名称"
+        // },
         {
           type: "input",
           label: "签名",
           key: "sign",
           placeholder: "请输入签名"
         },
-        {
-          type: "select",
-          label: "所属类型",
-          key: "accountType",
-          initDefaultValue: 1,
-          defaultValue: 1,
-          optionData: [
-            { key: 1, value: "行业" },
-            { key: 2, value: "营销" },
-            { key: 3, value: "VIP" }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "所属类型",
+        //   key: "accountType",
+        //   initDefaultValue: 1,
+        //   defaultValue: 1,
+        //   optionData: [
+        //     { key: 1, value: "行业" },
+        //     { key: 2, value: "营销" },
+        //     { key: 3, value: "VIP" }
+        //   ]
+        // },
         {
           type: "datetime",
           label: "提交时间",
