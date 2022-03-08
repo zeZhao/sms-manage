@@ -84,10 +84,10 @@ const actions = {
     commit
   }, userInfo) {
     return new Promise((resolve, reject) => {
-      // 请求后台登陆
+      // 请求后台登录
       googleAuthLogin(userInfo).then(data => {
         if (data.code === 200) {
-          // 设置 token，作为用户已登陆的商户端标识，存在 cookie 中
+          // 设置 token，作为用户已登录的商户端标识，存在 cookie 中
           setToken(data.data.token)
 
           commit('SET_TOKEN', data.data.token)
@@ -118,7 +118,7 @@ const actions = {
     state
   }) {
     return new Promise((resolve, reject) => {
-      //此方法是login登陆成功后执行用写死的数据代替返回值，注意框架结构！
+      //此方法是login登录成功后执行用写死的数据代替返回值，注意框架结构！
       // getInfo(state.token).then(response => {
       const data = {
         roles: ['admin'],
