@@ -35,12 +35,16 @@
       <el-table-column prop="sendSuccPercen" label="成功率" />
     </el-table>
     <p style="color: red;font-size: 12px;">
-      提交数: {{ tabBottomData.submitCount || 0 }}&nbsp;&nbsp; 发送数:{{
+      <!-- 提交数: {{ tabBottomData.submitCount || 0 }}&nbsp;&nbsp; -->
+      发送数:{{
         tabBottomData.sendCount || 0
-      }}&nbsp;&nbsp; 成功数:{{ tabBottomData.succCount || 0 }}&nbsp;&nbsp;
-      失败数:{{ tabBottomData.failCount || 0 }}&nbsp;&nbsp; 未知数:{{
+      }}&nbsp;&nbsp;
+      成功数:{{ tabBottomData.succCount || 0 }}&nbsp;&nbsp;
+      <!-- 失败数:{{ tabBottomData.failCount || 0 }}&nbsp;&nbsp; -->
+      <!-- 未知数:{{
         tabBottomData.sendUnknownCount || 0
-      }}&nbsp;&nbsp; 成功率:
+      }}&nbsp;&nbsp; -->
+      成功率:
       {{
         tabBottomData.sendSuccPercen && tabBottomData.sendSuccPercen !== "NaN"
           ? parseFloat(tabBottomData.sendSuccPercen).toFixed(2) || 0
