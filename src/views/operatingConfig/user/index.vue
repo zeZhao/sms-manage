@@ -30,9 +30,10 @@
       >新增运营账号</el-button
     >
     <el-table
-      :data="dataList" max-height="430"
+      :data="dataList"
+      max-height="430"
       highlight-current-row
-      style="width: 100%;margin-top:20px"
+      style="width: 100%; margin-top: 20px"
     >
       <!--登录账户	姓名	手机号	状态	操作-->
       <el-table-column prop="suId" label="账户编号" />
@@ -249,8 +250,8 @@
   </section>
 </template>
 <script>
-import checkPermission from "@/utils/permission";
-import Util from "@/utils/reg";
+import checkPermission from '@/utils/permission';
+import Util from '@/utils/reg';
 export default {
   data() {
     var validatePhone = (rule, value, callback) => {
@@ -258,7 +259,7 @@ export default {
         value &&
         (!/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(value) || value.length !== 11)
       ) {
-        callback(new Error("手机号码不符合规范"));
+        callback(new Error('手机号码不符合规范'));
       } else {
         callback();
       }
@@ -269,72 +270,72 @@ export default {
       pageNum: 10, // 默认每页显示1条数据
       totalCount: 1, // 默认总条数为一条
       show: true,
-      orderMoney: "0",
-      count: "",
-      totalAmount: "",
+      orderMoney: '0',
+      count: '',
+      totalAmount: '',
       allOrderStatusInfo: false, // 推送界面是否显示
       orderStatusInfo: false, // 推送界面是否显示
       shopInfo: false, // 状态界面是否显示
       cityList: [],
       dataList: [],
-      productId: "",
-      contactMobile: "",
-      contactName: "",
-      supplierId: "",
-      supplierName: "",
-      roleId: "",
-      roleName: "",
-      roleType: "",
+      productId: '',
+      contactMobile: '',
+      contactName: '',
+      supplierId: '',
+      supplierName: '',
+      roleId: '',
+      roleName: '',
+      roleType: '',
       customerAddInfo: false,
       customerInfo: false,
       setRoleMenu: false,
       defaultProps: {
-        children: "childMenu",
-        label: "name"
+        children: 'childMenu',
+        label: 'name'
       },
       navList: [],
       navListId: [],
       setInfo: {},
       addInfo: {
-        pwd: "",
-        account: "",
-        number: "",
-        name: "",
-        mobile: "",
-        state: "",
-        roleId: ""
+        pwd: '',
+        account: '',
+        number: '',
+        name: '',
+        mobile: '',
+        state: '',
+        roleId: ''
       },
       updateFormRules: {
-        contactMobile: [{ validator: validatePhone, trigger: "blur" }]
+        contactMobile: [{ validator: validatePhone, trigger: 'blur' }]
       },
       companyOptions: [], // 商户全称下拉项
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
+              picker.$emit('pick', [start, end]);
             }
           }
         ]
@@ -345,23 +346,23 @@ export default {
     this.orderList();
   },
   filters: {
-    formatDate: function(value) {
+    formatDate: function (value) {
       // var val = JSON.parse(value)
       var date = new Date(value); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + "-";
+      var Y = date.getFullYear() + '-';
       var M =
         (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1) + '-';
       var D =
-        (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
+        (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
       var h =
-        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+        (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
       var m =
-        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
-        ":";
+        (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) +
+        ':';
       var s =
-        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+        date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
       return Y + M + D + h + m + s;
     }
   },
@@ -373,9 +374,9 @@ export default {
     },
     //重置
     resetList() {
-      this.roleType = "";
-      this.roleName = "";
-      this.roleId = "";
+      this.roleType = '';
+      this.roleName = '';
+      this.roleId = '';
     },
     // 分页
     handleSizeChange(val) {
@@ -388,26 +389,26 @@ export default {
       this.orderList(); // 确定当前页面后刷新页面
     },
     // 条件批量推送
-    allPushrderList: function() {
+    allPushrderList: function () {
       this.allOrderStatusInfo = true;
     },
     // 列表
-    orderList: function() {
+    orderList: function () {
       const params = {
         data: {
           sysUser: {
             account: this.roleId,
             name: this.roleName,
             state: this.roleType,
-            roleName: "",
-            roleId: ""
+            roleName: '',
+            roleId: ''
           },
           pageNumber: this.cur_page,
           pageSize: this.pageNum
         }
       };
-      this.$http.user.queryByPage(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.queryByPage(params).then((res) => {
+        if (res.code == '200') {
           this.dataList = res.data.list;
           this.totalCount = Number(res.data.total);
         } else {
@@ -420,12 +421,12 @@ export default {
         suId: id,
         state: e
       };
-      this.$http.user.updateStatus(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.updateStatus(params).then((res) => {
+        if (res.code == '200') {
           this.$message({
             showClose: true,
-            message: "修改成功",
-            type: "success"
+            message: '修改成功',
+            type: 'success'
           });
           this.orderList();
         } else {
@@ -437,33 +438,33 @@ export default {
     changSwitch(e, id) {
       console.log(e);
       let statu = 0;
-      let tit = "";
-      let txt = "";
+      let tit = '';
+      let txt = '';
       const h = this.$createElement;
 
       if (e === 2) {
         statu = 1;
-        tit = "禁用";
-        txt = "禁用后将无法登录，确定要禁用吗？";
+        tit = '禁用';
+        txt = '禁用后将无法登录，确定要禁用吗？';
       } else {
         statu = 2;
-        tit = "提示";
-        txt = "开启后将继续使用，确定要开启吗？";
+        tit = '提示';
+        txt = '开启后将继续使用，确定要开启吗？';
       }
       this.$msgbox({
         title: tit,
-        message: h("div", null, [h("p", null, txt)]),
+        message: h('div', null, [h('p', null, txt)]),
         showCancelButton: true,
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
       })
-        .then(action => {
+        .then((action) => {
           this.updateStatus(e, id);
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消修改"
+            type: 'info',
+            message: '已取消修改'
           });
           this.orderList();
         });
@@ -476,36 +477,36 @@ export default {
         state: parseInt(this.addInfo.state),
         mobile: this.addInfo.mobile
       };
-      if (this.addInfo.account == "") {
-        return this.$message.error("请填写账号");
-      } else if (this.addInfo.pwd == "") {
-        return this.$message.error("请填写密码");
+      if (this.addInfo.account == '') {
+        return this.$message.error('请填写账号');
+      } else if (this.addInfo.pwd == '') {
+        return this.$message.error('请填写密码');
       } else if (!/^[\d0-9a-zA-Z!@#$%^&*~=+-]{8,16}$/.test(this.addInfo.pwd)) {
-        return this.$message.error("密码为8-16位，数字、字母、英文符号");
-      } else if (this.addInfo.name == "") {
-        return this.$message.error("请填写姓名");
-      } else if (this.addInfo.state == "") {
-        return this.$message.error("请选择状态");
-      } else if (this.addInfo.roleId == "") {
-        return this.$message.error("请选择角色");
-      } else if (this.addInfo.mobile == "") {
-        return this.$message.error("请填写手机号");
+        return this.$message.error('密码为8-16位，数字、字母、英文符号');
+      } else if (this.addInfo.name == '') {
+        return this.$message.error('请填写姓名');
+      } else if (this.addInfo.state == '') {
+        return this.$message.error('请选择状态');
+      } else if (this.addInfo.roleId == '') {
+        return this.$message.error('请选择角色');
+      } else if (this.addInfo.mobile == '') {
+        return this.$message.error('请填写手机号');
       } else if (!Util.isPoneAvailable(this.addInfo.mobile)) {
-        this.$message.error("手机号码规则错误");
+        this.$message.error('手机号码规则错误');
         return false;
       }
-      this.$http.user.addOrUpdate(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.addOrUpdate(params).then((res) => {
+        if (res.code == '200') {
           // this.$message({
           //   showClose: true,
           //   message: '新增成功',
           //   type: 'success'
           // });
-          this.addInfo.account = "";
-          this.addInfo.pwd = "";
-          this.addInfo.state = "";
-          this.addInfo.name = "";
-          this.addInfo.mobile = "";
+          this.addInfo.account = '';
+          this.addInfo.pwd = '';
+          this.addInfo.state = '';
+          this.addInfo.name = '';
+          this.addInfo.mobile = '';
           this.setNavuserList(res.data, this.addInfo.roleId);
           this.customerAddInfo = false;
         } else {
@@ -519,28 +520,28 @@ export default {
       this.deleteCustomer();
       this.setInfo = Object.assign({}, row);
       //   this.setInfo.state = row.state;
-      this.setInfo.pwd = "";
+      this.setInfo.pwd = '';
     },
     delUser(row) {
       this.$confirm(
-        "删除运营账号后，运营人员将无法登陆",
-        "您确定要删除运营账号吗? ",
+        '删除运营账号后，运营人员将无法登录',
+        '您确定要删除运营账号吗? ',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
       )
         .then(() => {
           let params = {
             suId: row.suId
           };
-          this.$http.user.delete(params).then(res => {
-            if (res.code == "200") {
+          this.$http.user.delete(params).then((res) => {
+            if (res.code == '200') {
               this.$message({
                 showClose: true,
-                message: "删除成功",
-                type: "success"
+                message: '删除成功',
+                type: 'success'
               });
               this.orderList();
             } else {
@@ -556,8 +557,8 @@ export default {
         roleType: 2,
         status: 1
       };
-      this.$http.role.getRoleByType(params).then(res => {
-        if (res.code == "200") {
+      this.$http.role.getRoleByType(params).then((res) => {
+        if (res.code == '200') {
           this.navList = res.data;
         } else {
           this.$message.error(res.msg);
@@ -575,27 +576,27 @@ export default {
         state: this.setInfo.state,
         mobile: this.setInfo.mobile
       };
-      if (this.setInfo.account == "") {
-        return this.$message.error("请填写账号");
-      } else if (this.setInfo.name == "") {
-        return this.$message.error("请填写姓名");
+      if (this.setInfo.account == '') {
+        return this.$message.error('请填写账号');
+      } else if (this.setInfo.name == '') {
+        return this.$message.error('请填写姓名');
       } else if (this.setInfo.pwd) {
         if (!/^[\d0-9a-zA-Z!@#$%^&*~=+-]{8,16}$/.test(this.setInfo.pwd)) {
-          return this.$message.error("密码为8-16位，数字、字母、标点符号");
+          return this.$message.error('密码为8-16位，数字、字母、标点符号');
         }
-      } else if (this.setInfo.state == "") {
-        return this.$message.error("请选择状态");
+      } else if (this.setInfo.state == '') {
+        return this.$message.error('请选择状态');
       } else if (!this.setInfo.roleId && this.setInfo.roleId !== 0) {
-        return this.$message.error("请选择角色");
+        return this.$message.error('请选择角色');
       }
-      if (this.setInfo.mobile == "") {
-        return this.$message.error("请填写手机号");
+      if (this.setInfo.mobile == '') {
+        return this.$message.error('请填写手机号');
       } else if (!Util.isPoneAvailable(this.setInfo.mobile)) {
-        this.$message.error("手机号码规则错误");
+        this.$message.error('手机号码规则错误');
         return false;
       }
-      this.$http.user.addOrUpdate(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.addOrUpdate(params).then((res) => {
+        if (res.code == '200') {
           this.setNavuserList(this.setInfo.suId, this.setInfo.roleId);
         } else {
           this.$message.error(res.msg);
@@ -611,12 +612,12 @@ export default {
         userId: userId,
         roleId: roleId
       };
-      this.$http.user.sysUseOrUpdate(params).then(res => {
-        if (res.code == "200") {
+      this.$http.user.sysUseOrUpdate(params).then((res) => {
+        if (res.code == '200') {
           this.$message({
             showClose: true,
-            message: "成功",
-            type: "success"
+            message: '成功',
+            type: 'success'
           });
           this.customerInfo = false;
           this.customerAddInfo = false;
