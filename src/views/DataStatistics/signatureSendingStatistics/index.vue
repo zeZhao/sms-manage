@@ -32,11 +32,7 @@
       <el-table-column prop="succCount" label="成功数" />
       <el-table-column prop="failCount" label="失败数" />
       <el-table-column prop="sendUnknownCount" label="未知数" />
-      <el-table-column prop="sendSuccPercen" label="成功率">
-        <template slot-scope="{ row }">{{
-          row.sendSuccPercen ? parseFloat(row.sendSuccPercen).toFixed(2) : "-"
-        }}</template>
-      </el-table-column>
+      <el-table-column prop="sendSuccPercen" label="成功率" />
     </el-table>
     <p style="color: red;font-size: 12px;">
       提交数: {{ tabBottomData.submitCount || 0 }}&nbsp;&nbsp; 发送数:{{
