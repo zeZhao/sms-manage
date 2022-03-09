@@ -824,6 +824,9 @@ export default {
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.gateway("cmPassageway", "1", "1");
+    this.gateway("cuPassageway", "2", "1");
+    this.gateway("ctPassageway", "3", "1");
     this.getSensitiveWordGroup();
   },
   methods: {
@@ -947,8 +950,6 @@ export default {
     },
     // 单选通道排序操作
     onChange({ val, item }) {
-      console.log(val, item);
-
       if (item.label === "通道排序") {
         this.formConfig.forEach(item => {
           if (item.key === "userId") {
@@ -1124,6 +1125,13 @@ export default {
       // });
       this.addChannel = true;
       this.formTit = "新增";
+      // 新增时通道清空
+      this.formConfig.forEach(item => {
+        const { key } = item;
+        if (["cmPassageway", "cuPassageway", "ctPassageway"].includes(key)) {
+          item.optionData = [];
+        }
+      });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
       }, 0);
