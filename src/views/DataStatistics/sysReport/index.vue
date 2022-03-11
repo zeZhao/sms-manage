@@ -104,11 +104,7 @@
           <span>{{ Number(scope.row.unknownRate).toFixed(2) }}%</span>
         </template>
       </el-table-column>
-      <el-table-column prop="percentage" label="占比" key="percentage">
-        <template slot-scope="scope">
-          <span>{{ Number(scope.row.percentage).toFixed(2) }}%</span>
-        </template>
-      </el-table-column>
+      <el-table-column prop="percentage" label="占比" key="percentage" />
     </el-table>
     <p style="color: red;font-size: 12px;">
       总发送条数: {{ statistics.sendNum || 0 }}&nbsp;&nbsp;总成功条数:
@@ -286,11 +282,9 @@ export default {
       isParamsNotData: false
     };
   },
-  mounted() {
-    // this.queryUserSendDetailAll();
+  activated() {
     this.listSysProvince();
   },
-  computed: {},
   methods: {
     /*
      * 获取省份列表
@@ -317,13 +311,13 @@ export default {
       });
     },
     // 获取统计
-    queryUserSendDetailAll(data) {
-      this.$http.report.queryUserSendDetailAll({ ...data }).then(res => {
-        this.statistics = Object.assign({}, res.data);
-      });
+    async queryUserSendDetailAll(data) {
+      const res = await this.$http.report.queryUserSendDetailAll({ ...data });
+      this.statistics = res.data;
     },
     // 修改搜索参数
     _formatRequestData(data) {
+      this.queryUserSendDetailAll(data);
       const { countDate, endDate } = data;
       if (countDate) {
         data.countDate = new Date(countDate).Format("yyyy-MM-dd");
@@ -331,7 +325,6 @@ export default {
       if (endDate) {
         data.endDate = new Date(endDate).Format("yyyy-MM-dd");
       }
-      this.queryUserSendDetailAll(data);
       return data;
     },
     /**
@@ -343,22 +336,10 @@ export default {
     _mxFormListData(rows) {
       rows.forEach(item => {
         const { sendNum } = item;
-        let proportion = parseInt((sendNum / this.statistics.sendNum) * 100);
-        // if (!succCount) {
-        //   item.succCount = 0;
-        // }
-        // if (!foreignPrice) {
-        //   item.foreignPrice = 0;
-        // }
-        this.$set(item, "proportion", `${proportion}%`);
-      });
-
-      // if()
+        this.$set(item, "percentage", `${((sendNum / this.statistics.sendNum) * 100).toFixed(2)}%`);
+      })
       return rows;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped></style>
