@@ -68,7 +68,7 @@ function DynamicKey(key, val) {
 /**
  * 调用接口查询数据
  */
-function queryData() {
+async function queryData() {
   this._mxBeforeGetList();
 
   this.loading = true;
@@ -83,7 +83,7 @@ function queryData() {
   // }
 
   //手动调整一次提交的数据
-  searchParam = this._formatRequestData(searchParam);
+  searchParam = await this._formatRequestData(searchParam);
 
   let params = {};
   //提交参数做兼容处理
