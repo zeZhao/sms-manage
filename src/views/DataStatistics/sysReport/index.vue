@@ -316,8 +316,8 @@ export default {
       this.statistics = res.data;
     },
     // 修改搜索参数
-    _formatRequestData(data) {
-      this.queryUserSendDetailAll(data);
+    async _formatRequestData(data) {
+      await this.queryUserSendDetailAll(data);
       const { countDate, endDate } = data;
       if (countDate) {
         data.countDate = new Date(countDate).Format("yyyy-MM-dd");
