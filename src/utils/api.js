@@ -1553,6 +1553,10 @@ export default {
         // 导出
         exportSendReturn(params) {
             return post("/sendLogFegin/exportSendReturn", params);
+        },
+        // 发送返回报告-导入红名单
+        addSysRedListFromReturnreport(params) {
+            return post("/sysRedList/addSysRedListFromReturnreport", params);
         }
     },
     // 发送跨天列表查询
