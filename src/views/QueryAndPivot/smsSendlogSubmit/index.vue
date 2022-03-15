@@ -147,7 +147,7 @@ export default {
           type: "daterange",
           label: "定时时间",
           key: ["", "sendStartTime", "sendEndTime"],
-          defaultValue: ["", getDateToString(), getDateToString()]
+          defaultValue: ["", "", ""]
         }
       ],
       // 表单配置
