@@ -94,6 +94,11 @@
       </el-table-column>
       <el-table-column prop="statusj" label="通道状态" />
       <el-table-column prop="cid" label="CID" width="155" />
+      <el-table-column prop="isRepeat" label="补发">
+        <template slot-scope="scope">
+          <span>{{ renderIsRepeat(scope.row.isRepeat) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="{ row }">
           <el-button type="text" size="small" @click="handleImportRedList(row)"
@@ -269,6 +274,15 @@ export default {
         },
         {
           type: 'select',
+          label: '补发',
+          key: 'isRepeat',
+          optionData: [
+            { key: 0, value: '是' },
+            { key: 1, value: '否' }
+          ]
+        },
+        {
+          type: 'select',
           label: '显示内容',
           key: 'showDecrypt',
           defaultValue: 1,
@@ -320,6 +334,15 @@ export default {
     this.getGatewayList();
   },
   methods: {
+    renderIsRepeat(v) {
+      if (v === 0) {
+        return "是";
+      } else if (v === 1) {
+        return "否";
+      } else {
+        return "-";
+      }
+    },
     // 导入红名单
     handleImportRedList(row) {
       this.formData = this.$deepClone(row);
