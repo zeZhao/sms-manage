@@ -1614,8 +1614,8 @@ export default {
       //   }
       // }
     },
-
     chooseCitys() {
+      this.getProvinceTree(); // 折叠tree
       this.isChoose = true;
       this.$nextTick(() => {
         this.$refs.tree.setCheckedKeys([]); // 先清空已经选中的数据
