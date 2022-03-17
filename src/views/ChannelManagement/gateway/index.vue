@@ -1616,10 +1616,13 @@ export default {
     },
 
     chooseCitys() {
-      const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
-      const val = this.formConfig[idx].defaultValue;
-      this.navListId = val ? val.split(",") : [];
       this.isChoose = true;
+      this.$nextTick(() => {
+        this.$refs.tree.setCheckedKeys([]); // 先清空已经选中的数据
+        const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
+        const val = this.formConfig[idx].defaultValue;
+        this.navListId = val ? val.split(",") : [];
+      })
     },
     handleChooseConfirm() {
       const checkedKeys = this.$refs.tree.getCheckedKeys();
