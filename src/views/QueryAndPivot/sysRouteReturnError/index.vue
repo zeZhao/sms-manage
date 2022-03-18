@@ -318,10 +318,9 @@ export default {
     },
     //导出
     exportData(form) {
-      const data = { data: { ...this.pageObj, ...form } };
-      delete data.total;
+      const data = { data: { routeReturnError: form } };
       this.$axios
-        .post("/sysRouteReturnError/exportRouteReturnError", { data })
+        .post("/sysRouteReturnError/exportRouteReturnError", data)
         .then(res => {
           if (res.data.code === 200) this.$exportToast();
         });
