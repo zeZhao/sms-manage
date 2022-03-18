@@ -65,7 +65,17 @@
         @cancel="cancel"
         @choose="choose"
         @onChange="onChange"
-      ></FormItem>
+      >
+        <template v-slot:isChooseProviceOrCity>
+          <el-button
+            style="float: right; margin-top: 5px"
+            type="primary"
+            size="small"
+            @click="chooseCitys"
+            >请选择
+          </el-button>
+        </template>
+      </FormItem>
     </el-drawer>
     <!-- <el-dialog
       :title="formTit"
@@ -88,6 +98,28 @@
       @chooseUserData="chooseUserData"
       @cancel="cancelUser"
     ></ChooseUser>
+    <el-dialog
+      title="选择省份或城市"
+      :visible.sync="isChoose"
+      :close-on-click-modal="false"
+      width="30%"
+      custom-class="loginDialog"
+    >
+      <el-tree
+        ref="tree"
+        style="max-height: 400px; overflow-y: auto"
+        :default-checked-keys="navListId"
+        :data="navList"
+        show-checkbox
+        node-key="city"
+        :props="{ label: 'city', children: 'children' }"
+      >
+      </el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="isChoose = false">取 消</el-button>
+        <el-button type="primary" @click="handleChooseConfirm">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -255,6 +287,17 @@ export default {
         },
         {
           type: "textarea",
+          label: "不优化地区",
+          key: "noOptimizeProvince",
+          colSpan: 12,
+          maxlength: 200,
+          placeholder: "请选择不优化地区",
+          disabled: true,
+          // 可选择省份和城市进行赋值
+          isChooseProviceOrCity: true
+        },
+        {
+          type: "textarea",
           label: "不优化关键词",
           key: "noOptimizeTemplate",
           maxlength: 200,
@@ -296,14 +339,44 @@ export default {
       ],
       id: "",
       isChooseUser: false,
-      isParamsNotData: false
+      isParamsNotData: false,
+
+      isChoose: false,
+      navListId: [],
+      navList: []
     };
+  },
+  mounted() {
+    this.getProvinceTree();
   },
   activated() {
     //重新获取数据
     this._mxGetList();
   },
   methods: {
+    chooseCitys() {
+      this.getProvinceTree(); // 折叠tree
+      this.isChoose = true;
+      this.$nextTick(() => {
+        this.$refs.tree.setCheckedKeys([]); // 先清空已经选中的数据
+        const idx = this.formConfig.findIndex(v => v.key === "noOptimizeProvince");
+        const val = this.formConfig[idx].defaultValue;
+        this.navListId = val ? val.split(",") : [];
+      })
+    },
+    handleChooseConfirm() {
+      const checkedKeys = this.$refs.tree.getCheckedKeys();
+      const idx = this.formConfig.findIndex(v => v.key === "noOptimizeProvince");
+      this.$set(this.formConfig[idx], "defaultValue", checkedKeys.join(","));
+      this.isChoose = false;
+    },
+    getProvinceTree() {
+      this.$http.gateway.getProvinceTree().then(res => {
+        this.navList = res.data.map(v => {
+          return { city: v.provinceName, children: v.children };
+        });
+      });
+    },
     onChange({ val, item }) {
       let time;
       if (item.key === "startTime") {
@@ -370,8 +443,8 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key] !== "-" ? row[key] : "");
           }
         }
         if (!Object.keys(row).includes(item.key)) {
