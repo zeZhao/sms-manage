@@ -10,10 +10,13 @@
     >
       <el-row :gutter="gutter">
         <el-col
-          :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
           :key="index"
+          :span="item.colSpan || colSpan"
         >
+          <div v-if="item.type === 'divider' && !item.isShow">
+            <el-divider></el-divider>
+          </div>
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"

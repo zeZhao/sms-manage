@@ -6,7 +6,6 @@
       :isOther="true"
       @search="_mxDoSearch"
       :add="false"
-      :notSearch="notSearch"
     >
       <template v-slot:Other="form">
         <el-button type="primary" size="small" @click="editContent"
@@ -27,8 +26,8 @@
     >
       <el-table-column prop="corpId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="code" label="特服号" />
       <el-table-column prop="loginName" label="账户名称" width="120" />
+      <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="gateway" label="通道"
@@ -68,7 +67,8 @@
         :colSpan="12"
         ref="formItemContent"
         :formConfig="formConfigContent"
-        btnTxt="修改内容"
+        btnTxt="确定"
+        @choose="choose"
         @submit="submitContent"
         @cancel="cancelContent"
       ></FormItem>
@@ -84,11 +84,17 @@
         :colSpan="12"
         ref="formItemGateway"
         :formConfig="formConfigGateway"
-        btnTxt="修改通道"
+        btnTxt="确定"
+        @choose="choose"
         @submit="submitGateway"
         @cancel="cancelGateway"
       ></FormItem>
     </el-dialog>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -99,7 +105,6 @@ export default {
   mixins: [listMixin],
   data() {
     return {
-      notSearch: true,
       content: false,
       gateway: false,
       // 接口地址
@@ -176,17 +181,21 @@ export default {
       // 修改内容表单配置
       formConfigContent: [
         {
-          type: "inputNum",
+          type: "input",
           label: "账户编号",
           key: "userId",
+          btnTxt: "选择用户",
+          btnDisabled: false,
+          disabled: true,
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          rules: [{ required: true, message: "请输入必填项", trigger: ["blur", "change"] }]
         },
         {
           type: "input",
           label: "原内容",
           key: "content",
           defaultValue: "",
+          maxlength: "2000",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -194,6 +203,7 @@ export default {
           label: "原关键字",
           key: "keyWord",
           defaultValue: "",
+          maxlength: "2000",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -201,15 +211,20 @@ export default {
           label: "目标关键字",
           key: "newKeyWord",
           defaultValue: "",
+          maxlength: "2000",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
       // 修改通道表单配置
       formConfigGateway: [
         {
-          type: "inputNum",
+          type: "input",
           label: "账户编号",
-          key: "userId"
+          key: "userId",
+          btnTxt: "选择用户",
+          btnDisabled: false,
+          disabled: true,
+          defaultValue: ""
         },
         {
           type: "input",
@@ -218,32 +233,33 @@ export default {
         },
         {
           type: "inputNum",
-          label: "cid",
+          label: "CID",
           key: "cid"
         },
         {
-          type: "inputNum",
+          type: "select",
           label: "原通道",
           key: "gateway",
+          optionData: [],
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "inputNum",
-          label: "目标通道",
-          key: "newGateway",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          type: "input",
+          label: "错误码",
+          key: "errCode",
+          disabled: true
+        },
+        {
+          type: "input",
+          label: "错误原因",
+          key: "err",
+          disabled: true
         },
         {
           type: "inputNum",
           label: "手机号",
           key: "mobile"
-        },
-        {
-          type: "input",
-          label: "错误原因",
-          key: "err"
         },
         {
           type: "inputNum",
@@ -259,13 +275,83 @@ export default {
           type: "date",
           label: "结束时间",
           key: "endTime"
+        },
+        {
+          type: "divider",
+          colSpan: 24
+        },
+        {
+          type: "select",
+          label: "目标通道",
+          key: "newGateway",
+          optionData: [],
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
-      ]
+      ],
+      isChooseUser: false
     };
   },
-  mounted() {},
-  computed: {},
+  activated() {
+    this._mxGetList();
+    this.getGatewayList();
+  },
+  computed: {
+    gatewayVal() {
+      const idx = this.formConfigGateway.findIndex(v => v.key === "gateway");
+      return this.formConfigGateway[idx].defaultValue;
+    }
+  },
+  watch: {
+    gatewayVal(val) {
+      this.formConfigGateway.forEach(item => {
+        const { key } = item;
+        if (key === "errCode" || key === "err") {
+          this.$set(item, "disabled", !val);
+        }
+      })
+    }
+  },
   methods: {
+    //选择用户选取赋值
+    chooseUserData(data) {
+      if (this.content) {
+        this.formConfigContent.map(t => {
+          const { key } = t;
+          if (key === "userId") {
+            t.defaultValue = data.userId;
+          }
+        });
+      } else if (this.gateway) {
+        this.formConfigGateway.map(t => {
+          const { key } = t;
+          if (key === "userId") {
+            t.defaultValue = data.userId;
+          }
+        });
+      }
+    },
+    getGatewayList() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGateway(params).then(res => {
+        this.formConfigGateway.forEach(item => {
+          const { key } = item;
+          if (key === "gateway" || key === "newGateway") {
+            item.optionData = res.data.map(v => {
+              return { key: v.gatewayId, value: v.gateway + "_" + v.gatewayName };
+            });
+          }
+        })
+      });
+    },
     //修改内容
     editContent() {
       this.content = true;
@@ -280,7 +366,6 @@ export default {
         this.$refs.formItemGateway.resetForm();
       });
     },
-
     //提交修改内容
     submitContent(form) {
       this.$http.sysSendError.editContent({ ...form }).then(res => {
@@ -296,7 +381,6 @@ export default {
     cancelContent() {
       this.content = false;
     },
-
     submitGateway(form) {
       // for (let key in form) {
       //   if (key === "startTime") {
@@ -319,8 +403,6 @@ export default {
     cancelGateway() {
       this.gateway = false;
     },
-
-    //countMonth
     _mxFormListData(rows) {
       rows.forEach(item => {
         if (item.submitTime) {
@@ -339,12 +421,6 @@ export default {
     _mxArrangeSubmitData(formData) {
       return formData;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.sysSendError {
-}
-</style>
