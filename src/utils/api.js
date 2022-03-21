@@ -1760,9 +1760,13 @@ export default {
     },
     //短信通道
     gateway: {
-        // 下拉查询列表
+        // 通道下拉查询列表（开启）
         listGateway(params) {
             return post("/gateway/listGateway", params);
+        },
+        // 通道下拉查询列表（开启/关闭）所有
+        listGatewayAll(params) {
+            return post("/gateway/listGatewayAll", params);
         },
         // 分页查询列表
         listGatewayByPage(params) {

@@ -294,6 +294,7 @@ export default {
   },
   activated() {
     this._mxGetList();
+    this.getGatewayListAll();
     this.getGatewayList();
   },
   computed: {
@@ -331,6 +332,27 @@ export default {
         });
       }
     },
+    getGatewayListAll() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGatewayAll(params).then(res => {
+        this.formConfigGateway.forEach(item => {
+          const { key } = item;
+          if (key === "gateway") {
+            item.optionData = res.data.map(v => {
+              return { key: v.gatewayId, value: v.gateway + "_" + v.gatewayName };
+            });
+          }
+        })
+      });
+    },
     getGatewayList() {
       const params = {
         data: {
@@ -344,7 +366,7 @@ export default {
       this.$http.gateway.listGateway(params).then(res => {
         this.formConfigGateway.forEach(item => {
           const { key } = item;
-          if (key === "gateway" || key === "newGateway") {
+          if (key === "newGateway") {
             item.optionData = res.data.map(v => {
               return { key: v.gatewayId, value: v.gateway + "_" + v.gatewayName };
             });
