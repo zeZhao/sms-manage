@@ -3,19 +3,23 @@
   <div class="batchModification">
     <el-dialog :visible.sync="isOpen" :title="title" width="50%" top="120px" :show-close="false"
       :close-on-click-modal="false" :close-on-press-escape="false">
+      <div>
+        <slot name="selects-top"></slot>
+      </div>
+
       <el-form ref="form" :model="form" label-width="90px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="原通道编号">
-              <el-select v-model="form.oldCm" placeholder="移动通道" class="inputs" clearable>
-                <el-option v-for="item in cmList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.oldCm" placeholder="移动通道" class="inputs" clearable filterable>
+                <el-option v-for="item in cmList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="改为">
-              <el-select v-model="form.newCm" placeholder="请修改" class="inputs" clearable>
-                <el-option v-for="item in cmList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.newCm" placeholder="请选择改后通道" class="inputs" clearable filterable>
+                <el-option v-for="item in cmList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -24,15 +28,15 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.oldCu" placeholder="联通通道" class="inputs" clearable>
-                <el-option v-for="item in cuList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.oldCu" placeholder="联通通道" class="inputs" clearable filterable>
+                <el-option v-for="item in cuList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.newCu" placeholder="请修改" class="inputs" clearable>
-                <el-option v-for="item in cuList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.newCu" placeholder="请选择改后通道" class="inputs" clearable filterable>
+                <el-option v-for="item in cuList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -41,15 +45,15 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.oldCt" placeholder="电信通道" class="inputs" clearable>
-                <el-option v-for="item in ctList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.oldCt" placeholder="电信通道" class="inputs" clearable filterable>
+                <el-option v-for="item in ctList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.newCt" placeholder="请修改" class="inputs" clearable>
-                <el-option v-for="item in ctList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.newCt" placeholder="请选择改后通道" class="inputs" clearable filterable>
+                <el-option v-for="item in ctList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>

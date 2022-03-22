@@ -188,7 +188,21 @@
       :title="title"
       @submit="batchSubmit"
       @cancel="cancelBatch"
-    ></BatchModification>
+    >
+      <template slot="selects-top">
+        <el-form ref="form" :model="selectsTop" label-width="90px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="选择商户">
+                <el-select v-model="selectsTop.corpId" placeholder="请选择商户" class="inputs" clearable filterable @clear="selectsTop.corpId = null">
+                  <el-option v-for="item in corpIdList" :key="item.key" :label="item.key + '_' + item.value" :value="item.key" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </template>
+    </BatchModification>
   </div>
 </template>
 
@@ -788,7 +802,9 @@ export default {
       isChooseUser: false, //选择用户
       isGatewayGroup: "0", // 是否包含通道组
       isOpen: false,
-      title: "批量修改通道"
+      title: "批量修改通道",
+      selectsTop: { corpId: null },
+      corpIdList: []
     };
   },
   mounted() {
@@ -796,6 +812,7 @@ export default {
     this.gateway("cuPassageway", "2", "1");
     this.gateway("ctPassageway", "3", "1");
     this.getSensitiveWordGroup();
+    this.getAllCorp();
   },
   activated() {
     //重新获取数据
@@ -804,8 +821,22 @@ export default {
     this.gateway("cuPassageway", "2", "1");
     this.gateway("ctPassageway", "3", "1");
     this.getSensitiveWordGroup();
+    this.getAllCorp();
   },
   methods: {
+    // 获取所有商户
+    getAllCorp() {
+      this.$http.corp.queryAllCorp().then(res => {
+        if (resOk(res)) {
+          this.corpIdList = res.data.map(t => {
+            return {
+              key: t.corpId,
+              value: t.corpName
+            }
+          });
+        }
+      });
+    },
     exportData(form) {
       this.$axios
         .post("/sysExemptReviewManage/exportExemptReviewManage", {
@@ -848,8 +879,9 @@ export default {
     },
     //提交批量修改
     batchSubmit(form) {
+      const data = { ...this.selectsTop, ...form };
       this.$http.sysExemptReviewManage
-        .batchUpdateExemptReviewManage(form)
+        .batchUpdateExemptReviewManage(data)
         .then(res => {
           if (res.code === 200) {
             this.isOpen = false;
@@ -866,6 +898,7 @@ export default {
     },
     //批量修改
     batchModification() {
+      this.selectsTop.corpId = null;
       this.isOpen = true;
     },
     /*
