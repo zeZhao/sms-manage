@@ -1457,6 +1457,14 @@ export default {
         //  批量修改通道
         updateBatchSysRedList(params) {
             return post("/sysRedList/updateBatchSysRedList", params);
+        },
+        //  批量查询红名单条数
+        countSysRedListByUserId(params) {
+            return post("/sysRedList/countSysRedListByUserId", params);
+        },
+        //  批量删除红名单
+        deleteBatchSysRedList(params) {
+            return post("/sysRedList/deleteBatchSysRedList", params);
         }
     },
     // 白名单管理

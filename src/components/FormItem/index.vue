@@ -670,7 +670,7 @@ export default {
     resetForm() {
       this.formConfig.forEach(item => {
         const { defaultValue, key, type } = item;
-        if (defaultValue || this.formData[key]) {
+        if (defaultValue || this.formData[key] || defaultValue === 0) {
           if (type === "checkbox") {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
@@ -693,6 +693,9 @@ export default {
             } else {
               item.defaultValue = null;
             }
+          } else if (type === "uploadXlsx") {
+            item.defaultValue = null;
+            item.defaultFileList = [];
           } else {
             item.defaultValue = null;
             this.formData[key] = null;
