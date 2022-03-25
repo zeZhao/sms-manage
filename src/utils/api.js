@@ -337,6 +337,18 @@ export default {
         addProvinceRoute(params) {
             return post("/sysProvinceRoute/addProvinceRoute", params);
         },
+        // 所有商户
+        listCropAll(params) {
+            return post("/sysProvinceRoute/listCropAll", params);
+        },
+        // 所有账户
+        listCropUserAll(params) {
+            return post("/sysProvinceRoute/listCropUserAll", params);
+        },
+        // 当前页面的不同通道
+        listProvinceRouteGateway(params) {
+            return post("/sysProvinceRoute/listProvinceRouteGateway", params);
+        }
     },
     //优化比例配置
     corpUserOptimize: {
