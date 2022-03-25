@@ -83,7 +83,7 @@
         v-if="searchParam.showCode === '1'"
         key="code"
       />
-      <el-table-column prop="smsType" label="类型" key="smsType">
+      <!-- <el-table-column prop="smsType" label="类型" key="smsType">
         <template slot-scope="scope">
           <span>{{
             scope.row.smsType === 1
@@ -95,7 +95,7 @@
               : "语音"
           }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="sendNum" label="发送条数" key="sendNum" />
       <el-table-column prop="successNum" label="成功数" key="successNum" />
       <el-table-column prop="failNum" label="失败数" key="failNum" />
@@ -198,17 +198,17 @@ export default {
           label: "特服号",
           key: "code"
         },
-        {
-          type: "select",
-          label: "类型",
-          key: "smsType",
-          optionData: [
-            { key: "1", value: "短信" }
-            // { key: "2", value: "彩信" },
-            // { key: "3", value: "屏信" },
-            // { key: "4", value: "语音" }
-          ]
-        },
+        // {
+        //   type: "select",
+        //   label: "类型",
+        //   key: "smsType",
+        //   optionData: [
+        //     { key: "1", value: "短信" }
+        //     // { key: "2", value: "彩信" },
+        //     // { key: "3", value: "屏信" },
+        //     // { key: "4", value: "语音" }
+        //   ]
+        // },
         {
           type: "select",
           label: "运营商",
