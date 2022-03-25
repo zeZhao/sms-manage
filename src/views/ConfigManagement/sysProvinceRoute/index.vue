@@ -158,7 +158,37 @@
       :title="title"
       @submit="batchSubmit"
       @cancel="cancelBatch"
-    ></BatchModification>
+      :selectsObj="selectsObj"
+    >
+      <template slot="selects-top">
+        <el-form ref="form" :model="selectsTop" label-width="90px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="调整类型">
+                <el-select v-model="selectsTop.type" placeholder="请选择调整类型" class="inputs" clearable filterable>
+                  <el-option label="商户批量修改" :value="1" />
+                  <el-option label="账户批量修改" :value="2" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="selectsTop.type === 1">
+              <el-form-item label="选择商户">
+                <el-select v-model="selectsTop.corpId" placeholder="请选择商户" class="inputs" clearable filterable @clear="selectsTop.corpId = null">
+                  <el-option v-for="item in corpIdList" :key="item.key" :label="item.key + '_' + item.value" :value="item.key" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="selectsTop.type === 2">
+              <el-form-item label="选择账户">
+                <el-select v-model="selectsTop.userId" placeholder="请选择账户" class="inputs" clearable filterable @clear="selectsTop.userId = null">
+                  <el-option v-for="item in userIdList" :key="item.key" :label="item.key + '_' + item.value" :value="item.key" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </template>
+    </BatchModification>
   </div>
 </template>
 
@@ -400,7 +430,12 @@ export default {
       isOpen: false,
       title: "批量修改通道",
       isOpen1: false,
-      title1: "批量添加分省路由"
+      title1: "批量添加分省路由",
+      selectsTop: { type: null, corpId: null, userId: null },
+      corpIdList: [],
+      userIdList: [],
+      // 用于传给子组件的下拉数据
+      selectsObj: { cmList: [], cuList: [], ctList: [] }
     };
   },
   mounted() {
@@ -409,6 +444,7 @@ export default {
     this.gateway("ct", "3", "1");
     this.gateway("cm", "1", "1");
     this.listSysProvince();
+    this.getAllCorp();
   },
   activated() {
     //重新获取数据
@@ -418,8 +454,22 @@ export default {
     this.gateway("ct", "3", "1");
     this.gateway("cm", "1", "1");
     this.listSysProvince();
+    this.getAllCorp();
   },
   methods: {
+    // 获取所有商户
+    getAllCorp() {
+      this.$http.corp.queryAllCorp().then(res => {
+        if (resOk(res)) {
+          this.corpIdList = res.data.map(t => {
+            return {
+              key: t.corpId,
+              value: t.corpName
+            }
+          });
+        }
+      });
+    },
     //提交批量添加
     batchSubmit1() {
       this.isOpen1 = false;
