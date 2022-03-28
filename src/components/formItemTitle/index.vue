@@ -658,5 +658,9 @@ export default {
     text-align: right;
     margin-top: 6px;
   }
+
+  /deep/ .el-input__inner {
+    padding-right: 50px !important;
+  }
 }
 </style>

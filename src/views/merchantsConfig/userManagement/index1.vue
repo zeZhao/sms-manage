@@ -638,6 +638,7 @@
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
 import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -1229,7 +1230,7 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: "",
-          // btnTxt: "拉取地址"
+          btnTxt: "拉取"
         },
         {
           type: "select",
@@ -1251,7 +1252,7 @@ export default {
           maxlength: "250",
           tag: "sms",
           defaultValue: "",
-          // btnTxt: "拉取地址"
+          btnTxt: "拉取"
         },
         {
           type: "select",
@@ -1361,22 +1362,22 @@ export default {
           tag: "mms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "产品类型",
-        //   key: "mmsProType",
-        //   multiple: true,
-        //   clearable: true,
-        //   disabled: false,
-        //   optionData: [
-        //     { key: 1, value: "web端" }
-        //     // { key: 2, value: "http接口" },
-        //     // { key: 4, value: "cmpp接口" }
-        //     // { key: 7, value: "音频接口" }
-        //   ],
-        //   tag: "mms",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "select",
+          label: "产品类型",
+          key: "mmsProType",
+          // multiple: true,
+          // clearable: true,
+          // disabled: false,
+          optionData: [
+            { key: 1, value: "web端" },
+            { key: 2, value: "http接口" },
+            // { key: 4, value: "cmpp接口" }
+            // { key: 7, value: "音频接口" }
+          ],
+          tag: "mms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "select",
           label: "计费方式",
@@ -1640,18 +1641,24 @@ export default {
       return `${this.formTit}账户`;
     },
     renderLock() {
-      const { proType, password, webPassword, secretKey } = this.infoData;
-      switch (proType) {
-        case 1:
-          return !!(!webPassword || webPassword === "-");
-        case 2:
-          const http = [password, webPassword, secretKey].some(
-            v => !v || v === "-"
-          );
-          return http;
-        case 4:
-          const cmpp = [password, webPassword].some(v => !v || v === "-");
-          return cmpp;
+      const { proType, password, webPassword, secretKey, productTypes } = this.infoData;
+      if (!Array.isArray(productTypes)) return false;
+      if (productTypes.includes(1)) {  // 短信
+        switch (proType) {
+          case 1:
+            return !!(!webPassword || webPassword === "-");
+          case 2:
+            const http = [password, webPassword, secretKey].some(
+              v => !v || v === "-"
+            );
+            return http;
+          case 4:
+            const cmpp = [password, webPassword].some(v => !v || v === "-");
+            return cmpp;
+        }
+      } else if (productTypes.includes(2)) { // 彩信
+        const http = [password, webPassword].some(v => !v || v === "-");
+        return http;
       }
     }
   },
@@ -1659,7 +1666,12 @@ export default {
     choose(item) {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
-      this.$set(this.formConfig[idx], "defaultValue", "https://smsmanage.jvtd.cn/#/");
+      const isProd = process.env.NODE_ENV === "production";
+      if (key === "moUrl") { // 推送上行地址
+        this.$set(this.formConfig[idx], "defaultValue", isProd ? "http://10.3.0.20:9106/getMo/moJsonList" : "http://10.10.0.32:9106/getMo/moJsonList");
+      } else if (key === "reportUrl") { // 推送报告地址
+        this.$set(this.formConfig[idx], "defaultValue", isProd ? "http://10.3.0.20:9106/getMr/mrJsonList" : "http://10.10.0.32:9106/getMr/mrJsonList");
+      }
     },
     // 关闭信息弹窗后重置web密码为不可修改状态
     handleClose(done) {
@@ -1805,6 +1817,21 @@ export default {
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
+
+      if (item.key === "proType") {
+        if (val === 4) { // cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", true);
+          this._setDefaultValueKeys("alertMobile", "");
+          this._setDisplayShow(this.formConfig, "moUrl", true);
+          this._setDefaultValueKeys("moUrl", "");
+          this._setDisplayShow(this.formConfig, "reportUrl", true);
+          this._setDefaultValueKeys("reportUrl", "");
+        } else { // 不是cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", false);
+          this._setDisplayShow(this.formConfig, "moUrl", false);
+          this._setDisplayShow(this.formConfig, "reportUrl", false);
+        }
+      }
       // if (item.key === "moType") {
       //   if (val == "0") {
       //     this.formConfig.forEach(el => {
@@ -1888,8 +1915,8 @@ export default {
           form[key] = form[key].join(",");
         }
         if (
-          key === "productType" ||
-          key === "mmsProType"
+          key === "productType"
+          // key === "mmsProType"
           // key === "proType"
         ) {
           if (
@@ -1926,13 +1953,17 @@ export default {
               if (this.infoData.proType === 2) {
                 // HTTP类型 ------ 查秘钥
                 this.$http.corpUser.getSecretKeyById(userId).then(response => {
-                  this.$nextTick(() => {
-                    this.$set(
-                      this.infoData,
-                      "secretKey",
-                      response.data.publicKey
-                    );
-                  });
+                  if (response.code === 200) {
+                    this.$nextTick(() => {
+                      this.$set(
+                        this.infoData,
+                        "secretKey",
+                        response.data.publicKey
+                      );
+                    });
+                  } else {
+                    this.$message.error(response.data || response.msg);
+                  }
                 });
               }
               this.$nextTick(() => {
@@ -2024,6 +2055,10 @@ export default {
         //     { required: false, message: "请输入必填项", trigger: "blur" }
         //   ]);
         // }
+        if (item.key === "alertMobile") {
+          this.$set(item, "defaultValue", "2");
+          this.$set(item, "initDefaultValue", "2");
+        }
       });
       this.addChannel = true;
       setTimeout(() => {
@@ -2047,8 +2082,11 @@ export default {
         // if (key === "proType") {
         //   row["proType"] = row["proTypes"];
         // }
-        if (key === "mmsProType") {
-          row["mmsProType"] = row["mmsProTypes"];
+        // if (key === "mmsProType") {
+        //   row["mmsProType"] = row["mmsProTypes"];
+        // }
+        if (key === "mmsProType" && row["mmsProType"] === 3) {
+          row["mmsProType"] = 2; // 前端转换彩信类型-http类型
         }
         if (key === "productType") {
           row["productType"] = row["productTypes"];
@@ -2161,8 +2199,8 @@ export default {
           }
         }
         if (
-          item.key === "productType" ||
-          item.key === "mmsProType"
+          item.key === "productType"
+          // item.key === "mmsProType"
           // item.key === "proType"
         ) {
           let val = item.defaultValue;
