@@ -10,10 +10,13 @@
     >
       <el-row :gutter="gutter">
         <el-col
-          :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
           :key="index"
+          :span="item.colSpan || colSpan"
         >
+          <div v-if="item.type === 'divider' && !item.isShow">
+            <el-divider></el-divider>
+          </div>
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
@@ -667,7 +670,7 @@ export default {
     resetForm() {
       this.formConfig.forEach(item => {
         const { defaultValue, key, type } = item;
-        if (defaultValue || this.formData[key]) {
+        if (defaultValue || this.formData[key] || defaultValue === 0) {
           if (type === "checkbox") {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
@@ -690,6 +693,9 @@ export default {
             } else {
               item.defaultValue = null;
             }
+          } else if (type === "uploadXlsx") {
+            item.defaultValue = null;
+            item.defaultFileList = [];
           } else {
             item.defaultValue = null;
             this.formData[key] = null;

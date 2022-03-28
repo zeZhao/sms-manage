@@ -337,6 +337,18 @@ export default {
         addProvinceRoute(params) {
             return post("/sysProvinceRoute/addProvinceRoute", params);
         },
+        // 所有商户
+        listCropAll(params) {
+            return post("/sysProvinceRoute/listCropAll", params);
+        },
+        // 所有账户
+        listCropUserAll(params) {
+            return post("/sysProvinceRoute/listCropUserAll", params);
+        },
+        // 当前页面的不同通道
+        listProvinceRouteGateway(params) {
+            return post("/sysProvinceRoute/listProvinceRouteGateway", params);
+        }
     },
     //优化比例配置
     corpUserOptimize: {
@@ -1457,6 +1469,14 @@ export default {
         //  批量修改通道
         updateBatchSysRedList(params) {
             return post("/sysRedList/updateBatchSysRedList", params);
+        },
+        //  批量查询红名单条数
+        countSysRedListByUserId(params) {
+            return post("/sysRedList/countSysRedListByUserId", params);
+        },
+        //  批量删除红名单
+        deleteBatchSysRedList(params) {
+            return post("/sysRedList/deleteBatchSysRedList", params);
         }
     },
     // 白名单管理
@@ -1764,9 +1784,13 @@ export default {
     },
     //短信通道
     gateway: {
-        // 下拉查询列表
+        // 通道下拉查询列表（开启）
         listGateway(params) {
             return post("/gateway/listGateway", params);
+        },
+        // 通道下拉查询列表（开启/关闭）所有
+        listGatewayAll(params) {
+            return post("/gateway/listGatewayAll", params);
         },
         // 分页查询列表
         listGatewayByPage(params) {

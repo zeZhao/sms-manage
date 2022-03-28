@@ -158,7 +158,37 @@
       :title="title"
       @submit="batchSubmit"
       @cancel="cancelBatch"
-    ></BatchModification>
+      :selectsObj="selectsObj"
+    >
+      <template slot="selects-top">
+        <el-form ref="form" :model="selectsTop" label-width="90px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="调整类型">
+                <el-select v-model="selectsTop.type" placeholder="请选择调整类型" class="inputs" clearable filterable @change="selectsTop.corporateId = selectsTop.userId = null">
+                  <el-option label="商户批量修改" :value="1" />
+                  <el-option label="账户批量修改" :value="2" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="selectsTop.type === 1">
+              <el-form-item label="选择商户">
+                <el-select v-model="selectsTop.corporateId" placeholder="请选择商户" class="inputs" clearable filterable @clear="selectsTop.corporateId = null">
+                  <el-option v-for="item in corpIdList" :key="item.corporate_id" :label="item.corporate_id + '_' + item.corp_name" :value="item.corporate_id" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="selectsTop.type === 2">
+              <el-form-item label="选择账户">
+                <el-select v-model="selectsTop.userId" placeholder="请选择账户" class="inputs" clearable filterable @clear="selectsTop.userId = null">
+                  <el-option v-for="item in userIdList" :key="item.user_id" :label="item.user_id + '_' + item.user_name" :value="item.user_id" />
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </template>
+    </BatchModification>
   </div>
 </template>
 
@@ -400,7 +430,12 @@ export default {
       isOpen: false,
       title: "批量修改通道",
       isOpen1: false,
-      title1: "批量添加分省路由"
+      title1: "批量添加分省路由",
+      selectsTop: { type: null, corporateId: null, userId: null },
+      corpIdList: [],
+      userIdList: [],
+      // 用于传给子组件的下拉数据
+      selectsObj: { cmList: [], cuList: [], ctList: [] }
     };
   },
   mounted() {
@@ -433,11 +468,11 @@ export default {
     batchAddition() {
       this.isOpen1 = true;
     },
-
     //提交批量修改
     batchSubmit(form) {
+      const data = { ...this.selectsTop, ...form };
       this.$axios
-        .post("/sysProvinceRoute/updateBatchProvinceRoutes", form)
+        .post("/sysProvinceRoute/updateBatchProvinceRoutes", data)
         .then(res => {
           if (res.data.code === 200) {
             this.isOpen = false;
@@ -454,7 +489,37 @@ export default {
     },
     //批量修改
     batchModification() {
+      this.listCropAll();
+      this.listCropUserAll();
+      const arr = ["cm", "cu", "ct"];
+      arr.forEach((v) => { this.listProvinceRouteGateway({ data: { originalChannel: v }}) });
+      this.selectsTop = { type: null, corporateId: null, userId: null };
       this.isOpen = true;
+    },
+    listCropAll() {
+      this.$http.sysProvinceRoute.listCropAll().then(res => {
+        this.corpIdList = res.data;
+      });
+    },
+    listCropUserAll() {
+      this.$http.sysProvinceRoute.listCropUserAll().then(res => {
+        this.userIdList = res.data;
+      });
+    },
+    listProvinceRouteGateway(obj) {
+      this.$http.sysProvinceRoute.listProvinceRouteGateway(obj).then(res => {
+        switch (obj.data.originalChannel) {
+          case "cm":
+            this.selectsObj.cmList = res.data;
+            break;
+          case "cu":
+            this.selectsObj.cuList = res.data;
+            break;
+          case "ct":
+            this.selectsObj.ctList = res.data;
+            break;
+        }
+      });
     },
     //导出
     exportData(data) {

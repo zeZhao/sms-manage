@@ -3,19 +3,23 @@
   <div class="batchModification">
     <el-dialog :visible.sync="isOpen" :title="title" width="50%" top="120px" :show-close="false"
       :close-on-click-modal="false" :close-on-press-escape="false">
+      <div>
+        <slot name="selects-top"></slot>
+      </div>
+
       <el-form ref="form" :model="form" label-width="90px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="原通道编号">
-              <el-select v-model="form.oldCm" placeholder="移动通道" class="inputs" clearable>
-                <el-option v-for="item in cmList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.oldCm" placeholder="移动通道" class="inputs" clearable filterable>
+                <el-option v-for="item in selectsObj.cmList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="改为">
-              <el-select v-model="form.newCm" placeholder="请修改" class="inputs" clearable>
-                <el-option v-for="item in cmList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.newCm" placeholder="请选择改后通道" class="inputs" clearable filterable>
+                <el-option v-for="item in cmList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -24,15 +28,15 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.oldCu" placeholder="联通通道" class="inputs" clearable>
-                <el-option v-for="item in cuList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.oldCu" placeholder="联通通道" class="inputs" clearable filterable>
+                <el-option v-for="item in selectsObj.cuList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.newCu" placeholder="请修改" class="inputs" clearable>
-                <el-option v-for="item in cuList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.newCu" placeholder="请选择改后通道" class="inputs" clearable filterable>
+                <el-option v-for="item in cuList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -41,15 +45,15 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.oldCt" placeholder="电信通道" class="inputs" clearable>
-                <el-option v-for="item in ctList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.oldCt" placeholder="电信通道" class="inputs" clearable filterable>
+                <el-option v-for="item in selectsObj.ctList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.newCt" placeholder="请修改" class="inputs" clearable>
-                <el-option v-for="item in ctList" :key="item.id" :label="item.id" :value="item.id" />
+              <el-select v-model="form.newCt" placeholder="请选择改后通道" class="inputs" clearable filterable>
+                <el-option v-for="item in ctList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -70,6 +74,9 @@
 </template>
 
 <script>
+// 无传selectsObj时默认下拉和改为通道下拉数据保持一致
+let mapping = { cmList: [], cuList: [], ctList: [] };
+
 export default {
   props: {
     isOpen: {
@@ -79,6 +86,13 @@ export default {
     title: {
       type: String,
       default: "批量修改通道"
+    },
+    // 原通道编号 用于接收父组件的下拉数据
+    selectsObj: {
+      type: Object,
+      default: () => {
+        return mapping;
+      }
     }
   },
   data () {
@@ -158,13 +172,13 @@ export default {
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         switch (keys) {
           case 'cmPassageway':
-            this.cmList = res.data;
+            this.cmList = mapping.cmList = res.data;
             break;
           case 'cuPassageway':
-            this.cuList = res.data;
+            this.cuList = mapping.cuList = res.data;
             break;
           case 'ctPassageway':
-            this.ctList = res.data;
+            this.ctList = mapping.ctList = res.data;
             break;
         }
       })

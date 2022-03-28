@@ -7,8 +7,14 @@
       @create="create"
     >
       <template slot="Other">
+        <el-button type="primary" size="small" @click="handleBatchAdd"
+          >批量添加</el-button
+        >
         <el-button type="primary" size="small" @click="batchUpdate"
           >批量修改</el-button
+        >
+        <el-button type="primary" size="small" @click="handleBatchDel"
+          >批量删除</el-button
         >
       </template>
     </Search>
@@ -73,7 +79,7 @@
       @handleCurrentChange="handleCurrentChange"
     ></Page>
 
-    <el-drawer
+    <!-- <el-drawer
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-press-escape="false"
@@ -89,13 +95,13 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
-        @onChange="onChange"
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
       ></FormItem>
-    </el-drawer>
+        @onChange="onChange"
+    </el-drawer> -->
 
-    <!-- <el-dialog
+    <el-dialog
       :title="formTit"
       :visible.sync="addChannel"
       :close-on-click-modal="false"
@@ -108,11 +114,11 @@
         @submit="submit"
         @cancel="cancel"
         @choose="choose"
-        @onChange="onChange"
         @handleSuccess="handleSuccess"
         @handleRemove="handleRemove"
       ></FormItem>
-    </el-dialog> -->
+        <!-- @onChange="onChange" -->
+    </el-dialog>
     <ChooseUser
       ref="ChooseUser"
       :isChooseUser="isChooseUser"
@@ -124,6 +130,7 @@
       <template>
         <div slot="btnOther" style="float: right; margin-bottom: 10px">
           <el-button
+            v-if="batchUpdateFlag"
             style="border-color: #0964FF"
             @click="chooseSomeUser"
             size="small"
@@ -133,6 +140,25 @@
       </template>
     </ChooseUser>
 
+    <!-- 批量添加 -->
+    <el-dialog
+      title="批量添加"
+      :visible.sync="batchAdd"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="batchAddFormItem"
+        :formConfig="batchAddFormConfig"
+        btnTxt="确定"
+        @submit="batchAddSubmit"
+        @cancel="batchAdd = false"
+        @choose="choose"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
+      ></FormItem>
+        <!-- @onChange="onChange" -->
+    </el-dialog>
     <!-- 批量修改通道弹窗 -->
     <el-dialog
       title="批量修改通道"
@@ -175,9 +201,9 @@
               >
                 <el-option
                   v-for="item in GatewayList"
-                  :key="item.gateway"
-                  :label="item.gateway"
-                  :value="item.gateway"
+                  :key="item.gatewayId"
+                  :label="item.gateway + '_' + item.gatewayName"
+                  :value="item.gatewayId"
                 />
               </el-select>
             </el-form-item>
@@ -191,9 +217,9 @@
               >
                 <el-option
                   v-for="item in GatewayList"
-                  :key="item.gateway"
-                  :label="item.gateway"
-                  :value="item.gateway"
+                  :key="item.gatewayId"
+                  :label="item.gateway + '_' + item.gatewayName"
+                  :value="item.gatewayId"
                 />
               </el-select>
             </el-form-item>
@@ -214,12 +240,32 @@
         >
       </div>
     </el-dialog>
+    <!-- 批量删除 -->
+    <el-dialog
+      title="批量删除"
+      :visible.sync="batchDel"
+      :close-on-click-modal="false"
+      top="45px"
+    >
+      <FormItem
+        ref="batchDelFormItem"
+        :formConfig="batchDelFormConfig"
+        btnTxt="确定"
+        @submit="batchDelSubmit"
+        @cancel="batchDel = false"
+        @choose="choose"
+        @handleSuccess="handleSuccess"
+        @handleRemove="handleRemove"
+      ></FormItem>
+        <!-- @onChange="onChange" -->
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import listMixin from "@/mixin/listMixin";
 import { isPhone } from "@/utils/validator";
+
 export default {
   mixins: [listMixin],
   data() {
@@ -322,24 +368,149 @@ export default {
           placeholder: "选择账户后自动识别"
         },
         {
-          type: "textarea",
+          type: "input",
           label: "手机号",
           key: "mobile",
           defaultValue: "",
-          maxlength: "100",
-          placeholder: "可输入多个手机号，用英文“,”隔开",
+          maxlength: "11",
+          placeholder: "请输入手机号",
           rules: [
             {
               required: true,
-              message: "请添加手机号或者上传手机号文件",
-              trigger: "blur"
-            },
-            {
-              validator: this.$publicValidators.phone[0]["validator"],
-              trigger: "change"
+              validator: isPhone,
+              trigger: ["blur", "change"]
             }
           ]
         },
+        // {
+        //   type: "uploadXlsx",
+        //   key: "mobileFileUrl",
+        //   label: "上传手机号文件",
+        //   uploadUrl: "/api/sysPrepaidCard/uploadFileUnify",
+        //   isShow: false,
+        //   btnTxt: "批量添加",
+        //   limit: 1,
+        //   defaultValue: "",
+        //   defaultFileList: [],
+        //   tip: "支持txt、xls、xlsx文件，每行一个手机号",
+        //   accept: [
+        //     "text/plain",
+        //     "application/vnd.ms-excel",
+        //     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        //   ],
+        //   rules: [
+        //     {
+        //       required: true,
+        //       message: "请上传手机号文件或者添加手机号",
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: "select",
+        //   label: "优化类型",
+        //   initDefaultValue: 2,
+        //   defaultValue: 2,
+        //   key: "type",
+        //   optionData: [
+        //     // {
+        //     //   key: 1,
+        //     //   value: "不优化"
+        //     // },
+        //     {
+        //       key: 2,
+        //       value: "特定通道"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        {
+          type: "select",
+          label: "通道编号",
+          key: "gateway",
+          optionData: [],
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
+        }
+      ],
+      // 表单配置
+      batchAddFormConfig: [
+        // {
+        //   type: "select",
+        //   label: "账号类型",
+        //   initDefaultValue: 1,
+        //   defaultValue: 1,
+        //   key: "codeType",
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: "用户"
+        //     },
+        //     {
+        //       key: 2,
+        //       value: "特服号"
+        //     }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        {
+          type: "input",
+          label: "账户编号",
+          key: "userId",
+          btnTxt: "选择用户",
+          btnDisabled: false,
+          disabled: true,
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "商户编号",
+          key: "corporateId",
+          isShow: true,
+          disabled: true,
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
+          placeholder: "选择账户后自动识别"
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code",
+          isShow: true,
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          placeholder: "选择账户后自动识别"
+        },
+        // {
+        //   type: "input",
+        //   label: "手机号",
+        //   key: "mobile",
+        //   defaultValue: "",
+        //   maxlength: "11",
+        //   placeholder: "请输入手机号",
+        //   rules: [
+        //     {
+        //       required: true,
+        //       validator: isPhone,
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ]
+        // },
         {
           type: "uploadXlsx",
           key: "mobileFileUrl",
@@ -359,7 +530,7 @@ export default {
           rules: [
             {
               required: true,
-              message: "请上传手机号文件或者添加手机号",
+              message: "请上传手机号文件",
               trigger: ["blur", "change"]
             }
           ]
@@ -392,12 +563,67 @@ export default {
           ]
         }
       ],
+      // 表单配置
+      batchDelFormConfig: [
+        {
+          type: "input",
+          label: "账户编号",
+          key: "userId",
+          btnTxt: "选择用户",
+          btnDisabled: false,
+          disabled: true,
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "商户编号",
+          key: "corporateId",
+          isShow: true,
+          disabled: true,
+          defaultValue: "",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            }
+          ],
+          placeholder: "选择账户后自动识别"
+        },
+        {
+          type: "input",
+          label: "特服号",
+          key: "code",
+          isShow: true,
+          disabled: true,
+          defaultValue: "",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }],
+          placeholder: "选择账户后自动识别"
+        },
+        {
+          type: "input",
+          label: "数据条数",
+          key: "quantity",
+          disabled: true,
+          defaultValue: "",
+          placeholder: "选择账号数后自动显示红名单数量"
+        }
+      ],
       redId: "",
       isChooseUser: false,
       GatewayList: [],
       batchUpdateFlag: false,
       ruleForm: {},
-      errorTips: "" //错误提示
+      errorTips: "", //错误提示
+      batchAdd: false,
+      batchDel: false
     };
   },
   mounted() {
@@ -409,6 +635,18 @@ export default {
     this.gateway();
   },
   methods: {
+    handleBatchAdd() {
+      this.batchAdd = true;
+      this.$nextTick(() => {
+        this.$refs.batchAddFormItem.resetForm();
+      });
+    },
+    handleBatchDel() {
+      this.batchDel = true;
+      this.$nextTick(() => {
+        this.$refs.batchDelFormItem.resetForm();
+      });
+    },
     handleBatchUpdate() {
       const { gateway, afterGateway } = this.ruleForm;
       if (!gateway && !afterGateway) {
@@ -472,7 +710,7 @@ export default {
       const { accept, tip, key } = item;
       const { type } = file.raw;
       if (Array.isArray(accept) && accept.length) {
-        const arr = this.formConfig;
+        const arr = this.batchAddFormConfig;
         const i = arr.findIndex(v => v.key === key);
         if (accept.indexOf(type) === -1) {
           this.$message.error(tip);
@@ -482,29 +720,29 @@ export default {
         }
         arr[i].defaultValue = response.data;
 
-        const delRuleIdx = arr.findIndex(v => v.key === "mobile");
-        arr[delRuleIdx].rules = null;
-        this.$refs.formItem.clearValidateMore(["mobile", "mobileFileUrl"]);
+        // const delRuleIdx = arr.findIndex(v => v.key === "mobile");
+        // arr[delRuleIdx].rules = null;
+        this.$refs.batchAddFormItem.clearValidateMore(["mobileFileUrl"]);
       }
     },
     handleRemove({ file, fileList }) {
-      const arr = this.formConfig;
+      const arr = this.batchAddFormConfig;
       const i = arr.findIndex(v => v.key === "mobileFileUrl");
       arr[i].defaultValue = "";
       arr[i].defaultFileList = [];
 
-      const addRuleIdx = arr.findIndex(v => v.key === "mobile");
-      arr[addRuleIdx].rules = [
-        {
-          required: true,
-          message: "请添加手机号或者上传手机号文件",
-          trigger: "blur"
-        },
-        {
-          validator: this.$publicValidators.phone[0]["validator"],
-          trigger: "change"
-        }
-      ];
+      // const addRuleIdx = arr.findIndex(v => v.key === "mobile");
+      // arr[addRuleIdx].rules = [
+      //   {
+      //     required: true,
+      //     message: "请添加手机号或者上传手机号文件",
+      //     trigger: "blur"
+      //   },
+      //   {
+      //     validator: this.$publicValidators.phone[0]["validator"],
+      //     trigger: "change"
+      //   }
+      // ];
     },
     gateway() {
       const params = {
@@ -522,7 +760,15 @@ export default {
           const { key } = item;
           if (key === "gateway") {
             item.optionData = res.data.map(t => {
-              return { key: t.gatewayId, value: t.gateway };
+              return { key: t.gatewayId, value: t.gateway + "_" + t.gatewayName };
+            });
+          }
+        });
+        this.batchAddFormConfig.forEach(item => {
+          const { key } = item;
+          if (key === "gateway") {
+            item.optionData = res.data.map(t => {
+              return { key: t.gatewayId, value: t.gateway + "_" + t.gatewayName };
             });
           }
         });
@@ -540,7 +786,15 @@ export default {
     },
     //选择用户选取赋值
     chooseUserData(data) {
-      this.formConfig.map(t => {
+      let arr = [];
+      if (this.addChannel) {
+        arr = this.formConfig;
+      } else if (this.batchAdd) {
+        arr = this.batchAddFormConfig;
+      } else if (this.batchDel) {
+        arr = this.batchDelFormConfig;
+      }
+      arr.map(t => {
         const { key } = t;
         if (key === "userId") {
           t.defaultValue = data.userId;
@@ -552,6 +806,18 @@ export default {
           t.defaultValue = data.code;
         }
       });
+
+      // 批量删除时 查询账户红名单条数
+      if (this.batchDel) {
+        const list = this.batchDelFormConfig;
+        this.$http.sysRedList.countSysRedListByUserId({ data: { userId: list[0].defaultValue }}).then(res => {
+          if (resOk(res)) {
+            this.$set(list[list.length - 1], "defaultValue", res.data);
+          } else {
+            this.$message.error(res.data || res.msg);
+          }
+        })
+      }
     },
     edit(row, ID) {
       // this.$router.push({
@@ -562,8 +828,8 @@ export default {
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
-          if (item.key === key && row[key] !== "-") {
-            this.$set(item, "defaultValue", row[key]);
+          if (item.key === key) {
+            this.$set(item, "defaultValue", row[key] !== "-" ? row[key] : "");
           }
         }
         if (!Object.keys(row).includes(item.key)) {
@@ -572,23 +838,22 @@ export default {
         if (item.key === "userId") {
           item.btnDisabled = true;
         }
-        if (item.key === "mobile") {
-          this.$set(item, "maxlength", 11);
-          this.$set(item, "placeholder", "");
-          item.rules = [
-            { required: true, validator: isPhone, trigger: "blur" }
-          ];
-        }
-        if (item.key === "mobileFileUrl") {
-          item.isShow = true;
-        }
+        // if (item.key === "mobile") {
+        //   this.$set(item, "maxlength", 11);
+        //   this.$set(item, "placeholder", "");
+        //   item.rules = [
+        //     { required: true, validator: isPhone, trigger: "blur" }
+        //   ];
+        // }
+        // if (item.key === "mobileFileUrl") {
+        //   item.isShow = true;
+        // }
       });
       this.addChannel = true;
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
     },
-
     submit(form) {
       let params = {};
       if (this.formTit == "新增") {
@@ -627,6 +892,41 @@ export default {
         });
       }
     },
+    batchAddSubmit(form) {
+      const params = {
+        data: {
+          ...form
+        }
+      };
+      this.$http.sysRedList.addSysRedList(params).then(res => {
+        if (resOk(res)) {
+          this.$alert(res.msg, "导入记录", {
+            confirmButtonText: "确定",
+            callback: action => {}
+          }).catch(() => {});
+          this._mxGetList();
+          this.batchAdd = false;
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
+      });
+    },
+    batchDelSubmit(form) {
+      const params = {
+        data: {
+          ...form
+        }
+      };
+      this.$http.sysRedList.deleteBatchSysRedList(params).then(res => {
+        if (resOk(res)) {
+          this._mxGetList();
+          this.batchDel = false;
+          this.$message.success("删除成功");
+        } else {
+          this.$message.error(res.data || res.msg);
+        }
+      });
+    },
     create() {
       // this.$router.push({ name: "sysRedListType", query: { type: "create" } });
       this.formTit = "新增";
@@ -634,33 +934,33 @@ export default {
         if (item.key === "userId") {
           item.btnDisabled = false;
         }
-        if (item.key === "mobile") {
-          this.$set(item, "maxlength", 100);
-          this.$set(item, "placeholder", "可输入多个手机号，用英文“,”隔开");
-          item.rules = [
-            {
-              required: true,
-              message: "请添加手机号或者上传手机号文件",
-              trigger: "blur"
-            },
-            {
-              validator: this.$publicValidators.phone[0]["validator"],
-              trigger: "change"
-            }
-          ];
-        }
-        if (item.key === "mobileFileUrl") {
-          item.defaultValue = "";
-          item.defaultFileList = [];
-          item.isShow = false;
-          item.rules = [
-            {
-              required: true,
-              message: "请上传手机号文件或者添加手机号",
-              trigger: ["blur", "change"]
-            }
-          ];
-        }
+        // if (item.key === "mobile") {
+        //   this.$set(item, "maxlength", 100);
+        //   this.$set(item, "placeholder", "可输入多个手机号，用英文“,”隔开");
+        //   item.rules = [
+        //     {
+        //       required: true,
+        //       message: "请添加手机号或者上传手机号文件",
+        //       trigger: "blur"
+        //     },
+        //     {
+        //       validator: this.$publicValidators.phone[0]["validator"],
+        //       trigger: "change"
+        //     }
+        //   ];
+        // }
+        // if (item.key === "mobileFileUrl") {
+        //   item.defaultValue = "";
+        //   item.defaultFileList = [];
+        //   item.isShow = false;
+        //   item.rules = [
+        //     {
+        //       required: true,
+        //       message: "请上传手机号文件或者添加手机号",
+        //       trigger: ["blur", "change"]
+        //     }
+        //   ];
+        // }
       });
       this.addChannel = true;
       setTimeout(() => {
@@ -687,10 +987,10 @@ export default {
 
 <style lang="scss" scoped>
 .sysRedList {
-}
-.errTpis {
-  color: red;
-  position: relative;
-  left: 10%;
+  .errTpis {
+    color: red;
+    position: relative;
+    left: 10%;
+  }
 }
 </style>
