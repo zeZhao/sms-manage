@@ -277,8 +277,8 @@ export default {
           label: '补发',
           key: 'isRepeat',
           optionData: [
-            { key: 0, value: '是' },
-            { key: 1, value: '否' }
+            { key: 1, value: '是' },
+            { key: 0, value: '否' }
           ]
         },
         {
@@ -335,9 +335,9 @@ export default {
   },
   methods: {
     renderIsRepeat(v) {
-      if (v === 0) {
+      if (v === 1) {
         return "是";
-      } else if (v === 1) {
+      } else if (v === 0) {
         return "否";
       } else {
         return "-";
