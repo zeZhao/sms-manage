@@ -140,9 +140,19 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
+          type: "input",
+          label: "用户名称",
+          key: "userName"
+        },
+        {
           type: "inputNum",
           label: "账户编号",
           key: "userId"
+        },
+        {
+          type: "input",
+          label: "通道名称",
+          key: "gatewayName"
         },
         {
           type: "inputNum",
