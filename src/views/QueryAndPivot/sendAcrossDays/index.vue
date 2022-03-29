@@ -183,7 +183,7 @@ export default {
         });
         return;
       }
-      this._mxDoSearch();
+      this._mxDoSearch(form);
     },
     /**
      * 对表格数据进行自定义调整
