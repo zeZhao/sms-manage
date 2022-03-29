@@ -326,7 +326,7 @@ export default {
     // 获取统计
     async queryUserSendDetailAll(data) {
       const res = await this.$http.report.queryUserSendDetailAll({ ...data });
-      this.statistics = res.data;
+      this.statistics = res.data || {};
     },
     // 修改搜索参数
     async _formatRequestData(data) {
