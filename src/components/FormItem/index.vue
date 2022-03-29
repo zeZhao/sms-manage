@@ -96,6 +96,10 @@
                   }
                 "
               />
+              <slot
+                v-if="item.isChooseProviceOrCity"
+                name="isChooseProviceOrCity"
+              ></slot>
               <div v-if="item.mobileTips" class="item-tips">
                 {{ returnMobileTips(formData[item.key]) }}
               </div>
