@@ -259,7 +259,15 @@ export default {
         {
           type: "inputNum",
           label: "手机号",
-          key: "mobile"
+          key: "mobile",
+          rules: [
+            { required: false, trigger: "blur" },
+            {
+              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+              message: "手机号格式错误",
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "inputNum",
