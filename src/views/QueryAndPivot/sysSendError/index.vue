@@ -149,7 +149,7 @@ export default {
           placeholder: "通道编号"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "错误码",
           key: "errCode",
           placeholder: "错误码"
