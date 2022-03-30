@@ -392,7 +392,7 @@ export default {
     submitContent(form) {
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success("修改成功！");
+          this.$message.success(res.data || res.msg);
           this._mxGetList();
           this.content = false;
         } else {
@@ -414,7 +414,7 @@ export default {
       // }
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success("修改成功！");
+          this.$message.success(res.data || res.msg);
           this._mxGetList();
           this.gateway = false;
         } else {
