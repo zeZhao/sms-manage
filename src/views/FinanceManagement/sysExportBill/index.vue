@@ -70,14 +70,14 @@
           </el-tooltip>
         </template>
       </el-table-column>
-      <el-table-column prop="smsType" label="类型">
+      <!-- <el-table-column prop="smsType" label="类型">
         <template slot-scope="scope">
           <span v-if="scope.row.smsType === 1">短信</span>
           <span v-if="scope.row.smsType === 2">彩信</span>
           <span v-if="scope.row.smsType === 3">屏信</span>
           <span v-if="scope.row.smsType === 4">语音</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
           <span v-if="scope.row.operaId === 0">非法</span>
