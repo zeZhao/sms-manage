@@ -23,11 +23,11 @@
       <el-table-column prop="directPrice" label="直连金额(元)" />
       <el-table-column prop="sumCount" label="总条数" />
       <el-table-column prop="sumPrice" label="总金额(元)" />
-      <el-table-column prop="chargeType" label="类型">
+      <!-- <el-table-column prop="chargeType" label="类型">
         <template slot-scope="scope">
           <span>{{ scope.row.chargeType === 1 ? '短信' : '彩信' }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
         prop="remark"
         label="备注"
@@ -80,19 +80,19 @@ export default {
           label: '商户编号',
           key: 'corporateId'
         },
-        {
-          type: 'select',
-          label: '类型',
-          key: 'chargeType',
-          defaultValue: '',
-          optionData: [
-            {
-              key: 1,
-              value: '短信'
-            }
-          ],
-          placeholder: '请选择类型'
-        },
+        // {
+        //   type: 'select',
+        //   label: '类型',
+        //   key: 'chargeType',
+        //   defaultValue: '',
+        //   optionData: [
+        //     {
+        //       key: 1,
+        //       value: '短信'
+        //     }
+        //   ],
+        //   placeholder: '请选择类型'
+        // },
         {
           type: 'month',
           label: '月份',
