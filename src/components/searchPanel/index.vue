@@ -36,7 +36,7 @@
               <!--数字输入框-->
               <template v-if="item.type === 'inputNum'">
                 <el-input
-                  v-model="form[item.key]"
+                  v-model.number="form[item.key]"
                   type="number"
                   size="small"
                   :placeholder="item.placeholder || `请输入${item.label}`"

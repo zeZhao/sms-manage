@@ -71,6 +71,7 @@
         @choose="choose"
         @submit="submitContent"
         @cancel="cancelContent"
+        :confirmDisabled="confirmDisabled"
       ></FormItem>
     </el-dialog>
     <el-dialog
@@ -88,6 +89,7 @@
         @choose="choose"
         @submit="submitGateway"
         @cancel="cancelGateway"
+        :confirmDisabled="confirmDisabled"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -149,7 +151,7 @@ export default {
           placeholder: "通道编号"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "错误码",
           key: "errCode",
           placeholder: "错误码"
@@ -259,7 +261,15 @@ export default {
         {
           type: "inputNum",
           label: "手机号",
-          key: "mobile"
+          key: "mobile",
+          rules: [
+            { required: false, trigger: "blur" },
+            {
+              pattern: /^1(3|4|5|6|7|8|9)\d{9}$/,
+              message: "手机号格式错误",
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "inputNum",
@@ -289,7 +299,8 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
-      isChooseUser: false
+      isChooseUser: false,
+      confirmDisabled: false
     };
   },
   activated() {
@@ -376,6 +387,7 @@ export default {
     },
     //修改内容
     editContent() {
+      this.confirmDisabled = false;
       this.content = true;
       setTimeout(() => {
         this.$refs.formItemContent.resetForm();
@@ -383,6 +395,7 @@ export default {
     },
     // 修改通道
     editGateway() {
+      this.confirmDisabled = false;
       this.gateway = true;
       setTimeout(() => {
         this.$refs.formItemGateway.resetForm();
@@ -390,14 +403,20 @@ export default {
     },
     //提交修改内容
     submitContent(form) {
+      setTimeout(() => {
+        this.confirmDisabled = true;
+      });
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success("修改成功！");
+          this.$message.success(res.data || res.msg);
           this._mxGetList();
           this.content = false;
         } else {
           this.$message.error(res.data || res.msg);
         }
+        this.confirmDisabled = false;
+      }).catch(err => {
+        this.confirmDisabled = false;
       });
     },
     cancelContent() {
@@ -412,14 +431,20 @@ export default {
       //     form[key] = new Date(form[key]).Format("yyyy-MM-dd 23:59:59");
       //   }
       // }
+      setTimeout(() => {
+        this.confirmDisabled = true;
+      });
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
-          this.$message.success("修改成功！");
+          this.$message.success(res.data || res.msg);
           this._mxGetList();
           this.gateway = false;
         } else {
           this.$message.error(res.data || res.msg);
         }
+        this.confirmDisabled = false;
+      }).catch(err => {
+        this.confirmDisabled = false;
       });
     },
     cancelGateway() {
