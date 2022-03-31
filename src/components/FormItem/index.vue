@@ -531,6 +531,7 @@
                 v-throttle="3000"
                 size="small"
                 :disabled="submitDisabled"
+                :loading="confirmDisabled"
                 class="submit"
               >
                 {{ btnTxt }}
@@ -595,6 +596,13 @@ export default {
     },
     //footer文字是否居中
     footerIsCenter: {
+      type: Boolean,
+      default() {
+        return false;
+      }
+    },
+    // 提交按钮是否可点击
+    confirmDisabled: {
       type: Boolean,
       default() {
         return false;

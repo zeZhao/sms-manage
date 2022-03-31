@@ -88,6 +88,7 @@
         @choose="choose"
         @submit="submitGateway"
         @cancel="cancelGateway"
+        :confirmDisabled="confirmDisabled"
       ></FormItem>
     </el-dialog>
     <ChooseUser
@@ -297,7 +298,8 @@ export default {
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         }
       ],
-      isChooseUser: false
+      isChooseUser: false,
+      confirmDisabled: false
     };
   },
   activated() {
@@ -391,6 +393,7 @@ export default {
     },
     // 修改通道
     editGateway() {
+      this.confirmDisabled = false;
       this.gateway = true;
       setTimeout(() => {
         this.$refs.formItemGateway.resetForm();
@@ -420,6 +423,9 @@ export default {
       //     form[key] = new Date(form[key]).Format("yyyy-MM-dd 23:59:59");
       //   }
       // }
+      setTimeout(() => {
+        this.confirmDisabled = true;
+      });
       this.$http.sysSendError.editGateWay({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.data || res.msg);
@@ -428,6 +434,9 @@ export default {
         } else {
           this.$message.error(res.data || res.msg);
         }
+        this.confirmDisabled = false;
+      }).catch(err => {
+        this.confirmDisabled = false;
       });
     },
     cancelGateway() {
