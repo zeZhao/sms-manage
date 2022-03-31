@@ -71,6 +71,7 @@
         @choose="choose"
         @submit="submitContent"
         @cancel="cancelContent"
+        :confirmDisabled="confirmDisabled"
       ></FormItem>
     </el-dialog>
     <el-dialog
@@ -386,6 +387,7 @@ export default {
     },
     //修改内容
     editContent() {
+      this.confirmDisabled = false;
       this.content = true;
       setTimeout(() => {
         this.$refs.formItemContent.resetForm();
@@ -401,6 +403,9 @@ export default {
     },
     //提交修改内容
     submitContent(form) {
+      setTimeout(() => {
+        this.confirmDisabled = true;
+      });
       this.$http.sysSendError.editContent({ ...form }).then(res => {
         if (resOk(res)) {
           this.$message.success(res.data || res.msg);
@@ -409,6 +414,9 @@ export default {
         } else {
           this.$message.error(res.data || res.msg);
         }
+        this.confirmDisabled = false;
+      }).catch(err => {
+        this.confirmDisabled = false;
       });
     },
     cancelContent() {
