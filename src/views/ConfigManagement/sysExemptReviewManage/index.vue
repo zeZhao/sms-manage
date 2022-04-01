@@ -294,19 +294,19 @@ export default {
         //   placeholder: "请选择免审类型"
         // },
         {
-          type: "select",
+          type: "inputNum",
           label: "移动通道",
           key: "cmPassageway",
           optionData: []
         },
         {
-          type: "select",
+          type: "inputNum",
           label: "联通通道",
           key: "cuPassageway",
           optionData: []
         },
         {
-          type: "select",
+          type: "inputNum",
           label: "电信通道",
           key: "ctPassageway",
           optionData: []
