@@ -7,9 +7,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="原通道编号">
-              <el-select v-model="form.oldCm" placeholder="移动通道" class="inputs" clearable>
-                <el-option v-for="item in cmList" :key="item.id" :label="item.id" :value="item.id" />
-              </el-select>
+              <el-input v-model="form.oldCm" type="number" placeholder="移动通道" class="inputs" clearable>
+                <!-- <el-option v-for="item in cmList" :key="item.id" :label="item.id" :value="item.id" /> -->
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -24,9 +24,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.oldCu" placeholder="联通通道" class="inputs" clearable>
-                <el-option v-for="item in cuList" :key="item.id" :label="item.id" :value="item.id" />
-              </el-select>
+              <el-input v-model="form.oldCu" type="number" placeholder="联通通道" class="inputs" clearable>
+                <!-- <el-option v-for="item in cuList" :key="item.id" :label="item.id" :value="item.id" /> -->
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -41,9 +41,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-select v-model="form.oldCt" placeholder="电信通道" class="inputs" clearable>
-                <el-option v-for="item in ctList" :key="item.id" :label="item.id" :value="item.id" />
-              </el-select>
+              <el-input v-model="form.oldCt" type="number" placeholder="电信通道" class="inputs" clearable>
+                <!-- <el-option v-for="item in ctList" :key="item.id" :label="item.id" :value="item.id" /> -->
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
