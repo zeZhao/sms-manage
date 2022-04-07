@@ -1837,7 +1837,7 @@ export default {
       if (item.key === "moType") {
         if (val == "0") { // 无权限
           this.formConfig.forEach(el => {
-            if (el.key === "moUrl" || el.key === "reportUrl") {
+            if (el.key === "moUrl") {
               this.$nextTick(() => {
                 this.$set(el, "rules", [
                   { required: false, message: "请输入必填项", trigger: "blur" }
@@ -1847,7 +1847,30 @@ export default {
           });
         } else { // 推送
           this.formConfig.forEach(el => {
-            if (el.key === "moUrl" || el.key === "reportUrl") {
+            if (el.key === "moUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: true, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        }
+      }
+      if (item.key === "reportType") {
+        if (val == "0") { // 无权限
+          this.formConfig.forEach(el => {
+            if (el.key === "reportUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: false, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        } else { // 推送
+          this.formConfig.forEach(el => {
+            if (el.key === "reportUrl") {
               this.$nextTick(() => {
                 this.$set(el, "rules", [
                   { required: true, message: "请输入必填项", trigger: "blur" }
@@ -2242,7 +2265,7 @@ export default {
         if (item.key === "moType") {
           if (item.defaultValue == "0") { // 无权限
             this.formConfig.forEach(el => {
-              if (el.key === "moUrl" || el.key === "reportUrl") {
+              if (el.key === "moUrl") {
                 this.$nextTick(() => {
                   this.$set(el, "rules", [
                     { required: false, message: "请输入必填项", trigger: "blur" }
@@ -2252,7 +2275,30 @@ export default {
             });
           } else { // 推送
             this.formConfig.forEach(el => {
-              if (el.key === "moUrl" || el.key === "reportUrl") {
+              if (el.key === "moUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    { required: true, message: "请输入必填项", trigger: "blur" }
+                  ]);
+                });
+              }
+            });
+          }
+        }
+        if (item.key === "reportType") {
+          if (item.defaultValue == "0") { // 无权限
+            this.formConfig.forEach(el => {
+              if (el.key === "reportUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    { required: false, message: "请输入必填项", trigger: "blur" }
+                  ]);
+                });
+              }
+            });
+          } else { // 推送
+            this.formConfig.forEach(el => {
+              if (el.key === "reportUrl") {
                 this.$nextTick(() => {
                   this.$set(el, "rules", [
                     { required: true, message: "请输入必填项", trigger: "blur" }
