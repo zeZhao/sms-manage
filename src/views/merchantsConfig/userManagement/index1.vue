@@ -1228,9 +1228,10 @@ export default {
           label: "推送上行地址",
           key: "moUrl",
           maxlength: "250",
-          tag: "sms",
+          // tag: "sms",
           defaultValue: "",
-          btnTxt: "拉取"
+          btnTxt: "拉取",
+          isShow: true
         },
         {
           type: "select",
@@ -1250,9 +1251,10 @@ export default {
           label: "推送报告地址",
           key: "reportUrl",
           maxlength: "250",
-          tag: "sms",
+          // tag: "sms",
           defaultValue: "",
-          btnTxt: "拉取"
+          btnTxt: "拉取",
+          isShow: true
         },
         {
           type: "select",
@@ -1819,43 +1821,42 @@ export default {
       }
 
       if (item.key === "proType") {
-        if (val === 4) { // cmpp接口
+        if (val !== 2) { // web端 cmpp接口
           this._setDisplayShow(this.formConfig, "alertMobile", true);
           this._setDefaultValueKeys("alertMobile", "");
           this._setDisplayShow(this.formConfig, "moUrl", true);
           this._setDefaultValueKeys("moUrl", "");
           this._setDisplayShow(this.formConfig, "reportUrl", true);
           this._setDefaultValueKeys("reportUrl", "");
-        } else { // 不是cmpp接口
+        } else { // http接口
           this._setDisplayShow(this.formConfig, "alertMobile", false);
           this._setDisplayShow(this.formConfig, "moUrl", false);
           this._setDisplayShow(this.formConfig, "reportUrl", false);
         }
       }
-      // if (item.key === "moType") {
-      //   if (val == "0") {
-      //     this.formConfig.forEach(el => {
-      //       if (el.key === "moUrl" || el.key === "reportUrl") {
-      //         this.$nextTick(() => {
-      //           this.$set(el, "rules", [
-      //             { required: false, message: "请输入必填项", trigger: "blur" }
-      //           ]);
-      //         });
-      //       }
-      //     });
-      //   } else {
-      //     this.formConfig.forEach(el => {
-      //       if (el.key === "moUrl" || el.key === "reportUrl") {
-      //         let rules = [
-      //           { required: true, message: "请输入必填项", trigger: "blur" }
-      //         ];
-      //         this.$nextTick(() => {
-      //           this.$set(el, "rules", rules);
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
+      if (item.key === "moType") {
+        if (val == "0") { // 无权限
+          this.formConfig.forEach(el => {
+            if (el.key === "moUrl" || el.key === "reportUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: false, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        } else { // 推送
+          this.formConfig.forEach(el => {
+            if (el.key === "moUrl" || el.key === "reportUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: true, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        }
+      }
     },
     /**
      * 关闭弹窗
@@ -2050,11 +2051,9 @@ export default {
           this.$set(item, "defaultValue", val);
           this.$set(item, "initDefaultValue", val);
         }
-        // if (item.key === "moUrl" || item.key === "reportUrl") {
-        //   this.$set(item, "rules", [
-        //     { required: false, message: "请输入必填项", trigger: "blur" }
-        //   ]);
-        // }
+        if (item.key === "moUrl" || item.key === "reportUrl") {
+          this.$set(item, "isShow", true);
+        }
         if (item.key === "alertMobile") {
           this.$set(item, "defaultValue", "2");
           this.$set(item, "initDefaultValue", "2");
@@ -2216,14 +2215,52 @@ export default {
         }
 
         if (item.key === "proType") {
-          //产品类型如果是cmpp就展示链接路数
+          // 产品类型
           this.$nextTick(() => {
+            // 如果cmpp就展示链接路数
             if (item.defaultValue === 4) {
               this._setDisplayShow(this.formConfig, "maxSession", false);
             } else {
               this._setDisplayShow(this.formConfig, "maxSession", true);
+              this._setDefaultValueKeys("maxSession", "");
+            }
+            // 不是http接口
+            if (item.defaultValue !== 2) { // web端 cmpp接口
+              this._setDisplayShow(this.formConfig, "alertMobile", true);
+              this._setDefaultValueKeys("alertMobile", "");
+              this._setDisplayShow(this.formConfig, "moUrl", true);
+              this._setDefaultValueKeys("moUrl", "");
+              this._setDisplayShow(this.formConfig, "reportUrl", true);
+              this._setDefaultValueKeys("reportUrl", "");
+            } else { // http接口
+              this._setDisplayShow(this.formConfig, "alertMobile", false);
+              this._setDisplayShow(this.formConfig, "moUrl", false);
+              this._setDisplayShow(this.formConfig, "reportUrl", false);
             }
           });
+        }
+        if (item.key === "moType") {
+          if (item.defaultValue == "0") { // 无权限
+            this.formConfig.forEach(el => {
+              if (el.key === "moUrl" || el.key === "reportUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    { required: false, message: "请输入必填项", trigger: "blur" }
+                  ]);
+                });
+              }
+            });
+          } else { // 推送
+            this.formConfig.forEach(el => {
+              if (el.key === "moUrl" || el.key === "reportUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    { required: true, message: "请输入必填项", trigger: "blur" }
+                  ]);
+                });
+              }
+            });
+          }
         }
         // if (item.key == "proType") {
         //   this.$set(item, "disabled", true);
