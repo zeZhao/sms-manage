@@ -174,7 +174,10 @@ export default {
   },
   methods: {
     handleSearch(form) {
-      const allFalse = Object.values(form).every(v => ["", null, undefined].includes(v));
+      const diffForm = this.$deepClone(form);
+      delete diffForm.showDecrypt;
+      // 显示内容字段不作为筛选条件（仅限于该提示语）
+      const allFalse = Object.values(diffForm).every(v => ["", null, undefined].includes(v));
       if (allFalse) {
         this.$message({
           message: '请输入任意一项条件进行查询',

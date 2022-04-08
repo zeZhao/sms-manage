@@ -234,7 +234,7 @@ export default {
           key: "content"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "CID",
           key: "cid"
         },
