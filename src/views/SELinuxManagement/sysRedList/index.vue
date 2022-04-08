@@ -182,7 +182,7 @@
             disabled
             style="width: 70%"
           ></el-input>
-          <el-button style="border-color: #0964FF" @click="choose" size="small"
+          <el-button style="border-color: #0964FF" @click="chooseUser" size="small"
             >选择用户</el-button
           >
         </el-form-item>
@@ -635,6 +635,14 @@ export default {
     this.gateway();
   },
   methods: {
+    chooseUser() {
+      this.choose();
+      if (!this.ruleForm.userIdStr) {
+        this.$nextTick(() => {
+          this.$refs.ChooseUser && this.$refs.ChooseUser.clearSelections();
+        })
+      }
+    },
     handleBatchAdd() {
       this.batchAdd = true;
       this.$nextTick(() => {

@@ -30,11 +30,13 @@
       ></Search>
       <slot name="btnOther"></slot>
       <el-table
+        ref="table"
         :data="listData"
         border
         highlight-current-row
         style="width: 100%;margin-bottom: 60px;"
         height="40vh"
+        :row-key="getRowKey"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -92,6 +94,7 @@
           type="selection"
           width="55"
           key="8"
+          reserve-selection
         />
       </el-table>
       <Page
@@ -160,6 +163,14 @@ export default {
     };
   },
   methods: {
+    // 缓存选择数据的必须优化项
+    getRowKey(row) {
+      return row.userId;
+    },
+    // 清空所有选中数据
+    clearSelections() {
+      this.$refs.table && this.$refs.table.clearSelection();
+    },
     //选中
     selected(row) {
       this.$emit("cancel", false);
