@@ -108,6 +108,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+
 export default {
   props: {
     isChooseUser: {
@@ -171,29 +172,32 @@ export default {
     clearSelections() {
       this.$refs.table && this.$refs.table.clearSelection();
     },
-    //选中
-    selected(row) {
-      this.$emit("cancel", false);
-      this.$emit("chooseUserData", row);
-      setTimeout(() => {
-        this.$refs.search.resetForm();
-      });
-    },
-    // 关闭
-    cancel() {
-      setTimeout(() => {
-        this.$refs.search.resetForm();
-      });
-      this.$emit("cancel", false);
-    },
-    //多选
+    // 多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    //返回给父组件-多选的数据
-    renderSelectArr() {
+    // 选中
+    selected(row) {
+      this.$emit("chooseUserData", row);
       this.$emit("cancel", false);
+      this.searchResetForm();
+    },
+    // 返回给父组件--多选的数据
+    renderSelectArr() {
       this.$emit("selectArr", this.multipleSelection);
+      this.$emit("cancel", false);
+      this.searchResetForm();
+    },
+    // 关闭
+    cancel() {
+      this.$emit("cancel", false);
+      this.searchResetForm();
+    },
+    // 重置查询条件
+    searchResetForm() {
+      this.$nextTick(() => {
+        this.$refs.search && this.$refs.search.resetForm();
+      });
     }
   }
 };
