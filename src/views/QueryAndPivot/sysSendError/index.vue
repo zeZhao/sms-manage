@@ -236,7 +236,15 @@ export default {
         {
           type: "input",
           label: "CID",
-          key: "cid"
+          key: "cid",
+          rules: [
+            { required: false, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[0-9]\d*$/,
+              message: "只能输入正整数",
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "select",
@@ -272,9 +280,17 @@ export default {
           ]
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "特服号",
-          key: "code"
+          key: "code",
+          rules: [
+            { required: false, message: "请输入必填项", trigger: "blur" },
+            {
+              pattern: /^[0-9]\d*$/,
+              message: "只能输入正整数",
+              trigger: "change"
+            }
+          ]
         },
         {
           type: "date",
