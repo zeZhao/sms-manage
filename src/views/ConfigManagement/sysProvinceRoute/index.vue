@@ -245,7 +245,7 @@ export default {
           placeholder: "请输入账户名称"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "特服号",
           key: "code",
           placeholder: "请输入特服号"
