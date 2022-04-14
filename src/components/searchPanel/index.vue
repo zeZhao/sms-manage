@@ -288,7 +288,7 @@
 </template>
 
 <script>
-import { getDateTime } from "@/utils";
+import { getDateTime, getDateToString } from "@/utils";
 
 export default {
   props: {
@@ -457,6 +457,18 @@ export default {
         if (path === "/sysReport/index") {
           if (key === "countDate" || key === "endDate") {
             form[key] = null;
+          }
+        }
+
+        if (path === "/sysReport/index") {
+          if (["showProvince", "showGateway", "showOpera", "showUser"].includes(key)) {
+            form[key] = "1";
+          }
+          if (key === "showCode") {
+            form[key] = "0";
+          }
+          if (key === "countDate" || key === "endDate") {
+            form[key] = getDateToString();
           }
         }
       }
