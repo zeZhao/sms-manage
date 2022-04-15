@@ -4,7 +4,7 @@
     <Search
       ref="Search"
       :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
+      @search="handleSearch"
       :add="false"
       :isOther="true"
       :notSearch="notSearch"
@@ -334,6 +334,12 @@ export default {
     this.getGatewayList();
   },
   methods: {
+    handleSearch(form) {
+      if (form.isRepeat === "") {
+       delete form.isRepeat;
+      }
+      this._mxDoSearch(form);
+    },
     renderIsRepeat(v) {
       if (v === 1) {
         return "是";
