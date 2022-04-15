@@ -329,8 +329,10 @@ export default {
       gatewayList: []
     };
   },
-  activated() {
+  mounted() {
     this.listSysProvince();
+  },
+  activated() {
     this.getGatewayList();
   },
   methods: {
