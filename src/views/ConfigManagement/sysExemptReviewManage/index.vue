@@ -1054,7 +1054,8 @@ export default {
       const params = {
         data: {
           status: status,
-          orderStatus: orderStatus
+          orderStatus: orderStatus,
+          isAll: "1"
         }
       };
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {

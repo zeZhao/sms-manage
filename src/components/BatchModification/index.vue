@@ -114,12 +114,19 @@ export default {
     }
   },
   mounted () {
+    this.getAllGateWay();
     this.getGateWay();
   },
   activated () {
+    this.getAllGateWay();
     this.getGateWay();
   },
   methods: {
+    //获取所有通道下拉数据（包含关闭状态）
+    getAllGateWay () {
+      const arr = ["cmPassageway", "cuPassageway", "ctPassageway"];
+      arr.forEach((v, i) => { this.gatewayAll(v, i + 1 + '', '1') });
+    },
     //获取通道下拉数据
     getGateWay () {
       const arr = ["cmPassageway", "cuPassageway", "ctPassageway"];
@@ -166,19 +173,36 @@ export default {
     cancel () {
       this.$emit("cancel");
     },
+    //获取通道列表数据（包含关闭状态）
+    gatewayAll (keys, status, orderStatus) {
+      const params = { data: { status, orderStatus, isAll: "1" } };
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
+        switch (keys) {
+          case 'cmPassageway':
+            mapping.cmList = res.data;
+            break;
+          case 'cuPassageway':
+            mapping.cuList = res.data;
+            break;
+          case 'ctPassageway':
+            mapping.ctList = res.data;
+            break;
+        }
+      })
+    },
     //获取通道列表数据
     gateway (keys, status, orderStatus) {
       const params = { data: { status, orderStatus } };
       this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         switch (keys) {
           case 'cmPassageway':
-            this.cmList = mapping.cmList = res.data;
+            this.cmList = res.data;
             break;
           case 'cuPassageway':
-            this.cuList = mapping.cuList = res.data;
+            this.cuList = res.data;
             break;
           case 'ctPassageway':
-            this.ctList = mapping.ctList = res.data;
+            this.ctList = res.data;
             break;
         }
       })
