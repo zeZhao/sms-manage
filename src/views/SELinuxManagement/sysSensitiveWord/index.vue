@@ -315,8 +315,9 @@ export default {
       isAddGroup: false,
       addGroupObj: {},
       editId: "",
-      groupId: "",
-      activeIndex: 0
+      activeIndex: 0,
+      wordId: "",
+      groupId: ""
     };
   },
   mounted() {
@@ -413,7 +414,7 @@ export default {
         // }
         // });
       } else {
-        params = { data: { wordId: this.wordId, ...form } };
+        params = { data: { ...form, wordId: this.wordId, groupId: this.groupId, } };
         this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
@@ -609,6 +610,7 @@ export default {
     },
     edit(row, ID) {
       this.wordId = row.wordId;
+      this.groupId = row.groupId;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {
