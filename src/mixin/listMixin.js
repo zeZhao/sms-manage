@@ -269,6 +269,8 @@ export default {
      * @private
      */
     _mxGetList() {
+      this.tableDoLayout();
+
       throttle.call(this);
     },
 

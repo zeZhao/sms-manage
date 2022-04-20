@@ -7,6 +7,7 @@
       @create="create"
     ></Search>
     <el-table
+      ref="table"
       :data="listData"
       border
       highlight-current-row
@@ -363,6 +364,10 @@ export default {
     };
   },
   mounted() {
+    this.gatewayList();
+  },
+  activated() {
+    this._mxGetList();
     this.gatewayList();
   },
   methods: {
