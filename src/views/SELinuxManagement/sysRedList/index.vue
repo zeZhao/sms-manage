@@ -198,9 +198,10 @@
                 v-model="ruleForm.gateway"
                 placeholder="原通道"
                 clearable
+                filterable
               >
                 <el-option
-                  v-for="item in GatewayList"
+                  v-for="item in allGatewayList"
                   :key="item.gatewayId"
                   :label="item.gateway + '_' + item.gatewayName"
                   :value="item.gatewayId"
@@ -214,6 +215,7 @@
                 v-model="ruleForm.afterGateway"
                 placeholder="请修改"
                 clearable
+                filterable
               >
                 <el-option
                   v-for="item in GatewayList"
@@ -618,6 +620,7 @@ export default {
       ],
       redId: "",
       isChooseUser: false,
+      allGatewayList: [],
       GatewayList: [],
       batchUpdateFlag: false,
       ruleForm: {},
@@ -627,11 +630,13 @@ export default {
     };
   },
   mounted() {
+    this.allGateway();
     this.gateway();
   },
   activated() {
     //重新获取数据
     this._mxGetList();
+    this.allGateway();
     this.gateway();
   },
   methods: {
@@ -751,6 +756,20 @@ export default {
       //     trigger: "change"
       //   }
       // ];
+    },
+    allGateway() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGatewayAll(params).then(res => {
+        this.allGatewayList = res.data;
+      });
     },
     gateway() {
       const params = {
