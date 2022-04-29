@@ -63,10 +63,10 @@
       <el-table-column prop="longCode" label="长号码" />
       <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
-          <span v-if="scope.row.productType == '1'">短信</span>  
-          <span v-if="scope.row.productType == '2'">彩信</span>  
-          <span v-if="scope.row.productType == '3'">短信、彩信</span>  
-          <span v-if="scope.row.productType == '4'">国际短信</span>  
+          <span v-if="scope.row.productType == '1'">短信</span>
+          <span v-if="scope.row.productType == '2'">彩信</span>
+          <span v-if="scope.row.productType == '3'">短信、彩信</span>
+          <span v-if="scope.row.productType == '4'">国际短信</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="短信运营商">
@@ -1772,8 +1772,6 @@ export default {
     selectChange(data) {
       const { val, item } = data;
       if (item.key === "productType") {
-        console.log(item, "=============");
-
         if (val && val.length != 0) {
           //根据产品的选择动态显示表单及数据处理
           if (val.includes(1) && val.includes(2)) {
@@ -1799,6 +1797,13 @@ export default {
                     { key: 4, value: "cmpp接口" },
                     { key: 8, value: "smpp福建" }
                   ];
+                }
+                if (
+                  item.key === "httpSign" ||
+                  item.key === "sendType" ||
+                  item.key === "alertMobile"
+                ) {
+                  this.$set(item, "isShow", false);
                 }
               }
             });
@@ -1826,6 +1831,13 @@ export default {
                     { key: 16, value: "http国际" },
                     { key: 32, value: "smpp接口" }
                   ];
+                }
+                if (
+                  item.key === "httpSign" ||
+                  item.key === "sendType" ||
+                  item.key === "alertMobile"
+                ) {
+                  this.$set(item, "isShow", true);
                 }
               }
             });
