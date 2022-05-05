@@ -91,6 +91,8 @@
                 ? "http接口"
                 : item === 4
                 ? "cmpp接口"
+                : item === 8
+                ? "smpp福建"
                 : "-"
             }}
           </span>
@@ -784,7 +786,8 @@ export default {
           optionData: [
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
-            { key: "4", value: "cmpp接口" }
+            { key: "4", value: "cmpp接口" },
+            { key: "8", value: "smpp福建" }
             // { key: "7", value: "音频接口" }
           ],
           placeholder: "请选择产品类型"
@@ -1875,19 +1878,15 @@ export default {
       if (item.key === "proType") {
         if (val === 1) {
           this._setDefaultValueKeys("directPort", "无");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
           this._setDefaultValueKeys("directPort", "8090");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 3) {
           this._setDefaultValueKeys("directPort", "7890");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else {
           this._setDefaultValueKeys("directPort", "");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", false);
           this._setDefaultValueKeys("maxSession", "1");
         }
@@ -2267,7 +2266,7 @@ export default {
         if (item.key === "proType") {
           //产品类型如果是cmpp就展示链接路数
           this.$nextTick(() => {
-            if (item.defaultValue === 4) {
+            if (item.defaultValue === 4 || item.defaultValue === 8) {
               this._setDisplayShow(this.formConfig, "maxSession", false);
             } else {
               this._setDisplayShow(this.formConfig, "maxSession", true);
