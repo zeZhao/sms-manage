@@ -57,6 +57,8 @@
                 ? "http接口"
                 : item === 4
                 ? "cmpp接口"
+                : item === 8
+                ? "smpp福建"
                 : ""
             }}</span>
           </div>
