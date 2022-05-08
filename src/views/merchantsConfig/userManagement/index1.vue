@@ -408,8 +408,17 @@
         ></i>
       </span>
 
-      <el-tabs type="border-card" tabPosition="bottom" v-model="activeName" v-if="Array.isArray(infoData.productTypes)">
-        <el-tab-pane label="短信" name="1" v-if="infoData.productTypes.includes(1)">
+      <el-tabs
+        type="border-card"
+        tabPosition="bottom"
+        v-model="activeName"
+        v-if="Array.isArray(infoData.productTypes)"
+      >
+        <el-tab-pane
+          label="短信"
+          name="1"
+          v-if="infoData.productTypes.includes(1)"
+        >
           <div v-if="infoData.proType === 1">
             <p>产品类型: WEB</p>
             <p>企业名称: {{ infoData.corpName }}</p>
@@ -491,7 +500,9 @@
               >
             </p>
             <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
-            <p>加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption</p>
+            <p>
+              加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption
+            </p>
             <p>秘钥: {{ infoData.secretKey || "-" }}</p>
           </div>
 
@@ -515,7 +526,65 @@
             <p>
               速率:
               {{
-                infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒"
+                infoData.submitSpeed == 0
+                  ? "不限"
+                  : infoData.submitSpeed + "条/秒"
+              }}
+            </p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <el-divider></el-divider>
+            <p>产品类型: WEB端</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+          </div>
+          <div v-if="infoData.proType === 8">
+            <p>产品类型: SMPP</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>smpp密码: {{ infoData.password || "-" }}</p>
+            <p>端口: 7893</p>
+            <p>IP地址: 39.107.120.170</p>
+            <p>
+              接入码:
+              {{
+                infoData.longCode && infoData.longCode !== "-"
+                  ? infoData.longCode
+                  : "置空"
+              }}
+            </p>
+            <p>链接路数: {{ infoData.maxSession }}</p>
+            <p>
+              速率:
+              {{
+                infoData.submitSpeed == 0
+                  ? "不限"
+                  : infoData.submitSpeed + "条/秒"
               }}
             </p>
             <p>客户端IP: {{ infoData.userIp }}</p>
@@ -551,7 +620,11 @@
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="彩信" name="2" v-if="infoData.productTypes.includes(2)">
+        <el-tab-pane
+          label="彩信"
+          name="2"
+          v-if="infoData.productTypes.includes(2)"
+        >
           <div>
             <p>产品类型: HTTP</p>
             <p>企业名称: {{ infoData.corpName }}</p>
@@ -1168,7 +1241,11 @@ export default {
           tag: "sms",
           maxlength: 6,
           rules: [
-            { required: true, trigger: ["blur", "change"], validator: validatorPrice }
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: validatorPrice
+            }
           ]
         },
         {
@@ -1216,7 +1293,7 @@ export default {
           key: "moType",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
+            { key: 1, value: "推送" }
             // { key: 2, value: "自取(批量)" }
           ],
           tag: "sms",
@@ -1228,7 +1305,7 @@ export default {
           key: "moUrl",
           maxlength: "250",
           tag: "sms",
-          defaultValue: "",
+          defaultValue: ""
           // btnTxt: "拉取地址"
         },
         {
@@ -1237,7 +1314,7 @@ export default {
           key: "reportType",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
+            { key: 1, value: "推送" }
             // { key: 2, value: "自取(批量)" },
             // { key: 3, value: "自取(单条)" }
           ],
@@ -1250,7 +1327,7 @@ export default {
           key: "reportUrl",
           maxlength: "250",
           tag: "sms",
-          defaultValue: "",
+          defaultValue: ""
           // btnTxt: "拉取地址"
         },
         {
@@ -1409,7 +1486,11 @@ export default {
           tag: "mms",
           maxlength: 6,
           rules: [
-            { required: true, trigger: ["blur", "change"], validator: validatorPrice }
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: validatorPrice
+            }
           ]
         },
         {
@@ -1419,7 +1500,7 @@ export default {
           tag: "mms",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
+            { key: 1, value: "推送" }
             // { key: 2, value: "自取(批量)" },
             // { key: 3, value: "自取(单条)" }
           ],
@@ -1659,7 +1740,11 @@ export default {
     choose(item) {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
-      this.$set(this.formConfig[idx], "defaultValue", "https://smsmanage.jvtd.cn/#/");
+      this.$set(
+        this.formConfig[idx],
+        "defaultValue",
+        "https://smsmanage.jvtd.cn/#/"
+      );
     },
     // 关闭信息弹窗后重置web密码为不可修改状态
     handleClose(done) {
