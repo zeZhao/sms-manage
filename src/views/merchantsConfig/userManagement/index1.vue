@@ -585,7 +585,7 @@
               }}
             </p>
             <p>客户端IP: {{ infoData.userIp }}</p>
-            <el-divider></el-divider>
+            <!-- <el-divider></el-divider>
             <p>产品类型: WEB端</p>
             <p>web登录账号: {{ infoData.loginName }}</p>
             <p>
@@ -613,7 +613,7 @@
                 >确定</span
               >
             </p>
-            <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p> -->
           </div>
         </el-tab-pane>
 
@@ -1735,6 +1735,9 @@ export default {
         case 4:
           const cmpp = [password, webPassword].some(v => !v || v === "-");
           return cmpp;
+        case 8:
+          const smpp = [password].some(v => !v || v === "-");
+          return smpp;
       }
     }
   },
@@ -2513,6 +2516,8 @@ export default {
     //信息弹框
     messageShow(row) {
       this.infoData = this.$deepClone(row);
+      console.log(row, "----------");
+      console.log(this.infoData, "----------");
       // 默认选中第一种产品类型
       this.activeName = this.infoData.productTypes[0] + "";
       this.infoVisible = true;
