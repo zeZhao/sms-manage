@@ -565,7 +565,7 @@
             <p>账户名称: {{ infoData.userName }}</p>
             <p>账户编号: {{ infoData.userId }}</p>
             <p>smpp密码: {{ infoData.password || "-" }}</p>
-            <p>端口: 7893</p>
+            <p>端口: 7888</p>
             <p>IP地址: 39.107.120.170</p>
             <p>
               接入码:
@@ -2516,8 +2516,6 @@ export default {
     //信息弹框
     messageShow(row) {
       this.infoData = this.$deepClone(row);
-      console.log(row, "----------");
-      console.log(this.infoData, "----------");
       // 默认选中第一种产品类型
       this.activeName = this.infoData.productTypes[0] + "";
       this.infoVisible = true;
