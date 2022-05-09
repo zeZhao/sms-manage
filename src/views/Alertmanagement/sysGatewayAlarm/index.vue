@@ -7,6 +7,7 @@
       @create="create"
     ></Search>
     <el-table
+      ref="table"
       :data="listData"
       border
       highlight-current-row
@@ -16,7 +17,7 @@
       <el-table-column prop="gateway" label="通道编号" />
       <el-table-column prop="submitFail" label="是否提交失败报警">
         <template slot-scope="scope">
-          <span>{{ scope.row.submitFail ? "是" : "否" }}</span>
+          <span>{{ scope.row.submitFail && scope.row.submitFail !== "-" ? "是" : "否" }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="alarmStatus" label="失败状态" />
@@ -24,7 +25,7 @@
       <el-table-column prop="sucCrate" label="低于设置成功率报警" />
       <el-table-column prop="disconnectFail" label="连不上网关报警">
         <template slot-scope="scope">
-          <span>{{ scope.row.disconnectFail ? "是" : "否" }}</span>
+          <span>{{ scope.row.disconnectFail && scope.row.disconnectFail !== "-" ? "是" : "否" }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column
@@ -152,26 +153,26 @@ export default {
               value: "是"
             }
           ],
-          rules: [
-            {
-              required: true,
-              message: "请选择必填项",
-              trigger: ["blur", "change"]
-            }
-          ]
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请选择必填项",
+          //     trigger: ["blur", "change"]
+          //   }
+          // ]
         },
         {
           type: "input",
           label: "失败状态",
           key: "alarmStatus",
           maxlength: 20,
-          rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            }
-          ]
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请输入必填项",
+          //     trigger: ["blur", "change"]
+          //   }
+          // ]
         },
         {
           type: "input",
@@ -179,14 +180,15 @@ export default {
           key: "sucCrate",
           defaultValue: "",
           rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            },
+            // {
+            //   required: true,
+            //   message: "请输入必填项",
+            //   trigger: ["blur", "change"]
+            // },
             {
               trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
+                if (!value) callback();
                 const val = typeof value === "string" ? value : value + "";
                 if (val.indexOf(".") !== -1) {
                   callback(new Error("只允许输入正整数"));
@@ -217,13 +219,13 @@ export default {
               value: "是"
             }
           ],
-          rules: [
-            {
-              required: true,
-              message: "请选择必填项",
-              trigger: ["blur", "change"]
-            }
-          ]
+          // rules: [
+          //   {
+          //     required: true,
+          //     message: "请选择必填项",
+          //     trigger: ["blur", "change"]
+          //   }
+          // ]
         },
         // {
         //   type: 'input',
@@ -238,11 +240,11 @@ export default {
           key: "daySendAlarm",
           defaultValue: "",
           rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            },
+            // {
+            //   required: true,
+            //   message: "请输入必填项",
+            //   trigger: ["blur", "change"]
+            // },
             {
               trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
@@ -286,11 +288,11 @@ export default {
           key: "errStatusNum",
           defaultValue: "",
           rules: [
-            {
-              required: true,
-              message: "请输入必填项",
-              trigger: ["blur", "change"]
-            },
+            // {
+            //   required: true,
+            //   message: "请输入必填项",
+            //   trigger: ["blur", "change"]
+            // },
             {
               trigger: ["blur", "change"],
               validator: (rule, value, callback) => {
@@ -362,6 +364,10 @@ export default {
     };
   },
   mounted() {
+    this.gatewayList();
+  },
+  activated() {
+    this._mxGetList();
     this.gatewayList();
   },
   methods: {

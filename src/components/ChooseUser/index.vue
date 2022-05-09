@@ -30,11 +30,13 @@
       ></Search>
       <slot name="btnOther"></slot>
       <el-table
+        ref="table"
         :data="listData"
         border
         highlight-current-row
         style="width: 100%;margin-bottom: 60px;"
         height="40vh"
+        :row-key="getRowKey"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -92,6 +94,7 @@
           type="selection"
           width="55"
           key="8"
+          reserve-selection
         />
       </el-table>
       <Page
@@ -105,6 +108,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+
 export default {
   props: {
     isChooseUser: {
@@ -160,29 +164,40 @@ export default {
     };
   },
   methods: {
-    //选中
-    selected(row) {
-      this.$emit("cancel", false);
-      this.$emit("chooseUserData", row);
-      setTimeout(() => {
-        this.$refs.search.resetForm();
-      });
+    // 缓存选择数据的必须优化项
+    getRowKey(row) {
+      return row.userId;
     },
-    // 关闭
-    cancel() {
-      setTimeout(() => {
-        this.$refs.search.resetForm();
-      });
-      this.$emit("cancel", false);
+    // 清空所有选中数据
+    clearSelections() {
+      this.$refs.table && this.$refs.table.clearSelection();
     },
-    //多选
+    // 多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    //返回给父组件-多选的数据
-    renderSelectArr() {
+    // 选中
+    selected(row) {
+      this.$emit("chooseUserData", row);
       this.$emit("cancel", false);
+      this.searchResetForm();
+    },
+    // 返回给父组件--多选的数据
+    renderSelectArr() {
       this.$emit("selectArr", this.multipleSelection);
+      this.$emit("cancel", false);
+      this.searchResetForm();
+    },
+    // 关闭
+    cancel() {
+      this.$emit("cancel", false);
+      this.searchResetForm();
+    },
+    // 重置查询条件
+    searchResetForm() {
+      this.$nextTick(() => {
+        this.$refs.search && this.$refs.search.resetForm();
+      });
     }
   }
 };

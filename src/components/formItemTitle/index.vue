@@ -132,7 +132,7 @@
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
-              <el-input-number
+              <!-- <el-input-number
                 v-model="formData[item.key]"
                 clearable
                 :disabled="item.disabled"
@@ -146,6 +146,20 @@
                     onChange(val, item);
                   }
                 "
+              /> -->
+              <el-input
+                v-model.number="formData[item.key]"
+                type="number"
+                size="small"
+                clearable
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                @input="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+                onKeypress="this.value = this.value.replace(/\D/g, '')"
               />
             </template>
 
@@ -473,6 +487,13 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.formConfig.forEach(item => {
+            for(const i in this.formData) {
+              if (item.key === i && item.type === "inputNum" && this.formData[i]) {
+                this.formData[i] = +(this.formData[i]); // 转为number类型
+              }
+            }
+          });
           this.$emit("submit", this.formData);
         } else {
           // this.$message.error("请输入必填项");
@@ -657,6 +678,10 @@ export default {
     line-height: 17px;
     text-align: right;
     margin-top: 6px;
+  }
+
+  /deep/ .el-input__inner {
+    padding-right: 50px !important;
   }
 }
 </style>

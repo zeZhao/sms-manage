@@ -287,7 +287,7 @@ export default {
       isParamsNotData: false
     };
   },
-  activated() {
+  mounted() {
     this.listSysProvince();
   },
   methods: {
@@ -313,12 +313,11 @@ export default {
         this.searchFormConfig.forEach(item => {
           const { key } = item;
           if (key === "province") {
-            res.data.forEach(t => {
-              let obj = {
+            item.optionData = res.data.map(t => {
+              return {
                 key: t.provinceName,
                 value: t.provinceName
               };
-              item.optionData.push(obj);
             });
           }
         });
