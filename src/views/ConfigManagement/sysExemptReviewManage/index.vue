@@ -619,6 +619,7 @@ export default {
         //   ]
         //   // isShow: true
         // },
+        
         {
           type: "input",
           label: "免审数量",
@@ -632,10 +633,6 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: ["blur", "change"]
-            },
-            {
-              validator: validatorNum,
               trigger: ["blur", "change"]
             }
           ]

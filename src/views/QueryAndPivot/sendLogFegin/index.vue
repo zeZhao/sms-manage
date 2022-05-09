@@ -23,6 +23,7 @@
           <span v-if="scope.row.submitType == 1">web端</span>
           <span v-if="scope.row.submitType == 2">http接口</span>
           <span v-if="scope.row.submitType == 3">cmpp接口</span>
+          <span v-if="scope.row.submitType == 8">smpp福建</span>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />

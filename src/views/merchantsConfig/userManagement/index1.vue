@@ -63,15 +63,10 @@
       <el-table-column prop="longCode" label="长号码" />
       <el-table-column prop="productType" label="产品">
         <template slot-scope="scope">
-          <span>{{
-            scope.row.productType == "1"
-              ? "短信"
-              : scope.row.productType == "2"
-              ? "彩信"
-              : scope.row.productType == "3"
-              ? "短信、彩信"
-              : "语音"
-          }}</span>
+          <span v-if="scope.row.productType == '1'">短信</span>
+          <span v-if="scope.row.productType == '2'">彩信</span>
+          <span v-if="scope.row.productType == '3'">短信、彩信</span>
+          <span v-if="scope.row.productType == '4'">国际短信</span>
         </template>
       </el-table-column>
       <el-table-column prop="sendType" label="短信运营商">
@@ -96,6 +91,8 @@
                 ? "http接口"
                 : item === 4
                 ? "cmpp接口"
+                : item === 8
+                ? "smpp福建"
                 : "-"
             }}
           </span>
@@ -408,8 +405,17 @@
         ></i>
       </span>
 
-      <el-tabs type="border-card" tabPosition="bottom" v-model="activeName" v-if="Array.isArray(infoData.productTypes)">
-        <el-tab-pane label="短信" name="1" v-if="infoData.productTypes.includes(1)">
+      <el-tabs
+        type="border-card"
+        tabPosition="bottom"
+        v-model="activeName"
+        v-if="Array.isArray(infoData.productTypes)"
+      >
+        <el-tab-pane
+          label="短信"
+          name="1"
+          v-if="infoData.productTypes.includes(1)"
+        >
           <div v-if="infoData.proType === 1">
             <p>产品类型: WEB</p>
             <p>企业名称: {{ infoData.corpName }}</p>
@@ -491,7 +497,9 @@
               >
             </p>
             <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
-            <p>加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption</p>
+            <p>
+              加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption
+            </p>
             <p>秘钥: {{ infoData.secretKey || "-" }}</p>
           </div>
 
@@ -515,7 +523,9 @@
             <p>
               速率:
               {{
-                infoData.submitSpeed == 0 ? "不限" : infoData.submitSpeed + "条/秒"
+                infoData.submitSpeed == 0
+                  ? "不限"
+                  : infoData.submitSpeed + "条/秒"
               }}
             </p>
             <p>客户端IP: {{ infoData.userIp }}</p>
@@ -549,9 +559,69 @@
             </p>
             <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
           </div>
+          <div v-if="infoData.proType === 8">
+            <p>产品类型: SMPP</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>smpp密码: {{ infoData.password || "-" }}</p>
+            <p>端口: 7888</p>
+            <p>IP地址: 39.107.120.170</p>
+            <p>
+              接入码:
+              {{
+                infoData.longCode && infoData.longCode !== "-"
+                  ? infoData.longCode
+                  : "置空"
+              }}
+            </p>
+            <p>链接路数: {{ infoData.maxSession }}</p>
+            <p>
+              速率:
+              {{
+                infoData.submitSpeed == 0
+                  ? "不限"
+                  : infoData.submitSpeed + "条/秒"
+              }}
+            </p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <!-- <el-divider></el-divider>
+            <p>产品类型: WEB端</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p> -->
+          </div>
         </el-tab-pane>
 
-        <el-tab-pane label="彩信" name="2" v-if="infoData.productTypes.includes(2)">
+        <el-tab-pane
+          label="彩信"
+          name="2"
+          v-if="infoData.productTypes.includes(2)"
+        >
           <div>
             <p>产品类型: HTTP</p>
             <p>企业名称: {{ infoData.corpName }}</p>
@@ -773,7 +843,8 @@ export default {
           optionData: [
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
-            { key: "4", value: "cmpp接口" }
+            { key: "4", value: "cmpp接口" },
+            { key: "8", value: "smpp福建" }
             // { key: "7", value: "音频接口" }
           ],
           placeholder: "请选择产品类型"
@@ -1068,7 +1139,11 @@ export default {
           clearable: true,
           defaultValue: [],
           initDefaultValue: [],
-          optionData: [{ key: 1, value: "短信" }, { key: 2, value: "彩信" }],
+          optionData: [
+            { key: 1, value: "短信", disabled: false },
+            { key: 2, value: "彩信", disabled: false },
+            { key: 4, value: "国际短信", disabled: false }
+          ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -1131,8 +1206,8 @@ export default {
           optionData: [
             { key: 1, value: "web端" },
             { key: 2, value: "http接口" },
-            { key: 4, value: "cmpp接口" }
-            // { key: 7, value: "音频接口" }
+            { key: 4, value: "cmpp接口" },
+            { key: 8, value: "smpp福建" }
           ],
           tag: "sms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
@@ -1169,7 +1244,11 @@ export default {
           tag: "sms",
           maxlength: 6,
           rules: [
-            { required: true, trigger: ["blur", "change"], validator: validatorPrice }
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: validatorPrice
+            }
           ]
         },
         {
@@ -1217,7 +1296,7 @@ export default {
           key: "moType",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
+            { key: 1, value: "推送" }
             // { key: 2, value: "自取(批量)" }
           ],
           tag: "sms",
@@ -1239,7 +1318,7 @@ export default {
           key: "reportType",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
+            { key: 1, value: "推送" }
             // { key: 2, value: "自取(批量)" },
             // { key: 3, value: "自取(单条)" }
           ],
@@ -1373,7 +1452,7 @@ export default {
           // disabled: false,
           optionData: [
             { key: 1, value: "web端" },
-            { key: 2, value: "http接口" },
+            { key: 2, value: "http接口" }
             // { key: 4, value: "cmpp接口" }
             // { key: 7, value: "音频接口" }
           ],
@@ -1412,7 +1491,11 @@ export default {
           tag: "mms",
           maxlength: 6,
           rules: [
-            { required: true, trigger: ["blur", "change"], validator: validatorPrice }
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: validatorPrice
+            }
           ]
         },
         {
@@ -1422,7 +1505,7 @@ export default {
           tag: "mms",
           optionData: [
             { key: "0", value: "无权限" },
-            { key: 1, value: "推送" },
+            { key: 1, value: "推送" }
             // { key: 2, value: "自取(批量)" },
             // { key: 3, value: "自取(单条)" }
           ],
@@ -1643,9 +1726,16 @@ export default {
       return `${this.formTit}账户`;
     },
     renderLock() {
-      const { proType, password, webPassword, secretKey, productTypes } = this.infoData;
+      const {
+        proType,
+        password,
+        webPassword,
+        secretKey,
+        productTypes
+      } = this.infoData;
       if (!Array.isArray(productTypes)) return false;
-      if (productTypes.includes(1)) {  // 短信
+      if (productTypes.includes(1)) {
+        // 短信
         switch (proType) {
           case 1:
             return !!(!webPassword || webPassword === "-");
@@ -1657,8 +1747,12 @@ export default {
           case 4:
             const cmpp = [password, webPassword].some(v => !v || v === "-");
             return cmpp;
+          case 8:
+            const smpp = [password].some(v => !v || v === "-");
+            return smpp;
         }
-      } else if (productTypes.includes(2)) { // 彩信
+      } else if (productTypes.includes(2)) {
+        // 彩信
         const http = [password, webPassword].some(v => !v || v === "-");
         return http;
       }
@@ -1669,10 +1763,24 @@ export default {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
       const isProd = process.env.NODE_ENV === "production";
-      if (key === "moUrl") { // 推送上行地址
-        this.$set(this.formConfig[idx], "defaultValue", isProd ? "http://10.3.0.20:9106/getMo/moJsonList" : "http://10.10.0.32:9106/getMo/moJsonList");
-      } else if (key === "reportUrl") { // 推送报告地址
-        this.$set(this.formConfig[idx], "defaultValue", isProd ? "http://10.3.0.20:9106/getMr/mrJsonList" : "http://10.10.0.32:9106/getMr/mrJsonList");
+      if (key === "moUrl") {
+        // 推送上行地址
+        this.$set(
+          this.formConfig[idx],
+          "defaultValue",
+          isProd
+            ? "http://10.3.0.20:9106/getMo/moJsonList"
+            : "http://10.10.0.32:9106/getMo/moJsonList"
+        );
+      } else if (key === "reportUrl") {
+        // 推送报告地址
+        this.$set(
+          this.formConfig[idx],
+          "defaultValue",
+          isProd
+            ? "http://10.3.0.20:9106/getMr/mrJsonList"
+            : "http://10.10.0.32:9106/getMr/mrJsonList"
+        );
       }
     },
     // 关闭信息弹窗后重置web密码为不可修改状态
@@ -1763,22 +1871,81 @@ export default {
           if (val.includes(1) && val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", false);
+            //国际短信不可选
+            item.optionData[2].disabled = true;
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
             this._deleteDefaultValue(this.formConfig, "mms");
+            item.optionData[2].disabled = true;
+            this.formConfig.forEach(item => {
+              if (item.tag === "sms") {
+                if (item.isTitle) {
+                  item.title = "短信业务信息";
+                }
+                if (item.key === "proType") {
+                  item.optionData = [
+                    { key: 1, value: "web端" },
+                    { key: 2, value: "http接口" },
+                    { key: 4, value: "cmpp接口" },
+                    { key: 8, value: "smpp福建" }
+                  ];
+                }
+                if (
+                  item.key === "httpSign" ||
+                  item.key === "sendType" ||
+                  item.key === "alertMobile"
+                ) {
+                  this.$set(item, "isShow", false);
+                }
+              }
+            });
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
             this._setDisplayShow(this.formConfig, "returnBalance", true);
             this._deleteDefaultValue(this.formConfig, "sms");
+            item.optionData[2].disabled = true;
+          } else if (val.includes(4)) {
+            this._setTagDisplayShow(this.formConfig, "sms", false);
+            this._setTagDisplayShow(this.formConfig, "mms", true);
+            this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._deleteDefaultValue(this.formConfig, "mms");
+            //短信和彩信不可选
+            item.optionData[0].disabled = true;
+            item.optionData[1].disabled = true;
+            this.formConfig.forEach(item => {
+              if (item.tag === "sms") {
+                if (item.isTitle) {
+                  item.title = "国际短信业务信息";
+                }
+                if (item.key === "proType") {
+                  item.optionData = [
+                    { key: 16, value: "http国际" },
+                    { key: 32, value: "smpp接口" }
+                  ];
+                }
+                if (
+                  item.key === "httpSign" ||
+                  item.key === "sendType" ||
+                  item.key === "alertMobile"
+                ) {
+                  this.$set(item, "isShow", true);
+                }
+              }
+            });
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
+          this._setTagDisplayShow(this.formConfig, "sos", true);
+          this._deleteDefaultValue(this.formConfig, "sos");
           this._deleteDefaultValue(this.formConfig, "mms");
           this._deleteDefaultValue(this.formConfig, "sms");
+          item.optionData[0].disabled = false;
+          item.optionData[1].disabled = false;
+          item.optionData[2].disabled = false;
         }
       }
       if (item.key === "reductModel") {
@@ -1802,40 +1969,39 @@ export default {
       if (item.key === "proType") {
         if (val === 1) {
           this._setDefaultValueKeys("directPort", "无");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
           this._setDefaultValueKeys("directPort", "8090");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 3) {
           this._setDefaultValueKeys("directPort", "7890");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else {
           this._setDefaultValueKeys("directPort", "");
-          //cmpp设置
           this._setDisplayShow(this.formConfig, "maxSession", false);
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
 
       if (item.key === "proType") {
-        if (val !== 2) { // web端 cmpp接口
+        if (val !== 2) {
+          // web端 cmpp接口
           this._setDisplayShow(this.formConfig, "alertMobile", true);
           this._setDefaultValueKeys("alertMobile", "");
           this._setDisplayShow(this.formConfig, "moUrl", true);
           this._setDefaultValueKeys("moUrl", "");
           this._setDisplayShow(this.formConfig, "reportUrl", true);
           this._setDefaultValueKeys("reportUrl", "");
-        } else { // http接口
+        } else {
+          // http接口
           this._setDisplayShow(this.formConfig, "alertMobile", false);
           this._setDisplayShow(this.formConfig, "moUrl", false);
           this._setDisplayShow(this.formConfig, "reportUrl", false);
         }
       }
       if (item.key === "moType") {
-        if (val == "0") { // 无权限
+        if (val == "0") {
+          // 无权限
           this.formConfig.forEach(el => {
             if (el.key === "moUrl") {
               this.$nextTick(() => {
@@ -1845,7 +2011,8 @@ export default {
               });
             }
           });
-        } else { // 推送
+        } else {
+          // 推送
           this.formConfig.forEach(el => {
             if (el.key === "moUrl") {
               this.$nextTick(() => {
@@ -1858,7 +2025,8 @@ export default {
         }
       }
       if (item.key === "reportType") {
-        if (val == "0") { // 无权限
+        if (val == "0") {
+          // 无权限
           this.formConfig.forEach(el => {
             if (el.key === "reportUrl") {
               this.$nextTick(() => {
@@ -1868,7 +2036,8 @@ export default {
               });
             }
           });
-        } else { // 推送
+        } else {
+          // 推送
           this.formConfig.forEach(el => {
             if (el.key === "reportUrl") {
               this.$nextTick(() => {
@@ -2248,14 +2417,16 @@ export default {
               this._setDefaultValueKeys("maxSession", "");
             }
             // 不是http接口
-            if (item.defaultValue !== 2) { // web端 cmpp接口
+            if (item.defaultValue !== 2) {
+              // web端 cmpp接口
               this._setDisplayShow(this.formConfig, "alertMobile", true);
               this._setDefaultValueKeys("alertMobile", "");
               this._setDisplayShow(this.formConfig, "moUrl", true);
               this._setDefaultValueKeys("moUrl", "");
               this._setDisplayShow(this.formConfig, "reportUrl", true);
               this._setDefaultValueKeys("reportUrl", "");
-            } else { // http接口
+            } else {
+              // http接口
               this._setDisplayShow(this.formConfig, "alertMobile", false);
               this._setDisplayShow(this.formConfig, "moUrl", false);
               this._setDisplayShow(this.formConfig, "reportUrl", false);
@@ -2263,17 +2434,23 @@ export default {
           });
         }
         if (item.key === "moType") {
-          if (item.defaultValue == "0") { // 无权限
+          if (item.defaultValue == "0") {
+            // 无权限
             this.formConfig.forEach(el => {
               if (el.key === "moUrl") {
                 this.$nextTick(() => {
                   this.$set(el, "rules", [
-                    { required: false, message: "请输入必填项", trigger: "blur" }
+                    {
+                      required: false,
+                      message: "请输入必填项",
+                      trigger: "blur"
+                    }
                   ]);
                 });
               }
             });
-          } else { // 推送
+          } else {
+            // 推送
             this.formConfig.forEach(el => {
               if (el.key === "moUrl") {
                 this.$nextTick(() => {
@@ -2286,17 +2463,23 @@ export default {
           }
         }
         if (item.key === "reportType") {
-          if (item.defaultValue == "0") { // 无权限
+          if (item.defaultValue == "0") {
+            // 无权限
             this.formConfig.forEach(el => {
               if (el.key === "reportUrl") {
                 this.$nextTick(() => {
                   this.$set(el, "rules", [
-                    { required: false, message: "请输入必填项", trigger: "blur" }
+                    {
+                      required: false,
+                      message: "请输入必填项",
+                      trigger: "blur"
+                    }
                   ]);
                 });
               }
             });
-          } else { // 推送
+          } else {
+            // 推送
             this.formConfig.forEach(el => {
               if (el.key === "reportUrl") {
                 this.$nextTick(() => {
