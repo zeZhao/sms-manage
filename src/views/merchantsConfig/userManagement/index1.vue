@@ -559,6 +559,62 @@
             </p>
             <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
           </div>
+          <div v-if="infoData.proType === 8">
+            <p>产品类型: SMPP</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>smpp密码: {{ infoData.password || "-" }}</p>
+            <p>端口: 7888</p>
+            <p>IP地址: 39.107.120.170</p>
+            <p>
+              接入码:
+              {{
+                infoData.longCode && infoData.longCode !== "-"
+                  ? infoData.longCode
+                  : "置空"
+              }}
+            </p>
+            <p>链接路数: {{ infoData.maxSession }}</p>
+            <p>
+              速率:
+              {{
+                infoData.submitSpeed == 0
+                  ? "不限"
+                  : infoData.submitSpeed + "条/秒"
+              }}
+            </p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <!-- <el-divider></el-divider>
+            <p>产品类型: WEB端</p>
+            <p>web登录账号: {{ infoData.loginName }}</p>
+            <p>
+              web密码:
+              <span v-if="!editUserPassword">{{
+                infoData.webPassword || "-"
+              }}</span>
+              <span v-else
+                ><el-input
+                  v-model="infoData.webPassword"
+                  clearable
+                  placeholder="请输入web密码"
+                  class="pwd"
+              /></span>
+              <span
+                v-if="!renderLock && !editUserPassword"
+                class="edit-user-password"
+                @click="editUserPassword = true"
+                >修改</span
+              >
+              <span
+                v-if="!renderLock && editUserPassword"
+                class="edit-user-password"
+                @click="handleEditUserPassword"
+                >确定</span
+              >
+            </p>
+            <p>web端登录地址: https://sms.jvtd.cn/#/login</p> -->
+          </div>
         </el-tab-pane>
 
         <el-tab-pane
@@ -1679,6 +1735,9 @@ export default {
         case 4:
           const cmpp = [password, webPassword].some(v => !v || v === "-");
           return cmpp;
+        case 8:
+          const smpp = [password].some(v => !v || v === "-");
+          return smpp;
       }
     }
   },
