@@ -1141,8 +1141,8 @@ export default {
           initDefaultValue: [],
           optionData: [
             { key: 1, value: "短信", disabled: false },
-            { key: 2, value: "彩信", disabled: false },
-            { key: 4, value: "国际短信", disabled: false }
+            { key: 2, value: "彩信", disabled: false }
+            // { key: 4, value: "国际短信", disabled: false }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -1872,41 +1872,41 @@ export default {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", false);
             //国际短信不可选
-            item.optionData[2].disabled = true;
+            // item.optionData[2].disabled = true;
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
             this._deleteDefaultValue(this.formConfig, "mms");
-            item.optionData[2].disabled = true;
-            this.formConfig.forEach(item => {
-              if (item.tag === "sms") {
-                if (item.isTitle) {
-                  item.title = "短信业务信息";
-                }
-                if (item.key === "proType") {
-                  item.optionData = [
-                    { key: 1, value: "web端" },
-                    { key: 2, value: "http接口" },
-                    { key: 4, value: "cmpp接口" },
-                    { key: 8, value: "smpp福建" }
-                  ];
-                }
-                if (
-                  item.key === "httpSign" ||
-                  item.key === "sendType" ||
-                  item.key === "alertMobile"
-                ) {
-                  this.$set(item, "isShow", false);
-                }
-              }
-            });
+            // item.optionData[2].disabled = true;
+            // this.formConfig.forEach(item => {
+            //   if (item.tag === "sms") {
+            //     if (item.isTitle) {
+            //       item.title = "短信业务信息";
+            //     }
+            //     if (item.key === "proType") {
+            //       item.optionData = [
+            //         { key: 1, value: "web端" },
+            //         { key: 2, value: "http接口" },
+            //         { key: 4, value: "cmpp接口" },
+            //         { key: 8, value: "smpp福建" }
+            //       ];
+            //     }
+            //     if (
+            //       item.key === "httpSign" ||
+            //       item.key === "sendType" ||
+            //       item.key === "alertMobile"
+            //     ) {
+            //       this.$set(item, "isShow", false);
+            //     }
+            //   }
+            // });
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
             this._setDisplayShow(this.formConfig, "returnBalance", true);
             this._deleteDefaultValue(this.formConfig, "sms");
-            item.optionData[2].disabled = true;
+            // item.optionData[2].disabled = true;
           } else if (val.includes(4)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
@@ -1939,13 +1939,13 @@ export default {
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
-          this._setTagDisplayShow(this.formConfig, "sos", true);
-          this._deleteDefaultValue(this.formConfig, "sos");
+          // this._setTagDisplayShow(this.formConfig, "sos", true);
+          // this._deleteDefaultValue(this.formConfig, "sos");
           this._deleteDefaultValue(this.formConfig, "mms");
           this._deleteDefaultValue(this.formConfig, "sms");
-          item.optionData[0].disabled = false;
-          item.optionData[1].disabled = false;
-          item.optionData[2].disabled = false;
+          // item.optionData[0].disabled = false;
+          // item.optionData[1].disabled = false;
+          // item.optionData[2].disabled = false;
         }
       }
       if (item.key === "reductModel") {
