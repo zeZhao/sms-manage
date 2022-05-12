@@ -47,7 +47,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="status" label="状态" />
-      <el-table-column prop="error" label="错误描述" />
+      <el-table-column prop="error" label="错误描述">
+        <template slot-scope="scope">
+          <span v-html="scope.row.error"></span>
+        </template>
+      </el-table-column>
       <el-table-column prop="returnTime" label="返回报告时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.returnTime | timeFormat }}</span>
