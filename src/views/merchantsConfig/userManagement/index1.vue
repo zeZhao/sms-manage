@@ -1762,14 +1762,14 @@ export default {
     choose(item) {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
-      const isProd = process.env.NODE_ENV === "production";
+      const isProd = process.env.VUE_APP_TITLE === "production";
       if (key === "moUrl") {
         // 推送上行地址
         this.$set(
           this.formConfig[idx],
           "defaultValue",
           isProd
-            ? "http://10.3.0.20:9106/getMo/moJsonList"
+            ? "https://sms3api.jvtd.cn/getMo/moReportToC"
             : "http://10.10.0.32:9106/getMo/moJsonList"
         );
       } else if (key === "reportUrl") {
@@ -1778,7 +1778,7 @@ export default {
           this.formConfig[idx],
           "defaultValue",
           isProd
-            ? "http://10.3.0.20:9106/getMr/mrJsonList"
+            ? "https://sms3api.jvtd.cn/getMr/mrReportToC"
             : "http://10.10.0.32:9106/getMr/mrJsonList"
         );
       }
@@ -2112,6 +2112,10 @@ export default {
                 message: "已取消操作"
               });
             });
+        } else {
+          this.$http[namespace][edit](params).then(res => {
+            this._mxSuccess(res, params);
+          });
         }
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
