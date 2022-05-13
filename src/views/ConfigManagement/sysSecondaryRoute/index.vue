@@ -244,8 +244,8 @@ export default {
           type: "input",
           label: "客户特服号",
           key: "code",
-          isShow: true,
-          disabled: true,
+          isShow: false,
+          disabled: false,
           defaultValue: "",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -254,7 +254,7 @@ export default {
           label: "账户名称",
           key: "userName",
           isShow: true,
-          disabled: true,
+          disabled: false,
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
 

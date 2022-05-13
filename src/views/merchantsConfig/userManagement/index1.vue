@@ -2084,9 +2084,35 @@ export default {
         params = Object.assign(params, {
           [editId]: this.id
         });
-        this.$http[namespace][edit](params).then(res => {
-          this._mxSuccess(res, params);
-        });
+        const oldCorpId = this.currentEditFormData.corpId;
+        const newCorpId = params.corpId;
+        if (oldCorpId !== newCorpId) {
+          this.$confirm(
+            "此账户所在商户已发生变化，导致配置项将失效，需重新配置，是否确定此操作？",
+            "提示",
+            {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            }
+          )
+            .then(() => {
+              this.$http[namespace][edit](params).then(res => {
+                this._mxSuccess(res, params);
+              });
+            })
+            .catch(() => {
+              // this.formConfig.forEach(item => {
+              //   if (item.key === "corpId") {
+              //     item.defaultValue = oldCorpId;
+              //   }
+              // });
+              this.$message({
+                type: "info",
+                message: "已取消操作"
+              });
+            });
+        }
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
           [editId]: this.id,
