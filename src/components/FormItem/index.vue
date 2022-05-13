@@ -10,10 +10,13 @@
     >
       <el-row :gutter="gutter">
         <el-col
-          :span="item.colSpan || colSpan"
           v-for="(item, index) in formConfig"
           :key="index"
+          :span="item.colSpan || colSpan"
         >
+          <div v-if="item.type === 'divider' && !item.isShow">
+            <el-divider></el-divider>
+          </div>
           <el-form-item
             :label="item.label ? `${item.label}：` : ``"
             :prop="item.key"
@@ -109,7 +112,7 @@
             </template>
             <!--数字输入框-->
             <template v-if="item.type === 'inputNum'">
-              <el-input-number
+              <!-- <el-input-number
                 v-model="formData[item.key]"
                 clearable
                 :disabled="item.disabled"
@@ -123,6 +126,20 @@
                     onChange(val, item);
                   }
                 "
+              /> -->
+              <el-input
+                v-model.number="formData[item.key]"
+                type="number"
+                size="small"
+                clearable
+                :disabled="item.disabled"
+                :placeholder="item.placeholder || `请输入${item.label}`"
+                @input="
+                  val => {
+                    onChange(val, item);
+                  }
+                "
+                onKeypress="this.value = this.value.replace(/\D/g, '')"
               />
             </template>
 
@@ -514,6 +531,7 @@
                 v-throttle="3000"
                 size="small"
                 :disabled="submitDisabled"
+                :loading="confirmDisabled"
                 class="submit"
               >
                 {{ btnTxt }}
@@ -582,6 +600,13 @@ export default {
       default() {
         return false;
       }
+    },
+    // 提交按钮是否可点击
+    confirmDisabled: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
   },
   data() {
@@ -625,6 +650,13 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.formConfig.forEach(item => {
+            for(const i in this.formData) {
+              if (item.key === i && item.type === "inputNum" && this.formData[i]) {
+                this.formData[i] = +(this.formData[i]); // 转为number类型
+              }
+            }
+          });
           this.$emit("submit", this.formData);
         } else {
           // this.$message.error("请输入必填项");
@@ -667,7 +699,7 @@ export default {
     resetForm() {
       this.formConfig.forEach(item => {
         const { defaultValue, key, type } = item;
-        if (defaultValue || this.formData[key]) {
+        if (defaultValue || this.formData[key] || defaultValue === 0) {
           if (type === "checkbox") {
             if (item.initDefaultValue) {
               this.$set(item, "defaultValue", item.initDefaultValue);
@@ -690,6 +722,9 @@ export default {
             } else {
               item.defaultValue = null;
             }
+          } else if (type === "uploadXlsx") {
+            item.defaultValue = null;
+            item.defaultFileList = [];
           } else {
             item.defaultValue = null;
             this.formData[key] = null;

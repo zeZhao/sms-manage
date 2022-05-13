@@ -5,6 +5,7 @@
       :searchFormConfig="searchFormConfig"
       @search="_mxDoSearch"
       @create="create"
+      :notSearch="notSearch"
     >
       <template slot="Other">
         <el-button type="primary" @click="bulkAdding">批量添加</el-button>
@@ -140,6 +141,7 @@ export default {
       }
     };
     return {
+      notSearch: true,
       formTit: "新增",
       addChannel: false,
       bulkEditingVisible: false,

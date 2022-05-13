@@ -202,8 +202,8 @@ const checkwordName = [
           callback(new Error(`第${i + 1}个敏感词不能为空`));
           break;
         }
-        if (arr[i].length < 2 || arr[i].length > 100) {
-          callback(new Error(`第${i + 1}个敏感词长度应在2~100个字符之间`));
+        if (arr[i].length < 2 || arr[i].length > 8) {
+          callback(new Error(`第${i + 1}个敏感词长度应在2~8个字符之间`));
           break;
         }
       }
@@ -315,8 +315,9 @@ export default {
       isAddGroup: false,
       addGroupObj: {},
       editId: "",
-      groupId: "",
-      activeIndex: 0
+      activeIndex: 0,
+      wordId: "",
+      groupId: ""
     };
   },
   mounted() {
@@ -413,7 +414,7 @@ export default {
         // }
         // });
       } else {
-        params = { data: { wordId: this.wordId, ...form } };
+        params = { data: { ...form, wordId: this.wordId, groupId: this.groupId, } };
         this.$http.sysSensitiveWord.updateSensitiveWord(params).then(res => {
           if (resOk(res)) {
             this.$message.success(res.msg || res.data);
@@ -598,9 +599,6 @@ export default {
           );
           this.$set(item, "rules", checkwordName);
         }
-        // if (item.key === "keywordFile") {
-        //   item.defaultFileList = [];
-        // }
       });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
@@ -609,6 +607,7 @@ export default {
     },
     edit(row, ID) {
       this.wordId = row.wordId;
+      this.groupId = row.groupId;
       this.formTit = "修改";
       this.formConfig.forEach(item => {
         for (let key in row) {

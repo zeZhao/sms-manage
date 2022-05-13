@@ -114,14 +114,11 @@ async function queryData() {
   }
 
   const { namespace, list } = this.searchAPI; //动态接口路径
+
   if (!list) return;
+
   this.$http[namespace][list](params).then(res => {
     this.loading = false;
-
-    // if (!resOk(res)) {
-    //     this.listData = [];
-    //     this.$Message.error(res.message || res.msg);
-    // }
 
     if (resOk(res)) {
       let list = [];
@@ -150,6 +147,8 @@ async function queryData() {
     } else {
       this.$message.error(res.data || res.msg || "获取数据失败");
     }
+
+    this.tableDoLayout();
   });
 
   //请求表格下方展示数据的接口凭证
@@ -226,6 +225,10 @@ export default {
   },
 
   methods: {
+    // 重新计算table高度，避免table变形
+    tableDoLayout() {
+      this.$refs.table && this.$refs.table.doLayout();
+    },
     handleTableResize() {
       const content = document.getElementById("content");
       const searchPanel = document.getElementById("searchPanel");
@@ -266,6 +269,8 @@ export default {
      * @private
      */
     _mxGetList() {
+      this.tableDoLayout();
+
       throttle.call(this);
     },
 

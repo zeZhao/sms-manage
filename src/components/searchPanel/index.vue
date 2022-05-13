@@ -288,7 +288,7 @@
 </template>
 
 <script>
-import { getDateTime } from "@/utils";
+import { getDateTime, getDateToString } from "@/utils";
 
 export default {
   props: {
@@ -351,12 +351,20 @@ export default {
   methods: {
     // 限制数字类型长度
     limitNumberTypeLength({ key, label }) {
-      // cid、CID、特服号限制长度20位，其余数字类型限制11位（防止查询报错）
-      const limitObject = { "cid": true, "CID": true, "特服号": true };
-      if (!limitObject[label]) {
+      // cid、CID、特服号的label限制长度20位
+      const limit20 = { "cid": true, "CID": true, "特服号": true };
+      // 下方数据的key限制长度10位
+      const limit10 = { "gateway": true, "routeId": true, "userId": true, "errNum": true, "corpId": true, "mmsId": true, "cm": true, "cu": true, "ct": true };
+      if (!limit20[label]) {
         if (key !== "gwcode") { // 通道特服号
-          if (this.form[key].length > 11) {
-            this.form[key] = this.form[key].slice(0, 11);
+          if (!limit10[key]) {
+            if (this.form[key].length > 11) { // 其余数字类型限制11位（防止查询报错）
+              this.form[key] = this.form[key].slice(0, 11);
+            }
+          } else {
+            if (this.form[key].length > 10) {
+              this.form[key] = this.form[key].slice(0, 10);
+            }
           }
         } else {
           if (this.form[key].length > 12) {
@@ -449,6 +457,18 @@ export default {
         if (path === "/sysReport/index") {
           if (key === "countDate" || key === "endDate") {
             form[key] = null;
+          }
+        }
+
+        if (path === "/sysReport/index") {
+          if (["showProvince", "showGateway", "showOpera", "showUser"].includes(key)) {
+            form[key] = "1";
+          }
+          if (key === "showCode") {
+            form[key] = "0";
+          }
+          if (key === "countDate" || key === "endDate") {
+            form[key] = getDateToString();
           }
         }
       }

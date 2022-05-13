@@ -54,20 +54,18 @@
           <span v-if="scope.row.hasSend === '1'">已发送</span>
         </template>
       </el-table-column>
-      <el-table-column prop="definiteTime" label="定时时间" width="135">
-        <template slot-scope="scope">{{
-          scope.row.definiteTime | timeFormat
-        }}</template>
-      </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="135">
         <template slot-scope="scope">{{
           scope.row.submitTime | timeFormat
         }}</template>
       </el-table-column>
+      <el-table-column prop="definiteTime" label="定时时间" width="135">
+        <template slot-scope="scope">{{
+          scope.row.definiteTime | timeFormat
+        }}</template>
+      </el-table-column>
     </el-table>
-    <p style="color: red;font-size: 12px;">
-      总条数: {{ tabBottomData || 0 }}
-    </p>
+    <p style="color: red;font-size: 12px;">总条数: {{ tabBottomData || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -76,7 +74,7 @@
     <el-dialog title="查看汇总" :visible.sync="ViewTheSummary" width="50%">
       <el-table :data="SummaryData" highlight-current-row>
         <el-table-column prop="gateway" label="通道" />
-        <el-table-column prop="stockNum" label="积压批次数量" />
+        <el-table-column prop="stockNum" label="积压批次数" />
         <el-table-column prop="counter" label="积压条数" />
       </el-table>
       <span slot="footer" class="dialog-footer">
@@ -86,17 +84,28 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="批量修改通道" :visible.sync="editGateway" width="650px">
+    <el-dialog
+      title="批量修改通道"
+      :visible.sync="editGateway"
+      :close-on-click-modal="false"
+      style="margin: 0 auto"
+      width="80%"
+    >
       <FormItem
         :colSpan="12"
-        :labelWidth="100"
         ref="formItem"
         :formConfig="formConfig"
-        btnTxt="修改"
+        btnTxt="确定"
+        @choose="choose"
         @submit="submitGateway"
         @cancel="_mxCancel"
       ></FormItem>
     </el-dialog>
+    <ChooseUser
+      :isChooseUser="isChooseUser"
+      @chooseUserData="chooseUserData"
+      @cancel="cancelUser"
+    ></ChooseUser>
   </div>
 </template>
 
@@ -184,43 +193,15 @@ export default {
           type: "input",
           label: "账户编号",
           key: "userId",
-          maxlength: 9,
-          rules: [
-            {
-              required: false,
-              trigger: "blur",
-              validator: (rule, value, callback) => {
-                if (!value) callback();
-                if (!/^\d{0,9}$/.test(value))
-                  callback(new Error("账户编号为正整数类型，且小于9位"));
-                callback();
-              }
-            }
-          ]
+          btnTxt: "选择用户",
+          btnDisabled: false,
+          disabled: true,
+          defaultValue: ""
         },
         {
           type: "input",
           label: "内容",
           key: "content"
-          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "处理条数",
-          key: "batchCount",
-          maxlength: 9,
-          rules: [
-            {
-              required: true,
-              trigger: "blur",
-              validator: (rule, value, callback) => {
-                if (!value) callback(new Error("请输入必填项"));
-                if (!/^\d{0,9}$/.test(value))
-                  callback(new Error("处理条数为正整数类型，且小于9位"));
-                callback();
-              }
-            }
-          ]
         },
         {
           type: "input",
@@ -231,25 +212,13 @@ export default {
           type: "input",
           label: "原通道",
           key: "gateway",
-          optionData: [],
-          rules: [
-            {
-              required: true,
-              trigger: "blur",
-              validator: (rule, value, callback) => {
-                if (!value) callback(new Error("请输入必填项"));
-                if (!/^\d+$/.test(value)) callback(new Error("原通道为正整数"));
-                callback();
-              }
-            }
-          ]
+          // optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
-          type: "select",
-          label: "目标通道",
-          key: "newGateway",
-          optionData: [],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          type: "input",
+          label: "特服号",
+          key: "code"
         },
         {
           type: "date",
@@ -275,6 +244,35 @@ export default {
           defaultValue: "23:59:59",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
+        {
+          type: "divider",
+          colSpan: 24
+        },
+        {
+          type: "select",
+          label: "目标通道",
+          key: "newGateway",
+          optionData: [],
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
+        {
+          type: "input",
+          label: "处理条数",
+          key: "batchCount",
+          maxlength: 9,
+          rules: [
+            {
+              required: true,
+              trigger: "blur",
+              validator: (rule, value, callback) => {
+                if (!value) callback(new Error("请输入必填项"));
+                if (!/^\d{0,9}$/.test(value))
+                  callback(new Error("处理条数为正整数类型，且小于9位"));
+                callback();
+              }
+            }
+          ]
+        }
         // {
         //   type: "select",
         //   label: "是否处理长短信",
@@ -292,22 +290,51 @@ export default {
         //   ],
         //   key: "udhi",
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
-        {
-          type: "input",
-          label: "特服号",
-          key: "code"
-        }
+        // }
       ],
+      isChooseUser: false,
       tabBottomData: 0
     };
   },
-  mounted() {
+  activated() {
     this.queryGatewayStockNum();
+    this.getGatewayListAll();
     this.gateway();
   },
-  computed: {},
   methods: {
+    getGatewayListAll() {
+      const params = {
+        data: {
+          serverStatus: 1,
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
+        }
+      };
+      this.$http.gateway.listGatewayAll(params).then(res => {
+        this.formConfig.forEach(item => {
+          const { key } = item;
+          if (key === "gateway") {
+            item.optionData = res.data.map(v => {
+              return {
+                key: v.gatewayId,
+                value: v.gateway + "_" + v.gatewayName
+              };
+            });
+          }
+        });
+      });
+    },
+    //选择用户选取赋值
+    chooseUserData(data) {
+      this.formConfig.map(t => {
+        const { key } = t;
+        if (key === "userId") {
+          t.defaultValue = data.userId;
+        }
+      });
+    },
     /*
      * 获取通道列表
      * */
@@ -324,12 +351,12 @@ export default {
       this.$http.gateway.listGateway(params).then(res => {
         this.formConfig.forEach(item => {
           const { key } = item;
-
-          if (key === "gateway" || key === "newGateway") {
-            res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gateway);
-              item.optionData.push(t);
+          if (key === "newGateway") {
+            item.optionData = res.data.map(v => {
+              return {
+                key: v.gatewayId,
+                value: v.gateway + "_" + v.gatewayName
+              };
             });
           }
         });
@@ -406,12 +433,6 @@ export default {
       });
       return listData;
     }
-  },
-  watch: {}
+  }
 };
 </script>
-
-<style lang="scss" scoped>
-.smsSendTask {
-}
-</style>
