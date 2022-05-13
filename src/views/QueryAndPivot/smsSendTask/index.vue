@@ -65,9 +65,7 @@
         }}</template>
       </el-table-column>
     </el-table>
-    <p style="color: red;font-size: 12px;">
-      总条数: {{ tabBottomData || 0 }}
-    </p>
+    <p style="color: red;font-size: 12px;">总条数: {{ tabBottomData || 0 }}</p>
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
@@ -86,7 +84,13 @@
         >
       </span>
     </el-dialog>
-    <el-dialog title="批量修改通道" :visible.sync="editGateway" :close-on-click-modal="false" style="margin: 0 auto" width="80%">
+    <el-dialog
+      title="批量修改通道"
+      :visible.sync="editGateway"
+      :close-on-click-modal="false"
+      style="margin: 0 auto"
+      width="80%"
+    >
       <FormItem
         :colSpan="12"
         ref="formItem"
@@ -205,10 +209,10 @@ export default {
           key: "cid"
         },
         {
-          type: "select",
+          type: "input",
           label: "原通道",
           key: "gateway",
-          optionData: [],
+          // optionData: [],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -262,7 +266,8 @@ export default {
               trigger: "blur",
               validator: (rule, value, callback) => {
                 if (!value) callback(new Error("请输入必填项"));
-                if (!/^\d{0,9}$/.test(value)) callback(new Error("处理条数为正整数类型，且小于9位"));
+                if (!/^\d{0,9}$/.test(value))
+                  callback(new Error("处理条数为正整数类型，且小于9位"));
                 callback();
               }
             }
@@ -312,10 +317,13 @@ export default {
           const { key } = item;
           if (key === "gateway") {
             item.optionData = res.data.map(v => {
-              return { key: v.gatewayId, value: v.gateway + "_" + v.gatewayName };
+              return {
+                key: v.gatewayId,
+                value: v.gateway + "_" + v.gatewayName
+              };
             });
           }
-        })
+        });
       });
     },
     //选择用户选取赋值
@@ -345,7 +353,10 @@ export default {
           const { key } = item;
           if (key === "newGateway") {
             item.optionData = res.data.map(v => {
-              return { key: v.gatewayId, value: v.gateway + "_" + v.gatewayName };
+              return {
+                key: v.gatewayId,
+                value: v.gateway + "_" + v.gatewayName
+              };
             });
           }
         });
