@@ -25,6 +25,14 @@
       >电信号段正则
       <!-- <el-button type="primary">恢复初始设置</el-button> -->
     </p>
+    <p>
+      国际号段<el-input
+        v-model="form.ci"
+        style="width:700px;margin:0 20px"
+      ></el-input
+      >国际号段正则
+      <!-- <el-button type="primary">恢复初始设置</el-button> -->
+    </p>
     <div style="width:900px;text-align:left;margin-top:50px">
       <el-button type="primary" @click="submit">保存</el-button>
     </div>
@@ -39,7 +47,8 @@ export default {
       form: {
         cm: "",
         cu: "",
-        ct: ""
+        ct: "",
+        ci: ""
       }
     };
   },
@@ -66,7 +75,7 @@ export default {
       this.form = form;
     },
     submit() {
-      const { cm, cu, ct } = this.form;
+      const { cm, cu, ct, ci } = this.form;
       let params = [
         {
           name: "cm",
@@ -85,6 +94,12 @@ export default {
           remark: "电信",
           type: 1,
           value: ct
+        },
+        {
+          name: "ci",
+          remark: "国际",
+          type: 1,
+          value: ci
         }
       ];
       this.$http.smsAppConfig.addOrUpdate(params).then(res => {

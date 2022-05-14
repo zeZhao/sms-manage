@@ -79,7 +79,9 @@
           </el-tooltip>
         </template>
       </el-table-column>
+      <el-table-column prop="inernationPassageway" label="国际短信通道" />
       <el-table-column prop="exemptReviewNum" label="免审数量" />
+
       <el-table-column prop="isTemplate" label="模板匹配">
         <template slot-scope="scope">
           <span v-if="scope.row.isTemplate === 0 || !scope.row.isTemplate"
@@ -620,6 +622,27 @@ export default {
         //   // isShow: true
         // },
         
+        {
+          type: "input",
+          label: "国际短信通道",
+          key: "inernationPassageway",
+          rules: [
+            {
+              required: true,
+              message: "请输入必填项",
+              trigger: ["blur", "change"]
+            },
+            {
+              pattern: /^\+?[1-9]\d*$/,
+              message: "请输入大于0的正整数",
+              trigger: ["blur", "change"]
+            },
+            {
+              validator: validatorNum,
+              trigger: ["blur", "change"]
+            }
+          ]
+        },
         {
           type: "input",
           label: "免审数量",
