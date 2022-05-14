@@ -3,7 +3,7 @@
   <div class="sendAcrossDays">
     <Search
       :searchFormConfig="searchFormConfig"
-      @search="_mxDoSearch"
+      @search="handleSearch"
       :add="false"
       :notSearch="notSearch"
     ></Search>
@@ -172,8 +172,22 @@ export default {
       ]
     };
   },
-  mounted() {},
   methods: {
+    handleSearch(form) {
+      const diffForm = this.$deepClone(form);
+      delete diffForm.showDecrypt;
+      // 显示内容字段不作为筛选条件（仅限于该提示语）
+      const allFalse = Object.values(diffForm).every(v => ["", null, undefined].includes(v));
+      if (allFalse) {
+        this.$message({
+          message: '请输入任意一项条件进行查询',
+          type: 'warning',
+          duration: 2500
+        });
+        return;
+      }
+      this._mxDoSearch(form);
+    },
     /**
      * 对表格数据进行自定义调整
      * @param rows

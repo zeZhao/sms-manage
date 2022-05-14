@@ -100,7 +100,7 @@ export default {
           key: "cid"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "模板编号",
           key: "mmsId"
         },
@@ -165,6 +165,14 @@ export default {
       } else {
         return "-";
       }
+    },
+    _formatRequestData(data) {
+      for(let i in data) {
+        if (data[i] === "") {
+          data[i] = null;
+        }
+      }
+      return data;
     }
   }
 };

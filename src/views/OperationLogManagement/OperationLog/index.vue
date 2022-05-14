@@ -103,6 +103,8 @@ export default {
           return "商户端";
         case 3:
           return "代理商端";
+        case 8:
+          return "smpp福建";
         default:
           return "-";
       }

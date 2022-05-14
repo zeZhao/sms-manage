@@ -682,6 +682,7 @@
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
 import { isPassword } from "@/utils";
+
 export default {
   mixins: [listMixin],
   components: { FormItemTitle },
@@ -1278,9 +1279,10 @@ export default {
           label: "推送上行地址",
           key: "moUrl",
           maxlength: "250",
-          tag: "sms",
-          defaultValue: ""
-          // btnTxt: "拉取地址"
+          // tag: "sms",
+          defaultValue: "",
+          btnTxt: "拉取",
+          isShow: true
         },
         {
           type: "select",
@@ -1300,9 +1302,10 @@ export default {
           label: "推送报告地址",
           key: "reportUrl",
           maxlength: "250",
-          tag: "sms",
-          defaultValue: ""
-          // btnTxt: "拉取地址"
+          // tag: "sms",
+          defaultValue: "",
+          btnTxt: "拉取",
+          isShow: true
         },
         {
           type: "select",
@@ -1412,22 +1415,22 @@ export default {
           tag: "mms",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
-        // {
-        //   type: "select",
-        //   label: "产品类型",
-        //   key: "mmsProType",
-        //   multiple: true,
-        //   clearable: true,
-        //   disabled: false,
-        //   optionData: [
-        //     { key: 1, value: "web端" }
-        //     // { key: 2, value: "http接口" },
-        //     // { key: 4, value: "cmpp接口" }
-        //     // { key: 7, value: "音频接口" }
-        //   ],
-        //   tag: "mms",
-        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        // },
+        {
+          type: "select",
+          label: "产品类型",
+          key: "mmsProType",
+          // multiple: true,
+          // clearable: true,
+          // disabled: false,
+          optionData: [
+            { key: 1, value: "web端" },
+            { key: 2, value: "http接口" }
+            // { key: 4, value: "cmpp接口" }
+            // { key: 7, value: "音频接口" }
+          ],
+          tag: "mms",
+          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        },
         {
           type: "select",
           label: "计费方式",
@@ -1690,21 +1693,35 @@ export default {
       return `${this.formTit}账户`;
     },
     renderLock() {
-      const { proType, password, webPassword, secretKey } = this.infoData;
-      switch (proType) {
-        case 1:
-          return !!(!webPassword || webPassword === "-");
-        case 2:
-          const http = [password, webPassword, secretKey].some(
-            v => !v || v === "-"
-          );
-          return http;
-        case 4:
-          const cmpp = [password, webPassword].some(v => !v || v === "-");
-          return cmpp;
-        case 8 || 16 || 32:
-          const smpp = [password].some(v => !v || v === "-");
-          return smpp;
+      const {
+        proType,
+        password,
+        webPassword,
+        secretKey,
+        productTypes
+      } = this.infoData;
+      if (!Array.isArray(productTypes)) return false;
+      if (productTypes.includes(1)) {
+        // 短信
+        switch (proType) {
+          case 1:
+            return !!(!webPassword || webPassword === "-");
+          case 2:
+            const http = [password, webPassword, secretKey].some(
+              v => !v || v === "-"
+            );
+            return http;
+          case 4:
+            const cmpp = [password, webPassword].some(v => !v || v === "-");
+            return cmpp;
+          case 8 || 16 || 32:
+            const smpp = [password].some(v => !v || v === "-");
+            return smpp;
+        }
+      } else if (productTypes.includes(2)) {
+        // 彩信
+        const http = [password, webPassword].some(v => !v || v === "-");
+        return http;
       }
     }
   },
@@ -1712,11 +1729,26 @@ export default {
     choose(item) {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
-      this.$set(
-        this.formConfig[idx],
-        "defaultValue",
-        "https://smsmanage.jvtd.cn/#/"
-      );
+      const isProd = process.env.VUE_APP_TITLE === "production";
+      if (key === "moUrl") {
+        // 推送上行地址
+        this.$set(
+          this.formConfig[idx],
+          "defaultValue",
+          isProd
+            ? "https://sms3api.jvtd.cn/getMo/moReportToC"
+            : "http://10.10.0.32:9106/getMo/moJsonList"
+        );
+      } else if (key === "reportUrl") {
+        // 推送报告地址
+        this.$set(
+          this.formConfig[idx],
+          "defaultValue",
+          isProd
+            ? "https://sms3api.jvtd.cn/getMr/mrReportToC"
+            : "http://10.10.0.32:9106/getMr/mrJsonList"
+        );
+      }
     },
     // 关闭信息弹窗后重置web密码为不可修改状态
     handleClose(done) {
@@ -1917,30 +1949,73 @@ export default {
           this._setDefaultValueKeys("maxSession", "1");
         }
       }
-      // if (item.key === "moType") {
-      //   if (val == "0") {
-      //     this.formConfig.forEach(el => {
-      //       if (el.key === "moUrl" || el.key === "reportUrl") {
-      //         this.$nextTick(() => {
-      //           this.$set(el, "rules", [
-      //             { required: false, message: "请输入必填项", trigger: "blur" }
-      //           ]);
-      //         });
-      //       }
-      //     });
-      //   } else {
-      //     this.formConfig.forEach(el => {
-      //       if (el.key === "moUrl" || el.key === "reportUrl") {
-      //         let rules = [
-      //           { required: true, message: "请输入必填项", trigger: "blur" }
-      //         ];
-      //         this.$nextTick(() => {
-      //           this.$set(el, "rules", rules);
-      //         });
-      //       }
-      //     });
-      //   }
-      // }
+
+      if (item.key === "proType") {
+        if (val !== 2) {
+          // web端 cmpp接口
+          this._setDisplayShow(this.formConfig, "alertMobile", true);
+          this._setDefaultValueKeys("alertMobile", "");
+          this._setDisplayShow(this.formConfig, "moUrl", true);
+          this._setDefaultValueKeys("moUrl", "");
+          this._setDisplayShow(this.formConfig, "reportUrl", true);
+          this._setDefaultValueKeys("reportUrl", "");
+        } else {
+          // http接口
+          this._setDisplayShow(this.formConfig, "alertMobile", false);
+          this._setDisplayShow(this.formConfig, "moUrl", false);
+          this._setDisplayShow(this.formConfig, "reportUrl", false);
+        }
+      }
+      if (item.key === "moType") {
+        if (val == "0") {
+          // 无权限
+          this.formConfig.forEach(el => {
+            if (el.key === "moUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: false, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        } else {
+          // 推送
+          this.formConfig.forEach(el => {
+            if (el.key === "moUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: true, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        }
+      }
+      if (item.key === "reportType") {
+        if (val == "0") {
+          // 无权限
+          this.formConfig.forEach(el => {
+            if (el.key === "reportUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: false, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        } else {
+          // 推送
+          this.formConfig.forEach(el => {
+            if (el.key === "reportUrl") {
+              this.$nextTick(() => {
+                this.$set(el, "rules", [
+                  { required: true, message: "请输入必填项", trigger: "blur" }
+                ]);
+              });
+            }
+          });
+        }
+      }
     },
     /**
      * 关闭弹窗
@@ -1975,9 +2050,39 @@ export default {
         params = Object.assign(params, {
           [editId]: this.id
         });
-        this.$http[namespace][edit](params).then(res => {
-          this._mxSuccess(res, params);
-        });
+        const oldCorpId = this.currentEditFormData.corpId;
+        const newCorpId = params.corpId;
+        if (oldCorpId !== newCorpId) {
+          this.$confirm(
+            "此账户所在商户已发生变化，导致配置项将失效，需重新配置，是否确定此操作？",
+            "提示",
+            {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            }
+          )
+            .then(() => {
+              this.$http[namespace][edit](params).then(res => {
+                this._mxSuccess(res, params);
+              });
+            })
+            .catch(() => {
+              // this.formConfig.forEach(item => {
+              //   if (item.key === "corpId") {
+              //     item.defaultValue = oldCorpId;
+              //   }
+              // });
+              this.$message({
+                type: "info",
+                message: "已取消操作"
+              });
+            });
+        } else {
+          this.$http[namespace][edit](params).then(res => {
+            this._mxSuccess(res, params);
+          });
+        }
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
           [editId]: this.id,
@@ -1998,8 +2103,8 @@ export default {
           form[key] = form[key].join(",");
         }
         if (
-          key === "productType" ||
-          key === "mmsProType"
+          key === "productType"
+          // key === "mmsProType"
           // key === "proType"
         ) {
           if (
@@ -2035,13 +2140,17 @@ export default {
               if (this.infoData.proType === 2) {
                 // HTTP类型 ------ 查秘钥
                 this.$http.corpUser.getSecretKeyById(userId).then(response => {
-                  this.$nextTick(() => {
-                    this.$set(
-                      this.infoData,
-                      "secretKey",
-                      response.data.publicKey
-                    );
-                  });
+                  if (response.code === 200) {
+                    this.$nextTick(() => {
+                      this.$set(
+                        this.infoData,
+                        "secretKey",
+                        response.data.publicKey
+                      );
+                    });
+                  } else {
+                    this.$message.error(response.data || response.msg);
+                  }
                 });
               }
               this.$nextTick(() => {
@@ -2127,11 +2236,13 @@ export default {
           this.$set(item, "defaultValue", val);
           this.$set(item, "initDefaultValue", val);
         }
-        // if (item.key === "moUrl" || item.key === "reportUrl") {
-        //   this.$set(item, "rules", [
-        //     { required: false, message: "请输入必填项", trigger: "blur" }
-        //   ]);
-        // }
+        if (item.key === "moUrl" || item.key === "reportUrl") {
+          this.$set(item, "isShow", true);
+        }
+        if (item.key === "alertMobile") {
+          this.$set(item, "defaultValue", "2");
+          this.$set(item, "initDefaultValue", "2");
+        }
       });
       this.addChannel = true;
       setTimeout(() => {
@@ -2155,8 +2266,11 @@ export default {
         // if (key === "proType") {
         //   row["proType"] = row["proTypes"];
         // }
-        if (key === "mmsProType") {
-          row["mmsProType"] = row["mmsProTypes"];
+        // if (key === "mmsProType") {
+        //   row["mmsProType"] = row["mmsProTypes"];
+        // }
+        if (key === "mmsProType" && row["mmsProType"] === 3) {
+          row["mmsProType"] = 2; // 前端转换彩信类型-http类型
         }
         if (key === "productType") {
           row["productType"] = row["productTypes"];
@@ -2300,8 +2414,8 @@ export default {
           }
         }
         if (
-          item.key === "productType" ||
-          item.key === "mmsProType"
+          item.key === "productType"
+          // item.key === "mmsProType"
           // item.key === "proType"
         ) {
           let val = item.defaultValue;
@@ -2316,7 +2430,7 @@ export default {
           }
         }
         if (item.key === "proType") {
-          //产品类型如果是cmpp就展示链接路数
+          // 产品类型
           this.$nextTick(() => {
             if (
               item.defaultValue === 4 ||
@@ -2327,8 +2441,82 @@ export default {
               this._setDisplayShow(this.formConfig, "maxSession", false);
             } else {
               this._setDisplayShow(this.formConfig, "maxSession", true);
+              this._setDefaultValueKeys("maxSession", "");
+            }
+            // 不是http接口
+            if (item.defaultValue !== 2) {
+              // web端 cmpp接口
+              this._setDisplayShow(this.formConfig, "alertMobile", true);
+              this._setDefaultValueKeys("alertMobile", "");
+              this._setDisplayShow(this.formConfig, "moUrl", true);
+              this._setDefaultValueKeys("moUrl", "");
+              this._setDisplayShow(this.formConfig, "reportUrl", true);
+              this._setDefaultValueKeys("reportUrl", "");
+            } else {
+              // http接口
+              this._setDisplayShow(this.formConfig, "alertMobile", false);
+              this._setDisplayShow(this.formConfig, "moUrl", false);
+              this._setDisplayShow(this.formConfig, "reportUrl", false);
             }
           });
+        }
+        if (item.key === "moType") {
+          if (item.defaultValue == "0") {
+            // 无权限
+            this.formConfig.forEach(el => {
+              if (el.key === "moUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    {
+                      required: false,
+                      message: "请输入必填项",
+                      trigger: "blur"
+                    }
+                  ]);
+                });
+              }
+            });
+          } else {
+            // 推送
+            this.formConfig.forEach(el => {
+              if (el.key === "moUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    { required: true, message: "请输入必填项", trigger: "blur" }
+                  ]);
+                });
+              }
+            });
+          }
+        }
+        if (item.key === "reportType") {
+          if (item.defaultValue == "0") {
+            // 无权限
+            this.formConfig.forEach(el => {
+              if (el.key === "reportUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    {
+                      required: false,
+                      message: "请输入必填项",
+                      trigger: "blur"
+                    }
+                  ]);
+                });
+              }
+            });
+          } else {
+            // 推送
+            this.formConfig.forEach(el => {
+              if (el.key === "reportUrl") {
+                this.$nextTick(() => {
+                  this.$set(el, "rules", [
+                    { required: true, message: "请输入必填项", trigger: "blur" }
+                  ]);
+                });
+              }
+            });
+          }
         }
         // if (item.key == "proType") {
         //   this.$set(item, "disabled", true);
@@ -2511,7 +2699,7 @@ export default {
       this.infoData = this.$deepClone(row);
       console.log(this.infoData.proType, "=======");
       // 默认选中第一种产品类型
-      this.activeName = '1';
+      this.activeName = "1";
       this.infoVisible = true;
     },
     //获取所有商户
