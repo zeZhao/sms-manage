@@ -818,7 +818,9 @@ export default {
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
             { key: "4", value: "cmpp接口" },
-            { key: "8", value: "smpp福建" }
+            { key: "8", value: "smpp福建" },
+            { key: "16", value: "http国际" },
+            { key: "32", value: "smpp接口" }
             // { key: "7", value: "音频接口" }
           ],
           placeholder: "请选择产品类型"
@@ -1109,6 +1111,7 @@ export default {
           key: "productType",
           multiple: true,
           clearable: true,
+          collapseTags: true,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
@@ -2369,21 +2372,30 @@ export default {
             if (val.includes(1) && val.includes(2)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", false);
-              item.optionData[2].disabled = true;
+              this.$nextTick(() => {
+                item.optionData[2].disabled = true;
+              });
             } else if (val.includes(1)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", true);
-              item.optionData[2].disabled = true;
+              this.$nextTick(() => {
+                item.optionData[2].disabled = true;
+              });
             } else if (val.includes(2)) {
               this._setTagDisplayShow(this.formConfig, "mms", false);
               this._setTagDisplayShow(this.formConfig, "sms", true);
-              item.optionData[2].disabled = true;
+              this.$nextTick(() => {
+                item.optionData[2].disabled = true;
+              });
             } else if (val.includes(4)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", true);
-              //短信和彩信不可选
-              item.optionData[0].disabled = true;
-              item.optionData[1].disabled = true;
+              this.$nextTick(() => {
+                //短信和彩信不可选
+                item.optionData[0].disabled = true;
+                item.optionData[1].disabled = true;
+              });
+
               this.formConfig.forEach(item => {
                 if (item.tag === "sms") {
                   if (item.isTitle) {

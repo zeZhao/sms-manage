@@ -172,6 +172,7 @@
                 :clearable="!item.clearable ? true : false"
                 :multiple="item.multiple"
                 :disabled="item.disabled"
+                :collapse-tags="item.collapseTags"
                 :placeholder="item.placeholder || `请选择${item.label}`"
                 @change="
                   val => {
@@ -488,9 +489,13 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.formConfig.forEach(item => {
-            for(const i in this.formData) {
-              if (item.key === i && item.type === "inputNum" && this.formData[i]) {
-                this.formData[i] = +(this.formData[i]); // 转为number类型
+            for (const i in this.formData) {
+              if (
+                item.key === i &&
+                item.type === "inputNum" &&
+                this.formData[i]
+              ) {
+                this.formData[i] = +this.formData[i]; // 转为number类型
               }
             }
           });
