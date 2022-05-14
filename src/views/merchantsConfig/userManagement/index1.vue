@@ -1762,14 +1762,14 @@ export default {
     choose(item) {
       const { key } = item;
       const idx = this.formConfig.findIndex(v => v.key === key);
-      const isProd = process.env.NODE_ENV === "production";
+      const isProd = process.env.VUE_APP_TITLE === "production";
       if (key === "moUrl") {
         // 推送上行地址
         this.$set(
           this.formConfig[idx],
           "defaultValue",
           isProd
-            ? "http://10.3.0.20:9106/getMo/moJsonList"
+            ? "https://sms3api.jvtd.cn/getMo/moReportToC"
             : "http://10.10.0.32:9106/getMo/moJsonList"
         );
       } else if (key === "reportUrl") {
@@ -1778,7 +1778,7 @@ export default {
           this.formConfig[idx],
           "defaultValue",
           isProd
-            ? "http://10.3.0.20:9106/getMr/mrJsonList"
+            ? "https://sms3api.jvtd.cn/getMr/mrReportToC"
             : "http://10.10.0.32:9106/getMr/mrJsonList"
         );
       }
@@ -2084,9 +2084,39 @@ export default {
         params = Object.assign(params, {
           [editId]: this.id
         });
-        this.$http[namespace][edit](params).then(res => {
-          this._mxSuccess(res, params);
-        });
+        const oldCorpId = this.currentEditFormData.corpId;
+        const newCorpId = params.corpId;
+        if (oldCorpId !== newCorpId) {
+          this.$confirm(
+            "此账户所在商户已发生变化，导致配置项将失效，需重新配置，是否确定此操作？",
+            "提示",
+            {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            }
+          )
+            .then(() => {
+              this.$http[namespace][edit](params).then(res => {
+                this._mxSuccess(res, params);
+              });
+            })
+            .catch(() => {
+              // this.formConfig.forEach(item => {
+              //   if (item.key === "corpId") {
+              //     item.defaultValue = oldCorpId;
+              //   }
+              // });
+              this.$message({
+                type: "info",
+                message: "已取消操作"
+              });
+            });
+        } else {
+          this.$http[namespace][edit](params).then(res => {
+            this._mxSuccess(res, params);
+          });
+        }
       } else if (this.formTit == "审核") {
         params = Object.assign(params, {
           [editId]: this.id,
