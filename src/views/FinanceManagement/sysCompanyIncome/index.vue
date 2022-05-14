@@ -35,6 +35,7 @@
           <span v-if="scope.row.operaId == '1'">移动</span>
           <span v-else-if="scope.row.operaId == '2'">联通</span>
           <span v-else-if="scope.row.operaId == '3'">电信</span>
+          <span v-else-if="scope.row.operaId == '4'">国际</span>
           <span v-else>-</span>
         </template>
       </el-table-column>
