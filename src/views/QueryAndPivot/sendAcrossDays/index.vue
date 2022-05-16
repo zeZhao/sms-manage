@@ -50,6 +50,7 @@
           <span v-if="scope.row.operaId === 1">移动</span>
           <span v-if="scope.row.operaId === 2">联通</span>
           <span v-if="scope.row.operaId === 3">电信</span>
+          <span v-if="scope.row.operaId === 4">国际</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
@@ -177,11 +178,13 @@ export default {
       const diffForm = this.$deepClone(form);
       delete diffForm.showDecrypt;
       // 显示内容字段不作为筛选条件（仅限于该提示语）
-      const allFalse = Object.values(diffForm).every(v => ["", null, undefined].includes(v));
+      const allFalse = Object.values(diffForm).every(v =>
+        ["", null, undefined].includes(v)
+      );
       if (allFalse) {
         this.$message({
-          message: '请输入任意一项条件进行查询',
-          type: 'warning',
+          message: "请输入任意一项条件进行查询",
+          type: "warning",
           duration: 2500
         });
         return;

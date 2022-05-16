@@ -31,6 +31,7 @@
           <span v-if="scope.row.operaId === 1">移动</span>
           <span v-if="scope.row.operaId === 2">联通</span>
           <span v-if="scope.row.operaId === 3">电信</span>
+          <span v-if="scope.row.operaId === 3">国际</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsType" label="类型">

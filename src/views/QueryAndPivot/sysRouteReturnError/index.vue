@@ -54,7 +54,9 @@
                 ? "移动"
                 : scope.row.operaId === 2
                 ? "联通"
-                : "电信"
+                : scope.row.operaId === 3
+                ? "电信"
+                : "国际"
             }}
           </span>
         </template>
