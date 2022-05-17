@@ -20,9 +20,13 @@
       <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="chargeType" label="产品">
         <template slot-scope="scope">
-          <span>
+          <span v-if="scope.row.chargeType == 1">短信</span>
+          <span v-if="scope.row.chargeType == 2">彩信</span>
+          <span v-if="scope.row.chargeType == 3">短信、彩信</span>
+          <span v-if="scope.row.chargeType == 4">国际短信</span>
+          <!-- <span>
             {{ scope.row.chargeType == 1 ? '短信' : '彩信' }}
-          </span>
+          </span> -->
         </template>
       </el-table-column>
       <el-table-column prop="beforeBalance" label="操作前的条数" />
@@ -141,69 +145,70 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin';
+import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
   data() {
     return {
-      formTit: '新增',
+      formTit: "新增",
       addChannel: false,
       //接口地址
       searchAPI: {
-        namespace: 'sysRecharge',
-        list: 'listPrepaidCardExamineByPage',
-        detele: '',
-        add: 'addPrepaidCard',
-        edit: 'updatePrepaidCard'
+        namespace: "sysRecharge",
+        list: "listPrepaidCardExamineByPage",
+        detele: "",
+        add: "addPrepaidCard",
+        edit: "updatePrepaidCard"
       },
       // 列表参数
-      namespace: 'prepaidCard',
+      namespace: "prepaidCard",
       //搜索框数据
       searchParam: {},
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '商户编号',
-          key: 'corporateId'
+          type: "inputNum",
+          label: "商户编号",
+          key: "corporateId"
         },
         {
-          type: 'input',
-          label: '商户名称',
-          key: 'corpName'
+          type: "input",
+          label: "商户名称",
+          key: "corpName"
         },
         {
-          type: 'inputNum',
-          label: '账户编号',
-          key: 'userId'
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId"
         },
         {
-          type: 'input',
-          label: '账户名称',
-          key: 'userName'
+          type: "input",
+          label: "账户名称",
+          key: "userName"
         },
         {
-          type: 'select',
-          label: '产品',
-          key: 'chargeType',
+          type: "select",
+          label: "产品",
+          key: "chargeType",
           optionData: [
-            { key: '1', value: '短信' },
-            { key: '2', value: '彩信' }
+            { key: "1", value: "短信" },
+            { key: "2", value: "彩信" },
+            { key: "4", value: "国际短信" }
           ],
-          placeholder: '类型'
+          placeholder: "类型"
         },
         {
-          type: 'select',
-          label: '操作类型',
-          key: 'paidWay',
+          type: "select",
+          label: "操作类型",
+          key: "paidWay",
           optionData: [
-            { key: '0', value: '充值' },
+            { key: "0", value: "充值" },
             // { key: "1", value: "借款" },
             // { key: "2", value: "扣款" },
-            { key: '3', value: '还款' }
+            { key: "3", value: "还款" }
           ],
-          placeholder: '类型'
+          placeholder: "类型"
         },
         // {
         //   type: "select",
@@ -219,19 +224,19 @@ export default {
         //   ]
         // },
         {
-          type: 'select',
-          label: '到款方式',
-          key: 'direction',
+          type: "select",
+          label: "到款方式",
+          key: "direction",
           optionData: [
-            { key: '对公付款', value: '对公付款' },
-            { key: '对私付款', value: '对私付款' },
-            { key: '无', value: '无' }
+            { key: "对公付款", value: "对公付款" },
+            { key: "对私付款", value: "对私付款" },
+            { key: "无", value: "无" }
           ]
         },
         {
-          type: 'daterange',
-          label: '创建时间',
-          key: ['', 'startTime', 'endTime']
+          type: "daterange",
+          label: "创建时间",
+          key: ["", "startTime", "endTime"]
         }
       ],
       origin: window.location.origin
@@ -246,19 +251,19 @@ export default {
     audit(row) {
       const { corpName, cardId } = row;
       this.$confirm(`是否通过打款公司为“${row.corpName}”的提交记录`, ``, {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then((action) => {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(action => {
         const params = {
           data: {
             paymentCompany: corpName,
             cardId
           }
         };
-        this.$http.sysFinancialControl.useCard(params).then((res) => {
+        this.$http.sysFinancialControl.useCard(params).then(res => {
           if (resOk(res)) {
-            this.$message.success('操作成功');
+            this.$message.success("操作成功");
             this._mxGetList();
           }
         });
@@ -267,15 +272,15 @@ export default {
     reject(row) {
       const { corpName, cardId } = row;
       this.$confirm(`是否驳回打款公司为“${row.corpName}”的提交记录`, ``, {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then((action) => {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(action => {
         this.$http.sysFinancialControl
           .stopPrepaidCard({ data: { cardId, paymentCompany: corpName } })
-          .then((res) => {
+          .then(res => {
             if (resOk(res)) {
-              this.$message.success('操作成功');
+              this.$message.success("操作成功");
               this._mxGetList();
             }
           });

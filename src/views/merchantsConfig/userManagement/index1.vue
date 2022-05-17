@@ -565,11 +565,18 @@
                 infoData.proType === 32
             "
           >
-            <p>产品类型: SMPP</p>
+            <p v-if="infoData.proType === 8 || infoData.proType === 32">
+              产品类型: SMPP
+            </p>
+            <p v-else>产品类型: http国际</p>
             <p>企业名称: {{ infoData.corpName }}</p>
             <p>账户名称: {{ infoData.userName }}</p>
             <p>账户编号: {{ infoData.userId }}</p>
-            <p>smpp密码: {{ infoData.password || "-" }}</p>
+            <p>
+              <span v-if="infoData.proType === 8 || infoData.proType === 32"
+                >smpp</span
+              ><span v-else>http国际</span>密码: {{ infoData.password || "-" }}
+            </p>
             <p>端口: 7888</p>
             <p>IP地址: 39.107.120.170</p>
             <p>
@@ -1704,7 +1711,7 @@ export default {
         productTypes
       } = this.infoData;
       if (!Array.isArray(productTypes)) return false;
-      if (productTypes.includes(1)) {
+      if (productTypes.includes(1) || productTypes.includes(4)) {
         // 短信
         switch (proType) {
           case 1:
@@ -1717,9 +1724,15 @@ export default {
           case 4:
             const cmpp = [password, webPassword].some(v => !v || v === "-");
             return cmpp;
-          case 8 || 16 || 32:
+          case 8:
             const smpp = [password].some(v => !v || v === "-");
             return smpp;
+          case 16:
+            const httpG = [password].some(v => !v || v === "-");
+            return httpG;
+          case 32:
+            const smppG = [password].some(v => !v || v === "-");
+            return smppG;
         }
       } else if (productTypes.includes(2)) {
         // 彩信
@@ -1862,13 +1875,6 @@ export default {
                     { key: 8, value: "smpp福建" }
                   ];
                 }
-                if (
-                  item.key === "httpSign" ||
-                  item.key === "sendType" ||
-                  item.key === "alertMobile"
-                ) {
-                  this.$set(item, "isShow", false);
-                }
               }
             });
           } else if (val.includes(2)) {
@@ -1895,13 +1901,6 @@ export default {
                     { key: 16, value: "http国际" },
                     { key: 32, value: "smpp接口" }
                   ];
-                }
-                if (
-                  item.key === "httpSign" ||
-                  item.key === "sendType" ||
-                  item.key === "alertMobile"
-                ) {
-                  this.$set(item, "isShow", true);
                 }
               }
             });
@@ -2381,6 +2380,21 @@ export default {
               this.$nextTick(() => {
                 item.optionData[2].disabled = true;
               });
+              this.formConfig.forEach(item => {
+                if (item.tag === "sms") {
+                  if (item.isTitle) {
+                    item.title = "短信业务信息";
+                  }
+                  if (item.key === "proType") {
+                    item.optionData = [
+                      { key: 1, value: "web端" },
+                      { key: 2, value: "http接口" },
+                      { key: 4, value: "cmpp接口" },
+                      { key: 8, value: "smpp福建" }
+                    ];
+                  }
+                }
+              });
             } else if (val.includes(2)) {
               this._setTagDisplayShow(this.formConfig, "mms", false);
               this._setTagDisplayShow(this.formConfig, "sms", true);
@@ -2407,13 +2421,13 @@ export default {
                       { key: 32, value: "smpp接口" }
                     ];
                   }
-                  if (
-                    item.key === "httpSign" ||
-                    item.key === "sendType" ||
-                    item.key === "alertMobile"
-                  ) {
-                    this.$set(item, "isShow", true);
-                  }
+                  // if (
+                  //   item.key === "httpSign" ||
+                  //   item.key === "sendType" ||
+                  //   item.key === "alertMobile"
+                  // ) {
+                  //   this.$set(item, "isShow", true);
+                  // }
                 }
               });
             }
