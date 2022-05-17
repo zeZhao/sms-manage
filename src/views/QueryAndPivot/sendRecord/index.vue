@@ -32,7 +32,7 @@
         v-if="searchParam.showDecrypt === 1"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.mobile.slice(0, 11) }}</span>
+          <span>{{ row.mobile }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
