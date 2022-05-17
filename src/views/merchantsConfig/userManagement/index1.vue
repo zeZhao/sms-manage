@@ -1389,7 +1389,9 @@ export default {
           optionData: [
             { key: "0", value: "无" },
             { key: 1, value: "冬云" },
-            { key: 2, value: "棱镜" }
+            { key: 2, value: "棱镜" },
+            { key: 3, value: "先丰" },
+            { key: 4, value: "云启通" }
           ]
         },
         {
