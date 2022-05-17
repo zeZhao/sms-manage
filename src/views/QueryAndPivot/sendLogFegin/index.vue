@@ -24,6 +24,8 @@
           <span v-if="scope.row.submitType == 2">http接口</span>
           <span v-if="scope.row.submitType == 3">cmpp接口</span>
           <span v-if="scope.row.submitType == 8">smpp福建</span>
+          <span v-if="scope.row.submitType == 16">http国际</span>
+          <span v-if="scope.row.submitType == 32">smpp接口</span>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
