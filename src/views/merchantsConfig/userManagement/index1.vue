@@ -1953,7 +1953,7 @@ export default {
       }
 
       if (item.key === "proType") {
-        if (val !== 2) {
+        if (val !== 2 && val !== 16) {
           // web端 cmpp接口
           this._setDisplayShow(this.formConfig, "alertMobile", true);
           this._setDefaultValueKeys("alertMobile", "");
