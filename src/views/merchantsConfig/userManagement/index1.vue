@@ -1936,7 +1936,7 @@ export default {
         });
       }
       if (item.key === "proType") {
-        if (val === 1) {
+        if (val === 1 || val === 16) {
           this._setDefaultValueKeys("directPort", "无");
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
@@ -2461,7 +2461,6 @@ export default {
             if (
               item.defaultValue === 4 ||
               item.defaultValue === 8 ||
-              item.defaultValue === 16 ||
               item.defaultValue === 32
             ) {
               this._setDisplayShow(this.formConfig, "maxSession", false);
@@ -2470,7 +2469,7 @@ export default {
               this._setDefaultValueKeys("maxSession", "");
             }
             // 不是http接口
-            if (item.defaultValue !== 2) {
+            if (item.defaultValue !== 2 && item.defaultValue !== 16) {
               // web端 cmpp接口
               this._setDisplayShow(this.formConfig, "alertMobile", true);
               this._setDefaultValueKeys("alertMobile", "");
