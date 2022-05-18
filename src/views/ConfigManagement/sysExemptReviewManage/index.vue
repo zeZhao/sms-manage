@@ -196,8 +196,20 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="选择商户">
-                <el-select v-model="selectsTop.corpId" placeholder="请选择商户" class="inputs" clearable filterable @clear="selectsTop.corpId = null">
-                  <el-option v-for="item in corpIdList" :key="item.key" :label="item.key + '_' + item.value" :value="item.key" />
+                <el-select
+                  v-model="selectsTop.corpId"
+                  placeholder="请选择商户"
+                  class="inputs"
+                  clearable
+                  filterable
+                  @clear="selectsTop.corpId = null"
+                >
+                  <el-option
+                    v-for="item in corpIdList"
+                    :key="item.key"
+                    :label="item.key + '_' + item.value"
+                    :value="item.key"
+                  />
                 </el-select>
               </el-form-item>
             </el-col>
@@ -621,7 +633,7 @@ export default {
         //   ]
         //   // isShow: true
         // },
-        
+
         {
           type: "input",
           label: "国际短信通道",
@@ -635,10 +647,6 @@ export default {
             {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
-              trigger: ["blur", "change"]
-            },
-            {
-              validator: validatorNum,
               trigger: ["blur", "change"]
             }
           ]
@@ -852,7 +860,7 @@ export default {
             return {
               key: t.corpId,
               value: t.corpName
-            }
+            };
           });
         }
       });

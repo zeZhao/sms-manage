@@ -42,6 +42,7 @@
                   :placeholder="item.placeholder || `请输入${item.label}`"
                   :clearable="isClearAble(item)"
                   @input="limitNumberTypeLength(item)"
+                  :maxlength="item.maxlength"
                   onKeypress="this.value = this.value.replace(/\D/g, '')"
                 ></el-input>
                 <!-- oninput="if(value.length > 11)value=value.slice(0,11)" -->
@@ -352,13 +353,25 @@ export default {
     // 限制数字类型长度
     limitNumberTypeLength({ key, label }) {
       // cid、CID、特服号的label限制长度20位
-      const limit20 = { "cid": true, "CID": true, "特服号": true };
+      const limit20 = { cid: true, CID: true, 特服号: true };
       // 下方数据的key限制长度10位
-      const limit10 = { "gateway": true, "routeId": true, "userId": true, "errNum": true, "corpId": true, "mmsId": true, "cm": true, "cu": true, "ct": true };
+      const limit10 = {
+        gateway: true,
+        routeId: true,
+        userId: true,
+        errNum: true,
+        corpId: true,
+        mmsId: true,
+        cm: true,
+        cu: true,
+        ct: true
+      };
       if (!limit20[label]) {
-        if (key !== "gwcode") { // 通道特服号
+        if (key !== "gwcode") {
+          // 通道特服号
           if (!limit10[key]) {
-            if (this.form[key].length > 11) { // 其余数字类型限制11位（防止查询报错）
+            if (this.form[key].length > 11) {
+              // 其余数字类型限制11位（防止查询报错）
               this.form[key] = this.form[key].slice(0, 11);
             }
           } else {
@@ -461,7 +474,11 @@ export default {
         }
 
         if (path === "/sysReport/index") {
-          if (["showProvince", "showGateway", "showOpera", "showUser"].includes(key)) {
+          if (
+            ["showProvince", "showGateway", "showOpera", "showUser"].includes(
+              key
+            )
+          ) {
             form[key] = "1";
           }
           if (key === "showCode") {
@@ -488,9 +505,11 @@ export default {
       this.searchFormConfig.forEach((item, index) => {
         const { type, key, api, params, keys, defaultValue } = item;
         if (defaultValue || defaultValue === "") {
-          if (doubleValue.indexOf(type) === -1) { // 单值
+          if (doubleValue.indexOf(type) === -1) {
+            // 单值
             form[key] = item.defaultValue;
-          } else {                                // 双值
+          } else {
+            // 双值
             form[key[1]] = item.defaultValue[1];
             form[key[2]] = item.defaultValue[2];
           }
