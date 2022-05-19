@@ -142,7 +142,7 @@ export default {
           label: "运营商",
           key: "operaId",
           optionData: [
-            // { key: "0", value: "非法" },
+            { key: "0", value: "非法" },
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
             { key: "3", value: "电信" },

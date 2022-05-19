@@ -459,8 +459,9 @@
               ></i>
             </p> -->
           </div>
-          <div v-if="infoData.proType === 2">
-            <p>产品类型: HTTP</p>
+          <div v-if="infoData.proType === 2 || infoData.proType === 16">
+            <p v-if="infoData.proType === 2">产品类型: HTTP</p>
+            <p v-else>产品类型: HTTP国际</p>
             <p>企业名称: {{ infoData.corpName }}</p>
             <p>账户名称: {{ infoData.userName }}</p>
             <p>账户编号: {{ infoData.userId }}</p>
@@ -558,25 +559,14 @@
             </p>
             <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
           </div>
-          <div
-            v-if="
-              infoData.proType === 8 ||
-                infoData.proType === 16 ||
-                infoData.proType === 32
-            "
-          >
-            <p v-if="infoData.proType === 8 || infoData.proType === 32">
+          <div v-if="infoData.proType === 8 || infoData.proType === 32">
+            <p>
               产品类型: SMPP
             </p>
-            <p v-else>产品类型: http国际</p>
             <p>企业名称: {{ infoData.corpName }}</p>
             <p>账户名称: {{ infoData.userName }}</p>
             <p>账户编号: {{ infoData.userId }}</p>
-            <p>
-              <span v-if="infoData.proType === 8 || infoData.proType === 32"
-                >smpp</span
-              ><span v-else>http国际</span>密码: {{ infoData.password || "-" }}
-            </p>
+            <p><span>smpp</span>密码: {{ infoData.password || "-" }}</p>
             <p>端口: 7888</p>
             <p>IP地址: 39.107.120.170</p>
             <p>
@@ -1915,6 +1905,12 @@ export default {
           item.optionData[0].disabled = false;
           item.optionData[1].disabled = false;
           item.optionData[2].disabled = false;
+          this._setDisplayShow(this.formConfig, "alertMobile", true);
+          this._setDefaultValueKeys("alertMobile", "");
+          this._setDisplayShow(this.formConfig, "moUrl", true);
+          this._setDefaultValueKeys("moUrl", "");
+          this._setDisplayShow(this.formConfig, "reportUrl", true);
+          this._setDefaultValueKeys("reportUrl", "");
         }
       }
       if (item.key === "reductModel") {
@@ -2373,6 +2369,21 @@ export default {
               this._setTagDisplayShow(this.formConfig, "mms", false);
               this.$nextTick(() => {
                 item.optionData[2].disabled = true;
+              });
+              this.formConfig.forEach(item => {
+                if (item.tag === "sms") {
+                  if (item.isTitle) {
+                    item.title = "短信业务信息";
+                  }
+                  if (item.key === "proType") {
+                    item.optionData = [
+                      { key: 1, value: "web端" },
+                      { key: 2, value: "http接口" },
+                      { key: 4, value: "cmpp接口" },
+                      { key: 8, value: "smpp福建" }
+                    ];
+                  }
+                }
               });
             } else if (val.includes(1)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);

@@ -46,11 +46,12 @@
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
-          <span v-if="scope.row.operaId === 0">三网</span>
+          <span v-if="scope.row.operaId === 0">非法</span>
           <span v-if="scope.row.operaId === 1">移动</span>
-          <span v-if="scope.row.operaId === 2">联通</span>
-          <span v-if="scope.row.operaId === 3">电信</span>
-          <span v-if="scope.row.operaId === 4">国际</span>
+          <span v-else-if="scope.row.operaId === 2">联通</span>
+          <span v-else-if="scope.row.operaId === 3">电信</span>
+          <span v-else-if="scope.row.operaId === 4">国际</span>
+          <span v-else>未知</span>
         </template>
       </el-table-column>
       <el-table-column prop="submitTime" label="提交时间" width="150">
