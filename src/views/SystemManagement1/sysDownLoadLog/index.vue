@@ -46,10 +46,11 @@
       </el-table-column>
       <el-table-column prop="status" label="处理状态">
         <template slot-scope="{ row }">
-          <span v-if="row.status == 1">生成中</span>
+          <span v-if="row.status == 1">等待</span>
           <span v-if="row.status == 2">成功</span>
           <span v-if="row.status == 3">失败</span>
           <span v-if="row.status == 4">完结</span>
+          <span v-if="row.status == 5">生成中</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100">
@@ -58,7 +59,7 @@
             @click="install(scope.row)"
             type="text"
             size="small"
-            :disabled="scope.row.status == 1 || scope.row.status == 3"
+            :disabled="scope.row.status !== 2"
             >下载</el-button
           >
           <el-button
