@@ -1962,6 +1962,10 @@ export default {
         download(params) {
             return downLoadGet("/sysDownLoadLog/download", params);
         },
+        // 重试
+        retry(params) {
+            return post(`/sysDownLoadLog/retry?${params}`,);
+        },
 
     },
     //用户监控配置管理
