@@ -1964,7 +1964,7 @@ export default {
         },
         // 重试
         retry(params) {
-            return post("/sysDownLoadLog/retry", params);
+            return post(`/sysDownLoadLog/retry?${params}`,);
         },
 
     },

@@ -61,7 +61,11 @@
             :disabled="scope.row.status == 1 || scope.row.status == 3"
             >下载</el-button
           >
-          <el-button @click="tautology(scope.row)" type="text" size="small"
+          <el-button
+            @click="tautology(scope.row)"
+            v-if="scope.row.status == 3"
+            type="text"
+            size="small"
             >重试</el-button
           >
         </template>
@@ -158,12 +162,12 @@ export default {
       });
     },
     tautology({ downloadId }) {
-      this.$http.sysDownLoadLog.retry({ downLoadId: downloadId }).then(res => {
+      let listParams = "downLoadId=" + downloadId;
+      this.$http.sysDownLoadLog.retry(listParams).then(res => {
         if (res.code === 200) {
           this.$message.success("操作成功！");
           this._mxGetList();
         }
-        // console.log(res, "----");
       });
     }
   },
