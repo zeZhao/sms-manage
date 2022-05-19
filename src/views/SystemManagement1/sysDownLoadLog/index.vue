@@ -49,9 +49,10 @@
           <span v-if="row.status == 1">生成中</span>
           <span v-if="row.status == 2">成功</span>
           <span v-if="row.status == 3">失败</span>
+          <span v-if="row.status == 4">完结</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="50">
+      <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button
             @click="install(scope.row)"
@@ -59,6 +60,9 @@
             size="small"
             :disabled="scope.row.status == 1 || scope.row.status == 3"
             >下载</el-button
+          >
+          <el-button @click="tautology(scope.row)" type="text" size="small"
+            >重试</el-button
           >
         </template>
       </el-table-column>
@@ -151,16 +155,16 @@ export default {
         aLink.click();
         document.body.removeChild(aLink);
         window.URL.revokeObjectURL(url);
-        // if (res.data.type == "application/octet-stream") {
-
-        // } else {
-        //   this.$message.error("下载失败");
-        // }
-        // this.downloadFileByFile("get", "/sysDownLoadLog/download", {}, "123");
-        // location.href = res;
-        // console.log(res);
       });
-      // this.downloadFileByUrl(`${this.configFilePath}/${filePath}`);
+    },
+    tautology({ downloadId }) {
+      this.$http.sysDownLoadLog.retry({ downLoadId: downloadId }).then(res => {
+        if (res.code === 200) {
+          this.$message.success("操作成功！");
+          this._mxGetList();
+        }
+        // console.log(res, "----");
+      });
     }
   },
   watch: {}
