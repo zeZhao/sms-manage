@@ -54,7 +54,9 @@
                 ? "联通"
                 : scope.row.operaId === 3
                 ? "电信"
-                : "国际"
+                : scope.row.operaId === 4
+                ? "国际"
+                : "未知"
             }}
           </span>
         </template>
@@ -271,9 +273,11 @@ export default {
           key: "operaId",
           placeholder: "请选择运营商",
           optionData: [
+            { key: "0", value: "非法" },
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" }
+            { key: "3", value: "电信" },
+            { key: "4", value: "国际" }
           ]
         },
         {

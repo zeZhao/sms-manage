@@ -27,7 +27,7 @@
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="content" label="内容" width="310" />
       <el-table-column prop="mobile" label="手机号" width="100">
-        <template slot-scope="{row}">
+        <template slot-scope="{ row }">
           <span>{{ row.mobile.slice(0, 11) }}</span>
         </template>
       </el-table-column>
@@ -50,7 +50,7 @@
           <span v-else-if="scope.row.operaid === 2">联通</span>
           <span v-else-if="scope.row.operaid === 3">电信</span>
           <span v-else-if="scope.row.operaid === 4">国际</span>
-          <span v-else></span>
+          <span v-else>未知</span>
         </template>
       </el-table-column>
       <el-table-column prop="counter" label="条数" />

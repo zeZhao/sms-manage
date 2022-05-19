@@ -638,6 +638,7 @@ export default {
           type: "input",
           label: "国际短信通道",
           key: "inernationPassageway",
+          maxlength: 10,
           rules: [
             {
               required: true,
@@ -665,6 +666,9 @@ export default {
               pattern: /^\+?[1-9]\d*$/,
               message: "请输入大于0的正整数",
               trigger: ["blur", "change"]
+            },
+            {
+              validator: validatorNum
             }
           ]
         },

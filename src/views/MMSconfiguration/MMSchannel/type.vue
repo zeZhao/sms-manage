@@ -159,6 +159,10 @@ export default {
             {
               key: 3,
               value: "电信"
+            },
+            {
+              key: 4,
+              value: "国际"
             }
           ],
           rules: [

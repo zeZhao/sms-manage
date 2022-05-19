@@ -47,7 +47,9 @@
                 ? "电信"
                 : scope.row.operaId === 4
                 ? "国际"
-                : ""
+                : scope.row.operaId === 0
+                ? "非法"
+                : "未知"
             }}
           </span>
         </template>
