@@ -459,9 +459,8 @@
               ></i>
             </p> -->
           </div>
-          <div v-if="infoData.proType === 2 || infoData.proType === 16">
-            <p v-if="infoData.proType === 2">产品类型: HTTP</p>
-            <p v-else>产品类型: HTTP国际</p>
+          <div v-if="infoData.proType === 2">
+            <p>产品类型: HTTP</p>
             <p>企业名称: {{ infoData.corpName }}</p>
             <p>账户名称: {{ infoData.userName }}</p>
             <p>账户编号: {{ infoData.userId }}</p>
@@ -502,6 +501,16 @@
               加密接口地址: https://sms3api.jvtd.cn/jtdsms/smsSendEncryption
             </p>
             <p>秘钥: {{ infoData.secretKey || "-" }}</p>
+          </div>
+          <div v-if="infoData.proType === 16">
+            <p>产品类型: HTTP国际</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>http密码: {{ infoData.password || "-" }}</p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <p>接口地址: https://sms3api.jvtd.cn/isms/smsSend</p>
+            <p>接口文档: https://jvtd.cn/duanxinApi/</p>
           </div>
           <div v-if="infoData.proType === 4">
             <p>产品类型: CMPP2.0</p>
@@ -1911,6 +1920,8 @@ export default {
           this._setDefaultValueKeys("moUrl", "");
           this._setDisplayShow(this.formConfig, "reportUrl", true);
           this._setDefaultValueKeys("reportUrl", "");
+          this._setDisplayShow(this.formConfig, "returnBalance", true);
+          this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
         }
       }
       if (item.key === "reductModel") {

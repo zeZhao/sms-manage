@@ -26,6 +26,9 @@
       <el-table-column prop="smsBalance" label="短信余额(条)" />
       <el-table-column prop="debt" label="短信借款(条)" />
       <el-table-column prop="unitPrice" label="短信单价(分)" />
+      <el-table-column prop="ismsBalance" label="国际短信余额(条)" />
+      <el-table-column prop="ismsDebt" label="国际短信借款(条)" />
+      <el-table-column prop="ismsCardUnit" label="国际短信单价(分)" />
       <el-table-column prop="mmsBalance" label="彩信余额(条)" />
       <el-table-column prop="mmsDebt" label="彩信借款(条)" />
       <el-table-column prop="mmsCardUnit" label="彩信单价(分)" />
@@ -37,8 +40,8 @@
           }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="operaName" label="操作人" />
-      <el-table-column label="操作时间" width="135">
+      <!-- <el-table-column prop="operaName" label="操作人" /> -->
+      <el-table-column label="更新时间" width="135">
         <template slot-scope="scope">{{
           scope.row.operDate | timeFormat
         }}</template>
