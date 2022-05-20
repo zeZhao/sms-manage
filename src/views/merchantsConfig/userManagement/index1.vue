@@ -1914,6 +1914,8 @@ export default {
           item.optionData[0].disabled = false;
           item.optionData[1].disabled = false;
           item.optionData[2].disabled = false;
+        }
+        if (!val.includes(1)) {
           this._setDisplayShow(this.formConfig, "alertMobile", true);
           this._setDefaultValueKeys("alertMobile", "");
           this._setDisplayShow(this.formConfig, "moUrl", true);
@@ -1921,7 +1923,13 @@ export default {
           this._setDisplayShow(this.formConfig, "reportUrl", true);
           this._setDefaultValueKeys("reportUrl", "");
           this._setDisplayShow(this.formConfig, "returnBalance", true);
+          this._setDisplayShow(this.formConfig, "maxSession", true);
+        }
+        if (!val.includes(2)) {
           this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+        }
+        if (!val.includes(4)) {
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         }
       }
       if (item.key === "reductModel") {
