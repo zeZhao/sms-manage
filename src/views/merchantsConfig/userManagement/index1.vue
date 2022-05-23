@@ -1224,6 +1224,22 @@ export default {
           key: "cardUnit",
           tag: "sms",
           maxlength: 6,
+          isShow: false,
+          rules: [
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: validatorPrice
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "国际短信单价",
+          key: "qingyunPaySum",
+          tag: "sms",
+          maxlength: 6,
+          isShow: true,
           rules: [
             {
               required: true,
@@ -1859,6 +1875,8 @@ export default {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._setDisplayShow(this.formConfig, "cardUnit", false);
+            this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
             this._deleteDefaultValue(this.formConfig, "mms");
             item.optionData[2].disabled = true;
             this.formConfig.forEach(item => {
@@ -1886,6 +1904,8 @@ export default {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._setDisplayShow(this.formConfig, "cardUnit", true);
+            this._setDisplayShow(this.formConfig, "qingyunPaySum", false);
             this._deleteDefaultValue(this.formConfig, "mms");
             //短信和彩信不可选
             item.optionData[0].disabled = true;
@@ -1924,12 +1944,14 @@ export default {
           this._setDefaultValueKeys("reportUrl", "");
           this._setDisplayShow(this.formConfig, "returnBalance", true);
           this._setDisplayShow(this.formConfig, "maxSession", true);
+          this._setDisplayShow(this.formConfig, "cardUnit", true);
         }
         if (!val.includes(2)) {
           this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
         }
         if (!val.includes(4)) {
           this._setDisplayShow(this.formConfig, "maxSession", true);
+          this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
         }
       }
       if (item.key === "reductModel") {
@@ -2407,6 +2429,8 @@ export default {
             } else if (val.includes(1)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", true);
+              this._setDisplayShow(this.formConfig, "cardUnit", false);
+              this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
               this.$nextTick(() => {
                 item.optionData[2].disabled = true;
               });
@@ -2434,6 +2458,8 @@ export default {
             } else if (val.includes(4)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", true);
+              this._setDisplayShow(this.formConfig, "cardUnit", true);
+              this._setDisplayShow(this.formConfig, "qingyunPaySum", false);
               this.$nextTick(() => {
                 //短信和彩信不可选
                 item.optionData[0].disabled = true;
