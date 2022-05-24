@@ -18,12 +18,14 @@
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" width="120" />
-      <el-table-column prop="submitType" label="产品类型">
+      <el-table-column prop="proType" label="产品类型">
         <template slot-scope="scope">
-          <span v-if="scope.row.submitType == 1">web端</span>
-          <span v-if="scope.row.submitType == 2">http接口</span>
-          <span v-if="scope.row.submitType == 3">cmpp接口</span>
-          <span v-if="scope.row.submitType == 8">smpp福建</span>
+          <span v-if="scope.row.proType == 1">web端</span>
+          <span v-if="scope.row.proType == 2">http接口</span>
+          <span v-if="scope.row.proType == 3">cmpp接口</span>
+          <span v-if="scope.row.proType == 8">smpp福建</span>
+          <span v-if="scope.row.proType == 16">http国际</span>
+          <span v-if="scope.row.proType == 32">smpp接口</span>
         </template>
       </el-table-column>
       <el-table-column prop="code" label="特服号" />
@@ -40,7 +42,7 @@
         v-if="searchParam.showDecrypt === 1"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.mobile.slice(0, 11) }}</span>
+          <span>{{ row.mobile }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="count" label="条数" />

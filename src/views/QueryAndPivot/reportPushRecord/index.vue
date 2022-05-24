@@ -86,7 +86,7 @@ export default {
           key: "cid"
         },
         {
-          type: "inputNum",
+          type: "input",
           label: "手机号",
           key: "mobile"
         },

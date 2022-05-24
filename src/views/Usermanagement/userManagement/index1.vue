@@ -43,6 +43,8 @@
               ? "彩信"
               : scope.row.productType == "3"
               ? "屏信"
+              : scope.row.productType == "4"
+              ? "国际短信"
               : "语音"
           }}</span>
         </template>
@@ -59,6 +61,10 @@
                 ? "cmpp接口"
                 : item === 8
                 ? "smpp福建"
+                : item === 16
+                ? "http国际"
+                : item === 32
+                ? "smpp接口"
                 : ""
             }}</span>
           </div>

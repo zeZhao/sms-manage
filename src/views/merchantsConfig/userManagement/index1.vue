@@ -7,7 +7,6 @@
       @search="_mxDoSearch"
       @create="_mxCreate"
     ></Search>
-
     <el-table
       :data="listData"
       border
@@ -93,6 +92,10 @@
                 ? "cmpp接口"
                 : item === 8
                 ? "smpp福建"
+                : item === 16
+                ? "http国际"
+                : item === 32
+                ? "smpp接口"
                 : "-"
             }}
           </span>
@@ -160,7 +163,6 @@
           <span v-else>-</span>
         </template>
       </el-table-column>
-
       <!-- <el-table-column
         prop="mmsBalance"
         label="彩信余额"
@@ -274,13 +276,11 @@
         </template>
       </el-table-column>
     </el-table>
-
     <Page
       :pageObj="pageObj"
       @handleSizeChange="handleSizeChange"
       @handleCurrentChange="handleCurrentChange"
     ></Page>
-
     <!-- 新增修改用户 -->
     <el-drawer
       :title="formTit"
@@ -320,7 +320,6 @@
       >
       </FormItemTitle>
     </el-drawer>
-
     <el-dialog
       :title="dialogTit"
       :visible.sync="dialogVisible"
@@ -404,7 +403,6 @@
           @click="isOpenDialog"
         ></i>
       </span>
-
       <el-tabs
         type="border-card"
         tabPosition="bottom"
@@ -414,7 +412,10 @@
         <el-tab-pane
           label="短信"
           name="1"
-          v-if="infoData.productTypes.includes(1)"
+          v-if="
+            infoData.productTypes.includes(1) ||
+              infoData.productTypes.includes(4)
+          "
         >
           <div v-if="infoData.proType === 1">
             <p>产品类型: WEB</p>
@@ -458,7 +459,6 @@
               ></i>
             </p> -->
           </div>
-
           <div v-if="infoData.proType === 2">
             <p>产品类型: HTTP</p>
             <p>企业名称: {{ infoData.corpName }}</p>
@@ -502,7 +502,16 @@
             </p>
             <p>秘钥: {{ infoData.secretKey || "-" }}</p>
           </div>
-
+          <div v-if="infoData.proType === 16">
+            <p>产品类型: HTTP国际</p>
+            <p>企业名称: {{ infoData.corpName }}</p>
+            <p>账户名称: {{ infoData.userName }}</p>
+            <p>账户编号: {{ infoData.userId }}</p>
+            <p>http密码: {{ infoData.password || "-" }}</p>
+            <p>客户端IP: {{ infoData.userIp }}</p>
+            <p>接口地址: https://sms3api.jvtd.cn/isms/smsSend</p>
+            <p>接口文档: https://jvtd.cn/duanxinApi/</p>
+          </div>
           <div v-if="infoData.proType === 4">
             <p>产品类型: CMPP2.0</p>
             <p>企业名称: {{ infoData.corpName }}</p>
@@ -559,12 +568,14 @@
             </p>
             <p>web端登录地址: https://sms.jvtd.cn/#/login</p>
           </div>
-          <div v-if="infoData.proType === 8">
-            <p>产品类型: SMPP</p>
+          <div v-if="infoData.proType === 8 || infoData.proType === 32">
+            <p>
+              产品类型: SMPP
+            </p>
             <p>企业名称: {{ infoData.corpName }}</p>
             <p>账户名称: {{ infoData.userName }}</p>
             <p>账户编号: {{ infoData.userId }}</p>
-            <p>smpp密码: {{ infoData.password || "-" }}</p>
+            <p><span>smpp</span>密码: {{ infoData.password || "-" }}</p>
             <p>端口: 7888</p>
             <p>IP地址: 39.107.120.170</p>
             <p>
@@ -585,38 +596,8 @@
               }}
             </p>
             <p>客户端IP: {{ infoData.userIp }}</p>
-            <!-- <el-divider></el-divider>
-            <p>产品类型: WEB端</p>
-            <p>web登录账号: {{ infoData.loginName }}</p>
-            <p>
-              web密码:
-              <span v-if="!editUserPassword">{{
-                infoData.webPassword || "-"
-              }}</span>
-              <span v-else
-                ><el-input
-                  v-model="infoData.webPassword"
-                  clearable
-                  placeholder="请输入web密码"
-                  class="pwd"
-              /></span>
-              <span
-                v-if="!renderLock && !editUserPassword"
-                class="edit-user-password"
-                @click="editUserPassword = true"
-                >修改</span
-              >
-              <span
-                v-if="!renderLock && editUserPassword"
-                class="edit-user-password"
-                @click="handleEditUserPassword"
-                >确定</span
-              >
-            </p>
-            <p>web端登录地址: https://sms.jvtd.cn/#/login</p> -->
           </div>
         </el-tab-pane>
-
         <el-tab-pane
           label="彩信"
           name="2"
@@ -703,7 +684,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import listMixin from "@/mixin/listMixin";
 import FormItemTitle from "@/components/formItemTitle";
@@ -844,7 +824,9 @@ export default {
             { key: "1", value: "web端" },
             { key: "2", value: "http接口" },
             { key: "4", value: "cmpp接口" },
-            { key: "8", value: "smpp福建" }
+            { key: "8", value: "smpp福建" },
+            { key: "16", value: "http国际" },
+            { key: "32", value: "smpp接口" }
             // { key: "7", value: "音频接口" }
           ],
           placeholder: "请选择产品类型"
@@ -928,7 +910,6 @@ export default {
       saleList: [],
       //临时存储修改数据
       currentEditFormData: {},
-
       //信息弹窗数据
       infoVisible: false,
       proType: 1,
@@ -1051,7 +1032,6 @@ export default {
             }
           ]
         },
-
         {
           type: "select",
           label: "计费类型",
@@ -1137,12 +1117,13 @@ export default {
           key: "productType",
           multiple: true,
           clearable: true,
+          collapseTags: true,
           defaultValue: [],
           initDefaultValue: [],
           optionData: [
             { key: 1, value: "短信", disabled: false },
-            { key: 2, value: "彩信", disabled: false }
-            // { key: 4, value: "国际短信", disabled: false }
+            { key: 2, value: "彩信", disabled: false },
+            { key: 4, value: "国际短信", disabled: false }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -1243,6 +1224,22 @@ export default {
           key: "cardUnit",
           tag: "sms",
           maxlength: 6,
+          isShow: false,
+          rules: [
+            {
+              required: true,
+              trigger: ["blur", "change"],
+              validator: validatorPrice
+            }
+          ]
+        },
+        {
+          type: "input",
+          label: "国际短信单价",
+          key: "qingyunPaySum",
+          tag: "sms",
+          maxlength: 6,
+          isShow: true,
           rules: [
             {
               required: true,
@@ -1565,7 +1562,6 @@ export default {
         //   label: "备注",
         //   key: "remark"
         // }
-
         // {
         //   type: "select",
         //   label: "产品",
@@ -1578,21 +1574,18 @@ export default {
         //   ],
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
-
         // {
         //   type: "input",
         //   label: "彩信单价",
         //   key: "mmsCardUnit",
         //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         // },
-
         // {
         //   type: "input",
         //   label: "备份IP",
         //   key: "userIpBak",
         //   defaultValue: ""
         // },
-
         // {
         //   type: "select",
         //   label: "优化类型",
@@ -1608,7 +1601,6 @@ export default {
       titleTips: "",
       // 新建时用于给登录账号赋值
       prevUserId: "",
-
       agentListData: [],
       salemanListData: [],
       listTagData: [],
@@ -1736,7 +1728,7 @@ export default {
         productTypes
       } = this.infoData;
       if (!Array.isArray(productTypes)) return false;
-      if (productTypes.includes(1)) {
+      if (productTypes.includes(1) || productTypes.includes(4)) {
         // 短信
         switch (proType) {
           case 1:
@@ -1752,6 +1744,12 @@ export default {
           case 8:
             const smpp = [password].some(v => !v || v === "-");
             return smpp;
+          case 16:
+            const httpG = [password].some(v => !v || v === "-");
+            return httpG;
+          case 32:
+            const smppG = [password].some(v => !v || v === "-");
+            return smppG;
         }
       } else if (productTypes.includes(2)) {
         // 彩信
@@ -1874,45 +1872,42 @@ export default {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", false);
             //国际短信不可选
-            // item.optionData[2].disabled = true;
+            item.optionData[2].disabled = true;
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._setDisplayShow(this.formConfig, "cardUnit", false);
+            this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
             this._deleteDefaultValue(this.formConfig, "mms");
-            // item.optionData[2].disabled = true;
-            // this.formConfig.forEach(item => {
-            //   if (item.tag === "sms") {
-            //     if (item.isTitle) {
-            //       item.title = "短信业务信息";
-            //     }
-            //     if (item.key === "proType") {
-            //       item.optionData = [
-            //         { key: 1, value: "web端" },
-            //         { key: 2, value: "http接口" },
-            //         { key: 4, value: "cmpp接口" },
-            //         { key: 8, value: "smpp福建" }
-            //       ];
-            //     }
-            //     if (
-            //       item.key === "httpSign" ||
-            //       item.key === "sendType" ||
-            //       item.key === "alertMobile"
-            //     ) {
-            //       this.$set(item, "isShow", false);
-            //     }
-            //   }
-            // });
+            item.optionData[2].disabled = true;
+            this.formConfig.forEach(item => {
+              if (item.tag === "sms") {
+                if (item.isTitle) {
+                  item.title = "短信业务信息";
+                }
+                if (item.key === "proType") {
+                  item.optionData = [
+                    { key: 1, value: "web端" },
+                    { key: 2, value: "http接口" },
+                    { key: 4, value: "cmpp接口" },
+                    { key: 8, value: "smpp福建" }
+                  ];
+                }
+              }
+            });
           } else if (val.includes(2)) {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             this._setTagDisplayShow(this.formConfig, "sms", true);
             this._setDisplayShow(this.formConfig, "returnBalance", true);
             this._deleteDefaultValue(this.formConfig, "sms");
-            // item.optionData[2].disabled = true;
+            item.optionData[2].disabled = true;
           } else if (val.includes(4)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
             this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+            this._setDisplayShow(this.formConfig, "cardUnit", true);
+            this._setDisplayShow(this.formConfig, "qingyunPaySum", false);
             this._deleteDefaultValue(this.formConfig, "mms");
             //短信和彩信不可选
             item.optionData[0].disabled = true;
@@ -1928,26 +1923,37 @@ export default {
                     { key: 32, value: "smpp接口" }
                   ];
                 }
-                if (
-                  item.key === "httpSign" ||
-                  item.key === "sendType" ||
-                  item.key === "alertMobile"
-                ) {
-                  this.$set(item, "isShow", true);
-                }
               }
             });
           }
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
-          // this._setTagDisplayShow(this.formConfig, "sos", true);
-          // this._deleteDefaultValue(this.formConfig, "sos");
+          this._setTagDisplayShow(this.formConfig, "sos", true);
+          this._deleteDefaultValue(this.formConfig, "sos");
           this._deleteDefaultValue(this.formConfig, "mms");
           this._deleteDefaultValue(this.formConfig, "sms");
-          // item.optionData[0].disabled = false;
-          // item.optionData[1].disabled = false;
-          // item.optionData[2].disabled = false;
+          item.optionData[0].disabled = false;
+          item.optionData[1].disabled = false;
+          item.optionData[2].disabled = false;
+        }
+        if (!val.includes(1)) {
+          this._setDisplayShow(this.formConfig, "alertMobile", true);
+          this._setDefaultValueKeys("alertMobile", "");
+          this._setDisplayShow(this.formConfig, "moUrl", true);
+          this._setDefaultValueKeys("moUrl", "");
+          this._setDisplayShow(this.formConfig, "reportUrl", true);
+          this._setDefaultValueKeys("reportUrl", "");
+          this._setDisplayShow(this.formConfig, "returnBalance", true);
+          this._setDisplayShow(this.formConfig, "maxSession", true);
+          this._setDisplayShow(this.formConfig, "cardUnit", true);
+        }
+        if (!val.includes(2)) {
+          this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
+        }
+        if (!val.includes(4)) {
+          this._setDisplayShow(this.formConfig, "maxSession", true);
+          this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
         }
       }
       if (item.key === "reductModel") {
@@ -1969,7 +1975,7 @@ export default {
         });
       }
       if (item.key === "proType") {
-        if (val === 1) {
+        if (val === 1 || val === 16) {
           this._setDefaultValueKeys("directPort", "无");
           this._setDisplayShow(this.formConfig, "maxSession", true);
         } else if (val === 2) {
@@ -1986,7 +1992,7 @@ export default {
       }
 
       if (item.key === "proType") {
-        if (val !== 2) {
+        if (val !== 2 && val !== 16) {
           // web端 cmpp接口
           this._setDisplayShow(this.formConfig, "alertMobile", true);
           this._setDefaultValueKeys("alertMobile", "");
@@ -2075,7 +2081,6 @@ export default {
       };
       params.startTime = params.times ? params.times[0] : "";
       params.endTime = params.times ? params.times[1] : "";
-
       if (this.formTit == "新增") {
         this.$http[namespace][add](params).then(res => {
           this._mxSuccess(res, params);
@@ -2131,7 +2136,6 @@ export default {
         });
       }
     },
-
     //提交表单前调整表单内数据
     _mxArrangeSubmitData(formData) {
       let form = Object.assign({}, formData);
@@ -2172,7 +2176,6 @@ export default {
           const { userId } = this.infoData;
           this.formData.type = 4;
           this.formData.soleId = Number(userId);
-
           this.$http.mmsGateway.viewLogin(this.formData).then(res => {
             if (res.code === 200) {
               if (this.infoData.proType === 2) {
@@ -2195,7 +2198,6 @@ export default {
                 this.infoData.password = res.data.password;
                 this.infoData.webPassword = res.data.webPassword;
               });
-
               this.loginVisible = false;
               this.$message.success("验证成功");
             } else {
@@ -2318,7 +2320,6 @@ export default {
       this.currentEditFormData = this.$deepClone(row);
       return row;
     },
-
     //修改
     _mxEdit(row, ID) {
       // this.$router.push({
@@ -2409,14 +2410,89 @@ export default {
             if (val.includes(1) && val.includes(2)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", false);
+              this.$nextTick(() => {
+                item.optionData[2].disabled = true;
+              });
+              this.formConfig.forEach(item => {
+                if (item.tag === "sms") {
+                  if (item.isTitle) {
+                    item.title = "短信业务信息";
+                  }
+                  if (item.key === "proType") {
+                    item.optionData = [
+                      { key: 1, value: "web端" },
+                      { key: 2, value: "http接口" },
+                      { key: 4, value: "cmpp接口" },
+                      { key: 8, value: "smpp福建" }
+                    ];
+                  }
+                }
+              });
             } else if (val.includes(1)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", true);
+              this._setDisplayShow(this.formConfig, "cardUnit", false);
+              this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
+              this.$nextTick(() => {
+                item.optionData[2].disabled = true;
+              });
+              this.formConfig.forEach(item => {
+                if (item.tag === "sms") {
+                  if (item.isTitle) {
+                    item.title = "短信业务信息";
+                  }
+                  if (item.key === "proType") {
+                    item.optionData = [
+                      { key: 1, value: "web端" },
+                      { key: 2, value: "http接口" },
+                      { key: 4, value: "cmpp接口" },
+                      { key: 8, value: "smpp福建" }
+                    ];
+                  }
+                }
+              });
             } else if (val.includes(2)) {
               this._setTagDisplayShow(this.formConfig, "mms", false);
               this._setTagDisplayShow(this.formConfig, "sms", true);
+              this.$nextTick(() => {
+                item.optionData[2].disabled = true;
+              });
+            } else if (val.includes(4)) {
+              this._setTagDisplayShow(this.formConfig, "sms", false);
+              this._setTagDisplayShow(this.formConfig, "mms", true);
+              this._setDisplayShow(this.formConfig, "cardUnit", true);
+              this._setDisplayShow(this.formConfig, "qingyunPaySum", false);
+              this.$nextTick(() => {
+                //短信和彩信不可选
+                item.optionData[0].disabled = true;
+                item.optionData[1].disabled = true;
+              });
+
+              this.formConfig.forEach(item => {
+                if (item.tag === "sms") {
+                  if (item.isTitle) {
+                    item.title = "国际短信业务信息";
+                  }
+                  if (item.key === "proType") {
+                    item.optionData = [
+                      { key: 16, value: "http国际" },
+                      { key: 32, value: "smpp接口" }
+                    ];
+                  }
+                  // if (
+                  //   item.key === "httpSign" ||
+                  //   item.key === "sendType" ||
+                  //   item.key === "alertMobile"
+                  // ) {
+                  //   this.$set(item, "isShow", true);
+                  // }
+                }
+              });
             }
           } else {
+            item.optionData[0].disabled = false;
+            item.optionData[1].disabled = false;
+            item.optionData[2].disabled = false;
             this._setTagDisplayShow(this.formConfig, "sms", true);
             this._setTagDisplayShow(this.formConfig, "mms", true);
           }
@@ -2437,19 +2513,21 @@ export default {
             });
           }
         }
-
         if (item.key === "proType") {
           // 产品类型
           this.$nextTick(() => {
-            // 如果cmpp就展示链接路数
-            if (item.defaultValue === 4) {
+            if (
+              item.defaultValue === 4 ||
+              item.defaultValue === 8 ||
+              item.defaultValue === 32
+            ) {
               this._setDisplayShow(this.formConfig, "maxSession", false);
             } else {
               this._setDisplayShow(this.formConfig, "maxSession", true);
               this._setDefaultValueKeys("maxSession", "");
             }
             // 不是http接口
-            if (item.defaultValue !== 2) {
+            if (item.defaultValue !== 2 && item.defaultValue !== 16) {
               // web端 cmpp接口
               this._setDisplayShow(this.formConfig, "alertMobile", true);
               this._setDefaultValueKeys("alertMobile", "");
@@ -2546,7 +2624,6 @@ export default {
             this.$set(item, "disabled", false);
           }
         }
-
         if (!Object.keys(lineData).includes(item.key)) {
           this.$set(item, "defaultValue", "");
         }
@@ -2605,7 +2682,6 @@ export default {
       });
       this.addChannel = true;
     },
-
     beforeClose() {
       this.addChannel = false;
     },
@@ -2650,7 +2726,6 @@ export default {
           submitSpeed: this.speedVal
         };
       }
-
       this.$http.corpUser.configureSubmitRate(params).then(res => {
         if (resOk(res)) {
           this.speedVisible = false;
@@ -2661,7 +2736,6 @@ export default {
         }
       });
     },
-
     //获取所有标签
     listTag() {
       this.$http.smsTagController
@@ -2703,12 +2777,12 @@ export default {
       this.tagStatusTitle = "修改标签";
       this.tagStatus = true;
     },
-
     //信息弹框
     messageShow(row) {
       this.infoData = this.$deepClone(row);
+      console.log(this.infoData.proType, "=======");
       // 默认选中第一种产品类型
-      this.activeName = this.infoData.productTypes[0] + "";
+      this.activeName = "1";
       this.infoVisible = true;
     },
     //获取所有商户
@@ -2846,7 +2920,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .corpUser {
   .list_table {

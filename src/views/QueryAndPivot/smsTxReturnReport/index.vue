@@ -47,14 +47,16 @@
           <span>
             {{
               scope.row.operaId === 0
-                ? '非法'
+                ? "非法"
                 : scope.row.operaId === 1
-                ? '移动'
+                ? "移动"
                 : scope.row.operaId === 2
-                ? '联通'
+                ? "联通"
                 : scope.row.operaId === 3
-                ? '电信'
-                : '国际'
+                ? "电信"
+                : scope.row.operaId === 4
+                ? "国际"
+                : "未知"
             }}
           </span>
         </template>
@@ -101,7 +103,11 @@
       </el-table-column>
       <el-table-column label="操作" width="100" fixed="right">
         <template slot-scope="{ row }">
-          <el-button type="text" size="small" @click="handleImportRedList(row)"
+          <el-button
+            type="text"
+            size="small"
+            @click="handleImportRedList(row)"
+            :disabled="row.operaId === 4"
             >导入红名单</el-button
           >
         </template>
@@ -161,7 +167,7 @@
 </template>
 
 <script>
-import listMixin from '@/mixin/listMixin';
+import listMixin from "@/mixin/listMixin";
 
 export default {
   mixins: [listMixin],
@@ -169,13 +175,13 @@ export default {
     return {
       //接口地址
       searchAPI: {
-        namespace: 'smsTxReturnReport',
-        list: 'searchSendReturnReport',
-        exportUrl: '/sendLogFegin/exportSendReturn',
-        fileName: '发送返回报告'
+        namespace: "smsTxReturnReport",
+        list: "searchSendReturnReport",
+        exportUrl: "/sendLogFegin/exportSendReturn",
+        fileName: "发送返回报告"
       },
       // 列表参数
-      namespace: '',
+      namespace: "",
       //搜索框数据
       searchParam: {},
       //默认进入该页面不查询
@@ -183,22 +189,22 @@ export default {
       //搜索框配置
       searchFormConfig: [
         {
-          type: 'inputNum',
-          label: '商户编号',
-          key: 'corporateId',
-          placeholder: '请输入商户编号'
+          type: "inputNum",
+          label: "商户编号",
+          key: "corporateId",
+          placeholder: "请输入商户编号"
         },
         {
-          type: 'inputNum',
-          label: '账户编号',
-          key: 'userId',
-          placeholder: '请输入账户编号'
+          type: "inputNum",
+          label: "账户编号",
+          key: "userId",
+          placeholder: "请输入账户编号"
         },
         {
-          type: 'input',
-          label: '特服号',
-          key: 'code',
-          placeholder: '请输入特服号'
+          type: "input",
+          label: "特服号",
+          key: "code",
+          placeholder: "请输入特服号"
         },
         // {
         //   type: "input",
@@ -207,16 +213,16 @@ export default {
         //   placeholder: "请输入内容"
         // },
         {
-          type: 'input',
-          label: '手机号',
-          key: 'mobile',
-          placeholder: '请输入手机号'
+          type: "input",
+          label: "手机号",
+          key: "mobile",
+          placeholder: "请输入手机号"
         },
         {
-          type: 'input',
-          label: '通道编号',
-          key: 'gateway',
-          placeholder: '请输入通道编号'
+          type: "input",
+          label: "通道编号",
+          key: "gateway",
+          placeholder: "请输入通道编号"
         },
         // {
         //   type: "input",
@@ -225,91 +231,90 @@ export default {
         //   placeholder: "请输入SEQID"
         // },
         {
-          type: 'input',
-          label: '状态',
-          key: 'status',
-          placeholder: '请输入状态'
+          type: "input",
+          label: "状态",
+          key: "status",
+          placeholder: "请输入状态"
         },
         {
-          type: 'input',
-          label: 'CID',
-          key: 'cid',
-          placeholder: '请输入CID'
+          type: "input",
+          label: "CID",
+          key: "cid",
+          placeholder: "请输入CID"
         },
         {
-          type: 'input',
-          label: '签名',
-          key: 'sign',
-          placeholder: '请输入签名'
+          type: "input",
+          label: "签名",
+          key: "sign",
+          placeholder: "请输入签名"
         },
 
         {
-          type: 'select',
-          label: '是否有状态',
-          key: 'statusType',
-          placeholder: '请选择状态',
+          type: "select",
+          label: "是否有状态",
+          key: "statusType",
+          placeholder: "请选择状态",
           optionData: [
-            { key: '2', value: '成功' },
-            { key: '3', value: '失败' },
-            { key: '4', value: '未知' }
+            { key: "2", value: "成功" },
+            { key: "3", value: "失败" },
+            { key: "4", value: "未知" }
           ]
         },
         {
-          type: 'select',
-          label: '省份',
-          key: 'province',
-          placeholder: '请选择省份',
+          type: "select",
+          label: "省份",
+          key: "province",
+          placeholder: "请选择省份",
           optionData: []
         },
         {
-          type: 'select',
-          label: '运营商',
-          key: 'operaId',
-          placeholder: '请选择运营商',
+          type: "select",
+          label: "运营商",
+          key: "operaId",
+          placeholder: "请选择运营商",
           optionData: [
-            { key: '1', value: '移动' },
-            { key: '2', value: '联通' },
-            { key: '3', value: '电信' }
+            { key: "0", value: "非法" },
+            { key: "1", value: "移动" },
+            { key: "2", value: "联通" },
+            { key: "3", value: "电信" },
+            { key: "4", value: "国际" }
           ]
         },
         {
-          type: 'select',
-          label: '补发',
-          key: 'isRepeat',
-          optionData: [
-            { key: 1, value: '是' },
-            { key: 0, value: '否' }
-          ]
+          type: "select",
+          label: "补发",
+          key: "isRepeat",
+          optionData: [{ key: 1, value: "是" }, { key: 0, value: "否" }]
         },
         {
-          type: 'select',
-          label: '显示内容',
-          key: 'showDecrypt',
+          type: "select",
+          label: "显示内容",
+          key: "showDecrypt",
           defaultValue: 1,
           optionData: [
             {
               key: 1,
-              value: '显示'
+              value: "显示"
             },
             {
               key: -1,
-              value: '不显示'
+              value: "不显示"
             }
           ]
         },
         {
-          type: 'date',
-          label: '发送日期',
-          key: 'sendTime',
-          placeholder: '发送日期',
+          type: "date",
+          label: "发送日期",
+          key: "sendTime",
+          placeholder: "发送日期",
           defaultValue: new Date()
         },
         {
-          type: 'timerange',
-          label: '发送时间',
-          key: ['', 'startTime', 'endTime'],
+          type: "timerange",
+          label: "发送时间",
+          key: ["", "startTime", "endTime"],
           defaultValue: [
-            '',
+            "",
             new Date(2021, 12, 16, 0, 0, 0),
             new Date(2021, 12, 16, 23, 59, 59)
           ]
@@ -321,8 +326,8 @@ export default {
         gateway: [
           {
             required: true,
-            message: '通道编号不能为空',
-            trigger: ['blur', 'change']
+            message: "通道编号不能为空",
+            trigger: ["blur", "change"]
           }
         ]
       },
@@ -338,7 +343,7 @@ export default {
   methods: {
     handleSearch(form) {
       if (form.isRepeat === "") {
-       delete form.isRepeat;
+        delete form.isRepeat;
       }
       this._mxDoSearch(form);
     },
@@ -362,11 +367,11 @@ export default {
     },
     // 确认导入红名单
     confirmImport() {
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(valid => {
         if (valid) {
           this.$http.smsTxReturnReport
             .addSysRedListFromReturnreport({ data: this.formData })
-            .then((res) => {
+            .then(res => {
               if (res.code === 200) {
                 this.visible = false;
                 this.$message.success(res.data || res.msg);
@@ -374,7 +379,7 @@ export default {
                 this.$message.error(res.data || res.msg);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$message.error(err.data || err.msg);
             });
         }
@@ -384,13 +389,13 @@ export default {
       const params = {
         data: {
           serverStatus: 1,
-          gatewayName: '',
-          isCu: '',
-          isCt: '',
-          isCm: ''
+          gatewayName: "",
+          isCu: "",
+          isCt: "",
+          isCm: ""
         }
       };
-      this.$http.gateway.listGateway(params).then((res) => {
+      this.$http.gateway.listGateway(params).then(res => {
         this.gatewayList = res.data || [];
       });
     },
@@ -399,9 +404,9 @@ export default {
       let data = this._formatRequestData(formData);
       this.$http.smsTxReturnReport
         .exportSendReturn({ data: { ...data } })
-        .then((res) => {
+        .then(res => {
           if (res.code === 200) {
-            this.$message.success('提交下载成功，请前往下载中心下载文件。');
+            this.$message.success("提交下载成功，请前往下载中心下载文件。");
           } else {
             this.$message.error(res.data);
           }
@@ -413,14 +418,14 @@ export default {
     listSysProvince() {
       const params = {
         data: {
-          provinceName: ''
+          provinceName: ""
         }
       };
-      this.$http.listSysProvince(params).then((res) => {
-        this.searchFormConfig.forEach((item) => {
+      this.$http.listSysProvince(params).then(res => {
+        this.searchFormConfig.forEach(item => {
           const { key } = item;
-          if (key === 'province') {
-            item.optionData = res.data.map((t) => {
+          if (key === "province") {
+            item.optionData = res.data.map(t => {
               return {
                 key: t.provinceName,
                 value: t.provinceName
@@ -439,13 +444,13 @@ export default {
      */
     _formatRequestData(data) {
       if (data.sendTime) {
-        data.sendTime = new Date(data.sendTime).Format('yyyy-MM-dd');
+        data.sendTime = new Date(data.sendTime).Format("yyyy-MM-dd");
       }
       if (data.startTime) {
-        data.startTime = new Date(data.startTime).Format('hh:mm:ss');
+        data.startTime = new Date(data.startTime).Format("hh:mm:ss");
       }
       if (data.endTime) {
-        data.endTime = new Date(data.endTime).Format('hh:mm:ss');
+        data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
       return data;
     }

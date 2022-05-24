@@ -49,12 +49,14 @@
           <span>
             {{
               scope.row.operaId === 0
-                ? "不限"
+                ? "非法"
                 : scope.row.operaId === 1
                 ? "移动"
                 : scope.row.operaId === 2
                 ? "联通"
-                : "电信"
+                : scope.row.operaId === 3
+                ? "电信"
+                : "国际"
             }}
           </span>
         </template>
@@ -147,7 +149,7 @@ export default {
           optionData: [
             {
               key: "0",
-              value: "不限"
+              value: "非法"
             },
             {
               key: "1",
@@ -160,6 +162,10 @@ export default {
             {
               key: "3",
               value: "电信"
+            },
+            {
+              key: "4",
+              value: "国际"
             }
           ]
         },
@@ -230,6 +236,10 @@ export default {
             {
               key: 3,
               value: "电信"
+            },
+            {
+              key: 4,
+              value: "国际"
             }
           ],
           rules: [

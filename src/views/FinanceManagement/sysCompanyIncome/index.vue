@@ -32,10 +32,12 @@
         v-if="searchParam.isDetail === 2"
       >
         <template slot-scope="scope">
+          <span v-if="scope.row.operaId == '0'">非法</span>
           <span v-if="scope.row.operaId == '1'">移动</span>
           <span v-else-if="scope.row.operaId == '2'">联通</span>
           <span v-else-if="scope.row.operaId == '3'">电信</span>
-          <span v-else>-</span>
+          <span v-else-if="scope.row.operaId == '4'">国际</span>
+          <span v-else>未知</span>
         </template>
       </el-table-column>
       <el-table-column prop="companyName" label="公司名称" />
@@ -352,6 +354,10 @@ export default {
             {
               key: 3,
               value: "电信"
+            },
+            {
+              key: 4,
+              value: "国际"
             }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]

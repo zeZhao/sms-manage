@@ -32,7 +32,7 @@
         v-if="searchParam.showDecrypt === 1"
       >
         <template slot-scope="{ row }">
-          <span>{{ row.mobile.slice(0, 11) }}</span>
+          <span>{{ row.mobile }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
@@ -45,7 +45,11 @@
                 ? "联通"
                 : scope.row.operaId === 3
                 ? "电信"
-                : ""
+                : scope.row.operaId === 4
+                ? "国际"
+                : scope.row.operaId === 0
+                ? "非法"
+                : "未知"
             }}
           </span>
         </template>

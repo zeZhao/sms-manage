@@ -32,9 +32,12 @@
       <el-table-column prop="city" label="城市" />
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
+          <span v-if="scope.row.operaId === 0">非法</span>
           <span v-if="scope.row.operaId === 1">移动</span>
-          <span v-if="scope.row.operaId === 2">联通</span>
-          <span v-if="scope.row.operaId === 3">电信</span>
+          <span v-else-if="scope.row.operaId === 2">联通</span>
+          <span v-else-if="scope.row.operaId === 3">电信</span>
+          <span v-else-if="scope.row.operaId === 4">国际</span>
+          <span v-else>未知</span>
         </template>
       </el-table-column>
       <el-table-column prop="content" label="内容" width="310" />
@@ -57,7 +60,9 @@
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.status == "1" ? "已推送" : "未推送" }}</span>
+          <span v-if="scope.row.status == '0'">未推送</span>
+          <span v-if="scope.row.status == '1'">已推送</span>
+          <span v-if="scope.row.status == '2'">无需推送</span>
         </template>
       </el-table-column>
     </el-table>

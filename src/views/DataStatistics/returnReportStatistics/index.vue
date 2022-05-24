@@ -136,6 +136,10 @@ export default {
             },
             {
               key: 4,
+              value: "国际"
+            },
+            {
+              key: 0,
               value: "非法"
             }
           ],

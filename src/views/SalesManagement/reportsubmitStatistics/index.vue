@@ -28,9 +28,11 @@
       </el-table-column>
       <el-table-column prop="operaId" label="运营商">
         <template slot-scope="scope">
+          <span v-if="scope.row.operaId === 0">非法</span>
           <span v-if="scope.row.operaId === 1">移动</span>
           <span v-if="scope.row.operaId === 2">联通</span>
           <span v-if="scope.row.operaId === 3">电信</span>
+          <span v-if="scope.row.operaId === 4">国际</span>
         </template>
       </el-table-column>
       <el-table-column prop="smsType" label="类型">
@@ -116,7 +118,8 @@ export default {
             { key: "0", value: "非法" },
             { key: "1", value: "移动" },
             { key: "2", value: "联通" },
-            { key: "3", value: "电信" }
+            { key: "3", value: "电信" },
+            { key: "4", value: "国际" }
           ]
         },
         {
