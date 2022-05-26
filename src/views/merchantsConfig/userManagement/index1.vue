@@ -1769,7 +1769,7 @@ export default {
           this.formConfig[idx],
           "defaultValue",
           isProd
-            ? "https://sms3api.jvtd.cn/getMo/moReportToC"
+            ? "http://10.3.0.20:9106/getMo/moJsonList"
             : "http://10.10.0.32:9106/getMo/moJsonList"
         );
       } else if (key === "reportUrl") {
@@ -1778,7 +1778,7 @@ export default {
           this.formConfig[idx],
           "defaultValue",
           isProd
-            ? "https://sms3api.jvtd.cn/getMr/mrReportToC"
+            ? "http://10.3.0.20:9106/getMr/mrJsonList"
             : "http://10.10.0.32:9106/getMr/mrJsonList"
         );
       }
