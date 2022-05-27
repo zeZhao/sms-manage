@@ -524,12 +524,12 @@ export default {
         },
         {
           type: "select",
-          label: "公司服务器ip",
+          label: "网关服务器ip",
           key: "ip",
-          initDefaultValue: "10.3.0.23",
-          defaultValue: "10.3.0.23",
+          initDefaultValue: "10.3.0.19",
+          defaultValue: "10.3.0.19",
           colSpan: 12,
-          optionData: [{ key: "10.3.0.23", value: "10.3.0.23" }],
+          optionData: [{ key: "10.3.0.19", value: "10.3.0.19" }],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -1622,7 +1622,7 @@ export default {
         const idx = this.formConfig.findIndex(v => v.key === "shieldProvince");
         const val = this.formConfig[idx].defaultValue;
         this.navListId = val ? val.split(",") : [];
-      })
+      });
     },
     handleChooseConfirm() {
       const checkedKeys = this.$refs.tree.getCheckedKeys();
