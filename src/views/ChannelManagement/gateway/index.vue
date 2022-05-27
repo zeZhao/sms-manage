@@ -526,10 +526,13 @@ export default {
           type: "select",
           label: "网关服务器ip",
           key: "ip",
-          initDefaultValue: "10.3.0.19",
-          defaultValue: "10.3.0.19",
+          initDefaultValue: "10.3.0.23",
+          defaultValue: "10.3.0.23",
           colSpan: 12,
-          optionData: [{ key: "10.3.0.19", value: "10.3.0.19" }],
+          optionData: [
+            { key: "10.3.0.23", value: "10.3.0.23" },
+            { key: "10.3.0.19", value: "10.3.0.19" }
+          ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
