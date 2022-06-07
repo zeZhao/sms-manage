@@ -426,7 +426,6 @@ export default {
     },
     _mxArrangeSubmitData(form) {
       form = Object.assign(form);
-      form.routeIds = form.routeIds.join(",");
       console.log(form, "-----form");
       return form;
     }
