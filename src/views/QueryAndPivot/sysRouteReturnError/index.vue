@@ -147,10 +147,10 @@ export default {
           key: "operaId",
           placeholder: "请选择运营商",
           optionData: [
-            {
-              key: "0",
-              value: "非法"
-            },
+            // {
+            //   key: "0",
+            //   value: "非法"
+            // },
             {
               key: "1",
               value: "移动"
@@ -209,7 +209,7 @@ export default {
           label: "通道编号",
           key: "routeIds",
           optionData: [],
-          multiple: true,
+          // multiple: true,
           // defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
