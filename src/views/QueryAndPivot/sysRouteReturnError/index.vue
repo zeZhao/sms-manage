@@ -48,13 +48,13 @@
         <template slot-scope="scope">
           <span>
             {{
-              scope.row.operaId === 0
+              scope.row.operaId == 0
                 ? "非法"
-                : scope.row.operaId === 1
+                : scope.row.operaId == 1
                 ? "移动"
-                : scope.row.operaId === 2
+                : scope.row.operaId == 2
                 ? "联通"
-                : scope.row.operaId === 3
+                : scope.row.operaId == 3
                 ? "电信"
                 : "国际"
             }}
@@ -147,10 +147,10 @@ export default {
           key: "operaId",
           placeholder: "请选择运营商",
           optionData: [
-            {
-              key: "0",
-              value: "非法"
-            },
+            // {
+            //   key: "0",
+            //   value: "非法"
+            // },
             {
               key: "1",
               value: "移动"
@@ -210,6 +210,19 @@ export default {
           key: "routeIds",
           optionData: [],
           multiple: true,
+          isShow: false,
+          // defaultValue: "",
+          rules: [
+            { required: true, message: "请输入必填项", trigger: "change" }
+          ]
+        },
+        {
+          type: "select",
+          label: "通道编号",
+          key: "routeId",
+          optionData: [],
+          isShow: true,
+          // multiple: true,
           // defaultValue: "",
           rules: [
             { required: true, message: "请输入必填项", trigger: "change" }
@@ -317,6 +330,54 @@ export default {
   },
   computed: {},
   methods: {
+    _mxCreate() {
+      this.addChannel = true;
+      this.formTit = "新增";
+      this.formConfig.forEach(item => {
+        if (item.key === "routeIds") {
+          item.isShow = false;
+        }
+        if (item.key === "routeId") {
+          item.isShow = true;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.resetForm();
+      }, 0);
+    },
+    /**
+     * 编辑表单
+     * @param row  当前行数据
+     * @param ID  当前行ID
+     * @private
+     */
+
+    _mxEdit(row, ID) {
+      row = this._mxArrangeEditData(row);
+      this.id = row[ID];
+      this.editId = ID;
+      this.formTit = "修改";
+      this.formConfig.forEach(item => {
+        for (let key in row) {
+          if (item.key === key && row[key] !== "-") {
+            this.$set(item, "defaultValue", row[key]);
+          }
+        }
+        if (!Object.keys(row).includes(item.key)) {
+          this.$set(item, "defaultValue", "");
+        }
+        if (item.key === "routeIds") {
+          item.isShow = true;
+        }
+        if (item.key === "routeId") {
+          item.isShow = false;
+        }
+      });
+      setTimeout(() => {
+        this.$refs.formItem.clearValidate();
+      }, 0);
+      this.addChannel = true;
+    },
     renderType(v) {
       if (v === "1") {
         return "返回报告";
@@ -389,7 +450,7 @@ export default {
         this.GatewayList = res.data;
         this.formConfig.forEach(item => {
           const { key } = item;
-          if (key === "routeIds") {
+          if (key === "routeIds" || key === "routeId") {
             res.data.forEach(t => {
               this.$set(t, "key", t.gatewayId);
               this.$set(t, "value", t.gateway);
@@ -421,13 +482,16 @@ export default {
         }
       }
       row = Object.assign(row, { routeIds: [row.routeId] });
-      console.log(row, "row");
       return row;
     },
     _mxArrangeSubmitData(form) {
       form = Object.assign(form);
-      form.routeIds = form.routeIds.join(",");
-      console.log(form, "-----form");
+      if (form.routeIds) {
+        form.routeIds = form.routeIds.join(",");
+      }
+      if (this.formTit == "新增") {
+        delete form.routeId;
+      }
       return form;
     }
   },

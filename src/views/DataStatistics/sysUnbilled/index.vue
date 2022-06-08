@@ -46,7 +46,7 @@
               : scope.row.smsType === 3
               ? "屏信"
               : scope.row.smsType === 4
-              ? "语音"
+              ? "国际"
               : ""
           }}</span>
         </template>

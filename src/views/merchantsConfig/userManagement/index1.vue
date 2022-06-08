@@ -1873,6 +1873,26 @@ export default {
             this._setTagDisplayShow(this.formConfig, "mms", false);
             //国际短信不可选
             item.optionData[2].disabled = true;
+            this.formConfig.forEach(item => {
+              if (item.tag === "sms") {
+                if (item.isTitle) {
+                  item.title = "短信业务信息";
+                }
+                if (item.key === "proType") {
+                  item.optionData = [
+                    { key: 1, value: "web端" },
+                    { key: 2, value: "http接口" },
+                    { key: 4, value: "cmpp接口" },
+                    { key: 8, value: "smpp福建" }
+                  ];
+                  if (item.defaultValue !== 2 && item.defaultValue !== 16) {
+                    // web端 cmpp接口
+                    this._setDisplayShow(this.formConfig, "alertMobile", true);
+                    this._setDefaultValueKeys("alertMobile", "");
+                  }
+                }
+              }
+            });
           } else if (val.includes(1)) {
             this._setTagDisplayShow(this.formConfig, "sms", false);
             this._setTagDisplayShow(this.formConfig, "mms", true);
@@ -1893,6 +1913,11 @@ export default {
                     { key: 4, value: "cmpp接口" },
                     { key: 8, value: "smpp福建" }
                   ];
+                  if (item.defaultValue !== 2 && item.defaultValue !== 16) {
+                    // web端 cmpp接口
+                    this._setDisplayShow(this.formConfig, "alertMobile", true);
+                    this._setDefaultValueKeys("alertMobile", "");
+                  }
                 }
               }
             });
@@ -1929,8 +1954,6 @@ export default {
         } else {
           this._setTagDisplayShow(this.formConfig, "sms", true);
           this._setTagDisplayShow(this.formConfig, "mms", true);
-          this._setTagDisplayShow(this.formConfig, "sos", true);
-          this._deleteDefaultValue(this.formConfig, "sos");
           this._deleteDefaultValue(this.formConfig, "mms");
           this._deleteDefaultValue(this.formConfig, "sms");
           item.optionData[0].disabled = false;
@@ -1945,15 +1968,16 @@ export default {
           this._setDisplayShow(this.formConfig, "reportUrl", true);
           this._setDefaultValueKeys("reportUrl", "");
           this._setDisplayShow(this.formConfig, "returnBalance", true);
-          this._setDisplayShow(this.formConfig, "maxSession", true);
           this._setDisplayShow(this.formConfig, "cardUnit", true);
         }
         if (!val.includes(2)) {
           this._setDisplayShow(this.formConfig, "mmsReturnBalance", true);
         }
         if (!val.includes(4)) {
-          this._setDisplayShow(this.formConfig, "maxSession", true);
           this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
+        }
+        if (!val.includes(1) && !val.includes(4)) {
+          this._setDisplayShow(this.formConfig, "maxSession", true);
         }
       }
       if (item.key === "reductModel") {

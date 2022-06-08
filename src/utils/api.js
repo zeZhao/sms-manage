@@ -990,25 +990,6 @@ export default {
             return post("/sysSendError/editContent", params);
         },
     },
-    // 失败原因
-    sysRouteReturnError: {
-        // 查询列表
-        listRouteReturnErrorByPage(params) {
-            return post("/sysRouteReturnError/listRouteReturnErrorByPage", params);
-        },
-        // 新增
-        addRouteReturnError(params) {
-            return post("/sysRouteReturnError/addRouteReturnError", params);
-        },
-        // 修改
-        updateRouteReturnError(params) {
-            return post("/sysRouteReturnError/updateRouteReturnError", params);
-        },
-        //  删除
-        deleteRouteReturnError(params) {
-            return post("/sysRouteReturnError/deleteRouteReturnError", params);
-        },
-    },
     // 前台提交调整
     smsSendlogSubmit: {
         // 查询列表
