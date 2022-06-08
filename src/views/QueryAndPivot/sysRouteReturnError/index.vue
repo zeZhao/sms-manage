@@ -48,13 +48,13 @@
         <template slot-scope="scope">
           <span>
             {{
-              scope.row.operaId === 0
+              scope.row.operaId == 0
                 ? "非法"
-                : scope.row.operaId === 1
+                : scope.row.operaId == 1
                 ? "移动"
-                : scope.row.operaId === 2
+                : scope.row.operaId == 2
                 ? "联通"
-                : scope.row.operaId === 3
+                : scope.row.operaId == 3
                 ? "电信"
                 : "国际"
             }}
