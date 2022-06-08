@@ -33,6 +33,8 @@
               ? "彩信"
               : scope.row.smsType === 3
               ? "屏信"
+              : scope.row.smsType === 4
+              ? "国际"
               : "语音"
           }}</span>
         </template>
