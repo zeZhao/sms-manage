@@ -68,7 +68,7 @@
           <span v-if="scope.row.smsType == '1'">短信</span>
           <span v-else-if="scope.row.smsType == '2'">彩信</span>
           <span v-else-if="scope.row.smsType == '3'">屏信</span>
-          <span v-else-if="scope.row.smsType == '4'">语音</span>
+          <span v-else-if="scope.row.smsType == '4'">国际</span>
           <span v-else-if="scope.row.smsType == '5'">流量</span>
           <span v-else>-</span>
         </template>
