@@ -843,6 +843,9 @@ export default {
     this.gateway("cmPassageway", "1", "1");
     this.gateway("cuPassageway", "2", "1");
     this.gateway("ctPassageway", "3", "1");
+    this.listRecommendGatewayAndGroup("cmPassageway", "1", 1);
+    this.listRecommendGatewayAndGroup("cuPassageway", "1", 1);
+    this.listRecommendGatewayAndGroup("ctPassageway", "1", 1);
     this.getSensitiveWordGroup();
     this.getAllCorp();
   },
@@ -854,6 +857,9 @@ export default {
     this.gateway("ctPassageway", "3", "1");
     this.getSensitiveWordGroup();
     this.getAllCorp();
+    this.listRecommendGatewayAndGroup("cmPassageway", "1", 1);
+    this.listRecommendGatewayAndGroup("cuPassageway", "1", 1);
+    this.listRecommendGatewayAndGroup("ctPassageway", "1", 1);
   },
   methods: {
     // 获取所有商户
@@ -934,6 +940,7 @@ export default {
       this.isOpen = true;
     },
     /*
+      获取表单通道
       status	string
       运营商 1.移动 2.联通 3.电信
       orderStatus	string
@@ -981,6 +988,7 @@ export default {
       this.formConfig.forEach(item => {
         const { key } = item;
         if (key == keys) {
+          item.optionData = []
           let options = [
             { label: "系统推荐:", options: systemGateway },
             { label: "", options: gateway }
@@ -1103,6 +1111,17 @@ export default {
             });
           }
         });
+        // this.formConfig.forEach(item => {
+        //   const { key } = item;
+        //   if (key == keys) {
+        //     item.optionData = [];
+        //     res.data.forEach(t => {
+        //       this.$set(t, "key", t.id);
+        //       this.$set(t, "value", t.id);
+        //       item.optionData.push(t);
+        //     });
+        //   }
+        // });
       });
     },
     /**
@@ -1170,9 +1189,9 @@ export default {
       // 新增时通道清空
       this.formConfig.forEach(item => {
         const { key } = item;
-        if (["cmPassageway", "cuPassageway", "ctPassageway"].includes(key)) {
-          item.optionData = [];
-        }
+        // if (["cmPassageway", "cuPassageway", "ctPassageway"].includes(key)) {
+        //   item.optionData = [];
+        // }
       });
       setTimeout(() => {
         this.$refs.formItem.resetForm();
