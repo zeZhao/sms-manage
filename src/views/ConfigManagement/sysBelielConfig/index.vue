@@ -20,7 +20,9 @@
       <el-table-column prop="code" label="特服号" />
       <el-table-column prop="optimizeType" label="优化类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.optimizeType === 1 ? "正常" : "对比库" }}</span>
+          <span v-if="scope.row.optimizeType === 1">正常</span>
+          <span v-if="scope.row.optimizeType === 2">对比库</span>
+          <span v-if="scope.row.optimizeType === 3">仅黑名单</span>
         </template>
       </el-table-column>
       <el-table-column prop="optimizePercent" label="优化比例" />
@@ -219,7 +221,11 @@ export default {
           label: "优化类型",
           optionData: [
             { key: "1", value: "正常" },
-            { key: "2", value: "对比库" }
+            { key: "2", value: "对比库" },
+            {
+              key: 3,
+              value: "仅黑名单"
+            },
           ],
           key: "optimizeType"
         }
@@ -268,7 +274,11 @@ export default {
             {
               key: 2,
               value: "对比库"
-            }
+            },
+            {
+              key: 3,
+              value: "仅黑名单"
+            },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
