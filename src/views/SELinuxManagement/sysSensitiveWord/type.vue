@@ -62,7 +62,7 @@ export default {
           maxlength: 100,
           defaultValue: "",
           rules: checkwordName,
-          placeholder: "2-8个字符，添加多个敏感词，用英文“,”隔开"
+          placeholder: "添加多个敏感词，用英文“,”隔开"
         },
         {
           type: "uploadXlsx",

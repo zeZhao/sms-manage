@@ -213,10 +213,7 @@ const checkEditwordName = [
     trigger: ["blur", "change"],
     validator: (rule, value, callback) => {
       if (!value) callback(new Error("请输入必填项"));
-      const len = value.length;
-      if (len < 2 || len > 8) {
-        callback(new Error("敏感词长度在2~8个字符之间"));
-      } else {
+      else {
         callback();
       }
     }
@@ -237,7 +234,7 @@ export default {
           maxlength: 100,
           defaultValue: "",
           rules: checkwordName,
-          placeholder: "2-8个字符，添加多个敏感词，用英文“,”隔开"
+          placeholder: "添加多个敏感词，用英文“,”隔开"
         },
         {
           type: "uploadXlsx",
@@ -591,7 +588,7 @@ export default {
           this.$set(
             item,
             "placeholder",
-            "2-8个字符，添加多个敏感词，用英文“,”隔开"
+            "添加多个敏感词，用英文“,”隔开"
           );
           this.$set(item, "rules", checkwordName);
         }
