@@ -1388,7 +1388,8 @@ export default {
             { key: 1, value: "东云" },
             { key: 2, value: "棱镜" },
             { key: 3, value: "先丰" },
-            { key: 4, value: "云启通" }
+            { key: 4, value: "云启通" },
+            { key: 5, value: "九鹏" },
           ]
         },
         {

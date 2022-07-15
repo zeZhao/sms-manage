@@ -341,21 +341,19 @@ export default {
     gateway() {
       const params = {
         data: {
-          serverStatus: 1,
-          gatewayName: "",
-          isCu: "",
-          isCt: "",
-          isCm: ""
+          isAll: "",
+          orderStatus: "",
+          status: "",
         }
       };
-      this.$http.gateway.listGateway(params).then(res => {
+      this.$http.sysGatewayGroup.listGatewayAndGroup(params).then(res => {
         this.formConfig.forEach(item => {
           const { key } = item;
 
           if (key === "gateway" || key === "toGateway") {
             res.data.forEach(t => {
-              this.$set(t, "key", t.gatewayId);
-              this.$set(t, "value", t.gateway);
+              this.$set(t, "key", t.id);
+              this.$set(t, "value", t.id);
               item.optionData.push(t);
             });
           }
