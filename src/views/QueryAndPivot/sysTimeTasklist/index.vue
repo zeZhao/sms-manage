@@ -314,6 +314,9 @@ export default {
   mounted() {
     this.gateway();
   },
+  activated(){
+    this.gateway();
+  },
   computed: {},
   methods: {
     selectChange({ val, item }) {
