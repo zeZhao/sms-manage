@@ -364,6 +364,14 @@ export default {
               trigger: ["blur", "change"]
             }
           ]
+        },
+        {
+          type: "textarea",
+          label: "备注",
+          key: "remark",
+          maxlength: 300,
+          placeholder: "备注信息不能超过300字"
+          // rules: [{ trigger: ['blur', 'change'], validator: validatorRemark }]
         }
       ],
       origin: window.location.origin,
