@@ -531,7 +531,8 @@ export default {
           colSpan: 12,
           optionData: [
             { key: "10.3.0.23", value: "10.3.0.23" },
-            { key: "10.3.0.19", value: "10.3.0.19" }
+            { key: "10.3.0.19", value: "10.3.0.19" },
+            { key: "10.10.0.249", value: "10.10.0.249" },
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
