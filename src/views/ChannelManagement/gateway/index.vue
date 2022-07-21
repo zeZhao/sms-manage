@@ -1288,8 +1288,8 @@ export default {
             { key: "10.3.0.19", value: "10.3.0.19" },
             { key: "10.3.0.30", value: "10.3.0.30" }
           ]
-          item.initDefaultValue = '10.3.0.23'
-          item.defaultValue = '10.3.0.23'
+          item.initDefaultValue = '10.3.0.30'
+          item.defaultValue = '10.3.0.30'
         }
       })
     }
