@@ -1285,8 +1285,8 @@ export default {
         if(item.key === 'ip'){
           item.optionData = [
             { key: "10.3.0.23", value: "10.3.0.23" },
-        { key: "10.3.0.19", value: "10.3.0.19" },
-        { key: "10.3.0.30", value: "10.3.0.30" }
+            { key: "10.3.0.19", value: "10.3.0.19" },
+            { key: "10.3.0.30", value: "10.3.0.30" }
           ]
           item.initDefaultValue = '10.3.0.23'
           item.defaultValue = '10.3.0.23'
