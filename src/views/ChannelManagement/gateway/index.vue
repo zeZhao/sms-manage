@@ -526,13 +526,13 @@ export default {
           type: "select",
           label: "网关服务器ip",
           key: "ip",
-          initDefaultValue: "10.3.0.23",
-          defaultValue: "10.3.0.23",
+          initDefaultValue: '10.3.0.23',
+          defaultValue: '10.3.0.23',
           colSpan: 12,
           optionData: [
             { key: "10.3.0.23", value: "10.3.0.23" },
             { key: "10.3.0.19", value: "10.3.0.19" },
-            { key: "10.10.0.249", value: "10.10.0.249" },
+            { key: "10.3.0.30", value: "10.3.0.30" }
           ],
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
@@ -1260,8 +1260,39 @@ export default {
             trigger: ["blur", "change"]
           }
         ]
-      }
+      },
+      
     };
+  },
+  created(){
+    console.log(process.env.VUE_APP_TITLE,'wwwwwwwwwww')
+    if (
+      process.env.VUE_APP_TITLE === "development" ||
+      process.env.VUE_APP_TITLE === "test"
+    ) {
+      this.formConfig.forEach(item=>{
+        if(item.key === 'ip'){
+          item.optionData = [
+            { key: "10.10.32.5", value: "10.10.32.5" },
+            { key: "10.10.0.249", value: "10.10.0.249" }
+          ]
+          item.initDefaultValue = '10.10.32.5'
+          item.defaultValue = '10.10.32.5'
+        }
+      })
+    } else {
+      this.formConfig.forEach(item=>{
+        if(item.key === 'ip'){
+          item.optionData = [
+            { key: "10.3.0.23", value: "10.3.0.23" },
+            { key: "10.3.0.19", value: "10.3.0.19" },
+            { key: "10.3.0.30", value: "10.3.0.30" }
+          ]
+          item.initDefaultValue = '10.3.0.23'
+          item.defaultValue = '10.3.0.23'
+        }
+      })
+    }
   },
   mounted() {
     this._mxGetList();
@@ -1287,6 +1318,7 @@ export default {
           }
         });
       });
+    
   },
   computed: {
     // 目标通道--关联屏蔽省份 (校验)
