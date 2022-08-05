@@ -46,7 +46,7 @@
       <el-table-column prop="mobile" label="手机号码" />
       <!-- <el-table-column prop="gateway" label="通道"  /> -->
 
-      <el-table-column prop="modifyTime" label="修改日期" />
+      <el-table-column prop="modifyTime" label="添加日期" />
       <el-table-column prop="remark" label="描述" />
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">{{
