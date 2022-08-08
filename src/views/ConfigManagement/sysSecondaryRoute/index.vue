@@ -130,8 +130,8 @@ export default {
         callback(new Error("账户签名不能为空"));
       } else {
         const len = value.length;
-        if (len < 2 || len > 19) {
-          callback(new Error("账户签名输入限制为2~19位"));
+        if (len < 1 || len > 20) {
+          callback(new Error("账户签名输入限制为1~20位"));
         } else {
           callback();
         }
@@ -284,7 +284,7 @@ export default {
           label: "账户签名",
           key: "sign",
           defaultValue: "",
-          maxlength: "19",
+          maxlength: "20",
           rules: [
             { required: true, message: "请输入必填项", trigger: "blur" },
             { trigger: ["blur", "change"], validator: validatorSign }
