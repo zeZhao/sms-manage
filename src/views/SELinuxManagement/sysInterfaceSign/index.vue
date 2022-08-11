@@ -94,8 +94,8 @@ export default {
         callback(new Error("签名不能为空"));
       } else {
         const len = value.length;
-        if (len < 2 || len > 19) {
-          callback(new Error("签名输入限制为2~19位"));
+        if (len < 1 || len > 20) {
+          callback(new Error("签名输入限制为1~20位"));
         } else {
           callback();
         }
@@ -244,7 +244,7 @@ export default {
           type: "textarea",
           label: "签名",
           key: "sign",
-          maxlength: "19",
+          maxlength: "20",
           rules: [
             {
               required: true,

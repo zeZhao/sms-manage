@@ -147,8 +147,8 @@ export default {
         const data = value.split(",");
         for (let i = 0; i < data.length; i++) {
           const len = data[i].length;
-          if (len < 2 || len > 19) {
-            callback(new Error("每个签名2~19个字符"));
+          if (len < 1 || len > 20) {
+            callback(new Error("每个签名1~20个字符"));
           }
         }
         callback();
@@ -293,7 +293,7 @@ export default {
           type: "textarea",
           label: "签名",
           key: "sign",
-          placeholder: "可输入多个签名，用英文“,”隔开，每个签名2~19个字符",
+          placeholder: "可输入多个签名，用英文“,”隔开，每个签名1~20个字符",
           maxlength: "500",
           rules: [
             {
