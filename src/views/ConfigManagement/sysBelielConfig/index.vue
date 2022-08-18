@@ -28,6 +28,7 @@
       <el-table-column prop="optimizePercent" label="优化比例" />
       <el-table-column prop="noOptimizeTemplate" label="不优化关键词" />
       <el-table-column prop="optimizeTemplate" label="优化关键词" />
+      <el-table-column prop="noOptimizeCode" label="不优化特服号" />
       <el-table-column prop="startTime" label="开始时间(时:分)" />
       <el-table-column prop="endTime" label="结束时间(时:分)" />
       <el-table-column label="操作" width="200" fixed="right"
@@ -297,6 +298,20 @@ export default {
         },
         {
           type: "textarea",
+          label: "不优化特服号",
+          key: "noOptimizeCode",
+          maxlength: 200,
+          placeholder: "请输入模板内容，多条内容请用英文“,”隔开",
+          rules: [
+            // { required: true, message: "请输入必填项", trigger: "blur" },
+            // {
+            //   trigger: "change",
+            //   validator: validatorTemplate
+            // }
+          ]
+        },
+        {
+          type: "textarea",
           label: "不优化地区",
           key: "noOptimizeProvince",
           colSpan: 12,
@@ -306,6 +321,7 @@ export default {
           // 可选择省份和城市进行赋值
           isChooseProviceOrCity: true
         },
+        
         {
           type: "textarea",
           label: "不优化关键词",
