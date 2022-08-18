@@ -2432,9 +2432,10 @@ export default {
           let val = item.defaultValue;
           productTypeVal = item.defaultValue;
           if (val && val.length != 0) {
-            if (val.includes(1) && val.includes(2)) {
+            if (val.includes(1) && val.includes(2) && !val.includes(4)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", false);
+              this._setDisplayShow(this.formConfig, "qingyunPaySum", true);
               this.$nextTick(() => {
                 item.optionData[2].disabled = true;
               });
@@ -2453,7 +2454,7 @@ export default {
                   }
                 }
               });
-            } else if (val.includes(1)) {
+            } else if (val.includes(1) && !val.includes(4)) {
               this._setTagDisplayShow(this.formConfig, "sms", false);
               this._setTagDisplayShow(this.formConfig, "mms", true);
               this._setDisplayShow(this.formConfig, "cardUnit", false);
@@ -2476,7 +2477,7 @@ export default {
                   }
                 }
               });
-            } else if (val.includes(2)) {
+            } else if (val.includes(2) && !val.includes(4)) {
               this._setTagDisplayShow(this.formConfig, "mms", false);
               this._setTagDisplayShow(this.formConfig, "sms", true);
               this.$nextTick(() => {

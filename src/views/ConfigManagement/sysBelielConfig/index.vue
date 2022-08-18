@@ -218,6 +218,11 @@ export default {
           key: "optimizeTemplate"
         },
         {
+          type: "input",
+          label: "不优化特服号",
+          key: "noOptimizeCode"
+        },
+        {
           type: "select",
           label: "优化类型",
           optionData: [
