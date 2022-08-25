@@ -52,6 +52,11 @@
           <span v-html="scope.row.error"></span>
         </template>
       </el-table-column>
+      <el-table-column prop="sendTime" label="发送报告时间" width="135">
+        <template slot-scope="scope">
+          <span>{{ scope.row.sendTime | timeFormat }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="returnTime" label="返回报告时间" width="135">
         <template slot-scope="scope">
           <span>{{ scope.row.returnTime | timeFormat }}</span>
@@ -172,20 +177,31 @@ export default {
         },
         {
           type: "date",
-          label: "返回日期",
-          key: "returnTime",
+          label: "发送日期",
+          key: "sendTime",
           placeholder: "返回日期",
           defaultValue: new Date()
         },
         {
           type: "timerange",
-          label: "返回报告时间",
-          key: ["", "startTime", "endTime"],
+          label: "发送报告时间",
+          key: ["", "startSendTime", "endSendTime"],
           defaultValue: [
             "",
             new Date(2021, 12, 16, 0, 0, 0),
             new Date(2021, 12, 16, 23, 59, 59)
           ]
+        },
+        {
+          type: "date",
+          label: "返回日期",
+          key: "returnTime",
+          placeholder: "返回日期",
+        },
+        {
+          type: "timerange",
+          label: "返回报告时间",
+          key: ["", "startTime", "endTime"],
         }
 
         // {
