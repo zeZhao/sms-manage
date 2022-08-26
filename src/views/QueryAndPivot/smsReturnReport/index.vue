@@ -247,6 +247,15 @@ export default {
       if (data.endTime) {
         data.endTime = new Date(data.endTime).Format("hh:mm:ss");
       }
+      if (data.sendTime) {
+        data.sendTime = new Date(data.sendTime).Format("yyyy-MM-dd");
+      }
+      if (data.startSendTime) {
+        data.startSendTime = new Date(data.startSendTime).Format("hh:mm:ss");
+      }
+      if (data.endSendTime) {
+        data.endSendTime = new Date(data.endSendTime).Format("hh:mm:ss");
+      }
       return data;
     }
   },
