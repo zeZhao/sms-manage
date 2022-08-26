@@ -41,9 +41,18 @@ function DynamicKey(key, val) {
         pageSize: this.pageObj.pageSize
       }
     };
-    params.data[key] = {
-      ...val
-    };
+    if(this.namespaceType === 'Array'){
+      params.data[key] = [
+        {
+          ...val
+        }
+      ];
+    }else{
+      params.data[key] = {
+        ...val
+      };
+    }
+    
 
     //短信通道筛选标签的特殊格式
     // if (params.data[key]['labelName']) {
