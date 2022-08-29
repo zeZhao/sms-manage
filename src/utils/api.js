@@ -2399,5 +2399,24 @@ export default {
         deleteUserLogo(params) {
             return post("/smsUserLogo/deleteUserLogo", params);
         },
+    },
+    // 推送长号码配置
+    smslongnum: {
+        // 分页查询供应商信息
+        list(params) {
+            return post("/smslongnum/config/0", params);
+        },
+        // 添加logo
+        add(params) {
+            return post("/smslongnum/config/1", params);
+        },
+        // 删除logo
+        delete(params) {
+            return post("/smslongnum/config/2", params);
+        },
+        // 删除logo
+        edit(params) {
+            return post("/smslongnum/config/3", params);
+        },
     }
 }

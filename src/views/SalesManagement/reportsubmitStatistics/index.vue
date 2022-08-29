@@ -200,6 +200,28 @@ export default {
           }
         });
     },
+     /**
+     * 列表查询操作
+     * @param param
+     * @private
+     */
+    _mxDoSearch(param = this.searchParam) {
+      //调用查询时默认跳转到第一页
+      this.pageObj.currentPage = 1;
+      this.$nextTick(() => {
+        this.searchParam = {
+          ...param
+        };
+      });
+      var startD = new Date(Date.parse(param.countDate.replace(/-/g,"/")));
+      var endD   = new Date(Date.parse(param.endDate.replace(/-/g,"/")));
+      var days = parseInt((endD.getTime()-startD.getTime()) / (1000 * 60 * 60 * 24));
+      if(days > 30){
+        this.$message.error('统计日期请选择一个月之内的日期')
+        return false;
+      }
+      this._mxGetList();
+    },
 
     /**
      * 调整提交的参数
@@ -209,11 +231,19 @@ export default {
      * @private
      */
     _formatRequestData(data) {
+
       if (data.countDate) {
         data.countDate = new Date(data.countDate).Format("yyyy-MM-dd");
       }
       if (data.endDate) {
         data.endDate = new Date(data.endDate).Format("yyyy-MM-dd");
+      }
+      var startD = new Date(Date.parse(data.countDate.replace(/-/g,"/")));
+      var endD   = new Date(Date.parse(data.endDate.replace(/-/g,"/")));
+      var days = parseInt((endD.getTime()-startD.getTime()) / (1000 * 60 * 60 * 24));
+      if(days > 30){
+        this.$message.error('统计日期请选择一个月之内的日期')
+        return false;
       }
       this.saleSubmitStatistics(data);
       return data;
