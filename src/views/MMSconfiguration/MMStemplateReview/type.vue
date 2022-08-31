@@ -93,11 +93,11 @@
         v-if="queryType === 'channelConfig'"
         style="width: 80%; margin: 50px auto"
       >
-        <el-form :model="formData" label-width="150px">
+        <el-form :model="formData" label-width="90px">
           <el-row>
             <el-col :span="4">
               <el-form-item label="模板编号：">
-                <span>{{ formData.mmsId }}</span>
+                <span style="overflow-wrap: anywhere;">{{ formData.mmsId }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
