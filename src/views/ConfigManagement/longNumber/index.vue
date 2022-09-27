@@ -28,7 +28,7 @@
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('userId', scope.row.userId,scope.row.id)"
+            @click="_mxDeleteItem(scope.row.userId,scope.row.id)"
             type="text"
             size="small"
             >删除</el-button
