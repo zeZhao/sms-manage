@@ -91,9 +91,10 @@ export default {
           key: "userId"
         },
         {
-          type: "input",
+          type: "inputNum",
           label: "长号码",
-          key: "smsLongNum"
+          key: "smsLongNum",
+          maxlength:30
         }
       ],
       // 表单配置
