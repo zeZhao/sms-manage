@@ -28,7 +28,7 @@
             >修改</el-button
           >
           <el-button
-            @click="_mxDeleteItem('userId', scope.row.userId)"
+            @click="_mxDeleteItem('userId', scope.row.userId,scope.row.id)"
             type="text"
             size="small"
             >删除</el-button
@@ -148,10 +148,8 @@ export default {
      * @private
      */
     _mxDeleteItem(
-      key,
+      userId,
       id,
-      isData = true,
-      isQuery = false,
       tip = "您确定要删除此项吗？"
     ) {
       const h = this.$createElement;
@@ -168,12 +166,11 @@ export default {
         cancelButtonText: "取消"
       })
         .then(action => {
-          console.log(1111);
           let params = {};
           params = {
             data: {
               configs: [
-                {userId:id.toString()}
+                {userId:userId.toString(),id:id.toString()}
               ]
             }
           };
