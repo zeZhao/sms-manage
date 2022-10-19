@@ -16,13 +16,14 @@
       v-loading="loading"
     >
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="startTime" label="日期" min-width="300">
+      <el-table-column prop="startTime" label="日期" min-width="200">
         <template slot-scope="scope">
           {{ scope.row.startTime | timeFormat }}~{{
             scope.row.endTime | timeFormat
           }}
         </template>
       </el-table-column>
+      <el-table-column prop="cid" label="CID" width="100" />
       <el-table-column prop="mobile" label="手机号" width="100" />
       <el-table-column prop="pushType" label="推送类型">
         <template slot-scope="scope">{{
@@ -230,11 +231,18 @@ export default {
           ]
         },
         {
+          type: "input",
+          label: "CID",
+          key: "cid",
+          placeholder: "请输入CID",
+          defaultValue: "",
+        },
+        {
           type: "dataTimes",
           label: "选择日期",
           key: "dataTimes",
           defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+          // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
           type: "textarea",
@@ -268,6 +276,11 @@ export default {
       }
     },
     submit(form) {
+      const { cid, dataTimes } = form
+      if(!cid && !dataTimes){
+        this.$message.error('CID或者日期请选择填写一个~')
+        return false
+      }
       this.$confirm("推送后可在列表进行查看", "确认推送", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -276,6 +289,8 @@ export default {
         .then(() => {
           // 确认推送
           let params = {};
+          
+          
           if (this.formTit === "新增") {
             params = {
               ...form
