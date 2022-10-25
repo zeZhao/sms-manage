@@ -27,13 +27,13 @@
                 </p>
                 <img
                   v-if="it.pageType === 1 && it.pageMedia"
-                  :src="it.pageMedia"
+                  :src="origin + it.pageMedia"
                   class="preview-content views-pic"
                   @click="viewsPic(it.pageMedia)"
                 />
                 <audio
                   v-if="it.pageType === 2 && it.pageMedia"
-                  :src="it.pageMedia"
+                  :src="origin + it.pageMedia"
                   controls="controls"
                   class="preview-content"
                 >
@@ -41,7 +41,7 @@
                 </audio>
                 <video
                   v-if="it.pageType === 3 && it.pageMedia"
-                  :src="it.pageMedia"
+                  :src="origin + it.pageMedia"
                   controls="controls"
                   class="preview-content"
                 >
@@ -53,7 +53,7 @@
           <el-dialog :visible.sync="dialogVisible">
             <img
               style="display: block; width: 50%; margin: auto"
-              :src="dialogUrl"
+              :src="origin + dialogUrl"
             />
           </el-dialog>
         </div>
@@ -138,7 +138,92 @@
           :data="tableData"
           style="width: 100%"
           border
-          :height="tableHeight"
+        >
+          <el-table-column prop="type" label="通道类型" align="center" />
+          <el-table-column label="通道" align="center">
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.codeName"
+                placeholder="请选择通道"
+                clearable
+                :loading="scope.row.loading"
+                loading-text="加载中..."
+                :disabled="scope.row.disabled"
+                @focus="handleFocus(scope.row.type)"
+              >
+                <el-option
+                  v-for="item in scope.row.options"
+                  :key="item.gatewayId"
+                  :label="item.name"
+                  :value="item.gatewayId"
+                >
+                </el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="footer">
+          <el-button
+            type="primary"
+            @click="channelReview"
+            :disabled="diffDisabled"
+            >提 审</el-button
+          >
+          <el-button @click="cancel">取 消</el-button>
+        </div>
+      </section>
+
+      <!-- 模板审核 -->
+      <section
+        v-if="queryType === 'templateAudit'"
+        style="width: 80%; margin: 50px auto"
+      >
+        <el-form :model="formData" label-width="90px">
+          <el-row>
+            <el-col :span="4">
+              <el-form-item label="模板编号：">
+                <span style="overflow-wrap: anywhere;">{{ formData.mmsId }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="商户编号：">
+                <span>{{ formData.corpId }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="商户名称：">
+                <el-tooltip
+                  effect="dark"
+                  placement="top"
+                  :content="formData.corpName"
+                >
+                  <span class="text-ellipsis">{{ formData.corpName }}</span>
+                </el-tooltip>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="账户编号：">
+                <span>{{ formData.userId }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="账户名称：">
+                <el-tooltip
+                  effect="dark"
+                  placement="top"
+                  :content="formData.userName"
+                >
+                  <span class="text-ellipsis">{{ formData.userName }}</span>
+                </el-tooltip>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-button type="primary">新增</el-button>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          border
         >
           <el-table-column prop="type" label="通道类型" align="center" />
           <el-table-column label="通道" align="center">
@@ -209,7 +294,9 @@ export default {
       ],
       dialogVisible: false,
       dialogUrl: undefined,
-      diffObj: {} //比较的对象
+      diffObj: {}, //比较的对象
+      // origin: window.location.origin
+      origin: "http://manage.sms.jvtdtest.top/"
     };
   },
   computed: {
@@ -224,9 +311,16 @@ export default {
     },
     renderTitle() {
       const viewTitle = "彩信模板提审/";
-      return this.queryType === "views"
-        ? `${viewTitle}预览`
-        : `${viewTitle}通道配置`;
+      if(this.queryType === "views"){
+        return `${viewTitle}预览`
+      }else if(this.queryType === "channelConfig"){
+        return `${viewTitle}通道配置`
+      }else if(this.queryType === "templateAudit"){
+        return `${viewTitle}模板审核`
+      }
+      // return this.queryType === "views"
+      //   ? `${viewTitle}预览`
+      //   : `${viewTitle}通道配置`;
     },
     diffDisabled() {
       if (Object.keys(this.diffObj).length) {
