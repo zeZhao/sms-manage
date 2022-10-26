@@ -1,4 +1,5 @@
 <template>
+<!-- 彩信模板审核 -->
   <div>
     <Search
       :searchFormConfig="searchFormConfig"
@@ -16,7 +17,7 @@
       <el-table-column prop="corpName" label="商户名称" />
       <el-table-column prop="userId" label="账户编号" />
       <el-table-column prop="userName" label="账户名称" />
-      <el-table-column prop="mmsId" label="模板编号" />
+      <el-table-column prop="mmsId" label="模板编号"  width="135"/>
       <el-table-column prop="title" label="彩信标题" />
       <el-table-column prop="sign" label="签名" />
       <el-table-column prop="submitTime" label="提交时间" width="135">
@@ -27,27 +28,27 @@
       <el-table-column prop="submitType" label="提交类型" >
         <template slot-scope="scope">{{ renderSubmitType(scope.row.submitType) }}</template>
       </el-table-column>
-      <el-table-column prop="cmTemplateId" label="移动上游模板编号" />
-      <el-table-column prop="cmGatewayId" label="移动通道编号" />
-      <el-table-column prop="cmStatus" label="移动通道状态">
+      <!-- <el-table-column prop="cmTemplateId" label="移动上游模板编号"  width="135"/>
+      <el-table-column prop="cmGatewayId" label="移动通道编号" /> -->
+      <el-table-column prop="status" label="通道状态">
         <template slot-scope="{ row }">{{
-          renderAllTypes(row.cmStatus)
+          renderAllTypes(row.status)
         }}</template>
       </el-table-column>
-      <el-table-column prop="cuTemplateId" label="联通上游模板编号" />
+      <!-- <el-table-column prop="cuTemplateId" label="联通上游模板编号"  width="135"/>
       <el-table-column prop="cuGatewayId" label="联通通道编号" />
       <el-table-column prop="cuStatus" label="联通通道状态">
         <template slot-scope="{ row }">{{
           renderAllTypes(row.cuStatus)
         }}</template>
       </el-table-column>
-      <el-table-column prop="ctTemplateId" label="电信上游模板编号" />
+      <el-table-column prop="ctTemplateId" label="电信上游模板编号" width="135" />
       <el-table-column prop="ctGatewayId" label="电信通道编号" />
       <el-table-column prop="ctStatus" label="电信通道状态">
         <template slot-scope="{ row }">{{
           renderAllTypes(row.ctStatus)
         }}</template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="操作" width="300" fixed="right">
         <template slot-scope="scope">
           <el-button
@@ -66,7 +67,7 @@
             size="small"
             >预览
           </el-button>
-          <el-button
+          <!-- <el-button
             v-if="scope.row.auditStatus === 1"
             @click="
               bringToTrial(
@@ -79,27 +80,34 @@
             type="text"
             size="small"
             >提审</el-button
-          >
+          > -->
           <el-button
-            v-if="scope.row.auditStatus === 1"
-            @click="reject(scope.row.arraignId)"
+            v-if="scope.row.status === 2"
+            @click="reject(scope.row.mmsId)"
             type="text"
             size="small"
             >驳回
           </el-button>
           <el-button
-            v-if="scope.row.auditStatus === 3"
-            @click="partiallyPassed(scope.row.arraignId)"
+            v-if="scope.row.status === 2"
+            @click="partiallyPassed(scope.row.mmsId)"
             type="text"
             size="small"
-            >部分通过</el-button
+            >通过</el-button
           >
           <el-button
-            v-if="[1, 3, 7].includes(scope.row.auditStatus)"
+            v-if="[2,4].includes(scope.row.status)"
             @click="channelConfig('channelConfig', scope.row)"
             type="text"
             size="small"
             >通道配置</el-button
+          >
+          <el-button
+            v-if="[2,4].includes(scope.row.status)"
+            @click="channelConfig('templateAudit', scope.row)"
+            type="text"
+            size="small"
+            >通道审核</el-button
           >
         </template>
       </el-table-column>
@@ -130,11 +138,12 @@ import listMixin from "@/mixin/listMixin";
 //   { key: 7, value: "部分通过" }
 // ];
 const reviewType = [
-  { key: 1, value: "待提审" },
-  { key: 2, value: "审核中" },
-  { key: 3, value: "审核通过" },
-  { key: 4, value: "审核驳回" },
-  { key: 5, value: "异常" }
+  { key: 2, value: "待提审" },
+  // { key: 2, value: "审核中" },
+  { key: 3, value: "审核驳回" },
+  { key: 4, value: "审核通过" },
+  
+  // { key: 5, value: "异常" }
 ];
 export default {
   mixins: [listMixin],
@@ -220,10 +229,10 @@ export default {
         });
     },
     //部分通过
-    partiallyPassed(arraignId) {
+    partiallyPassed(mmsId) {
       this.$confirm(
-        "您确定要部分通过吗？通过后账户只能发送成功审核通过的通道",
-        "部分通过",
+        "您确定要通过模板吗？通过后账户只能发送成功审核通过的通道",
+        "模板通过",
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -231,10 +240,10 @@ export default {
         }
       )
         .then(() => {
-          this.$http.mmsTemplateCheck.partilyPass({ arraignId }).then(res => {
+          this.$http.mmsTemplateCheck.updateStatus({ mmsId,status:4 }).then(res => {
             if (res.code === 200) {
               this._mxGetList();
-              this.$message.success("部分通过成功");
+              this.$message.success("通过成功");
             } else {
               this.$message.error(res.msg);
             }
@@ -243,20 +252,14 @@ export default {
         .catch(() => {});
     },
     //驳回
-    reject(arraignId) {
-      this.$prompt("请输入驳回理由", "驳回理由", {
-        confirmButtonText: "驳回",
-        cancelButtonText: "取消",
-        inputType: "textarea",
-        closeOnClickModal: false,
-        inputValidator: value => {
-          if (!value) return "驳回理由不得为空";
-          if (value.length > 200) return "驳回理由的长度不得超过200";
-        }
-      })
-        .then(({ value }) => {
+    reject(mmsId) {
+      this.$confirm('此操作将驳回此模板, 是否继续?', '模板驳回', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
           this.$http.mmsTemplateCheck
-            .refuseBasicArragin({ arraignId, refuseReason: value })
+            .updateStatus({ mmsId,status:3 })
             .then(res => {
               if (res.code === 200) {
                 this._mxGetList();
@@ -265,8 +268,35 @@ export default {
                 this.$message.error(res.msg);
               }
             });
-        })
-        .catch(() => {});
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      // this.$prompt("请输入驳回理由", "驳回理由", {
+      //   confirmButtonText: "驳回",
+      //   cancelButtonText: "取消",
+      //   inputType: "textarea",
+      //   closeOnClickModal: false,
+      //   inputValidator: value => {
+      //     if (!value) return "驳回理由不得为空";
+      //     if (value.length > 200) return "驳回理由的长度不得超过200";
+      //   }
+      // })
+      //   .then(({ value }) => {
+      //     this.$http.mmsTemplateCheck
+      //       .refuseBasicArragin({ arraignId, refuseReason: value })
+      //       .then(res => {
+      //         if (res.code === 200) {
+      //           this._mxGetList();
+      //           this.$message.success("驳回成功");
+      //         } else {
+      //           this.$message.error(res.msg);
+      //         }
+      //       });
+      //   })
+      //   .catch(() => {});
     },
     //通道配置
     channelConfig(type, row) {

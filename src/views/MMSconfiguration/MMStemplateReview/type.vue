@@ -27,13 +27,13 @@
                 </p>
                 <img
                   v-if="it.pageType === 1 && it.pageMedia"
-                  :src="it.pageMedia"
+                  :src="origin + it.pageMedia"
                   class="preview-content views-pic"
                   @click="viewsPic(it.pageMedia)"
                 />
                 <audio
                   v-if="it.pageType === 2 && it.pageMedia"
-                  :src="it.pageMedia"
+                  :src="origin + it.pageMedia"
                   controls="controls"
                   class="preview-content"
                 >
@@ -41,7 +41,7 @@
                 </audio>
                 <video
                   v-if="it.pageType === 3 && it.pageMedia"
-                  :src="it.pageMedia"
+                  :src="origin + it.pageMedia"
                   controls="controls"
                   class="preview-content"
                 >
@@ -53,11 +53,11 @@
           <el-dialog :visible.sync="dialogVisible">
             <img
               style="display: block; width: 50%; margin: auto"
-              :src="dialogUrl"
+              :src="origin + dialogUrl"
             />
           </el-dialog>
         </div>
-        <el-form :model="formObj" label-width="350px">
+        <!-- <el-form :model="formObj" label-width="350px">
           <el-form-item label="驳回理由：">
             <div
               style="width: 60%; word-break: break-all; word-wrap: break-word"
@@ -65,9 +65,9 @@
               {{ formObj.refuseReason }}
             </div>
           </el-form-item>
-        </el-form>
+        </el-form> -->
         <div class="footer">
-          <el-button
+          <!-- <el-button
             v-if="queryAuditStatus == 1"
             type="primary"
             @click="bringToTrial(queryArraignId)"
@@ -83,8 +83,8 @@
             v-if="queryAuditStatus == 3"
             type="primary"
             @click="partiallyPassed(queryArraignId)"
-            >部分通过
-          </el-button>
+            >通过
+          </el-button> -->
           <el-button @click="cancel">关 闭</el-button>
         </div>
       </section>
@@ -138,7 +138,6 @@
           :data="tableData"
           style="width: 100%"
           border
-          :height="tableHeight"
         >
           <el-table-column prop="type" label="通道类型" align="center" />
           <el-table-column label="通道" align="center">
@@ -168,11 +167,132 @@
             type="primary"
             @click="channelReview"
             :disabled="diffDisabled"
-            >提 审</el-button
+            >保 存</el-button
           >
           <el-button @click="cancel">取 消</el-button>
         </div>
       </section>
+
+      <!-- 通道审核 -->
+      <section
+        v-if="queryType === 'templateAudit'"
+        style="width: 80%; margin: 50px auto"
+      >
+        <el-form :model="formData" label-width="90px">
+          <el-row>
+            <el-col :span="4">
+              <el-form-item label="模板编号：">
+                <span style="overflow-wrap: anywhere;">{{ formData.mmsId }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="商户编号：">
+                <span>{{ formData.corpId }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="商户名称：">
+                <el-tooltip
+                  effect="dark"
+                  placement="top"
+                  :content="formData.corpName"
+                >
+                  <span class="text-ellipsis">{{ formData.corpName }}</span>
+                </el-tooltip>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="账户编号：">
+                <span>{{ formData.userId }}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="账户名称：">
+                <el-tooltip
+                  effect="dark"
+                  placement="top"
+                  :content="formData.userName"
+                >
+                  <span class="text-ellipsis">{{ formData.userName }}</span>
+                </el-tooltip>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-button type="primary" @click="dialogTableVisible= true;">新增</el-button>
+        <el-table
+          :data="gatewayData"
+          style="width: 100%"
+          border
+        >
+          <el-table-column property="gatewayId" label="通道编号"></el-table-column>
+          <el-table-column property="corpName" label="商户名称"></el-table-column>
+          <el-table-column property="name" label="通道名称"></el-table-column>
+          <el-table-column property="price" label="通道单价"></el-table-column>
+          <el-table-column property="operator" label="运营商">
+            <template slot-scope="{row}">
+              <span v-if="row.operator === 0">三网</span>
+              <span v-if="row.operator === 1">移动</span>
+              <span v-if="row.operator === 2">联通</span>
+              <span v-if="row.operator === 3">电信</span>
+              <span v-if="row.operator === 3">电信</span>
+              <span v-if="row.operator === 4">移动、联通</span>
+              <span v-if="row.operator === 5">移动、电信</span>
+              <span v-if="row.operator === 6">联通、电信</span>
+            </template>
+          </el-table-column>
+          <el-table-column property="status" label="通道状态">
+            <template slot-scope="{row}">
+              <span v-if="row.status === 0">不可用</span>
+              <span v-if="row.status === 1">可用</span>
+            </template>
+          </el-table-column>
+          <el-table-column property="checkStatus" label="审核状态">
+            <template slot-scope="{row}">
+              <span v-if="row.checkStatus === 1">审核通过</span>
+              <span v-if="row.checkStatus === 2">审核拒绝</span>
+              <span v-if="row.checkStatus === 3">已删除</span>
+              <span v-if="row.checkStatus === 4">审核中</span>
+              <span v-if="row.checkStatus === 5">审核失败</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="footer">
+          <el-button @click="cancel">返 回</el-button>
+        </div>
+      </section>
+      <el-dialog title="新增提审通道" :visible.sync="dialogTableVisible">
+        <el-table :data="gridData" ref="singleTable"
+          @selection-change="handleCurrentChange">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column property="gatewayId" label="通道编号"></el-table-column>
+          <el-table-column property="corpName" label="商户名称"></el-table-column>
+          <el-table-column property="name" label="通道名称"></el-table-column>
+          <el-table-column property="price" label="通道单价"></el-table-column>
+          <el-table-column property="operator" label="运营商">
+            <template slot-scope="{row}">
+              <span v-if="row.operator === 0">三网</span>
+              <span v-if="row.operator === 1">移动</span>
+              <span v-if="row.operator === 2">联通</span>
+              <span v-if="row.operator === 3">电信</span>
+              <span v-if="row.operator === 3">电信</span>
+              <span v-if="row.operator === 4">移动、联通</span>
+              <span v-if="row.operator === 5">移动、电信</span>
+              <span v-if="row.operator === 6">联通、电信</span>
+            </template>
+          </el-table-column>
+          <el-table-column property="status" label="通道状态">
+            <template slot-scope="{row}">
+              <span v-if="row.status === 0">不可用</span>
+              <span v-if="row.status === 1">可用</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="setCurrent()">取 消</el-button>
+          <el-button type="primary" @click="channelConfiguration">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -209,7 +329,14 @@ export default {
       ],
       dialogVisible: false,
       dialogUrl: undefined,
-      diffObj: {} //比较的对象
+      diffObj: {}, //比较的对象
+      // origin: window.location.origin
+      origin: "http://manage.sms.jvtdtest.top/",
+      gatewayData:[],
+      gridData:[],
+      dialogTableVisible: false,
+      multipleSelection: [],
+      arraignId:''
     };
   },
   computed: {
@@ -224,9 +351,16 @@ export default {
     },
     renderTitle() {
       const viewTitle = "彩信模板提审/";
-      return this.queryType === "views"
-        ? `${viewTitle}预览`
-        : `${viewTitle}通道配置`;
+      if(this.queryType === "views"){
+        return `${viewTitle}预览`
+      }else if(this.queryType === "channelConfig"){
+        return `${viewTitle}通道配置`
+      }else if(this.queryType === "templateAudit"){
+        return `${viewTitle}通道审核`
+      }
+      // return this.queryType === "views"
+      //   ? `${viewTitle}预览`
+      //   : `${viewTitle}通道配置`;
     },
     diffDisabled() {
       if (Object.keys(this.diffObj).length) {
@@ -267,35 +401,104 @@ export default {
         .catch(err => {
           this.$message.error(err.data || err.msg);
         });
-    } else {
+    } else if (this.queryType === 'channelConfig') {
       this.formData = JSON.parse(this.$route.query.row);
       await this.getTableSelectList(); //获取所有三网所有通道数据
-      this.tableData[0].codeName =
-        this.formData.cmGatewayId === "-" ? "" : this.formData.cmGatewayId;
-      this.tableData[1].codeName =
-        this.formData.cuGatewayId === "-" ? "" : this.formData.cuGatewayId;
-      this.tableData[2].codeName =
-        this.formData.ctGatewayId === "-" ? "" : this.formData.ctGatewayId;
+      let obj = await this.getMmsArraign(); //详情
+
+      this.tableData[0].codeName = obj.cmGatewayId;
+      this.tableData[1].codeName = obj.cuGatewayId;
+      this.tableData[2].codeName = obj.ctGatewayId;
       // 比较对象的赋值
       this.diffObj = {
         cmGatewayId: this.tableData[0].codeName,
         cuGatewayId: this.tableData[1].codeName,
         ctGatewayId: this.tableData[2].codeName
       };
-      const reviewType = [2, 3]; //2.审核中 3.审核通过
-      this.tableData[0].disabled = reviewType.includes(this.formData.cmStatus);
-      this.tableData[1].disabled = reviewType.includes(this.formData.cuStatus);
-      this.tableData[2].disabled = reviewType.includes(this.formData.ctStatus);
+      // const reviewType = [2, 3]; //2.审核中 3.审核通过
+      // this.tableData[0].disabled = reviewType.includes(this.formData.cmStatus);
+      // this.tableData[1].disabled = reviewType.includes(this.formData.cuStatus);
+      // this.tableData[2].disabled = reviewType.includes(this.formData.ctStatus);·
+    }else{
+      this.formData = JSON.parse(this.$route.query.row);
+      this.getGatewayData()
+      this.listMmsGatewayNoArraignment()
     }
+    
   },
   methods: {
+    //选中提审通道数据赋值
+    handleCurrentChange(val) {
+      this.multipleSelection = val;
+    },
+    //通道配置
+    channelConfiguration(){
+      const { mmsId } = JSON.parse(this.$route.query.row);
+      let arr = this.multipleSelection.map(item=> item.gatewayId)
+      this.$http.templateArraignment.pushGatewayArraign({mmsId,gatewayId:arr}).then(res => {
+          if (res.code === 200) {
+            this.$message.success("添加成功");
+            this.getGatewayData()
+            this.listMmsGatewayNoArraignment()
+            this.dialogTableVisible = false
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+    },
+    //取消新增通道审核
+    setCurrent(row){
+      this.dialogTableVisible = false
+      this.$refs.singleTable.setCurrentRow(row);
+    },
+    //获取提审的通道列表
+    getGatewayData(){
+      const { mmsId } = JSON.parse(this.$route.query.row);
+      this.$http.templateArraignment
+        .listByPage({ mmsId })
+        .then(res => {
+          if (res.code === 200) {
+            this.gatewayData = res.data
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+    },
+    //获取未提审的通道列表
+    listMmsGatewayNoArraignment(){
+      const { mmsId } = JSON.parse(this.$route.query.row);
+      this.$http.templateArraignment
+        .listMmsGatewayNoArraignment({ mmsId })
+        .then(res => {
+          if (res.code === 200) {
+            this.gridData = res.data
+            // this.$message.success("提审成功");
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+    },
     async getTableSelectList() {
+      const { mmsId } = JSON.parse(this.$route.query.row);
       for (let i = 1; i < 4; i++) {
-        const res = await this.$http.MMSgatewayInitial.selectMmsInitUserGatewayDtoByUserID(
-          { operaId: i }
+        const res = await this.$http.templateArraignment.listMmsGatewayByOperator(
+          { operator: i,mmsId }
         );
         if (res.code === 200) this.tableData[i - 1].options = res.data;
       }
+    },
+    async getMmsArraign() {
+      let obj = null
+      const { mmsId } = JSON.parse(this.$route.query.row);
+      await this.$http.templateArraignment.getMmsArraign(
+          { mmsId } 
+        ).then(res=>{
+          if (res.code === 200){
+            this.arraignId = res.data.arraignId
+            obj = res.data
+          }
+        })
+      return obj
     },
     //查看大图
     viewsPic(url) {
@@ -375,13 +578,16 @@ export default {
     },
     //获取不同运营商-通道的下拉数据
     handleFocus(type) {
+      const { mmsId } = JSON.parse(this.$route.query.row);
       const idx = this.returnType(type);
-      this.$http.MMSgatewayInitial.selectMmsInitUserGatewayDtoByUserID({
-        operaId: idx + 1
+      this.$http.templateArraignment.listMmsGatewayByOperator({
+        mmsId,
+        operator: idx+1
       }).then(res => {
         if (res.code === 200) {
-          this.tableData[idx].options = res.data;
           this.tableData[idx].loading = false; //取消加载中的样式
+          this.tableData[idx].options = res.data;
+          
         } else {
           this.$message.error(res.data || res.msg);
         }
@@ -389,16 +595,18 @@ export default {
     },
     //通道确认提审
     channelReview() {
+      const { mmsId } = JSON.parse(this.$route.query.row);
       const data = {
-        arraignId: this.formData.arraignId,
+        mmsId,
+        arraignId: this.arraignId,
         cmGatewayId: this.tableData[0].codeName,
         cuGatewayId: this.tableData[1].codeName,
         ctGatewayId: this.tableData[2].codeName
       };
-      this.$http.mmsTemplateCheck.gatewayConfig(data).then(res => {
+      this.$http.templateArraignment.channelConfiguration(data).then(res => {
         if (res.code === 200) {
           this.cancel();
-          this.$message.success("提审成功");
+          this.$message.success("保存成功");
         } else {
           this.$message.error(res.msg);
         }
