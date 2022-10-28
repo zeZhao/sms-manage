@@ -45,6 +45,12 @@
             {{ formData.waitCheckMin }}分钟内接口发送待审数量大于阀值则告警
           </div>
         </el-form-item>
+        <el-form-item label="是否提交报警：">
+          <el-radio-group v-model="formData.haveSubmit">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </div>
       <div v-if="queryUserAlarmType == 2">
         <el-form-item label="到达成功率：" prop="returnSuccRate">
@@ -168,7 +174,7 @@ export default {
           { required: true, message: '请选择报警方式', trigger: 'change' },
         ],
         waitCheckNum: [
-          { required: true, trigger: 'blur', validator: checkWaitCheckMinNum },
+          // { required: true, trigger: 'blur', validator: checkWaitCheckMinNum },
         ],
         returnSuccRate: [
           {
@@ -266,6 +272,11 @@ export default {
     submit() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          const {waitCheckMin, waitCheckNum, haveSubmit} = this.formData
+          if( !haveSubmit && !waitCheckMin && !waitCheckNum){
+            this.$message.error('待审数量和是否提交报警请选择一项')
+            return 
+          }
           const data = { ...this.formData, ...this.$route.query }
           this.$http.sysAlarmUser.saveAlarmUser(data).then((res) => {
             if (res.code === 200) {
