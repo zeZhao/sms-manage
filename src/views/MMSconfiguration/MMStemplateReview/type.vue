@@ -97,7 +97,9 @@
           <el-row>
             <el-col :span="4">
               <el-form-item label="模板编号：">
-                <span style="overflow-wrap: anywhere;">{{ formData.mmsId }}</span>
+                <el-tooltip class="item" effect="dark" :content="formData.mmsId" placement="top-start">
+                  <span class="text-ellipsis">{{ formData.mmsId }}</span>
+                </el-tooltip>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -182,7 +184,9 @@
           <el-row>
             <el-col :span="4">
               <el-form-item label="模板编号：">
-                <span style="overflow-wrap: anywhere;">{{ formData.mmsId }}</span>
+                <el-tooltip class="item" effect="dark" :content="formData.mmsId" placement="top-start">
+                  <span class="text-ellipsis">{{ formData.mmsId }}</span>
+                </el-tooltip>
               </el-form-item>
             </el-col>
             <el-col :span="4">
