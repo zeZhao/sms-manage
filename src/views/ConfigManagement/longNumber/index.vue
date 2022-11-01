@@ -116,11 +116,11 @@ export default {
           ]
         },
         {
-          type: "input",
+          type: "textarea",
           label: "长号码",
           key: "smsLongNum",
           defaultValue: "",
-          maxlength: 30
+          maxlength: 4000
           // rules: [
           //   {
           //     required: true,
