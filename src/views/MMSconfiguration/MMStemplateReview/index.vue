@@ -30,7 +30,7 @@
       </el-table-column>
       <!-- <el-table-column prop="cmTemplateId" label="移动上游模板编号"  width="135"/>
       <el-table-column prop="cmGatewayId" label="移动通道编号" /> -->
-      <el-table-column prop="status" label="通道状态">
+      <el-table-column prop="status" label="模板状态">
         <template slot-scope="{ row }">{{
           renderAllTypes(row.status)
         }}</template>
