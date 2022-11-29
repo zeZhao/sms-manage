@@ -2138,7 +2138,42 @@ export default {
         // 通道配置
         gatewayConfig(params) {
             return post("/mmsTemplateCheck/gatewayConfig", params);
-        }
+        },
+        // 通道状态
+        updateStatus(params) {
+            return post("/mmsTemplateCheck/updateStatus", params);
+        },
+    },
+    //通道审核
+    templateArraignment: {
+        // 提审的通道列表
+        listByPage(params) {
+            return post("/templateArraignment/listByPage", params);
+        },
+        // 未提审的通道列表
+        listMmsGatewayNoArraignment(params) {
+            return post("/templateArraignment/listMmsGatewayNoArraignment", params);
+        },
+        // 通道配置
+        channelConfiguration(params) {
+            return post("/templateArraignment/channelConfiguration", params);
+        },
+        // 模板提审
+        pushGatewayArraign(params) {
+            return post("/mmsTemplateCheck/pushGatewayArraign", params);
+        },
+        // 提审的通道列表 区分移动联通电信
+        listMmsGatewayByOperator(params) {
+            return post("/templateArraignment/listMmsGatewayByOperator", params);
+        },
+        // 查询通道配置信息
+        getMmsArraign(params) {
+            return post("/templateArraignment/getMmsArraign", params);
+        },
+        // 通道配置
+        channelConfiguration(params) {
+            return post("/templateArraignment/channelConfiguration", params);
+        },
     },
     //彩信分类统计
     mmsClassificationStatistic: {

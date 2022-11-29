@@ -51,6 +51,7 @@
 
 <script>
 import listMixin from "@/mixin/listMixin";
+import { getDateTime } from "@/utils";
 export default {
   mixins: [listMixin],
   data() {
@@ -72,7 +73,8 @@ export default {
         {
           type: "datetime",
           label: "提交时间",
-          key: ["", "startSubmitTime", "endSubmitTime"]
+          key: ["", "startSubmitTime", "endSubmitTime"],
+          defaultValue: ["", getDateTime('start'), getDateTime('end')]
         },
         {
           type: "inputNum",
