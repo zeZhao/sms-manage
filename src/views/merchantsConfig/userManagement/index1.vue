@@ -1452,7 +1452,7 @@ export default {
           // disabled: false,
           optionData: [
             { key: 1, value: "web端" },
-            { key: 2, value: "http接口" }
+            // { key: 2, value: "http接口" }
             // { key: 4, value: "cmpp接口" }
             // { key: 7, value: "音频接口" }
           ],
@@ -1498,34 +1498,34 @@ export default {
             }
           ]
         },
-        {
-          type: "select",
-          label: "报告类型",
-          key: "mmsReportType",
-          tag: "mms",
-          optionData: [
-            { key: "0", value: "无权限" },
-            { key: 1, value: "推送" }
-            // { key: 2, value: "自取(批量)" },
-            // { key: 3, value: "自取(单条)" }
-          ],
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
-        {
-          type: "input",
-          label: "报告推送地址",
-          key: "mmsReportUrl",
-          tag: "mms",
-          defaultValue: ""
-        },
-        {
-          type: "input",
-          label: "模板推送地址",
-          key: "mmsAuditCallBack",
-          tag: "mms",
-          defaultValue: "",
-          rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
-        },
+        // {
+        //   type: "select",
+        //   label: "报告类型",
+        //   key: "mmsReportType",
+        //   tag: "mms",
+        //   optionData: [
+        //     { key: "0", value: "无权限" },
+        //     { key: 1, value: "推送" }
+        //     // { key: 2, value: "自取(批量)" },
+        //     // { key: 3, value: "自取(单条)" }
+        //   ],
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
+        // {
+        //   type: "input",
+        //   label: "报告推送地址",
+        //   key: "mmsReportUrl",
+        //   tag: "mms",
+        //   defaultValue: ""
+        // },
+        // {
+        //   type: "input",
+        //   label: "模板推送地址",
+        //   key: "mmsAuditCallBack",
+        //   tag: "mms",
+        //   defaultValue: "",
+        //   rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
+        // },
         // {
         //   type: "select",
         //   label: "彩信上行类型",
