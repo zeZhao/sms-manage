@@ -26,7 +26,7 @@
     >
       <el-table-column prop="corporateId" label="商户编号" />
       <el-table-column prop="userId" label="账户编号" />
-      <el-table-column prop="userName" label="账户名称" width="120" />
+      <el-table-column prop="userName" label="账户名称" />
       <el-table-column prop="code" label="特服号" />
       <el-table-column
         prop="mobile"
@@ -46,6 +46,7 @@
           </el-tooltip>
         </template>
       </el-table-column>
+      <el-table-column prop="content" label="内容"  width="135"/>
       <el-table-column prop="status" label="状态" />
       <el-table-column prop="error" label="错误描述">
         <template slot-scope="scope">
@@ -174,6 +175,12 @@ export default {
               value: "不显示"
             }
           ]
+        },
+        {
+          type: "select",
+          label: "补发",
+          key: "isRepeat",
+          optionData: [{ key: 1, value: "是" }, { key: 0, value: "否" }]
         },
         {
           type: "date",
