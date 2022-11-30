@@ -334,8 +334,7 @@ export default {
       dialogVisible: false,
       dialogUrl: undefined,
       diffObj: {}, //比较的对象
-      // origin: window.location.origin
-      origin: "http://manage.sms.jvtdtest.top/",
+      origin: window.location.origin,
       gatewayData:[],
       gridData:[],
       dialogTableVisible: false,
