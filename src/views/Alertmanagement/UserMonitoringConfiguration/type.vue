@@ -273,7 +273,7 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           const {waitCheckMin, waitCheckNum, haveSubmit} = this.formData
-          if( !haveSubmit && !waitCheckMin && !waitCheckNum){
+          if( !haveSubmit && !waitCheckMin && !waitCheckNum && this.queryUserAlarmType == 1){
             this.$message.error('待审数量和是否提交报警请选择一项')
             return 
           }
