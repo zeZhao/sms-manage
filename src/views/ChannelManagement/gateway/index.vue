@@ -619,7 +619,7 @@ export default {
         },
         {
           type: "inputNum",
-          label: "端口",
+          label: "处理中心连接端口",
           tag: "encrypt",
           key: "port",
           colSpan: 12
