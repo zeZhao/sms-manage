@@ -618,6 +618,13 @@ export default {
           // rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
+          type: "inputNum",
+          label: "端口",
+          tag: "encrypt",
+          key: "port",
+          colSpan: 12
+        },
+        {
           type: "input",
           label: "接入号",
           tag: "encrypt",
@@ -1145,7 +1152,7 @@ export default {
         //   type: "input",
         //   label: "接口协议",
         //   tag: "addition",
-        //   key: "protocol",
+        //   key: "portocol",
         //   colSpan: 12
         // },
         // {
@@ -1441,6 +1448,9 @@ export default {
         if (item.key === "gateway") {
           item.disabled = false;
         }
+        if (item.key === "port") {
+          item.isShow = true;
+        }
       });
       // this.$router.push({
       //   path: "/geteway/getewayDetail",
@@ -1480,6 +1490,9 @@ export default {
           }
           if (item.key === "gateway") {
             item.disabled = true;
+          }
+          if (item.key === "port") {
+            item.isShow = false;
           }
         });
       });
