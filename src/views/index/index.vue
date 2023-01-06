@@ -32,50 +32,52 @@
       <svg-icon icon-class="index" />
       <svg-icon icon-class="12" /> 
     </div> -->
+    <div v-if="isSale && homeData">
+      <el-row>
+        <el-col :span="12" style="border-right:1px solid gray">
+          <el-row>
+            <el-col :span="14"><h3>运营商统计图（单位:万条）</h3></el-col>
+            <el-col :span="5" :offset="4"
+              ><el-select v-model="operator" @change="queryCountByOpera">
+                <el-option value="0" label="本年"></el-option>
+                <el-option value="1" label="本月"></el-option>
+                <el-option value="2" label="本周"></el-option> </el-select
+            ></el-col>
+          </el-row>
+          <div id="chart_operator"></div>
+        </el-col>
+        <el-col :span="12">
+          <el-row>
+            <el-col :offset="1" :span="14"
+              ><h3>发送统计图（单位:万条）</h3></el-col
+            >
+            <el-col :span="5" :offset="4"
+              ><el-select v-model="send" @change="querySendStaticByTime">
+                <el-option value="0" label="本年"></el-option>
+                <el-option value="1" label="本月"></el-option>
+                <el-option value="2" label="本周"></el-option> </el-select
+            ></el-col>
+          </el-row>
+          <div id="chart_send"></div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-row>
+            <el-col :span="14"><h3>区域统计图（单位:万条）</h3></el-col>
+            <el-col :span="5" :offset="5"
+              ><el-select v-model="area" @change="queryCountByArea">
+                <el-option value="0" label="本年"></el-option>
+                <el-option value="1" label="本月"></el-option>
+                <el-option value="2" label="本周"></el-option> </el-select
+            ></el-col>
+          </el-row>
+          <div id="chart_area"></div>
+        </el-col>
+      </el-row>
+    </div>
 
-    <el-row v-if="isSale">
-      <el-col :span="12" style="border-right:1px solid gray">
-        <el-row>
-          <el-col :span="14"><h3>运营商统计图（单位:万条）</h3></el-col>
-          <el-col :span="5" :offset="4"
-            ><el-select v-model="operator" @change="queryCountByOpera">
-              <el-option value="0" label="本年"></el-option>
-              <el-option value="1" label="本月"></el-option>
-              <el-option value="2" label="本周"></el-option> </el-select
-          ></el-col>
-        </el-row>
-        <div id="chart_operator"></div>
-      </el-col>
-      <el-col :span="12">
-        <el-row>
-          <el-col :offset="1" :span="14"
-            ><h3>发送统计图（单位:万条）</h3></el-col
-          >
-          <el-col :span="5" :offset="4"
-            ><el-select v-model="send" @change="querySendStaticByTime">
-              <el-option value="0" label="本年"></el-option>
-              <el-option value="1" label="本月"></el-option>
-              <el-option value="2" label="本周"></el-option> </el-select
-          ></el-col>
-        </el-row>
-        <div id="chart_send"></div>
-      </el-col>
-    </el-row>
-    <el-row v-if="isSale">
-      <el-col :span="24">
-        <el-row>
-          <el-col :span="14"><h3>区域统计图（单位:万条）</h3></el-col>
-          <el-col :span="5" :offset="5"
-            ><el-select v-model="area" @change="queryCountByArea">
-              <el-option value="0" label="本年"></el-option>
-              <el-option value="1" label="本月"></el-option>
-              <el-option value="2" label="本周"></el-option> </el-select
-          ></el-col>
-        </el-row>
-        <div id="chart_area"></div>
-      </el-col>
-    </el-row>
-    <h1 v-if="!isSale">欢迎进入短信运营平台</h1>
+    <h1 v-else>欢迎进入短信运营平台</h1>
     <el-dialog
       title="温馨提示"
       :visible.sync="dialogVisible"
@@ -334,7 +336,8 @@ export default {
       },
       status: Cookies.get("status"),
       info: JSON.parse(Cookies.get("info")),
-      isSale: true
+      isSale: true,
+      homeData: Cookies.get("homeData") == 0 ? false : true
     };
   },
   computed: {
