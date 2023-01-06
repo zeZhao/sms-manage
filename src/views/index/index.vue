@@ -77,7 +77,7 @@
       </el-row>
     </div>
 
-    <h1 v-else>欢迎进入短信运营平台</h1>
+    <h2 v-else class="title">欢迎进入短信运营平台</h2>
     <el-dialog
       title="温馨提示"
       :visible.sync="dialogVisible"
@@ -483,7 +483,13 @@ export default {
 .welinfo {
   background: #fff;
   padding: 24px;
+  
 }
+.title{
+    color: #006699;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
 #chart_operator,
 #chart_send {
   display: block;
