@@ -97,6 +97,7 @@ const actions = {
           localStorage.token = data.data.token;
           Cookies.set('info', data.data.sysUser)
           Cookies.set('status', data.data.status)
+          Cookies.set('homeData', data.data.homeData)
           resolve();
         } else {
           Message({
