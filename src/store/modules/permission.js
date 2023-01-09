@@ -61,12 +61,15 @@ export function generaMenu(routes, data, linkUrl = "") {
             alwaysShow: item.node === 2 ? true : false,
             // component: () => import('@/views/outList'),
             children: [],
+            //特殊处理
+            hidden: item.linkUrl === 'homeData',
             name: item.name,
             meta: {
                 title: item.name,
                 id: item.menuId,
                 icon: item.icon,
-                keepAlive: true
+                keepAlive: true,
+                
             }
         }
         if (item.childMenu) {

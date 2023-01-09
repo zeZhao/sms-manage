@@ -335,6 +335,7 @@ export default {
       });
     },
     getNavList() {
+      this.navList = []
       this.loading = true;
       let params = {
         status: "",
@@ -342,6 +343,11 @@ export default {
       };
       this.$http.nav.selectMenuList(params).then(res => {
         if (res.code == "200") {
+          // res.data.forEach(item=>{
+          //   if(item.linkUrl !== 'homeData'){
+          //     this.navList.push(item)
+          //   }
+          // })
           this.navList = res.data;
           this.setSortState(this.navList);
           // this.$refs.tree.setCheckedKeys(this.navListId);
