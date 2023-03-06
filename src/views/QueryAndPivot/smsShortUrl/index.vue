@@ -20,7 +20,12 @@
       <el-table-column prop="content" label="短信内容" width="310" />
       <el-table-column prop="activityUrl" label="活动链接" />
       <el-table-column prop="messageNum" label="短信条数" />
-      <el-table-column prop="clickTimes" label="活动访问次数" />
+      <el-table-column prop="clickTimes" label="活动访问次数" >
+        <template slot-scope="{row}">
+          <p v-if="!row.clickInp" @dblclick="editNums(row)">{{row.clickTimes}}</p>
+          <el-input v-else v-model="row.clickTimes" @blur="numChange(row)"></el-input>
+        </template>
+      </el-table-column>
       <el-table-column prop="createTime" label="提交时间" width="150">
         <template slot-scope="scope">{{
           scope.row.createTime | timeFormat
@@ -44,6 +49,7 @@
 <script>
 import listMixin from "@/mixin/listMixin";
 import { getDateToString } from "@/utils";
+import Cookies from 'js-cookie'
 
 export default {
   mixins: [listMixin],
@@ -85,12 +91,42 @@ export default {
           key: ["", "startTime", "endTime"],
           defaultValue: ["", getDateToString(), getDateToString()]
         }
-      ]
+      ],
+      clickTimesInp:false
     };
   },
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    /**
+     * 对表格数据进行自定义调整
+     * @param listData
+     * @returns {*}
+     * @private
+     */
+    _mxFormListData(listData) {
+      listData.forEach(item=>{
+        item.clickInp = false 
+      })
+      return listData;
+    },
+    editNums(row){
+      row.clickInp = true
+    },
+    numChange(row){
+      let info = JSON.parse(Cookies.get('info'))
+      const {shortId,clickTimes} = row
+      this.$http.smsShortUrl.saveShortUrlNum({data:{addNum:clickTimes,suId:info.suId,shortId}}).then(res=>{
+        if(resOk(res)){
+          row.clickInp = false
+          this.$message.success('修改成功！')
+          this._mxGetList();
+        }else{
+          this.$message.error(res.data)
+        }
+      })
+    }
+  },
   watch: {}
 };
 </script>

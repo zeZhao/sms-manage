@@ -897,7 +897,11 @@ export default {
         // 查询列表
         queryByPage(params) {
             return post("/smsShortUrl/queryByPage", params);
-        }
+        },
+        // 短链接访问数调整
+        saveShortUrlNum(params) {
+            return post("/smsShortUrl/saveShortUrlNum", params);
+        },
     },
     // 上行信息
     smsMoQueue: {
@@ -1503,13 +1507,6 @@ export default {
         // 查询列表
         queryByPage(params) {
             return post("/smsCheckMobile/queryByPage", params);
-        }
-    },
-    // 短连接查询
-    smsShortUrl: {
-        // 查询列表
-        queryByPage(params) {
-            return post("/smsShortUrl/queryByPage", params);
         }
     },
     // 上行信息
