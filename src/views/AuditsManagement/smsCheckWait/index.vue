@@ -35,6 +35,7 @@
       highlight-current-row
       style="width: 100%"
       :height="tableHeight"
+      v-loading="loading"
       @selection-change="selectionChange"
     >
       <!-- <el-table-column type="selection" width="55" /> -->
