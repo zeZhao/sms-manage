@@ -136,6 +136,7 @@
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
+        :confirmDisabled="confirmDisabled"
         @submit="submit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
@@ -325,6 +326,7 @@ export default {
       gatewayCtList: [],
       gatewayCmList: [],
       selection: [],
+      confirmDisabled:false
     };
   },
   created() {
@@ -448,13 +450,16 @@ export default {
           return;
         }
       }
+      this.confirmDisabled = true
       this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
         if (resOk(res)) {
           this.$message.success("超审成功！");
           this._mxGetList();
           this.addChannel = false;
+          this.confirmDisabled = false;
         } else {
           this.$message.error(res.data || res.msg);
+          this.confirmDisabled = false;
         }
       });
     },
