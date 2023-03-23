@@ -15,10 +15,10 @@
           @click="$refs.search.renderForm()"
           >超审</el-button
         >
-        <el-button type="primary" size="small" @click="addCheck"
+        <el-button type="primary" size="small" @click="addCheck" :disabled="loading"
           >增加分配</el-button
         >
-        <el-button type="primary" size="small" @click="stopCheck"
+        <el-button type="primary" size="small" @click="stopCheck" :disabled="loading"
           >撤回分配</el-button
         >
         <!-- <el-button type="primary" size="small" @click="handleOption(2)"
@@ -136,6 +136,7 @@
         ref="formItem"
         :formConfig="formConfig"
         :btnTxt="formTit"
+        :confirmDisabled="confirmDisabled"
         @submit="submit"
         @cancel="_mxCancel"
         @selectChange="selectChange"
@@ -213,7 +214,7 @@ export default {
             {
               key: "7",
               value: "组合超时"
-            },
+            }
             // {
             //   key: "9",
             //   value: "触发链接拦截"
@@ -324,7 +325,8 @@ export default {
       gatewayCuList: [],
       gatewayCtList: [],
       gatewayCmList: [],
-      selection: []
+      selection: [],
+      confirmDisabled:false
     };
   },
   created() {
@@ -437,6 +439,9 @@ export default {
       setTimeout(() => {
         this.$refs.formItem.clearValidate();
       }, 0);
+      this.gateway("cu", "2", "1");
+      this.gateway("ct", "3", "1");
+      this.gateway("cm", "1", "1");
     },
     submit(form) {
       if (form.checkStatus == "2") {
@@ -445,27 +450,40 @@ export default {
           return;
         }
       }
+      this.confirmDisabled = true
       this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
         if (resOk(res)) {
           this.$message.success("超审成功！");
           this._mxGetList();
           this.addChannel = false;
+          this.confirmDisabled = false;
         } else {
           this.$message.error(res.data || res.msg);
+          this.confirmDisabled = false;
         }
       });
     },
     addCheck() {
+      this.loading = true;
       this.$http.smsCheckWait.addCheck().then(res => {
         if (resOk(res)) {
           this.$message.success("请求成功");
+          this.loading = false;
+        } else {
+          this.$message.error(res.msg);
+          this.loading = false;
         }
       });
     },
     stopCheck() {
+      this.loading = true;
       this.$http.smsCheckWait.stopCheck().then(res => {
         if (resOk(res)) {
           this.$message.success("请求成功");
+          this.loading = false;
+        } else {
+          this.$message.error(res.msg);
+          this.loading = false;
         }
       });
     },
