@@ -720,6 +720,7 @@ export default {
           label: "密码",
           tag: "encrypt",
           key: "sharedSecret",
+          defaultValue:"",
           colSpan: 12
           // lock: true
         },
@@ -1209,6 +1210,7 @@ export default {
           type: "input",
           label: "密码",
           key: "sharedSecret",
+          defaultValue:"",
           rules: [{ required: true, message: "请输入必填项", trigger: "blur" }]
         },
         {
@@ -1712,10 +1714,8 @@ export default {
                 // 解锁
                 const { key } = this.temporaryItem;
                 this.formConfig.forEach(item => {
-                  if (key === "sharedSecret") {
-                    if (item.key === key) {
-                      item.defaultValue = res.data;
-                    }
+                  if (item.key === "sharedSecret") {
+                    item.defaultValue = res.data;
                   }
                   if (item.title === "加密信息") {
                     item.lock = false;
