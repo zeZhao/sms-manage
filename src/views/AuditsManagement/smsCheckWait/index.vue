@@ -394,6 +394,7 @@ export default {
         this.formConfig.forEach(item => {
           const { key } = item;
           if (key == keys) {
+            item.optionData = [];
             res.data.forEach(t => {
               this.$set(t, "key", t.id);
               this.$set(t, "value", t.name);
@@ -452,14 +453,14 @@ export default {
       }
       this.confirmDisabled = true
       this.$http.smsCheckWait.supperCheck({ data: { ...form } }).then(res => {
+        this.confirmDisabled = false;
         if (resOk(res)) {
           this.$message.success("超审成功！");
           this._mxGetList();
           this.addChannel = false;
-          this.confirmDisabled = false;
         } else {
           this.$message.error(res.data || res.msg);
-          this.confirmDisabled = false;
+          
         }
       });
     },

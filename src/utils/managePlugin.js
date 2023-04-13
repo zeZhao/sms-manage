@@ -371,13 +371,11 @@ class managePlugin {
           el.style.pointerEvents = 'none';
           el.style.backgroundColor = "rgba(215, 215, 215, 1)"
           el.style.borderColor = "rgba(215, 215, 215, 1)"
-          if (!el.disabled) {
-            setTimeout(() => {
-              el.style.pointerEvents = 'auto';
-              el.style.backgroundColor = "#0964FF"
-              el.style.borderColor = "#0964FF"
-            }, binding.value || 1000);
-          }
+          setTimeout(() => {
+            el.style.pointerEvents = 'auto';
+            el.style.backgroundColor = "#0964FF"
+            el.style.borderColor = "#0964FF"
+          }, binding.value || 1000);
         });
       }
     });
