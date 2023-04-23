@@ -645,6 +645,14 @@ export default {
         },
 
     },
+    //短信状态推送差异
+    sysDifferencesPush: {
+        // 分页查询列表
+        pushDiffList(params) {
+            return post("/retreport/push/diff/list", params);
+        },
+
+    },
     //通道报警
     sysGatewayAlarm: {
         // 分页查询列表
