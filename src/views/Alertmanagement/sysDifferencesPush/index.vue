@@ -54,7 +54,7 @@
       <el-table-column prop="pushCount" label="状态已推送数" />
       <el-table-column prop="diff" label="差异" />
       <el-table-column prop="sendTime" label="发送时间" />
-      <!-- <el-table-column prop="updateTime" label="更新时间" /> -->
+      <el-table-column prop="updateTime" label="更新时间" />
       <el-table-column prop="stateDes" label="备注" />
       <!-- <el-table-column prop="serverNum" label="服务器编号	" /> -->
       <!-- <el-table-column prop="count" label="	错误次数" />
