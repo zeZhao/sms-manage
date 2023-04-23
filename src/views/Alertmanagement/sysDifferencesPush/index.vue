@@ -137,8 +137,8 @@ export default {
     search(){
       const {startSendTimes} = this.searchFormPush
       let data = {
-        startSendTime: startSendTimes[0],
-        endSendTime: startSendTimes[1],
+        startSendTime:startSendTimes? startSendTimes[0]:'',
+        endSendTime: startSendTimes?startSendTimes[1]:'',
         ...this.searchFormPush,
         pageNumber:this.pageObj.currentPage,
         pageSize:this.pageObj.pageSize
